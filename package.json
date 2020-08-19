@@ -1,0 +1,8 @@
+{
+  "name": "mb-webpack-template",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:clairefro/mb-webpack-template.git",
+  "author": "claire froelich <claire.froelich@gmail.com>",
+  "license": "MIT"
+}
