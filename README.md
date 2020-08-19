@@ -1,4 +1,15 @@
-webpack-ed from scratch with <3
+configged from scratch with <3
+
+Boiler includes config for: 
+
+- webpack
+- react
+- .ts, .tsx, .js, .jsx full support
+- eslint
+- prettier
+- asset loading (.png/.jpe?g, .svg, .gif)
+- tailwind/postcss/autoprefixer
+
 
 note to self on resolving un-typed third-party packages
 
