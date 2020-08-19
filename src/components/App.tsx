@@ -1,16 +1,20 @@
-import React from 'react';
+import React from "react";
 
-import JS from './JS'
-import H from './H'
+import JS from "./JS";
+import H from "./H";
+import Hook from "./Hook";
 
-const App = (): any => {
-		return (
-			<div>
+import "../styles/index.css";
+
+const App: React.FC<void> = () => {
+  return (
+    <div>
       <JS />
-			<H title="lkjk"/>
-				<h1>Hello World!</h1>
-			</div>
-		);
-}
+      <Hook />
+      <H title="lkjk" />
+      <h1>Hello World!</h1>
+    </div>
+  );
+};
 
 export default App;
