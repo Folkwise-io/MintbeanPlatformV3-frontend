@@ -1,13 +1,15 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 
 type HProps = {
-  title: string,
-  paragraph?: string
-}
+    title: string;
+    paragraph?: string;
+};
 
-const H: FunctionComponent<HProps> = ({ title, paragraph } : HProps) => (
-  <div>
-  <h1>{title}</h1><p>{paragraph}</p></div>
-)
+const H: FC<HProps> = ({ title, paragraph }: HProps) => (
+    <div>
+        <h1>{title}</h1>
+        <p>{paragraph}</p>
+    </div>
+);
 
 export default H;
