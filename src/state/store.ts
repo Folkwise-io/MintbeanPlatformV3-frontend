@@ -17,3 +17,17 @@
 //        ),
 //    );
 // }
+
+import { createStore } from "redux";
+import { Bean } from "../types/Bean";
+interface StoreState {
+  beans: Bean[];
+}
+
+const store = createStore<StoreState>(locality, {
+  language: "British (English)",
+  country: "United Kingdom",
+  auth: {
+    authenticated: false,
+  },
+});

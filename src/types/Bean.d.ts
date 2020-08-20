@@ -4,16 +4,20 @@ export interface Bean {
   username: string;
   createdAt: Date;
 }
-
-export interface BeansState {
-  data: Bean[];
+export interface BeanCreateInput {
+  body: string;
+  username: string;
 }
 
-export const CREATE_BEAN_REQUEST = "@bean/CREATE_BEAN_REQUEST";
-
-interface CreateBeanRequest {
-  type: typeof CREATE_BEAN_REQUEST;
-  payload: { bean: Bean };
-}
-
-export type BeanActionsTypes = CreateBeanRequest;
+// export interface BeansState {
+//   data: Bean[];
+// }
+//
+// export const CREATE_BEAN_REQUEST = "@bean/CREATE_BEAN_REQUEST";
+//
+// interface CreateBeanRequest {
+//   type: typeof CREATE_BEAN_REQUEST;
+//   payload: { bean: Bean };
+// }
+//
+// export type BeanActionsTypes = CreateBeanRequest;

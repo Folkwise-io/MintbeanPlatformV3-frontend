@@ -13,7 +13,7 @@ const BeanComponent: FC<BeanComponentProps> = ({
   username,
   createdAt,
 }: BeanComponentProps): React.ReactElement => (
-  <div className="my-2 border-solid border-2 border-gray-600">
+  <div className="my-2 p-2 border-solid border-2 border-gray-600">
     <p className="font-semibold">{username}</p>
     <p>{id}</p>
     <p>{body}</p>
