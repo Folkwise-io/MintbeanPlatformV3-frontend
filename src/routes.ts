@@ -1,7 +1,8 @@
+import React from "react";
 import { Home } from "./views/pages";
 
 interface RouteConfig {
-  component: any;
+  component: React.FC;
   exact: boolean;
   path: string;
 }
