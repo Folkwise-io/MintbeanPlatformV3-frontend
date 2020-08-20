@@ -5,7 +5,7 @@ type TSComponentProps = {
   paragraph?: string;
 };
 
-const TSComponent: FC<TSComponentProps> = ({ title, paragraph }: HProps) => (
+const TSComponent: FC<TSComponentProps> = ({ title, paragraph }: TSComponentProps) => (
   <div>
     <h1 className="text-4xl text-blue">{title}</h1>
     <p>{paragraph}</p>

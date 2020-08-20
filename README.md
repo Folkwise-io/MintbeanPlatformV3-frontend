@@ -1,17 +1,36 @@
-configged from scratch with <3
+## Resources
 
-## Content
-Boiler includes config for: 
+[The Ultimate React-Redux-Typescript Cheatsheet](https://github.com/piotrwitek/react-redux-typescript-guide)
 
-- webpack
-- react
-- typescript/js full support (.ts, .tsx, .js, .jsx) 
-- eslint
-- prettier
-- asset loading (.png/.jpe?g, .svg, .gif)
-- tailwind/postcss/autoprefixer
+## structure
 
-
+```
+state
+|____actions
+     reducers
+     middleware
+     store
+services
+daos
+views
+|____features
+     |____feature
+          |____components
+          |____containers
+          |____actionCreators
+     common
+     |____components
+     |____containers
+     |____actionCreators
+     pages
+     |____index
+     |____actionCreators
+     |____Home....
+     layouts
+     |____App....
+     |____actionCreators
+routes
+```
 
 ## note on resolving un-typed third-party packages
 
