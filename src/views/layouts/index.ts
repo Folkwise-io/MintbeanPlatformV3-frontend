@@ -1,1 +1,2 @@
-// export { default as App } from "./app";
+import GlobalLayout from "./GlobalLayout";
+export { GlobalLayout };
