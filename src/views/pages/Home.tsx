@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-const Home: FC<unknown> = () => (
+const Home: FC = () => (
   <div>
     <h1>Hello world</h1>
   </div>
