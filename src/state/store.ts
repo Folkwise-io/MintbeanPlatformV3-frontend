@@ -18,14 +18,18 @@
 //    );
 // }
 
-import { createStore } from "redux";
+import { createStore, Action } from "redux";
 import { Bean } from "../types/Bean";
 import { rootReducer } from "./reducers";
 
-interface StoreState {
+export interface StoreState {
   beans: Bean[];
 }
 
-export const store = createStore<StoreState>(rootReducer, {
-  beans: [],
+// TODO: properly type createStore
+export const store = createStore<StoreState, Action, unknown, unknown>(rootReducer, {
+  beans: [
+    { id: 1, username: "clairefro", body: "this is bean 1", createdAt: new Date() },
+    { id: 2, username: "clairefro", body: "this is bean 2", createdAt: new Date() },
+  ],
 });

@@ -1,14 +1,25 @@
 import React, { FC, useState } from "react";
 import { Bean } from "../../types/Bean";
 import BeanComponent from "../features/Bean/BeanComponent";
+import { connect } from "react-redux";
+import { StoreState } from "../../state/store";
+// import PropTypes from "prop-types";
 
-const testBeans: Bean[] = [
-  { id: 1, username: "clairefro", body: "this is bean 1", createdAt: new Date() },
-  { id: 2, username: "clairefro", body: "this is bean 2", createdAt: new Date() },
-  { id: 3, username: "clairefro", body: "this is bean 3", createdAt: new Date() },
-  { id: 4, username: "clairefro", body: "this is bean 4", createdAt: new Date() },
-];
-const Home: FC = () => {
+const mapStateToProps = (state: StoreState) => ({
+  beans: state.beans,
+});
+
+// const testBeans: Bean[] = [
+// { id: 1, username: "clairefro", body: "this is bean 1", createdAt: new Date() },
+// { id: 2, username: "clairefro", body: "this is bean 2", createdAt: new Date() },
+//   { id: 3, username: "clairefro", body: "this is bean 3", createdAt: new Date() },
+//   { id: 4, username: "clairefro", body: "this is bean 4", createdAt: new Date() },
+// ];
+
+interface HomeProps {
+  beans: Bean[];
+}
+const Home: FC<HomeProps> = ({ beans }: HomeProps) => {
   const [data, setData] = useState({ username: "", body: "" });
 
   const handleSubmit = (e: any): void => {
@@ -52,7 +63,7 @@ const Home: FC = () => {
       </form>
       <h2>have some beans</h2>
       <ul>
-        {testBeans.map((b) => (
+        {beans.map((b) => (
           <BeanComponent key={b.id} body={b.body} username={b.username} createdAt={b.createdAt} />
         ))}
       </ul>
@@ -60,4 +71,7 @@ const Home: FC = () => {
   );
 };
 
-export default Home;
+// Home.propTypes = {
+//   beans: PropTypes.arrayOf(Bean),
+// };
+export default connect(mapStateToProps)(Home);
