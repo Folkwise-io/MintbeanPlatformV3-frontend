@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, BrowserRouter as Router } from "react-router-dom";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { routes } from "./routes";
 import { Provider } from "react-redux";
 
@@ -10,11 +10,14 @@ import "./styles/index.css";
 
 const App: React.FC = () => (
   <Provider store={store}>
+    {console.log(routes)}
     <GlobalLayout>
       <Router>
-        {routes.map((route) => (
-          <Route key={route.path} {...route} />
-        ))}
+        <Switch>
+          {routes.map((route) => (
+            <Route key={route.path || "404"} {...route} />
+          ))}
+        </Switch>
       </Router>
     </GlobalLayout>
   </Provider>

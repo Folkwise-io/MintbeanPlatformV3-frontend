@@ -49,7 +49,7 @@ module.exports = {
       plugins: ["@typescript-eslint", "react", "react-hooks", "prettier"],
       rules: {
         "linebreak-style": ["error", "unix"],
-        quotes: ["error", "double"],
+        // quotes: ["error", "double"],
         "comma-dangle": ["error", "always-multiline"],
         "@typescript-eslint/no-explicit-any": 0,
         "react/jsx-uses-react": 1,
