@@ -7,13 +7,13 @@ import { GlobalLayout } from "./views/layouts";
 import "./styles/index.css";
 
 const App: React.FC = () => (
-  <Router>
-    <GlobalLayout>
+  <GlobalLayout>
+    <Router>
       {routes.map((route) => (
         <Route key={route.path} {...route} />
       ))}
-    </GlobalLayout>
-  </Router>
+    </Router>
+  </GlobalLayout>
 );
 
 export default App;

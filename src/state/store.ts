@@ -20,14 +20,12 @@
 
 import { createStore } from "redux";
 import { Bean } from "../types/Bean";
+import { rootReducer } from "./reducers";
+
 interface StoreState {
   beans: Bean[];
 }
 
-const store = createStore<StoreState>(locality, {
-  language: "British (English)",
-  country: "United Kingdom",
-  auth: {
-    authenticated: false,
-  },
+export const store = createStore<StoreState>(rootReducer, {
+  beans: [],
 });

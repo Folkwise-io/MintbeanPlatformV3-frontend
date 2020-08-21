@@ -18,7 +18,7 @@ module.exports = {
   },
   rules: {
     "react/jsx-uses-react": 1,
-    indent: ["error", 2],
+    // indent: ["error", 2],
   },
   plugins: ["react", "react-hooks"],
   settings: {
@@ -53,7 +53,7 @@ module.exports = {
         "comma-dangle": ["error", "always-multiline"],
         "@typescript-eslint/no-explicit-any": 0,
         "react/jsx-uses-react": 1,
-        indent: ["error", 2],
+        // indent: ["error", 2],
       },
       settings: {
         react: { version: "detect" },

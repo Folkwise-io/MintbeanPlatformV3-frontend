@@ -20,7 +20,7 @@ const Home: FC = () => {
   const changeHandler = (event: any) => {
     event.persist();
 
-    let value = event.target.value;
+    const value = event.target.value;
 
     setData((prevState) => ({
       ...prevState,
