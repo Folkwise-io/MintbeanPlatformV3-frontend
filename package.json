@@ -2,7 +2,7 @@
   "name": "mb-webpack-template",
   "version": "1.0.0",
   "main": "src/index.tsx",
-  "repository": "git@github.com:clairefro/mb-webpack-template.git",
+  "repository": "git@github.com:Mintbean/MintbeanPlatformV3-frontend.git",
   "author": "claire froelich <claire.froelich@gmail.com>",
   "license": "MIT",
   "scripts": {
