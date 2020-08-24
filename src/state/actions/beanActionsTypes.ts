@@ -1,4 +1,4 @@
-import { Bean, BeanCreateInput } from "../../types/Bean";
+import { Bean } from "../../types/Bean";
 
 export const CREATE_BEAN = "CREATE_BEAN";
 

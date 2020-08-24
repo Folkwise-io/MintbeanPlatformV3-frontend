@@ -1,31 +1,36 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { Bean } from "../../types/Bean";
 import BeanComponent from "../features/Bean/BeanComponent";
 import { connect } from "react-redux";
-import { StoreState } from "../../state/store";
-// import PropTypes from "prop-types";
+import { StoreState } from "../../state/configureStore";
+import { createBean } from "../../state/actions/beanActions";
 
 const mapStateToProps = (state: StoreState) => ({
   beans: state.beans,
 });
 
-// const testBeans: Bean[] = [
-// { id: 1, username: "clairefro", body: "this is bean 1", createdAt: new Date() },
-// { id: 2, username: "clairefro", body: "this is bean 2", createdAt: new Date() },
-//   { id: 3, username: "clairefro", body: "this is bean 3", createdAt: new Date() },
-//   { id: 4, username: "clairefro", body: "this is bean 4", createdAt: new Date() },
-// ];
+// TODO: properly type
+const mapDispatchToProps = (dispatch: any) => ({
+  dispatchCreateBean: (bean: Bean): any => dispatch(createBean(bean)),
+});
 
 interface HomeProps {
   beans: Bean[];
+  dispatchCreateBean: any;
 }
-const Home: FC<HomeProps> = ({ beans }: HomeProps) => {
+
+const Home: FC<HomeProps> = ({ beans, dispatchCreateBean }: HomeProps) => {
   const [data, setData] = useState({ username: "", body: "" });
+
+  useEffect(() => {
+    console.log({ beans });
+  }, [beans]);
 
   const handleSubmit = (e: any): void => {
     e.preventDefault();
     console.log(data);
     // dispatch create bean
+    dispatchCreateBean(data);
   };
 
   const changeHandler = (event: any) => {
@@ -71,7 +76,4 @@ const Home: FC<HomeProps> = ({ beans }: HomeProps) => {
   );
 };
 
-// Home.propTypes = {
-//   beans: PropTypes.arrayOf(Bean),
-// };
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
