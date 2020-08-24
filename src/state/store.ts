@@ -18,7 +18,9 @@
 //    );
 // }
 
-import { createStore, Action } from "redux";
+import { createStore, applyMiddleware, Action } from "redux";
+import logger from "./middleware/logger";
+import thunkMiddleware from "redux-thunk";
 import { Bean } from "../types/Bean";
 import { rootReducer } from "./reducers";
 
@@ -26,10 +28,13 @@ export interface StoreState {
   beans: Bean[];
 }
 
-// TODO: properly type createStore
-export const store = createStore<StoreState, Action, unknown, unknown>(rootReducer, {
+const middleware = applyMiddleware(logger, thunkMiddleware);
+
+const initialState: StoreState = {
   beans: [
     { id: 1, username: "clairefro", body: "this is bean 1", createdAt: new Date() },
     { id: 2, username: "clairefro", body: "this is bean 2", createdAt: new Date() },
   ],
-});
+};
+// TODO: properly type createStore
+export const store = createStore<StoreState, Action, unknown, unknown>(rootReducer, initialState, middleware);
