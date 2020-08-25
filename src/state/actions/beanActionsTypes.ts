@@ -7,4 +7,12 @@ interface CreateBeanAction {
   payload: Bean;
 }
 
-export type BeanActionTypes = CreateBeanAction;
+export const UPDATE_BEAN = "UPDATE_BEAN";
+
+interface UpdateBeanAction {
+  type: typeof UPDATE_BEAN;
+  id: number;
+  payload: Bean;
+}
+
+export type BeanActionTypes = CreateBeanAction | UpdateBeanAction;

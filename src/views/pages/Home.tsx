@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
 import { Bean } from "../../types/Bean";
-import BeanComponent from "../features/Bean/BeanComponent";
+import BeanContainer from "../features/Bean/BeanContainer";
 import { connect } from "react-redux";
 import { StoreState } from "../../state/types";
 import { createBean } from "../../state/actions/beanActions";
@@ -68,7 +68,7 @@ const Home: FC<HomeProps> = ({ beans, dispatchCreateBean }: HomeProps) => {
       <h2>have some beans</h2>
       <ul>
         {beans.map((b) => (
-          <BeanComponent key={b.id} body={b.body} username={b.username} createdAt={b.createdAt} />
+          <BeanContainer key={b.id} bean={b} />
         ))}
       </ul>
     </div>
