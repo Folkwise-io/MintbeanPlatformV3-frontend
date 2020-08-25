@@ -2,7 +2,7 @@ import { PostActionTypes, CREATE_POST, UPDATE_POST } from "../actions/postAction
 import { PostsState } from "../types";
 import { Post } from "../../types/Post";
 
-const initialState: PostsState = {
+export const initialState: PostsState = {
   posts: [],
 };
 
@@ -15,11 +15,11 @@ export function postsReducer(state: PostsState = initialState, action: PostActio
         posts: [...state.posts, action.payload],
       };
     case UPDATE_POST:
-      updatedPosts = state.posts.map((b) => {
-        if (b.id === action.id) {
+      updatedPosts = state.posts.map((p) => {
+        if (p.id === action.id) {
           return action.payload;
         }
-        return b;
+        return p;
       });
 
       return {
