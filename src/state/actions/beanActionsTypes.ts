@@ -7,8 +7,4 @@ interface CreateBeanAction {
   payload: Bean;
 }
 
-export interface BeansState {
-  beans: Bean[];
-}
-
 export type BeanActionTypes = CreateBeanAction;

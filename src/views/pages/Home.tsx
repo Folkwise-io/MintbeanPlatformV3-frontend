@@ -2,11 +2,11 @@ import React, { FC, useState, useEffect } from "react";
 import { Bean } from "../../types/Bean";
 import BeanComponent from "../features/Bean/BeanComponent";
 import { connect } from "react-redux";
-import { StoreState } from "../../state/configureStore";
+import { StoreState } from "../../state/types";
 import { createBean } from "../../state/actions/beanActions";
 
 const mapStateToProps = (state: StoreState) => ({
-  beans: state.beans,
+  beans: state.beans.beans,
 });
 
 // TODO: properly type
@@ -29,7 +29,6 @@ const Home: FC<HomeProps> = ({ beans, dispatchCreateBean }: HomeProps) => {
   const handleSubmit = (e: any): void => {
     e.preventDefault();
     console.log(data);
-    // dispatch create bean
     dispatchCreateBean(data);
   };
 

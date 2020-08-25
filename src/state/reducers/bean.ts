@@ -1,4 +1,5 @@
-import { BeansState, BeanActionTypes, CREATE_BEAN } from "../actions/beanActionsTypes";
+import { BeanActionTypes, CREATE_BEAN } from "../actions/beanActionsTypes";
+import { BeansState } from "../types";
 
 const initialState: BeansState = {
   beans: [],
@@ -10,7 +11,7 @@ export function beansReducer(state: BeansState = initialState, action: BeanActio
   switch (action.type) {
     case CREATE_BEAN:
       return {
-        beans: [state, action.payload],
+        beans: [...state.beans, action.payload],
       };
     default:
       return state;
