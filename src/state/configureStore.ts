@@ -5,10 +5,10 @@ import { rootReducer } from "./reducers";
 import { StoreState } from "./types";
 
 const initialState: StoreState = {
-  beans: {
-    beans: [
-      { id: 1, username: "clairefro", body: "this is bean 1", createdAt: new Date() },
-      { id: 2, username: "clairefro", body: "this is bean 2", createdAt: new Date() },
+  posts: {
+    posts: [
+      { id: 1, username: "clairefro", body: "this is post 1", createdAt: new Date() },
+      { id: 2, username: "clairefro", body: "this is post 2", createdAt: new Date() },
     ],
   },
 };

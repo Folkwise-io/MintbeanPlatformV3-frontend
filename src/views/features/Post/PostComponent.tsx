@@ -1,13 +1,13 @@
 import React, { FC, useState } from "react";
-import { Bean } from "../../../types/Bean";
+import { Post } from "../../../types/Post";
 
-interface BeanComponentProps {
-  bean: Bean;
-  handleUpdate: (id: number, updatedBean: Bean) => void;
+interface PostComponentProps {
+  post: Post;
+  handleUpdate: (id: number, updatedPost: Post) => void;
 }
 
-const BeanComponent: FC<BeanComponentProps> = ({ bean, handleUpdate }: BeanComponentProps): React.ReactElement => {
-  const { username, id, body, createdAt } = bean;
+const PostComponent: FC<PostComponentProps> = ({ post, handleUpdate }: PostComponentProps): React.ReactElement => {
+  const { username, id, body, createdAt } = post;
   const [data, setData] = useState({
     id,
     body,
@@ -46,4 +46,4 @@ const BeanComponent: FC<BeanComponentProps> = ({ bean, handleUpdate }: BeanCompo
   );
 };
 
-export default BeanComponent;
+export default PostComponent;

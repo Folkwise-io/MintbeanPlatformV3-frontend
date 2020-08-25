@@ -1,6 +1,7 @@
-// import { store } from "../store";
-
 // TODO: use real types
+
+/* eslint-disable  @typescript-eslint/explicit-module-boundary-types
+ */
 const logger = (store: any) => (next: any) => (action: any) => {
   console.group(action.type);
   console.info("dispatching", action);
@@ -11,3 +12,4 @@ const logger = (store: any) => (next: any) => (action: any) => {
 };
 
 export default logger;
+/* eslint-enable  @typescript-eslint/explicit-module-boundary-types */

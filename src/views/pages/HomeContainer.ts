@@ -4,7 +4,7 @@
 // import { StoreState } from "../../state/store";
 //
 // const mapStateToProps = (state: StoreState) => ({
-//   beans: state.beans,
+//   posts: state.posts,
 // });
 //
 // const mapDispatchToProps = (dispatch: Dispatch) => ({

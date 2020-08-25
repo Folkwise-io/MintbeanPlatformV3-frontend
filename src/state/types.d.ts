@@ -1,9 +1,9 @@
-import { Bean } from "../types/Bean";
+import { Post } from "../types/Post";
 
-export interface BeansState {
-  beans: Bean[];
+export interface PostsState {
+  posts: Post[];
 }
 
 export interface StoreState {
-  beans: BeansState;
+  posts: PostsState;
 }

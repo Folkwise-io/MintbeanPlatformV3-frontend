@@ -1,35 +1,35 @@
 import React, { FC, useState, useEffect } from "react";
-import { Bean } from "../../types/Bean";
-import BeanContainer from "../features/Bean/BeanContainer";
+import { Post } from "../../types/Post";
+import PostContainer from "../features/Post/PostContainer";
 import { connect } from "react-redux";
 import { StoreState } from "../../state/types";
-import { createBean } from "../../state/actions/beanActions";
+import { createPost } from "../../state/actions/postActions";
 
 const mapStateToProps = (state: StoreState) => ({
-  beans: state.beans.beans,
+  posts: state.posts.posts,
 });
 
 // TODO: properly type
 const mapDispatchToProps = (dispatch: any) => ({
-  dispatchCreateBean: (bean: Bean): any => dispatch(createBean(bean)),
+  dispatchCreatePost: (post: Post): any => dispatch(createPost(post)),
 });
 
 interface HomeProps {
-  beans: Bean[];
-  dispatchCreateBean: any;
+  posts: Post[];
+  dispatchCreatePost: any;
 }
 
-const Home: FC<HomeProps> = ({ beans, dispatchCreateBean }: HomeProps) => {
+const Home: FC<HomeProps> = ({ posts, dispatchCreatePost }: HomeProps) => {
   const [data, setData] = useState({ username: "", body: "" });
 
   useEffect(() => {
-    console.log({ beans });
-  }, [beans]);
+    console.log({ posts });
+  }, [posts]);
 
   const handleSubmit = (e: any): void => {
     e.preventDefault();
     console.log(data);
-    dispatchCreateBean(data);
+    dispatchCreatePost(data);
   };
 
   const changeHandler = (event: any) => {
@@ -63,12 +63,12 @@ const Home: FC<HomeProps> = ({ beans, dispatchCreateBean }: HomeProps) => {
           onChange={changeHandler}
           className="mb-2 p-2 border-2 border-solid border-gray-500"
         />
-        <input type="submit" value="add bean" className="mb-2 p-2" />
+        <input type="submit" value="add post" className="mb-2 p-2" />
       </form>
-      <h2>have some beans</h2>
+      <h2>have some posts</h2>
       <ul>
-        {beans.map((b) => (
-          <BeanContainer key={b.id} bean={b} />
+        {posts.map((b) => (
+          <PostContainer key={b.id} post={b} />
         ))}
       </ul>
     </div>

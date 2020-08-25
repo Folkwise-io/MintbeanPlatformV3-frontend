@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { beansReducer } from "./bean";
+import { postsReducer } from "./post";
 
 // TODO: type rootReducer
-export const rootReducer: any = combineReducers({ beans: beansReducer });
+export const rootReducer: any = combineReducers({ posts: postsReducer });
