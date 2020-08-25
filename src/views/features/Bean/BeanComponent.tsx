@@ -37,7 +37,7 @@ const BeanComponent: FC<BeanComponentProps> = ({ bean, handleUpdate }: BeanCompo
       <p>{id}</p>
       <p>{body}</p>
       <p>{createdAt.toString()}</p>
-      <form onSubmit={(event: any) => handleSubmit(e)} className="flex flex-col">
+      <form onSubmit={(event: any) => handleSubmit(event)} className="flex flex-col">
         <input type="text" name="username" value={data.username} onChange={changeHandler} />
         <textarea name="body" value={data.body} onChange={changeHandler} />
         <input type="submit" value="Edit" />
