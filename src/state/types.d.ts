@@ -11,3 +11,14 @@ export interface StoreState {
   posts: PostsState;
   launches: LaunchesState;
 }
+
+export enum ApiDataStates {
+  Loading = "LOADING",
+  Success = "SUCCESS",
+  Error = "ERROR",
+}
+
+export type ApiAction = {
+  api: boolean;
+  state: ApiDataStates;
+};

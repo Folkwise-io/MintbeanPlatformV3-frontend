@@ -1,26 +1,27 @@
-import axios from "axios";
 import { Launch } from "../types/Launch";
+import { gqlApiService } from "./utils";
 
 interface LaunchRaw {
   mission_name: string;
+}
+interface LaunchesPastRaw {
+  launchesPast: LaunchRaw[];
+}
+interface LaunchesResponseRaw {
+  data: LaunchesPastRaw;
 }
 
 // TODO move axios to request util
 
 const getLaunches = (qty: number): Promise<Launch[]> => {
-  return axios({
-    url: "https://api.spacex.land/graphql",
-    method: "post",
-    data: {
-      query: `
-        query PastLaunches {
-          launchesPast(limit: ${qty}) {
-            mission_name
-          }
-        }
-        `,
-    },
-  }).then((result) => {
+  const query = `
+    query PastLaunches {
+      launchesPast(limit: ${qty}) {
+        mission_name
+      }
+    }
+    `;
+  return gqlApiService<LaunchesResponseRaw>("https://api.spacex.land/graphql", query).then((result) => {
     if (!(result.data.data && result.data.data.launchesPast)) {
       return [];
     }
