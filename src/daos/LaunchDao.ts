@@ -5,7 +5,7 @@ interface LaunchRaw {
   mission_name: string;
 }
 
-const getLaunches = (): Promise<Launch[]> => {
+const getLaunches = (qty: number): Promise<Launch[]> => {
   return new Promise((resolve, reject) => {
     axios({
       url: "https://api.spacex.land/graphql",
@@ -13,7 +13,7 @@ const getLaunches = (): Promise<Launch[]> => {
       data: {
         query: `
         query PastLaunches {
-          launchesPast(limit: 10) {
+          launchesPast(limit: ${qty}) {
             mission_name
           }
         }

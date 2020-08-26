@@ -4,19 +4,16 @@ import { Launch } from "../../types/Launch";
 
 type DispatchLaunchActionsTypes = (dispatch: any) => (dispatch: any) => LaunchActionsTypes;
 
-export function setLaunches(): DispatchLaunchActionsTypes {
-  // return {
-  // type: SET_LAUNCHES,
-  // launches: await promise,
-  // };
-
+export function setLaunches(qty: number): DispatchLaunchActionsTypes {
   return (dispatch: any) => {
-    return LaunchDao.getLaunches().then((launches: Launch[]) => {
-      return dispatch({
-        type: SET_LAUNCHES,
-        launches,
-      });
-    });
+    return LaunchDao.getLaunches(qty)
+      .then((launches: Launch[]) => {
+        return dispatch({
+          type: SET_LAUNCHES,
+          launches,
+        });
+      })
+      .catch((err: any) => alert(err));
   };
 }
 

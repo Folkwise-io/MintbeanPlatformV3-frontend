@@ -7,7 +7,7 @@ import { Launch } from "../../../types/Launch";
 
 interface LaunchesContainerProps {
   launches: Launch[];
-  dispatchSetLaunches: () => void;
+  dispatchSetLaunches: (qty: number) => void;
 }
 
 const mapStateToProps = (state: StoreState) => {
@@ -19,15 +19,15 @@ const mapStateToProps = (state: StoreState) => {
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-  dispatchSetLaunches: (): void => dispatch(setLaunches()),
+  dispatchSetLaunches: (qty: number): void => dispatch(setLaunches(qty)),
 });
 
 const LaunchesContainer: FC<LaunchesContainerProps> = ({
   launches,
   dispatchSetLaunches,
 }: LaunchesContainerProps): React.ReactElement => {
-  const setLaunches = (): void => {
-    dispatchSetLaunches();
+  const setLaunches = (qty: number): void => {
+    dispatchSetLaunches(qty);
   };
 
   return <LaunchesComponent launches={launches} dispatchSetLaunches={setLaunches} />;
