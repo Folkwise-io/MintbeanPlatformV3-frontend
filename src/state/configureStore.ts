@@ -11,6 +11,7 @@ const initialState: StoreState = {
       { id: 2, username: "clairefro", body: "this is post 2", createdAt: new Date() },
     ],
   },
+  launches: [],
 };
 
 // TODO: properly type configureStore

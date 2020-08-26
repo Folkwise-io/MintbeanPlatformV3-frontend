@@ -4,6 +4,7 @@ import PostContainer from "../features/Post/PostContainer";
 import { connect } from "react-redux";
 import { StoreState } from "../../state/types";
 import { createPost } from "../../state/actions/postActions";
+import LuanchesContainer from "../features/Launches/LaunchesContainer";
 
 const mapStateToProps = (state: StoreState) => ({
   posts: state.posts.posts,
@@ -46,6 +47,7 @@ const Home: FC<HomeProps> = ({ posts, dispatchCreatePost }: HomeProps) => {
   return (
     <div className="container mx-auto max-w-screen-md">
       <h1>Hello world</h1>
+      <LuanchesContainer />
       <form onSubmit={handleSubmit} className="flex flex-col">
         <input
           type="text"

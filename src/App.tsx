@@ -10,7 +10,6 @@ import "./styles/index.css";
 
 const App: React.FC = () => (
   <Provider store={store}>
-    {console.log(routes)}
     <GlobalLayout>
       <Router>
         <Switch>

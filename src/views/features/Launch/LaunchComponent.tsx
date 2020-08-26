@@ -5,10 +5,10 @@ type LaunchComponentProps = {
   missionName: Launch;
 };
 
-const TSComponent: FC<LaunchComponentProps> = ({ missionName }: LaunchComponentProps) => (
+const LaunchComponent: FC<LaunchComponentProps> = ({ missionName }: LaunchComponentProps) => (
   <div>
     <p>{missionName}</p>
   </div>
 );
 
-export default TSComponent;
+export default LaunchComponent;
