@@ -17,10 +17,20 @@ const LaunchesComponent: FC<LaunchesComponentProps> = ({ launches, dispatchSetLa
   };
 
   return (
-    <div>
+    <div className="mb-8">
       <h2>Past Launches (max 100)</h2>
-      <input name="qty" type="number" min="0" max="100" onChange={changeHandler} value={qty} />
-      <button onClick={() => dispatchSetLaunches(qty)}>get launches</button>
+      <input
+        name="qty"
+        type="number"
+        min="0"
+        max="100"
+        onChange={changeHandler}
+        value={qty}
+        className="border-solid border-2 p-2 mr-2"
+      />
+      <button onClick={() => dispatchSetLaunches(qty)} className="bg-blue-500 p-2">
+        get launches
+      </button>
       <ol className="list-decimal">
         {launches.map((l, i) => (
           <li key={i}>
