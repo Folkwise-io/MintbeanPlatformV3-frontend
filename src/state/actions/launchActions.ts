@@ -1,19 +1,19 @@
 import { SET_LAUNCHES, LaunchActionsTypes } from "./launchActionsTypes";
-import LaunchDao from "../../daos/LaunchDao";
-import { Launch } from "../../types/Launch";
+import { getLaunches } from "../../services/launchService";
+import { ThunkAction } from "redux-thunk";
+import { StoreState } from "../types";
 
-type DispatchLaunchActionsTypes = (dispatch: any) => (dispatch: any) => LaunchActionsTypes;
-
-export function setLaunches(qty: number): DispatchLaunchActionsTypes {
-  return (dispatch: any) => {
-    return LaunchDao.getLaunches(qty)
-      .then((launches: Launch[]) => {
-        return dispatch({
-          type: SET_LAUNCHES,
-          launches,
-        });
-      })
-      .catch((err: any) => alert(err));
+export function setLaunches(qty: number): ThunkAction<void, StoreState, unknown, LaunchActionsTypes> {
+  return async (dispatch: any) => {
+    try {
+      const launches = await getLaunches(qty);
+      return dispatch({
+        type: SET_LAUNCHES,
+        launches,
+      });
+    } catch (err) {
+      return alert(err);
+    }
   };
 }
 

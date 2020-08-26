@@ -5,44 +5,31 @@ interface LaunchRaw {
   mission_name: string;
 }
 
+// TODO move axios to request util
+
 const getLaunches = (qty: number): Promise<Launch[]> => {
-  return new Promise((resolve, reject) => {
-    axios({
-      url: "https://api.spacex.land/graphql",
-      method: "post",
-      data: {
-        query: `
+  return axios({
+    url: "https://api.spacex.land/graphql",
+    method: "post",
+    data: {
+      query: `
         query PastLaunches {
           launchesPast(limit: ${qty}) {
             mission_name
           }
         }
         `,
-      },
-    })
-      .then((result) => {
-        console.log(result.data.data);
-
-        let standardized: Launch[];
-        if (result.data.data && result.data.data.launchesPast) {
-          standardized = result.data.data.launchesPast.map(
-            (l: LaunchRaw): Launch => ({
-              missionName: l.mission_name,
-            }),
-          );
-        } else {
-          standardized = [];
-        }
-        console.log({ standardized });
-        resolve(standardized);
-      })
-      .catch((err) => reject(err));
+    },
+  }).then((result) => {
+    if (!(result.data.data && result.data.data.launchesPast)) {
+      return [];
+    }
+    return result.data.data.launchesPast.map(
+      ({ mission_name }: LaunchRaw): Launch => ({
+        missionName: mission_name,
+      }),
+    );
   });
 };
 
-// Export *****************************************
-const LaunchDao: any = {
-  getLaunches,
-};
-
-export default LaunchDao;
+export { getLaunches };
