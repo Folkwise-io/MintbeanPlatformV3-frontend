@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Launch } from "../../../types/Launch";
 
 type LaunchComponentProps = {
-  missionName: Launch;
+  missionName: string;
 };
 
 const LaunchComponent: FC<LaunchComponentProps> = ({ missionName }: LaunchComponentProps) => (
