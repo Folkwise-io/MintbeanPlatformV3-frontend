@@ -12,6 +12,7 @@ const initialState: StoreState = {
     ],
   },
   launches: [],
+  loader: [],
 };
 
 // TODO: properly type configureStore
