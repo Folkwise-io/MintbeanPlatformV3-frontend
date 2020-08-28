@@ -22,10 +22,10 @@ const getLaunches = (qty: number): Promise<Launch[]> => {
     }
     `;
   return gqlApiService<LaunchesResponseRaw>("https://api.spacex.land/graphql", query).then((result) => {
-    if (!(result.data.data && result.data.data.launchesPast)) {
+    if (!(result.data && result.data.launchesPast)) {
       return [];
     }
-    return result.data.data.launchesPast.map(
+    return result.data.launchesPast.map(
       ({ mission_name }: LaunchRaw): Launch => ({
         missionName: mission_name,
       }),

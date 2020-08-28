@@ -6,12 +6,11 @@ import { StoreState } from "./types";
 
 const initialState: StoreState = {
   posts: {
-    posts: [
-      { id: 1, username: "clairefro", body: "this is post 1", createdAt: new Date() },
-      { id: 2, username: "clairefro", body: "this is post 2", createdAt: new Date() },
-    ],
+    posts: [],
   },
   launches: [],
+  users: [],
+  loader: [],
 };
 
 // TODO: properly type configureStore
