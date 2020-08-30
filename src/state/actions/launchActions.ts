@@ -1,34 +1,21 @@
-import { SET_LAUNCHES /*, LaunchActionsTypes*/ } from "./launchActionsTypes";
+import { SET_LAUNCHES, LaunchActionsTypes } from "./launchActionsTypes";
 import { getLaunches } from "../../services/launchService";
 import { ThunkAction } from "redux-thunk";
 import { StoreState } from "../types";
-import { MbAction } from "../types";
+import { ApiAction } from "../types";
 
-export function setLaunches(qty: number): ThunkAction<void, StoreState, unknown, MbAction> {
-  const nonSuccessPayload: any = [];
+export function setLaunches(qty: number): ThunkAction<void, StoreState, unknown, ApiAction & LaunchActionsTypes> {
   return async (dispatch: any) => {
-    dispatch({
-      type: SET_LAUNCHES,
-      payload: nonSuccessPayload,
-      api: true,
-      status: "LOADING",
-    });
     try {
       const launches = await getLaunches(qty);
       return dispatch({
         type: SET_LAUNCHES,
-        payload: launches,
+        launches,
         api: true,
         status: "SUCCESS",
       });
     } catch (err) {
-      alert(err);
-      return dispatch({
-        type: SET_LAUNCHES,
-        payload: nonSuccessPayload,
-        api: true,
-        status: "ERROR",
-      });
+      return alert(err);
     }
   };
 }

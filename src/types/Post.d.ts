@@ -1,15 +1,23 @@
-import { User } from "./User";
-
 export interface Post {
-  id: string;
-  userId: string;
+  id: number;
   body: string;
-  createdAt: string;
-  updatedAt: string;
+  username: string;
+  createdAt: Date;
+}
+export interface PostCreateInput {
+  body: string;
+  username: string;
 }
 
-export interface UserPost {
-  id: string;
-  body: string;
-  createdAt: string;
-}
+// export interface PostsState {
+//   data: Post[];
+// }
+//
+// export const CREATE_POST_REQUEST = "@post/CREATE_POST_REQUEST";
+//
+// interface CreatePostRequest {
+//   type: typeof CREATE_POST_REQUEST;
+//   payload: { post: Post };
+// }
+//
+// export type PostActionsTypes = CreatePostRequest;

@@ -1,7 +1,6 @@
-import axios /*, { AxiosPromise }*/ from "axios";
+import axios, { AxiosPromise } from "axios";
 
-// TODO: dynamically populate url with environment variable (dev/prod)
-export function gqlApiService<ResponseT>(url: string, query: string, variables: any = {}): Promise<ResponseT> {
+export function gqlApiService<T>(url: string, query: string, variables: object = {}): AxiosPromise<T> {
   return axios({
     url,
     method: "post",
@@ -9,5 +8,5 @@ export function gqlApiService<ResponseT>(url: string, query: string, variables: 
       query,
       variables,
     },
-  }).then((res) => res.data.data);
+  });
 }

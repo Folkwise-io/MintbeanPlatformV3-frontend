@@ -3,7 +3,7 @@ export const SET_LAUNCHES = "SET_LAUNCHES";
 
 interface SetLaunchesAction {
   type: typeof SET_LAUNCHES;
-  payload: Promise<Launch[]> | null;
+  launches: Promise<Launch[]>;
 }
 
 export type LaunchActionsTypes = SetLaunchesAction;

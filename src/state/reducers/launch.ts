@@ -1,13 +1,13 @@
-import { SET_LAUNCHES } from "../actions/launchActionsTypes";
+import { LaunchActionsTypes, SET_LAUNCHES } from "../actions/launchActionsTypes";
 import { LaunchesState } from "../types";
-import { MbAction } from "../types";
 
 const initialState: LaunchesState = [];
 
-export function launchesReducer(state = initialState, action: MbAction): LaunchesState {
+export function launchesReducer(state = initialState, action: LaunchActionsTypes): LaunchesState {
   switch (action.type) {
     case SET_LAUNCHES:
-      return action.payload;
+      return action.launches;
+
     default:
       return state;
   }
