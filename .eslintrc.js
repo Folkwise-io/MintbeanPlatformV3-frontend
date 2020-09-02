@@ -53,6 +53,7 @@ module.exports = {
         "comma-dangle": ["error", "always-multiline"],
         "@typescript-eslint/no-explicit-any": 0,
         "react/jsx-uses-react": 1,
+        "react/prop-types": [2, { ignore: ["children"] }],
         // indent: ["error", 2],
       },
       settings: {

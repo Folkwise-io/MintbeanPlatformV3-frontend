@@ -1,5 +1,4 @@
 import { Post } from "../types/Post";
-import { User } from "../types/User";
 import { gqlApiService } from "./utils";
 
 interface PostsByUser {
