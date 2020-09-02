@@ -14,11 +14,6 @@ const fetchUsers = (): Promise<User[]> => {
         firstName
         lastName
         createdAt
-        posts {
-          id
-          body
-          createdAt
-        }
       }
     }
   `;

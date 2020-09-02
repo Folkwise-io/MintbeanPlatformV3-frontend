@@ -5,9 +5,6 @@ import { rootReducer } from "./reducers";
 import { StoreState } from "./types";
 
 const initialState: StoreState = {
-  posts: {
-    posts: [],
-  },
   users: [],
   loader: [],
 };

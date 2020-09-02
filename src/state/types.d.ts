@@ -1,4 +1,3 @@
-import { Post } from "../types/Post";
 import { User } from "../types/User";
 
 export interface LoaderItemInner {
@@ -11,10 +10,6 @@ export interface LoaderItem {
 }
 
 export type LoaderState = LoaderItem[];
-
-export interface PostsState {
-  posts: Post[];
-}
 
 export type UsersState = User[];
 
@@ -33,7 +28,6 @@ export type MbAction = {
 };
 
 export interface StoreState {
-  posts: PostsState;
   users: UsersState;
   loader: LoaderItem[];
 }
