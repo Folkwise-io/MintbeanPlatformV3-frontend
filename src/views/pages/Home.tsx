@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { fetchPostsByUsername } from "../../services/postService";
 import { fetchUsers } from "../../state/actions/userActions";
 import { StoreState } from "../../state/types";
-import LaunchesContainer from "../features/Launches/LaunchesContainer";
 import UserListComponent from "../features/UserList/UserListComponent";
 import { User } from "../../types/User";
 import { Post } from "../../types/Post";
@@ -40,7 +39,6 @@ const Home: FC<HomeProps> = ({ storeUsers, dispatchFetchUsers }: HomeProps) => {
 
   return (
     <div className="container mx-auto max-w-screen-md">
-      <LaunchesContainer />
 
       <h2>Users</h2>
       <UserListComponent users={storeUsers} />

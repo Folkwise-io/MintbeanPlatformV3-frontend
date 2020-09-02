@@ -1,5 +1,4 @@
 import { Post } from "../types/Post";
-import { Launch } from "../types/Launch";
 import { User } from "../types/User";
 
 export interface LoaderItemInner {
@@ -19,8 +18,6 @@ export interface PostsState {
 
 export type UsersState = User[];
 
-export type LaunchesState = Launch[];
-
 export enum ApiDataStates {
   LOADING = "LOADING",
   SUCCESS = "SUCCESS",
@@ -37,7 +34,6 @@ export type MbAction = {
 
 export interface StoreState {
   posts: PostsState;
-  launches: LaunchesState;
   users: UsersState;
   loader: LoaderItem[];
 }
