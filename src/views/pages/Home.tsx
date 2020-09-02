@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { fetchPostsByUsername } from "../../services/postService";
 import { fetchUsers } from "../../state/actions/userActions";
 import { StoreState } from "../../state/types";
-import UserListComponent from "../features/UserList/UserListComponent";
+import UserListComponent from "../UserList/UserListComponent";
 import { User } from "../../types/User";
 import { Post } from "../../types/Post";
 

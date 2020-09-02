@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { User } from "../../../types/User";
+import { User } from "../../types/User";
 
 type UserListComponentProps = {
   users: User[];

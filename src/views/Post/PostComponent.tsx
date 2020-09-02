@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Post } from "../../../types/Post";
+import { Post } from "../../types/Post";
 
 interface PostComponentProps {
   post: Post;

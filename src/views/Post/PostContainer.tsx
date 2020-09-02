@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { connect } from "react-redux";
 import PostComponent from "./PostComponent";
-import { Post } from "../../../types/Post";
-import { updatePost } from "../../../state/actions/postActions";
+import { Post } from "../../types/Post";
+import { updatePost } from "../../state/actions/postActions";
 
 interface PostContainerProps {
   post: Post;
