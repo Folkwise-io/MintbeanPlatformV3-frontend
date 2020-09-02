@@ -8,7 +8,6 @@ const initialState: StoreState = {
   posts: {
     posts: [],
   },
-  launches: [],
   users: [],
   loader: [],
 };
