@@ -1,13 +1,13 @@
-import React, { SFC } from "react";
+import React, { FC } from "react";
 import { User } from "types/User";
 
 type Props = {
   user: User;
 };
 
-export const UserCard: SFC<Props> = ({ user }) => {
+export const UserCard: FC<Props> = ({ user }) => {
   const { firstName, lastName, posts, username } = user;
-  const fullName = `${firstName} + ${lastName}`;
+  const fullName = `${firstName} ${lastName}`;
 
   return (
     <div>
