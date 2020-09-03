@@ -1,19 +1,26 @@
-// import { initialState, postsReducer } from "../src/state/reducers/post";
-// import { CREATE_POST /*, UPDATE_POST, PostActionTypes*/ } from "../src/state/actions/postActionsTypes";
-// import { Action } from "redux";
-
 import { fetchUsers } from "../src/views/state/actions/userActions";
 import { TestManager } from "./src/TestManager";
+
+const testUser = {
+  createdAt: "1994-08-02T18:59:50.006Z",
+  firstName: "test",
+  lastName: "user",
+  id: "userid",
+  username: "testuser",
+};
 
 describe("user actions", () => {
   let testManager: TestManager;
   beforeEach(() => {
     testManager = TestManager.build();
   });
-  it("should get users from store", () => {
-    testManager
-      .subscribe()
-      .dispatch(fetchUsers())
-      .then((tm) => tm.getResults());
+  it("should get users for the store", () => {
+    testManager.dispatch(fetchUsers()).then((tm) => {
+      const results = tm.getResults();
+      expect(results[0].users.length).toBe(0);
+      expect(results[0].loader[0]).toEqual({ FETCH_USERS: { status: "LOADING", message: "Loading..." } });
+      expect(results[1].users[0]).toEqual(testUser);
+      expect(results[1].loader[0]).toEqual({ FETCH_USERS: { status: "SUCCESS", message: "Loading..." } });
+    });
   });
 });
