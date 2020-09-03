@@ -3,7 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { Context } from "context/contextBuilder";
 
 export function fetchUsers(): ThunkAction<void, StoreState, Context, MbAction> {
-  return async (dispatch: any, getState, context) => {
+  return async (dispatch: any, _getState, context) => {
     dispatch({
       type: FETCH_USERS,
       loadStatus: "LOADING",

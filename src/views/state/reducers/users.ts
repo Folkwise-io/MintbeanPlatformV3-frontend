@@ -3,8 +3,8 @@ import { FETCH_USERS } from "../actions/userActionsTypes";
 const initialState: UsersState = { data: [], loadStatus: "SUCCESS" };
 
 export function usersReducer(state = initialState, action: MbAction): UsersState {
-  if (action.status === "ERROR" || action.status === "LOADING") {
-    return { data: state.data, loadStatus: action.status };
+  if (action.loadStatus === "ERROR" || action.loadStatus === "LOADING") {
+    return { data: state.data, loadStatus: action.loadStatus };
   }
 
   switch (action.type) {

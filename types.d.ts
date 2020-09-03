@@ -21,9 +21,7 @@ interface StateBranch<T> {
   loadStatus: ApiDataStatus;
 }
 
-interface UsersState {
-  users: StateBranch<User[]>;
-}
+type UsersState = StateBranch<User[]>;
 
 interface StoreState {
   users: UsersState;
