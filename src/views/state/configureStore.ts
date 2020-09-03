@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, Action } from "redux";
+import { createStore, applyMiddleware, Action, Store } from "redux";
 import logger from "./middleware/logger";
 import thunkMiddleware from "redux-thunk";
 import { rootReducer } from "./reducers";
@@ -10,7 +10,7 @@ const initialState: StoreState = {
 };
 
 // TODO: properly type configureStore
-export function configureStore(context: Context): any {
+export function configureStore(context: Context): Store<StoreState, Action<any>> {
   const middlewares = [logger, thunkMiddleware.withExtraArgument(context)];
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
