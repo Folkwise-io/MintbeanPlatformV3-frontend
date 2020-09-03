@@ -28,10 +28,8 @@ type ApiDataStatus = "LOADING" | "SUCCESS" | "ERROR";
 
 type MbAction = {
   type: string;
-  payload: any;
-  api?: boolean;
-  status?: ApiDataStatus;
-  message?: string;
+  payload?: any;
+  loadStatus: ApiDataStatus;
 };
 
 interface StoreState {
