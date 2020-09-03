@@ -3,20 +3,17 @@
 // import { Action } from "redux";
 
 import { fetchUsers } from "../src/views/state/actions/userActions";
-import { configureStore } from "../src/views/state/configureStore";
-import { testContextBuilder } from "./testContextBuilder";
+import { TestManager } from "./src/TestManager";
 
 describe("user actions", () => {
+  let testManager: TestManager;
+  beforeEach(() => {
+    testManager = TestManager.build();
+  });
   it("should get users from store", () => {
-    // TODO: context builder
-    const store = configureStore(testContextBuilder());
-    store.dispatch(fetchUsers());
-
-    // const testPost: Post = { id: 1, username: TEST_USERNAME, body: TEST_BODY, createdAt: new Date() };
-    // const state = postsReducer(initialState, {
-    //   type: CREATE_POST,
-    //   payload: testPost,
-    // });
-    // expect(state.posts.includes(testPost)).toBe(true);
+    testManager
+      .subscribe()
+      .dispatch(fetchUsers())
+      .then((tm) => tm.getResults());
   });
 });
