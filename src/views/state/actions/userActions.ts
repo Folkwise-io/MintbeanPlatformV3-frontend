@@ -1,20 +1,18 @@
 import { FETCH_USERS } from "./userActionsTypes";
-import { fetchUsers as fetchUsersService } from "../../services/userService";
 import { ThunkAction } from "redux-thunk";
 import { StoreState } from "../types";
 import { MbAction } from "../types";
+import { Context } from "context/contextBuilder";
 
-export function fetchUsers(): ThunkAction<void, StoreState, unknown, MbAction> {
-  const nonSuccessPayload: any = [];
-  return async (dispatch: any) => {
+export function fetchUsers(): ThunkAction<void, StoreState, Context, MbAction> {
+  return async (dispatch: any, getState, context) => {
     dispatch({
       type: FETCH_USERS,
-      payload: nonSuccessPayload,
       api: true,
       status: "LOADING",
     });
     try {
-      const users = await fetchUsersService();
+      const users = await context.userService.fetchUsers();
 
       return dispatch({
         type: FETCH_USERS,
@@ -22,11 +20,13 @@ export function fetchUsers(): ThunkAction<void, StoreState, unknown, MbAction> {
         api: true,
         status: "SUCCESS",
       });
-    } catch (err) {
-      alert(err);
+    } catch (e) {
+      //TODO: need to log this
+      console.error(e);
+
       return dispatch({
         type: FETCH_USERS,
-        payload: nonSuccessPayload,
+        payload: e.message,
         api: true,
         status: "ERROR",
       });

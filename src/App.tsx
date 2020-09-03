@@ -4,11 +4,14 @@ import { routes } from "./routes";
 import { Provider } from "react-redux";
 
 import { GlobalLayout } from "./views/layouts";
-import { store } from "./state/store";
-
 import "./styles/index.css";
+import { Store } from "redux";
 
-const App: React.FC = () => (
+interface Props {
+  store: Store;
+}
+
+const App: React.FC<Props> = ({ store }) => (
   <Provider store={store}>
     <GlobalLayout>
       <Router>

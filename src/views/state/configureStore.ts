@@ -3,6 +3,7 @@ import logger from "./middleware/logger";
 import thunkMiddleware from "redux-thunk";
 import { rootReducer } from "./reducers";
 import { StoreState } from "./types";
+import { Context } from "context/contextBuilder";
 
 const initialState: StoreState = {
   users: [],
@@ -10,8 +11,8 @@ const initialState: StoreState = {
 };
 
 // TODO: properly type configureStore
-export default function configureStore(): any {
-  const middlewares = [logger, thunkMiddleware];
+export function configureStore(context: Context): any {
+  const middlewares = [logger, thunkMiddleware.withExtraArgument(context)];
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
   // TODO: properly type createStore
