@@ -1,4 +1,4 @@
-import { UserDao } from "../daos/UserDao";
+import { UserDao } from "daos/UserDao";
 
 export class UserService {
   constructor(private userDao: UserDao) {}
