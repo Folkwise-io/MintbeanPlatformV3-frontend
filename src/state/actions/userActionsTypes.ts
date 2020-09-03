@@ -1,4 +1,3 @@
-import { User } from "../../types/User";
 export const FETCH_USERS = "FETCH_USERS";
 
 interface GetUsersAction {

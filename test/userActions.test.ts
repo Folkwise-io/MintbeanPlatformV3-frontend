@@ -1,7 +1,6 @@
 // import { initialState, postsReducer } from "../src/state/reducers/post";
 // import { CREATE_POST /*, UPDATE_POST, PostActionTypes*/ } from "../src/state/actions/postActionsTypes";
 // import { Action } from "redux";
-// import { User } from "../src/types/Post";
 
 import { fetchUsers } from "../src/state/actions/userActions";
 import { store } from "../src/state/store";

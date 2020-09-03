@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { fetchUsers } from "../../state/actions/userActions";
 import { StoreState } from "../../state/types";
 import { Button } from "../components/Button";
-import { User } from "types/User";
 import { UserCard } from "../components/UserCard";
 
 type StateToProps = {

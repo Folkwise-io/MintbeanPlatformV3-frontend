@@ -1,5 +1,3 @@
-import { User } from "../types/User";
-
 export interface LoaderItemInner {
   status: string;
   message: string;
