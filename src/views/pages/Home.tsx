@@ -5,7 +5,7 @@ import { Button } from "../components/Button";
 import { UserCard } from "../components/UserCard";
 
 type StateToProps = {
-  users: User[];
+  users: UsersState;
 };
 const stp = (state: StoreState) => ({
   users: state.users,
@@ -22,7 +22,7 @@ const Home: FC<StateToProps & DispatchToProps> = (props) => {
   return (
     <div>
       <Button onClick={() => props.fetchUsers()}>This is a test button</Button>
-      {props.users.map((user) => (
+      {props.users.data.map((user) => (
         <UserCard key={user.id} user={user} />
       ))}
     </div>

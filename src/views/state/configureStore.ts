@@ -5,8 +5,8 @@ import { rootReducer } from "./reducers";
 import { Context } from "context/contextBuilder";
 
 const initialState: StoreState = {
-  users: [],
-  loader: [],
+  users: { data: [], loadStatus: "SUCCESS" },
+  // toaster: [],
 };
 
 // TODO: properly type configureStore

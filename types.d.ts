@@ -17,19 +17,24 @@ interface LoaderItem {
 
 type LoaderState = LoaderItem[];
 
-type UsersState = User[];
+type UsersState = StateBranch<User[]>;
 
-type ApiDataStates = "LOADING" | "SUCCESS" | "ERROR";
+interface StateBranch<T> {
+  data: T;
+  loadStatus: ApiDataStatus;
+}
+
+type ApiDataStatus = "LOADING" | "SUCCESS" | "ERROR";
 
 type MbAction = {
   type: string;
   payload: any;
   api?: boolean;
-  status?: ApiDataStates;
+  status?: ApiDataStatus;
   message?: string;
 };
 
 interface StoreState {
   users: UsersState;
-  loader: LoaderItem[];
+  // toaster: LoaderItem[];
 }
