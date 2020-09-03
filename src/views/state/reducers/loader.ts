@@ -1,8 +1,7 @@
-import { MbAction, LoaderState, LoaderItem } from "../types";
 const initialState: LoaderState = [];
 
 export function loaderReducer(state = initialState, action: MbAction): LoaderState {
-  if (action.status === ("LOADING" || "SUCCESS" || "ERROR")) {
+  if (action.status === "LOADING" || action.status === "SUCCESS" || action.status === "ERROR") {
     const updatedLoaderItem = loaderItemBuilder(action.type, action.status, action.message);
     return getUpdatedState(state, updatedLoaderItem);
   } else {

@@ -1,7 +1,5 @@
 import { FETCH_USERS } from "./userActionsTypes";
 import { ThunkAction } from "redux-thunk";
-import { StoreState } from "../types";
-import { MbAction } from "../types";
 import { Context } from "context/contextBuilder";
 
 export function fetchUsers(): ThunkAction<void, StoreState, Context, MbAction> {

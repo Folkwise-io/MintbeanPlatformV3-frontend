@@ -1,6 +1,6 @@
-import { UserDao } from "daos/UserDao";
-import { UserService } from "services/userService";
-import { ApiQueryExecutor } from "api/ApiQueryExecutor";
+import { UserDao } from "../daos/UserDao";
+import { UserService } from "../services/userService";
+import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 
 export interface Context {
   apiQueryExecutor: ApiQueryExecutor;
