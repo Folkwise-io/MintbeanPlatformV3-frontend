@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { connect } from "react-redux";
 import { fetchUsers } from "../state/actions/userActions";
-import { StoreState } from "../state/types";
 import { Button } from "../components/Button";
 import { UserCard } from "../components/UserCard";
 
