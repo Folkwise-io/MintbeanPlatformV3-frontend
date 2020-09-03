@@ -1,3 +1,4 @@
+// MODELS ---------------------
 type User = {
   id: string;
   username: string;
@@ -6,31 +7,23 @@ type User = {
   createdAt: Date;
 };
 
-interface LoaderItemInner {
-  status: string;
-  message: string;
-}
+// STORE ---------------------
+type MbAction = {
+  type: string;
+  payload?: any;
+  loadStatus: ApiDataStatus;
+};
 
-interface LoaderItem {
-  [key: string]: LoaderItemInner;
-}
-
-type LoaderState = LoaderItem[];
-
-type UsersState = StateBranch<User[]>;
+type ApiDataStatus = "LOADING" | "SUCCESS" | "ERROR";
 
 interface StateBranch<T> {
   data: T;
   loadStatus: ApiDataStatus;
 }
 
-type ApiDataStatus = "LOADING" | "SUCCESS" | "ERROR";
-
-type MbAction = {
-  type: string;
-  payload?: any;
-  loadStatus: ApiDataStatus;
-};
+interface UsersState {
+  users: StateBranch<User[]>;
+}
 
 interface StoreState {
   users: UsersState;
