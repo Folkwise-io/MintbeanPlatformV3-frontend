@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, Action } from "redux";
 import logger from "./middleware/logger";
 import thunkMiddleware from "redux-thunk";
 import { rootReducer } from "./reducers";
-import { StoreState } from "./types";
 import { Context } from "context/contextBuilder";
 
 const initialState: StoreState = {
