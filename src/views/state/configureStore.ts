@@ -1,13 +1,8 @@
 import { createStore, applyMiddleware, Action, Store } from "redux";
 import logger from "./middleware/logger";
 import thunkMiddleware from "redux-thunk";
-import { rootReducer } from "./reducers";
+import { rootReducer, initialStoreState } from "./reducers";
 import { Context } from "context/contextBuilder";
-
-const initialState: StoreState = {
-  users: { data: [], loadStatus: "SUCCESS" },
-  // toaster: [],
-};
 
 // TODO: properly type configureStore
 export function configureStore(context: Context): Store<StoreState, Action<any>> {
@@ -15,7 +10,7 @@ export function configureStore(context: Context): Store<StoreState, Action<any>>
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
   // TODO: properly type createStore
-  const store = createStore<StoreState, Action, unknown, unknown>(rootReducer, initialState, middlewareEnhancer);
+  const store = createStore<StoreState, Action, unknown, unknown>(rootReducer, initialStoreState, middlewareEnhancer);
 
   return store;
 }

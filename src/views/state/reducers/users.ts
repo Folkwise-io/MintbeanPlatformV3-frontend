@@ -1,8 +1,8 @@
 import { FETCH_USERS } from "../actions/userActionsTypes";
 
-const initialState: UsersState = { data: [], loadStatus: "SUCCESS" };
+export const usersInitialState: UsersState = { data: [], loadStatus: "SUCCESS" };
 
-export function usersReducer(state = initialState, action: MbAction): UsersState {
+export function usersReducer(state = usersInitialState, action: MbAction): UsersState {
   if (action.loadStatus === "ERROR" || action.loadStatus === "LOADING") {
     return { data: state.data, loadStatus: action.loadStatus };
   }
