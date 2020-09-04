@@ -1,17 +1,17 @@
 import { combineReducers } from "redux";
 import { usersReducer, usersInitialState } from "./users";
 import { errorsReducer, errorsInitialState } from "./errors";
-import { toasterReducer, toasterInitialState } from "./toaster";
+import { toastsReducer, toastsInitialState } from "./toasts";
 
 // TODO: type rootReducer
 export const rootReducer = combineReducers({
   users: usersReducer,
   errors: errorsReducer,
-  toaster: toasterReducer,
+  toasts: toastsReducer,
 });
 
 export const initialStoreState: StoreState = {
   users: usersInitialState,
   errors: errorsInitialState,
-  toaster: toasterInitialState,
+  toasts: toastsInitialState,
 };
