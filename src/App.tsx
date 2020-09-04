@@ -8,6 +8,7 @@ import "./styles/index.css";
 import { Store } from "redux";
 
 import { Context } from "./context/contextBuilder";
+import { MbContextProvider } from "./context/contextConnector";
 
 interface Props {
   store: Store;
@@ -17,17 +18,19 @@ interface Props {
 const App: React.FC<Props> = ({ store, context }) => {
   const [ctx] = useState(context); // set context to local state to prevent re-renders
   return (
-    <ReduxProvider store={store}>
-      <GlobalLayout>
-        <Router>
-          <Switch>
-            {routes.map((route) => (
-              <Route key={route.path || "404"} {...route} />
-            ))}
-          </Switch>
-        </Router>
-      </GlobalLayout>
-    </ReduxProvider>
+    <MbContextProvider context={ctx}>
+      <ReduxProvider store={store}>
+        <GlobalLayout>
+          <Router>
+            <Switch>
+              {routes.map((route) => (
+                <Route key={route.path || "404"} {...route} />
+              ))}
+            </Switch>
+          </Router>
+        </GlobalLayout>
+      </ReduxProvider>
+    </MbContextProvider>
   );
 };
 

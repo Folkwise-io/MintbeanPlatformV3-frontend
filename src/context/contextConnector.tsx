@@ -24,6 +24,15 @@ type ComponentProps = {
   context: Context | undefined;
 };
 
-export const contextConnector = (Component: React.ComponentType<ComponentProps>) => () => (
-  <MbContextConsumer>{(context: Context | undefined) => <Component context={context} />}</MbContextConsumer>
-);
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const contextConnector = (Component: React.ComponentType<ComponentProps>): React.ReactNode => () => {
+  // forgive me for this 'any'.
+  const Consumer: any = (
+    <MbContextConsumer>{(context: Context | undefined) => <Component context={context} />}</MbContextConsumer>
+  );
+  Consumer.displayName = "MbContextConsumer";
+  return Consumer;
+};
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
+export { contextConnector };
