@@ -7,6 +7,23 @@ type User = {
   createdAt: Date;
 };
 
+type Sponsor = {
+  name: string;
+  blurb?: string; // Message
+  color?: string; // Banner Color
+  image: string;
+};
+
+type HackEvent = {
+  name: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  sponsors: Sponsor[];
+  image: string;
+  colors: string[]; // gradient for events
+};
+
 // STORE ---------------------
 type MbAction<T = unknown> = {
   type: string;

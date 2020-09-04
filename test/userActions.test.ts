@@ -24,8 +24,12 @@ describe("user actions", () => {
         const results = tm.getResults();
         console.log(results[0].users);
 
-        // expect(results[0].users.length).toBe(0);
-        // expect(results[1].users[0]).toEqual(testUsers);
+        expect(results[0].users.data.length).toBe(0);
+        expect(results[0].users.loadStatus).toBe("LOADING");
+        expect(results[1].users.data[0]).toEqual(testUsers[0]);
+        expect(results[1].users.loadStatus).toBe("SUCCESS");
       });
   });
 });
+
+// Id title Discription
