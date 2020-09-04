@@ -1,5 +1,6 @@
 import { UserDaoImpl } from "../daos/UserDaoImpl";
 import { UserService } from "../services/userService";
+import { EventService } from "../services/eventService";
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { UserDao } from "daos/UserDao";
 import { EventDao } from "daos/EventDao";
@@ -10,6 +11,7 @@ export interface Context {
   userDao: UserDao;
   eventDao: EventDao;
   userService: UserService;
+  eventService: EventService;
 }
 
 export const contextBuilder = (): Context => {
@@ -17,11 +19,13 @@ export const contextBuilder = (): Context => {
   const userDao = new UserDaoImpl(apiQueryExecutor);
   const eventDao = new EventDaoImpl(apiQueryExecutor);
   const userService = new UserService(userDao);
+  const eventService = new EventService(eventDao);
 
   return {
     apiQueryExecutor,
     userDao,
     eventDao,
     userService,
+    eventService,
   };
 };
