@@ -8,7 +8,7 @@ import "./styles/index.css";
 import { Store } from "redux";
 
 import { Context } from "./context/contextBuilder";
-import { MbContextProvider } from "./context/contextConnector";
+import { MbContextProvider } from "./context/MbContextProvider";
 
 interface Props {
   store: Store;

@@ -1,10 +1,11 @@
 import React, { FC } from "react";
+import { connectContext } from "../../context/connectContext";
 
 type Props = {
   user: User;
 };
 
-export const UserCard: FC<Props> = ({ user }) => {
+const UserCardPreConnect: FC<Props> = ({ user }) => {
   const { firstName, lastName, username } = user;
   const fullName = `${firstName} ${lastName}`;
 
@@ -15,3 +16,5 @@ export const UserCard: FC<Props> = ({ user }) => {
     </div>
   );
 };
+
+export const UserCard = connectContext(UserCardPreConnect);
