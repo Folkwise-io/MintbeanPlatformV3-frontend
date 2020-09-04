@@ -1,13 +1,6 @@
 import { ToastActionType } from "./actionTypes";
 
-type ToastActionPayloadType = "ERROR" | "WARNING" | "INFO";
-
-type ToastActionPayload = {
-  type: ToastActionPayloadType;
-  message: string;
-};
-
-const toastActionHoc = (type: ToastActionPayloadType) => (message: string) => (): MbAction<ToastActionPayload> => ({
+const toastActionHoc = (type: ToastTypes) => (message: string): MbAction<Toast> => ({
   type: ToastActionType.ADD_TOAST,
   payload: {
     type,
@@ -19,3 +12,4 @@ const toastActionHoc = (type: ToastActionPayloadType) => (message: string) => ()
 export const addErrorToast = toastActionHoc("ERROR");
 export const addWarningToast = toastActionHoc("WARNING");
 export const addInfoToast = toastActionHoc("INFO");
+export const addSuccessToast = toastActionHoc("SUCCESS");

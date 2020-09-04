@@ -28,17 +28,15 @@ interface StateBranch<T> {
 
 type UsersState = StateBranch<User[]>;
 
-type ToastTypes = "SUCCESS" | "ERROR" | "WARNING";
+type ToastTypes = "ERROR" | "WARNING" | "INFO" | "SUCCESS";
 
 interface Toast {
   type: ToastTypes;
   message: string;
 }
 
-type ToasterState = Toast[];
-
 interface StoreState {
   users: UsersState;
   errors: LoggedError[];
-  toaster: ToasterState;
+  toaster: Toast[];
 }

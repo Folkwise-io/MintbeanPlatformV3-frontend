@@ -7,7 +7,7 @@ import axios from "axios";
 // }
 
 export class ApiQueryExecutor {
-  query<R, V>(query: string, variables: V): Promise<R> {
+  query<R, V = void>(query: string, variables?: V): Promise<R> {
     return axios({
       url: "http://localhost:4000/graphql",
       method: "post",

@@ -1,12 +1,21 @@
 import { ToastActionType } from "../actions/actionTypes";
+import { Reducer } from "redux";
 
-export const toasterInitialState: ToasterState = [];
+export const toasterInitialState: Toast[] = [];
 
-export function toasterReducer(state = toasterInitialState, action: MbAction): ToasterState {
+export const toasterReducer: Reducer<Toast[], MbAction<Toast>> = (
+  state = toasterInitialState,
+  action: MbAction<Toast>,
+): Toast[] => {
   switch (action.type) {
-    case ToastActionType.ADD_TOAST:
-      return [...state, { type: action.payload.type, message: action.payload.message }];
+    case ToastActionType.ADD_TOAST: {
+      const payload = action.payload;
+      if (!payload) {
+        return state;
+      }
+      return [...state, payload];
+    }
     default:
       return state;
   }
-}
+};
