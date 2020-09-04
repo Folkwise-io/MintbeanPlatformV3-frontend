@@ -1,4 +1,4 @@
-import { FETCH_USERS } from "../actions/userActionsTypes";
+import { UserAction } from "../actions/actionTypes";
 
 export const usersInitialState: UsersState = { data: [], loadStatus: "SUCCESS" };
 
@@ -8,7 +8,7 @@ export function usersReducer(state = usersInitialState, action: MbAction): Users
   }
 
   switch (action.type) {
-    case FETCH_USERS:
+    case UserAction.FETCH_USERS:
       return { data: action.payload, loadStatus: "SUCCESS" };
     default:
       return state;
