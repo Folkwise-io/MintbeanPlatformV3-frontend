@@ -16,12 +16,14 @@ type DispatchToProps = {
 };
 const dtp = (dispatch: any) => ({
   fetchUsers: () => dispatch(fetchUsers()),
+  simulateError: () => dispatch(simulateError()),
 });
 
 const Home: FC<StateToProps & DispatchToProps> = (props) => {
   return (
     <div>
       <Button onClick={() => props.fetchUsers()}>This is a test button</Button>
+      <Button onClick={() => props.simulateError()}>Simulate an error</Button>
       {props.users.data.map((user) => (
         <UserCard key={user.id} user={user} />
       ))}
