@@ -7,6 +7,12 @@ type User = {
   createdAt: Date;
 };
 
+// INPUTS --------------------
+interface LoginInput {
+  username: string;
+  password: string;
+}
+
 // STORE ---------------------
 type MbAction<T = unknown> = {
   type: string;
@@ -28,6 +34,8 @@ interface StateBranch<T> {
 
 type UsersState = StateBranch<User[]>;
 
+type UserState = StateBranch<User | undefined>;
+
 type ToastState = Toast[];
 
 type ToastTypes = "ERROR" | "WARNING" | "INFO" | "SUCCESS";
@@ -39,6 +47,7 @@ interface Toast {
 }
 
 interface StoreState {
+  user: UserState;
   users: UsersState;
   errors: LoggedError[];
   toasts: ToastState;
