@@ -4,7 +4,7 @@ import { errorsReducer, errorsInitialState } from "./errors";
 import { toasterReducer, toasterInitialState } from "./toaster";
 
 // TODO: type rootReducer
-export const rootReducer: any = combineReducers({
+export const rootReducer = combineReducers({
   users: usersReducer,
   errors: errorsReducer,
   toaster: toasterReducer,

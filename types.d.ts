@@ -8,18 +8,16 @@ type User = {
 };
 
 // STORE ---------------------
-type MbAction = {
+type MbAction<T = unknown> = {
   type: string;
-  payload?: any;
+  payload?: T;
   loadStatus?: ApiDataStatus;
 };
 
 interface LoggedError {
-  error: any; // TODO: type
+  error: Error; // TODO: type
   timestamp: string;
 }
-
-type ErrorsState = LoggedError[];
 
 type ApiDataStatus = "LOADING" | "SUCCESS" | "ERROR";
 
@@ -41,6 +39,6 @@ type ToasterState = Toast[];
 
 interface StoreState {
   users: UsersState;
-  errors: ErrorsState;
+  errors: LoggedError[];
   toaster: ToasterState;
 }
