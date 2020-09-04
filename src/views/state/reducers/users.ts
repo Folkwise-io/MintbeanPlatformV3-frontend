@@ -13,7 +13,7 @@ export const usersReducer: Reducer<UsersState, MbAction<UsersState>> = (
 
   switch (action.type) {
     case UserActionType.FETCH_USERS: {
-      if (!action?.payload?.data) {
+      if (!action.payload || !action.payload.data) {
         console.error("Action expected payload data but received none.");
         return state;
       }
