@@ -8,8 +8,8 @@ export function errorsReducer(state = errorsInitialState, action: MbAction<Logge
       return [
         ...state,
         {
-          error: action?.payload?.error || new Error("errorsReducer received action without error"),
-          timestamp: action?.payload?.timestamp || new Date().toISOString(),
+          error: (action.payload && action.payload.error) || new Error("errorsReducer received action without error"),
+          timestamp: (action.payload && action.payload.timestamp) || new Date().toISOString(),
         },
       ];
     default:
