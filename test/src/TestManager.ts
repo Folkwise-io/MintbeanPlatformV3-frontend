@@ -2,18 +2,19 @@ import { configureStore } from "../../src/views/state/configureStore";
 import { testContextBuilder } from "../testContextBuilder";
 import { ThunkAction } from "redux-thunk";
 import { TestContext } from "../testContextBuilder";
+import { Store } from "redux";
 
 export class TestManager {
-  store: any;
-  results: any[];
+  store: Store;
+  results: StoreState[];
   context: TestContext;
-  private constructor(store: any, context: TestContext) {
+  private constructor(store: Store, context: TestContext) {
     this.store = store;
     this.results = [];
     this.context = context;
   }
 
-  static build(): any {
+  static build(): TestManager {
     const context = testContextBuilder();
     const store = configureStore(context);
 
@@ -25,8 +26,7 @@ export class TestManager {
     return this;
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  addUser(data: any): TestManager {
+  addUser(data: User[]): TestManager {
     this.context.userDao.data = data;
     return this;
   }
@@ -38,7 +38,7 @@ export class TestManager {
     return this;
   }
 
-  getResults(): any[] {
+  getResults(): StoreState[] {
     return this.results;
   }
 }
