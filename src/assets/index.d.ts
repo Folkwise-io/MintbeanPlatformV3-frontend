@@ -3,7 +3,7 @@
 // import logo from "../assets/logo.png";
 
 declare module "*.png" {
-  const value: any;
+  const value: string;
   export = value;
 }
 //

@@ -51,7 +51,7 @@ module.exports = {
         "linebreak-style": ["error", "unix"],
         // quotes: ["error", "double"],
         "comma-dangle": ["error", "always-multiline"],
-        "@typescript-eslint/no-explicit-any": 0,
+        "@typescript-eslint/no-explicit-any": ["error", { ignoreRestArgs: true }],
         "react/jsx-uses-react": 1,
         "react/prop-types": "off",
         // indent: ["error", 2],

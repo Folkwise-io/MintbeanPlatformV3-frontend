@@ -1,6 +1,9 @@
-import { fetchUsers as fetchUsersDao } from "../daos/UserDao";
-import { User } from "../types/User";
+import { UserDao } from "daos/UserDao";
 
-export const fetchUsers = (): Promise<User[]> => {
-  return fetchUsersDao();
-};
+export class UserService {
+  constructor(private userDao: UserDao) {}
+
+  fetchUsers(): Promise<User[]> {
+    return this.userDao.fetchUsers();
+  }
+}
