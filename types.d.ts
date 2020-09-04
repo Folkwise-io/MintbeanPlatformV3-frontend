@@ -11,8 +11,15 @@ type User = {
 type MbAction = {
   type: string;
   payload?: any;
-  loadStatus: ApiDataStatus;
+  loadStatus?: ApiDataStatus;
 };
+
+interface LoggedError {
+  error: any; // TODO: type
+  timestamp: string;
+}
+
+type ErrorsState = LoggedError[];
 
 type ApiDataStatus = "LOADING" | "SUCCESS" | "ERROR";
 
@@ -23,7 +30,17 @@ interface StateBranch<T> {
 
 type UsersState = StateBranch<User[]>;
 
+type ToastTypes = "SUCCESS" | "ERROR" | "WARNING";
+
+interface Toast {
+  type: ToastTypes;
+  message: string;
+}
+
+type ToasterState = Toast[];
+
 interface StoreState {
   users: UsersState;
-  // toaster: LoaderItem[];
+  errors: ErrorsState;
+  toaster: ToasterState;
 }
