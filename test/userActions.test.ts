@@ -15,12 +15,15 @@ describe("user actions", () => {
     testManager = TestManager.build();
   });
   it("should get users for the store", () => {
-    testManager.dispatch(fetchUsers()).then((tm) => {
-      const results = tm.getResults();
-      expect(results[0].users.length).toBe(0);
-      expect(results[0].loader[0]).toEqual({ FETCH_USERS: { status: "LOADING", message: "Loading..." } });
-      expect(results[1].users[0]).toEqual(testUser);
-      expect(results[1].loader[0]).toEqual({ FETCH_USERS: { status: "SUCCESS", message: "Loading..." } });
-    });
+    testManager
+      .addUser(testUser)
+      .dispatch(fetchUsers())
+      .then((tm) => {
+        const results = tm.getResults();
+        expect(results[0].users.length).toBe(0);
+        expect(results[0].loader[0]).toEqual({ FETCH_USERS: { status: "LOADING", message: "Loading..." } });
+        expect(results[1].users[0]).toEqual(testUser);
+        expect(results[1].loader[0]).toEqual({ FETCH_USERS: { status: "SUCCESS", message: "Loading..." } });
+      });
   });
 });
