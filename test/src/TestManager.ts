@@ -1,6 +1,5 @@
 import { configureStore } from "../../src/views/state/configureStore";
 import { testContextBuilder } from "../testContextBuilder";
-import { ThunkAction } from "redux-thunk";
 import { TestContext } from "../testContextBuilder";
 import { Store } from "redux";
 
@@ -21,7 +20,7 @@ export class TestManager {
     return new TestManager(store, context).subscribe();
   }
 
-  async dispatch(action: ThunkAction<void, StoreState, TestContext, MbAction>): Promise<TestManager> {
+  async dispatch<T>(action: MbAction<T>): Promise<TestManager> {
     await this.store.dispatch(action);
     return this;
   }
