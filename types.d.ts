@@ -8,18 +8,16 @@ type User = {
 };
 
 // STORE ---------------------
-type MbAction = {
+type MbAction<T = unknown> = {
   type: string;
-  payload?: any;
+  payload?: T;
   loadStatus?: ApiDataStatus;
 };
 
 interface LoggedError {
-  error: any; // TODO: type
+  error: Error; // TODO: type
   timestamp: string;
 }
-
-type ErrorsState = LoggedError[];
 
 type ApiDataStatus = "LOADING" | "SUCCESS" | "ERROR";
 
@@ -30,17 +28,18 @@ interface StateBranch<T> {
 
 type UsersState = StateBranch<User[]>;
 
-type ToastTypes = "SUCCESS" | "ERROR" | "WARNING";
+type ToastState = Toast[];
+
+type ToastTypes = "ERROR" | "WARNING" | "INFO" | "SUCCESS";
 
 interface Toast {
+  id: string;
   type: ToastTypes;
   message: string;
 }
 
-type ToasterState = Toast[];
-
 interface StoreState {
   users: UsersState;
-  errors: ErrorsState;
-  toaster: ToasterState;
+  errors: LoggedError[];
+  toasts: ToastState;
 }

@@ -1,48 +1,39 @@
-import { FETCH_USERS } from "./userActionsTypes";
-import { LOG_ERROR } from "./errorActionsTypes";
-import { ADD_TOAST } from "./toastActionsTypes";
+import { ErrorActionType, UserActionType } from "./actionTypes";
 import { ThunkAction } from "redux-thunk";
 import { Context } from "context/contextBuilder";
+import { addErrorToast, addInfoToast, addSuccessToast, addWarningToast } from "./toastActions";
+import { Dispatch } from "redux";
 
-export function fetchUsers(): ThunkAction<void, StoreState, Context, MbAction> {
-  return async (dispatch: any, _getState, context) => {
-    dispatch({
-      type: FETCH_USERS,
-      loadStatus: "LOADING",
-    });
-    try {
-      const users = await context.userService.fetchUsers();
+const action = (loadStatus: ApiDataStatus, payload?: User[]): MbAction<User[]> => ({
+  type: UserActionType.FETCH_USERS,
+  payload,
+  loadStatus,
+});
 
-      return dispatch({
-        type: FETCH_USERS,
-        payload: users,
-        loadStatus: "SUCCESS",
-      });
-    } catch (err) {
-      // Example of optionally adding toast to the queue
-      dispatch({
-        type: ADD_TOAST,
-        payload: {
-          type: "ERROR",
-          message: "Oh no! We couldn't fetch users.",
-        },
-      });
-      // Add to errors log
-      // (This may be moved to an API call instead of storing in store)
-      console.error(err);
-      dispatch({
-        type: LOG_ERROR,
-        payload: {
-          error: err,
-          timestamp: new Date().toISOString(),
-        },
-      });
+export function fetchUsers(): ThunkAction<void, StoreState, Context, MbAction<void>> {
+  return (dispatch: Dispatch, _getState, context) => {
+    dispatch(action("LOADING"));
+    dispatch(addInfoToast("Loading users."));
+    dispatch(addWarningToast("WARNING! This call could fail. HINT: what if you disabled the server?"));
+    return context.userService
+      .fetchUsers()
+      .then((users) => {
+        dispatch(addSuccessToast("Successfully loaded users."));
+        return dispatch(action("SUCCESS", users));
+      })
+      .catch((err: Error) => {
+        dispatch(addErrorToast("Oh no! We couldn't fetch users."));
+        console.error("ERROR!!", err);
+        dispatch({
+          type: ErrorActionType.LOG_ERROR,
+          payload: {
+            error: err,
+            timestamp: new Date().toISOString(),
+          },
+        });
 
-      // Update FETCH_USERS loadStatus on error
-      return dispatch({
-        type: FETCH_USERS,
-        loadStatus: "ERROR",
+        // Update FETCH_USERS loadStatus on error
+        return dispatch(action("ERROR"));
       });
-    }
   };
 }

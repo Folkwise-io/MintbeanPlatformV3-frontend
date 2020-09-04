@@ -1,11 +1,17 @@
-import { LOG_ERROR } from "../actions/errorActionsTypes";
+import { ErrorActionType } from "../actions/actionTypes";
 
-export const errorsInitialState: ErrorsState = [];
+export const errorsInitialState: LoggedError[] = [];
 
-export function errorsReducer(state = errorsInitialState, action: MbAction): ErrorsState {
+export function errorsReducer(state = errorsInitialState, action: MbAction<LoggedError>): LoggedError[] {
   switch (action.type) {
-    case LOG_ERROR:
-      return [...state, { error: action.payload.error, timestamp: action.payload.timestamp }];
+    case ErrorActionType.LOG_ERROR:
+      return [
+        ...state,
+        {
+          error: (action.payload && action.payload.error) || new Error("errorsReducer received action without error"),
+          timestamp: (action.payload && action.payload.timestamp) || new Date().toISOString(),
+        },
+      ];
     default:
       return state;
   }
