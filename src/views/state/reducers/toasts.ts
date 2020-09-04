@@ -15,6 +15,13 @@ export const toastsReducer: Reducer<ToastState, MbAction<Toast>> = (
       }
       return [...state, payload];
     }
+    case ToastActionType.REMOVE_TOAST: {
+      const payload = action.payload;
+      if (!payload) {
+        return state;
+      }
+      return state.filter((toast) => toast.id !== payload.id);
+    }
     default:
       return state;
   }

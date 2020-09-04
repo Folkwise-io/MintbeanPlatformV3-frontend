@@ -33,6 +33,7 @@ type ToastState = Toast[];
 type ToastTypes = "ERROR" | "WARNING" | "INFO" | "SUCCESS";
 
 interface Toast {
+  id: string;
   type: ToastTypes;
   message: string;
 }

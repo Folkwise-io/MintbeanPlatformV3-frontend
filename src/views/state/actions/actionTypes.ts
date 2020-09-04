@@ -4,6 +4,7 @@ export enum ErrorActionType {
 
 export enum ToastActionType {
   ADD_TOAST = "ToastAction.ADD_TOAST",
+  REMOVE_TOAST = "ToastAction.REMOVE_TOAST",
 }
 
 export enum UserActionType {

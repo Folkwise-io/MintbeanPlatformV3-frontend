@@ -6,6 +6,7 @@ import { UserCard } from "../components/UserCard";
 import { ThunkDispatch } from "redux-thunk";
 import { Context } from "context/contextBuilder";
 import { Toast } from "../components/Toast";
+import { removeToast } from "../../views/state/actions/toastActions";
 
 type StateMapping = {
   users: UsersState;
@@ -18,10 +19,12 @@ const stp = (state: StoreState) => ({
 
 type DispatchMapping = {
   fetchUsers: () => void;
+  removeToast: (id: string) => void;
 };
 
 const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
   fetchUsers: () => dispatch(fetchUsers()),
+  removeToast: (id: string) => dispatch(removeToast(id)),
 });
 
 const UserSection: FC<{ users: UsersState }> = ({ users }) => {
@@ -47,7 +50,7 @@ const Home: FC<StateMapping & DispatchMapping> = (props) => {
       <UserSection users={props.users} />
       <div>
         {props.toasts.map((toast, index) => (
-          <Toast key={index} toast={toast} />
+          <Toast key={index} toast={toast} removeToast={(id) => props.removeToast(id)} />
         ))}
       </div>
     </div>
