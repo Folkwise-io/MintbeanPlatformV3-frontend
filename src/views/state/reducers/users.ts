@@ -1,16 +1,25 @@
-import { FETCH_USERS } from "../actions/userActionsTypes";
+import { UserActionType } from "../actions/actionTypes";
+import { Reducer } from "redux";
 
-const initialState: UsersState = { data: [], loadStatus: "SUCCESS" };
+export const usersInitialState: UsersState = { data: [], loadStatus: "SUCCESS" };
 
-export function usersReducer(state = initialState, action: MbAction): UsersState {
-  if (action.status === "ERROR" || action.status === "LOADING") {
-    return { data: state.data, loadStatus: action.status };
+export const usersReducer: Reducer<UsersState, MbAction<User[]>> = (
+  state = usersInitialState,
+  action: MbAction<User[]>,
+): UsersState => {
+  if (action.loadStatus === "ERROR" || action.loadStatus === "LOADING") {
+    return { data: state.data, loadStatus: action.loadStatus };
   }
 
   switch (action.type) {
-    case FETCH_USERS:
+    case UserActionType.FETCH_USERS: {
+      if (!action.payload) {
+        console.error("Action expected payload data but received none.");
+        return state;
+      }
       return { data: action.payload, loadStatus: "SUCCESS" };
+    }
     default:
       return state;
   }
-}
+};

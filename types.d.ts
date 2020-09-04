@@ -1,3 +1,4 @@
+// MODELS ---------------------
 type User = {
   id: string;
   username: string;
@@ -6,35 +7,39 @@ type User = {
   createdAt: Date;
 };
 
-interface LoaderItemInner {
-  status: string;
-  message: string;
+// STORE ---------------------
+type MbAction<T = unknown> = {
+  type: string;
+  payload?: T;
+  loadStatus?: ApiDataStatus;
+};
+
+interface LoggedError {
+  error: Error; // TODO: type
+  timestamp: string;
 }
 
-interface LoaderItem {
-  [key: string]: LoaderItemInner;
-}
-
-type LoaderState = LoaderItem[];
-
-type UsersState = StateBranch<User[]>;
+type ApiDataStatus = "LOADING" | "SUCCESS" | "ERROR";
 
 interface StateBranch<T> {
   data: T;
   loadStatus: ApiDataStatus;
 }
 
-type ApiDataStatus = "LOADING" | "SUCCESS" | "ERROR";
+type UsersState = StateBranch<User[]>;
 
-type MbAction = {
-  type: string;
-  payload: any;
-  api?: boolean;
-  status?: ApiDataStatus;
-  message?: string;
-};
+type ToastState = Toast[];
+
+type ToastTypes = "ERROR" | "WARNING" | "INFO" | "SUCCESS";
+
+interface Toast {
+  id: string;
+  type: ToastTypes;
+  message: string;
+}
 
 interface StoreState {
   users: UsersState;
-  // toaster: LoaderItem[];
+  errors: LoggedError[];
+  toasts: ToastState;
 }

@@ -1,13 +1,13 @@
 import axios from "axios";
 
-interface ApiQueryResult<T> {
-  success: boolean;
-  payload: T;
-  failureType?: "INTERNAL_SERVER_ERROR" | "AUTH";
-}
+// interface ApiQueryResult<T> {
+//   success: boolean;
+//   payload: T;
+//   failureType?: "INTERNAL_SERVER_ERROR" | "AUTH";
+// }
 
 export class ApiQueryExecutor {
-  query<T>(query: string, variables: any = {}): Promise<T> {
+  query<R, V = void>(query: string, variables?: V): Promise<R> {
     return axios({
       url: "http://localhost:4000/graphql",
       method: "post",
