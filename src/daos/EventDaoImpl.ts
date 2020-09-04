@@ -19,8 +19,11 @@ export class EventDaoImpl implements EventDao {
               description
               startDate
               endDate
-              sponsors
-              colors
+              sponsors {
+                name
+                blurb
+                image
+              }
             }
           }   
         `,

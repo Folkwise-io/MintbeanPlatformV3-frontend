@@ -10,8 +10,7 @@ type User = {
 type Sponsor = {
   name: string;
   blurb?: string; // Message
-  color?: string; // Banner Color
-  image: string;
+  image?: string;
 };
 
 type HackEvent = {
@@ -21,7 +20,6 @@ type HackEvent = {
   endDate: Date;
   sponsors: Sponsor[];
   image: string;
-  colors: string[]; // gradient for events
 };
 
 // STORE ---------------------
