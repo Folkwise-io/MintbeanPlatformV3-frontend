@@ -15,6 +15,9 @@ export class ApiQueryExecutor {
         query,
         variables,
       },
-    }).then((res) => res.data.data);
+    }).then((res) => {
+      console.log(res);
+      return res.data.data;
+    });
   }
 }
