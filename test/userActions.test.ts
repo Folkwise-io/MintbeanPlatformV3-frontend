@@ -19,7 +19,7 @@ describe("user actions", () => {
   it("should get users for the store", () => {
     testManager
       .addUser(testUsers)
-      .dispatch(fetchUsers())
+      .dispatchThunk(fetchUsers())
       .then((tm) => {
         const results = tm.getResults();
         console.log(results[0].users);
