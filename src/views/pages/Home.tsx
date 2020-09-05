@@ -28,7 +28,6 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
 });
 
 const UserSection: FC<{ users: UsersState }> = ({ users }) => {
-  console.log({ us_users: users });
   if (users.loadStatus === "LOADING") {
     return <div>Loading..</div>;
   } else if (users.loadStatus === "ERROR") {
