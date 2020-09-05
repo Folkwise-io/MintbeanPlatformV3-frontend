@@ -8,7 +8,7 @@ type ContextProp = {
 
 // forgive me
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export const connectContext = (Component: React.ComponentType<ContextProp & any>): React.ReactNode => (props: any) => {
+export const connectContext = (Component: React.ComponentType<ContextProp & any>): any => (props: any) => {
   const Consumer: any = (
     <MbContextConsumer>
       {(context: Context | undefined) => <Component {...props} context={context} />}
