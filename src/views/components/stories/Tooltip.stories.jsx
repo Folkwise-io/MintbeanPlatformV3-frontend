@@ -1,6 +1,5 @@
 import React from "react";
 import { Tooltip } from "../wrappers/Tooltip";
-import { Button } from "../Button";
 
 // This default export determines where you story goes in the story list
 export default {
@@ -11,7 +10,7 @@ export default {
 const Template = (args) => (
   <div className="w-full flex justify-center h-64 items-center">
     <Tooltip duration={args.duration} tip={args.tip} direction={args.direction} delay={args.delay}>
-      <Button>Hover Over Me</Button>
+      <button>Hover Over Me</button>
     </Tooltip>
   </div>
 );
