@@ -12,9 +12,9 @@ const testDescription =
 
 const Template = (args) => <EventCard event={args} />;
 
-export const FirstStory = Template.bind({});
+export const Primary = Template.bind({});
 
-FirstStory.args = {
+Primary.args = {
   name: "Test Event Title",
   description: testDescription,
   startDate: new Date("2020-09-10T18:59:50.300Z"),
