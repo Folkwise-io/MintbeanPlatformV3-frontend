@@ -20,6 +20,8 @@ type HackEvent = {
   endDate: Date;
   sponsors: Sponsor[];
   image: string;
+  groupSize: number;
+  difficulty: "string";
 };
 
 // STORE ---------------------
