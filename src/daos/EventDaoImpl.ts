@@ -19,6 +19,8 @@ export class EventDaoImpl implements EventDao {
               description
               startDate
               endDate
+              groupSize
+              difficulty
               sponsors {
                 name
                 blurb
