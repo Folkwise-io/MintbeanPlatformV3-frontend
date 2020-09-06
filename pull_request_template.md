@@ -8,7 +8,7 @@
 
 ## Description
 
-This PR Adds the svelte JS template to the collection.
+This PR Adds [thing] template to the collection.
 
 ## Added to documentation?
 
