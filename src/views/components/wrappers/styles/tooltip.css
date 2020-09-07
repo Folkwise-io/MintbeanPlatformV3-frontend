@@ -8,7 +8,7 @@
     position: absolute;
     content: attr(data-tooltip);
     padding: 6px 10px;
-    top: 2.4em;
+    top: 2.9em;
     left: 50%;
     -webkit-transform: translateX(-50%) translateY(-2px);
     transform: translateX(-50%) translateY(-2px);
@@ -23,6 +23,21 @@
     transition: opacity 0.2s cubic-bezier(0.64, 0.09, 0.08, 1), transform 0.2s cubic-bezier(0.64, 0.09, 0.08, 1), -webkit-transform 0.2s cubic-bezier(0.64, 0.09, 0.08, 1);
 }
 
+[class^="tooltip"]:before {
+    content: " ";
+    position: absolute;
+}
+
+.tooltip:before {
+    -webkit-transform: translateX(-50%) translateY(-2px);
+    transform: translateX(-50%) translateY(-2px);
+    top: 2.7em;
+    left: 50%;
+    border-bottom: 5px solid grey;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+}
+
 [class^="tooltip"]:hover:after {
     display: block;
     opacity: 1;
@@ -32,10 +47,20 @@
 }
 
 .tooltip--left:after {
-    top: -4px;
-    left: 0;
+    top: 0;
+    left: -4%;
     -webkit-transform: translateX(-112%) translateY(0);
     transform: translateX(-112%) translateY(0);
+}
+
+.tooltip--left:before {
+    top: 50%;
+    left: -11%;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 7px solid grey;
+    -webkit-transform: translateX(0) translateY(-50%);
+    transform: translateX(0) translateY(-50%);
 }
 
 .tooltip--left:hover:after {
@@ -44,10 +69,18 @@
 }
 
 .tooltip--right:after {
-    top: -4px;
-    left: 100%;
-    -webkit-transform: translateX(12%) translateY(0);
-    transform: translateX(12%) translateY(0);
+    top: 0;
+    left: 103%;
+}
+
+.tooltip--right:before {
+    top: 50%;
+    left: 104.5%;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent; 
+    border-right:7px solid grey; 
+    -webkit-transform: translateX(0) translateY(-50%);
+    transform: translateX(0) translateY(-50%);
 }
 
 .tooltip--right:hover:after {
