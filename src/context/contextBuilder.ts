@@ -4,7 +4,7 @@ import { EventService } from "../services/eventService";
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { UserDao } from "daos/UserDao";
 import { EventDao } from "daos/EventDao";
-import { EventDaoImpl } from "daos/EventDaoImpl";
+import { EventDaoImpl } from "../daos/EventDaoImpl";
 
 export interface Context {
   apiQueryExecutor?: ApiQueryExecutor;
