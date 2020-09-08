@@ -1,21 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Context } from "./contextBuilder";
-import { MbContextConsumer } from "./MbContextConsumer";
+import { MbContext } from "./MbContext";
 
-type ContextProp = {
+export interface ConnectContextProps {
   context: Context | undefined;
-};
+}
 
-// forgive me
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export const connectContext = (Component: React.ComponentType<ContextProp & any>): any => (props: any) => {
-  const Consumer: any = (
-    <MbContextConsumer>
-      {(context: Context | undefined) => <Component {...props} context={context} />}
-    </MbContextConsumer>
-  );
-  const ConsumerCopy = Object.assign({}, Consumer); // to make Consumer extensible
-  ConsumerCopy.displayName = "MbContextConsumer";
-  return ConsumerCopy;
-};
-/* eslint-enable @typescript-eslint/no-explicit-any */
+export function connectContext<P extends ConnectContextProps>(TheComponent: React.FC<P>) {
+  return function ContextWrapper(props: P): JSX.Element {
+    const context = useContext(MbContext);
+    return <TheComponent context={context} {...props} />;
+  };
+}

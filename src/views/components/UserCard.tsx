@@ -1,11 +1,9 @@
 import React, { FC } from "react";
-import { connectContext } from "../../context/connectContext";
-import { Context } from "../../context/contextBuilder";
+import { connectContext, ConnectContextProps } from "../../context/connectContext";
 
-type Props = {
+interface Props extends ConnectContextProps {
   user: User;
-  context: Context;
-};
+}
 
 const UserCardPreConnect: FC<Props> = ({ user, context }) => {
   console.log({ context });
