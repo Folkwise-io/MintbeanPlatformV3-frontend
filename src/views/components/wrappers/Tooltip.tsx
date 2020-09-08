@@ -4,16 +4,16 @@ import "./styles/tooltip.css";
 export type TooltipProps = {
   duration?: number;
   delay?: number;
-  tip: string;
+  message: string;
   direction?: "left" | "right";
 };
 
-export const Tooltip: FC<TooltipProps> = ({ duration, delay = 0, tip, direction = "", children }) => {
+export const Tooltip: FC<TooltipProps> = ({ duration, delay = 0, message, direction = "", children }) => {
   const [hidden, hide] = useState(true);
 
   const handleDuration = () => {
     if (duration) {
-      setTimeout(hide, duration, true);
+      setTimeout(hide, delay + duration, true);
     }
   };
 
@@ -34,7 +34,7 @@ export const Tooltip: FC<TooltipProps> = ({ duration, delay = 0, tip, direction 
       className={hidden ? "" : classes}
       onMouseEnter={handleHover}
       onMouseLeave={handleUnHover}
-      data-tooltip={tip}
+      data-tooltip={message}
     >
       {children}
     </div>
