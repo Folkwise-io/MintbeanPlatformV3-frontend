@@ -11,6 +11,3 @@
 Run `yarn storybook` to view libary of componants
 
 ![storybook-snap.png](./assets/storybook-snap.png)
-
-
-<img src=./assets/storybook-snap.png width="200" />
