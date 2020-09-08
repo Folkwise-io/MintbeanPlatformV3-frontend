@@ -9,15 +9,9 @@ export const Info: FC<InfoProps> = ({ info, children }) => {
 
   return (
     <div>
-      <label htmlFor="info-check" data-info={info}>
-        <input
-          type="checkbox hidden"
-          defaultChecked={infoModal}
-          onChange={() => openCloseInfo(!infoModal)}
-          id="info-check"
-        />
+      <button onClick={() => openCloseInfo(!infoModal)} data-info={info}>
         <img className="pointer-events-none" src={infoIcon} alt="click to see more information" />
-      </label>
+      </button>
       {infoModal && <section>{children}</section>}
     </div>
   );
