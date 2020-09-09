@@ -1,16 +1,16 @@
 import React, { FC } from "react";
-import moment from "moment";
+import moment from "moment-timezone";
 type HackMeetTime = {
-  date: Date;
+  date: string;
   s: string;
   c: string;
 };
 
-type Props = {
+type MeetProps = {
   event: HackMeet;
 };
 
-const checkTime = (startDate: Date, endDate: Date): HackMeetTime => {
+const checkTime = (startDate: string, endDate: string): HackMeetTime => {
   if (moment().diff(startDate) < 0) {
     return { date: startDate, s: "Starts", c: "#02ed9d" };
   } else if (moment().diff(endDate) < 0) {
@@ -20,9 +20,10 @@ const checkTime = (startDate: Date, endDate: Date): HackMeetTime => {
   }
 };
 
-export const MeetCard: FC<Props> = ({ event }) => {
-  const { name, description, startDate, endDate, image } = event;
+export const MeetCard: FC<MeetProps> = ({ event }) => {
+  const { name, description, startDate, endDate, image, region } = event;
   const started = checkTime(startDate, endDate);
+  const userTimezone = moment.tz.guess(true);
 
   const formatTimeLeft = () => {
     return (
@@ -44,8 +45,8 @@ export const MeetCard: FC<Props> = ({ event }) => {
         <p className="my-2">{description}</p>
       </section>
       <section className="my-1 flex w-full justify-between">
-        <p>Starts: {moment(startDate).format("lll")}</p>
-        <p>Ends: {moment(endDate).format("lll")}</p>
+        <p>Starts: {moment.tz(startDate, region).tz(userTimezone).format("lll z")}</p>
+        <p>Ends: {moment.tz(endDate, region).tz(userTimezone).format("lll z")}</p>
       </section>
       <p className="w-full px-4 bottom-0 absolute">Location: Online</p>
     </button>
