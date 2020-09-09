@@ -1,26 +1,26 @@
 import { ApiQueryExecutor } from "../src/api/ApiQueryExecutor";
 import { UserService } from "../src/services/userService";
-import { EventService } from "../src/services/eventService";
+import { MeetService } from "../src/services/meetService";
 import { TestUserDao } from "./src/TestUserDao";
-import { TestEventDao } from "./src/TestEventDao";
+import { TestMeetDao } from "./src/TestMeetDao";
 
 export interface TestContext {
   apiQueryExecutor?: ApiQueryExecutor;
   userDao: TestUserDao;
-  eventDao: TestEventDao;
+  eventDao: TestMeetDao;
   userService: UserService;
-  eventService: EventService;
+  meetService: MeetService;
 }
 
 export const testContextBuilder = (): TestContext => {
   const userDao = new TestUserDao();
-  const eventDao = new TestEventDao();
+  const eventDao = new TestMeetDao();
   const userService = new UserService(userDao);
-  const eventService = new EventService(eventDao);
+  const meetService = new MeetService(eventDao);
 
   return {
     apiQueryExecutor: new ApiQueryExecutor(),
-    eventService,
+    meetService,
     userDao,
     eventDao,
     userService,

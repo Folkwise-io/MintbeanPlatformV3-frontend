@@ -21,7 +21,7 @@ const checkTime = (startDate: Date, endDate: Date): EventTime => {
 };
 
 export const EventCard: FC<Props> = ({ event }) => {
-  const { name, description, startDate, endDate, image, difficulty, groupSize } = event;
+  const { name, description, startDate, endDate, image } = event;
   const started = checkTime(startDate, endDate);
 
   const formatTime = () => {
@@ -39,13 +39,9 @@ export const EventCard: FC<Props> = ({ event }) => {
     >
       <section className="w-full px-4 top-0 absolute">{formatTime()}</section>
       <img className="w-1/3 flex-grow" src={image} alt={`${name} event banner`}></img>
-      <section className="pl-2 flex-grow min-w-xl w-2/3">
+      <section className="pl-2 flex-grow my-2 min-w-xl w-2/3">
         <h2 className="text-2xl">{name}</h2>
         <p className="my-2">{description}</p>
-        <section className="flex justify-between">
-          <p>Team Size: {groupSize}</p>
-          <p>Difficulty: {difficulty}</p>
-        </section>
       </section>
       <p className="w-full px-4 bottom-0 absolute">Location: Online</p>
     </button>
