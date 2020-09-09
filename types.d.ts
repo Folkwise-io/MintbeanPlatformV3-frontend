@@ -13,7 +13,7 @@ type Sponsor = {
   image?: string;
 };
 
-type HackEvent = {
+type HackMeet = {
   name: string;
   description: string;
   startDate: Date;

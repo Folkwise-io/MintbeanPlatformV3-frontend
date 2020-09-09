@@ -7,7 +7,7 @@ type EventTime = {
 };
 
 type Props = {
-  event: HackEvent;
+  event: HackMeet;
 };
 
 const checkTime = (startDate: Date, endDate: Date): EventTime => {
