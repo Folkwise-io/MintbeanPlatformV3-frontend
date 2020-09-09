@@ -1,11 +1,11 @@
 import { MeetDao } from "daos/MeetDao";
 
 export class TestMeetDao implements MeetDao {
-  data: HackEvent[];
+  data: HackMeet[];
   constructor() {
     this.data = [];
   }
-  async fetchMeets(): Promise<HackEvent[]> {
+  async fetchMeets(): Promise<HackMeet[]> {
     return this.data;
   }
 }

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import moment from "moment";
 type Props = {
-  event: HackEvent;
+  event: HackMeet;
 };
 
 export const EventCard: FC<Props> = ({ event }) => {
