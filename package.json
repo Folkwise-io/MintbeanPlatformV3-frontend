@@ -5,6 +5,7 @@
   "repository": "git@github.com:Mintbean/MintbeanPlatformV3-frontend.git",
   "author": "claire froelich <claire.froelich@gmail.com>",
   "license": "MIT",
+  "proxy": "http://localhost:4000",
   "scripts": {
     "bundle": "webpack",
     "test": "jest",
