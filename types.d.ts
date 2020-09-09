@@ -7,6 +7,21 @@ type User = {
   createdAt: Date;
 };
 
+type Sponsor = {
+  name: string;
+  blurb?: string; // Message
+  image?: string;
+};
+
+type HackMeet = {
+  name: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  sponsors: Sponsor[];
+  image: string;
+};
+
 // STORE ---------------------
 type MbAction<T = unknown> = {
   type: string;

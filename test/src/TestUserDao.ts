@@ -1,15 +1,15 @@
 import { UserDao } from "daos/UserDao";
 
 export class TestUserDao implements UserDao {
-  data: any;
+  data: User[];
   constructor() {
-    this.data = null;
+    this.data = [];
   }
   // new TestManager().addUsers({}, {}, {}).query()
   // constructor(private fakeData: any) {
 
   // }
-  async fetchUsers(): Promise<any> {
+  async fetchUsers(): Promise<User[]> {
     return this.data;
   }
 }
