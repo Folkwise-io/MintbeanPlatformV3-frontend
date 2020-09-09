@@ -7,22 +7,22 @@ import { TestMeetDao } from "./src/TestMeetDao";
 export interface TestContext {
   apiQueryExecutor?: ApiQueryExecutor;
   userDao: TestUserDao;
-  eventDao: TestMeetDao;
+  meetDao: TestMeetDao;
   userService: UserService;
   meetService: MeetService;
 }
 
 export const testContextBuilder = (): TestContext => {
   const userDao = new TestUserDao();
-  const eventDao = new TestMeetDao();
+  const meetDao = new TestMeetDao();
   const userService = new UserService(userDao);
-  const meetService = new MeetService(eventDao);
+  const meetService = new MeetService(meetDao);
 
   return {
     apiQueryExecutor: new ApiQueryExecutor(),
     meetService,
     userDao,
-    eventDao,
+    meetDao,
     userService,
   };
 };
