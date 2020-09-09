@@ -1,0 +1,85 @@
+[class^="tooltip"] {
+    position: relative;
+}
+
+[class^="tooltip"]:after {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    content: attr(data-tooltip);
+    padding: 6px 10px;
+    top: 2.9em;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-2px);
+    transform: translateX(-50%) translateY(-2px);
+    background: grey;
+    color: white;
+    white-space: nowrap;
+    z-index: 2;
+    border-radius: 2px;
+}
+
+[class^="tooltip"]:before {
+    content: " ";
+    position: absolute;
+}
+
+.tooltip:hover:before {
+    -webkit-transform: translateX(-50%) translateY(-2px);
+    transform: translateX(-50%) translateY(-2px);
+    top: 2.7em;
+    left: 50%;
+    border-bottom: 5px solid grey;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+}
+
+[class^="tooltip"]:hover:after {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: translateX(-50%) translateY(0);
+    transform: translateX(-50%) translateY(0);
+}
+
+.tooltip--left:after {
+    top: 0;
+    left: -4%;
+    -webkit-transform: translateX(-112%) translateY(0);
+    transform: translateX(-112%) translateY(0);
+}
+
+.tooltip--left:before {
+    top: 50%;
+    left: -11%;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 7px solid grey;
+    -webkit-transform: translateX(0) translateY(-50%);
+    transform: translateX(0) translateY(-50%);
+}
+
+.tooltip--left:hover:after {
+    -webkit-transform: translateX(-110%) translateY(0);
+    transform: translateX(-110%) translateY(0);
+}
+
+.tooltip--right:after {
+    top: 0;
+    left: 103%;
+}
+
+.tooltip--right:before {
+    top: 50%;
+    left: 104.5%;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent; 
+    border-right:7px solid grey; 
+    -webkit-transform: translateX(0) translateY(-50%);
+    transform: translateX(0) translateY(-50%);
+}
+
+.tooltip--right:hover:after {
+    -webkit-transform: translateX(10%) translateY(0);
+    transform: translateX(10%) translateY(0);
+}
