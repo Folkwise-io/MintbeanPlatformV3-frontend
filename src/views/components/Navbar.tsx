@@ -2,7 +2,8 @@ import React, { FC } from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { Context } from "context/contextBuilder";
-import Link from "react-router";
+import { login } from "../state/actions/authActions";
+// import Link from "react-router";
 
 type StateMapping = {
   user: UserState;
@@ -12,18 +13,22 @@ const stp = (state: StoreState) => ({
 });
 
 type DispatchMapping = {
-  login: () => void;
+  login: (loginInput: LoginInput) => void;
 };
 
 const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
-  login: () => console.log(dispatch),
+  login: (loginInput: LoginInput) => dispatch(login(loginInput)),
 });
 
-const Navbar: FC<StateMapping & DispatchMapping> = ({ user }) => {
+const Navbar: FC<StateMapping & DispatchMapping> = ({ user, login }) => {
   console.log(user);
   return (
     <div className="flex">
-      <p>Login</p>
+      {user.data ? (
+        "You're logged in!"
+      ) : (
+        <button onClick={() => login({ email: "fdlskjl@h.com", password: "aaa" })}>Login</button>
+      )}
     </div>
   );
 };

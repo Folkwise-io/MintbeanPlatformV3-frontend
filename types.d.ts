@@ -7,12 +7,6 @@ type User = {
   createdAt: Date;
 };
 
-// INPUTS --------------------
-interface LoginInput {
-  username: string;
-  password: string;
-}
-
 type Sponsor = {
   name: string;
   blurb?: string; // Message
@@ -28,6 +22,12 @@ type HackMeet = {
   image: string;
   region: string;
 };
+
+// INPUTS --------------------
+interface LoginInput {
+  email: string;
+  password: string;
+}
 
 // STORE ---------------------
 type MbAction<T = unknown> = {
