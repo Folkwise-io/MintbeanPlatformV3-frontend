@@ -1,14 +1,14 @@
 import { ApiQueryExecutor } from "api/ApiQueryExecutor";
-import { EventDao } from "./EventDao";
+import { MeetDao } from "./MeetDao";
 
 interface EventResponseRaw {
-  events: HackEvent[];
+  events: HackMeet[];
 }
 
-export class EventDaoImpl implements EventDao {
+export class MeetDaoImpl implements MeetDao {
   constructor(private api: ApiQueryExecutor) {}
 
-  fetchEvents(): Promise<HackEvent[]> {
+  fetchMeets(): Promise<HackMeet[]> {
     return this.api
       .query<EventResponseRaw>(
         `
