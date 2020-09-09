@@ -19,8 +19,7 @@ export class MeetDaoImpl implements MeetDao {
               description
               startDate
               endDate
-              groupSize
-              difficulty
+              region
               sponsors {
                 name
                 blurb
