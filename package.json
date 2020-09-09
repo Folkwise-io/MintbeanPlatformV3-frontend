@@ -12,7 +12,9 @@
     "build": "webpack --mode production",
     "lint": "eslint src",
     "check-types": "tsc --noemit",
-    "build:css": "postcss src/tailwind.css -o static/dist/tailwind.css"
+    "build:css": "postcss src/tailwind.css -o static/dist/tailwind.css",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "husky": {
     "hooks": {
@@ -27,6 +29,10 @@
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
     "@fullhuman/postcss-purgecss": "^2.3.0",
+    "@storybook/addon-actions": "^6.0.21",
+    "@storybook/addon-essentials": "^6.0.21",
+    "@storybook/addon-links": "^6.0.21",
+    "@storybook/react": "^6.0.21",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^26.0.10",
@@ -61,6 +67,7 @@
     "prettier": "^2.0.5",
     "prettier-eslint": "^11.0.0",
     "prop-types": "^15.7.2",
+    "react-is": "^16.13.1",
     "style-loader": "^1.2.1",
     "tailwindcss": "^1.7.2",
     "ts-jest": "^26.2.0",
@@ -73,7 +80,7 @@
   "dependencies": {
     "@types/history": "^4.7.7",
     "axios": "^0.20.0",
-    "moment": "^2.27.0",
+    "moment-timezone": "^0.5.31",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",

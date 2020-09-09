@@ -16,10 +16,11 @@ type Sponsor = {
 type HackMeet = {
   name: string;
   description: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   sponsors: Sponsor[];
   image: string;
+  region: string;
 };
 
 // STORE ---------------------
