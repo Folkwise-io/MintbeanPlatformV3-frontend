@@ -13,6 +13,22 @@ interface LoginInput {
   password: string;
 }
 
+type Sponsor = {
+  name: string;
+  blurb?: string; // Message
+  image?: string;
+};
+
+type HackMeet = {
+  name: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  sponsors: Sponsor[];
+  image: string;
+  region: string;
+};
+
 // STORE ---------------------
 type MbAction<T = unknown> = {
   type: string;

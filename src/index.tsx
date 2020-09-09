@@ -4,6 +4,7 @@ import App from "./App";
 
 import { configureStore } from "./views/state/configureStore";
 import { contextBuilder } from "./context/contextBuilder";
-const store = configureStore(contextBuilder());
+const context = contextBuilder();
+const store = configureStore(context);
 
-ReactDOM.render(<App store={store} />, document.getElementById("root"));
+ReactDOM.render(<App store={store} context={context} />, document.getElementById("root"));
