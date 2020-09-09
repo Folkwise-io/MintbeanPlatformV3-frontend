@@ -1,12 +1,12 @@
-import { UserDao } from "daos/UserDao";
-import { UserDaoImpl } from "daos/UserDaoImpl";
-import { UserService } from "services/userService";
+import { UserDao } from "../daos/UserDao";
+import { UserDaoImpl } from "../daos/UserDaoImpl";
+import { UserService } from "../services/userService";
 
-import { AuthDao } from "daos/AuthDao";
-import { AuthDaoImpl } from "daos/AuthDaoImpl";
-import { AuthService } from "services/authService";
+import { AuthDao } from "../daos/AuthDao";
+import { AuthDaoImpl } from "../daos/AuthDaoImpl";
+import { AuthService } from "../services/authService";
 
-import { MeetDao } from "daos/MeetDao";
+import { MeetDao } from "../daos/MeetDao";
 import { MeetDaoImpl } from "../daos/MeetDaoImpl";
 import { MeetService } from "../services/meetService";
 
