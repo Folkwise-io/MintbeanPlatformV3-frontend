@@ -11,10 +11,15 @@
     "start": "eslint src && webpack-dev-server --mode development --open --hot --quiet ",
     "build": "webpack --mode production",
     "lint": "eslint src",
-    "check-types": "tsc",
+    "check-types": "tsc --noemit",
     "build:css": "postcss src/tailwind.css -o static/dist/tailwind.css",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn lint && yarn check-types && yarn test"
+    }
   },
   "devDependencies": {
     "@babel/core": "^7.11.1",
@@ -55,6 +60,7 @@
     "eslint-plugin-react-hooks": "^4.1.0",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
+    "husky": "^4.3.0",
     "jest": "^26.4.2",
     "postcss": "^7.0.32",
     "postcss-loader": "^3.0.0",
