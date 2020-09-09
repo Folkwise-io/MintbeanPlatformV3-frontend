@@ -17,8 +17,8 @@ export const Primary = Template.bind({});
 Primary.args = {
   name: "Test Event Title",
   description: testDescription,
-  startDate: "Mon, 14 Sep 2020 07:00:00 GMT",
-  endDate: "Thu, 17 Sep 2020 07:00:00 GMT",
+  startDate: "2020-09-14T07:00:00",
+  endDate: "2020-09-17T07:00:00",
   image: "https://www.kylebar.net/assets/images/ProfilePic-667fae86635de9cc40d293b47f9a1047.jpg",
   region: "America/Toronto",
 };
