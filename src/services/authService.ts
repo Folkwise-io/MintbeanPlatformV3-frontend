@@ -1,9 +1,9 @@
-import { AuthDaoImpl } from "daos/AuthDaoImpl";
+import { AuthDao } from "daos/AuthDao";
 
 export class AuthService {
-  constructor(private authDao: AuthDaoImpl) {}
+  constructor(private authDao: AuthDao) {}
 
-  login(credentials: LoginInput): Promise<User> {
-    return this.authDao.login(credentials);
+  login(loginInput: LoginInput): Promise<User> {
+    return this.authDao.login(loginInput);
   }
 }

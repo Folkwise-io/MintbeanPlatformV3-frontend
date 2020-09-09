@@ -12,6 +12,8 @@ export interface TestContext {
   meetDao: TestMeetDao;
   userService: UserService;
   meetService: MeetService;
+  authDao: TestAuthDao;
+  authService: AuthService;
 }
 
 export const testContextBuilder = (): TestContext => {

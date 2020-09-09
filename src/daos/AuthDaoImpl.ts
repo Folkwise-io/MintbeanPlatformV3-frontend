@@ -9,7 +9,7 @@ interface UserResponseRaw {
 export class AuthDaoImpl implements AuthDao {
   constructor(private api: ApiQueryExecutor) {}
 
-  login(credentials: LoginInput): Promise<User> {
+  login(loginInput: LoginInput): Promise<User> {
     return this.api
       .query<UserResponseRaw, LoginInput>(
         `
@@ -23,7 +23,7 @@ export class AuthDaoImpl implements AuthDao {
             }
           }
         `,
-        credentials,
+        loginInput,
       )
       .then((result) => result.user || undefined);
   }
