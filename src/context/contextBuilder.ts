@@ -1,31 +1,31 @@
 import { UserDaoImpl } from "../daos/UserDaoImpl";
 import { UserService } from "../services/userService";
-import { EventService } from "../services/eventService";
+import { MeetService } from "../services/meetService";
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { UserDao } from "daos/UserDao";
-import { EventDao } from "daos/EventDao";
-import { EventDaoImpl } from "../daos/EventDaoImpl";
+import { MeetDao } from "daos/MeetDao";
+import { MeetDaoImpl } from "../daos/MeetDaoImpl";
 
 export interface Context {
   apiQueryExecutor?: ApiQueryExecutor;
   userDao: UserDao;
-  eventDao: EventDao;
+  meetDao: MeetDao;
   userService: UserService;
-  eventService: EventService;
+  meetService: MeetService;
 }
 
 export const contextBuilder = (): Context => {
   const apiQueryExecutor = new ApiQueryExecutor();
   const userDao = new UserDaoImpl(apiQueryExecutor);
-  const eventDao = new EventDaoImpl(apiQueryExecutor);
+  const meetDao = new MeetDaoImpl(apiQueryExecutor);
   const userService = new UserService(userDao);
-  const eventService = new EventService(eventDao);
+  const meetService = new MeetService(meetDao);
 
   return {
     apiQueryExecutor,
     userDao,
-    eventDao,
+    meetDao,
     userService,
-    eventService,
+    meetService,
   };
 };
