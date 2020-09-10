@@ -1,12 +1,13 @@
 import { ApiQueryExecutor } from "../src/api/ApiQueryExecutor";
 import { UserService } from "../src/services/userService";
+import { TestUserDao } from "./src/daos/TestUserDao";
 import { AuthService } from "../src/services/authService";
-import { TestUserDao } from "./src/TestUserDao";
-import { TestAuthDao } from "./src/TestAuthDao";
+import { TestAuthDao } from "./src/daos/TestAuthDao";
 import { MeetService } from "../src/services/meetService";
-import { TestMeetDao } from "./src/TestMeetDao";
+import { TestMeetDao } from "./src/daos/TestMeetDao";
+import { Context } from "../src/context/contextBuilder";
 
-export interface TestContext {
+export interface TestContext extends Context {
   apiQueryExecutor?: ApiQueryExecutor;
   userDao: TestUserDao;
   meetDao: TestMeetDao;

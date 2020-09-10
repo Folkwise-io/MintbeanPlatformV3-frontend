@@ -36,6 +36,7 @@ export class AuthDaoImpl implements AuthDao {
     //     .then((result) => result.user || undefined);
     // }
     // faking backend for now
+    console.log(loginInput);
     return new Promise((res) => res(fakeUser));
   }
 }

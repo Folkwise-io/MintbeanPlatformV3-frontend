@@ -1,5 +1,5 @@
-import { fetchUsers } from "../src/views/state/actions/userActions";
-import { TestManager } from "./src/TestManager";
+import { fetchUsers } from "../../../src/views/state/actions/userActions";
+import { TestManager } from "../TestManager";
 
 const testUsers = [
   {
@@ -18,7 +18,7 @@ describe("user actions", () => {
   });
   it("should get users for the store", () => {
     testManager
-      .addUser(testUsers)
+      // .addUser(testUsers)
       .dispatchThunk(fetchUsers())
       .then((tm) => {
         const results = tm.getResults();

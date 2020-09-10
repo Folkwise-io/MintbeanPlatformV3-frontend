@@ -4,7 +4,7 @@ import { TestContext } from "../testContextBuilder";
 import { Store } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { Context } from "context/contextBuilder";
-type DispatchParameter<T> = ThunkAction<void, StoreState, void, MbAction<T>> | MbAction<T>;
+// type DispatchParameter<T> = ThunkAction<void, StoreState, void, MbAction<T>> | MbAction<T>;
 
 export class TestManager {
   store: Store;
@@ -18,9 +18,14 @@ export class TestManager {
 
   static build(): TestManager {
     const context = testContextBuilder();
-    const store = configureStore(context);
+    const store = configureStore(context, false); // set 2nd arg to false to disable logger middleware
 
     return new TestManager(store, context).subscribe();
+  }
+
+  configureContext(cb: (context: TestContext) => void): TestManager {
+    cb(this.context);
+    return this;
   }
 
   async dispatchThunk<T>(action: ThunkAction<void, StoreState, Context, MbAction<T>>): Promise<TestManager> {

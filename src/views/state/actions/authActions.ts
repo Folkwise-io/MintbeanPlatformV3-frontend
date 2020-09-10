@@ -16,7 +16,7 @@ export function login(credentials: LoginInput): ThunkAction<void, StoreState, Co
     return context.authService
       .login(credentials)
       .then((user: User) => {
-        dispatch(addSuccessToast("Successfully loaded users."));
+        dispatch(addSuccessToast("Successfully logged in."));
         return dispatch(action("SUCCESS", user));
       })
       .catch((err: Error) => {
