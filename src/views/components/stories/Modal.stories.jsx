@@ -7,10 +7,6 @@ export default {
   component: Modal,
 };
 
-const Button = ({ open }) => {
-  return <button onClick={open}>Click Me</button>;
-};
-
 const Template = (args) => (
   <div className="w-full flex justify-center h-64 items-center">
     <Modal {...args}>
@@ -21,8 +17,4 @@ const Template = (args) => (
 
 export const Primary = Template.bind({});
 
-Primary.args = {
-  size: "m",
-  onSubmitHandler: () => alert("clicked"),
-  triggerBuilder: (open) => <Button open={open} />,
-};
+Primary.args = {};
