@@ -22,6 +22,7 @@ describe("user actions", () => {
       .dispatchThunk(fetchUsers())
       .then((tm) => {
         const results = tm.getResults();
+        console.log(results);
         console.log(results[0].users);
 
         expect(results[0].users.data.length).toBe(0);
