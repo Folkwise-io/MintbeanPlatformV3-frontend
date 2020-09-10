@@ -10,8 +10,15 @@ module.exports = {
         xl: "22rem",
         l: "18rem",
       },
+      width: {
+        l: "22rem",
+        m: "18rem",
+      },
+      colors: {
+        mint: "#02ed9d",
+      },
     },
   },
-  variants: {},
+  variants: { backgroundColor: ["hover", "active"] },
   plugins: [],
 };
