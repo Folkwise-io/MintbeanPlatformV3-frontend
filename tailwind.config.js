@@ -6,19 +6,11 @@ module.exports = {
   purge: [],
   theme: {
     extend: {
-      minWidth: {
-        xl: "22rem",
-        l: "18rem",
-      },
-      width: {
-        l: "22rem",
-        m: "18rem",
-      },
       colors: {
         mint: "#02ed9d",
       },
     },
   },
-  variants: { backgroundColor: ["hover", "active"] },
+  variants: {},
   plugins: [],
 };
