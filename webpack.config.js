@@ -62,6 +62,9 @@ module.exports = {
       { test: /\.css$/, loader: "postcss-loader" },
     ],
   },
+  devServer: {
+    historyApiFallback: true,
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",

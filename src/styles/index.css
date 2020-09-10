@@ -4,3 +4,18 @@
 /* purgecss end ignore */
 
 @tailwind utilities;
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  border: solid gray 2px;
+  padding: 0.25em;
+  margin: 0.25em;
+}
+
+form .mb-formik-error-msg {
+  color: red;
+}

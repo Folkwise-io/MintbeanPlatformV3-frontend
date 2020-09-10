@@ -6,7 +6,7 @@ import { Context } from "context/contextBuilder";
 
 import { composeWithDevTools } from "redux-devtools-extension";
 
-export function configureStore(context: Context, hasLogger: boolean = true): Store<StoreState, Action<MbAction>> {
+export function configureStore(context: Context, hasLogger = true): Store<StoreState, Action<MbAction>> {
   const middlewares = [thunkMiddleware.withExtraArgument(context)].concat(hasLogger ? [logger] : []);
   const middlewareEnhancer = composeWithDevTools(applyMiddleware(...middlewares));
 

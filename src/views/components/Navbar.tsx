@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { Context } from "context/contextBuilder";
 import { login } from "../state/actions/authActions";
-// import Link from "react-router";
+import { Link } from "react-router-dom";
 
 type StateMapping = {
   user: UserState;
 };
+
 const stp = (state: StoreState) => ({
   user: state.user,
 });
@@ -21,15 +22,22 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
 });
 
 const Navbar: FC<StateMapping & DispatchMapping> = ({ user, login }) => {
-  console.log(user);
+  console.log(user, login);
   return (
-    <div className="flex">
+    <nav className="p-2">
+      <Link to="/" className="mx-2">
+        Home
+      </Link>
       {user.data ? (
-        "You're logged in!"
+        <button className="mx-2" onClick={() => alert("Just kidding! You can't yet!")}>
+          Logout
+        </button>
       ) : (
-        <button onClick={() => login({ email: "fdlskjl@h.com", password: "aaa" })}>Login</button>
+        <Link to="/login" className="mx-2">
+          Login
+        </Link>
       )}
-    </div>
+    </nav>
   );
 };
 
