@@ -11,10 +11,13 @@ export class TestAuthDao implements AuthDao, TestDao {
   }
 
   async login(loginInput: LoginInput): Promise<User | undefined> {
-    if (loginInput && this.mockReturns.length) {
-      return this.mockReturns.shift()[0];
+    const errorResponses = this.mockReturns.filter((mr) => mr.errors);
+    if (errorResponses.length) {
+      throw errorResponses;
+    } else if (loginInput && this.mockReturns.length) {
+      return this.mockReturns.shift()[0].data;
     } else {
-      return undefined;
+      throw new Error("Login failed");
     }
   }
 

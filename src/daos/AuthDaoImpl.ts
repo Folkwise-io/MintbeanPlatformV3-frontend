@@ -6,14 +6,6 @@ interface UserResponseRaw {
   user: User;
 }
 
-const fakeUser: User = {
-  id: "fakeidddddd",
-  username: "fakerson",
-  firstName: "Fake",
-  lastName: "Fakerson",
-  createdAt: new Date(),
-};
-
 export class AuthDaoImpl implements AuthDao {
   constructor(private api: ApiQueryExecutor) {}
 
@@ -24,6 +16,7 @@ export class AuthDaoImpl implements AuthDao {
             mutation Login {
               login(username: $username, password: $password) {
                 id
+                email
                 username
                 firstName
                 lastName
@@ -35,7 +28,4 @@ export class AuthDaoImpl implements AuthDao {
       )
       .then((result) => result.user || undefined);
   }
-  // faking backend for now
-  // console.log(loginInput);
-  // return new Promise((res) => res(fakeUser));
 }

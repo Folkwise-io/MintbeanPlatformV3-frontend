@@ -23,7 +23,7 @@ describe("Auth actions", () => {
     await testManager
       // fake a successful login by returning user
       .configureContext((context) => {
-        context.authDao.mockReturn([fakeUser]);
+        context.authDao.mockReturn([{ data: fakeUser }]);
       })
       .dispatchThunk(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
       .then((tm) => {
@@ -40,13 +40,15 @@ describe("Auth actions", () => {
       });
   });
 
-  it("Registers loadStatus 'ERROR', undefined user on login with bad credentials, ", async () => {
+  it("Registers loadStatus 'ERROR', user remains undefined on login with bad credentials, ", async () => {
     await testManager
-      // fake a bad login by skipping config of context.authDao context
+      // fake a bad login by forcing errors in dao return
+      .configureContext((context) => {
+        context.authDao.mockReturn([{ errors: [new Error()] }]);
+      })
       .dispatchThunk(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
       .then((tm) => {
         const results = tm.getResults();
-        console.log(results);
         expect(results[0].user.loadStatus).toBe("LOADING");
         expect(results[0].user.data).toBe(undefined);
 
