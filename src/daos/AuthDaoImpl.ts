@@ -13,7 +13,7 @@ export class AuthDaoImpl implements AuthDao {
     return this.api
       .query<UserResponseRaw, LoginInput>(
         `
-            mutation Login {
+            query Login {
               login(username: $username, password: $password) {
                 id
                 email
