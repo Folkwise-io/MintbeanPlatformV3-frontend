@@ -36,7 +36,6 @@ describe("Auth actions", () => {
         const finalState = results.length - 1;
         expect(results[finalState].user.loadStatus).toBe("SUCCESS");
         expect(results[finalState].user.data).toMatchObject(fakeUser);
-        // done();
       });
   });
 
@@ -49,6 +48,7 @@ describe("Auth actions", () => {
       .dispatchThunk(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
       .then((tm) => {
         const results = tm.getResults();
+
         expect(results[0].user.loadStatus).toBe("LOADING");
         expect(results[0].user.data).toBe(undefined);
 
