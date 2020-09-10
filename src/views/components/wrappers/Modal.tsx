@@ -1,20 +1,18 @@
 import React, { FC, ReactElement, useState } from "react";
 import { usePopper } from "react-popper";
-import "./styles/modal.css";
+import { Placement } from "@popperjs/core/lib/enums";
 
-type submissionHandler = () => void;
+type fuctionVoidReturn = () => void;
+type submissionBuilder = (submitFn: fuctionVoidReturn) => ReactElement;
 
 interface ModalProps {
-  submissionHandler?: submissionHandler;
+  submissionHandler?: fuctionVoidReturn;
   triggerBuilder: (
     stateFn: React.Dispatch<React.SetStateAction<boolean>>,
     ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
   ) => ReactElement;
-  submissionBuilder: (
-    stateFn: React.Dispatch<React.SetStateAction<false>>,
-    submitFn: submissionHandler | null,
-  ) => ReactElement;
-  placement: "left" | "top" | "bottom";
+  submissionBuilder?: submissionBuilder;
+  placement: Placement;
 }
 
 export const Modal: FC<ModalProps> = ({
@@ -27,7 +25,7 @@ export const Modal: FC<ModalProps> = ({
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLElement | null>(null);
   const [arrowElement, setArrowElement] = useState<HTMLElement | null>(null);
-  const [show, toggleShow] = useState(true);
+  const [show, toggleShow] = useState(false);
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     modifiers: [
       { name: "arrow", options: { element: arrowElement } },
@@ -43,10 +41,20 @@ export const Modal: FC<ModalProps> = ({
     placement: placement,
   });
 
+  const submit = () => {
+    if (submissionHandler) {
+      submissionHandler();
+    }
+    toggleShow(false);
+  };
+
+  const customSubmit =
+    submissionBuilder && (submissionHandler ? () => submissionBuilder(submit) : () => submissionBuilder(submit));
+
   return (
     <>
       {triggerBuilder(
-        () => toggleShow(true),
+        () => toggleShow(!show),
         (el) => setReferenceElement(el),
       )}
       {show && (
@@ -57,13 +65,25 @@ export const Modal: FC<ModalProps> = ({
           data-popper-placement="right"
         >
           <section className="w-full py-1 px-2 bg-gray-500 rounded-t-lg flex justify-end">
-            <button onClick={() => toggleShow(false)}>X</button>
+            <button
+              className="border-red-500 active:bg-red-400 bg-white border-solid border-2 px-2 rounded-full"
+              onClick={() => toggleShow(false)}
+            >
+              X
+            </button>
           </section>
           <section className="max-w-4xl bg-mint flex p-2 justify-center items-center flex-col">{children}</section>
-          <section className="w-full bg-gray-500 rounded-b-lg flex px-2 justify-end">
-            {submissionHandler
-              ? submissionBuilder(() => toggleShow(false), submissionHandler)
-              : submissionBuilder(() => toggleShow(false), null)}
+          <section className="w-full bg-gray-500 rounded-b-lg flex py-1 px-2 justify-end">
+            {customSubmit ? (
+              customSubmit()
+            ) : (
+              <button
+                className="border-mint active:bg-mint bg-white border-solid border-2 p-1 rounded-lg"
+                onClick={submit}
+              >
+                Okay!
+              </button>
+            )}
           </section>
           <div ref={(el) => setArrowElement(el)} style={styles.arrow} />
         </section>

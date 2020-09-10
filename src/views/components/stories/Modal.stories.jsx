@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal } from "../wrappers/Modal";
+import axe from "../../../assets/small-axe.png";
 
 // This default export determines where you story goes in the story list
 export default {
@@ -7,47 +8,59 @@ export default {
   component: Modal,
 };
 
-const ExButton = ({ stateFn, submitFn, setRef, children }) => {
-  const submit = () => {
-    stateFn();
-    submitFn();
-  };
-  console.log(setRef);
-  if (setRef) {
-    return (
-      <button onClick={() => stateFn()} ref={(el) => setRef(el)}>
-        {children}
-      </button>
-    );
-  } else {
-    return <button onClick={submit}>{children}</button>;
-  }
+const submitBuilder = (submitFn) => {
+  return <button onClick={submitFn}>Click Me To Submit</button>;
+};
+
+const triggerBuilder = (stateFn, setRef) => {
+  return (
+    <button onClick={() => stateFn()} ref={(el) => setRef(el)}>
+      Click to Open Modal
+    </button>
+  );
+};
+
+const triggerBuilder2 = (stateFn, setRef) => {
+  return (
+    <button onClick={() => stateFn()} ref={(el) => setRef(el)}>
+      Click to Open Modal 2
+    </button>
+  );
 };
 
 const Template = (args) => (
   <div className="w-full flex justify-center h-64 items-center">
     <Modal {...args}>
       <p>This is an Example Modal</p>
-      <input id="heathcliff" type="text" />
+      <input placeholder="Alert What Is Written" id="heathcliff" type="text" />
+    </Modal>
+  </div>
+);
+
+const Template2 = (args) => (
+  <div className="w-full flex justify-center h-64 items-center">
+    <Modal {...args}>
+      <img src={axe} alt="axe icon" />
     </Modal>
   </div>
 );
 
 export const Primary = Template.bind({});
+export const Secondary = Template2.bind({});
 
 Primary.args = {
-  triggerBuilder: (stateFn, setRef) => (
-    <ExButton stateFn={stateFn} setRef={setRef}>
-      Click Me To Open Modal
-    </ExButton>
-  ),
-  submissionBuilder: (stateFn, submitFn) => (
-    <ExButton submitFn={submitFn} stateFn={stateFn}>
-      Click Me To Submit Modal
-    </ExButton>
-  ),
+  triggerBuilder: (stateFn, setRef) => triggerBuilder(stateFn, setRef),
+  submissionBuilder: (submitFn) => submitBuilder(submitFn),
   submissionHandler: () => {
     alert(document.getElementById("heathcliff").value);
+  },
+  placement: "bottom",
+};
+
+Secondary.args = {
+  triggerBuilder: (stateFn, setRef) => triggerBuilder2(stateFn, setRef),
+  submissionHandler: () => {
+    alert("clicked");
   },
   placement: "left",
 };
