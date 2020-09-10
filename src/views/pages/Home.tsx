@@ -9,6 +9,7 @@ import { Context } from "context/contextBuilder";
 type StateMapping = {
   users: UsersState;
 };
+
 const stp = (state: StoreState) => ({
   users: state.users,
 });
