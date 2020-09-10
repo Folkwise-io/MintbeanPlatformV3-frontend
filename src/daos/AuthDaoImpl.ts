@@ -17,26 +17,25 @@ const fakeUser: User = {
 export class AuthDaoImpl implements AuthDao {
   constructor(private api: ApiQueryExecutor) {}
 
-  login(loginInput: LoginInput): Promise<User> {
-    //   return this.api
-    //     .query<UserResponseRaw, LoginInput>(
-    //       `
-    //         mutation Login {
-    //           login(username: $username, password: $password) {
-    //             id
-    //             username
-    //             firstName
-    //             lastName
-    //             createdAt
-    //           }
-    //         }
-    //       `,
-    //       loginInput,
-    //     )
-    //     .then((result) => result.user || undefined);
-    // }
-    // faking backend for now
-    console.log(loginInput);
-    return new Promise((res) => res(fakeUser));
+  login(loginInput: LoginInput): Promise<User | undefined> {
+    return this.api
+      .query<UserResponseRaw, LoginInput>(
+        `
+            mutation Login {
+              login(username: $username, password: $password) {
+                id
+                username
+                firstName
+                lastName
+                createdAt
+              }
+            }
+          `,
+        loginInput,
+      )
+      .then((result) => result.user || undefined);
   }
+  // faking backend for now
+  // console.log(loginInput);
+  // return new Promise((res) => res(fakeUser));
 }

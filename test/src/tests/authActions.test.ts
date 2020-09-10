@@ -19,28 +19,40 @@ describe("Auth actions", () => {
     });
   });
 
-  it("behaves as expected on successful login", () => {
-    let results: any;
-    testManager
+  it("Returns user on login with good credentials", async () => {
+    await testManager
       // fake a successful login by returning user
       .configureContext((context) => {
         context.authDao.mockReturn([fakeUser]);
       })
       .dispatchThunk(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
       .then((tm) => {
-        results = tm.getResults();
-        console.log(results);
-        console.log(results[0]);
-        console.log(results[1]);
-        console.log(results[2]);
+        const results = tm.getResults();
 
-        expect(results[0].user.loadingState).toBe("LOADING");
-        expect(results[0].user.data).toBe(undefined); // LOADING
+        expect(results[0].user.loadStatus).toBe("LOADING");
+        expect(results[0].user.data).toBe(undefined);
 
         // returns user on success
-        expect(results[results.length - 1].user.loadingState).toBe("SUCCESS");
-        expect(results[results.length - 1].user.data).toMatchObject(fakeUser); // SUCCES
-        console.log({ end: results[results.length - 1].user.data });
+        const finalState = results.length - 1;
+        expect(results[finalState].user.loadStatus).toBe("SUCCESS");
+        expect(results[finalState].user.data).toMatchObject(fakeUser);
+        // done();
+      });
+  });
+
+  it("Registers loadStatus 'ERROR', undefined user on login with bad credentials, ", async () => {
+    await testManager
+      // fake a bad login by skipping config of context.authDao context
+      .dispatchThunk(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
+      .then((tm) => {
+        const results = tm.getResults();
+        console.log(results);
+        expect(results[0].user.loadStatus).toBe("LOADING");
+        expect(results[0].user.data).toBe(undefined);
+
+        const finalState = results.length - 1;
+        expect(results[finalState].user.loadStatus).toBe("ERROR");
+        expect(results[finalState].user.data).toBe(undefined);
       });
   });
 });
