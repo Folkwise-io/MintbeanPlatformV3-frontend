@@ -7,7 +7,7 @@ const testUsers = [
     firstName: "test",
     lastName: "user",
     id: "userid",
-    username: "testuser",
+    username: "testuser1",
   },
 ];
 
