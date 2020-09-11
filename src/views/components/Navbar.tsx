@@ -28,6 +28,9 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, login }) => {
       <Link to="/" className="mx-2">
         Home
       </Link>
+      <Link to="/hackathons" className="mx-2">
+        Hackathons
+      </Link>
       {user.data ? (
         <button className="mx-2" onClick={() => alert("Just kidding! You can't yet!")}>
           Logout
