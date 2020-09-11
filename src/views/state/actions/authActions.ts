@@ -19,7 +19,6 @@ export function login(loginInput: LoginInput): ThunkAction<void, StoreState, Con
       .login(loginInput)
       .then((user: User | undefined | void) => {
         if (!user) {
-          console.log("NO USER RETURNED");
           sendLoginErrorToast();
           return dispatch(action("ERROR"));
         }
