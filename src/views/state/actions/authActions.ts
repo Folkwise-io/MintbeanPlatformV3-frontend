@@ -10,15 +10,16 @@ const action = (loadStatus: ApiDataStatus, payload?: User): MbAction<User> => ({
   loadStatus,
 });
 
-export function login(credentials: LoginInput): ThunkAction<void, StoreState, Context, MbAction<void>> {
+export function login(loginInput: LoginInput): ThunkAction<void, StoreState, Context, MbAction<void>> {
   return (dispatch: Dispatch, _getState, context) => {
     const sendLoginErrorToast = () => dispatch(addErrorToast("Sorry, something went wrong with your login."));
 
     dispatch(action("LOADING"));
     return context.authService
-      .login(credentials)
+      .login(loginInput)
       .then((user: User | undefined) => {
         if (!user) {
+          console.log("NO USER RETURNED");
           sendLoginErrorToast();
           return dispatch(action("ERROR"));
         }
@@ -35,7 +36,6 @@ export function login(credentials: LoginInput): ThunkAction<void, StoreState, Co
             timestamp: new Date().toISOString(),
           },
         });
-        console.log("entered error");
         return dispatch(action("ERROR"));
       });
   };

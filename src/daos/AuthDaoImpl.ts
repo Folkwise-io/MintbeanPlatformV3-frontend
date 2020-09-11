@@ -2,8 +2,8 @@
 import { ApiQueryExecutor } from "api/ApiQueryExecutor";
 import { AuthDao } from "./AuthDao";
 
-interface UserResponseRaw {
-  user: User;
+interface LoginResponseRaw {
+  login: User;
 }
 
 export class AuthDaoImpl implements AuthDao {
@@ -12,10 +12,10 @@ export class AuthDaoImpl implements AuthDao {
   login(loginInput: LoginInput): Promise<User | undefined | void> {
     console.log(loginInput);
     return this.api
-      .query<UserResponseRaw, LoginInput>(
+      .query<LoginResponseRaw, LoginInput>(
         `
-            mutation Login {
-              login(email: ${loginInput.email}, password: ${loginInput.password}) {
+            mutation Login($email: String!, $password: String!) {
+              login(email: $email, password: $password) {
                 id
                 email
                 username
@@ -25,8 +25,11 @@ export class AuthDaoImpl implements AuthDao {
               }
             }
           `,
+        loginInput,
       )
-      .then((result) => result.user || undefined)
+      .then((result) => {
+        return result.login || undefined;
+      })
       .catch((e) => console.log({ error: e }));
   }
 }

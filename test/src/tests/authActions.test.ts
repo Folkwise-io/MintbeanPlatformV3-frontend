@@ -61,86 +61,88 @@ describe("Auth actions", () => {
         });
     });
   });
-  describe("SIGNUP", () => {
-    beforeEach(() => {
-      testManager = TestManager.build();
-    });
+  // COMING SOON
 
-    afterEach(() => {
-      // This may be unecessary since run testManager.build() before each
-      // Just to be safe!
-      testManager.configureContext((context) => {
-        context.authDao.clearMockReturns();
-      });
-    });
+  // describe("SIGNUP", () => {
+  //   beforeEach(() => {
+  //     testManager = TestManager.build();
+  //   });
+  //
+  //   afterEach(() => {
+  //     // This may be unecessary since run testManager.build() before each
+  //     // Just to be safe!
+  //     testManager.configureContext((context) => {
+  //       context.authDao.clearMockReturns();
+  //     });
+  //   });
 
-    // TODO: test for jwt token cookie assignment
-    it("Sets new user to redux state on signup", async () => {
-      const newUserParams: SignupInput = {
-        firstName: "Amy",
-        lastName: "Web",
-        username: "amyweb123",
-        email: TEST_EMAIL,
-        password: TEST_PASSWORD,
-        passwordConfirm: TEST_PASSWORD,
-      };
+  // TODO: test for jwt token cookie assignment
+  // it("Sets new user to redux state on signup", async () => {
+  //   const newUserParams: SignupInput = {
+  //     firstName: "Amy",
+  //     lastName: "Web",
+  //     username: "amyweb123",
+  //     email: TEST_EMAIL,
+  //     password: TEST_PASSWORD,
+  //     passwordConfirm: TEST_PASSWORD,
+  //   };
+  //
+  //   const expectedNewUser: User = {
+  //     id: "fdsajkhfkjhdf",
+  //     firstName: newUserParams.firstName,
+  //     lastName: newUserParams.lastName,
+  //     username: newUserParams.username,
+  //     email: newUserParams.email,
+  //     createdAt: new Date(),
+  //   };
+  //
+  //   await testManager.configureContext((context) => {
+  //     context.authDao.mockReturn([{ data: expectedNewUser }]);
+  //   });
+  // .dispatchThunk(signup(newUserParams))
+  // .then((tm) => {
+  //   const results = tm.getResults();
+  //
+  //   expect(results[0].user.loadStatus).toBe("LOADING");
+  //   expect(results[0].user.data).toBe(undefined);
+  //
+  //   // returns user on success
+  //   const finalState = results.length - 1;
+  //   expect(results[finalState].user.loadStatus).toBe("SUCCESS");
+  //   expect(results[finalState].user.data).toMatchObject(expectedNewUser);
+  // });
+  // });
 
-      const expectedNewUser: User = {
-        id: "fdsajkhfkjhdf",
-        firstName: newUserParams.firstName,
-        lastName: newUserParams.lastName,
-        username: newUserParams.username,
-        email: newUserParams.email,
-        createdAt: new Date(),
-      };
-
-      await testManager.configureContext((context) => {
-        context.authDao.mockReturn([{ data: expectedNewUser }]);
-      });
-      // .dispatchThunk(signup(newUserParams))
-      // .then((tm) => {
-      //   const results = tm.getResults();
-      //
-      //   expect(results[0].user.loadStatus).toBe("LOADING");
-      //   expect(results[0].user.data).toBe(undefined);
-      //
-      //   // returns user on success
-      //   const finalState = results.length - 1;
-      //   expect(results[finalState].user.loadStatus).toBe("SUCCESS");
-      //   expect(results[finalState].user.data).toMatchObject(expectedNewUser);
-      // });
-    });
-
-    it.only("Does not allow signup for logged-in user", async () => {
-      const newUserParams: SignupInput = {
-        firstName: "Amy",
-        lastName: "Web",
-        username: "amyweb123",
-        email: TEST_EMAIL,
-        password: TEST_PASSWORD,
-        passwordConfirm: TEST_PASSWORD,
-      };
-
-      const user = userFactory.one();
-
-      await testManager
-        .configureContext((context) => {
-          context.authDao.mockReturn([{ data: user }]);
-        })
-        .dispatchThunk(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
-        // .dispatchThunk(signup(newUserParams))
-        .then((tm) => {
-          const results = tm.getResults();
-          console.log({ results });
-
-          expect(results[0].user.loadStatus).toBe("LOADING");
-          expect(results[0].user.data).toBe(undefined);
-
-          // returns user on success
-          const finalState = results.length - 1;
-          expect(results[finalState].user.loadStatus).toBe("ERROR");
-          expect(results[finalState].user.data).toMatchObject(user);
-        });
-    });
-  });
+  // it("Does not allow signup for logged-in user", async () => {
+  //   const newUserParams: SignupInput = {
+  //     firstName: "Amy",
+  //     lastName: "Web",
+  //     username: "amyweb123",
+  //     email: TEST_EMAIL,
+  //     password: TEST_PASSWORD,
+  //     passwordConfirm: TEST_PASSWORD,
+  //   };
+  //
+  //   const user = userFactory.one();
+  //
+  //   await testManager
+  //     .configureContext((context) => {
+  //       context.authDao.mockReturn([{ data: user }]);
+  //     })
+  //     .dispatchThunk(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
+  //     .dispatchThunk(signup(newUserParams))
+  //     .then((tm) => {
+  //       const results = tm.getResults();
+  //       console.log({ results });
+  //
+  //       expect(results[0].user.loadStatus).toBe("LOADING");
+  //       expect(results[0].user.data).toBe(undefined);
+  //
+  //       // returns user on success
+  //       const finalState = results.length - 1;
+  //       expect(results[finalState].user.loadStatus).toBe("ERROR");
+  //       expect(results[finalState].user.data).toMatchObject(user);
+  //     });
+  // });
+  // });
 });
