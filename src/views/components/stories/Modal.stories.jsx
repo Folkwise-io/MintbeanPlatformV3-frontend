@@ -40,7 +40,7 @@ const Template = (args) => (
 const Template2 = (args) => (
   <div className="w-full flex justify-center h-64 items-center">
     <Modal {...args}>
-      <img src={axe} alt="axe icon" />
+      <img className="w-20" src={axe} alt="axe icon" />
     </Modal>
   </div>
 );

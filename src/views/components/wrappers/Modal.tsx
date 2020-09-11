@@ -2,11 +2,11 @@ import React, { FC, ReactElement, useState } from "react";
 import { usePopper } from "react-popper";
 import { Placement } from "@popperjs/core/lib/enums";
 
-type fuctionVoidReturn = () => void;
-type submissionBuilder = (submitFn: fuctionVoidReturn) => ReactElement;
+type functionVoidReturn = () => void;
+type submissionBuilder = (submitFn: functionVoidReturn) => ReactElement;
 
 interface ModalProps {
-  submissionHandler?: fuctionVoidReturn;
+  submissionHandler?: functionVoidReturn;
   triggerBuilder: (
     stateFn: React.Dispatch<React.SetStateAction<boolean>>,
     ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
@@ -48,9 +48,6 @@ export const Modal: FC<ModalProps> = ({
     toggleShow(false);
   };
 
-  const customSubmit =
-    submissionBuilder && (submissionHandler ? () => submissionBuilder(submit) : () => submissionBuilder(submit));
-
   return (
     <>
       {triggerBuilder(
@@ -74,8 +71,8 @@ export const Modal: FC<ModalProps> = ({
           </section>
           <section className="max-w-4xl bg-mint flex p-2 justify-center items-center flex-col">{children}</section>
           <section className="w-full bg-gray-500 rounded-b-lg flex py-1 px-2 justify-end">
-            {customSubmit ? (
-              customSubmit()
+            {submissionBuilder ? (
+              submissionBuilder(submit)
             ) : (
               <button
                 className="border-mint active:bg-mint bg-white border-solid border-2 p-1 rounded-lg"
