@@ -28,7 +28,7 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
     <Navbar />
     {children}
     {toasts.map((toast: Toast, index: number) => (
-      <Toast key={index} toast={toast} removeToast={(id) => removeToast(id)} />
+      <Toast key={index} toast={toast} removeToast={(id: string) => removeToast(id)} />
     ))}
   </div>
 );
