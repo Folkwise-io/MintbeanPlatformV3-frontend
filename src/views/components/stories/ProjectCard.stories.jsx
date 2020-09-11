@@ -36,6 +36,6 @@ Primary.args = {
   id: "testID",
   sourceCodeUrl: "https://github.com/Mintbean/MintbeanPlatformV3-frontend",
   liveUrl: "https://mintbean-spacegame.herokuapp.com/",
-  firstName: "John",
-  lastName: "Snow",
+  firstName: "Tyrion",
+  lastName: "Lannister",
 };
