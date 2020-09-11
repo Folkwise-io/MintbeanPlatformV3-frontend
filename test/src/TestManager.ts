@@ -39,7 +39,7 @@ export class TestManager {
     return this;
   }
 
-  addUser(data: User[]): TestManager {
+  addUsers(data: User[]): TestManager {
     this.context.userDao.data = data;
     return this;
   }
