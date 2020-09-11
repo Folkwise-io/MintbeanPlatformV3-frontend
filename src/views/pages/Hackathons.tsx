@@ -31,16 +31,16 @@ const Hackathons: FC<void> = () => {
         <section className="mb-12">
           <h2 className="text-3xl">About us</h2>
           <p className="text-gray-700">
-            Mintbean is more than just a single hackathon event. We're a community of like-minded, hardworking and
+            Mintbean is more than just a single hackathon event. We&apos;re a community of like-minded, hardworking and
             bright developers of all skill levels and backgrounds who are all focused on one thing: growth. We love new
             tech, we applaud trying your best and improvement over time. We value grit, gumption and a good nature,
             which are all equally important as a developer.
           </p>
           <p className="text-gray-700 ">
-            What Mintbean does for you is it takes the "blank page, where to start" stage out of building projects by
-            providing you a jumping-off point. We highly encourage you to post these projects publicly to show everyone
-            you're actively coding. Besides being able to build projects alongside a community, you can compete for the
-            winner title, and get a digital boost to your job search!
+            What Mintbean does for you is it takes the &quot;blank page, where to start&quot; stage out of building
+            projects by providing you a jumping-off point. We highly encourage you to post these projects publicly to
+            show everyone you&apos;re actively coding. Besides being able to build projects alongside a community, you
+            can compete for the winner title, and get a digital boost to your job search!
           </p>
         </section>
         <section className="mb-12">
