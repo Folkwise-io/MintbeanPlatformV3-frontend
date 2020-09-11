@@ -30,6 +30,15 @@ interface LoginInput {
   password: string;
 }
 
+interface SignupInput {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
+
 // STORE ---------------------
 type MbAction<T = unknown> = {
   type: string;

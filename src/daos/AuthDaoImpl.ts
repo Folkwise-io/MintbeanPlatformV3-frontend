@@ -9,12 +9,13 @@ interface UserResponseRaw {
 export class AuthDaoImpl implements AuthDao {
   constructor(private api: ApiQueryExecutor) {}
 
-  login(loginInput: LoginInput): Promise<User | undefined> {
+  login(loginInput: LoginInput): Promise<User | undefined | void> {
+    console.log(loginInput);
     return this.api
       .query<UserResponseRaw, LoginInput>(
         `
-            query Login {
-              login(username: $username, password: $password) {
+            mutation Login {
+              login(email: ${loginInput.email}, password: ${loginInput.password}) {
                 id
                 email
                 username
@@ -24,8 +25,8 @@ export class AuthDaoImpl implements AuthDao {
               }
             }
           `,
-        loginInput,
       )
-      .then((result) => result.user || undefined);
+      .then((result) => result.user || undefined)
+      .catch((e) => console.log({ error: e }));
   }
 }
