@@ -17,7 +17,7 @@ export function login(loginInput: LoginInput): ThunkAction<void, StoreState, Con
     dispatch(action("LOADING"));
     return context.authService
       .login(loginInput)
-      .then((user: User | undefined) => {
+      .then((user: User | undefined | void) => {
         if (!user) {
           console.log("NO USER RETURNED");
           sendLoginErrorToast();
