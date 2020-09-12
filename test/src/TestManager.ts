@@ -1,4 +1,4 @@
-import { configureStore } from "../../src/views/state/configureStore";
+import { configureStoreAndLogger } from "../../src/views/state/configureStoreAndLogger";
 import { testContextBuilder } from "../testContextBuilder";
 import { TestContext } from "../testContextBuilder";
 import { Store } from "redux";
@@ -18,7 +18,7 @@ export class TestManager {
 
   static build(): TestManager {
     const context = testContextBuilder();
-    const store = configureStore(context, false); // set 2nd arg to false to disable logger middleware
+    const store = configureStoreAndLogger(context, false); // set 2nd arg to false to disable logger middleware
 
     return new TestManager(store, context).subscribe();
   }

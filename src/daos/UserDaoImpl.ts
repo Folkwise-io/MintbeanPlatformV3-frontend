@@ -1,12 +1,13 @@
 import { ApiQueryExecutor } from "api/ApiQueryExecutor";
 import { UserDao } from "./UserDao";
+import { LoggerService } from "services/loggerService";
 
 interface UsersResponseRaw {
   users: User[];
 }
 
 export class UserDaoImpl implements UserDao {
-  constructor(private api: ApiQueryExecutor) {}
+  constructor(private api: ApiQueryExecutor, private logger: LoggerService) {}
 
   fetchUsers(): Promise<User[] | void> {
     return this.api

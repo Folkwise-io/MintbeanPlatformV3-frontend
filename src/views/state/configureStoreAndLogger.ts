@@ -7,12 +7,15 @@ import { Context } from "context/contextBuilder";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { MbAction } from "./actions/MbAction";
 
-export function configureStore(context: Context, hasLogger = true): Store<StoreState, MbAction> {
+export function configureStoreAndLogger(context: Context, hasLogger = true): Store<StoreState, MbAction> {
   const middlewares = [thunkMiddleware.withExtraArgument(context)].concat(hasLogger ? [logger] : []);
   const middlewareEnhancer = composeWithDevTools(applyMiddleware(...middlewares));
 
   // TODO: properly type createStore
   const store = createStore<StoreState, Action, unknown, unknown>(rootReducer, initialStoreState, middlewareEnhancer);
+
+  // Maybe this is a nitpick. But this is fucking ugly. Can we find a better pattern?
+  context.loggerService.setStore(store);
 
   return store;
 }
