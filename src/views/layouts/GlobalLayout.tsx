@@ -6,6 +6,7 @@ import { Context } from "context/contextBuilder";
 import { Toast } from "../components/Toast";
 import Navbar from "../components/Navbar";
 import { removeToast } from "../../views/state/actions/toastActions";
+import { MbAction } from "../state/actions/MbAction";
 
 type StateMapping = {
   toasts: ToastState;

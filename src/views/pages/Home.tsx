@@ -5,6 +5,7 @@ import { Button } from "../components/Button";
 import { UserCard } from "../components/UserCard";
 import { ThunkDispatch } from "redux-thunk";
 import { Context } from "context/contextBuilder";
+import { MbAction } from "../state/actions/MbAction";
 
 type StateMapping = {
   users: UsersState;

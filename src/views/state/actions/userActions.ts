@@ -3,6 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { Context } from "context/contextBuilder";
 import { addErrorToast, addInfoToast, addSuccessToast, addWarningToast } from "./toastActions";
 import { Dispatch } from "redux";
+import { MbAction } from "./MbAction";
 
 const action = (loadStatus: ApiDataStatus, payload?: User[]): MbAction<User[]> => ({
   type: UserActionType.FETCH_USERS,
@@ -18,6 +19,10 @@ export function fetchUsers(): ThunkAction<void, StoreState, Context, MbAction<vo
     return context.userService
       .fetchUsers()
       .then((users) => {
+        if (!users) {
+          addErrorToast("Something went horribly wrong");
+          throw "Something went horribly wrong";
+        }
         dispatch(addSuccessToast("Successfully loaded users."));
         return dispatch(action("SUCCESS", users));
       })

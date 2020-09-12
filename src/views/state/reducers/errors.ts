@@ -1,4 +1,5 @@
 import { ErrorActionType } from "../actions/actionTypes";
+import { MbAction } from "../actions/MbAction";
 
 export const errorsInitialState: LoggedError[] = [];
 

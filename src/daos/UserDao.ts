@@ -1,3 +1,3 @@
 export interface UserDao {
-  fetchUsers(): Promise<User[]>;
+  fetchUsers(): Promise<User[] | void>;
 }

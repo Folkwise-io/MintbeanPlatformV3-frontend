@@ -4,7 +4,7 @@ import { TestContext } from "../testContextBuilder";
 import { Store } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { Context } from "context/contextBuilder";
-// type DispatchParameter<T> = ThunkAction<void, StoreState, void, MbAction<T>> | MbAction<T>;
+import { MbAction } from "../../src/views/state/actions/MbAction";
 
 export class TestManager {
   store: Store;
