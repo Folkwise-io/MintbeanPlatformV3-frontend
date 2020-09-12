@@ -8,9 +8,9 @@ interface UsersResponseRaw {
 export class UserDaoImpl implements UserDao {
   constructor(private api: ApiQueryExecutor) {}
 
-  fetchUsers(): Promise<User[]> {
+  fetchUsers(): Promise<User[] | void> {
     return this.api
-      .query<UsersResponseRaw>(
+      .query<ApiResponseRaw<UsersResponseRaw>>(
         `
           query allUsers {
             users {
@@ -20,9 +20,12 @@ export class UserDaoImpl implements UserDao {
               lastName
               createdAt
             }
-          }   
+          }
         `,
       )
-      .then((result) => result.users || []);
+      .then((result) => {
+        if (result.errors || !result.data.users) throw result.errors;
+        return result.data.users;
+      });
   }
 }

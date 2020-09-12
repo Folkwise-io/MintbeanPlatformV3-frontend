@@ -10,7 +10,7 @@ export class TestUserDao implements UserDao, TestDao {
     this.mockReturns = [];
   }
 
-  async fetchUsers(): Promise<User[]> {
+  async fetchUsers(): Promise<User[] | void> {
     if (this.mockReturns.length) {
       return this.mockReturns.shift();
     } else {

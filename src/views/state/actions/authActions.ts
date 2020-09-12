@@ -3,6 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { Context } from "context/contextBuilder";
 import { addSuccessToast, addErrorToast } from "./toastActions";
 import { Dispatch } from "redux";
+import { MbAction } from "./MbAction";
 
 const action = (loadStatus: ApiDataStatus, payload?: User): MbAction<User> => ({
   type: AuthActionType.LOGIN,

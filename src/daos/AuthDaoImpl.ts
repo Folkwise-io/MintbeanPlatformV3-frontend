@@ -9,10 +9,9 @@ interface LoginResponseRaw {
 export class AuthDaoImpl implements AuthDao {
   constructor(private api: ApiQueryExecutor) {}
 
-  login(loginInput: LoginInput): Promise<User | undefined | void> {
-    console.log(loginInput);
+  login(loginInput: LoginInput): Promise<User | void> {
     return this.api
-      .query<LoginResponseRaw, LoginInput>(
+      .query<ApiResponseRaw<LoginResponseRaw>, LoginInput>(
         `
             mutation Login($email: String!, $password: String!) {
               login(email: $email, password: $password) {
@@ -28,7 +27,8 @@ export class AuthDaoImpl implements AuthDao {
         loginInput,
       )
       .then((result) => {
-        return result.login || undefined;
+        if (result.errors || !result.data.login) throw result.errors;
+        return result.data.login || undefined;
       })
       .catch((e) => console.log({ error: e }));
   }

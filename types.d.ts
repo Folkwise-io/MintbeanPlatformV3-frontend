@@ -39,13 +39,18 @@ interface SignupInput {
   passwordConfirm: string;
 }
 
-// STORE ---------------------
-type MbAction<T = unknown> = {
-  type: string;
-  payload?: T;
-  loadStatus?: ApiDataStatus;
-};
+// API -----------------------
+interface ApiResponseRaw<T> {
+  data: T;
+  errors?: ServerError[];
+}
 
+interface ServerError {
+  message: string;
+  extensions: { code: string };
+}
+
+// STORE ---------------------
 interface LoggedError {
   error: Error; // TODO: type
   timestamp: string;

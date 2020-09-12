@@ -1,11 +1,5 @@
 import axios from "axios";
 
-// interface ApiQueryResult<T> {
-//   success: boolean;
-//   payload: T;
-//   failureType?: "INTERNAL_SERVER_ERROR" | "AUTH";
-// }
-
 export class ApiQueryExecutor {
   query<R, V = void>(query: string, variables?: V): Promise<R> {
     return axios({
@@ -15,6 +9,6 @@ export class ApiQueryExecutor {
         query,
         variables,
       },
-    }).then((res) => res.data.data);
+    }).then((res) => res.data); // returns object with shape { data, errors? }
   }
 }
