@@ -22,7 +22,7 @@ describe("Auth actions", () => {
     });
 
     // TODO: test for jwt token cookie assignment
-    it("Returns user on login with good credentials", async () => {
+    it("Updates state.user and throws Toast on successful login", async () => {
       await testManager
         // fake a successful login by returning user
         .configureContext((context) => {
@@ -39,6 +39,7 @@ describe("Auth actions", () => {
           const finalState = results.length - 1;
           expect(results[finalState].user.loadStatus).toBe("SUCCESS");
           expect(results[finalState].user.data).toMatchObject(JSON.parse(JSON.stringify(fakeUser)));
+          expect(results[finalState].toasts[0].type).toBe("SUCCESS");
         });
     });
 
@@ -64,6 +65,7 @@ describe("Auth actions", () => {
           expect(results[finalState].user.data).toBe(undefined);
           expect(results[finalState].errors[0].code).toBe(ERROR_CODE);
           expect(results[finalState].errors[0].message).toBe("Login failed.");
+          expect(results[finalState].toasts[0].type).toBe("DANGER");
           expect(results[finalState].toasts[0].message).toBe("Login failed.");
         });
     });
