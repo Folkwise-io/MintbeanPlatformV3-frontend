@@ -5,6 +5,6 @@ export class UserService {
   constructor(private userDao: UserDao, private logger: LoggerService) {}
 
   fetchUsers(): Promise<User[] | void> {
-    return this.userDao.fetchUsers();
+    return this.userDao.fetchUsers().catch((e) => this.logger.handleGraphqlErrors(e));
   }
 }

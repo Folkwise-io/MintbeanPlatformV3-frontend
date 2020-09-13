@@ -8,6 +8,7 @@ interface LoginResponseRaw {
 }
 
 export class AuthDaoImpl implements AuthDao {
+  // must keep loggerService for initialization
   constructor(private api: ApiQueryExecutor, private logger: LoggerService) {}
 
   login(loginInput: LoginInput): Promise<User | void> {
@@ -29,19 +30,19 @@ export class AuthDaoImpl implements AuthDao {
           loginInput,
         )
         .then((result) => {
-          if (result.errors) {
-            this.logger.handleGraphqlErrors(result.errors);
+          if (result.errors) throw result.errors;
+          if (!result.errors && !result.data.login) {
+            throw [{ message: "Failed to log in", extensions: { code: "UNEXPECTED" } }];
           }
-          if (!result.data.login) {
-            this.logger.danger("Failed to log in.");
-          }
-
           return result.data.login;
         })
-        // TODO: e will not always be a JS Error, it could be any thrown thing.
-        // but logger.danger() expects it to be an error.
-        // This could cause issues.
-        .catch((e) => this.logger.danger("An unexpected error occurred", e))
+        // TODO: Don't know what type[s] of errors could be thrown here.
+        // For now builds standard errors based on error message or default
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          throw e;
+        })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
   }
 }

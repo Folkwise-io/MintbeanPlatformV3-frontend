@@ -9,6 +9,7 @@ export class ApiQueryExecutor {
         query,
         variables,
       },
+      // withCredentials: true,
     }).then((res) => res.data); // returns object with shape { data, errors? }
   }
 }

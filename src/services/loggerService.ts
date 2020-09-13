@@ -1,29 +1,46 @@
 import { Store } from "redux";
-import { addSuccessToast, addInfoToast, addErrorToast, addWarningToast } from "../views/state/actions/toastActions";
+import { addSuccessToast, addInfoToast, addDangerToast, addWarningToast } from "../views/state/actions/toastActions";
+import { logError } from "../views/state/actions/errorActions";
+import { MbAction } from "../views/state/actions/MbAction";
 
 export class LoggerService {
   constructor(private store?: Store) {}
-
   success(message: string): void {
+    console.log(message);
     const theMessage = message || "Success.";
-    this.store && this.store.dispatch(addSuccessToast(theMessage));
+    this.dispatch(addSuccessToast(theMessage));
   }
   info(message: string): void {
     const theMessage = message || "Info.";
-    this.store && this.store.dispatch(addInfoToast(theMessage));
+    this.dispatch(addInfoToast(theMessage));
   }
-
   warning(message: string): void {
     const theMessage = message || "Something went wrong.";
-    this.store && this.store.dispatch(addWarningToast(theMessage));
+    this.dispatch(addWarningToast(theMessage));
   }
-  danger(message: string | null, error?: Error): void {
+  // danger also logs error to redux state.errors
+  // pass silent as true supresses Toast
+  danger(message: string | null, code?: string | null, silent = false): void {
+    console.log;
     const theMessage = message || "Something went REALLY wrong.";
-    error && console.error(error);
-    this.store && this.store.dispatch(addErrorToast(theMessage));
+    const theCode = code || "AMBIGUOUS_ERROR";
+    console.error(`${theCode}: ${theMessage}`); // TODO: Remove for prod?
+    this.dispatch(logError(theMessage, theCode));
+    if (!silent) this.dispatch(addDangerToast(theMessage));
   }
-  handleGraphqlErrors(errors: ServerError[]): void {
-    errors.forEach((e) => this.danger(e.message));
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
+  handleGraphqlErrors(error: any): void {
+    /* eslint-enable  @typescript-eslint/no-explicit-any */
+    if (Array.isArray(error)) {
+      error.forEach((e) => {
+        this.danger(e?.message || "Something went wrong", e?.extensions?.code || "AMBIGUOUS_ERROR");
+      });
+    } else {
+      this.danger(error?.message || "Something went wrong", "AMBIGUOUS_ERROR");
+    }
+  }
+  dispatch(action: MbAction) {
+    this.store?.dispatch(action);
   }
   setStore(store: Store): void {
     this.store = store;

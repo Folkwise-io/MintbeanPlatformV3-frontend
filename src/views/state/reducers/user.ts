@@ -8,17 +8,16 @@ export const userReducer: Reducer<UserState, MbAction<User>> = (
   state = userInitialState,
   action: MbAction<User>,
 ): UserState => {
-  if (action.loadStatus === "ERROR" || action.loadStatus === "LOADING") {
-    return { data: state.data, loadStatus: action.loadStatus };
-  }
-
   switch (action.type) {
     case AuthActionType.LOGIN: {
+      if (action.loadStatus === "ERROR" || action.loadStatus === "LOADING") {
+        return { data: state.data, loadStatus: action.loadStatus };
+      }
       if (!action.payload) {
         console.error("Action expected payload data but received none.");
         return state;
       }
-      return { data: action.payload, loadStatus: action.payload === undefined ? "ERROR" : "SUCCESS" };
+      return { data: action.payload, loadStatus: action.payload === null ? "ERROR" : "SUCCESS" };
     }
     default:
       return state;
