@@ -3,6 +3,7 @@ import { addSuccessToast, addInfoToast, addDangerToast, addWarningToast } from "
 import { logError } from "../views/state/actions/errorActions";
 import { MbAction } from "../views/state/actions/MbAction";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export class LoggerService {
   constructor(private store?: Store) {}
   success(message: string): void {
@@ -20,18 +21,15 @@ export class LoggerService {
   // danger also logs error to redux state.errors
   // pass silent as true supresses Toast
   danger(message: string | null, code?: string | null, silent = false): void {
-    console.log;
     const theMessage = message || "Something went REALLY wrong.";
     const theCode = code || "AMBIGUOUS_ERROR";
     // console.error(`${theCode}: ${theMessage}`); // TODO: Remove for prod?
     this.dispatch(logError(theMessage, theCode));
     if (!silent) this.dispatch(addDangerToast(theMessage));
   }
-  /* eslint-disable  @typescript-eslint/no-explicit-any */
   handleGraphqlErrors(error: any): void {
-    /* eslint-enable  @typescript-eslint/no-explicit-any */
     if (Array.isArray(error)) {
-      error.forEach((e) => {
+      error.forEach((e): void => {
         this.danger(e?.message || "Something went wrong", e?.extensions?.code || "AMBIGUOUS_ERROR");
       });
     } else {
@@ -45,3 +43,4 @@ export class LoggerService {
     this.store = store;
   }
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */

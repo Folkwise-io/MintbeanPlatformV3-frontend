@@ -1,4 +1,4 @@
-import { ErrorActionType, UserActionType } from "./actionTypes";
+import { UserActionType } from "./actionTypes";
 import { ThunkAction } from "redux-thunk";
 import { Context } from "context/contextBuilder";
 import { Dispatch } from "redux";
