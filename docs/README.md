@@ -10,4 +10,4 @@
 
 Run `yarn storybook` to view libary of componants
 
-![storybook-snap.png](./assets/storybook-snap.png)
+![storybook-snap.png](./assets/storybook-snap-v2.png)
