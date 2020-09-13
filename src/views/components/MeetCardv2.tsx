@@ -27,22 +27,24 @@ export const MeetCard: FC<MeetProps> = ({ event }) => {
 
   const formatTimeLeft = () => {
     return (
-      <p>
+      <p className="font-display text-sm uppercase bg-yellow-300 px-5 py-2 mb-6 inline-block rounded-full">
         {started.s} {moment(started.date).fromNow()}
       </p>
     );
   };
 
   return (
-    <button className="relative flex w-auto flex-col" style={{ background: started.c }}>
-      <section className="absolute">{formatTimeLeft()}</section>
-      <img className="block" src={image} alt={`${name} event banner`}></img>
-      <section /*className=""*/>
-        <h2 /*className=""*/>{name}</h2>
-        <p /*className=""*/>{description}</p>
-        <p>Starts: {moment.tz(startDate, region).tz(userTimezone).format("lll z")}</p>
-        <p>Ends: {moment.tz(endDate, region).tz(userTimezone).format("lll z")}</p>
-        <p /*className=""*/>Location: Online</p>
+    <button className="grid grid-cols-1 md:grid-cols-4 rounded-sm" style={{ background: started.c }}>
+      <div className="relative">
+        <section className="absolute bottom-0 inset-x-0">{formatTimeLeft()}</section>
+        <img className="block" src={image} alt={`${name} event banner`}></img>
+      </div>
+      <section className="col-span-3 flex flex-col justify-center items-center">
+        <h2 className="font-display text-3xl mt-2">{name}</h2>
+        <p className="font-body text-base">{description}</p>
+        <p className="font-display text-base mt-1">Starts: {moment.tz(startDate, region).tz(userTimezone).format("lll z")}</p>
+        <p className="font-display text-base">Ends: {moment.tz(endDate, region).tz(userTimezone).format("lll z")}</p>
+        <p className="font-display text-sm uppercase bg-black text-white px-10 py-2 mt-4 rounded-full">Location: Online</p>
       </section>
     </button>
   );

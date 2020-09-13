@@ -11,6 +11,10 @@ module.exports = {
         l: "18rem",
       },
     },
+    fontFamily: {
+      display: ["Raleway", "sans-serif"],
+      body: ["Montserrat", "sans-serif"]
+    },
   },
   variants: {},
   plugins: [],
