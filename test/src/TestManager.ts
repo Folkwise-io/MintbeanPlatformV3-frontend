@@ -30,7 +30,7 @@ export class TestManager {
 
   async dispatchThunk<T>(action: ThunkAction<void, StoreState, Context, MbAction<T>>): Promise<TestManager> {
     const dispatch = <ThunkDispatch<StoreState, Context, MbAction<T>>>this.store.dispatch;
-    dispatch(action);
+    await dispatch(action);
     return this;
   }
 
@@ -46,8 +46,8 @@ export class TestManager {
 
   private subscribe(): TestManager {
     this.store.subscribe(() => {
-      // console.log("STORE UPDATING");
-      this.results.push(this.store.getState());
+      const state = this.store.getState();
+      this.results.push(JSON.parse(JSON.stringify(state)));
     });
     return this;
   }
