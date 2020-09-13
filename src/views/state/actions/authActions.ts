@@ -16,18 +16,14 @@ export function login(loginInput: LoginInput): ThunkAction<void, StoreState, Con
     return context.authService
       .login(loginInput)
       .then((user: User | void) => {
-        console.log("entered auth action then", user);
         if (!user) {
-          console.log("entered auth action then !user", user);
           dispatch(action("ERROR"));
           throw null;
         }
-        console.log("entered auth action then success");
         context.loggerService.success("Successfully logged in.");
         return dispatch(action("SUCCESS", user));
       })
       .catch(() => {
-        console.log("entered auth action catch");
         return dispatch(action("ERROR"));
       });
   };

@@ -23,7 +23,6 @@ export class TestAuthDao implements AuthDao, TestDao {
     } else if (loginInput && successReturns.length) {
       // Mock successful login
       // *Login creds must be first mockedReturn
-      console.log(successReturns[0].data);
       return (successReturns[0].data as unknown) as User;
     } else {
       throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;

@@ -32,25 +32,24 @@ describe("Auth actions", () => {
         .then((tm) => {
           const results = tm.getResults();
 
-          console.log(tm.getResults());
-
           expect(results[0].user.loadStatus).toBe("LOADING");
           expect(results[0].user.data).toBe(undefined);
 
           // returns user on success
           const finalState = results.length - 1;
           expect(results[finalState].user.loadStatus).toBe("SUCCESS");
-          expect(results[finalState].user.data).toMatchObject(fakeUser);
+          expect(results[finalState].user.data).toMatchObject(JSON.parse(JSON.stringify(fakeUser)));
         });
     });
 
     it("Registers loadStatus 'ERROR', user remains undefined on login with bad credentials, ", async () => {
+      const ERROR_CODE = "AMBIGUOUS_ERROR";
       await testManager
         // fake a bad login by forcing errors in dao return
         .configureContext((context) => {
           context.authDao.mockReturn({
             data: null,
-            errors: [{ message: "test err", extensions: { code: "UNAUTHORIZED" } }],
+            errors: [{ message: "test err", extensions: { code: ERROR_CODE } }],
           });
         })
         .dispatchThunk<User>(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
@@ -63,6 +62,8 @@ describe("Auth actions", () => {
           const finalState = results.length - 1;
           expect(results[finalState].user.loadStatus).toBe("ERROR");
           expect(results[finalState].user.data).toBe(undefined);
+          expect(results[finalState].errors[0].code).toBe(ERROR_CODE);
+          expect(results[finalState].errors[0].message).toBe("Login failed.");
         });
     });
   });

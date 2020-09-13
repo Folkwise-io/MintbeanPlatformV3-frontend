@@ -6,7 +6,6 @@ import { MbAction } from "../views/state/actions/MbAction";
 export class LoggerService {
   constructor(private store?: Store) {}
   success(message: string): void {
-    console.log(message);
     const theMessage = message || "Success.";
     this.dispatch(addSuccessToast(theMessage));
   }
@@ -24,7 +23,7 @@ export class LoggerService {
     console.log;
     const theMessage = message || "Something went REALLY wrong.";
     const theCode = code || "AMBIGUOUS_ERROR";
-    console.error(`${theCode}: ${theMessage}`); // TODO: Remove for prod?
+    // console.error(`${theCode}: ${theMessage}`); // TODO: Remove for prod?
     this.dispatch(logError(theMessage, theCode));
     if (!silent) this.dispatch(addDangerToast(theMessage));
   }

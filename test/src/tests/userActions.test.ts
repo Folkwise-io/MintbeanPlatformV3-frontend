@@ -16,12 +16,11 @@ describe("user actions", () => {
       .dispatchThunk<User[]>(fetchUsers())
       .then((tm) => {
         const results = tm.getResults();
-        console.log(results);
         expect(results[0].users.data.length).toBe(0);
         expect(results[0].users.loadStatus).toBe("LOADING");
 
         const finalState = results.length - 1;
-        expect(results[finalState].users.data).toEqual(testUsers);
+        expect(results[finalState].users.data).toEqual(JSON.parse(JSON.stringify(testUsers)));
         expect(results[finalState].users.loadStatus).toBe("SUCCESS");
 
         expect(results[finalState].errors.length).toBe(0);
