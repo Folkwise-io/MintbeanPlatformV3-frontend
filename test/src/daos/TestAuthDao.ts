@@ -2,12 +2,12 @@ import { AuthDao } from "../../../src/daos/AuthDao";
 import { TestDao } from "../../testTypes";
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 
-// any potential responses from TestAuthDao, besides null (error case)
-type TestAuthDaoResponseTypes = User;
+// any potential responses from this test dao, besides null (error case)
+type SuccessDataTypes = User;
 
 export class TestAuthDao implements AuthDao, TestDao {
   data: any;
-  private mockReturns: ApiResponseRaw<TestAuthDaoResponseTypes | null>[];
+  private mockReturns: ApiResponseRaw<SuccessDataTypes | null>[];
 
   constructor() {
     this.data = null;
@@ -29,20 +29,19 @@ export class TestAuthDao implements AuthDao, TestDao {
     }
   }
 
-  mockReturn(mr: ApiResponseRaw<TestAuthDaoResponseTypes | null>) {
+  mockReturn(mr: ApiResponseRaw<SuccessDataTypes | null>) {
     this.mockReturns.push(mr);
   }
 
   private getErrors = () => {
     return this.mockReturns.filter(
-      (mr: ApiResponseRaw<TestAuthDaoResponseTypes | null>) => (mr.errors as unknown) as ApiResponseRaw<null>,
+      (mr: ApiResponseRaw<SuccessDataTypes | null>) => (mr.errors as unknown) as ApiResponseRaw<null>,
     );
   };
 
   private getSuccesses = () => {
     return this.mockReturns.filter(
-      (mr: ApiResponseRaw<TestAuthDaoResponseTypes | null>) =>
-        (mr.data as unknown) as ApiResponseRaw<TestAuthDaoResponseTypes>,
+      (mr: ApiResponseRaw<SuccessDataTypes | null>) => (mr.data as unknown) as ApiResponseRaw<SuccessDataTypes>,
     );
   };
 
