@@ -19,6 +19,16 @@ export const userReducer: Reducer<UserState, MbAction<User>> = (
       }
       return { data: action.payload, loadStatus: action.payload === null ? "ERROR" : "SUCCESS" };
     }
+    case AuthActionType.LOGOUT: {
+      if (action.loadStatus === "ERROR" || action.loadStatus === "LOADING") {
+        return { data: state.data, loadStatus: action.loadStatus };
+      }
+      if (!action.payload) {
+        console.error("Action expected payload data but received none.");
+        return state;
+      }
+      return { data: action.payload, loadStatus: action.payload === null ? "ERROR" : "SUCCESS" };
+    }
     default:
       return state;
   }
