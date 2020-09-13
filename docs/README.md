@@ -1,3 +1,11 @@
+## Local development workflow
+
+TODO
+
+### Debugging in VSCode
+
+In VSCode, you can go over to the "Run" tab on the left-hand panel and run "Debug Jest tests". This will let you set breakpoints in VSCode itself. How cool is that?
+
 ## Resources
 
 [The Ultimate React-Redux-Typescript Cheatsheet](https://github.com/piotrwitek/react-redux-typescript-guide)

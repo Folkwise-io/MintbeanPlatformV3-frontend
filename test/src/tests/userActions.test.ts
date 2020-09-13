@@ -4,7 +4,7 @@ import { userFactory } from "../factories/user.factory";
 
 const testUsers = userFactory.bulk(5);
 
-describe.skip("user actions", () => {
+describe("user actions", () => {
   let testManager: TestManager;
   beforeEach(() => {
     testManager = TestManager.build();

@@ -5,7 +5,7 @@ import { userFactory } from "../factories/user.factory";
 
 const fakeUser = userFactory.one();
 
-describe.skip("Auth actions", () => {
+describe("Auth actions", () => {
   let testManager: TestManager;
 
   describe("LOGIN", () => {
