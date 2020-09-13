@@ -6,7 +6,7 @@ type Props = {
 };
 
 const Colors: { [key in ToastTypes]: { color: string; title: string } } = {
-  ERROR: {
+  DANGER: {
     color: "red",
     title: "Error",
   },

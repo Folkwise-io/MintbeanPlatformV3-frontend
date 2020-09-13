@@ -1,4 +1,4 @@
-import { MeetDao } from "daos/MeetDao";
+import { MeetDao } from "../../../src/daos/MeetDao";
 
 export class TestMeetDao implements MeetDao {
   data: HackMeet[];

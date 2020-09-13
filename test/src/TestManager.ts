@@ -1,10 +1,10 @@
-import { configureStore } from "../../src/views/state/configureStore";
-import { testContextBuilder } from "../testContextBuilder";
-import { TestContext } from "../testContextBuilder";
 import { Store } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
-import { Context } from "context/contextBuilder";
+import { Context } from "../../src/context/contextBuilder";
 import { MbAction } from "../../src/views/state/actions/MbAction";
+import { configureStoreAndLogger } from "../../src/views/state/configureStoreAndLogger";
+import { testContextBuilder } from "../testContextBuilder";
+import { TestContext } from "../testContextBuilder";
 
 export class TestManager {
   store: Store;
@@ -18,7 +18,7 @@ export class TestManager {
 
   static build(): TestManager {
     const context = testContextBuilder();
-    const store = configureStore(context, false); // set 2nd arg to false to disable logger middleware
+    const store = configureStoreAndLogger(context);
 
     return new TestManager(store, context).subscribe();
   }
@@ -30,7 +30,7 @@ export class TestManager {
 
   async dispatchThunk<T>(action: ThunkAction<void, StoreState, Context, MbAction<T>>): Promise<TestManager> {
     const dispatch = <ThunkDispatch<StoreState, Context, MbAction<T>>>this.store.dispatch;
-    dispatch(action);
+    await dispatch(action);
     return this;
   }
 
@@ -46,12 +46,18 @@ export class TestManager {
 
   private subscribe(): TestManager {
     this.store.subscribe(() => {
-      this.results.push(this.store.getState());
+      const state = this.store.getState();
+      this.results.push(JSON.parse(JSON.stringify(state)));
     });
     return this;
   }
 
   getResults(): StoreState[] {
     return this.results;
+  }
+
+  clearResults(): TestManager {
+    this.results = [];
+    return this;
   }
 }
