@@ -27,16 +27,16 @@ export class LoggerService {
     this.dispatch(logError(theMessage, theCode));
     if (!silent) this.dispatch(addDangerToast(theMessage));
   }
-  handleGraphqlErrors(error: any): void {
+  handleGraphqlErrors(error: any, silent = false): void {
     if (Array.isArray(error)) {
       error.forEach((e): void => {
-        this.danger(e?.message || "Something went wrong", e?.extensions?.code || "AMBIGUOUS_ERROR");
+        this.danger(e?.message || "Something went wrong", e?.extensions?.code || "AMBIGUOUS_ERROR", silent);
       });
     } else {
-      this.danger(error?.message || "Something went wrong", "AMBIGUOUS_ERROR");
+      this.danger(error?.message || "Something went wrong", "AMBIGUOUS_ERROR", silent);
     }
   }
-  dispatch(action: MbAction) {
+  private dispatch(action: MbAction) {
     this.store?.dispatch(action);
   }
   setStore(store: Store): void {
