@@ -42,7 +42,7 @@ describe("Auth actions", () => {
         });
     });
 
-    it("Registers loadStatus 'ERROR', user remains undefined on login with bad credentials, ", async () => {
+    it("Registers error loadStatus for state.user, logs error and throws Toast on failed login, ", async () => {
       const ERROR_CODE = "AMBIGUOUS_ERROR";
       await testManager
         // fake a bad login by forcing errors in dao return
@@ -64,6 +64,7 @@ describe("Auth actions", () => {
           expect(results[finalState].user.data).toBe(undefined);
           expect(results[finalState].errors[0].code).toBe(ERROR_CODE);
           expect(results[finalState].errors[0].message).toBe("Login failed.");
+          expect(results[finalState].toasts[0].message).toBe("Login failed.");
         });
     });
   });
