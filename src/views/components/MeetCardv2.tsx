@@ -42,9 +42,13 @@ export const MeetCard: FC<MeetProps> = ({ event }) => {
       <section className="col-span-3 flex flex-col justify-center items-center">
         <h2 className="font-display text-3xl mt-2">{name}</h2>
         <p className="font-body text-base">{description}</p>
-        <p className="font-display text-base mt-1">Starts: {moment.tz(startDate, region).tz(userTimezone).format("lll z")}</p>
+        <p className="font-display text-base mt-1">
+          Starts: {moment.tz(startDate, region).tz(userTimezone).format("lll z")}
+        </p>
         <p className="font-display text-base">Ends: {moment.tz(endDate, region).tz(userTimezone).format("lll z")}</p>
-        <p className="font-display text-sm uppercase bg-black text-white px-10 py-2 mt-4 rounded-full">Location: Online</p>
+        <p className="font-display text-sm uppercase bg-black text-white px-10 py-2 mt-4 rounded-full">
+          Location: Online
+        </p>
       </section>
     </button>
   );
