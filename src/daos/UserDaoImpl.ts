@@ -1,16 +1,14 @@
 import { ApiQueryExecutor } from "api/ApiQueryExecutor";
 import { UserDao } from "./UserDao";
-import { LoggerService } from "services/loggerService";
 
 interface UsersResponseRaw {
   users: User[];
 }
 
 export class UserDaoImpl implements UserDao {
-  // must keep loggerService for initialization
-  constructor(private api: ApiQueryExecutor, private logger: LoggerService) {}
+  constructor(private api: ApiQueryExecutor) {}
 
-  fetchUsers(): Promise<User[] | void> {
+  fetchUsers(): Promise<User[]> {
     return (
       this.api
         .query<ApiResponseRaw<UsersResponseRaw>>(
@@ -33,11 +31,14 @@ export class UserDaoImpl implements UserDao {
           }
           return result.data.users;
         })
-        // TODO: Don't know what type[s] of errors could be thrown here.
-        // For now builds standard errors based on error message or default
+        // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          throw e;
+          if (e.errors) {
+            throw e.errors;
+          } else {
+            throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+          }
         })
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );

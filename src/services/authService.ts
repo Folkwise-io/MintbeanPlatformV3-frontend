@@ -1,12 +1,10 @@
 import { AuthDao } from "daos/AuthDao";
-import { LoggerService } from "./loggerService";
 
 export class AuthService {
-  constructor(private authDao: AuthDao, private logger: LoggerService) {}
+  constructor(private authDao: AuthDao) {}
 
-  login(loginInput: LoginInput): Promise<User | void> {
-    // Return ambiguous error to user for auth failures
-    return this.authDao.login(loginInput).catch(() => this.logger.handleGraphqlErrors([{ message: "Login failed." }]));
+  login(loginInput: LoginInput): Promise<User> {
+    return this.authDao.login(loginInput);
   }
   logout(): Promise<boolean | void> {
     // Return ambiguous error to user for auth failures
