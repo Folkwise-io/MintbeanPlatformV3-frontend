@@ -36,7 +36,7 @@ See `authActions.ts`,`AuthService`, and `AuthDaoImpl.ts` as an example API reque
 
 ### Logging
 
-The `LoggerService` can be used to notify the user of the results of events via Toasts (little flash messages). It can be accessed from Services and context. It additionally adds a `LoggedError` to `state.errors` (our temporary error logger) when `loggerService.danger(...)` or it's extension `loggerService.handleGraphqlErrors(...)` is called. By default, all loggerService methods (`success`,`info`,`warning`,`danger`, `handleGraphqlErrors`) send Toasts to `state.toasts` and the UI, but if you have an error that you want to log silently you can add an extra argument `true` to the `danger()` or `handleGraphqlErrors()` methods.
+The `LoggerService` can be used to notify the user of the results of events via Toasts (little flash messages). It can be accessed from `context`. It additionally adds a `LoggedError` to `state.errors` (our temporary error logger) when `loggerService.danger(...)` or it's extension `loggerService.handleGraphqlErrors(...)` is called. By default, all loggerService methods (`success`,`info`,`warning`,`danger`, `handleGraphqlErrors`) send Toasts to `state.toasts` and the UI, but if you have an error that you want to log silently you can add an extra argument `true` to the `danger()` or `handleGraphqlErrors()` methods.
 
 Use logger sparingly and only as helpful - don't piss off users. (DO use `handleGraphqlErrors()` or `danger` for all errors though so we can capture them, with at least silent `true`.)
 
