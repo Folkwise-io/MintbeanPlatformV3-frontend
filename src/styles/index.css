@@ -1,9 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Viga&display=swap");
+
 /* purgecss start ignore */
 @tailwind base;
 @tailwind components;
 /* purgecss end ignore */
 
 @tailwind utilities;
+
+html,
+body {
+  font-family: "Montserrat", sans-serif;
+  color: #09090b;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Viga", sans-serif;
+}
 
 form {
   display: flex;
