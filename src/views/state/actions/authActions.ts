@@ -15,7 +15,7 @@ export function login(loginInput: LoginInput): ThunkAction<void, StoreState, Con
     dispatch(loginAction("LOADING"));
     return context.authService
       .login(loginInput)
-      .then((user: User | void) => {
+      .then((user: User) => {
         if (!user) {
           dispatch(loginAction("ERROR"));
           throw null;
@@ -41,7 +41,7 @@ export function logout(): ThunkAction<void, StoreState, Context, MbAction<void>>
   return (dispatch: Dispatch, _getState, context) => {
     return context.authService
       .logout()
-      .then((res: boolean | void) => {
+      .then((res: boolean) => {
         if (!res) {
           dispatch(logoutAction(false, "ERROR"));
           throw null;
@@ -52,5 +52,37 @@ export function logout(): ThunkAction<void, StoreState, Context, MbAction<void>>
         context.loggerService.handleGraphqlErrors([{ message: "Logout failed." }]);
         return dispatch(logoutAction(false, "ERROR"));
       });
+  };
+}
+
+const meAction = (loadStatus: ApiDataStatus, payload?: User) => ({
+  type: AuthActionType.ME,
+  payload,
+  loadStatus,
+});
+
+export function me(): ThunkAction<void, StoreState, Context, MbAction<void>> {
+  return (dispatch: Dispatch, _getState, context) => {
+    dispatch(meAction("LOADING"));
+    return (
+      context.authService
+        .me()
+        .then((user: User) => {
+          if (!user) {
+            dispatch(meAction("ERROR"));
+            throw null;
+          }
+          return dispatch(meAction("SUCCESS", user));
+        })
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          context.loggerService.handleGraphqlErrors(
+            e.errors ? e.errors : [{ message: "Failed to fetch current user." }],
+            true, // silent
+          );
+          return dispatch(meAction("ERROR"));
+        })
+    );
+    /* eslint-enable  @typescript-eslint/no-explicit-any */
   };
 }

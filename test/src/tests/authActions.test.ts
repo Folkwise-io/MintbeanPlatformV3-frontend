@@ -1,4 +1,4 @@
-import { login, logout } from "../../../src/views/state/actions/authActions";
+import { login, logout, me } from "../../../src/views/state/actions/authActions";
 import { TestManager } from "../TestManager";
 import { TEST_EMAIL, TEST_PASSWORD } from "../constants";
 import { userFactory } from "../factories/user.factory";
@@ -104,6 +104,66 @@ describe("Auth actions", () => {
             expect(results[finalState].user.loadStatus).toBe("SUCCESS");
             expect(results[finalState].user.data).toBe(undefined);
           });
+        });
+    });
+  });
+
+  describe("ME", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.authDao.clearMockReturns();
+      });
+    });
+
+    // TODO: test for jwt token cookie removal
+    it("Updates state.user to current user on success", async () => {
+      await testManager
+        .configureContext((context) => {
+          // mock successful response
+          context.authDao.mockReturn({ data: fakeUser });
+        })
+        // login
+        .dispatchThunk<User>(me())
+        .then((tm) => {
+          const results = tm.getResults();
+
+          expect(results[0].user.loadStatus).toBe("LOADING");
+          expect(results[0].user.data).toBe(undefined);
+
+          const finalState = results.length - 1;
+          expect(results[finalState].user.loadStatus).toBe("SUCCESS");
+          expect(results[finalState].user.data).toMatchObject(JSON.parse(JSON.stringify(fakeUser)));
+        });
+    });
+
+    it("Ensures state.user remains undefined and logs error (no toast) on error", async () => {
+      const ERROR_CODE = "AMBIGUOUS_ERROR";
+      await testManager
+        .configureContext((context) => {
+          // mock successful response
+          context.authDao.mockReturn({
+            data: null,
+            errors: [{ message: "force fail", extensions: { code: ERROR_CODE } }],
+          });
+        })
+        .dispatchThunk<User>(me())
+        .then((tm) => {
+          const results = tm.getResults();
+          console.log(results[2].errors);
+          expect(results[0].user.loadStatus).toBe("LOADING");
+          expect(results[0].user.data).toBe(undefined);
+
+          const finalState = results.length - 1;
+          expect(results[finalState].user.loadStatus).toBe("ERROR");
+          expect(results[finalState].user.data).toBe(undefined);
+          expect(results[finalState].errors[0].message).toBe("Failed to fetch current user.");
+          expect(results[finalState].errors[0].code).toBe(ERROR_CODE);
+          expect(results[finalState].toasts.length).toBe(0);
         });
     });
   });

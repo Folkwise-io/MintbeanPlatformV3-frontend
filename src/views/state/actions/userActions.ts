@@ -13,19 +13,23 @@ const action = (loadStatus: ApiDataStatus, payload?: User[]): MbAction<User[]> =
 export function fetchUsers(): ThunkAction<void, StoreState, Context, MbAction<void>> {
   return (dispatch: Dispatch, _getState, context) => {
     dispatch(action("LOADING"));
-    return context.userService
-      .fetchUsers()
-      .then((users) => {
-        if (!users) {
-          dispatch(action("ERROR"));
-          throw null;
-        }
-        context.loggerService.success("Successfully fetched users!");
-        return dispatch(action("SUCCESS", users));
-      })
-      .catch((err) => {
-        context.loggerService.handleGraphqlErrors(err);
-        return dispatch(action("ERROR"));
-      });
+    return (
+      context.userService
+        .fetchUsers()
+        .then((users) => {
+          if (!users) {
+            dispatch(action("ERROR"));
+            throw null;
+          }
+          context.loggerService.success("Successfully fetched users!");
+          return dispatch(action("SUCCESS", users));
+        })
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          context.loggerService.handleGraphqlErrors(e.errors ? e.errors : [{ message: "Failed to fetch users." }]);
+          return dispatch(action("ERROR"));
+        })
+    );
+    /* eslint-enable  @typescript-eslint/no-explicit-any */
   };
 }

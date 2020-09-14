@@ -9,4 +9,7 @@ export class AuthService {
   logout(): Promise<boolean> {
     return this.authDao.logout();
   }
+  me(): Promise<User> {
+    return this.authDao.me();
+  }
 }
