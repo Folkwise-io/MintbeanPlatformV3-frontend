@@ -4,12 +4,14 @@ import imgRobots from "../../assets/images/banners/robots-lg.jpg";
 const Hackathons: FC<void> = () => {
   return (
     <div>
-      <header className="w-full" style={{ height: "500px" }}>
+      <header className="w-full">
         <div className="flex flex-col-reverse md:flex-row h-full">
           <aside
             className="w-full md:w-2/4 flex justify-center items-center p-6"
             /* TODO : refactor gradient to tailwind config for global use*/
-            style={{ background: "linear-gradient(45deg, #00A5DB, #00ADD8, #00C7CD, #00DAC6, #00FFB8, #00FF9C)" }}
+            style={{
+              background: "linear-gradient(45deg, #00A5DB, #00ADD8, #00C7CD, #00DAC6, #00FFB8, #00FF9C)",
+            }}
           >
             <div className="max-w-screen-sm flex flex-col py-6 ">
               <h1 className="text-3xl md:text-5xl">Mintbean Hackthons</h1>
@@ -21,7 +23,7 @@ const Hackathons: FC<void> = () => {
             </div>
           </aside>
           <div
-            className="h-full w-full md:w-2/4 bg-cover bg-center"
+            className="hidden md:block w-full md:w-2/4 bg-cover bg-center lg:bg-contain "
             style={{ backgroundImage: `url("/${imgRobots}")` }}
           />
         </div>
