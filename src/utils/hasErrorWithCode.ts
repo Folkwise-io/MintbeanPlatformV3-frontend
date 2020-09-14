@@ -2,7 +2,7 @@
 // Returns true if Apollo Server error with given code found in errors Array
 export const hasErrorWithCode = (errors: any, errCode: string) => {
   if (!Array.isArray(errors)) return false;
-  let matchedErrors: boolean[] = [];
+  const matchedErrors: boolean[] = [];
 
   errors.forEach((err) => {
     if (err.errors && Array.isArray(err.errors)) {

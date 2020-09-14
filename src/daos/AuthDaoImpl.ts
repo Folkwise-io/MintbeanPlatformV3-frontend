@@ -51,11 +51,6 @@ export class AuthDaoImpl implements AuthDao {
           `
             mutation logout {
               logout
-              email
-              username
-              firstName
-              lastName
-              createdAt
             }
           `,
         )

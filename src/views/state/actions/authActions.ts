@@ -44,12 +44,13 @@ export function logout(): ThunkAction<void, StoreState, Context, MbAction<void>>
       .logout()
       .then((res: boolean) => {
         if (!res) {
+          console.log("entered !res");
           dispatch(logoutAction(false, "ERROR"));
           throw null;
         }
         return dispatch(logoutAction(true, "SUCCESS"));
       })
-      .catch(() => {
+      .catch((e) => {
         context.loggerService.handleGraphqlErrors([{ message: "Logout failed." }]);
         return dispatch(logoutAction(false, "ERROR"));
       });
@@ -70,9 +71,6 @@ export function me(): ThunkAction<void, StoreState, Context, MbAction<void>> {
         .me()
         .then((user: User) => {
           if (!user) {
-            // context.loggerService.danger("This shouldn't happen", "UNEXPECTED", true);
-            // dispatch(meAction("ERROR"));
-            // throw null;
             return dispatch(meAction("SUCCESS"));
           }
           return dispatch(meAction("SUCCESS", user));
