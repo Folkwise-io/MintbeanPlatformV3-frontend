@@ -1,4 +1,4 @@
-import { login } from "../../../src/views/state/actions/authActions";
+import { login, logout } from "../../../src/views/state/actions/authActions";
 import { TestManager } from "../TestManager";
 import { TEST_EMAIL, TEST_PASSWORD } from "../constants";
 import { userFactory } from "../factories/user.factory";
@@ -67,6 +67,43 @@ describe("Auth actions", () => {
           expect(results[finalState].errors[0].message).toBe("Login failed.");
           expect(results[finalState].toasts[0].type).toBe("DANGER");
           expect(results[finalState].toasts[0].message).toBe("Login failed.");
+        });
+    });
+  });
+
+  describe("LOGOUT", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.authDao.clearMockReturns();
+      });
+    });
+
+    // TODO: test for jwt token cookie removal
+    it("Updates state.user to undefined on successful logout", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.authDao.mockReturn({ data: fakeUser });
+        })
+        // login
+        .dispatchThunk<User>(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
+        .then((tm) => {
+          // logout
+          tm.dispatchThunk<boolean>(logout()).then((tm) => {
+            const results = tm.getResults();
+
+            const preLogoutState = results.length - 2;
+            expect(results[preLogoutState].user.loadStatus).toBe("SUCCESS");
+            expect(results[preLogoutState].user.data).toMatchObject(JSON.parse(JSON.stringify(fakeUser)));
+
+            const finalState = results.length - 1;
+            expect(results[finalState].user.loadStatus).toBe("SUCCESS");
+            expect(results[finalState].user.data).toBe(undefined);
+          });
         });
     });
   });
