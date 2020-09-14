@@ -1,10 +1,9 @@
 import { UserDao } from "daos/UserDao";
-import { LoggerService } from "./loggerService";
 
 export class UserService {
-  constructor(private userDao: UserDao, private logger: LoggerService) {}
+  constructor(private userDao: UserDao) {}
 
-  fetchUsers(): Promise<User[] | void> {
-    return this.userDao.fetchUsers().catch((e) => this.logger.handleGraphqlErrors(e));
+  fetchUsers(): Promise<User[]> {
+    return this.userDao.fetchUsers();
   }
 }

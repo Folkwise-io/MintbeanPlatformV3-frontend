@@ -1,16 +1,14 @@
 import { ApiQueryExecutor } from "api/ApiQueryExecutor";
 import { MeetDao } from "./MeetDao";
-import { LoggerService } from "services/loggerService";
 
 interface EventResponseRaw {
   meets: HackMeet[];
 }
 // not tested
 export class MeetDaoImpl implements MeetDao {
-  // must keep loggerService for initialization
-  constructor(private api: ApiQueryExecutor, private loggerService: LoggerService) {}
+  constructor(private api: ApiQueryExecutor) {}
 
-  fetchMeets(): Promise<HackMeet[] | void> {
+  fetchMeets(): Promise<HackMeet[]> {
     return (
       this.api
         .query<ApiResponseRaw<EventResponseRaw>>(
@@ -39,13 +37,16 @@ export class MeetDaoImpl implements MeetDao {
           }
           return result.data.meets;
         })
-        // TODO: Don't know what type[s] of errors could be thrown here.
-        // For now builds standard errors based on error message or default
+        // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          throw e;
+          if (e.errors) {
+            throw e.errors;
+          } else {
+            throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+          }
         })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
-    /* eslint-enable  @typescript-eslint/no-explicit-any */
   }
 }
