@@ -1,6 +1,6 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
 import { Context } from "context/contextBuilder";
 import { logout } from "../state/actions/authActions";
@@ -23,13 +23,26 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
 });
 
 const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
+  const [isLoggedIn, setLoggedIn] = useState(!!user.data);
+  const history = useHistory();
+
+  useEffect(() => {
+    setLoggedIn(!!user.data);
+  }, [user]);
+
+  // TODO: use protected routes instead of in-component redirects
+  const logoutAndRedirect = (): void => {
+    logout();
+    history.push("/");
+  };
+
   return (
     <nav className="p-2">
       <Link to="/" className="mx-2">
         Home
       </Link>
-      {user.data ? (
-        <button className="mx-2" onClick={() => alert("Just kidding! You can't yet!")}>
+      {isLoggedIn ? (
+        <button className="mx-2" onClick={() => logoutAndRedirect()}>
           Logout
         </button>
       ) : (

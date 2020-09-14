@@ -27,7 +27,7 @@ export const userReducer: Reducer<UserState, MbAction<User>> = (
         console.error("Action expected payload data but received none.");
         return state;
       }
-      return { data: action.payload, loadStatus: action.payload === null ? "ERROR" : "SUCCESS" };
+      return { data: undefined, loadStatus: "SUCCESS" };
     }
     default:
       return state;

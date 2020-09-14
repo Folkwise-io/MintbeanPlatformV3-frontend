@@ -29,9 +29,9 @@ export function login(loginInput: LoginInput): ThunkAction<void, StoreState, Con
   };
 }
 
-const logoutAction = (loadStatus: ApiDataStatus) => ({
+const logoutAction = (payload: boolean, loadStatus: ApiDataStatus) => ({
   type: AuthActionType.LOGOUT,
-  payload: undefined,
+  payload, // true if successful logout
   loadStatus,
 });
 
@@ -41,13 +41,13 @@ export function logout(): ThunkAction<void, StoreState, Context, MbAction<void>>
       .logout()
       .then((res: boolean | void) => {
         if (!res) {
-          dispatch(logoutAction("ERROR"));
+          dispatch(logoutAction(false, "ERROR"));
           throw null;
         }
-        return dispatch(logoutAction("SUCCESS"));
+        return dispatch(logoutAction(true, "SUCCESS"));
       })
       .catch(() => {
-        return dispatch(logoutAction("ERROR"));
+        return dispatch(logoutAction(false, "ERROR"));
       });
   };
 }
