@@ -49,6 +49,20 @@ export class TestAuthDao implements AuthDao, TestDao {
     }
   }
 
+  async register(params: RegisterInput): Promise<User> {
+    const errorReturns = this.getErrors();
+    const successReturns = this.getSuccesses();
+    if (errorReturns.length) {
+      // Mock fail
+      throw errorReturns;
+    } else if (params && successReturns.length) {
+      // Mock success
+      return (successReturns[0].data as unknown) as User;
+    } else {
+      throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
+    }
+  }
+
   mockReturn(mr: ApiResponseRaw<SuccessDataTypes | null>) {
     this.mockReturns.push(mr);
   }

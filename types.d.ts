@@ -30,13 +30,12 @@ interface LoginInput {
   password: string;
 }
 
-interface SignupInput {
+interface RegisterInput {
   firstName: string;
   lastName: string;
   username: string;
   email: string;
   password: string;
-  passwordConfirm: string;
 }
 
 // API -----------------------

@@ -1,5 +1,6 @@
 export interface AuthDao {
-  login(credentials: LoginInput): Promise<User>;
+  login(params: LoginInput): Promise<User>;
   logout(): Promise<boolean>;
   me(): Promise<User>;
+  register(params: RegisterInput): Promise<User>;
 }
