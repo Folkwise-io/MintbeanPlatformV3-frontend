@@ -3,6 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { Context } from "context/contextBuilder";
 import { Dispatch } from "redux";
 import { MbAction } from "./MbAction";
+import { hasErrorWithCode } from "../../../utils/hasErrorWithCode";
 
 const loginAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<User> => ({
   type: AuthActionType.LOGIN,
@@ -55,7 +56,7 @@ export function logout(): ThunkAction<void, StoreState, Context, MbAction<void>>
   };
 }
 
-const meAction = (loadStatus: ApiDataStatus, payload?: User) => ({
+const meAction = (loadStatus: ApiDataStatus, payload?: User | undefined) => ({
   type: AuthActionType.ME,
   payload,
   loadStatus,
@@ -69,18 +70,23 @@ export function me(): ThunkAction<void, StoreState, Context, MbAction<void>> {
         .me()
         .then((user: User) => {
           if (!user) {
-            dispatch(meAction("ERROR"));
-            throw null;
+            // context.loggerService.danger("This shouldn't happen", "UNEXPECTED", true);
+            // dispatch(meAction("ERROR"));
+            // throw null;
+            return dispatch(meAction("SUCCESS"));
           }
           return dispatch(meAction("SUCCESS", user));
         })
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
+          // we expect an UNAUTHENTICATED error from Apollo Server if user is not logged in
+          if (hasErrorWithCode(e, "UNAUTHENTICATED")) {
+            return dispatch(meAction("SUCCESS"));
+          }
           context.loggerService.handleGraphqlErrors(
-            e.errors ? e.errors : [{ message: "Failed to fetch current user." }],
+            e.errors ? e.errors : [{ message: "Unknown error when fetching current user." }],
             true, // silent
           );
-          return dispatch(meAction("ERROR"));
         })
     );
     /* eslint-enable  @typescript-eslint/no-explicit-any */

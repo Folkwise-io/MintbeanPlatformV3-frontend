@@ -141,8 +141,8 @@ describe("Auth actions", () => {
         });
     });
 
-    it("Ensures state.user remains undefined and logs error (no toast) on error", async () => {
-      const ERROR_CODE = "AMBIGUOUS_ERROR";
+    it("Keeps state.user undefined and does NOT log error when error response", async () => {
+      const ERROR_CODE = "UNAUTHENTICATED";
       await testManager
         .configureContext((context) => {
           // mock successful response
@@ -154,15 +154,15 @@ describe("Auth actions", () => {
         .dispatchThunk<User>(me())
         .then((tm) => {
           const results = tm.getResults();
-          console.log(results[2].errors);
+
           expect(results[0].user.loadStatus).toBe("LOADING");
           expect(results[0].user.data).toBe(undefined);
 
           const finalState = results.length - 1;
-          expect(results[finalState].user.loadStatus).toBe("ERROR");
+          expect(results[finalState].user.loadStatus).toBe("SUCCESS");
           expect(results[finalState].user.data).toBe(undefined);
-          expect(results[finalState].errors[0].message).toBe("Failed to fetch current user.");
-          expect(results[finalState].errors[0].code).toBe(ERROR_CODE);
+          // Expect no errors or toast. This is a silent operation just checking if user has valid JWT token already
+          expect(results[finalState].errors.length).toBe(0);
           expect(results[finalState].toasts.length).toBe(0);
         });
     });

@@ -34,8 +34,8 @@ export const userReducer: Reducer<UserState, MbAction<User>> = (
         return { data: state.data, loadStatus: action.loadStatus };
       }
       if (!action.payload) {
-        console.error("Action expected payload data but received none.");
-        return state;
+        // user is not logged in
+        return { data: undefined, loadStatus: "SUCCESS" };
       }
       return { data: action.payload, loadStatus: "SUCCESS" };
     }
