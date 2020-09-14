@@ -51,9 +51,7 @@ const LoginForm: FC<StateMapping & DispatchMapping & Props> = ({ login, user, to
     <Formik
       initialValues={{ email: "", password: "" }}
       validationSchema={LoginSchema}
-      onSubmit={async (values: LoginInput) => {
-        login(values);
-      }}
+      onSubmit={(values: LoginInput) => login(values)}
     >
       {({ isSubmitting }) => (
         <Form className="shadow max-w-screen-sm p-6 mx-auto">
