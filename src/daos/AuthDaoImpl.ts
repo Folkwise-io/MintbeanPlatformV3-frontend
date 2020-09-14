@@ -50,7 +50,7 @@ export class AuthDaoImpl implements AuthDao {
     );
   }
 
-  logout(): Promise<boolean | void> {
+  logout(): Promise<boolean> {
     return (
       this.api
         .query<ApiResponseRaw<LogoutResponseRaw>, LoginInput>(
@@ -67,11 +67,14 @@ export class AuthDaoImpl implements AuthDao {
           }
           return result.data.logout;
         })
-        // TODO: Don't know what type[s] of errors could be thrown here.
-        // For now builds standard errors based on error message or default
+        // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          throw e;
+          if (e.errors) {
+            throw e.errors;
+          } else {
+            throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+          }
         })
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
