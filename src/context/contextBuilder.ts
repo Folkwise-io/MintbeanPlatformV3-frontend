@@ -27,12 +27,12 @@ export interface Context {
 export const contextBuilder = (): Context => {
   const loggerService = new LoggerService();
   const apiQueryExecutor = new ApiQueryExecutor();
-  const userDao = new UserDaoImpl(apiQueryExecutor, loggerService);
-  const meetDao = new MeetDaoImpl(apiQueryExecutor, loggerService);
-  const userService = new UserService(userDao, loggerService);
-  const authDao = new AuthDaoImpl(apiQueryExecutor, loggerService);
-  const authService = new AuthService(authDao, loggerService);
-  const meetService = new MeetService(meetDao, loggerService);
+  const userDao = new UserDaoImpl(apiQueryExecutor);
+  const meetDao = new MeetDaoImpl(apiQueryExecutor);
+  const userService = new UserService(userDao);
+  const authDao = new AuthDaoImpl(apiQueryExecutor);
+  const authService = new AuthService(authDao);
+  const meetService = new MeetService(meetDao);
 
   return {
     apiQueryExecutor,
