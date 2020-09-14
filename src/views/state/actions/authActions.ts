@@ -50,7 +50,7 @@ export function logout(): ThunkAction<void, StoreState, Context, MbAction<void>>
         }
         return dispatch(logoutAction(true, "SUCCESS"));
       })
-      .catch((e) => {
+      .catch(() => {
         context.loggerService.handleGraphqlErrors([{ message: "Logout failed." }]);
         return dispatch(logoutAction(false, "ERROR"));
       });

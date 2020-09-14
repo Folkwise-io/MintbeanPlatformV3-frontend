@@ -33,7 +33,7 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
   // Fetch current user on mount based on JWT cookie
   useEffect(() => {
     if (!user.data) me();
-  }, []);
+  }, [me, user.data]);
 
   return (
     <div>

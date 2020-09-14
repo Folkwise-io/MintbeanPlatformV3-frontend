@@ -45,7 +45,7 @@ const LoginForm: FC<StateMapping & DispatchMapping & Props> = ({ login, user, to
   // Redirect on successful logged if props.to exists
   useEffect(() => {
     if (to && isLoggedIn) history.push(to);
-  }, [isLoggedIn]);
+  }, [isLoggedIn, history, to]);
 
   return (
     <Formik
