@@ -12,7 +12,7 @@ Graphql is unlike REST in that you have great freedom in querying what you want 
 
 With great freedom comes great responsibility. Some errors are returned from server with status 200 with null data and an array of errors. [Here's a great breakdown](https://medium.com/@sachee/200-ok-error-handling-in-graphql-7ec869aec9bc).
 
-Here is was a response from the backend API looks like
+Here is what a response from the backend API looks like
 
 ```ts
 interface ApiResponseRaw<T> {
@@ -20,8 +20,6 @@ interface ApiResponseRaw<T> {
   errors?: ServerError[];
 }
 ```
-
-This means we have to check responses in the Dao for presence of `res.errors` to know whether to throw an error. We catch and handle the error in Service layer as it is most universally traversed.
 
 Apollo server errors come with a few goodies, but we will only pluck these ones:
 
@@ -32,36 +30,47 @@ interface ServerError {
 }
 ```
 
-Our Daos will pass the whole response object (`{ data, errors? }`) up to the proper service, where it is checked for errors.
+This means we have to check responses in the Dao for presence of `res.errors` to know whether to throw. We catch and handle the error in actions layer as a controller point.
 
-See `AuthDaoImpl.ts` and `AuthService` as examples of how to throw and handle graphql errors.
+See `authActions.ts`,`AuthService`, and `AuthDaoImpl.ts` as an example API request/response flow. The Dao should be typed to only return the expected success response data type. Any expected errors must be thrown.
 
 ### Logging
 
-The `LoggerService` can used to notify the user of the results of events via Toasts (little flash messages). It can be accessed from Services and context. It additionally adds a `LoggedError` to `state.errors` (our temporary error logger) when `logger.danger(...)` is called. By default, all logger types (`success`,`info`,`warning`,`danger`) send Toasts to `state.toasts` and the UI, but if you have an error that you want to log silently you can add a 3rd argument `true` to the `danger()` method.
+The `LoggerService` can be used to notify the user of the results of events via Toasts (little flash messages). It can be accessed from Services and context. It additionally adds a `LoggedError` to `state.errors` (our temporary error logger) when `loggerService.danger(...)` or it's extension `loggerService.handleGraphqlErrors(...)` is called. By default, all loggerService methods (`success`,`info`,`warning`,`danger`, `handleGraphqlErrors`) send Toasts to `state.toasts` and the UI, but if you have an error that you want to log silently you can add an extra argument `true` to the `danger()` or `handleGraphqlErrors()` methods.
 
-Use sparingly only as helpful - don't piss off users. (Do use `danger` for all errors though so we can capture them, with at least silent `true`.)
+Use logger sparingly and only as helpful - don't piss off users. (DO use `handleGraphqlErrors()` or `danger` for all errors though so we can capture them, with at least silent `true`.)
 
-| method                                                  | when to use?                                                   |
-| ------------------------------------------------------- | -------------------------------------------------------------- |
-| `success(message: string): void`                        | Whens something goes right and you want to tell the user       |
-| `info(message: string): void`                           | Whens you have some neutral info to share. Like just sayin' hi |
-| `warning(message: string): void`                        | When something                                                 |
-| `danger(message: string                                 | null, code?: string                                            | null, silent = false): void` | When you need to log a custom error |
-| `handleGraphqlErrors(error: any, silent = false): void` | **When handling and logging Apollo errors from backed**        |
+| method                                                  | when to use?                                                                                                                                                                                                                             |
+| ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `success(message: string): void`                        | Whens something goes right and you want to tell the user                                                                                                                                                                                 |
+| `info(message: string): void`                           | Whens you have some neutral info to share. Like just sayin' hi                                                                                                                                                                           |
+| `warning(message: string): void`                        | When something is fishy but isn't a breaking error                                                                                                                                                                                       |
+| `danger(message: string, silent = false): void`         | When you need to log a custom error. For example, overriding an Apollo Server error on failed login as to not reveal explicit errors like 'wrong password' for security reasons. Or for throwing errors that aren't Apollo Server errors |
+| `handleGraphqlErrors(error: any, silent = false): void` | PREFERRED. When handling and logging Apollo errors from backed. Will throw an ambiguous error if anything other than error with type `ServerError[]` is passed                                                                           |
 
-`handleGraphqlErrors` should always be used to handle errors from the backend API, which are sent as an array. Use `true` as 2nd argument to log errors without sending Toast.
+`handleGraphqlErrors` should always be used to handle errors from the backend API, which are sent as an array. Append argument `true` to log errors silently (without sending Toast).
 
-Here is an example of handling and logging a `fetchUsers` response in the `UserService`:
+Here is an example of handling and logging a `fetchUsers` response in the `userActions`:
 
 ```ts
-export class UserService {
-  constructor(private userDao: UserDao, private logger: LoggerService) {}
-
-  fetchUsers(): Promise<User[] | void> {
-    // will log backend errors and announce them to user as Toast
-    return this.userDao.fetchUsers().catch((e) => this.logger.handleGraphqlErrors(e));
-  }
+export function fetchUsers(): ThunkAction<void, StoreState, Context, MbAction<void>> {
+  return (dispatch: Dispatch, _getState, context) => {
+    dispatch(action("LOADING"));
+    return context.userService
+      .fetchUsers()
+      .then((users) => {
+        if (!users) {
+          dispatch(action("ERROR"));
+          throw null; // <-- direct flow to catch block with ambiguous error
+        }
+        context.loggerService.success("Successfully fetched users!"); // <-- sends 'success' toast
+        return dispatch(action("SUCCESS", users));
+      })
+      .catch((err) => {
+        context.loggerService.handleGraphqlErrors(err); // <-- handles ServerError[] or ambiguous error. Toasts and logs.
+        return dispatch(action("ERROR"));
+      });
+  };
 }
 ```
 
