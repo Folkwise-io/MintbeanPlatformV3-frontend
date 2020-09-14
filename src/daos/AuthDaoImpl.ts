@@ -1,17 +1,15 @@
 // TODO: use correct mutation once backend structure known
 import { ApiQueryExecutor } from "api/ApiQueryExecutor";
 import { AuthDao } from "./AuthDao";
-import { LoggerService } from "services/loggerService";
 
 interface LoginResponseRaw {
   login: User;
 }
 
 export class AuthDaoImpl implements AuthDao {
-  // must keep loggerService for initialization
-  constructor(private api: ApiQueryExecutor, private logger: LoggerService) {}
+  constructor(private api: ApiQueryExecutor) {}
 
-  login(loginInput: LoginInput): Promise<User | void> {
+  login(loginInput: LoginInput): Promise<User> {
     return (
       this.api
         .query<ApiResponseRaw<LoginResponseRaw>, LoginInput>(
@@ -36,11 +34,14 @@ export class AuthDaoImpl implements AuthDao {
           }
           return result.data.login;
         })
-        // TODO: Don't know what type[s] of errors could be thrown here.
-        // For now builds standard errors based on error message or default
+        // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          throw e;
+          if (e.errors) {
+            throw e.errors;
+          } else {
+            throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+          }
         })
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );

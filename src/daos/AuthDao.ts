@@ -1,3 +1,3 @@
 export interface AuthDao {
-  login(credentials: LoginInput): Promise<User | void>;
+  login(credentials: LoginInput): Promise<User>;
 }

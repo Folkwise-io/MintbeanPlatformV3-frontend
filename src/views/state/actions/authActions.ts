@@ -24,6 +24,8 @@ export function login(loginInput: LoginInput): ThunkAction<void, StoreState, Con
         return dispatch(action("SUCCESS", user));
       })
       .catch(() => {
+        // For security reasons, throw ambiguous error toast with login errors
+        context.loggerService.handleGraphqlErrors([{ message: "Login failed." }]);
         return dispatch(action("ERROR"));
       });
   };

@@ -23,8 +23,8 @@ export function fetchUsers(): ThunkAction<void, StoreState, Context, MbAction<vo
         context.loggerService.success("Successfully fetched users!");
         return dispatch(action("SUCCESS", users));
       })
-      .catch(() => {
-        // context.loggerService.danger(err?.message || undefined, "UNEXPECTED");
+      .catch((err) => {
+        context.loggerService.handleGraphqlErrors(err);
         return dispatch(action("ERROR"));
       });
   };
