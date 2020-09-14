@@ -9,9 +9,10 @@ export class UserDaoImpl implements UserDao {
   constructor(private api: ApiQueryExecutor) {}
 
   fetchUsers(): Promise<User[]> {
-    return this.api
-      .query<UsersResponseRaw>(
-        `
+    return (
+      this.api
+        .query<ApiResponseRaw<UsersResponseRaw>>(
+          `
           query allUsers {
             users {
               id
@@ -20,9 +21,26 @@ export class UserDaoImpl implements UserDao {
               lastName
               createdAt
             }
-          }   
+          }
         `,
-      )
-      .then((result) => result.users || []);
+        )
+        .then((result) => {
+          if (result.errors) throw result.errors;
+          if (!result.errors && !result.data.users) {
+            throw [{ message: "Failed to get users", extensions: { code: "UNEXPECTED" } }];
+          }
+          return result.data.users;
+        })
+        // TODO: What potential Types of errors can invoke this catch?
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          if (e.errors) {
+            throw e.errors;
+          } else {
+            throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+          }
+        })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
+    );
   }
 }

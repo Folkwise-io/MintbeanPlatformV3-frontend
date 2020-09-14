@@ -10,3 +10,7 @@ export enum ToastActionType {
 export enum UserActionType {
   FETCH_USERS = "UserAction.FETCH_USERS",
 }
+
+export enum AuthActionType {
+  LOGIN = "AuthAction.LOGIN",
+}
