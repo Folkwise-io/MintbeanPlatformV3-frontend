@@ -1,4 +1,4 @@
-import { login, logout } from "../../../src/views/state/actions/authActions";
+import { login, logout, me } from "../../../src/views/state/actions/authActions";
 import { TestManager } from "../TestManager";
 import { TEST_EMAIL, TEST_PASSWORD } from "../constants";
 import { userFactory } from "../factories/user.factory";
@@ -104,6 +104,66 @@ describe("Auth actions", () => {
             expect(results[finalState].user.loadStatus).toBe("SUCCESS");
             expect(results[finalState].user.data).toBe(undefined);
           });
+        });
+    });
+  });
+
+  describe("ME", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.authDao.clearMockReturns();
+      });
+    });
+
+    // TODO: test for jwt token cookie removal
+    it("Updates state.user to current user on success", async () => {
+      await testManager
+        .configureContext((context) => {
+          // mock successful response
+          context.authDao.mockReturn({ data: fakeUser });
+        })
+        // login
+        .dispatchThunk<User>(me())
+        .then((tm) => {
+          const results = tm.getResults();
+
+          expect(results[0].user.loadStatus).toBe("LOADING");
+          expect(results[0].user.data).toBe(undefined);
+
+          const finalState = results.length - 1;
+          expect(results[finalState].user.loadStatus).toBe("SUCCESS");
+          expect(results[finalState].user.data).toMatchObject(JSON.parse(JSON.stringify(fakeUser)));
+        });
+    });
+
+    it("Keeps state.user undefined and does NOT log error when error response", async () => {
+      const ERROR_CODE = "UNAUTHENTICATED";
+      await testManager
+        .configureContext((context) => {
+          // mock successful response
+          context.authDao.mockReturn({
+            data: null,
+            errors: [{ message: "force fail", extensions: { code: ERROR_CODE } }],
+          });
+        })
+        .dispatchThunk<User>(me())
+        .then((tm) => {
+          const results = tm.getResults();
+
+          expect(results[0].user.loadStatus).toBe("LOADING");
+          expect(results[0].user.data).toBe(undefined);
+
+          const finalState = results.length - 1;
+          expect(results[finalState].user.loadStatus).toBe("SUCCESS");
+          expect(results[finalState].user.data).toBe(undefined);
+          // Expect no errors or toast. This is a silent operation just checking if user has valid JWT token already
+          expect(results[finalState].errors.length).toBe(0);
+          expect(results[finalState].toasts.length).toBe(0);
         });
     });
   });
