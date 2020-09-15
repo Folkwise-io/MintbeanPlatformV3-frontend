@@ -55,6 +55,11 @@ Primary.args = {
     alert(document.getElementById("heathcliff").value);
   },
   placement: "bottom",
+  actions: [
+    { type: "primary", text: "test", callback: () => alert("Yoooo") },
+    { type: "secondary", text: "cancel", callback: () => alert("Yoooo") },
+    { type: "danger", text: "DELETE", callback: () => alert("Yoooo") },
+  ],
 };
 
 Secondary.args = {

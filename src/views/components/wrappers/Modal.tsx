@@ -4,6 +4,12 @@ import { Placement } from "@popperjs/core/lib/enums";
 
 type submissionBuilder = (submitFn: () => void) => ReactElement;
 
+interface ModalAction {
+  type: "primary" | "secondary" | "danger";
+  text: string;
+  callback: Function;
+}
+
 interface ModalProps {
   submissionHandler?: () => void;
   triggerBuilder: (
@@ -12,20 +18,23 @@ interface ModalProps {
   ) => ReactElement;
   submissionBuilder?: submissionBuilder;
   placement: Placement;
+  actions: ModalAction[];
+  // actions: ModalAction[];
 }
 
 export const Modal: FC<ModalProps> = ({
   submissionBuilder,
   triggerBuilder,
   submissionHandler,
+  actions,
   children,
   placement = "bottom",
 }): ReactElement => {
-  const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(null);
+  const [triggerRef, setTriggerRef] = useState<HTMLElement | null>(null);
+  const [show, toggleShow] = useState(false);
   const [popperElement, setPopperElement] = useState<HTMLElement | null>(null);
   const [arrowElement, setArrowElement] = useState<HTMLElement | null>(null);
-  const [show, toggleShow] = useState(false);
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+  const { styles, attributes } = usePopper(triggerRef, popperElement, {
     modifiers: [
       { name: "arrow", options: { element: arrowElement } },
       { name: "flip", enabled: true, phase: "main" },
@@ -51,7 +60,7 @@ export const Modal: FC<ModalProps> = ({
     <>
       {triggerBuilder(
         () => toggleShow(!show),
-        (el) => setReferenceElement(el),
+        (el) => setTriggerRef(el),
       )}
       {show && (
         <section
@@ -70,16 +79,7 @@ export const Modal: FC<ModalProps> = ({
           </section>
           <section className="max-w-4xl bg-mint flex p-2 justify-center items-center flex-col">{children}</section>
           <section className="w-full bg-gray-500 rounded-b-lg flex py-1 px-2 justify-end">
-            {submissionBuilder ? (
-              submissionBuilder(submit)
-            ) : (
-              <button
-                className="border-mint active:bg-mint bg-white border-solid border-2 p-1 rounded-lg"
-                onClick={submit}
-              >
-                Okay!
-              </button>
-            )}
+            {actions && actions.map((action) => <ModalActionButton {...action} />)}
           </section>
           <div ref={(el) => setArrowElement(el)} style={styles.arrow} />
         </section>
@@ -87,3 +87,31 @@ export const Modal: FC<ModalProps> = ({
     </>
   );
 };
+
+const ModalActionButton: FC<ModalAction> = ({ type, text, callback }): ReactElement => {
+  const commonClasses = "border-solid border-2 p-2 m-2";
+  const classes = {
+    primary: "text-whit bg-mint border-mint",
+    secondary: "text-mint bg-white border-mint",
+    danger: "bg-red-500 border-red-500",
+  };
+
+  return (
+    <button onClick={() => callback()} className={`${commonClasses} ${classes[type]}`}>
+      {text}
+    </button>
+  );
+};
+//
+// <section className="w-full bg-gray-500 rounded-b-lg flex py-1 px-2 justify-end">
+//   {submissionBuilder ? (
+//     submissionBuilder(submit)
+//   ) : (
+//     <button
+//       className="border-mint active:bg-mint bg-white border-solid border-2 p-1 rounded-lg"
+//       onClick={submit}
+//     >
+//       Okay!
+//     </button>
+//   )}
+// </section>
