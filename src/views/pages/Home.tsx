@@ -59,9 +59,17 @@ const Home: FC<StateMapping & DispatchMapping> = (props) => {
   return (
     <div>
       <Button onClick={() => props.fetchUsers()}>This is a test button</Button>
-      <Modal actions={actions} triggerBuilder={(toggleModal) => <div onClick={() => toggleModal()}>Click me</div>}>
+      <Modal
+        actions={actions}
+        triggerBuilder={(toggleModal, setRef) => (
+          <div onClick={() => toggleModal()} ref={(el) => setRef(el)}>
+            Click me
+          </div>
+        )}
+      >
         Hello World!
       </Modal>
+
       <UserSection users={props.users} />
       <div>
         {props.toasts.map((toast, index) => (

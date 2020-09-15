@@ -8,30 +8,13 @@ export default {
   component: Modal,
 };
 
-const submitBuilder = (submitFn) => {
-  return <button onClick={submitFn}>Click Me To Submit</button>;
-};
-
-const triggerBuilder = (stateFn, setRef) => {
-  return (
-    <button onClick={() => stateFn()} ref={(el) => setRef(el)}>
-      Click to Open Modal
-    </button>
-  );
-};
-
-const triggerBuilder2 = (stateFn, setRef) => {
-  return (
-    <button onClick={() => stateFn()} ref={(el) => setRef(el)}>
-      Click to Open Modal 2
-    </button>
-  );
-};
-
 const Template = (args) => (
   <div className="w-full flex justify-center h-64 items-center">
     <Modal {...args}>
-      <p className="mb-2">Try this fun action</p>
+      <p className="mb-2">
+        <strong>The button actions don not work in storybook.</strong>
+      </p>
+      <p className="mb-2">Trust me, it works</p>
       <input
         className="p-2 border-gray-500 border-solid border-2 rounded"
         placeholder="Enter text"
@@ -54,11 +37,14 @@ export const Primary = Template.bind({});
 export const Secondary = Template2.bind({});
 
 Primary.args = {
-  triggerBuilder: (stateFn, setRef) => triggerBuilder(stateFn, setRef),
-  submissionBuilder: (submitFn) => submitBuilder(submitFn),
-  submissionHandler: () => {
-    alert(document.getElementById("heathcliff").value);
-  },
+  // storybook doesn't like the triggerBuilder this for some reason
+  /*eslint-disable */
+  triggerBuilder: (toggleModal, setRef) => (
+    <button onClick={toggleModal} ref={(el) => setRef(el)}>
+      Click to Open Modal
+    </button>
+  ),
+
   placement: "bottom",
   actions: [
     { type: "danger", text: "DANGER", callback: () => alert("You did something risky.") },
@@ -80,9 +66,14 @@ Primary.args = {
 };
 
 Secondary.args = {
-  triggerBuilder: (stateFn, setRef) => triggerBuilder2(stateFn, setRef),
+  triggerBuilder: (toggleModal, setRef) => (
+    <button onClick={toggleModal} ref={(el) => setRef(el)}>
+      Click to Open Modal
+    </button>
+  ),
   submissionHandler: () => {
     alert("clicked");
   },
   placement: "left",
 };
+/*eslint-enable */
