@@ -65,9 +65,7 @@ Primary.args = {
     {
       type: "secondary",
       text: "Cancel",
-      callback: () => {
-        return;
-      },
+      callback: null,
     },
     { type: "primary", text: "Alert", callback: () => alert(document.getElementById("heathcliff").value) },
   ],

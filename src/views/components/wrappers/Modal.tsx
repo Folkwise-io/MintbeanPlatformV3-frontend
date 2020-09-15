@@ -2,18 +2,15 @@ import React, { FC, ReactElement, useState } from "react";
 import { usePopper } from "react-popper";
 import { Placement } from "@popperjs/core/lib/enums";
 
-// type submissionBuilder = (submitFn: () => void) => ReactElement;
-
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 interface ModalAction {
   type: "primary" | "secondary" | "danger";
   text: string;
-  callback: (close?: React.Dispatch<React.SetStateAction<boolean>>) => any;
+  callback: (close?: React.Dispatch<React.SetStateAction<boolean>>) => any | null;
 }
+/* eslint-enable  @typescript-eslint/no-explicit-any */
 
-/* TODO: make Modal context accessible from actions callback. For now, all action buttons close on completion */
-// interface ModalContext {
-//   closeModal: () => void;
-// }
+/* TODO: make Modal context (closeModal...) accessible from actions callback. For now, all action buttons close on completion */
 
 interface ModalProps {
   triggerBuilder: (
@@ -55,10 +52,6 @@ export const Modal: FC<ModalProps> = ({
     toggleShow(false);
   };
 
-  // const context = {
-  //   closeModal,
-  // };
-
   return (
     <>
       {triggerBuilder(
@@ -96,7 +89,6 @@ export const Modal: FC<ModalProps> = ({
 };
 
 interface ModalActionButtonProps {
-  // context: ModalContext;
   closeModal: () => void;
 }
 
