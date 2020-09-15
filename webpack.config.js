@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   // webpack will take the files from ./src/index
   entry: "./src/index",
+  devtool: "source-map",
 
   // and output it into /dist as bundle.js
   output: {
@@ -61,6 +62,19 @@ module.exports = {
       },
       { test: /\.css$/, loader: "postcss-loader" },
     ],
+  },
+  devServer: {
+    historyApiFallback: true,
+    // headers: {
+    //   "Access-Control-Allow-Origin": "*",
+    //   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+    //   "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization",
+    // },
+    proxy: {
+      "/graphql": {
+        target: "http://localhost:4000",
+      },
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({

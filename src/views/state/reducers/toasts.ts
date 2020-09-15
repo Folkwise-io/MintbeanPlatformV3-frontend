@@ -1,5 +1,6 @@
 import { ToastActionType } from "../actions/actionTypes";
 import { Reducer } from "redux";
+import { MbAction } from "../actions/MbAction";
 
 export const toastsInitialState: ToastState = [];
 
