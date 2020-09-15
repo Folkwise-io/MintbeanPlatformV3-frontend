@@ -15,4 +15,5 @@ export enum AuthActionType {
   LOGIN = "AuthAction.LOGIN",
   LOGOUT = "AuthAction.LOGOUT",
   ME = "AuthAction.ME",
+  REGISTER = "AuthAction.REGISTER",
 }

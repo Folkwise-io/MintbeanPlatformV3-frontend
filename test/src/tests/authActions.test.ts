@@ -1,4 +1,4 @@
-import { login, logout, me } from "../../../src/views/state/actions/authActions";
+import { login, logout, me, register } from "../../../src/views/state/actions/authActions";
 import { TestManager } from "../TestManager";
 import { TEST_EMAIL, TEST_PASSWORD } from "../constants";
 import { userFactory } from "../factories/user.factory";
@@ -22,14 +22,14 @@ describe("Auth actions", () => {
     });
 
     // TODO: test for jwt token cookie assignment
-    it("Updates state.user and throws Toast on successful login", async () => {
+    it("updates state.user and throws Toast on successful login", async () => {
       await testManager
         // fake a successful login by returning user
         .configureContext((context) => {
           context.authDao.mockReturn({ data: fakeUser });
         })
         .dispatchThunk<User>(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
-        .then((tm) => {
+        .then((tm: TestManager) => {
           const results = tm.getResults();
 
           expect(results[0].user.loadStatus).toBe("LOADING");
@@ -43,7 +43,7 @@ describe("Auth actions", () => {
         });
     });
 
-    it("Registers error loadStatus for state.user, logs error and throws Toast on failed login, ", async () => {
+    it("registers error loadStatus for state.user, logs error and throws Toast on failed login, ", async () => {
       const ERROR_CODE = "AMBIGUOUS_ERROR";
       await testManager
         // fake a bad login by forcing errors in dao return
@@ -54,7 +54,7 @@ describe("Auth actions", () => {
           });
         })
         .dispatchThunk<User>(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
-        .then((tm) => {
+        .then((tm: TestManager) => {
           const results = tm.getResults();
 
           expect(results[0].user.loadStatus).toBe("LOADING");
@@ -84,14 +84,14 @@ describe("Auth actions", () => {
     });
 
     // TODO: test for jwt token cookie removal
-    it("Updates state.user to undefined on successful logout", async () => {
+    it("updates state.user to undefined on successful logout", async () => {
       await testManager
         .configureContext((context) => {
           context.authDao.mockReturn({ data: fakeUser });
         })
         // login
         .dispatchThunk<User>(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
-        .then((tm) => {
+        .then((tm: TestManager) => {
           // logout
           tm.dispatchThunk<boolean>(logout()).then((tm) => {
             const results = tm.getResults();
@@ -121,7 +121,7 @@ describe("Auth actions", () => {
     });
 
     // TODO: test for jwt token cookie removal
-    it("Updates state.user to current user on success", async () => {
+    it("updates state.user to current user on success", async () => {
       await testManager
         .configureContext((context) => {
           // mock successful response
@@ -129,7 +129,7 @@ describe("Auth actions", () => {
         })
         // login
         .dispatchThunk<User>(me())
-        .then((tm) => {
+        .then((tm: TestManager) => {
           const results = tm.getResults();
 
           expect(results[0].user.loadStatus).toBe("LOADING");
@@ -141,7 +141,7 @@ describe("Auth actions", () => {
         });
     });
 
-    it("Keeps state.user undefined and does NOT log error when error response", async () => {
+    it("keeps state.user undefined and does NOT log error when error response", async () => {
       const ERROR_CODE = "UNAUTHENTICATED";
       await testManager
         .configureContext((context) => {
@@ -152,7 +152,7 @@ describe("Auth actions", () => {
           });
         })
         .dispatchThunk<User>(me())
-        .then((tm) => {
+        .then((tm: TestManager) => {
           const results = tm.getResults();
 
           expect(results[0].user.loadStatus).toBe("LOADING");
@@ -167,88 +167,76 @@ describe("Auth actions", () => {
         });
     });
   });
-  // COMING SOON
 
-  // describe("SIGNUP", () => {
-  //   beforeEach(() => {
-  //     testManager = TestManager.build();
-  //   });
-  //
-  //   afterEach(() => {
-  //     // This may be unecessary since run testManager.build() before each
-  //     // Just to be safe!
-  //     testManager.configureContext((context) => {
-  //       context.authDao.clearMockReturns();
-  //     });
-  //   });
+  describe("REGISTER", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
 
-  // TODO: test for jwt token cookie assignment
-  // it("Sets new user to redux state on signup", async () => {
-  //   const newUserParams: SignupInput = {
-  //     firstName: "Amy",
-  //     lastName: "Web",
-  //     username: "amyweb123",
-  //     email: TEST_EMAIL,
-  //     password: TEST_PASSWORD,
-  //     passwordConfirm: TEST_PASSWORD,
-  //   };
-  //
-  //   const expectedNewUser: User = {
-  //     id: "fdsajkhfkjhdf",
-  //     firstName: newUserParams.firstName,
-  //     lastName: newUserParams.lastName,
-  //     username: newUserParams.username,
-  //     email: newUserParams.email,
-  //     createdAt: new Date(),
-  //   };
-  //
-  //   await testManager.configureContext((context) => {
-  //     context.authDao.mockReturn([{ data: expectedNewUser }]);
-  //   });
-  // .dispatchThunk(signup(newUserParams))
-  // .then((tm) => {
-  //   const results = tm.getResults();
-  //
-  //   expect(results[0].user.loadStatus).toBe("LOADING");
-  //   expect(results[0].user.data).toBe(undefined);
-  //
-  //   // returns user on success
-  //   const finalState = results.length - 1;
-  //   expect(results[finalState].user.loadStatus).toBe("SUCCESS");
-  //   expect(results[finalState].user.data).toMatchObject(expectedNewUser);
-  // });
-  // });
+    afterEach(() => {
+      // This may be unecessary since run testManager.build() before each
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.authDao.clearMockReturns();
+      });
+    });
 
-  // it("Does not allow signup for logged-in user", async () => {
-  //   const newUserParams: SignupInput = {
-  //     firstName: "Amy",
-  //     lastName: "Web",
-  //     username: "amyweb123",
-  //     email: TEST_EMAIL,
-  //     password: TEST_PASSWORD,
-  //     passwordConfirm: TEST_PASSWORD,
-  //   };
-  //
-  //   const user = userFactory.one();
-  //
-  //   await testManager
-  //     .configureContext((context) => {
-  //       context.authDao.mockReturn([{ data: user }]);
-  //     })
-  //     .dispatchThunk(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
-  //     .dispatchThunk(signup(newUserParams))
-  //     .then((tm) => {
-  //       const results = tm.getResults();
-  //       console.log({ results });
-  //
-  //       expect(results[0].user.loadStatus).toBe("LOADING");
-  //       expect(results[0].user.data).toBe(undefined);
-  //
-  //       // returns user on success
-  //       const finalState = results.length - 1;
-  //       expect(results[finalState].user.loadStatus).toBe("ERROR");
-  //       expect(results[finalState].user.data).toMatchObject(user);
-  //     });
-  // });
-  // });
+    const newUserParams: RegisterInput = {
+      firstName: "Amy",
+      lastName: "Web",
+      username: "amyweb123",
+      email: TEST_EMAIL,
+      password: TEST_PASSWORD,
+    };
+    const expectedNewUser: User = {
+      id: "fdsajkhfkjhdf",
+      firstName: newUserParams.firstName,
+      lastName: newUserParams.lastName,
+      username: newUserParams.username,
+      email: newUserParams.email,
+      createdAt: new Date(),
+    };
+
+    // TODO: test for jwt token cookie assignment
+    it("updates state.user to new user on successful signup", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.authDao.mockReturn({ data: expectedNewUser });
+        })
+        .dispatchThunk<User>(register(newUserParams))
+        .then((tm: TestManager) => {
+          const results = tm.getResults();
+
+          expect(results[0].user.loadStatus).toBe("LOADING");
+          expect(results[0].user.data).toBe(undefined);
+
+          // returns user on success
+          const finalState = results.length - 1;
+          expect(results[finalState].user.loadStatus).toBe("SUCCESS");
+          expect(results[finalState].user.data).toMatchObject(JSON.parse(JSON.stringify(expectedNewUser)));
+        });
+    });
+
+    it("does not allow signup for logged-in user", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.authDao.mockReturn({ data: expectedNewUser });
+        })
+        .dispatchThunk(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
+        .then((tm: TestManager) => {
+          tm.dispatchThunk(register(newUserParams)).then((tm: TestManager) => {
+            const results = tm.getResults();
+            // console.log(results[results.length - 1].toasts);
+
+            expect(results[0].user.loadStatus).toBe("LOADING");
+            expect(results[0].user.data).toBe(undefined);
+
+            // returns user on success
+            const finalState = results.length - 1;
+            expect(results[finalState].user.loadStatus).toBe("SUCCESS");
+            expect(results[finalState].user.data).toMatchObject(JSON.parse(JSON.stringify(expectedNewUser)));
+          });
+        });
+    });
+  });
 });

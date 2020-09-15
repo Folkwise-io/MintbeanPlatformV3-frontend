@@ -11,11 +11,11 @@ const loginAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<User> 
   loadStatus,
 });
 
-export function login(loginInput: LoginInput): ThunkAction<void, StoreState, Context, MbAction<void>> {
+export function login(params: LoginInput): ThunkAction<void, StoreState, Context, MbAction<void>> {
   return (dispatch: Dispatch, _getState, context) => {
     dispatch(loginAction("LOADING"));
     return context.authService
-      .login(loginInput)
+      .login(params)
       .then((user: User) => {
         if (!user) {
           dispatch(loginAction("ERROR"));
@@ -88,5 +88,31 @@ export function me(): ThunkAction<void, StoreState, Context, MbAction<void>> {
         })
     );
     /* eslint-enable  @typescript-eslint/no-explicit-any */
+  };
+}
+
+const registerAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<User> => ({
+  type: AuthActionType.REGISTER,
+  payload,
+  loadStatus,
+});
+
+export function register(params: RegisterInput): ThunkAction<void, StoreState, Context, MbAction<void>> {
+  return (dispatch: Dispatch, _getState, context) => {
+    dispatch(registerAction("LOADING"));
+    return context.authService
+      .register(params)
+      .then((user: User) => {
+        if (!user) {
+          dispatch(registerAction("ERROR"));
+          throw null;
+        }
+        context.loggerService.success("Successfully logged in.");
+        return dispatch(registerAction("SUCCESS", user));
+      })
+      .catch((e) => {
+        context.loggerService.handleGraphqlErrors(e);
+        return dispatch(registerAction("ERROR"));
+      });
   };
 }
