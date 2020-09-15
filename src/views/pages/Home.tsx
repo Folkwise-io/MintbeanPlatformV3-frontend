@@ -4,9 +4,10 @@ import { fetchUsers } from "../state/actions/userActions";
 import { Button } from "../components/Button";
 import { UserCard } from "../components/UserCard";
 import { ThunkDispatch } from "redux-thunk";
-import { Context } from "context/contextBuilder";
 import { Toast } from "../components/Toast";
 import { removeToast } from "../../views/state/actions/toastActions";
+import { Modal } from "../components/wrappers/Modal";
+import { Context } from "../../context/contextBuilder";
 
 type StateMapping = {
   users: UsersState;
@@ -47,6 +48,7 @@ const Home: FC<StateMapping & DispatchMapping> = (props) => {
   return (
     <div>
       <Button onClick={() => props.fetchUsers()}>This is a test button</Button>
+      <Modal triggerBuilder={(toggleModal) => <div onClick={() => toggleModal()}>Click me</div>}>Hello World!</Modal>
       <UserSection users={props.users} />
       <div>
         {props.toasts.map((toast, index) => (
