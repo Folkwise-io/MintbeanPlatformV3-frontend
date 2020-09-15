@@ -41,6 +41,9 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
       <Link to="/" className="mx-2">
         Home
       </Link>
+      <Link to="/hackathons" className="mx-2">
+        Hackathons
+      </Link>
       {isLoggedIn ? (
         <button className="mx-2" onClick={() => logoutAndRedirect()}>
           Logout
