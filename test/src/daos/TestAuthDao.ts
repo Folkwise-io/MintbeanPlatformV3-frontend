@@ -29,6 +29,11 @@ export class TestAuthDao implements AuthDao, TestDao {
     }
   }
 
+  async logout(): Promise<boolean> {
+    // TODO: code this
+    return true;
+  }
+
   mockReturn(mr: ApiResponseRaw<SuccessDataTypes | null>) {
     this.mockReturns.push(mr);
   }

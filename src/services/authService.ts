@@ -6,4 +6,7 @@ export class AuthService {
   login(loginInput: LoginInput): Promise<User> {
     return this.authDao.login(loginInput);
   }
+  logout(): Promise<boolean> {
+    return this.authDao.logout();
+  }
 }

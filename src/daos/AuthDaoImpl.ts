@@ -5,6 +5,9 @@ import { AuthDao } from "./AuthDao";
 interface LoginResponseRaw {
   login: User;
 }
+interface LogoutResponseRaw {
+  logout: boolean;
+}
 
 export class AuthDaoImpl implements AuthDao {
   constructor(private api: ApiQueryExecutor) {}
@@ -33,6 +36,36 @@ export class AuthDaoImpl implements AuthDao {
             throw [{ message: "Failed to log in", extensions: { code: "UNEXPECTED" } }];
           }
           return result.data.login;
+        })
+        // TODO: What potential Types of errors can invoke this catch?
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          if (e.errors) {
+            throw e.errors;
+          } else {
+            throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+          }
+        })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
+    );
+  }
+
+  logout(): Promise<boolean> {
+    return (
+      this.api
+        .query<ApiResponseRaw<LogoutResponseRaw>, LoginInput>(
+          `
+            mutation logout {
+              logout
+            }
+          `,
+        )
+        .then((result) => {
+          if (result.errors) throw result.errors;
+          if (!result.errors && !result.data.logout) {
+            throw [{ message: "Failed to logout", extensions: { code: "UNEXPECTED" } }];
+          }
+          return result.data.logout;
         })
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */

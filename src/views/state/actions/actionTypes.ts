@@ -13,4 +13,5 @@ export enum UserActionType {
 
 export enum AuthActionType {
   LOGIN = "AuthAction.LOGIN",
+  LOGOUT = "AuthAction.LOGOUT",
 }

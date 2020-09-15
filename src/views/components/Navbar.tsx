@@ -1,10 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-// import { ThunkDispatch } from "redux-thunk";
-// import { Context } from "context/contextBuilder";
-// import { login } from "../state/actions/authActions";
-// import { MbAction } from "../state/actions/MbAction";
+import { Link, useHistory } from "react-router-dom";
+import { ThunkDispatch } from "redux-thunk";
+import { Context } from "context/contextBuilder";
+import { logout } from "../state/actions/authActions";
+import { MbAction } from "../state/actions/MbAction";
 
 type StateMapping = {
   user: UserState;
@@ -14,15 +14,28 @@ const stp = (state: StoreState) => ({
   user: state.user,
 });
 
-// type DispatchMapping = {
-//   login: (loginInput: LoginInput) => void;
-// };
-//
-// const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
-//   login: (loginInput: LoginInput) => dispatch(login(loginInput)),
-// });
+type DispatchMapping = {
+  logout: () => void;
+};
 
-const Navbar: FC<StateMapping /* & DispatchMapping*/> = ({ user /*, login */ }) => {
+const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
+  logout: () => dispatch(logout()),
+});
+
+const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
+  const [isLoggedIn, setLoggedIn] = useState(!!user.data);
+  const history = useHistory();
+
+  useEffect(() => {
+    setLoggedIn(!!user.data);
+  }, [user]);
+
+  // TODO: use protected routes instead of in-component redirects
+  const logoutAndRedirect = (): void => {
+    logout();
+    history.push("/");
+  };
+
   return (
     <nav className="p-2">
       <Link to="/" className="mx-2">
@@ -31,8 +44,8 @@ const Navbar: FC<StateMapping /* & DispatchMapping*/> = ({ user /*, login */ }) 
       <Link to="/hackathons" className="mx-2">
         Hackathons
       </Link>
-      {user.data ? (
-        <button className="mx-2" onClick={() => alert("Just kidding! You can't yet!")}>
+      {isLoggedIn ? (
+        <button className="mx-2" onClick={() => logoutAndRedirect()}>
           Logout
         </button>
       ) : (
@@ -44,4 +57,4 @@ const Navbar: FC<StateMapping /* & DispatchMapping*/> = ({ user /*, login */ }) 
   );
 };
 
-export default connect(stp /*, dtp*/)(Navbar);
+export default connect(stp, dtp)(Navbar);
