@@ -2,31 +2,33 @@ import React, { FC, ReactElement, useState } from "react";
 import { usePopper } from "react-popper";
 import { Placement } from "@popperjs/core/lib/enums";
 
-type submissionBuilder = (submitFn: () => void) => ReactElement;
+// type submissionBuilder = (submitFn: () => void) => ReactElement;
 
 interface ModalAction {
   type: "primary" | "secondary" | "danger";
   text: string;
-  callback: Function;
+  callback: (close?: React.Dispatch<React.SetStateAction<boolean>>) => any;
 }
 
+/* TODO: make Modal context accessible from actions callback. For now, all action buttons close on completion */
+// interface ModalContext {
+//   closeModal: () => void;
+// }
+
 interface ModalProps {
-  submissionHandler?: () => void;
   triggerBuilder: (
     stateFn: React.Dispatch<React.SetStateAction<boolean>>,
     ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
   ) => ReactElement;
-  submissionBuilder?: submissionBuilder;
   placement: Placement;
-  actions: ModalAction[];
-  // actions: ModalAction[];
+  actions?: ModalAction[];
+  title?: string;
 }
 
 export const Modal: FC<ModalProps> = ({
-  submissionBuilder,
   triggerBuilder,
-  submissionHandler,
   actions,
+  title,
   children,
   placement = "bottom",
 }): ReactElement => {
@@ -49,12 +51,13 @@ export const Modal: FC<ModalProps> = ({
     placement: placement,
   });
 
-  const submit = () => {
-    if (submissionHandler) {
-      submissionHandler();
-    }
+  const closeModal = () => {
     toggleShow(false);
   };
+
+  // const context = {
+  //   closeModal,
+  // };
 
   return (
     <>
@@ -68,18 +71,22 @@ export const Modal: FC<ModalProps> = ({
           style={styles.popper}
           {...attributes.popper}
           data-popper-placement="right"
+          className="max-w-screen-sm bg-gray-100 p-3 shadow-xl bg-white rounded-md"
         >
-          <section className="w-full py-1 px-2 bg-gray-500 rounded-t-lg flex justify-end">
-            <button
-              className="border-red-500 active:bg-red-400 bg-white border-solid border-2 px-2 rounded-full"
-              onClick={() => toggleShow(false)}
-            >
-              X
+          {/* modal header */}
+          <section className="py-1 px-2 flex justify-end text-gray-400">
+            <button className="active:bg-mint px-2 rounded-full" onClick={closeModal}>
+              Close
             </button>
           </section>
-          <section className="max-w-4xl bg-mint flex p-2 justify-center items-center flex-col">{children}</section>
-          <section className="w-full bg-gray-500 rounded-b-lg flex py-1 px-2 justify-end">
-            {actions && actions.map((action) => <ModalActionButton {...action} />)}
+          {/* modal body */}
+          <section className="flex p-4 justify-center items-center flex-col">
+            {title && <div className="font-semibold text-lg text-gray-700 mb-2">{title}</div>}
+            <div className="my-2">{children}</div>
+          </section>
+          {/* modal actions */}
+          <section className="flex py-1 px-2 justify-center">
+            {actions && actions.map((action) => <ModalActionButton {...action} closeModal={closeModal} />)}
           </section>
           <div ref={(el) => setArrowElement(el)} style={styles.arrow} />
         </section>
@@ -88,30 +95,32 @@ export const Modal: FC<ModalProps> = ({
   );
 };
 
-const ModalActionButton: FC<ModalAction> = ({ type, text, callback }): ReactElement => {
-  const commonClasses = "border-solid border-2 p-2 m-2";
+interface ModalActionButtonProps {
+  // context: ModalContext;
+  closeModal: () => void;
+}
+
+const ModalActionButton: FC<ModalAction & ModalActionButtonProps> = ({
+  type,
+  text,
+  callback,
+  closeModal,
+}): ReactElement => {
+  const commonClasses = "shadow-md border-solid border-2 rounded-md py-2 px-6 m-2";
   const classes = {
-    primary: "text-whit bg-mint border-mint",
-    secondary: "text-mint bg-white border-mint",
-    danger: "bg-red-500 border-red-500",
+    primary: "text-white bg-mint border-mint ",
+    secondary: "text-black bg-white border-mint",
+    danger: "text-white bg-red-500 border-red-500",
+  };
+
+  const executeAndClose = () => {
+    callback();
+    closeModal();
   };
 
   return (
-    <button onClick={() => callback()} className={`${commonClasses} ${classes[type]}`}>
+    <button onClick={executeAndClose} className={`${commonClasses} ${classes[type]}`}>
       {text}
     </button>
   );
 };
-//
-// <section className="w-full bg-gray-500 rounded-b-lg flex py-1 px-2 justify-end">
-//   {submissionBuilder ? (
-//     submissionBuilder(submit)
-//   ) : (
-//     <button
-//       className="border-mint active:bg-mint bg-white border-solid border-2 p-1 rounded-lg"
-//       onClick={submit}
-//     >
-//       Okay!
-//     </button>
-//   )}
-// </section>

@@ -31,8 +31,13 @@ const triggerBuilder2 = (stateFn, setRef) => {
 const Template = (args) => (
   <div className="w-full flex justify-center h-64 items-center">
     <Modal {...args}>
-      <p>This is an Example Modal</p>
-      <input placeholder="Alert What Is Written" id="heathcliff" type="text" />
+      <p className="mb-2">Try this fun action</p>
+      <input
+        className="p-2 border-gray-500 border-solid border-2 rounded"
+        placeholder="Enter text"
+        id="heathcliff"
+        type="text"
+      />
     </Modal>
   </div>
 );
@@ -56,10 +61,17 @@ Primary.args = {
   },
   placement: "bottom",
   actions: [
-    { type: "primary", text: "test", callback: () => alert("Yoooo") },
-    { type: "secondary", text: "cancel", callback: () => alert("Yoooo") },
-    { type: "danger", text: "DELETE", callback: () => alert("Yoooo") },
+    { type: "danger", text: "DANGER", callback: () => alert("You did something risky.") },
+    {
+      type: "secondary",
+      text: "Cancel",
+      callback: () => {
+        return;
+      },
+    },
+    { type: "primary", text: "Alert", callback: () => alert(document.getElementById("heathcliff").value) },
   ],
+  title: "Test modal",
 };
 
 Secondary.args = {
