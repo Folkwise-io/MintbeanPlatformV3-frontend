@@ -65,9 +65,16 @@ Primary.args = {
     {
       type: "secondary",
       text: "Cancel",
-      callback: null,
+      callback: (evt, { closeModal }) => closeModal(),
     },
-    { type: "primary", text: "Alert", callback: () => alert(document.getElementById("heathcliff").value) },
+    {
+      type: "primary",
+      text: "Alert",
+      callback: (evt, { closeModal }) => {
+        alert("You shouldn't have!");
+        closeModal();
+      },
+    },
   ],
   title: "Test modal",
 };

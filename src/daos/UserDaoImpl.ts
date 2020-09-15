@@ -1,4 +1,4 @@
-import { ApiQueryExecutor } from "api/ApiQueryExecutor";
+import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { UserDao } from "./UserDao";
 
 interface UsersResponseRaw {
@@ -20,7 +20,7 @@ export class UserDaoImpl implements UserDao {
               lastName
               createdAt
             }
-          }   
+          }
         `,
       )
       .then((result) => result.users || []);

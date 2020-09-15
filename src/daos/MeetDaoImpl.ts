@@ -1,4 +1,4 @@
-import { ApiQueryExecutor } from "api/ApiQueryExecutor";
+import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { MeetDao } from "./MeetDao";
 
 interface EventResponseRaw {
@@ -26,7 +26,7 @@ export class MeetDaoImpl implements MeetDao {
                 image
               }
             }
-          }   
+          }
         `,
       )
       .then((result) => result.events || []);

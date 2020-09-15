@@ -1,8 +1,8 @@
 import { ErrorActionType, UserActionType } from "./actionTypes";
 import { ThunkAction } from "redux-thunk";
-import { Context } from "context/contextBuilder";
 import { addErrorToast, addInfoToast, addSuccessToast, addWarningToast } from "./toastActions";
 import { Dispatch } from "redux";
+import { Context } from "../../../context/contextBuilder";
 
 const action = (loadStatus: ApiDataStatus, payload?: User[]): MbAction<User[]> => ({
   type: UserActionType.FETCH_USERS,

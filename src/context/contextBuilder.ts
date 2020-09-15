@@ -2,9 +2,9 @@ import { UserDaoImpl } from "../daos/UserDaoImpl";
 import { UserService } from "../services/userService";
 import { MeetService } from "../services/meetService";
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
-import { UserDao } from "daos/UserDao";
-import { MeetDao } from "daos/MeetDao";
 import { MeetDaoImpl } from "../daos/MeetDaoImpl";
+import { MeetDao } from "../daos/MeetDao";
+import { UserDao } from "../daos/UserDao";
 
 export interface Context {
   apiQueryExecutor?: ApiQueryExecutor;

@@ -50,7 +50,7 @@ const Home: FC<StateMapping & DispatchMapping> = (props) => {
     {
       type: "danger",
       text: "Don't click this button.",
-      onClick: (evt, context) => {
+      onClick: (_evt, context) => {
         alert("WTF you clicked the button, you douche.");
         context.closeModal();
       },

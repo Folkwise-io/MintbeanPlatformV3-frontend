@@ -3,8 +3,7 @@ import { testContextBuilder } from "../testContextBuilder";
 import { TestContext } from "../testContextBuilder";
 import { Store } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
-import { Context } from "context/contextBuilder";
-type DispatchParameter<T> = ThunkAction<void, StoreState, void, MbAction<T>> | MbAction<T>;
+import { Context } from "../../src/context/contextBuilder";
 
 export class TestManager {
   store: Store;

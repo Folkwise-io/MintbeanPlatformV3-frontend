@@ -1,4 +1,4 @@
-import { UserDao } from "daos/UserDao";
+import { UserDao } from "../../src/daos/UserDao";
 
 export class TestUserDao implements UserDao {
   data: User[];
