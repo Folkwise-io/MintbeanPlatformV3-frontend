@@ -79,7 +79,10 @@ export const Modal: FC<ModalProps> = ({
           </section>
           {/* modal actions */}
           <section className="flex py-1 px-2 justify-center">
-            {actions && actions.map((action) => <ModalActionButton {...action} closeModal={closeModal} />)}
+            {actions &&
+              actions.map((action: ModalAction, i: number) => (
+                <ModalActionButton {...action} closeModal={closeModal} key={i} />
+              ))}
           </section>
           <div ref={(el) => setArrowElement(el)} style={styles.arrow} />
         </section>
