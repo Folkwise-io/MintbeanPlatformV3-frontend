@@ -2,11 +2,10 @@ import React, { FC, ReactElement, useState } from "react";
 import { usePopper } from "react-popper";
 import { Placement } from "@popperjs/core/lib/enums";
 
-type functionVoidReturn = () => void;
-type submissionBuilder = (submitFn: functionVoidReturn) => ReactElement;
+type submissionBuilder = (submitFn: () => void) => ReactElement;
 
 interface ModalProps {
-  submissionHandler?: functionVoidReturn;
+  submissionHandler?: () => void;
   triggerBuilder: (
     stateFn: React.Dispatch<React.SetStateAction<boolean>>,
     ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
