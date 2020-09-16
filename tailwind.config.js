@@ -9,6 +9,10 @@ module.exports = {
       colors: {
         mint: "#02ed9d",
       },
+      colors: {
+        "mb-mint": "#02ed9d",
+        "mb-blue": "#009be2",
+      },
     },
   },
   variants: {

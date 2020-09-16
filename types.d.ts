@@ -14,6 +14,18 @@ interface Sponsor {
   image?: string;
 }
 
+type Project = {
+  id: string;
+  title: string;
+  sourceCodeUrl: string;
+  image: string;
+  liveUrl: string;
+  createdAt: Date;
+  updatedAt: Date;
+  meetId: string;
+  user: User;
+};
+
 interface HackMeet {
   name: string;
   description: string;
