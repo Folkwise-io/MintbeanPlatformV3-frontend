@@ -6,12 +6,6 @@ export class MeetService {
 
   /* This action does not update the redux store, so error handling happens here in service rather than an action */
   async fetchMeets(): Promise<HackMeet[] | void> {
-    let meets: Promise<HackMeet[]>;
-    try {
-      meets = this.meetDao.fetchMeets();
-    } catch (e) {
-      this.logger.handleGraphqlErrors(e);
-    }
-    return meets;
+    return this.meetDao.fetchMeets().catch((e) => this.logger.handleGraphqlErrors(e));
   }
 }

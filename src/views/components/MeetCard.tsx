@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import moment from "moment-timezone";
+import { Button } from "./Button";
 type HackMeetTime = {
   date: string;
   s: string;
@@ -34,7 +35,7 @@ export const MeetCard: FC<MeetProps> = ({ event }) => {
   };
 
   return (
-    <button
+    <div
       className="flex flex-wrap relative max-w-xl px-4 py-6 items-center rounded-lg overflow-hidden"
       style={{ background: started.c }}
     >
@@ -48,7 +49,10 @@ export const MeetCard: FC<MeetProps> = ({ event }) => {
         <p>Starts: {moment.tz(startTime, region).tz(userTimezone).format("lll z")}</p>
         <p>Ends: {moment.tz(endTime, region).tz(userTimezone).format("lll z")}</p>
       </section>
+      <Button>More</Button>
+      <Button type="secondary">More</Button>
+      <Button type="danger">More</Button>
       <p className="w-full px-4 bottom-0 absolute">Location: Online</p>
-    </button>
+    </div>
   );
 };
