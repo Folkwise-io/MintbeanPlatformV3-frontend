@@ -98,7 +98,11 @@ const registerAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<Use
 });
 
 export function register(params: RegisterInput): ThunkAction<void, StoreState, Context, MbAction<void>> {
-  return (dispatch: Dispatch, _getState, context) => {
+  return (dispatch: Dispatch, getState, context) => {
+    const userAlreadyLoggedin = getState().user.data;
+    if (userAlreadyLoggedin) {
+      return context.loggerService.danger("Sorry, you can't create an account because you're already logged in!");
+    }
     dispatch(registerAction("LOADING"));
     return context.authService
       .register(params)

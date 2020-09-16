@@ -174,7 +174,6 @@ describe("Auth actions", () => {
     });
 
     afterEach(() => {
-      // This may be unecessary since run testManager.build() before each
       // Just to be safe!
       testManager.configureContext((context) => {
         context.authDao.clearMockReturns();
@@ -217,7 +216,7 @@ describe("Auth actions", () => {
         });
     });
 
-    it("does not allow signup for logged-in user", async () => {
+    it("logs error and throws toast when logged-in user attempts to register", async () => {
       await testManager
         .configureContext((context) => {
           context.authDao.mockReturn({ data: expectedNewUser });
@@ -226,15 +225,21 @@ describe("Auth actions", () => {
         .then((tm: TestManager) => {
           tm.dispatchThunk(register(newUserParams)).then((tm: TestManager) => {
             const results = tm.getResults();
-            // console.log(results[results.length - 1].toasts);
 
             expect(results[0].user.loadStatus).toBe("LOADING");
             expect(results[0].user.data).toBe(undefined);
 
-            // returns user on success
+            // expect current user to remain logged in as succes, but logs error and throws toast
             const finalState = results.length - 1;
+            const expectedErrorMsg = "Sorry, you can't create an account because you're already logged in!";
+
             expect(results[finalState].user.loadStatus).toBe("SUCCESS");
             expect(results[finalState].user.data).toMatchObject(JSON.parse(JSON.stringify(expectedNewUser)));
+            const allToasts = results[finalState].toasts;
+            const lastToast = allToasts[allToasts.length - 1];
+            expect(lastToast.type).toBe("DANGER");
+            expect(lastToast.message).toBe(expectedErrorMsg);
+            expect(results[finalState].errors[0].message).toBe(expectedErrorMsg);
           });
         });
     });
