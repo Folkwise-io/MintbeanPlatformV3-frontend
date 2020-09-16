@@ -6,15 +6,6 @@ import * as Yup from "yup";
 import { Context } from "../../../context/contextBuilder";
 import { register } from "../../state/actions/authActions";
 import { MbAction } from "../../state/actions/MbAction";
-// import { useHistory } from "react-router-dom";
-
-// type StateMapping = {
-//   user: UserState;
-// };
-//
-// const stp = (state: StoreState) => ({
-//   user: state.user,
-// });
 
 type DispatchMapping = {
   register: (params: RegisterParams) => void;
@@ -36,11 +27,7 @@ const RegisterSchema = Yup.object().shape({
     .required("Required"),
 });
 
-interface Props {
-  to?: string; // redirect path
-}
-
-const RegisterForm: FC</*StateMapping & */ DispatchMapping & Props> = ({ register /*, user, to */ }) => {
+const RegisterForm: FC<DispatchMapping> = ({ register }) => {
   const initialFormValues = {
     username: "",
     email: "",

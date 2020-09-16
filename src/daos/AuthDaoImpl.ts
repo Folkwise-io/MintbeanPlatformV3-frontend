@@ -117,18 +117,6 @@ export class AuthDaoImpl implements AuthDao {
 
   register(params: RegisterParams): Promise<User> {
     console.log(params);
-    // TODO hook up to real backend
-    // console.log(params);
-    // const details = Object.assign(
-    //   {},
-    //   { email: params.email, firstName: params.firstName, lastName: params.lastName, username: params.username },
-    // );
-    // const tempUser = {
-    //   ...details,
-    //   id: "123213ljdsjkafhkjsh1k23",
-    //   createdAt: new Date(),
-    // };
-    // return new Promise((res) => res(tempUser));
     return (
       this.api
         .query<ApiResponseRaw<{ register: User }>, RegisterInput>(
