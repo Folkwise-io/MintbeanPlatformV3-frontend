@@ -14,19 +14,18 @@ export class MeetDaoImpl implements MeetDao {
         .query<ApiResponseRaw<EventResponseRaw>>(
           `
           query allEvents {
-            events {
-              name
-              image
+            meets {
+              id
+              meetType
+              title
               description
-              startDate
-              endDate
+              instructions
+              registerLink
+              coverImageUrl
+              startTime
+              endTime
+              createdAt
               region
-              sponsors {
-                name
-                blurb
-                image
-              }
-            }
           }
         `,
         )
