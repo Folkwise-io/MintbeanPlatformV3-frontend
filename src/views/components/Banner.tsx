@@ -16,7 +16,7 @@ export const Banner: FC<Props> = ({ title, subtitle }) => {
               background: "linear-gradient(180deg, #00A5DB, #00ADD8, #00C7CD, #00DAC6, #00FFB8, #00FF9C)",
             }}
           >
-            <div className="p-4">
+            <div className="p-6">
               <h1 className="font-semibold text-4xl">{title}</h1>
               <div>{subtitle}</div>
             </div>
