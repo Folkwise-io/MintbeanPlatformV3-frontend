@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { HomeHeader } from "../components/HomeHeader";
 
-const Home: FC<unknown> = () => {
+const Home: FC<void> = () => {
   const args = { title: "meow" };
   return (
     <main>
