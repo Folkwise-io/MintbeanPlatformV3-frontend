@@ -1,4 +1,4 @@
-import { MeetDao } from "daos/MeetDao";
+import { MeetDao } from "../daos/MeetDao";
 
 export class MeetService {
   constructor(private eventDao: MeetDao) {}

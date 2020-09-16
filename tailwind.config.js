@@ -6,9 +6,8 @@ module.exports = {
   purge: [],
   theme: {
     extend: {
-      minWidth: {
-        xl: "22rem",
-        l: "18rem",
+      colors: {
+        mint: "#02ed9d",
       },
       colors: {
         "mb-mint": "#02ed9d",
@@ -16,6 +15,8 @@ module.exports = {
       },
     },
   },
-  variants: {},
+  variants: {
+    backgroundColor: ["active"],
+  },
   plugins: [],
 };

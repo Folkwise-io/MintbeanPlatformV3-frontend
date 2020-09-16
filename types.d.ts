@@ -1,17 +1,18 @@
 // MODELS ---------------------
-type User = {
+interface User {
   id: string;
+  email: string;
   username: string;
   firstName: string;
   lastName: string;
   createdAt: Date;
-};
+}
 
-type Sponsor = {
+interface Sponsor {
   name: string;
   blurb?: string; // Message
   image?: string;
-};
+}
 
 type Project = {
   id: string;
@@ -25,7 +26,7 @@ type Project = {
   user: User;
 };
 
-type HackMeet = {
+interface HackMeet {
   name: string;
   description: string;
   startDate: string;
@@ -33,17 +34,39 @@ type HackMeet = {
   sponsors: Sponsor[];
   image: string;
   region: string;
-};
+}
+
+// INPUTS --------------------
+interface LoginInput {
+  email: string;
+  password: string;
+}
+
+interface SignupInput {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
+
+// API -----------------------
+interface ApiResponseRaw<T> {
+  data: T;
+  errors?: ServerError[];
+}
+
+interface ServerError {
+  message: string;
+  extensions: { code: string };
+}
 
 // STORE ---------------------
-type MbAction<T = unknown> = {
-  type: string;
-  payload?: T;
-  loadStatus?: ApiDataStatus;
-};
-
 interface LoggedError {
-  error: Error; // TODO: type
+  id: string;
+  message: string;
+  code: string;
   timestamp: string;
 }
 
@@ -56,9 +79,11 @@ interface StateBranch<T> {
 
 type UsersState = StateBranch<User[]>;
 
+type UserState = StateBranch<User | undefined>;
+
 type ToastState = Toast[];
 
-type ToastTypes = "ERROR" | "WARNING" | "INFO" | "SUCCESS";
+type ToastTypes = "DANGER" | "WARNING" | "INFO" | "SUCCESS";
 
 interface Toast {
   id: string;
@@ -67,6 +92,7 @@ interface Toast {
 }
 
 interface StoreState {
+  user: UserState;
   users: UsersState;
   errors: LoggedError[];
   toasts: ToastState;

@@ -1,8 +1,8 @@
-import { ErrorActionType, UserActionType } from "./actionTypes";
+import { UserActionType } from "./actionTypes";
 import { ThunkAction } from "redux-thunk";
-import { Context } from "context/contextBuilder";
-import { addErrorToast, addInfoToast, addSuccessToast, addWarningToast } from "./toastActions";
+import { Context } from "../../../context/contextBuilder";
 import { Dispatch } from "redux";
+import { MbAction } from "./MbAction";
 
 const action = (loadStatus: ApiDataStatus, payload?: User[]): MbAction<User[]> => ({
   type: UserActionType.FETCH_USERS,
@@ -13,27 +13,23 @@ const action = (loadStatus: ApiDataStatus, payload?: User[]): MbAction<User[]> =
 export function fetchUsers(): ThunkAction<void, StoreState, Context, MbAction<void>> {
   return (dispatch: Dispatch, _getState, context) => {
     dispatch(action("LOADING"));
-    dispatch(addInfoToast("Loading users."));
-    dispatch(addWarningToast("WARNING! This call could fail. HINT: what if you disabled the server?"));
-    return context.userService
-      .fetchUsers()
-      .then((users) => {
-        dispatch(addSuccessToast("Successfully loaded users."));
-        return dispatch(action("SUCCESS", users));
-      })
-      .catch((err: Error) => {
-        dispatch(addErrorToast("Oh no! We couldn't fetch users."));
-        console.error("ERROR!!", err);
-        dispatch({
-          type: ErrorActionType.LOG_ERROR,
-          payload: {
-            error: err,
-            timestamp: new Date().toISOString(),
-          },
-        });
-
-        // Update FETCH_USERS loadStatus on error
-        return dispatch(action("ERROR"));
-      });
+    return (
+      context.userService
+        .fetchUsers()
+        .then((users) => {
+          if (!users) {
+            dispatch(action("ERROR"));
+            throw null;
+          }
+          context.loggerService.success("Successfully fetched users!");
+          return dispatch(action("SUCCESS", users));
+        })
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          context.loggerService.handleGraphqlErrors(e.errors ? e.errors : [{ message: "Failed to fetch users." }]);
+          return dispatch(action("ERROR"));
+        })
+    );
+    /* eslint-enable  @typescript-eslint/no-explicit-any */
   };
 }
