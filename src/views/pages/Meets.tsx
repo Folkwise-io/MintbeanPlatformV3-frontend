@@ -3,14 +3,15 @@ import { MeetCard } from "../components/MeetCard";
 // import { EventService } from "../../services/eventService";
 import { Banner } from "../components/Banner";
 
-const Meets: FC = () => {
+const Meets: FC<void> = () => {
   // const [events, setEvents] = useState([]);
 
   const testMeets: HackMeet[] = [
     {
-      id: "fkjshdfkjsdhkfjh",
+      id: "1",
       meetType: "hackathon",
-      coverImageUrl: "https://unsplash.com/photos/pduutGbL2-M",
+      coverImageUrl:
+        "https://images.unsplash.com/photo-1593642634402-b0eb5e2eebc9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
       title: "test event",
       startTime: "1994-08-02T18:59",
       endTime: "1994-08-05T18:59",
@@ -21,9 +22,10 @@ const Meets: FC = () => {
         "https://github.com/monarchwadia/MintbeanPlatformV2/blob/master/frontend/src/components/mb-banner.vue",
     },
     {
-      id: "fkjshdfkjsdhkfjh",
+      id: "2",
       meetType: "hackathon",
-      coverImageUrl: "https://unsplash.com/photos/pduutGbL2-M",
+      coverImageUrl:
+        "https://images.unsplash.com/photo-1593642634402-b0eb5e2eebc9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
       title: "test event 2",
       startTime: "1994-08-02T18:59",
       endTime: "1994-08-05T18:59",
@@ -34,9 +36,10 @@ const Meets: FC = () => {
         "https://github.com/monarchwadia/MintbeanPlatformV2/blob/master/frontend/src/components/mb-banner.vue",
     },
     {
-      id: "fkjshdfkjsdhkfjh",
+      id: "3",
       meetType: "hackathon",
-      coverImageUrl: "https://unsplash.com/photos/pduutGbL2-M",
+      coverImageUrl:
+        "https://images.unsplash.com/photo-1593642634402-b0eb5e2eebc9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
       title: "test event 3",
       startTime: "1994-08-02T18:59",
       endTime: "1994-08-05T18:59",
