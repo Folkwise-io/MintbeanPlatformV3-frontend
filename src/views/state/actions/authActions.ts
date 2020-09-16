@@ -1,8 +1,8 @@
 import { AuthActionType } from "./actionTypes";
 import { ThunkAction } from "redux-thunk";
-import { Context } from "context/contextBuilder";
 import { Dispatch } from "redux";
 import { MbAction } from "./MbAction";
+import { Context } from "../../../context/contextBuilder";
 import { hasErrorWithCode } from "../../../utils/hasErrorWithCode";
 
 const loginAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<User> => ({

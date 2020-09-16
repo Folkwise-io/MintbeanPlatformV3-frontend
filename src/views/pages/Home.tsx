@@ -4,7 +4,9 @@ import { fetchUsers } from "../state/actions/userActions";
 import { Button } from "../components/Button";
 import { UserCard } from "../components/UserCard";
 import { ThunkDispatch } from "redux-thunk";
-import { Context } from "context/contextBuilder";
+import { Modal } from "../components/wrappers/Modal";
+import { Context } from "../../context/contextBuilder";
+import { ModalActionDeclaration } from "../components/wrappers/Modal/ModalActionButton";
 import { MbAction } from "../state/actions/MbAction";
 
 type StateMapping = {
@@ -40,9 +42,30 @@ const UserSection: FC<{ users: UsersState }> = ({ users }) => {
 };
 
 const Home: FC<StateMapping & DispatchMapping> = (props) => {
+  const actions: ModalActionDeclaration[] = [
+    {
+      type: "danger",
+      text: "Don't click this button.",
+      onClick: (_evt, context) => {
+        alert("WTF you clicked the button, you douche.");
+        context.closeModal();
+      },
+    },
+  ];
   return (
     <div>
       <Button onClick={() => props.fetchUsers()}>This is a test button</Button>
+      <Modal
+        actions={actions}
+        triggerBuilder={(toggleModal, setRef) => (
+          <div onClick={() => toggleModal()} ref={(el) => setRef(el)}>
+            Click me
+          </div>
+        )}
+      >
+        Hello World!
+      </Modal>
+
       <UserSection users={props.users} />
     </div>
   );

@@ -2,9 +2,9 @@ import React, { FC, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
-import { Context } from "context/contextBuilder";
 import { logout } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
+import { Context } from "../../context/contextBuilder";
 
 type StateMapping = {
   user: UserState;

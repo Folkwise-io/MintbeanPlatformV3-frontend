@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware, Action, Store } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { rootReducer, initialStoreState } from "./reducers";
-import { Context } from "context/contextBuilder";
 
 import { composeWithDevTools } from "redux-devtools-extension";
+import { Context } from "../../context/contextBuilder";
 import { MbAction } from "./actions/MbAction";
 
 export function configureStoreAndLogger(context: Context): Store<StoreState, MbAction> {

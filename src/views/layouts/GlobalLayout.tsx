@@ -2,7 +2,7 @@ import React, { FC, useEffect } from "react";
 import { ThunkDispatch } from "redux-thunk";
 import { connect } from "react-redux";
 
-import { Context } from "context/contextBuilder";
+import { Context } from "../../context/contextBuilder";
 import { Toast } from "../components/Toast";
 import Navbar from "../components/Navbar";
 import { removeToast } from "../../views/state/actions/toastActions";

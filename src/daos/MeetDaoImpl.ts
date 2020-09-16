@@ -1,4 +1,4 @@
-import { ApiQueryExecutor } from "api/ApiQueryExecutor";
+import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { MeetDao } from "./MeetDao";
 
 interface EventResponseRaw {
