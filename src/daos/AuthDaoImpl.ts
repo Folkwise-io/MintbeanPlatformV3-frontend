@@ -117,7 +117,6 @@ export class AuthDaoImpl implements AuthDao {
   }
 
   register(params: RegisterParams): Promise<User> {
-    console.log(params);
     return (
       this.api
         .query<ApiResponseRaw<{ register: User }>, RegisterInput>(
