@@ -1,5 +1,5 @@
 import React from "react";
-import { Home, NotFound } from "./views/pages";
+import { Home, NotFound, StaticHome } from "./views/pages";
 
 interface RouteConfig {
   component: React.FC<void>;
@@ -12,6 +12,11 @@ export const routes: RouteConfig[] = [
     component: Home,
     exact: true,
     path: "/",
+  },
+  {
+    component: StaticHome,
+    exact: true,
+    path: "/home",
   },
   {
     component: NotFound,

@@ -7,6 +7,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { Context } from "context/contextBuilder";
 import { Toast } from "../components/Toast";
 import { removeToast } from "../../views/state/actions/toastActions";
+import { Link } from "react-router-dom";
 
 type StateMapping = {
   users: UsersState;
@@ -46,6 +47,7 @@ const UserSection: FC<{ users: UsersState }> = ({ users }) => {
 const Home: FC<StateMapping & DispatchMapping> = (props) => {
   return (
     <div>
+      <Link to="/home">Home(Celeste)</Link>
       <Button onClick={() => props.fetchUsers()}>This is a test button</Button>
       <UserSection users={props.users} />
       <div>

@@ -10,9 +10,14 @@ module.exports = {
         xl: "22rem",
         l: "18rem",
       },
+      colors: {
+        "mb-green-100": "#A3FEDF",
+        "mb-green-200": "#02E0A8",
+        "mb-blue-100": "#00B1FF",
+        "mb-blue-200": "#00A4DA",
+      },
     },
     fontFamily: {
-      display: ["Raleway", "sans-serif"],
       body: ["Montserrat", "sans-serif"],
     },
   },
