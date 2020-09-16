@@ -1,11 +1,8 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { MeetCard } from "../components/MeetCard";
-// import { EventService } from "../../services/eventService";
 import { Banner } from "../components/Banner";
 
 const Meets: FC<void> = () => {
-  // const [events, setEvents] = useState([]);
-
   const testMeets: HackMeet[] = [
     {
       id: "1",
