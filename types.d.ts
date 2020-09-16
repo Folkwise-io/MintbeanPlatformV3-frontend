@@ -27,13 +27,18 @@ type Project = {
 };
 
 interface HackMeet {
-  name: string;
+  id: string;
+  title: string;
   description: string;
-  startDate: string;
-  endDate: string;
-  sponsors: Sponsor[];
-  image: string;
+  instructions: string;
+  registerLink?: string;
+  meetType: string;
+  coverImageUrl: string;
+  startTime: string;
+  endTime: string;
   region: string;
+  // createdAt: string;
+  // updatedAt: string;
 }
 
 // INPUTS --------------------
