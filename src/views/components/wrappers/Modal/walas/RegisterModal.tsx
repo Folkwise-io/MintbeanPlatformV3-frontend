@@ -8,6 +8,15 @@ interface Props {
 }
 
 export const RegisterModal: FC<Props> = ({ className, buttonText }) => {
+  /* TODO: use modal actino button for form submit */
+  /* Need to find a way to decouple form submit from formik*/
+  // const actions: ModalActionDeclaration[] = [
+  //   {
+  //     type: "primary",
+  //     text: "Sign Up",
+  //     onClick: (evt, { closeModal }) => closeModal(),
+  //   },
+  // ];
   return (
     <>
       <Modal

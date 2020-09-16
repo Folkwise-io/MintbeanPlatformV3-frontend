@@ -1,6 +1,7 @@
 // TODO: use correct mutation once backend structure known
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { AuthDao } from "./AuthDao";
+import { isServerError } from "../utils/typeGuards";
 
 interface RegisterInput {
   input: RegisterParams;
@@ -144,8 +145,8 @@ export class AuthDaoImpl implements AuthDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          if (e.errors) {
-            throw e.errors;
+          if (isServerError(e)) {
+            throw e;
           } else {
             throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
           }
