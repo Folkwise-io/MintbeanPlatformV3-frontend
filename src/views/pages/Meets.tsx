@@ -1,8 +1,21 @@
-import React, { FC } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { MeetCard } from "../components/MeetCard";
 import { Banner } from "../components/Banner";
+import { ConnectContextProps, connectContext } from "../../context/connectContext";
 
-const Meets: FC<void> = () => {
+interface Props extends ConnectContextProps {}
+
+const Meets: FC<Props> = ({ context }) => {
+  const [meets, setMeets] = useState<HackMeet[]>([]);
+
+  useEffect(() => {
+    const fetchMeetData = async () => {
+      const fetchedMeets = await context?.meetService.fetchMeets();
+      if (fetchedMeets) setMeets(fetchedMeets);
+    };
+    fetchMeetData();
+  }, []);
+
   const testMeets: HackMeet[] = [
     {
       id: "1",
@@ -48,7 +61,7 @@ const Meets: FC<void> = () => {
     },
   ];
 
-  const dummyEvents = testMeets.map((meet) => <MeetCard event={meet} key={meet.id} />);
+  const dummyEvents = meets.map((meet) => <MeetCard event={meet} key={meet.id} />);
 
   return (
     <div>
@@ -72,4 +85,4 @@ const Meets: FC<void> = () => {
   );
 };
 
-export default Meets;
+export default connectContext<Props>(Meets);
