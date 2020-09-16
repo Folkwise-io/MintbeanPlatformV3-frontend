@@ -111,7 +111,7 @@ export function register(params: RegisterInput): ThunkAction<void, StoreState, C
           dispatch(registerAction("ERROR"));
           throw null;
         }
-        context.loggerService.success("Successfully logged in.");
+        context.loggerService.success(`Welcome to Mintbean, ${user.firstName}!`);
         return dispatch(registerAction("SUCCESS", user));
       })
       .catch((e) => {

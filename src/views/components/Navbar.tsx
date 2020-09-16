@@ -5,7 +5,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { logout } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
 import { Context } from "../../context/contextBuilder";
-
+import { RegisterModal } from "./wrappers/Modal/walas/RegisterModal";
 type StateMapping = {
   user: UserState;
 };
@@ -49,9 +49,12 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
           Logout
         </button>
       ) : (
-        <Link to="/login" className="mx-2">
-          Login
-        </Link>
+        <>
+          <Link to="/login" className="mx-2">
+            Login
+          </Link>
+          <RegisterModal buttonText="Sign up" />
+        </>
       )}
     </nav>
   );
