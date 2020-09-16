@@ -50,12 +50,27 @@ const Meets: FC<void> = () => {
         "https://github.com/monarchwadia/MintbeanPlatformV2/blob/master/frontend/src/components/mb-banner.vue",
     },
   ];
+
+  const dummyEvents = testMeets.map((meet) => <MeetCard event={meet} key={meet.id} />);
+
   return (
     <div>
-      <Banner title="Events" subtitle="Come hack with us" />
-      {testMeets.map((meet) => (
-        <MeetCard event={meet} key={meet.id} />
-      ))}
+      <header>
+        <Banner title="Events" subtitle="Come hack with us" />
+      </header>
+      <main className="py-12 ">
+        <section
+          className="rounded-xl container mx-auto max-w-screen-lg mb-12 flex flex-col items-center px-4 py-8"
+          style={{ background: "linear-gradient(0deg, black, #3d3d3d)" }}
+        >
+          <h2 className="text-2xl text-white mb-4">Upcoming events</h2>
+          <div className="space-y-4">{dummyEvents}</div>
+        </section>
+        <section className="container mx-auto max-w-screen-md mb-12 flex flex-col items-center p-4">
+          <h2 className="text-2xl mb-4">Past events</h2>
+          <div className="space-y-4">{dummyEvents}</div>
+        </section>
+      </main>
     </div>
   );
 };
