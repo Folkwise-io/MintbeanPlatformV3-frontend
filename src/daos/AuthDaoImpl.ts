@@ -2,6 +2,10 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { AuthDao } from "./AuthDao";
 
+interface RegisterInput {
+  input: RegisterParams;
+}
+
 /* TODO: consider refactoring User attributes query into a resuable function */
 export class AuthDaoImpl implements AuthDao {
   constructor(private api: ApiQueryExecutor) {}
@@ -111,53 +115,54 @@ export class AuthDaoImpl implements AuthDao {
     );
   }
 
-  register(params: RegisterInput): Promise<User> {
-    // TODO hook up to real backend
+  register(params: RegisterParams): Promise<User> {
     console.log(params);
-    const details = Object.assign(
-      {},
-      { email: params.email, firstName: params.firstName, lastName: params.lastName, username: params.username },
-    );
-    const tempUser = {
-      ...details,
-      id: "123213ljdsjkafhkjsh1k23",
-      createdAt: new Date(),
-    };
-    return new Promise((res) => res(tempUser));
-    // return (
-    //   this.api
-    //     .query<ApiResponseRaw<{ register: User }>, RegisterInput>(
-    //       `
-    //     mutation register($email: String!, $username: String!, $firstName: String!, $lastName: String!, $password: String!) {
-    //       register(email: $email, username: $username, firstName: $firstName, lastName: $lastName, password: $password) {
-    //         id
-    //         email
-    //         username
-    //         firstName
-    //         lastName
-    //         createdAt
-    //       }
-    //     }
-    //     `,
-    //       params,
-    //     )
-    //     .then((result) => {
-    //       if (result.errors) throw result.errors;
-    //       if (!result.errors && !result.data.register) {
-    //         throw [{ message: "Failed to register new user.", extensions: { code: "UNEXPECTED" } }];
-    //       }
-    //       return result.data.register;
-    //     })
-    //     // TODO: What potential Types of errors can invoke this catch?
-    //     /* eslint-disable  @typescript-eslint/no-explicit-any */
-    //     .catch((e: any) => {
-    //       if (e.errors) {
-    //         throw e.errors;
-    //       } else {
-    //         throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
-    //       }
-    //     })
-    //   /* eslint-enable  @typescript-eslint/no-explicit-any */
+    // TODO hook up to real backend
+    // console.log(params);
+    // const details = Object.assign(
+    //   {},
+    //   { email: params.email, firstName: params.firstName, lastName: params.lastName, username: params.username },
     // );
+    // const tempUser = {
+    //   ...details,
+    //   id: "123213ljdsjkafhkjsh1k23",
+    //   createdAt: new Date(),
+    // };
+    // return new Promise((res) => res(tempUser));
+    return (
+      this.api
+        .query<ApiResponseRaw<{ register: User }>, RegisterInput>(
+          `
+        mutation register($input: UserRegistrationInput!) {
+          register(input: $input) {
+            id
+            email
+            username
+            firstName
+            lastName
+            createdAt
+          }
+        }
+        `,
+          { input: params },
+        )
+        .then((result) => {
+          if (result.errors) throw result.errors;
+          if (!result.errors && !result.data.register) {
+            throw [{ message: "Failed to register new user.", extensions: { code: "UNEXPECTED" } }];
+          }
+          return result.data.register;
+        })
+        // TODO: What potential Types of errors can invoke this catch?
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          if (e.errors) {
+            throw e.errors;
+          } else {
+            throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+          }
+        })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
+    );
   }
 }

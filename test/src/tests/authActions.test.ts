@@ -180,12 +180,13 @@ describe("Auth actions", () => {
       });
     });
 
-    const newUserParams: RegisterInput = {
+    const newUserParams: RegisterParams = {
       firstName: "Amy",
       lastName: "Web",
       username: "amyweb123",
       email: TEST_EMAIL,
       password: TEST_PASSWORD,
+      passwordConfirmation: TEST_PASSWORD,
     };
     const expectedNewUser: User = {
       id: "fdsajkhfkjhdf",

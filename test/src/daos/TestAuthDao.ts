@@ -49,7 +49,7 @@ export class TestAuthDao implements AuthDao, TestDao {
     }
   }
 
-  async register(params: RegisterInput): Promise<User> {
+  async register(params: RegisterParams): Promise<User> {
     const errorReturns = this.getErrors();
     const successReturns = this.getSuccesses();
     if (errorReturns.length) {

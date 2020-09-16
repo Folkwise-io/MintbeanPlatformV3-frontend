@@ -17,11 +17,11 @@ import { MbAction } from "../../state/actions/MbAction";
 // });
 
 type DispatchMapping = {
-  register: (params: RegisterInput) => void;
+  register: (params: RegisterParams) => void;
 };
 
 const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
-  register: (params: RegisterInput) => dispatch(register(params)),
+  register: (params: RegisterParams) => dispatch(register(params)),
 });
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
@@ -30,7 +30,7 @@ const RegisterSchema = Yup.object().shape({
   firstName: Yup.string().min(3, "Too short!").max(36, "Maximum 36 characters!").required("Required"),
   lastName: Yup.string().min(3, "Too short!").max(36, "Maximum 36 characters!").required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().min(8, "Minimum 8 characters!").max(64, "Maximum 64 characters!").required("Required"),
+  password: Yup.string().min(6, "Minimum 6 characters!").max(64, "Maximum 64 characters!").required("Required"),
   passwordConfirmation: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Required"),
@@ -54,7 +54,7 @@ const RegisterForm: FC</*StateMapping & */ DispatchMapping & Props> = ({ registe
     <Formik
       initialValues={{ ...initialFormValues }}
       validationSchema={RegisterSchema}
-      onSubmit={(values: RegisterInput) => register(values)}
+      onSubmit={(values: RegisterParams) => register(values)}
     >
       {({ isSubmitting }) => (
         <Form>

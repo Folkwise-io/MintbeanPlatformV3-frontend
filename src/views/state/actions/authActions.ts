@@ -21,7 +21,7 @@ export function login(params: LoginInput): ThunkAction<void, StoreState, Context
           dispatch(loginAction("ERROR"));
           throw null;
         }
-        context.loggerService.success("Successfully logged in.");
+        context.loggerService.success(`Welcome back, ${user.firstName}!`);
         return dispatch(loginAction("SUCCESS", user));
       })
       .catch(() => {
@@ -97,7 +97,7 @@ const registerAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<Use
   loadStatus,
 });
 
-export function register(params: RegisterInput): ThunkAction<void, StoreState, Context, MbAction<void>> {
+export function register(params: RegisterParams): ThunkAction<void, StoreState, Context, MbAction<void>> {
   return (dispatch: Dispatch, getState, context) => {
     const userAlreadyLoggedin = getState().user.data;
     if (userAlreadyLoggedin) {

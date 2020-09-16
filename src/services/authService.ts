@@ -12,7 +12,7 @@ export class AuthService {
   me(): Promise<User> {
     return this.authDao.me();
   }
-  register(params: RegisterInput): Promise<User> {
+  register(params: RegisterParams): Promise<User> {
     return this.authDao.register(params);
   }
 }
