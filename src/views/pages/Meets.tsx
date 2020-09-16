@@ -19,7 +19,7 @@ const Meets: FC<Props> = ({ context }) => {
   const testMeets: HackMeet[] = [
     {
       id: "1",
-      meetType: "hackathon",
+      meetType: "hackMeet",
       coverImageUrl:
         "https://images.unsplash.com/photo-1593642634402-b0eb5e2eebc9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
       title: "test event",
@@ -33,7 +33,7 @@ const Meets: FC<Props> = ({ context }) => {
     },
     {
       id: "2",
-      meetType: "hackathon",
+      meetType: "hackMeet",
       coverImageUrl:
         "https://images.unsplash.com/photo-1593642634402-b0eb5e2eebc9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
       title: "test event 2",
@@ -47,7 +47,7 @@ const Meets: FC<Props> = ({ context }) => {
     },
     {
       id: "3",
-      meetType: "hackathon",
+      meetType: "hackMeet",
       coverImageUrl:
         "https://images.unsplash.com/photo-1593642634402-b0eb5e2eebc9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
       title: "test event 3",
