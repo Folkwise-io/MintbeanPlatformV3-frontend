@@ -1,5 +1,5 @@
 // TODO: use correct mutation once backend structure known
-import { ApiQueryExecutor } from "api/ApiQueryExecutor";
+import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { AuthDao } from "./AuthDao";
 
 /* TODO: consider refactoring User attributes query into a resuable function */

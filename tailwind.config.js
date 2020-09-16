@@ -6,12 +6,13 @@ module.exports = {
   purge: [],
   theme: {
     extend: {
-      minWidth: {
-        xl: "22rem",
-        l: "18rem",
+      colors: {
+        mint: "#02ed9d",
       },
     },
   },
-  variants: {},
+  variants: {
+    backgroundColor: ["active"],
+  },
   plugins: [],
 };

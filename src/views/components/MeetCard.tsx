@@ -40,7 +40,7 @@ export const MeetCard: FC<MeetProps> = ({ event }) => {
     >
       <section className="w-full px-4 top-0 absolute">{formatTimeLeft()}</section>
       <img className="w-1/3 flex-grow" src={image} alt={`${name} event banner`}></img>
-      <section className="pl-2 flex-grow min-w-l w-2/3">
+      <section style={{ minWidth: "18rem" }} className="pl-2 flex-grow w-2/3">
         <h2 className="text-2xl">{name}</h2>
         <p className="my-2">{description}</p>
       </section>

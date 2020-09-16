@@ -1,4 +1,4 @@
-import { AuthDao } from "daos/AuthDao";
+import { AuthDao } from "../daos/AuthDao";
 
 export class AuthService {
   constructor(private authDao: AuthDao) {}

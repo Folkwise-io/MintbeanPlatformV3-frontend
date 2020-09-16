@@ -2,9 +2,9 @@ import React, { FC, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
-import { Context } from "context/contextBuilder";
 import { logout } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
+import { Context } from "../../context/contextBuilder";
 
 type StateMapping = {
   user: UserState;
@@ -40,6 +40,9 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
     <nav className="p-2">
       <Link to="/" className="mx-2">
         Home
+      </Link>
+      <Link to="/hackathons" className="mx-2">
+        Hackathons
       </Link>
       {isLoggedIn ? (
         <button className="mx-2" onClick={() => logoutAndRedirect()}>
