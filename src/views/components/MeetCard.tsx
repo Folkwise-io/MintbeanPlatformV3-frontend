@@ -15,8 +15,8 @@ export const MeetCard: FC<MeetProps> = ({ event }) => {
       <div className="max-w-full md:w-1/3 md:max-h-full">
         <img className="w-full h-full object-cover" src={coverImageUrl} alt={`${title} event banner`}></img>
       </div>
-      <div className="w-2/3 p-4 flex-grow ">
-        <section className="my-1 w-full ">
+      <div className="w-2/3 p-4 ">
+        <section className="my-1 w-full">
           <h2 className="text-2xl mb-2">{title}</h2>
           <p>{description}</p>
 
