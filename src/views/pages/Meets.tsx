@@ -9,59 +9,28 @@ const Meets: FC<Props> = ({ context }) => {
   const [meets, setMeets] = useState<HackMeet[]>([]);
 
   useEffect(() => {
+    /* TODO: move handling to service */
     const fetchMeetData = async () => {
-      const fetchedMeets = await context?.meetService.fetchMeets();
-      if (fetchedMeets) setMeets(fetchedMeets);
+      /* TODO: why does typescript complain if this not here? */
+      if (typeof context === "undefined") {
+        alert("Blame the devs! Something terrible happened.");
+        return;
+      }
+      try {
+        const fetchedMeets = await context.meetService.fetchMeets();
+        if (fetchedMeets) setMeets(fetchedMeets);
+        console.log(fetchedMeets);
+      } catch (e) {
+        context.loggerService.handleGraphqlErrors(e);
+      }
     };
     fetchMeetData();
   }, []);
 
-  const testMeets: HackMeet[] = [
-    {
-      id: "1",
-      meetType: "hackMeet",
-      coverImageUrl:
-        "https://images.unsplash.com/photo-1593642634402-b0eb5e2eebc9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-      title: "test event",
-      startTime: "1994-08-02T18:59",
-      endTime: "1994-08-05T18:59",
-      description: "test description",
-      region: "America/Toronto",
-      instructions: "make it happen",
-      registerLink:
-        "https://github.com/monarchwadia/MintbeanPlatformV2/blob/master/frontend/src/components/mb-banner.vue",
-    },
-    {
-      id: "2",
-      meetType: "hackMeet",
-      coverImageUrl:
-        "https://images.unsplash.com/photo-1593642634402-b0eb5e2eebc9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-      title: "test event 2",
-      startTime: "1994-08-02T18:59",
-      endTime: "1994-08-05T18:59",
-      description: "test description",
-      region: "America/Toronto",
-      instructions: "make it happen",
-      registerLink:
-        "https://github.com/monarchwadia/MintbeanPlatformV2/blob/master/frontend/src/components/mb-banner.vue",
-    },
-    {
-      id: "3",
-      meetType: "hackMeet",
-      coverImageUrl:
-        "https://images.unsplash.com/photo-1593642634402-b0eb5e2eebc9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-      title: "test event 3",
-      startTime: "1994-08-02T18:59",
-      endTime: "1994-08-05T18:59",
-      description: "test description",
-      region: "America/Toronto",
-      instructions: "make it happen",
-      registerLink:
-        "https://github.com/monarchwadia/MintbeanPlatformV2/blob/master/frontend/src/components/mb-banner.vue",
-    },
-  ];
-
-  const dummyEvents = meets.map((meet) => <MeetCard event={meet} key={meet.id} />);
+  const upcomingMeets = meets
+    .filter((m: HackMeet) => m.startTime)
+    .map((meet) => <MeetCard event={meet} key={meet.id} />);
+  const pastMeets = meets.map((meet) => <MeetCard event={meet} key={meet.id} />);
 
   return (
     <div>
@@ -70,15 +39,20 @@ const Meets: FC<Props> = ({ context }) => {
       </header>
       <main className="py-12 ">
         <section
-          className="rounded-xl container mx-auto max-w-screen-lg mb-12 flex flex-col items-center px-4 py-8"
+          className="rounded-xl container mx-auto max-w-screen-md mb-12 flex flex-col items-center px-4 py-8"
           style={{ background: "linear-gradient(0deg, black, #3d3d3d)" }}
         >
-          <h2 className="text-4xl text-white mb-4">Upcoming events</h2>
-          <div className="space-y-4">{dummyEvents}</div>
+          {upcomingMeets.length ? (
+            <h2 className="text-4xl text-white mb-4">Upcoming events</h2>
+          ) : (
+            <p className="text-white text-lg">No upcoming events at the moment... Stay tuned!</p>
+          )}
+
+          {upcomingMeets.length && <div className="space-y-4">{upcomingMeets}</div>}
         </section>
         <section className="container mx-auto max-w-screen-md mb-12 flex flex-col items-center p-4">
           <h2 className="text-4xl mb-4">Past events</h2>
-          <div className="space-y-4">{dummyEvents}</div>
+          <div className="space-y-4">{pastMeets}</div>
         </section>
       </main>
     </div>

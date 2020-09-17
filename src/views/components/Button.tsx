@@ -2,6 +2,7 @@ import React, { FC } from "react";
 
 type Props = {
   type?: "primary" | "secondary" | "danger";
+  onClick?: () => void;
 };
 
 export const Button: FC<Props> = (props) => {

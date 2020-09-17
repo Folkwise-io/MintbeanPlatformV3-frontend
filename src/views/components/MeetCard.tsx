@@ -20,8 +20,8 @@ export const MeetCard: FC<MeetProps> = ({ event }) => {
           <h2 className="text-2xl mb-2">{title}</h2>
           <p>{description}</p>
 
-          <p>Starts: {moment.tz(startTime, region).tz(userTimezone).format("lll z")}</p>
-          <p>Ends: {moment.tz(endTime, region).tz(userTimezone).format("lll z")}</p>
+          <p>Starts: {moment.tz(startTime, region).tz(userTimezone).format("llll z")}</p>
+          <p>Ends: {moment.tz(endTime, region).tz(userTimezone).format("llll z")}</p>
         </section>
         <Button>More</Button>
       </div>
