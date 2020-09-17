@@ -1,13 +1,14 @@
 import React, { FC } from "react";
 import moment from "moment-timezone";
 import { Button } from "./Button";
+import { DateUtility } from "../../utils/DateUtility";
 
 type MeetProps = {
-  event: HackMeet;
+  meet: HackMeet;
 };
 
-export const MeetCard: FC<MeetProps> = ({ event }) => {
-  const { title, description, startTime, endTime, coverImageUrl, region } = event;
+export const MeetCard: FC<MeetProps> = ({ meet }) => {
+  const { title, description, startTime, endTime, coverImageUrl, region } = meet;
   const userTimezone = moment.tz.guess(true);
 
   return (

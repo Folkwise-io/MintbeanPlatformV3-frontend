@@ -29,8 +29,8 @@ const Meets: FC<Props> = ({ context }) => {
 
   const upcomingMeets = meets
     .filter((m: HackMeet) => m.startTime)
-    .map((meet) => <MeetCard event={meet} key={meet.id} />);
-  const pastMeets = meets.map((meet) => <MeetCard event={meet} key={meet.id} />);
+    .map((meet) => <MeetCard meet={meet} key={meet.id} />);
+  const pastMeets = meets.map((meet) => <MeetCard meet={meet} key={meet.id} />);
 
   return (
     <div>
