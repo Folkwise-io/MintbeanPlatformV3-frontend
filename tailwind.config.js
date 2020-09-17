@@ -12,10 +12,6 @@ module.exports = {
       ...screens,
     },
     extend: {
-      colors: {
-        "mb-mint": "#02E0A8",
-        "mb-blue": "#009be2",
-      },
       maxHeight: {
         0: "0",
         25: "25%",
@@ -25,6 +21,8 @@ module.exports = {
       },
       borderRadius: {
         xl: "3rem",
+        "mb-sm": "1.75rem",
+        "mb-md": "4rem",
       },
       maxWidth: {
         "7xl": "96rem",
@@ -34,10 +32,6 @@ module.exports = {
         "mb-green-200": "#02E0A8",
         "mb-blue-100": "#00B1FF",
         "mb-blue-200": "#00A4DA",
-      },
-      borderRadius: {
-        "mb-sm": "1.75rem",
-        "mb-md": "4rem",
       },
     },
     fontFamily: {
