@@ -2,24 +2,25 @@ import moment from "moment-timezone";
 
 // 'wc' = 'wallclock'
 
+interface wcToClientOptions {
+  clientRegion?: string;
+}
+
+interface wcToClientStrOptions extends wcToClientOptions {
+  format?: string;
+}
 // Format strings follow moment rules: https://momentjs.com/docs/#/parsing/string-format/
 const DEFAULT_DATE_FORMAT = "llll z"; // "Thu, Oct 15, 2020 12:00 PM EST"
 
 export class DateUtility {
   // Builds a moment object with time for client region based on master time & region. Guesses client region if not provided
-  wcToClient = (
-    wallclockStr: string,
-    masterRegion: string,
-    { clientRegion = moment.tz.guess() }: { clientRegion?: string },
-  ): moment.Moment => {
+  wcToClient = (wallclockStr: string, masterRegion: string, opts: wcToClientOptions): moment.Moment => {
+    const { clientRegion = moment.tz.guess() } = opts;
     return moment.tz(wallclockStr, masterRegion).tz(clientRegion);
   };
   // Renders client date in human friendly string. Guesses client region if not provided
-  wcToClientStr = (
-    wallclockStr: string,
-    masterRegion: string,
-    { clientRegion = moment.tz.guess(), format = DEFAULT_DATE_FORMAT }: { clientRegion?: string; format?: string },
-  ): string => {
+  wcToClientStr = (wallclockStr: string, masterRegion: string, opts: wcToClientStrOptions): string => {
+    const { clientRegion = moment.tz.guess(), format = DEFAULT_DATE_FORMAT } = opts;
     return moment
       .tz(wallclockStr, masterRegion)
       .tz(clientRegion)
