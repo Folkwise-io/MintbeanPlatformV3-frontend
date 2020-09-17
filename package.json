@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "bundle": "webpack",
-    "test": "jest",
+    "test": "jest --verbose",
     "start": "eslint src && webpack-dev-server --mode development --open --hot --quiet ",
     "build": "webpack --mode production",
     "lint": "eslint src",
