@@ -30,7 +30,7 @@ export const HomeHeader: FC<Props> = ({ header }) => {
   const { title } = header;
 
   return (
-    <header className="text-xl bg-gradient-to-b from-mb-green-200 to-mb-blue-100 w-auto mx-6 font-body rounded-mb-md flex flex-col max-w-7xl">
+    <header className="text-xl bg-gradient-to-b from-mb-green-200 to-mb-blue-100 w-auto mx-2 md:mx-6 font-body rounded-mb-md flex flex-col max-w-7xl">
       <h1 className="text-center text-4xl font-semibold pt-6 pb-2">{title}</h1>
       <HomeHeaderList list={listArgs} />
     </header>
