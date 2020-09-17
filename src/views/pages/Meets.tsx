@@ -2,10 +2,12 @@ import React, { FC, useState, useEffect } from "react";
 import { MeetCard } from "../components/MeetCard";
 import { Banner } from "../components/Banner";
 import { ConnectContextProps, connectContext } from "../../context/connectContext";
+import { DateUtility } from "../../utils/DateUtility";
+
+const d = new DateUtility();
 
 // if this component were to take props, use this type instead:
 // interface Props extends ConnectContextProps { component props...}
-
 const Meets: FC<ConnectContextProps> = ({ context }) => {
   const [meets, setMeets] = useState<HackMeet[]>([]);
 
@@ -28,9 +30,11 @@ const Meets: FC<ConnectContextProps> = ({ context }) => {
   }, [context]);
 
   const upcomingMeets = meets
-    .filter((m: HackMeet) => m.startTime)
+    .filter((m: HackMeet) => d.isFuture(m.startTime, m.region))
     .map((meet) => <MeetCard meet={meet} key={meet.id} />);
-  const pastMeets = meets.map((meet) => <MeetCard meet={meet} key={meet.id} />);
+  const pastMeets = meets
+    .filter((m: HackMeet) => d.isPast(m.endTime, m.region))
+    .map((meet) => <MeetCard meet={meet} key={meet.id} />);
 
   return (
     <div>

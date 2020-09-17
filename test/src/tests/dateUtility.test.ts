@@ -57,21 +57,21 @@ describe("Date Utility", () => {
   });
   describe("isPast", () => {
     it("returns true if date is in past", () => {
-      const isPast = d.isPast("2020-09-15T12:00:00.000", "America/Toronto", { clientRegion: "America/Toronto" });
+      const isPast = d.isPast("2020-09-15T12:00:00.000", "America/Toronto", "America/Toronto");
       expect(isPast).toBe(true);
     });
     it("returns false if date is in future", () => {
-      const isPast = d.isPast("2060-09-15T12:00:00.000", "America/Toronto", { clientRegion: "America/Toronto" });
+      const isPast = d.isPast("2060-09-15T12:00:00.000", "America/Toronto", "America/Toronto");
       expect(isPast).toBe(false);
     });
   });
   describe("isFuture", () => {
     it("returns true if date is in future", () => {
-      const isFuture = d.isFuture("2060-09-15T12:00:00.000", "America/Toronto", { clientRegion: "America/Toronto" });
+      const isFuture = d.isFuture("2060-09-15T12:00:00.000", "America/Toronto", "America/Toronto");
       expect(isFuture).toBe(true);
     });
     it("returns false if date is in past", () => {
-      const isFuture = d.isFuture("2020-09-15T12:00:00.000", "America/Toronto", { clientRegion: "America/Toronto" });
+      const isFuture = d.isFuture("2020-09-15T12:00:00.000", "America/Toronto", "America/Toronto");
       expect(isFuture).toBe(false);
     });
   });
