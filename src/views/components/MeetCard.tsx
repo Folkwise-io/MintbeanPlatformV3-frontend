@@ -11,7 +11,7 @@ type MeetProps = {
 export const MeetCard: FC<MeetProps> = ({ meet }) => {
   const { title, description, startTime, endTime, coverImageUrl, region } = meet;
 
-  const startTimeStr = d.wcToClientStr(startTime, region, { clientRegion: undefined });
+  const startTimeStr = d.wcToClientStr(startTime, region);
   const duration = d.getDuration(startTime, endTime);
 
   return (

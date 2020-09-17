@@ -4,6 +4,10 @@ import { Banner } from "../components/Banner";
 import { ConnectContextProps, connectContext } from "../../context/connectContext";
 import { DateUtility } from "../../utils/DateUtility";
 
+//TODO: Remove these fake meets. Filling in for missing seeds right now to show page style
+import { meetFactory } from "../../../test/src/factories/meet.factory";
+const fakePastMeets = meetFactory.bulk(10);
+
 const d = new DateUtility();
 
 // if this component were to take props, use this type instead:
@@ -32,9 +36,12 @@ const Meets: FC<ConnectContextProps> = ({ context }) => {
   const upcomingMeets = meets
     .filter((m: HackMeet) => d.isFuture(m.startTime, m.region))
     .map((meet) => <MeetCard meet={meet} key={meet.id} />);
-  const pastMeets = meets
-    .filter((m: HackMeet) => d.isPast(m.endTime, m.region))
-    .map((meet) => <MeetCard meet={meet} key={meet.id} />);
+  // const pastMeets = meets
+  //   .filter((m: HackMeet) => d.isPast(m.endTime, m.region))
+  //   .map((meet) => <MeetCard meet={meet} key={meet.id} />);
+
+  // TOOD: delete dummy meets below and uncomment lines for real pastMeets above in prod
+  const pastMeets = fakePastMeets.map((meet) => <MeetCard meet={meet} key={meet.id} />);
 
   return (
     <div>
