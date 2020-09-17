@@ -20,7 +20,7 @@ export class TestUserDao implements UserDao, TestDao {
     return this.data;
   }
 
-  mockReturn(mr: ApiResponseRaw<User[] | null>) {
+  mockReturn(mr: ApiResponseRaw<SuccessDataTypes | null>) {
     this.mockReturns.push(mr);
   }
 

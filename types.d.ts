@@ -5,7 +5,7 @@ interface User {
   username: string;
   firstName: string;
   lastName: string;
-  createdAt: Date;
+  createdAt: string;
 }
 
 interface Sponsor {
@@ -20,8 +20,8 @@ type Project = {
   sourceCodeUrl: string;
   image: string;
   liveUrl: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   meetId: string;
   user: User;
 };

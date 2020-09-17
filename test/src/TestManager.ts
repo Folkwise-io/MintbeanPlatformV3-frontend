@@ -38,6 +38,10 @@ export class TestManager {
     this.store.dispatch(action);
     return this;
   }
+  // async callContext<T>(cb: (context: TestContext) => T): Promise<T> {
+  //   const result = await cb(this.context);
+  //   return result;
+  // }
 
   addUsers(data: User[]): TestManager {
     this.context.userDao.data = data;

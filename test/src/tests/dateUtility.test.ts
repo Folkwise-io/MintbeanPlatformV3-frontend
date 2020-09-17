@@ -2,26 +2,21 @@ import { DateUtility } from "../../../src/utils/DateUtility";
 
 const d = new DateUtility();
 
-// must test a date in the past as we are sure if it's timezone
-const WALLCLOCK_TIME = "2020-09-15T12:00:00.000"; // Sep 30, 12:00PM
-const MEET_REGION = "America/Toronto";
-const CLIENT_REGION = "America/Los_Angeles"; // <-- usually 3 hr time difference from Toronto
-const SHOULD_BE_LATER = {
-  wc: "2020-09-15T12:00:00.000",
-  region: "America/Los_Angeles",
-};
-const SHOULD_BE_EARLIER = {
-  wc: "2020-09-15T12:00:00.000",
-  region: "America/Toronto",
-};
-
 describe("Date Utility", () => {
   describe("wcToUTC", () => {
     it("converts a wallclock time for given region to UTC date", () => {
-      const m = d.wcToUTC(WALLCLOCK_TIME, MEET_REGION);
+      const m = d.wcToUTC("2020-09-15T12:00:00.000", "America/Toronto");
       expect(m.toISOString()).toBe("2020-09-15T16:00:00.000Z"); // 4 hours ahead
     });
     it("helps chronolgically compare two dates in different regions", () => {
+      const SHOULD_BE_LATER = {
+        wc: "2020-09-15T12:00:00.000",
+        region: "America/Los_Angeles",
+      };
+      const SHOULD_BE_EARLIER = {
+        wc: "2020-09-15T12:00:00.000",
+        region: "America/Toronto",
+      };
       const earlier = d.wcToUTC(SHOULD_BE_EARLIER.wc, SHOULD_BE_EARLIER.region);
       const later = d.wcToUTC(SHOULD_BE_LATER.wc, SHOULD_BE_LATER.region);
       expect(later > earlier).toBe(true);
@@ -31,7 +26,9 @@ describe("Date Utility", () => {
   });
   describe("wcToClientStr", () => {
     it("renders a human friendly date string the is correctly converted to client time from master time", () => {
-      const string = d.wcToClientStr(WALLCLOCK_TIME, MEET_REGION, { clientRegion: CLIENT_REGION });
+      const string = d.wcToClientStr("2020-09-15T12:00:00.000", "America/Toronto", {
+        clientRegion: "America/Los_Angeles",
+      });
       expect(string).toBe("Tue, Sep 15, 2020 9:00 AM PDT"); // 3 hours behind
     });
   });
@@ -56,6 +53,26 @@ describe("Date Utility", () => {
       const s5 = "2020-10-15T12:00:00.000";
       const e5 = "2020-10-15T16:45:00.000";
       expect(d.getDuration(e5, s5)).toBe(4.75);
+    });
+  });
+  describe("isPast", () => {
+    it("returns true if date is in past", () => {
+      const isPast = d.isPast("2020-09-15T12:00:00.000", "America/Toronto", { clientRegion: "America/Toronto" });
+      expect(isPast).toBe(true);
+    });
+    it("returns false if date is in future", () => {
+      const isPast = d.isPast("2060-09-15T12:00:00.000", "America/Toronto", { clientRegion: "America/Toronto" });
+      expect(isPast).toBe(false);
+    });
+  });
+  describe("isFuture", () => {
+    it("returns true if date is in future", () => {
+      const isFuture = d.isFuture("2060-09-15T12:00:00.000", "America/Toronto", { clientRegion: "America/Toronto" });
+      expect(isFuture).toBe(true);
+    });
+    it("returns false if date is in past", () => {
+      const isFuture = d.isFuture("2020-09-15T12:00:00.000", "America/Toronto", { clientRegion: "America/Toronto" });
+      expect(isFuture).toBe(false);
     });
   });
 });

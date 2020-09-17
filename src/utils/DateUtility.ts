@@ -46,6 +46,26 @@ export class DateUtility {
   ): string => {
     return moment.tz(wallclockStr, masterRegion).tz(clientRegion).fromNow();
   };
+  // Returns true if date is in past relative to client @ now
+  isPast = (
+    wallclockStr: string,
+    masterRegion: string,
+    { clientRegion = moment.tz.guess() }: { clientRegion?: string },
+  ): boolean => {
+    const targetDate = moment.tz(wallclockStr, masterRegion).tz(clientRegion);
+    const now = moment(new Date());
+    return now > targetDate;
+  };
+  // Returns true if date is in future relative to client @ now
+  isFuture = (
+    wallclockStr: string,
+    masterRegion: string,
+    { clientRegion = moment.tz.guess() }: { clientRegion?: string },
+  ): boolean => {
+    const targetDate = moment.tz(wallclockStr, masterRegion).utc();
+    const now = moment(new Date()).utc();
+    return now < targetDate;
+  };
 }
 
 const hoursDifference = (start: Date, end: Date): number => {
