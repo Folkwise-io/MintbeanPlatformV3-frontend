@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import moment from "moment-timezone";
 import { Button } from "./Button";
 import { DateUtility } from "../../utils/DateUtility";
 

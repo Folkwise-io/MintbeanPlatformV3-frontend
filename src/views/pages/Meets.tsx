@@ -3,9 +3,10 @@ import { MeetCard } from "../components/MeetCard";
 import { Banner } from "../components/Banner";
 import { ConnectContextProps, connectContext } from "../../context/connectContext";
 
-interface Props extends ConnectContextProps {}
+// if this component were to take props, use this type instead:
+// interface Props extends ConnectContextProps { component props...}
 
-const Meets: FC<Props> = ({ context }) => {
+const Meets: FC<ConnectContextProps> = ({ context }) => {
   const [meets, setMeets] = useState<HackMeet[]>([]);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const Meets: FC<Props> = ({ context }) => {
       }
     };
     fetchMeetData();
-  }, []);
+  }, [context]);
 
   const upcomingMeets = meets
     .filter((m: HackMeet) => m.startTime)
@@ -58,4 +59,4 @@ const Meets: FC<Props> = ({ context }) => {
   );
 };
 
-export default connectContext<Props>(Meets);
+export default connectContext<ConnectContextProps>(Meets);
