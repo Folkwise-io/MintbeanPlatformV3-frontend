@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+// import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Context } from "../../../context/contextBuilder";
 import { login } from "../../state/actions/authActions";
@@ -47,28 +47,28 @@ const LoginForm: FC<StateMapping & DispatchMapping & Props> = ({ login, user, to
     if (to && isLoggedIn) history.push(to);
   }, [isLoggedIn, history, to]);
 
-  return (
-    <Formik
-      initialValues={{ email: "", password: "" }}
-      validationSchema={LoginSchema}
-      onSubmit={(values: LoginInput) => login(values)}
-    >
-      {({ isSubmitting }) => (
-        <Form className="shadow max-w-screen-sm p-6 mx-auto">
-          <h1 className="font-semibold">Login</h1>
-          <label htmlFor="email">Email</label>
-          <Field type="email" name="email" />
-          <ErrorMessage name="email" component="div" className="mb-formik-error-msg" />
-          <label htmlFor="password">Password</label>
-          <Field type="password" name="password" />
-          <ErrorMessage name="password" component="div" className="mb-formik-error-msg" />
-          <button type="submit" disabled={isSubmitting} className="bg-green-300 p-2 mt-2">
-            Login
-          </button>
-        </Form>
-      )}
-    </Formik>
-  );
+  return <p>this form coming bakc soon!</p>;
 };
 
 export default connect(stp, dtp)(LoginForm);
+
+// <Formik
+//   initialValues={{ email: "", password: "" }}
+//   validationSchema={LoginSchema}
+//   onSubmit={(values: LoginInput) => login(values)}
+// >
+//   {({ isSubmitting }) => (
+//     <Form className="shadow max-w-screen-sm p-6 mx-auto">
+//       <h1 className="font-semibold">Login</h1>
+//       <label htmlFor="email">Email</label>
+//       <Field type="email" name="email" />
+//       <ErrorMessage name="email" component="div" className="mb-formik-error-msg" />
+//       <label htmlFor="password">Password</label>
+//       <Field type="password" name="password" />
+//       <ErrorMessage name="password" component="div" className="mb-formik-error-msg" />
+//       <button type="submit" disabled={isSubmitting} className="bg-green-300 p-2 mt-2">
+//         Login
+//       </button>
+//     </Form>
+//   )}
+// </Formik>

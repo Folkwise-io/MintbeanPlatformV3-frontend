@@ -1,7 +1,6 @@
 import React, { FC, useRef } from "react";
 import { Modal } from "../";
-import { RegisterForm } from "../../../forms/RegisterForm";
-import { useFormikContext, Formik, Form, Field } from "formik";
+import RegisterForm from "../../../forms/RegisterForm";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { register } from "../../../../state/actions/authActions";
 
@@ -11,42 +10,47 @@ interface Props {
 }
 
 export const RegisterModal: FC<Props> = ({ className, buttonText }) => {
-  const { values, submitForm } = useFormikContext();
-  const formRef = useRef<RegisterForm>();
-  /* TODO: use modal actino button for form submit */
-  /* Need to find a way to decouple form submit from formik*/
+  // form methods for react hooks form provider
+  const formRef = useRef<HTMLFormElement>();
+
   const actions: ModalActionDeclaration[] = [
     {
       type: "primary",
       text: "Sign Up",
       onClick: async (evt, { closeModal }) => {
-        // submitForm();
         try {
-          // step 1 - get formref working
-          // step 2 - convert RegisterForm into a class component
-          // step 3 - set the formik form onto RegisterForm's refs ; <Formik refs={el => this.refs.formik = el} />
-          const values = formRef.current && formRef.current.formikRef.handleSubmit();
-          if (values) {
-            await register(values);
-          }
-          closeModal();
+          // if (isValid) {
+          //   await formMethods.handleSubmit(onSubmit)();
+          //   closeModal();
+          // }
+
+          formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
+          console.log("modal action button clicked ");
+          console.log(formRef.current);
         } catch (e) {
+          console.log(e);
           alert("badddd");
         }
       },
     },
   ];
+
+  const onSubmit = async (data: RegisterParams) => await register(data);
+
   return (
     <>
       <Modal
+        actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
           <button onClick={toggleModal} ref={(el) => setRef(el)} className={className || ""}>
             {buttonText}
           </button>
         )}
       >
-        <RegisterForm refs={formRef} />
+        <RegisterForm ref={formRef} />
       </Modal>
     </>
   );
 };
+
+// <RegisterForm refs={formRef} />
