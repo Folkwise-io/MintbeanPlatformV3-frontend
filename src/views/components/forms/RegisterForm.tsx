@@ -1,19 +1,10 @@
 import React, { FC } from "react";
-import { connect } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Context } from "../../../context/contextBuilder";
-import { register } from "../../state/actions/authActions";
-import { MbAction } from "../../state/actions/MbAction";
 
-type DispatchMapping = {
-  register: (params: RegisterParams) => void;
+type Props = {
+  onSubmit: (params: RegisterParams) => void;
 };
-
-const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
-  register: (params: RegisterParams) => dispatch(register(params)),
-});
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const RegisterSchema = Yup.object().shape({
@@ -27,21 +18,30 @@ const RegisterSchema = Yup.object().shape({
     .required("Required"),
 });
 
-const RegisterForm: FC<DispatchMapping> = ({ register }) => {
-  const initialFormValues = {
-    username: "",
-    email: "",
-    firstName: "",
-    lastName: "",
-    password: "",
-    passwordConfirmation: "",
-  };
+const initialFormValues = {
+  username: "",
+  email: "",
+  firstName: "",
+  lastName: "",
+  password: "",
+  passwordConfirmation: "",
+};
 
-  return (
-    <Formik
+export class RegisterForm extends React.Component<Props> {
+  public formikRef: React.RefObject<typeof Formik>;
+
+// const RegisterForm: FC<Props> = ({ onSubmit }) => {
+  constructor(props: Props) {
+    super(props);
+    this.formikRef = React.createRef();
+  }
+
+  render () {
+    return <Formik
       initialValues={{ ...initialFormValues }}
       validationSchema={RegisterSchema}
-      onSubmit={(values: RegisterParams) => register(values)}
+      onSubmit={(values: RegisterParams) => this.props.onSubmit(values)}
+      refs={this.formikRef}
     >
       {({ isSubmitting }) => (
         <Form>
@@ -80,4 +80,4 @@ const RegisterForm: FC<DispatchMapping> = ({ register }) => {
   );
 };
 
-export default connect(null, dtp)(RegisterForm);
+export default RegisterForm;
