@@ -17,7 +17,6 @@ const Meets: FC<ConnectContextProps> = ({ context }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    /* TODO: move handling to service */
     const fetchMeetData = async () => {
       if (!context) {
         console.error(new Error("No context passed to component, but was expected"));
