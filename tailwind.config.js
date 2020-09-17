@@ -28,8 +28,6 @@ module.exports = {
       body: ["Montserrat", "sans-serif"],
     },
   },
-  variants: {
-    backgroundColor: ["responsive", "odd", "hover", "focus"],
-  },
+  variants: {},
   plugins: [],
 };

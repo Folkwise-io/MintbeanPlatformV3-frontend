@@ -1,5 +1,5 @@
 import React, { FC, Fragment } from "react";
-import { MainWrapper } from "../components/MainWrapper";
+import { MainWrapper } from "../components/HomeMainWrapper";
 import { HomeHeader } from "../components/HomeHeader";
 
 const Home: FC<void> = () => {
