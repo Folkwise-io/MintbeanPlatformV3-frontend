@@ -23,7 +23,7 @@ export const testContextBuilder = (): TestContext => {
   const userDao = new TestUserDao();
   const userService = new UserService(userDao);
   const meetDao = new TestMeetDao();
-  const meetService = new MeetService(meetDao);
+  const meetService = new MeetService(meetDao, loggerService);
   const authDao = new TestAuthDao();
   const authService = new AuthService(authDao);
 

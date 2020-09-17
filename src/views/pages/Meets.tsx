@@ -19,7 +19,8 @@ const Meets: FC<ConnectContextProps> = ({ context }) => {
     /* TODO: move handling to service */
     const fetchMeetData = async () => {
       /* TODO: why does typescript complain if this not here? */
-      if (typeof context === "undefined") {
+      if (!context) {
+        console.error(new Error("No context passed to component but was expected"));
         alert("Blame the devs! Something terrible happened.");
         return;
       }

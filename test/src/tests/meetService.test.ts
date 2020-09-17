@@ -19,7 +19,14 @@ describe("Meets", () => {
       });
     });
     it("returns a list of meets on success", async () => {
-      expect(1).toBe(1);
+      const tm = testManager.addMeets(fakeMeets);
+
+      await tm.execute((context) => {
+        return context.meetService.fetchMeets().then((result) => {
+          expect(result.length).toBe(9);
+        });
+      });
+
       // await testManager
       //   // fake a successful login by returning user
       //   .configureContext((context) => {

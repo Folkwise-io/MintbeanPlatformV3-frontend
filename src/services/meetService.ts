@@ -1,10 +1,16 @@
 import { MeetDao } from "../daos/MeetDao";
+import { LoggerService } from "./loggerService";
 
 export class MeetService {
-  constructor(private meetDao: MeetDao) {}
+  constructor(private meetDao: MeetDao, private logger: LoggerService) {}
 
   /* TODO: Move all logging/error handling for actions into Service layer */
-  fetchMeets(): Promise<HackMeet[]> {
-    return this.meetDao.fetchMeets();
+  async fetchMeets(): Promise<HackMeet[]> {
+    try {
+      return this.meetDao.fetchMeets();
+    } catch (e) {
+      this.logger.handleGraphqlErrors(e);
+      return [];
+    }
   }
 }
