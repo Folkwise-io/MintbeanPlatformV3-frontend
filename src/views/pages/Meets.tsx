@@ -19,7 +19,6 @@ const Meets: FC<Props> = ({ context }) => {
       try {
         const fetchedMeets = await context.meetService.fetchMeets();
         if (fetchedMeets) setMeets(fetchedMeets);
-        console.log(fetchedMeets);
       } catch (e) {
         context.loggerService.handleGraphqlErrors(e);
       }
