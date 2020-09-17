@@ -23,21 +23,27 @@ describe("Meets", () => {
 
       await tm.execute((context) => {
         return context.meetService.fetchMeets().then((result) => {
-          expect(result.length).toBe(9);
+          expect(result.length).toBe(10);
         });
       });
-
-      // await testManager
-      //   // fake a successful login by returning user
-      //   .configureContext((context) => {
-      //     context.meetDao.mockReturn({ data: fakeMeets });
-      //   })
-      //   // .callContext((context) => {
-      //   //   context.meetService.fetchMeets();
-      //   // })
-      //   .then((res) => {
-      //     console.log(res);
-      //   });
     });
+    it("returns an empty array if no meets are in db", async () => {
+      const tm = testManager.addMeets([]);
+
+      await tm.execute((context) => {
+        return context.meetService.fetchMeets().then((result) => {
+          expect(result.length).toBe(0);
+        });
+      });
+    });
+    // it("logs an error and throws toast if ", async () => {
+    //   const tm = testManager.addMeets([]);
+    //
+    //   await tm.execute((context) => {
+    //     return context.meetService.fetchMeets().then((result) => {
+    //       expect(result.length).toBe(0);
+    //     });
+    //   });
+    // });
   });
 });

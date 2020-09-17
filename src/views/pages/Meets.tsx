@@ -14,29 +14,29 @@ const d = new DateUtility();
 // interface Props extends ConnectContextProps { component props...}
 const Meets: FC<ConnectContextProps> = ({ context }) => {
   const [meets, setMeets] = useState<HackMeet[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     /* TODO: move handling to service */
     const fetchMeetData = async () => {
-      /* TODO: why does typescript complain if this not here? */
       if (!context) {
-        console.error(new Error("No context passed to component but was expected"));
+        console.error(new Error("No context passed to component, but was expected"));
         alert("Blame the devs! Something terrible happened.");
         return;
       }
-      try {
-        const fetchedMeets = await context.meetService.fetchMeets();
-        if (fetchedMeets) setMeets(fetchedMeets);
-      } catch (e) {
-        context.loggerService.handleGraphqlErrors(e);
-      }
+      setLoading(true);
+      const fetchedMeets = await context.meetService.fetchMeets();
+      setMeets(fetchedMeets);
+      setLoading(false);
     };
+
     fetchMeetData();
   }, [context]);
 
   const upcomingMeets = meets
     .filter((m: HackMeet) => d.isFuture(m.startTime, m.region))
     .map((meet) => <MeetCard meet={meet} key={meet.id} />);
+  // ** SAVE below **
   // const pastMeets = meets
   //   .filter((m: HackMeet) => d.isPast(m.endTime, m.region))
   //   .map((meet) => <MeetCard meet={meet} key={meet.id} />);
@@ -54,13 +54,14 @@ const Meets: FC<ConnectContextProps> = ({ context }) => {
           className="rounded-xl container mx-auto max-w-screen-md mb-12 flex flex-col items-center px-4 py-8"
           style={{ background: "linear-gradient(0deg, black, #3d3d3d)" }}
         >
-          {upcomingMeets.length ? (
-            <h2 className="text-4xl text-white mb-4">Upcoming events</h2>
+          <h2 className="text-4xl text-white mb-4">Upcoming events</h2>
+          {loading ? (
+            <p className="text-white">Loading...</p>
+          ) : upcomingMeets.length ? (
+            <div className="space-y-4">{upcomingMeets}</div>
           ) : (
             <p className="text-white text-lg">No upcoming events at the moment... Stay tuned!</p>
           )}
-
-          {upcomingMeets.length && <div className="space-y-4">{upcomingMeets}</div>}
         </section>
         <section className="container mx-auto max-w-screen-md mb-12 flex flex-col items-center p-4">
           <h2 className="text-4xl mb-4">Past events</h2>
