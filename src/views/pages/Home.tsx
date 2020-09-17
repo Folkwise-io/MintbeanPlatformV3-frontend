@@ -4,7 +4,7 @@ import { fetchUsers } from "../state/actions/userActions";
 import { Button } from "../components/Button";
 import { UserCard } from "../components/UserCard";
 import { ThunkDispatch } from "redux-thunk";
-import { Context } from "context/contextBuilder";
+import { Context } from "../../context/contextBuilder";
 import { Toast } from "../components/Toast";
 import { removeToast } from "../../views/state/actions/toastActions";
 import { Link } from "react-router-dom";

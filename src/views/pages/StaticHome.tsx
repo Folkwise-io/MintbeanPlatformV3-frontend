@@ -1,12 +1,15 @@
-import React, { FC } from "react";
+import React, { FC, Fragment } from "react";
+import { MainWrapper } from "../components/MainWrapper";
 import { HomeHeader } from "../components/HomeHeader";
 
 const Home: FC<void> = () => {
-  const args = { title: "meow" };
+  const headerArgs = { title: "Calling all web developers!" };
   return (
-    <main>
-      <HomeHeader header={args} />
-    </main>
+    <Fragment>
+      <MainWrapper>
+        <HomeHeader header={headerArgs} />
+      </MainWrapper>
+    </Fragment>
   );
 };
 
