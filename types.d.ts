@@ -1,37 +1,77 @@
 // MODELS ---------------------
-type User = {
+interface User {
   id: string;
+  email: string;
   username: string;
   firstName: string;
   lastName: string;
-  createdAt: Date;
-};
+  createdAt: string;
+}
 
-type Sponsor = {
+interface Sponsor {
   name: string;
   blurb?: string; // Message
   image?: string;
+}
+
+type Project = {
+  id: string;
+  title: string;
+  sourceCodeUrl: string;
+  image: string;
+  liveUrl: string;
+  createdAt: string;
+  updatedAt: string;
+  meetId: string;
+  user: User;
 };
 
-type HackMeet = {
-  name: string;
+interface HackMeet {
+  id: string;
+  title: string;
   description: string;
-  startDate: string;
-  endDate: string;
-  sponsors: Sponsor[];
-  image: string;
+  instructions: string;
+  registerLink?: string;
+  meetType: string;
+  coverImageUrl: string;
+  startTime: string;
+  endTime: string;
   region: string;
-};
+  // createdAt: string;
+  // updatedAt: string;
+}
+
+// INPUTS --------------------
+interface LoginInput {
+  email: string;
+  password: string;
+}
+
+interface SignupInput {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
+
+// API -----------------------
+interface ApiResponseRaw<T> {
+  data: T;
+  errors?: ServerError[];
+}
+
+interface ServerError {
+  message: string;
+  extensions: { code: string };
+}
 
 // STORE ---------------------
-type MbAction<T = unknown> = {
-  type: string;
-  payload?: T;
-  loadStatus?: ApiDataStatus;
-};
-
 interface LoggedError {
-  error: Error; // TODO: type
+  id: string;
+  message: string;
+  code: string;
   timestamp: string;
 }
 
@@ -44,9 +84,11 @@ interface StateBranch<T> {
 
 type UsersState = StateBranch<User[]>;
 
+type UserState = StateBranch<User | undefined>;
+
 type ToastState = Toast[];
 
-type ToastTypes = "ERROR" | "WARNING" | "INFO" | "SUCCESS";
+type ToastTypes = "DANGER" | "WARNING" | "INFO" | "SUCCESS";
 
 interface Toast {
   id: string;
@@ -55,6 +97,7 @@ interface Toast {
 }
 
 interface StoreState {
+  user: UserState;
   users: UsersState;
   errors: LoggedError[];
   toasts: ToastState;

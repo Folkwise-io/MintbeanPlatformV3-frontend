@@ -2,17 +2,18 @@
 // allows import statements like below:
 // import logo from "../assets/logo.png";
 
-declare module "*.png" {
-  const value: string;
-  export = value;
-}
-declare module "*.svg" {
-  const value: string;
-  export = value;
-}
-//
-// declare module "*.jpg" {
-//   const value: any;
+declare module "*.png";
+
+declare module "*.jpg";
+
+declare module "*.jpeg";
+
+declare module "*.svg";
+
+// declare function require(path: string);
+
+// KEEP for reference - this was initial syntax
+// declare module "*.png" {
+//   const value: string;
 //   export = value;
 // }
-// declare function require(path: string);

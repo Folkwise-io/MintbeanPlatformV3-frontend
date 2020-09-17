@@ -1,10 +1,10 @@
-import { configureStore } from "../../src/views/state/configureStore";
-import { testContextBuilder } from "../testContextBuilder";
-import { TestContext } from "../testContextBuilder";
 import { Store } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
-import { Context } from "context/contextBuilder";
-type DispatchParameter<T> = ThunkAction<void, StoreState, void, MbAction<T>> | MbAction<T>;
+import { Context } from "../../src/context/contextBuilder";
+import { MbAction } from "../../src/views/state/actions/MbAction";
+import { configureStoreAndLogger } from "../../src/views/state/configureStoreAndLogger";
+import { testContextBuilder } from "../testContextBuilder";
+import { TestContext } from "../testContextBuilder";
 
 export class TestManager {
   store: Store;
@@ -18,14 +18,24 @@ export class TestManager {
 
   static build(): TestManager {
     const context = testContextBuilder();
-    const store = configureStore(context);
+    const store = configureStoreAndLogger(context);
 
     return new TestManager(store, context).subscribe();
   }
 
+  // For wrapping tests or returning things from context
+  execute<T>(cb: (context: TestContext) => Promise<T>): Promise<T> {
+    return cb(this.context);
+  }
+
+  configureContext(cb: (context: TestContext) => void): TestManager {
+    cb(this.context);
+    return this;
+  }
+
   async dispatchThunk<T>(action: ThunkAction<void, StoreState, Context, MbAction<T>>): Promise<TestManager> {
     const dispatch = <ThunkDispatch<StoreState, Context, MbAction<T>>>this.store.dispatch;
-    dispatch(action);
+    await dispatch(action);
     return this;
   }
 
@@ -34,19 +44,30 @@ export class TestManager {
     return this;
   }
 
-  addUser(data: User[]): TestManager {
+  addUsers(data: User[]): TestManager {
     this.context.userDao.data = data;
+    return this;
+  }
+
+  addMeets(data: HackMeet[]): TestManager {
+    this.context.meetDao.data = data;
     return this;
   }
 
   private subscribe(): TestManager {
     this.store.subscribe(() => {
-      this.results.push(this.store.getState());
+      const state = this.store.getState();
+      this.results.push(JSON.parse(JSON.stringify(state)));
     });
     return this;
   }
 
   getResults(): StoreState[] {
     return this.results;
+  }
+
+  clearResults(): TestManager {
+    this.results = [];
+    return this;
   }
 }
