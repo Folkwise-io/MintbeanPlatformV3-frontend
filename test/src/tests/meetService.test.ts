@@ -7,7 +7,7 @@ const fakeMeets = meetFactory.bulk(10);
 describe("Meets", () => {
   let testManager: TestManager;
 
-  describe("MeetService.prototype.fetchMeets()", () => {
+  describe("MeetService > fetchMeets()", () => {
     beforeEach(() => {
       testManager = TestManager.build();
     });
@@ -36,14 +36,19 @@ describe("Meets", () => {
         });
       });
     });
-    // it("logs an error and throws toast if ", async () => {
-    //   const tm = testManager.addMeets([]);
-    //
-    //   await tm.execute((context) => {
-    //     return context.meetService.fetchMeets().then((result) => {
-    //       expect(result.length).toBe(0);
-    //     });
-    //   });
-    // });
+    it.only("logs an error and throws toast if fetch fails", async () => {
+      const FAKE_ERROR = { data: null, errors: [{ message: "BAD", extensions: { code: "TEST" } }] };
+      await testManager
+        .configureContext((context) => {
+          context.meetDao.mockReturn(FAKE_ERROR);
+        })
+        .execute((context) => {
+          return context.meetService.fetchMeets().then((result) => {
+            expect(result.length).toBe(0);
+            const errors = context.meetDao.getErrors();
+            expect(errors[0]).toMatchObject(FAKE_ERROR);
+          });
+        });
+    });
   });
 });

@@ -13,6 +13,7 @@ export class TestMeetDao implements MeetDao {
   }
 
   async fetchMeets(): Promise<HackMeet[]> {
+    if (this.getErrors().length) throw this.getErrors();
     return this.data;
   }
 
@@ -20,7 +21,7 @@ export class TestMeetDao implements MeetDao {
     this.mockReturns.push(mr);
   }
 
-  private getErrors = () => {
+  getErrors = () => {
     return this.mockReturns.filter(
       (mr: ApiResponseRaw<SuccessDataTypes | null>) => (mr.errors as unknown) as ApiResponseRaw<null>,
     );

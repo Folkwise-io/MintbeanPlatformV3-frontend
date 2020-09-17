@@ -6,11 +6,9 @@ export class MeetService {
 
   /* TODO: Move all logging/error handling for actions into Service layer */
   async fetchMeets(): Promise<HackMeet[]> {
-    try {
-      return this.meetDao.fetchMeets();
-    } catch (e) {
+    return this.meetDao.fetchMeets().catch((e) => {
       this.logger.handleGraphqlErrors(e);
       return [];
-    }
+    });
   }
 }
