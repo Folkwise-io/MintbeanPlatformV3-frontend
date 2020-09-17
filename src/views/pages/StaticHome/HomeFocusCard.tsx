@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 
 type FocusCard = {
-  title: string[];
-  description: string[];
+  title: string;
+  description: string;
 };
 
 type Props = {
