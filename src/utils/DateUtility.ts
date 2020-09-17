@@ -50,13 +50,6 @@ export class DateUtility {
     const now = moment(new Date()).utc();
     return now > targetDate;
   };
-  // Returns true if date is in future relative to client @ now. Client region is guessed if not provided
-  isFuture = (wcStr: string, masterRegion: string, clientRegion?: string): boolean => {
-    if (clientRegion === undefined) clientRegion = moment.tz.guess();
-    const targetDate = moment.tz(wcStr, masterRegion).tz(clientRegion).utc();
-    const now = moment(new Date()).utc();
-    return now < targetDate;
-  };
 }
 
 const hoursDifference = (start: Date, end: Date): number => {

@@ -33,7 +33,7 @@ const Meets: FC<ConnectContextProps> = ({ context }) => {
   }, [context]);
 
   const upcomingMeets = meets
-    .filter((m: HackMeet) => d.isFuture(m.startTime, m.region))
+    .filter((m: HackMeet) => !d.isPast(m.startTime, m.region))
     .map((meet) => <MeetCard meet={meet} key={meet.id} />);
   // ** SAVE below **
   // const pastMeets = meets
