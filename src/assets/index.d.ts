@@ -8,7 +8,7 @@ declare module "*.jpg";
 
 declare module "*.jpeg";
 
-// declare module "*.svg";
+declare module "*.svg";
 
 // declare function require(path: string);
 
