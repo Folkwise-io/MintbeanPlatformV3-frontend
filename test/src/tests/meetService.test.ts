@@ -36,7 +36,7 @@ describe("Meets", () => {
         });
       });
     });
-    it.only("logs an error and throws toast if fetch fails", async () => {
+    it("logs an error and throws toast if fetch fails", async () => {
       const FAKE_ERROR = { data: null, errors: [{ message: "BAD", extensions: { code: "TEST" } }] };
       await testManager
         .configureContext((context) => {
