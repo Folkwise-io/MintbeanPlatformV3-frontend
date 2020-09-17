@@ -1,6 +1,6 @@
 import React, { FC, Fragment } from "react";
-import { MainWrapper } from "../components/HomeMainWrapper";
-import { HomeHeader } from "../components/HomeHeader";
+import { MainWrapper } from "./HomeMainWrapper";
+import { HomeHeader } from "./HomeHeader";
 
 const Home: FC<void> = () => {
   const headerArgs = { title: "Calling all web developers!" };

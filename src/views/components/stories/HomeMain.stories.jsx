@@ -1,6 +1,6 @@
 import React from "react";
-import { MainWrapper } from "../HomeMainWrapper";
-import { HomeHeader } from "../HomeHeader";
+import { MainWrapper } from "../../pages/StaticHome/HomeMainWrapper";
+import { HomeHeader } from "../../pages/StaticHome/HomeHeader";
 import { HomeFocusCard } from "../HomeFocusCard";
 import { MainList } from "../HomeMainList";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { HomeHeaderList } from "../HomeHeaderList";
+import { HomeHeaderList } from "../../pages/StaticHome/HomeHeaderList";
 
 export default {
   title: "HomeHeaderList",
