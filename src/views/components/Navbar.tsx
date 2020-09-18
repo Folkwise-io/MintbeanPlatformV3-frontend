@@ -39,7 +39,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
   };
 
   return (
-    <nav className="p-2">
+    <nav className="p-2 bg-white sticky top-0">
       <Link to="/" className="mx-2">
         Home
       </Link>
