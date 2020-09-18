@@ -4,16 +4,14 @@ import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
-const urlRegEx = /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/;
+// const urlRegEx = /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/;
 const CreateMeetInputSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
   meetType: Yup.string().required("Required"),
   title: Yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
   description: Yup.string().min(3, "Too Short!").required("Required"),
   instructions: Yup.string().min(3, "Too Short!").required("Required"),
-  registerLink: Yup.string().matches(urlRegEx).required("Required"),
-  coverImageUrl: Yup.string().matches(urlRegEx).required("Required"),
+  registerLink: Yup.string().url("Must be a valid URL").required("Required"),
+  coverImageUrl: Yup.string().url("Must be a valid URL").required("Required"),
   startTime: Yup.string().required("Required"),
   endTime: Yup.string().required("Required"),
   region: Yup.string().required("Required"),
@@ -30,7 +28,10 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
   });
 
   // RHF only calls onSubmit callback when form input passes validation
-  const onSubmit = (data: CreateMeetParams) => createMeet(data);
+  const onSubmit = (data: CreateMeetParams) => {
+    debugger;
+    createMeet(data);
+  };
 
   // Form TODO:
   // - instructions: add markdown editor
@@ -38,7 +39,7 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
   // - starttime/endtime : convert to timestamp before submit
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+    <form ref={formRef} onSubmit={handleSubmit(onSubmit, (e) => console.log({ error: e }))}>
       <h1 className="font-semibold">Create a new event</h1>
 
       <label htmlFor="meetType">Event type</label>
@@ -55,9 +56,9 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       <textarea name="description" ref={register} className="mb-2" />
       <p className="text-red-500">{errors.description?.message}</p>
 
-      <label htmlFor="description">Intructions</label>
-      <textarea name="description" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.description?.message}</p>
+      <label htmlFor="instructions">Instructions</label>
+      <textarea name="instructions" ref={register} className="mb-2" />
+      <p className="text-red-500">{errors.instructions?.message}</p>
 
       <label htmlFor="registerLink">Registration link</label>
       <input type="url" name="registerLink" ref={register} className="mb-2" />

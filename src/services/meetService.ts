@@ -12,8 +12,11 @@ export class MeetService {
     });
   }
   async createMeet(params: CreateMeetParams): Promise<Meet | void> {
-    return this.meetDao.createMeet(params).catch((e) => {
-      this.logger.handleGraphqlErrors(e);
-    });
+    return this.meetDao
+      .createMeet(params)
+      .then((meet) => this.logger.success(`Created new event "${meet.title}"!`))
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
   }
 }
