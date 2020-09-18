@@ -5,7 +5,7 @@
 // const Home: FC = () => {
 //   const [events, setEvents] = useState([]);rea
 
-//   const testEvents: HackMeet = [
+//   const testEvents: Meet = [
 //     {
 //       image:
 //         "https:media-exp1.licdn.com/dms/image/C4E03AQF9KRGV4uTT5w/profile-displayphoto-shrink_800_800/0?e=1604534400&v=beta&t=81hJweo7wTDr4aIW9pGLsNdFLVsS4h460TBvQNr_8s8",

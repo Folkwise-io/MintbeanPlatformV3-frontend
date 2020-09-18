@@ -49,7 +49,7 @@ export class TestManager {
     return this;
   }
 
-  addMeets(data: HackMeet[]): TestManager {
+  addMeets(data: Meet[]): TestManager {
     this.context.meetDao.data = data;
     return this;
   }

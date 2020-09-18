@@ -1,3 +1,4 @@
 export interface MeetDao {
-  fetchMeets(): Promise<HackMeet[]>;
+  fetchMeets(): Promise<Meet[]>;
+  createMeet(params: CreateMeetParams): Promise<Meet>;
 }

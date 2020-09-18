@@ -13,7 +13,7 @@ const d = new DateUtility();
 // if this component were to take props, use this type instead:
 // interface Props extends ConnectContextProps { component props...}
 const Meets: FC<ConnectContextProps> = ({ context }) => {
-  const [meets, setMeets] = useState<HackMeet[]>([]);
+  const [meets, setMeets] = useState<Meet[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -33,11 +33,11 @@ const Meets: FC<ConnectContextProps> = ({ context }) => {
   }, [context]);
 
   const upcomingMeets = meets
-    .filter((m: HackMeet) => !d.isPast(m.startTime, m.region))
+    .filter((m: Meet) => !d.isPast(m.startTime, m.region))
     .map((meet) => <MeetCard meet={meet} key={meet.id} />);
   // ** SAVE below **
   // const pastMeets = meets
-  //   .filter((m: HackMeet) => d.isPast(m.endTime, m.region))
+  //   .filter((m: Meet) => d.isPast(m.endTime, m.region))
   //   .map((meet) => <MeetCard meet={meet} key={meet.id} />);
 
   // TOOD: delete dummy meets below and uncomment lines for real pastMeets above in prod

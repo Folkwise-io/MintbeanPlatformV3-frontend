@@ -27,13 +27,13 @@ type Project = {
   user: User;
 };
 
-interface HackMeet {
+interface Meet {
   id: string;
   title: string;
   description: string;
   instructions: string;
   registerLink?: string;
-  meetType: string;
+  meetType: "hackMeet"; // TODO: change to enum, extend variants once more meet types
   coverImageUrl: string;
   startTime: string;
   endTime: string;
@@ -55,6 +55,18 @@ interface RegisterParams {
   email: string;
   password: string;
   passwordConfirmation: string;
+}
+
+interface CreateMeetParams {
+  meetType: "hackMeet";
+  title: string;
+  description: string;
+  instructions: string;
+  registerLink: string;
+  coverImageUrl: string;
+  startTime: string;
+  endTime: string;
+  region: string;
 }
 
 // API -----------------------

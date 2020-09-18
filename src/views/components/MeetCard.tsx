@@ -5,7 +5,7 @@ import { DateUtility } from "../../utils/DateUtility";
 const d = new DateUtility();
 
 type MeetProps = {
-  meet: HackMeet;
+  meet: Meet;
 };
 
 export const MeetCard: FC<MeetProps> = ({ meet }) => {
