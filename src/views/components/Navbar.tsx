@@ -41,12 +41,12 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
 
   return (
     <nav className="p-2 bg-white sticky top-0" style={{ minHeight: "80px", zIndex: 99 }}>
-      <div className="flex flex-col md:flex-row md:items-end justify-between ">
+      <div className="flex flex-col md:flex-row md:items-center justify-between ">
         <section className="h-full">
           <img src={logo} alt="Mintbean logo" style={{ maxHeight: "60px" }} />
         </section>
         <section>
-          <Link to="/" className="mx-2">
+          <Link to="/" className="mr-2">
             Home
           </Link>
           <Link to="/hackathons" className="mx-2">
