@@ -6,16 +6,24 @@ import { DateUtility } from "../../utils/DateUtility";
 
 //TODO: Remove these fake meets. Filling in for missing seeds right now to show page style
 import { meetFactory } from "../../../test/src/factories/meet.factory";
+import AdminMeetCreateModal from "../components/wrappers/Modal/walas/AdminMeetCreateModal";
+import { connect } from "react-redux";
 const fakePastMeets = meetFactory.bulk(10);
 
 const d = new DateUtility();
 
-// if this component were to take props, use this type instead:
-// interface Props extends ConnectContextProps { component props...}
-const Meets: FC<ConnectContextProps> = ({ context }) => {
+interface StateMapping {
+  user: UserState;
+}
+const stp = (state: StoreState) => ({
+  user: state.user,
+});
+
+const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   const [meets, setMeets] = useState<Meet[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
+  // Fetch meets on mount
   useEffect(() => {
     const fetchMeetData = async () => {
       if (!context) {
@@ -43,12 +51,21 @@ const Meets: FC<ConnectContextProps> = ({ context }) => {
   // TOOD: delete dummy meets below and uncomment lines for real pastMeets above in prod
   const pastMeets = fakePastMeets.map((meet) => <MeetCard meet={meet} key={meet.id} />);
 
+  const adminMeetCreateModal = (
+    <div className="flex justify-center">
+      <AdminMeetCreateModal buttonText="Create new event" className="rounded px-6 py-2 text-white bg-purple-500 mb-2" />
+    </div>
+  );
+  const isAdmin = user.data?.isAdmin;
+
   return (
     <div>
       <header>
         <Banner title="Events" subtitle="Come hack with us" />
       </header>
       <main className="py-12 ">
+        {isAdmin && adminMeetCreateModal}
+
         <section
           className="rounded-xl container mx-auto max-w-screen-md mb-12 flex flex-col items-center px-4 py-8"
           style={{ background: "linear-gradient(0deg, black, #3d3d3d)" }}
@@ -71,4 +88,4 @@ const Meets: FC<ConnectContextProps> = ({ context }) => {
   );
 };
 
-export default connectContext<ConnectContextProps>(Meets);
+export default connectContext<ConnectContextProps>(connect(stp)(Meets));
