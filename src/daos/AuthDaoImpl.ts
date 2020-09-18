@@ -39,11 +39,8 @@ export class AuthDaoImpl implements AuthDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          if (isServerErrorArray(e)) {
-            throw e;
-          } else {
-            throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
-          }
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
         })
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
@@ -69,11 +66,8 @@ export class AuthDaoImpl implements AuthDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          if (isServerErrorArray(e)) {
-            throw e;
-          } else {
-            throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
-          }
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
         })
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
@@ -106,11 +100,8 @@ export class AuthDaoImpl implements AuthDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          if (isServerErrorArray(e)) {
-            throw e;
-          } else {
-            throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
-          }
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
         })
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
@@ -144,11 +135,8 @@ export class AuthDaoImpl implements AuthDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          if (isServerErrorArray(e)) {
-            throw e;
-          } else {
-            throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
-          }
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
         })
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
