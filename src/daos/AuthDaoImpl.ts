@@ -40,7 +40,7 @@ export class AuthDaoImpl implements AuthDao {
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
           if (isServerErrorArray(e)) {
-            throw [e];
+            throw e;
           } else {
             throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
           }
@@ -70,7 +70,7 @@ export class AuthDaoImpl implements AuthDao {
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
           if (isServerErrorArray(e)) {
-            throw [e];
+            throw e;
           } else {
             throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
           }
