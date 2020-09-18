@@ -32,7 +32,7 @@ export const contextBuilder = (): Context => {
   const userService = new UserService(userDao);
   const authDao = new AuthDaoImpl(apiQueryExecutor);
   const authService = new AuthService(authDao);
-  const meetService = new MeetService(meetDao);
+  const meetService = new MeetService(meetDao, loggerService);
 
   return {
     apiQueryExecutor,

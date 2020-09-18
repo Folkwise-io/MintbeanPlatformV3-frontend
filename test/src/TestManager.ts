@@ -23,6 +23,11 @@ export class TestManager {
     return new TestManager(store, context).subscribe();
   }
 
+  // For wrapping tests or returning things from context
+  execute<T>(cb: (context: TestContext) => Promise<T>): Promise<T> {
+    return cb(this.context);
+  }
+
   configureContext(cb: (context: TestContext) => void): TestManager {
     cb(this.context);
     return this;
@@ -41,6 +46,11 @@ export class TestManager {
 
   addUsers(data: User[]): TestManager {
     this.context.userDao.data = data;
+    return this;
+  }
+
+  addMeets(data: HackMeet[]): TestManager {
+    this.context.meetDao.data = data;
     return this;
   }
 

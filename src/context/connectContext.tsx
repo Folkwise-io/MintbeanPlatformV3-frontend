@@ -3,7 +3,7 @@ import { Context } from "./contextBuilder";
 import { MbContext } from "./MbContext";
 
 export interface ConnectContextProps {
-  context?: Context | undefined;
+  context?: Context;
 }
 
 export function connectContext<P extends ConnectContextProps>(TheComponent: ComponentType<P>) {

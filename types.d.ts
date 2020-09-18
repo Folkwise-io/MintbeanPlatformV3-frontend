@@ -5,7 +5,7 @@ interface User {
   username: string;
   firstName: string;
   lastName: string;
-  createdAt: Date;
+  createdAt: string;
 }
 
 interface Sponsor {
@@ -14,14 +14,31 @@ interface Sponsor {
   image?: string;
 }
 
-interface HackMeet {
-  name: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  sponsors: Sponsor[];
+type Project = {
+  id: string;
+  title: string;
+  sourceCodeUrl: string;
   image: string;
+  liveUrl: string;
+  createdAt: string;
+  updatedAt: string;
+  meetId: string;
+  user: User;
+};
+
+interface HackMeet {
+  id: string;
+  title: string;
+  description: string;
+  instructions: string;
+  registerLink?: string;
+  meetType: string;
+  coverImageUrl: string;
+  startTime: string;
+  endTime: string;
   region: string;
+  // createdAt: string;
+  // updatedAt: string;
 }
 
 // INPUTS --------------------
