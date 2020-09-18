@@ -21,7 +21,9 @@ export function login(params: LoginParams): ThunkAction<void, StoreState, Contex
           dispatch(loginAction("ERROR"));
           throw null;
         }
-        context.loggerService.success(`Welcome back, ${user.firstName}!`);
+        context.loggerService.success(
+          `<p>Welcome back, ${user.firstName}!</p><p>Check out our <strong><a href="/events">Upcoming Events</a></strong> to get hacking!</p>`,
+        );
         return dispatch(loginAction("SUCCESS", user));
       })
       .catch(() => {
