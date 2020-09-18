@@ -11,10 +11,6 @@ interface RouteConfig {
 
 export const routes: RouteConfig[] = [
   {
-    component: Login,
-    path: "/login",
-  },
-  {
     component: Hackathons,
     path: "/hackathons",
   },

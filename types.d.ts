@@ -42,18 +42,18 @@ interface HackMeet {
 }
 
 // INPUTS --------------------
-interface LoginInput {
+interface LoginParams {
   email: string;
   password: string;
 }
 
-interface SignupInput {
+interface RegisterParams {
   firstName: string;
   lastName: string;
   username: string;
   email: string;
   password: string;
-  passwordConfirm: string;
+  passwordConfirmation: string;
 }
 
 // API -----------------------

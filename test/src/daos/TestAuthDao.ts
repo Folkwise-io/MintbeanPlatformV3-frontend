@@ -15,7 +15,7 @@ export class TestAuthDao implements AuthDao, TestDao {
     this.mockReturns = [];
   }
 
-  async login(loginInput: LoginInput): Promise<User> {
+  async login(loginInput: LoginParams): Promise<User> {
     const errorReturns = this.getErrors();
     const successReturns = this.getSuccesses();
     if (errorReturns.length) {
@@ -43,6 +43,20 @@ export class TestAuthDao implements AuthDao, TestDao {
       throw errorReturns;
     } else if (successReturns.length) {
       // Mock successful login
+      return (successReturns[0].data as unknown) as User;
+    } else {
+      throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
+    }
+  }
+
+  async register(params: RegisterParams): Promise<User> {
+    const errorReturns = this.getErrors();
+    const successReturns = this.getSuccesses();
+    if (errorReturns.length) {
+      // Mock fail
+      throw errorReturns;
+    } else if (params && successReturns.length) {
+      // Mock success
       return (successReturns[0].data as unknown) as User;
     } else {
       throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;

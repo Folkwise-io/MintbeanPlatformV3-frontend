@@ -6,7 +6,6 @@ interface Props extends ConnectContextProps {
 }
 
 const UserCardPreConnect: FC<Props> = ({ user, context }) => {
-  console.log({ context });
   const { firstName, lastName, username } = user;
   const fullName = `${firstName} ${lastName}`;
 
