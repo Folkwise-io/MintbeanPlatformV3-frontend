@@ -39,9 +39,13 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
     <div>
       <Navbar />
       {children}
-      {toasts.map((toast: Toast, index: number) => (
-        <Toast key={index} toast={toast} removeToast={(id: string) => removeToast(id)} />
-      ))}
+      <div>
+        <div className="fixed top-0" style={{ marginTop: "40px" }}>
+          {toasts.map((toast: Toast, index: number) => (
+            <Toast key={index} toast={toast} removeToast={(id: string) => removeToast(id)} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
