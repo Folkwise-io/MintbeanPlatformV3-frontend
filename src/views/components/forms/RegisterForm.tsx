@@ -1,16 +1,7 @@
-import React, { FC, forwardRef } from "react";
-import { register as registerAction } from "../../state/actions/authActions";
+import React, { FC } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
-import { connect } from "react-redux";
-import { MbAction } from "../../state/actions/MbAction";
-import { Context } from "../../../context/contextBuilder";
-import { ThunkDispatch } from "redux-thunk";
-
-// type Props = {
-//   ref?: React.MutableRefObject<HTMLFormElement>;
-// };
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const RegisterSchema = Yup.object().shape({
@@ -24,39 +15,18 @@ const RegisterSchema = Yup.object().shape({
     .required("Required"),
 });
 
-type FormProps = React.HTMLProps<HTMLFormElement>;
-
 type Props = {
   registerUser: (vals: RegisterParams) => void;
-  formRef: React.MutableRefObject<HTMLFormElement>;
+  formRef: React.RefObject<HTMLFormElement> | null;
 };
 
-// const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
-//   registerUser: (vals: RegisterParams) => dispatch(registerAction(vals)),
-// });
-
 const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
-  const { errors, register, handleSubmit, formState, trigger } = useForm({
+  const { errors, register, handleSubmit } = useForm({
     resolver: yupResolver(RegisterSchema),
   });
 
-  /*TODO: make this not ugly*/
-  // const onSubmit = async (values: RegisterParams): Promise<void> => {
-  //   debugger;
-  //   const isValid = trigger();
-  //   console.log(isValid);
-  //   debugger;
-  //   if (isValid) {
-  //     try {
-  //       await registerUser(values);
-  //     } catch (e) {
-  //       console.log(e);
-  //       // do nothing.
-  //     }
-  //   }
-  // };
-
-  const onSubmit = (data: RegisterParams, e) => registerUser(data);
+  // RHF only calls onSubmit callback when form input passes validation
+  const onSubmit = (data: RegisterParams) => registerUser(data);
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>

@@ -5,7 +5,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { logout } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
 import { Context } from "../../context/contextBuilder";
-import { RegisterModal } from "./wrappers/Modal/walas/RegisterModal";
+import RegisterModal from "./wrappers/Modal/walas/RegisterModal";
 type StateMapping = {
   user: UserState;
 };

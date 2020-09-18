@@ -3,33 +3,40 @@ import { Modal } from "../";
 import RegisterForm from "../../../forms/RegisterForm";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { register } from "../../../../state/actions/authActions";
+import { ThunkDispatch } from "redux-thunk";
+import { Context } from "../../../../../context/contextBuilder";
+import { MbAction } from "../../../../state/actions/MbAction";
+import { connect } from "react-redux";
 
 interface Props {
   className?: string;
   buttonText: string;
 }
 
-export const RegisterModal: FC<Props> = ({ className, buttonText }) => {
-  const formRef = useRef<HTMLFormElement>();
+type DispatchMapping = {
+  register: (values: RegisterParams) => void;
+};
+
+const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
+  register: (values: RegisterParams) => dispatch(register(values)),
+});
+
+const RegisterModal: FC<Props & DispatchMapping> = ({ register, className, buttonText }) => {
+  const formRef = useRef<HTMLFormElement>(null);
 
   const actions: ModalActionDeclaration[] = [
     {
       type: "primary",
       text: "Sign Up",
-      onClick: async (_evt, { closeModal }) => {
-        try {
-          if (formRef.current) {
-            formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
-          }
-        } catch (e) {
-          alert(JSON.stringify(e));
+      onClick: async () => {
+        if (formRef.current) {
+          // Programatically submit form in grandchild
+          formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
         }
       },
     },
   ];
 
-  // const onSubmit = async (data: RegisterParams) => await register(data);
-  // const hoistFormValues = (values) => {};
   return (
     <>
       <Modal
@@ -40,10 +47,10 @@ export const RegisterModal: FC<Props> = ({ className, buttonText }) => {
           </button>
         )}
       >
-        <RegisterForm formRef={formRef} registerUser={(val) => alert(JSON.stringify(val))} />
+        <RegisterForm formRef={formRef} registerUser={(values: RegisterParams) => register(values)} />
       </Modal>
     </>
   );
 };
 
-// <RegisterForm refs={formRef} />
+export default connect(null, dtp)(RegisterModal);
