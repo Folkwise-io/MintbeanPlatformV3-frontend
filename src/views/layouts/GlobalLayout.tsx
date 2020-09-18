@@ -46,7 +46,6 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
     <div>
       <Navbar />
       {children}
-
       <div>
         <div className="fixed top-0" style={{ marginTop: "40px" }}>
           {toasts.map((toast: Toast, index: number) => (
@@ -54,6 +53,7 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
           ))}
         </div>
       </div>
+      <Footer footer={footerArgs} />
     </div>
   );
 };
