@@ -39,8 +39,8 @@ export class AuthDaoImpl implements AuthDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          if (e.errors) {
-            throw e.errors;
+          if (isServerError(e)) {
+            throw [e];
           } else {
             throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
           }
@@ -69,8 +69,8 @@ export class AuthDaoImpl implements AuthDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          if (e.errors) {
-            throw e.errors;
+          if (isServerError(e)) {
+            throw [e];
           } else {
             throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
           }
@@ -106,7 +106,11 @@ export class AuthDaoImpl implements AuthDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          throw e;
+          if (isServerError(e)) {
+            throw [e];
+          } else {
+            throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+          }
         })
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
@@ -140,6 +144,8 @@ export class AuthDaoImpl implements AuthDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
+          const ie = isServerError(e);
+          debugger;
           if (isServerError(e)) {
             throw e;
           } else {
