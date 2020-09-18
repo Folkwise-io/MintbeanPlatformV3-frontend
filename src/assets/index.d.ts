@@ -8,6 +8,7 @@ declare module "*.jpg";
 
 declare module "*.jpeg";
 
+declare module "*.svg";
 // declare function require(path: string);
 
 // KEEP for reference - this was initial syntax

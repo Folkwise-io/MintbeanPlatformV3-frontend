@@ -29,14 +29,12 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
 
   // RHF only calls onSubmit callback when form input passes validation
   const onSubmit = (data: CreateMeetParams) => {
-    debugger;
     createMeet(data);
   };
 
   // Form TODO:
   // - instructions: add markdown editor
   // - coverImageUrl: use cloudinary widget, convert to url before submit
-  // - starttime/endtime : convert to timestamp before submit
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit, (e) => console.log({ error: e }))}>
