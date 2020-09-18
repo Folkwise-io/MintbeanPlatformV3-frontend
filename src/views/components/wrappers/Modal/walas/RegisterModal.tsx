@@ -17,26 +17,27 @@ export const RegisterModal: FC<Props> = ({ className, buttonText }) => {
     {
       type: "primary",
       text: "Sign Up",
-      onClick: async (evt, { closeModal }) => {
+      onClick: async (_evt, { closeModal }) => {
         try {
           // if (isValid) {
           //   await formMethods.handleSubmit(onSubmit)();
           //   closeModal();
           // }
-
-          formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
+          if (formRef.current) {
+            formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
+          }
           console.log("modal action button clicked ");
           console.log(formRef.current);
         } catch (e) {
-          console.log(e);
+          console.log("fsfd");
           alert("badddd");
         }
       },
     },
   ];
 
-  const onSubmit = async (data: RegisterParams) => await register(data);
-
+  // const onSubmit = async (data: RegisterParams) => await register(data);
+  // const hoistFormValues = (values) => {};
   return (
     <>
       <Modal
@@ -47,7 +48,7 @@ export const RegisterModal: FC<Props> = ({ className, buttonText }) => {
           </button>
         )}
       >
-        <RegisterForm ref={formRef} />
+        <RegisterForm formRef={formRef} />
       </Modal>
     </>
   );

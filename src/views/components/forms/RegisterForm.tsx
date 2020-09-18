@@ -26,8 +26,9 @@ const RegisterSchema = Yup.object().shape({
 
 type FormProps = React.HTMLProps<HTMLFormElement>;
 
-type DispatchMapping = {
+type Props = {
   registerUser: (vals: RegisterParams) => void;
+  formRef: any; // please just let me
 };
 
 const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
@@ -35,21 +36,23 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
 });
 
 // ewwww typescript
-const RegisterForm: React.ForwardRefExoticComponent<
-  DispatchMapping & React.RefAttributes<HTMLFormElement>
-> = forwardRef<HTMLFormElement, FormProps & DispatchMapping>(({ registerUser, ref }, rerf) => {
+const RegisterForm: React.ForwardRefExoticComponent<Props & React.RefAttributes<HTMLFormElement>> = forwardRef<
+  HTMLFormElement,
+  FormProps & Props
+>(({ registerUser, formRef, sendValuesUp }) => {
   const { errors, register, handleSubmit, formState } = useForm({
     resolver: yupResolver(RegisterSchema),
   });
 
-  const onSubmit = async (values: RegisterParams) => {
-    console.log(values, "from Form");
+  const onSubmit = (values: RegisterParams): void => {
     console.log(formState);
-    const res = await registerUser(values);
+
+    sendValuesUp(values);
+    // const res = await registerUser(values);
   };
 
   return (
-    <form ref={ref} onSubmit={handleSubmit(onSubmit)}>
+    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
       <h1 className="font-semibold">Hack with us!</h1>
 
       <label htmlFor="firstName">First name</label>
@@ -79,34 +82,4 @@ const RegisterForm: React.ForwardRefExoticComponent<
   );
 });
 
-export default connect(null, dtp)(RegisterForm);
-
-// <h1 className="font-semibold">Hack with us!</h1>
-//
-// <label htmlFor="firstName">First name</label>
-// <Field type="text" name="firstName" />
-// <ErrorMessage name="email" component="div" className="mb-formik-error-msg" />
-//
-// <label htmlFor="lastName">Last name</label>
-// <Field type="text" name="lastName" />
-// <ErrorMessage name="email" component="div" className="mb-formik-error-msg" />
-//
-// <label htmlFor="username">Username</label>
-// <Field type="text" name="username" />
-// <ErrorMessage name="email" component="div" className="mb-formik-error-msg" />
-//
-// <label htmlFor="email">Email</label>
-// <Field type="email" name="email" />
-// <ErrorMessage name="email" component="div" className="mb-formik-error-msg" />
-//
-// <label htmlFor="password">Password</label>
-// <Field type="password" name="password" />
-// <ErrorMessage name="password" component="div" className="mb-formik-error-msg" />
-//
-// <label htmlFor="passwordConfirmation">Confirm password</label>
-// <Field type="password" name="passwordConfirmation" />
-// <ErrorMessage name="passwordConfirmation" component="div" className="mb-formik-error-msg" />
-//
-// <button type="submit" disabled={isSubmitting} className="bg-green-300 p-2 mt-2">
-//   Sign Up
-// </button>
+export default connect(null, dtp, null, { forwardRef: true })(RegisterForm);
