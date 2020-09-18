@@ -4,7 +4,6 @@ import { fetchUsers } from "../state/actions/userActions";
 import { Button } from "../components/Button";
 import { UserCard } from "../components/UserCard";
 import { ThunkDispatch } from "redux-thunk";
-import { Link } from "react-router-dom";
 import { Modal } from "../components/wrappers/Modal";
 import { ModalActionDeclaration } from "../components/wrappers/Modal/ModalActionButton";
 import { MbAction } from "../state/actions/MbAction";
