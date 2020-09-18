@@ -112,7 +112,9 @@ export function register(params: RegisterParams): ThunkAction<void, StoreState, 
           dispatch(registerAction("ERROR"));
           throw null;
         }
-        context.loggerService.success(`Welcome to Mintbean, ${user.firstName}!`);
+        context.loggerService.success(
+          `Welcome to Mintbean, ${user.firstName}!<p>Check out our <u><strong><a href="/events">Upcoming Events</a></strong></u> to get hacking!</p>`,
+        );
         return dispatch(registerAction("SUCCESS", user));
       })
       .catch((e) => {
