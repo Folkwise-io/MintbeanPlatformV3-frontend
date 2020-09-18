@@ -8,10 +8,16 @@ import Navbar from "../components/Navbar";
 import { removeToast } from "../../views/state/actions/toastActions";
 import { me } from "../../views/state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
+import { Footer } from "./Footer";
 
 type StateMapping = {
   toasts: ToastState;
   user: UserState;
+};
+
+const footerArgs = {
+  footerNav: ["Home", "Events", "Terms of Service", "Privacy Policy"],
+  links: ["/home", "/events", "/terms-of-service", "/privacy-policy"],
 };
 
 const stp = (state: StoreState) => ({
@@ -42,6 +48,7 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
       {toasts.map((toast: Toast, index: number) => (
         <Toast key={index} toast={toast} removeToast={(id: string) => removeToast(id)} />
       ))}
+      <Footer footer={footerArgs} />
     </div>
   );
 };
