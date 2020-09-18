@@ -1,13 +1,14 @@
 // import { fetchMeets } from "../../../src/services/meetService";
 import { TestManager } from "../TestManager";
 import { meetFactory } from "../factories/meet.factory";
+import { userFactory } from "../factories/user.factory";
 
 const fakeMeets = meetFactory.bulk(10);
 
-describe("Meets", () => {
+describe("MeetService", () => {
   let testManager: TestManager;
 
-  describe("MeetService > fetchMeets()", () => {
+  describe("fetchMeets()", () => {
     beforeEach(() => {
       testManager = TestManager.build();
     });
@@ -37,18 +38,75 @@ describe("Meets", () => {
       });
     });
     it("logs an error and throws toast if fetch fails", async () => {
-      const FAKE_ERROR = { data: null, errors: [{ message: "BAD", extensions: { code: "TEST" } }] };
+      const ERR_MSG = "Test";
+      const FAKE_ERROR = { data: null, errors: [{ message: ERR_MSG, extensions: { code: "TEST" } }] };
       await testManager
         .configureContext((context) => {
           context.meetDao.mockReturn(FAKE_ERROR);
         })
+        .execute((context) => context.meetService.fetchMeets());
+      const storeState = testManager.store.getState();
+      expect(storeState.errors[0].message).toBe(ERR_MSG);
+      // const errors = context.meetDao.getErrors();
+      // expect(errors[0]).toMatchObject(FAKE_ERROR);
+    });
+  });
+  describe("createMeet()", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.authDao.clearMockReturns();
+      });
+    });
+
+    // TODO: implement cookie header mocking for authorization tests
+    // it("only permits admins to create meets", async () => {
+    //   const user = userFactory.one();
+    //    ...
+    // });
+    const newMeet = meetFactory.one();
+    const validMeetParams = {
+      meetType: newMeet.meetType,
+      title: newMeet.title,
+      description: newMeet.description,
+      instructions: newMeet.instructions,
+      registerLink: newMeet.registerLink,
+      coverImageUrl: newMeet.coverImageUrl,
+      startTime: newMeet.startTime,
+      endTime: newMeet.endTime,
+      region: newMeet.region,
+    };
+    const invalidMeetParams = { ...validMeetParams, description: 123 };
+    it("returns the created meet on success", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.meetDao.mockReturn({ data: newMeet });
+        })
         .execute((context) => {
-          return context.meetService.fetchMeets().then((result) => {
-            expect(result.length).toBe(0);
-            const errors = context.meetDao.getErrors();
-            expect(errors[0]).toMatchObject(FAKE_ERROR);
+          return context.meetService.createMeet(validMeetParams).then((result) => {
+            expect(result).toMatchObject(newMeet);
           });
         });
+    });
+    it("logs error and throws toast when server error returned", async () => {
+      const ERROR_MESSAGE = "test";
+      await testManager
+        .configureContext((context) => {
+          context.meetDao.mockReturn({
+            data: null,
+            errors: [{ message: ERROR_MESSAGE, extensions: { code: "TEST" } }],
+          });
+        })
+        .execute((context) => context.meetService.createMeet(validMeetParams));
+
+      const storeState = testManager.store.getState();
+      expect(storeState.errors[0].message).toBe(ERROR_MESSAGE);
+      expect(storeState.toasts[0].message).toBe(ERROR_MESSAGE);
+      expect(storeState.toasts[0].type).toBe("DANGER");
     });
   });
 });

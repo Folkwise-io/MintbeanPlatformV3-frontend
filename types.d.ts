@@ -62,7 +62,7 @@ interface CreateMeetParams {
   title: string;
   description: string;
   instructions: string;
-  registerLink: string;
+  registerLink?: string;
   coverImageUrl: string;
   startTime: string;
   endTime: string;
