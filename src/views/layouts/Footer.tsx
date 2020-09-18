@@ -19,7 +19,7 @@ export const Footer: FC<Props> = ({ footer }) => {
   return (
     <footer className="w-full font-body text-sm grid grid-cols-2 items-stretch pt-24 pb-12">
       <article className="grid grid-cols-2 ml-12">
-        <DiscordButton button={buttonArg} type="footer" />
+        <DiscordButton button={buttonArg} />
         <div></div>
       </article>
       <article className="flex flex-col justify-between">

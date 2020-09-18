@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { Button } from "../Button";
-import discordImg from "../../../assets/home/discord.svg";
 import { DiscordIcon } from "./DiscordIcon";
 
 type DiscordButton = {
