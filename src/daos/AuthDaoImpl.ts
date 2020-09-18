@@ -1,7 +1,7 @@
 // TODO: use correct mutation once backend structure known
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { AuthDao } from "./AuthDao";
-import { isServerError } from "../utils/typeGuards";
+import { isServerErrorArray } from "../utils/typeGuards";
 
 interface RegisterInput {
   input: RegisterParams;
@@ -39,7 +39,7 @@ export class AuthDaoImpl implements AuthDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          if (isServerError(e)) {
+          if (isServerErrorArray(e)) {
             throw [e];
           } else {
             throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
@@ -69,7 +69,7 @@ export class AuthDaoImpl implements AuthDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          if (isServerError(e)) {
+          if (isServerErrorArray(e)) {
             throw [e];
           } else {
             throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
@@ -106,8 +106,8 @@ export class AuthDaoImpl implements AuthDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          if (isServerError(e)) {
-            throw [e];
+          if (isServerErrorArray(e)) {
+            throw e;
           } else {
             throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
           }
@@ -144,9 +144,7 @@ export class AuthDaoImpl implements AuthDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          const ie = isServerError(e);
-          debugger;
-          if (isServerError(e)) {
+          if (isServerErrorArray(e)) {
             throw e;
           } else {
             throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
