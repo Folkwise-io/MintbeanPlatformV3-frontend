@@ -10,7 +10,6 @@ interface Props {
 }
 
 export const RegisterModal: FC<Props> = ({ className, buttonText }) => {
-  // form methods for react hooks form provider
   const formRef = useRef<HTMLFormElement>();
 
   const actions: ModalActionDeclaration[] = [
@@ -19,18 +18,12 @@ export const RegisterModal: FC<Props> = ({ className, buttonText }) => {
       text: "Sign Up",
       onClick: async (_evt, { closeModal }) => {
         try {
-          // if (isValid) {
-          //   await formMethods.handleSubmit(onSubmit)();
-          //   closeModal();
-          // }
           if (formRef.current) {
             formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
           }
-          console.log("modal action button clicked ");
-          console.log(formRef.current);
+          closeModal();
         } catch (e) {
-          console.log("fsfd");
-          alert("badddd");
+          alert(JSON.stringify(e));
         }
       },
     },

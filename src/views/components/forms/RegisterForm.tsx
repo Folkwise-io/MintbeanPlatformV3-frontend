@@ -35,20 +35,23 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
   registerUser: (vals: RegisterParams) => dispatch(registerAction(vals)),
 });
 
-// ewwww typescript
-const RegisterForm: React.ForwardRefExoticComponent<Props & React.RefAttributes<HTMLFormElement>> = forwardRef<
-  HTMLFormElement,
-  FormProps & Props
->(({ registerUser, formRef, sendValuesUp }) => {
-  const { errors, register, handleSubmit, formState } = useForm({
+const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
+  const { errors, register, handleSubmit, formState, trigger } = useForm({
     resolver: yupResolver(RegisterSchema),
   });
 
-  const onSubmit = (values: RegisterParams): void => {
-    console.log(formState);
-
-    sendValuesUp(values);
-    // const res = await registerUser(values);
+  /*TODO: make this not ugly*/
+  const onSubmit = async (values: RegisterParams): Promise<void> => {
+    const isValid = trigger();
+    console.log(isValid);
+    if (isValid) {
+      try {
+        await registerUser(values);
+      } catch (e) {
+        console.log(e);
+        // do nothing.
+      }
+    }
   };
 
   return (
@@ -80,6 +83,6 @@ const RegisterForm: React.ForwardRefExoticComponent<Props & React.RefAttributes<
       <p>{errors.passwordConfirmation?.message}</p>
     </form>
   );
-});
+};
 
-export default connect(null, dtp, null, { forwardRef: true })(RegisterForm);
+export default connect(null, dtp)(RegisterForm);
