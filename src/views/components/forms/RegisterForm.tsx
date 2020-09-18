@@ -28,12 +28,12 @@ type FormProps = React.HTMLProps<HTMLFormElement>;
 
 type Props = {
   registerUser: (vals: RegisterParams) => void;
-  formRef: any; // please just let me
+  formRef: React.MutableRefObject<HTMLFormElement>;
 };
 
-const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
-  registerUser: (vals: RegisterParams) => dispatch(registerAction(vals)),
-});
+// const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
+//   registerUser: (vals: RegisterParams) => dispatch(registerAction(vals)),
+// });
 
 const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
   const { errors, register, handleSubmit, formState, trigger } = useForm({
@@ -41,18 +41,22 @@ const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
   });
 
   /*TODO: make this not ugly*/
-  const onSubmit = async (values: RegisterParams): Promise<void> => {
-    const isValid = trigger();
-    console.log(isValid);
-    if (isValid) {
-      try {
-        await registerUser(values);
-      } catch (e) {
-        console.log(e);
-        // do nothing.
-      }
-    }
-  };
+  // const onSubmit = async (values: RegisterParams): Promise<void> => {
+  //   debugger;
+  //   const isValid = trigger();
+  //   console.log(isValid);
+  //   debugger;
+  //   if (isValid) {
+  //     try {
+  //       await registerUser(values);
+  //     } catch (e) {
+  //       console.log(e);
+  //       // do nothing.
+  //     }
+  //   }
+  // };
+
+  const onSubmit = (data: RegisterParams, e) => registerUser(data);
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
@@ -85,4 +89,4 @@ const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
   );
 };
 
-export default connect(null, dtp)(RegisterForm);
+export default RegisterForm;

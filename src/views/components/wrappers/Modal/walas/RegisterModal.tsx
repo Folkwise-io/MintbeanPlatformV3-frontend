@@ -21,7 +21,6 @@ export const RegisterModal: FC<Props> = ({ className, buttonText }) => {
           if (formRef.current) {
             formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
           }
-          closeModal();
         } catch (e) {
           alert(JSON.stringify(e));
         }
@@ -41,7 +40,7 @@ export const RegisterModal: FC<Props> = ({ className, buttonText }) => {
           </button>
         )}
       >
-        <RegisterForm formRef={formRef} />
+        <RegisterForm formRef={formRef} registerUser={(val) => alert(JSON.stringify(val))} />
       </Modal>
     </>
   );
