@@ -34,27 +34,27 @@ export const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
 
       <label htmlFor="firstName">First name</label>
       <input type="text" name="firstName" ref={register} />
-      <p>{errors.firstName?.message}</p>
+      <p className="text-red-500">{errors.firstName?.message}</p>
 
       <label htmlFor="lastName">Last name</label>
       <input type="text" name="lastName" ref={register} />
-      <p>{errors.lastName?.message}</p>
+      <p className="text-red-500">{errors.lastName?.message}</p>
 
       <label htmlFor="username">Username</label>
       <input type="text" name="username" ref={register} />
-      <p>{errors.username?.message}</p>
+      <p className="text-red-500">{errors.username?.message}</p>
 
       <label htmlFor="email">Email</label>
       <input type="email" name="email" ref={register} />
-      <p>{errors.email?.message}</p>
+      <p className="text-red-500">{errors.email?.message}</p>
 
       <label htmlFor="password">Password</label>
       <input type="password" name="password" ref={register} />
-      <p>{errors.password?.message}</p>
+      <p className="text-red-500">{errors.password?.message}</p>
 
       <label htmlFor="passwordConfirmation">Confirm password</label>
       <input type="password" name="passwordConfirmation" ref={register} />
-      <p>{errors.passwordConfirmation?.message}</p>
+      <p className="text-red-500">{errors.passwordConfirmation?.message}</p>
     </form>
   );
 };

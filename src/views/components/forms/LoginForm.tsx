@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
+  password: Yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
 });
 
 interface Props {
@@ -28,11 +28,11 @@ export const LoginForm: FC<Props> = ({ login, formRef }) => {
 
       <label htmlFor="email">Email</label>
       <input type="email" name="email" ref={register} />
-      <p>{errors.email?.message}</p>
+      <p className="text-red-500">{errors.email?.message}</p>
 
       <label htmlFor="password">Password</label>
       <input type="password" name="password" ref={register} />
-      <p>{errors.password?.message}</p>
+      <p className="text-red-500">{errors.password?.message}</p>
     </form>
   );
 };
