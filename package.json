@@ -14,7 +14,8 @@
     "check-types": "tsc --noemit",
     "build:css": "postcss src/tailwind.css -o static/dist/tailwind.css",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "postinstall": "patch-package"
   },
   "husky": {
     "hooks": {
@@ -87,6 +88,8 @@
     "@types/webpack-env": "^1.15.2",
     "axios": "^0.20.0",
     "moment-timezone": "^0.5.31",
+    "patch-package": "^6.2.2",
+    "postinstall-postinstall": "^2.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.8.2",
