@@ -80,7 +80,6 @@ describe("MeetService", () => {
       endTime: newMeet.endTime,
       region: newMeet.region,
     };
-    const invalidMeetParams = { ...validMeetParams, description: 123 };
     it("returns the created meet on success", async () => {
       await testManager
         .configureContext((context) => {
