@@ -192,7 +192,7 @@ describe("Auth actions", () => {
       lastName: newUserParams.lastName,
       username: newUserParams.username,
       email: newUserParams.email,
-      createdAt: new Date(),
+      createdAt: "2020-09-15T13:00:00.000Z",
     };
 
     // TODO: test for jwt token cookie assignment

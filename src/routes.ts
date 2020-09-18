@@ -1,5 +1,5 @@
 import React from "react";
-import { Home, Hackathons, NotFound } from "./views/pages";
+import { Home, Hackathons, Meets, NotFound } from "./views/pages";
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 interface RouteConfig {
