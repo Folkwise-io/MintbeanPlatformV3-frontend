@@ -52,8 +52,8 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
         </button>
       ) : (
         <>
-          <LoginModal buttonText="Login" />
-          <RegisterModal buttonText="Sign up" />
+          <LoginModal buttonText="Login" className="mx-2" />
+          <RegisterModal buttonText="Sign up" className="mx-2 bg-blue-300 px-2 rounded" />
         </>
       )}
     </nav>
