@@ -23,14 +23,9 @@ export const routes: RouteConfig[] = [
     path: "/events",
   },
   {
-    component: Home,
-    exact: true,
-    path: "/",
-  },
-  {
     component: StaticHome,
     exact: true,
-    path: "/home",
+    path: "/",
   },
   {
     component: NotFound,

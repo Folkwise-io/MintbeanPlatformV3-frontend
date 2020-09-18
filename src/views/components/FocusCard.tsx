@@ -9,7 +9,7 @@ type Props = {
   card: FocusCard;
 };
 
-export const HomeFocusCard: FC<Props> = ({ card }) => {
+export const FocusCard: FC<Props> = ({ card }) => {
   const { title, description } = card;
   return (
     <section className="bg-white mx-6 my-10 pt-6 pb-8 text-center font-body rounded-mb-sm leading-loose px-8 md:px-12 max-w-7xl">

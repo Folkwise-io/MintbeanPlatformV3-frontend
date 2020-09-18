@@ -55,7 +55,6 @@ const Home: FC<StateMapping & DispatchMapping> = (props) => {
   ];
   return (
     <div>
-      <Link to="/home">Home(Celeste)</Link>
       <Button onClick={() => props.fetchUsers()}>This is a test button</Button>
       <Modal
         actions={actions}
