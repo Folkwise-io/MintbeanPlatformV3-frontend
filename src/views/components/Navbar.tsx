@@ -55,16 +55,17 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
           <Link to="/events" className="mx-2">
             Events
           </Link>
-          {isLoggedIn ? (
-            <button className="mx-2" onClick={() => logoutAndRedirect()}>
-              Logout
-            </button>
-          ) : (
-            <>
-              <LoginModal buttonText="Login" className="mx-2" />
-              <RegisterModal buttonText="Sign up" className="mx-2 bg-blue-300 px-3 rounded" />
-            </>
-          )}
+          {user.loadStatus !== "LOADING" &&
+            (isLoggedIn ? (
+              <button className="mx-2" onClick={() => logoutAndRedirect()}>
+                Logout
+              </button>
+            ) : (
+              <>
+                <LoginModal buttonText="Login" className="mx-2" />
+                <RegisterModal buttonText="Sign up" className="mx-2 bg-blue-300 px-3 rounded" />
+              </>
+            ))}
         </section>
       </div>
     </nav>

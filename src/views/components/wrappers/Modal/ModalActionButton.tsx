@@ -1,6 +1,5 @@
 import React, { FC, ReactElement } from "react";
 
-/* TODO: make Modal context (closeModal...) accessible from actions callback. For now, all action buttons close on completion */
 export interface ModalActionDeclaration {
   type: "primary" | "secondary" | "danger";
   text: string;
