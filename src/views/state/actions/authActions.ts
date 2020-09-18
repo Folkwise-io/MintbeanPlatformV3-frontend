@@ -11,7 +11,7 @@ const loginAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<User> 
   loadStatus,
 });
 
-export function login(params: LoginInput): ThunkAction<void, StoreState, Context, MbAction<void>> {
+export function login(params: LoginParams): ThunkAction<void, StoreState, Context, MbAction<void>> {
   return (dispatch: Dispatch, _getState, context) => {
     dispatch(loginAction("LOADING"));
     return context.authService
@@ -44,7 +44,6 @@ export function logout(): ThunkAction<void, StoreState, Context, MbAction<void>>
       .logout()
       .then((res: boolean) => {
         if (!res) {
-          console.log("entered !res");
           dispatch(logoutAction(false, "ERROR"));
           throw null;
         }

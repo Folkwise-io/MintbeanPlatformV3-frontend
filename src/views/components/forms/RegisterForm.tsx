@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const RegisterSchema = Yup.object().shape({
-  username: Yup.string().min(3, "Too short!").max(15, "Maximum 15 characters!").required("Required"),
-  firstName: Yup.string().min(3, "Too short!").max(36, "Maximum 36 characters!").required("Required"),
-  lastName: Yup.string().min(3, "Too short!").max(36, "Maximum 36 characters!").required("Required"),
+  username: Yup.string().min(3, "Too short!").max(20, "Maximum 20 characters!").required("Required"),
+  firstName: Yup.string().min(1, "At least one character!").max(36, "Maximum 36 characters!").required("Required"),
+  lastName: Yup.string().min(1, "At least one character!").max(36, "Maximum 36 characters!").required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string().min(6, "Minimum 6 characters!").max(64, "Maximum 64 characters!").required("Required"),
   passwordConfirmation: Yup.string()
@@ -16,11 +16,11 @@ const RegisterSchema = Yup.object().shape({
 });
 
 type Props = {
-  registerUser: (vals: RegisterParams) => void;
+  registerUser: (values: RegisterParams) => void;
   formRef: React.RefObject<HTMLFormElement> | null;
 };
 
-const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
+export const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
   const { errors, register, handleSubmit } = useForm({
     resolver: yupResolver(RegisterSchema),
   });
@@ -58,5 +58,3 @@ const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
     </form>
   );
 };
-
-export default RegisterForm;

@@ -25,7 +25,7 @@ interface HackMeet {
 }
 
 // INPUTS --------------------
-interface LoginInput {
+interface LoginParams {
   email: string;
   password: string;
 }

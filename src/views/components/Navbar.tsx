@@ -6,6 +6,8 @@ import { logout } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
 import { Context } from "../../context/contextBuilder";
 import RegisterModal from "./wrappers/Modal/walas/RegisterModal";
+import LoginModal from "./wrappers/Modal/walas/LoginModal";
+
 type StateMapping = {
   user: UserState;
 };
@@ -50,9 +52,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
         </button>
       ) : (
         <>
-          <Link to="/login" className="mx-2">
-            Login
-          </Link>
+          <LoginModal buttonText="Login" />
           <RegisterModal buttonText="Sign up" />
         </>
       )}

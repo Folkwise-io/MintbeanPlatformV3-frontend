@@ -1,28 +1,7 @@
-import React, { FC, useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
-// import { Formik, Form, Field, ErrorMessage } from "formik";
+import React, { FC } from "react";
+import { yupResolver } from "@hookform/resolvers";
 import * as Yup from "yup";
-import { Context } from "../../../context/contextBuilder";
-import { login } from "../../state/actions/authActions";
-import { MbAction } from "../../state/actions/MbAction";
-import { useHistory } from "react-router-dom";
-
-type StateMapping = {
-  user: UserState;
-};
-
-const stp = (state: StoreState) => ({
-  user: state.user,
-});
-
-type DispatchMapping = {
-  login: (loginInput: LoginInput) => void;
-};
-
-const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
-  login: (loginInput: LoginInput) => dispatch(login(loginInput)),
-});
+import { useForm } from "react-hook-form";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const LoginSchema = Yup.object().shape({
@@ -31,44 +10,29 @@ const LoginSchema = Yup.object().shape({
 });
 
 interface Props {
-  to?: string; // redirect path
+  login: (values: LoginParams) => void;
+  formRef: React.RefObject<HTMLFormElement> | null;
 }
 
-const LoginForm: FC<StateMapping & DispatchMapping & Props> = ({ login, user, to }) => {
-  const [isLoggedIn, setLoggedIn] = useState(!!user.data);
-  const history = useHistory();
+export const LoginForm: FC<Props> = ({ login, formRef }) => {
+  const { errors, register, handleSubmit } = useForm({
+    resolver: yupResolver(LoginSchema),
+  });
 
-  useEffect(() => {
-    setLoggedIn(!!user.data && user.loadStatus === "SUCCESS");
-  }, [user]);
+  // RHF only calls onSubmit callback when form input passes validation
+  const onSubmit = (data: RegisterParams) => login(data);
 
-  // Redirect on successful logged if props.to exists
-  useEffect(() => {
-    if (to && isLoggedIn) history.push(to);
-  }, [isLoggedIn, history, to]);
+  return (
+    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+      <h1 className="font-semibold">Login</h1>
 
-  return <p>this form coming bakc soon!</p>;
+      <label htmlFor="email">Email</label>
+      <input type="email" name="email" ref={register} />
+      <p>{errors.email?.message}</p>
+
+      <label htmlFor="password">Password</label>
+      <input type="password" name="password" ref={register} />
+      <p>{errors.password?.message}</p>
+    </form>
+  );
 };
-
-export default connect(stp, dtp)(LoginForm);
-
-// <Formik
-//   initialValues={{ email: "", password: "" }}
-//   validationSchema={LoginSchema}
-//   onSubmit={(values: LoginInput) => login(values)}
-// >
-//   {({ isSubmitting }) => (
-//     <Form className="shadow max-w-screen-sm p-6 mx-auto">
-//       <h1 className="font-semibold">Login</h1>
-//       <label htmlFor="email">Email</label>
-//       <Field type="email" name="email" />
-//       <ErrorMessage name="email" component="div" className="mb-formik-error-msg" />
-//       <label htmlFor="password">Password</label>
-//       <Field type="password" name="password" />
-//       <ErrorMessage name="password" component="div" className="mb-formik-error-msg" />
-//       <button type="submit" disabled={isSubmitting} className="bg-green-300 p-2 mt-2">
-//         Login
-//       </button>
-//     </Form>
-//   )}
-// </Formik>

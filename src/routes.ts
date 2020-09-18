@@ -1,5 +1,5 @@
 import React from "react";
-import { Home, Login, Hackathons, NotFound } from "./views/pages";
+import { Home, Hackathons, NotFound } from "./views/pages";
 
 interface RouteConfig {
   component: React.FC<void>;
@@ -8,10 +8,6 @@ interface RouteConfig {
 }
 
 export const routes: RouteConfig[] = [
-  {
-    component: Login,
-    path: "/login",
-  },
   {
     component: Hackathons,
     path: "/hackathons",

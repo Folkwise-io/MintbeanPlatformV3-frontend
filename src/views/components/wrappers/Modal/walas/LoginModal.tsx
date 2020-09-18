@@ -1,8 +1,8 @@
 import React, { FC, useRef } from "react";
 import { Modal } from "../";
-import { RegisterForm } from "../../../forms/RegisterForm";
+import { LoginForm } from "../../../forms/LoginForm";
 import { ModalActionDeclaration } from "../ModalActionButton";
-import { register } from "../../../../state/actions/authActions";
+import { login } from "../../../../state/actions/authActions";
 import { ThunkDispatch } from "redux-thunk";
 import { Context } from "../../../../../context/contextBuilder";
 import { MbAction } from "../../../../state/actions/MbAction";
@@ -14,20 +14,20 @@ interface Props {
 }
 
 type DispatchMapping = {
-  register: (values: RegisterParams) => void;
+  login: (values: LoginParams) => void;
 };
 
 const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
-  register: (values: RegisterParams) => dispatch(register(values)),
+  login: (values: LoginParams) => dispatch(login(values)),
 });
 
-const RegisterModal: FC<Props & DispatchMapping> = ({ register, className, buttonText }) => {
+const LoginModal: FC<Props & DispatchMapping> = ({ login, className, buttonText }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const actions: ModalActionDeclaration[] = [
     {
       type: "primary",
-      text: "Sign Up",
+      text: "Login",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
@@ -47,10 +47,10 @@ const RegisterModal: FC<Props & DispatchMapping> = ({ register, className, butto
           </button>
         )}
       >
-        <RegisterForm formRef={formRef} registerUser={(values: RegisterParams) => register(values)} />
+        <LoginForm formRef={formRef} login={(values: LoginParams) => login(values)} />
       </Modal>
     </>
   );
 };
 
-export default connect(null, dtp)(RegisterModal);
+export default connect(null, dtp)(LoginModal);

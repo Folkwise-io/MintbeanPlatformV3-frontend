@@ -11,10 +11,10 @@ interface RegisterInput {
 export class AuthDaoImpl implements AuthDao {
   constructor(private api: ApiQueryExecutor) {}
 
-  login(params: LoginInput): Promise<User> {
+  login(params: LoginParams): Promise<User> {
     return (
       this.api
-        .query<ApiResponseRaw<{ login: User }>, LoginInput>(
+        .query<ApiResponseRaw<{ login: User }>, LoginParams>(
           `
             mutation Login($email: String!, $password: String!) {
               login(email: $email, password: $password) {
@@ -52,7 +52,7 @@ export class AuthDaoImpl implements AuthDao {
   logout(): Promise<boolean> {
     return (
       this.api
-        .query<ApiResponseRaw<{ logout: boolean }>, LoginInput>(
+        .query<ApiResponseRaw<{ logout: boolean }>>(
           `
             mutation logout {
               logout
@@ -82,7 +82,7 @@ export class AuthDaoImpl implements AuthDao {
   me(): Promise<User> {
     return (
       this.api
-        .query<ApiResponseRaw<{ me: User }>, LoginInput>(
+        .query<ApiResponseRaw<{ me: User }>>(
           `
             query me {
               me {
@@ -106,11 +106,7 @@ export class AuthDaoImpl implements AuthDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          if (e.errors) {
-            throw e.errors;
-          } else {
-            throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
-          }
+          throw e;
         })
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
