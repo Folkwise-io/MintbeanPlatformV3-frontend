@@ -11,10 +11,9 @@ export class MeetService {
       return [];
     });
   }
-  async createMeet(params: CreateMeetParams): Promise<Meet | undefined> {
+  async createMeet(params: CreateMeetParams): Promise<Meet | void> {
     return this.meetDao.createMeet(params).catch((e) => {
       this.logger.handleGraphqlErrors(e);
-      return undefined;
     });
   }
 }
