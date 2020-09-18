@@ -6,6 +6,7 @@ interface User {
   firstName: string;
   lastName: string;
   createdAt: string;
+  isAdmin: boolean;
 }
 
 interface Sponsor {
