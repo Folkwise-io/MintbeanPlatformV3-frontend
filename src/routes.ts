@@ -1,5 +1,5 @@
 import React from "react";
-import { Home, Login, Hackathons, NotFound, Meets } from "./views/pages";
+import { Home, Hackathons, Meets, NotFound } from "./views/pages";
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 interface RouteConfig {
@@ -10,10 +10,6 @@ interface RouteConfig {
 /* eslint-enable  @typescript-eslint/no-explicit-any */
 
 export const routes: RouteConfig[] = [
-  {
-    component: Login,
-    path: "/login",
-  },
   {
     component: Hackathons,
     path: "/hackathons",

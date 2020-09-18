@@ -1,7 +1,4 @@
-import Home from "./Home";
-import Login from "./Login";
-import Hackathons from "./Hackathons";
-import Meets from "./Meets";
-import NotFound from "./NotFound";
-
-export { Home, Login, Hackathons, NotFound, Meets };
+export { default as Home } from "./Home";
+export { default as Hackathons } from "./Hackathons";
+export { default as Meets } from "./Meets";
+export { default as NotFound } from "./NotFound";

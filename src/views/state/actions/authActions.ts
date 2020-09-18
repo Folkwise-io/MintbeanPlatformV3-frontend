@@ -11,17 +11,19 @@ const loginAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<User> 
   loadStatus,
 });
 
-export function login(loginInput: LoginInput): ThunkAction<void, StoreState, Context, MbAction<void>> {
+export function login(params: LoginParams): ThunkAction<void, StoreState, Context, MbAction<void>> {
   return (dispatch: Dispatch, _getState, context) => {
     dispatch(loginAction("LOADING"));
     return context.authService
-      .login(loginInput)
+      .login(params)
       .then((user: User) => {
         if (!user) {
           dispatch(loginAction("ERROR"));
           throw null;
         }
-        context.loggerService.success("Successfully logged in.");
+        context.loggerService.success(
+          `<p>Welcome back, ${user.firstName}!</p><p>Check out our <u><strong><a href="/events">Upcoming Events</a></strong></u> to get hacking!</p>`,
+        );
         return dispatch(loginAction("SUCCESS", user));
       })
       .catch(() => {
@@ -44,7 +46,6 @@ export function logout(): ThunkAction<void, StoreState, Context, MbAction<void>>
       .logout()
       .then((res: boolean) => {
         if (!res) {
-          console.log("entered !res");
           dispatch(logoutAction(false, "ERROR"));
           throw null;
         }
@@ -88,5 +89,37 @@ export function me(): ThunkAction<void, StoreState, Context, MbAction<void>> {
         })
     );
     /* eslint-enable  @typescript-eslint/no-explicit-any */
+  };
+}
+
+const registerAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<User> => ({
+  type: AuthActionType.REGISTER,
+  payload,
+  loadStatus,
+});
+
+export function register(params: RegisterParams): ThunkAction<void, StoreState, Context, MbAction<void>> {
+  return (dispatch: Dispatch, getState, context) => {
+    const userAlreadyLoggedin = getState().user.data;
+    if (userAlreadyLoggedin) {
+      return context.loggerService.danger("Sorry, you can't create an account because you're already logged in!");
+    }
+    dispatch(registerAction("LOADING"));
+    return context.authService
+      .register(params)
+      .then((user: User) => {
+        if (!user) {
+          dispatch(registerAction("ERROR"));
+          throw null;
+        }
+        context.loggerService.success(
+          `Welcome to Mintbean, ${user.firstName}!<p>Check out our <u><strong><a href="/events">Upcoming Events</a></strong></u> to get hacking!</p>`,
+        );
+        return dispatch(registerAction("SUCCESS", user));
+      })
+      .catch((e) => {
+        context.loggerService.handleGraphqlErrors(e);
+        return dispatch(registerAction("ERROR"));
+      });
   };
 }
