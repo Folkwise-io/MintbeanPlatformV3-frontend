@@ -101,7 +101,14 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       <p className="text-red-500">{errors.startTime?.message}</p>
 
       <label htmlFor="endTime">End time</label>
-      <input type="datetime-local" name="endTime" ref={register} className="mb-2" />
+      <input
+        type="datetime-local"
+        name="endTime"
+        ref={register({
+          validate: (value) => value === "1",
+        })}
+        className="mb-2"
+      />
       <p className="text-red-500">{errors.endTime?.message}</p>
 
       <label htmlFor="region">Event region</label>

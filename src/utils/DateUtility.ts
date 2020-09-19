@@ -50,6 +50,17 @@ export class DateUtility {
     const now = moment(new Date()).utc();
     return now > targetDate;
   };
+  // Returns true if date1 is chronologically prior to date2 assuming both in saem region (fomat: '2020-10-15T13:00:00.000')
+  isChronologicalNoTz = (date1: string, date2: string) => {
+    const dateStringRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}$/;
+    if (!date1.match(dateStringRegex) || !date2.match(dateStringRegex)) {
+      return false;
+    }
+    // Timezone is irrelevant
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+    return d1 < d2;
+  };
 }
 
 const hoursDifference = (start: Date, end: Date): number => {

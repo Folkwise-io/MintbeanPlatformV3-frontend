@@ -65,4 +65,18 @@ describe("Date Utility", () => {
       expect(isPast).toBe(false);
     });
   });
+  describe("isChronologicalNoTz", () => {
+    it("returns true if date args are chronolgical", () => {
+      expect(d.isChronologicalNoTz("2020-09-15T12:00:00.000", "2020-09-15T13:00:00.000")).toBe(true);
+      expect(d.isChronologicalNoTz("2020-09-15T12:00:00.000", "2020-09-15T23:00:00.001")).toBe(true);
+      expect(d.isChronologicalNoTz("2020-09-15T12:00:00.000", "2020-09-16T12:00:00.000")).toBe(true);
+      expect(d.isChronologicalNoTz("2020-09-15T12:00:00.000", "2021-09-15T12:00:00.000")).toBe(true);
+    });
+    it("returns false if date args are chronolgical", () => {
+      expect(d.isChronologicalNoTz("2020-09-15T12:00:00.000", "2020-09-15T12:00:00.000")).toBe(false);
+      expect(d.isChronologicalNoTz("2021-09-15T12:00:00.000", "2020-09-15T12:00:00.000")).toBe(false);
+      expect(d.isChronologicalNoTz("2020-09-16T12:00:00.000", "2020-09-16T12:00:00.000")).toBe(false);
+      expect(d.isChronologicalNoTz("2020-09-15T12:00:00.001", "2020-09-15T12:00:00.000")).toBe(false);
+    });
+  });
 });
