@@ -1,6 +1,5 @@
-import Home from "./Home";
-import Hackathons from "./Hackathons";
-import Meets from "./Meets";
-import NotFound from "./NotFound";
-
-export { Home, Hackathons, NotFound, Meets };
+export { default as Home } from "./Home";
+export { default as Hackathons } from "./Hackathons";
+export { default as Meets } from "./Meets";
+export { default as Meet } from "./templates/Meet";
+export { default as NotFound } from "./NotFound";

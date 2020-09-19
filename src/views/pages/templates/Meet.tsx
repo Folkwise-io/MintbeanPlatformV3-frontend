@@ -4,6 +4,7 @@ import { DateUtility } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
 import Markdown from "react-markdown";
 import { Banner } from "../../components/Banner";
+import { RouteComponentProps } from "react-router-dom";
 
 const d = new DateUtility();
 
@@ -14,11 +15,18 @@ const stp = (state: StoreState) => ({
   user: state.user,
 });
 
-const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
+// For using react router 'match' prop
+interface MatchParams {
+  id: string;
+}
+
+const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({ context, user, match }) => {
+  const {
+    params: { id },
+  } = match;
   const [meet, setMeet] = useState<Meet | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  // TODO: Fetch meets on mount
   useEffect(() => {
     const fetchMeetData = async () => {
       if (!context) {
@@ -26,9 +34,12 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
         alert("Blame the devs! Something terrible happened.");
         return;
       }
+      // const meetId = match.
       setLoading(true);
-      // const fetchedMeet = await context.meetService.fetchMeet();
-      // setMeet(fetchedMeet);
+      const fetchedMeet = await context.meetService.fetchMeet(id);
+      if (fetchedMeet) {
+        setMeet(fetchedMeet);
+      }
       setLoading(false);
     };
 
@@ -47,4 +58,6 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   );
 };
 
-export default connectContext<ConnectContextProps>(connect(stp)(Meets));
+export default connectContext<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>>(
+  connect(stp)(Meet),
+);
