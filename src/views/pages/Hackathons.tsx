@@ -24,7 +24,7 @@ const Hackathons: FC<void> = () => {
           </aside>
           <div
             className="hidden md:block w-full md:w-2/4 bg-cover bg-center lg:bg-contain "
-            style={{ backgroundImage: `url("/${imgRobots}")` }}
+            style={{ backgroundImage: `url("${imgRobots}")` }}
           />
         </div>
       </header>
