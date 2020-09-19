@@ -49,7 +49,7 @@ export class MeetDaoImpl implements MeetDao {
       this.api
         .query<ApiResponseRaw<{ meet: Meet }>, { id: string }>(
           `
-          query meet(id: $id) {
+          query meet($id: UUID!) {
             meet(id: $id) {
               id
               meetType
