@@ -66,17 +66,6 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
       </header>
       <main className="py-12 ">
         {isAdmin && adminMeetCreateModal}
-        <Markdown source="**Look, no text editor!**" />
-        <Markdown
-          source={`Here is a multiline
-          [Duck Duck Go](https://duckduckgo.com)
-          OOoo down here now
-          things to do:
-          1. finish website
-          2. download vscode
-           `}
-        />
-
         <section
           className="rounded-xl container mx-auto max-w-screen-md mb-12 flex flex-col items-center px-4 py-8"
           style={{ background: "linear-gradient(0deg, black, #3d3d3d)" }}

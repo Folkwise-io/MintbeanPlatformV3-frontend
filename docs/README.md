@@ -166,6 +166,10 @@ We are using `react-markdown` (built on `markdown-it`) to parse markdown text in
 
 [See here](https://www.npmjs.com/package/react-markdown-it#usage) for usage example.
 
+### Editor
+
+We will use [Ace](https://github.com/securingsincity/react-ace) for inputs with syntax highlighting on steroids.
+
 ### Debugging in VSCode
 
 In VSCode, you can go over to the "Run" tab on the left-hand panel and run "Debug Jest tests". This will let you set breakpoints in VSCode itself. How cool is that?
