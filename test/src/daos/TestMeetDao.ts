@@ -17,6 +17,27 @@ export class TestMeetDao implements MeetDao {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     return this.data;
   }
+  async fetchMeet(id: string): Promise<Meet> {
+    if (!id)
+      throw {
+        message: "You forget to inlclude 'id' as a param in test script",
+        extensions: { code: "TEST_CODE_ERROR" },
+      } as ServerError;
+    const errorReturns = this.getErrors();
+    const successReturns = this.getSuccesses();
+    if (errorReturns.length) {
+      // Mock failed
+      throw errorReturns;
+    } else if (successReturns.length) {
+      // Mock successful
+      return (successReturns[0].data as unknown) as Meet;
+    } else {
+      throw {
+        message: "This shouldn't happen",
+        extensions: { code: "UNEXPECTED" },
+      } as ServerError;
+    }
+  }
   async createMeet(params: CreateMeetParams): Promise<Meet> {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (params && this.getSuccesses().length) {

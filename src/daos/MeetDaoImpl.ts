@@ -10,7 +10,7 @@ export class MeetDaoImpl implements MeetDao {
       this.api
         .query<ApiResponseRaw<{ meets: Meet[] }>>(
           `
-          query allEvents {
+          query meets {
             meets {
               id
               meetType
@@ -33,6 +33,46 @@ export class MeetDaoImpl implements MeetDao {
             throw [{ message: "Failed to get meets", extensions: { code: "UNEXPECTED" } }];
           }
           return result.data.meets;
+        })
+        // TODO: What potential Types of errors can invoke this catch?
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+        })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
+    );
+  }
+
+  fetchMeet(id: string): Promise<Meet> {
+    return (
+      this.api
+        .query<ApiResponseRaw<{ meet: Meet }>, { id: string }>(
+          `
+          query meet(id: $id) {
+            meet(id: $id) {
+              id
+              meetType
+              title
+              description
+              instructions
+              registerLink
+              coverImageUrl
+              startTime
+              endTime
+              createdAt
+              region
+          }
+        }
+        `,
+          { id: id },
+        )
+        .then((result) => {
+          if (result.errors) throw result.errors;
+          if (!result.errors && !result.data.meet) {
+            throw [{ message: "Failed to get meet", extensions: { code: "UNEXPECTED" } }];
+          }
+          return result.data.meet;
         })
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */

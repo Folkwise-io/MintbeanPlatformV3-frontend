@@ -1,7 +1,6 @@
 import { TestManager } from "../TestManager";
 import { meetFactory } from "../factories/meet.factory";
 // import { userFactory } from "../factories/user.factory";
-// import { fetchMeets } from "../../../src/services/meetService";
 
 const fakeMeets = meetFactory.bulk(10);
 
@@ -16,7 +15,7 @@ describe("MeetService", () => {
     afterEach(() => {
       // Just to be safe!
       testManager.configureContext((context) => {
-        context.authDao.clearMockReturns();
+        context.meetDao.clearMockReturns();
       });
     });
     it("returns a list of meets on success", async () => {
@@ -59,7 +58,7 @@ describe("MeetService", () => {
     afterEach(() => {
       // Just to be safe!
       testManager.configureContext((context) => {
-        context.authDao.clearMockReturns();
+        context.meetDao.clearMockReturns();
       });
     });
 
@@ -105,6 +104,61 @@ describe("MeetService", () => {
       const storeState = testManager.store.getState();
       expect(storeState.errors[0].message).toBe(ERROR_MESSAGE);
       expect(storeState.toasts[0].message).toBe(ERROR_MESSAGE);
+      expect(storeState.toasts[0].type).toBe("DANGER");
+    });
+  });
+  describe("fetchMeet()", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.meetDao.clearMockReturns();
+      });
+    });
+
+    const meet = meetFactory.one();
+    const id = meet.id;
+
+    it("returns a meet by id", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.meetDao.mockReturn({ data: meet });
+        })
+        .execute((context) => {
+          return context.meetService.fetchMeet(id).then((result) => {
+            console.log(result);
+            expect(result).toMatchObject(meet);
+          });
+        });
+
+      const storeState = testManager.store.getState();
+      expect(storeState.errors.length).toBe(0);
+    });
+    it("logs error and throws toast if meet not found", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.meetDao.mockReturn({
+            data: null,
+            errors: [
+              {
+                message: "forced error",
+                extensions: { code: "TEST_ERR" },
+              },
+            ],
+          });
+        })
+        .execute((context) => {
+          return context.meetService.fetchMeet("thiswontwork").then((result) => {
+            console.log({ result });
+            expect(result).toBe(undefined);
+          });
+        });
+
+      const storeState = testManager.store.getState();
+      expect(storeState.errors).toBeTruthy();
       expect(storeState.toasts[0].type).toBe("DANGER");
     });
   });

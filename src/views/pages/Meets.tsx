@@ -6,7 +6,6 @@ import { DateUtility } from "../../utils/DateUtility";
 import { meetFactory } from "../../../test/src/factories/meet.factory";
 import AdminMeetCreateModal from "../components/wrappers/Modal/walas/AdminMeetCreateModal";
 import { connect } from "react-redux";
-import Markdown from "react-markdown";
 
 //TODO: Remove these fake meets. Filling in for missing seeds right now to show page style
 const fakePastMeets = meetFactory.bulk(10);
