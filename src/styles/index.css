@@ -7,6 +7,19 @@
 
 @tailwind utilities;
 
+/* Global base styles using tailwind */
+@layer base {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  a {
+    @apply text-mb-green-200;
+  }
+}
+
 html,
 body {
   font-family: "Montserrat", sans-serif;

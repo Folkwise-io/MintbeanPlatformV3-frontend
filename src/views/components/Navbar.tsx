@@ -43,21 +43,21 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
     <nav className="py-2 px-6 bg-white sticky top-0" style={{ minHeight: "80px", zIndex: 99 }}>
       <div className="flex flex-col md:flex-row md:items-center justify-between ">
         <section className="h-full">
-          <Link to="/" className="mr-2">
+          <Link to="/" className="mr-2 text-black">
             <img src={logo} alt="Mintbean logo" className="pt-2" style={{ maxHeight: "50px" }} />
           </Link>
         </section>
         <section>
           <div>
-            <Link to="/hackathons" className="mr-2">
+            <Link to="/hackathons" className="mr-2 text-black">
               Hackathons
             </Link>
-            <Link to="/events" className="mx-2">
+            <Link to="/events" className="mx-2 text-black">
               Events
             </Link>
             {user.loadStatus !== "LOADING" &&
               (isLoggedIn ? (
-                <button className="mx-2" onClick={() => logoutAndRedirect()}>
+                <button className="mx-2 text-black" onClick={() => logoutAndRedirect()}>
                   Logout
                 </button>
               ) : (
@@ -65,7 +65,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
                   <LoginModal buttonText="Login" className="mx-2" />
                   <RegisterModal
                     buttonText="Sign up"
-                    className="text-white mx-2 bg-mb-green-200 px-4 py-2 rounded shadow"
+                    className="text-white mx-2 bg-mb-green-200 px-4 py-2 rounded shadow hover:opacity-75"
                   />
                 </>
               ))}
