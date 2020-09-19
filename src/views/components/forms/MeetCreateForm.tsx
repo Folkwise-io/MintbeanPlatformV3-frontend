@@ -3,9 +3,10 @@ import { yupResolver } from "@hookform/resolvers";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { CloudinaryUploadWidget } from "../widgets/CloudinaryUploadWidget";
+import { DateUtility } from "../../../utils/DateUtility";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
-// const urlRegEx = /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/;
+const d = new DateUtility();
 const CreateMeetInputSchema = Yup.object().shape({
   meetType: Yup.string().required("Required"),
   title: Yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
@@ -13,7 +14,11 @@ const CreateMeetInputSchema = Yup.object().shape({
   instructions: Yup.string().min(3, "Too Short!").required("Required"),
   registerLink: Yup.string().url("Must be a valid URL").required("Required"),
   coverImageUrl: Yup.string().url("Must be a valid URL").required("Required"),
-  startTime: Yup.string().required("Required"),
+  startTime: Yup.string()
+    .test("is-chronological", "Start time and end time must be chronological", function (startTime) {
+      return d.isChronologicalNoTz(startTime || "", this.parent.endTime);
+    })
+    .required("Required"),
   endTime: Yup.string().required("Required"),
   region: Yup.string().required("Required"),
 });
@@ -101,14 +106,7 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       <p className="text-red-500">{errors.startTime?.message}</p>
 
       <label htmlFor="endTime">End time</label>
-      <input
-        type="datetime-local"
-        name="endTime"
-        ref={register({
-          validate: (value) => value === "1",
-        })}
-        className="mb-2"
-      />
+      <input type="datetime-local" name="endTime" ref={register} className="mb-2" />
       <p className="text-red-500">{errors.endTime?.message}</p>
 
       <label htmlFor="region">Event region</label>

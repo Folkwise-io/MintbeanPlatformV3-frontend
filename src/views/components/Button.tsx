@@ -13,6 +13,7 @@ export const Button: FC<Props> = (props) => {
     secondary: "text-gray-700 bg-white border-mb-mint",
     danger: "text-white bg-red-500 border-red-500",
   };
+  /* important: button must be type="button" or it auto-submits parent forms */
   return (
     <button {...rest} className={`${common} ${classes[type]}`} type="button">
       {children}
