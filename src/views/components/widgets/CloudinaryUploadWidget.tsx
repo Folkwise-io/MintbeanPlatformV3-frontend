@@ -14,9 +14,8 @@ export const CloudinaryUploadWidget: FC<Props> = ({ exposeImageUrl }) => {
     if (typeof window !== "undefined" && (window as any).cloudinary) {
       widget = (window as any).cloudinary.createUploadWidget(
         {
-          // TODO: to .env
-          cloudName: "dgxkozw6v",
-          uploadPreset: "mb-test",
+          cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+          uploadPreset: process.env.CLOUDINARY_UPLOAD_PRESET,
         },
         (error: any, result: any) => {
           console.log("image info: ", result.info);
