@@ -12,6 +12,20 @@ Create a `.env` file in the project root. Add environment variable keys and valu
 
 Note: you can access environment variables in frontend with `process.env.VAR_NAME`
 
+### Logging in as test users
+
+**Admin (Amy)**
+
+email: `a@a.com`
+
+password: `password`
+
+**Normal user (Bob)**
+
+email: `b@b.com`
+
+password: `password`
+
 ### Error handling
 
 Graphql is unlike REST in that you have great freedom in querying what you want from a single endpoint.

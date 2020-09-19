@@ -7,7 +7,7 @@
 
 @tailwind utilities;
 
-/* Global base styles using tailwind */
+/* Global base styles using tailwind - feel free to edit & extend */
 @layer base {
   h1 {
     @apply text-2xl;
@@ -18,12 +18,14 @@
   a {
     @apply text-mb-green-200;
   }
+  body {
+    color: #09090b; /* TODO: use a standard mb color*/
+  }
 }
 
 html,
 body {
   font-family: "Montserrat", sans-serif;
-  color: #09090b;
 }
 
 form {
@@ -35,8 +37,4 @@ input {
   border: solid gray 2px;
   padding: 0.25em;
   margin: 0.25em;
-}
-
-form .mb-formik-error-msg {
-  color: red;
 }
