@@ -6,6 +6,12 @@
 
 Make sure the backend server and postgres is also working in separate tabs (see backend repo for instructions).
 
+### Environment variables
+
+Create a `.env` file in the project root. Add environment variable keys and values. Copy keys `.env.sample` and populate with actual values.
+
+Note: you can access environment variables in frontend with `process.env.VAR_NAME`
+
 ### Error handling
 
 Graphql is unlike REST in that you have great freedom in querying what you want from a single endpoint.
@@ -30,9 +36,11 @@ interface ServerError {
 }
 ```
 
-This means we have to check responses in the Dao for presence of `res.errors` to know whether to throw. We catch and handle the error in actions layer as a controller point.
+We will soon all migrate error handling logic to the Service layer. At present, api calls that go through the redux store are being handled in action creators, while non redux store services are handled in Service layer.
 
 See `authActions.ts`,`AuthService`, and `AuthDaoImpl.ts` as an example API request/response flow. The Dao should be typed to only return the expected success response data type. Any expected errors must be thrown.
+
+See `fetchMeets()` in `MeetsDao` and `MeetsService` flow for example of non-redux store data service. Services can be accessed from `context`.
 
 ### Logging
 
@@ -50,7 +58,7 @@ Use logger sparingly and only as helpful - don't piss off users. (DO use `handle
 
 `handleGraphqlErrors` should always be used to handle errors from the backend API, which are sent as an array. Append argument `true` to log errors silently (without sending Toast).
 
-Here is an example of handling and logging a `fetchUsers` response in the `userActions`:
+Here is an example of handling and logging a `fetchUsers` response in the `userActions` (TODO: migrate logic to service layer):
 
 ```ts
 export function fetchUsers(): ThunkAction<void, StoreState, Context, MbAction<void>> {
@@ -135,6 +143,14 @@ it("Registers error loadStatus for state.user, logs error and throws Toast on fa
     });
 });
 ```
+
+See `meetService.test.ts` for example of calling api service that doesn't touch redux store, using `TestManager`'s `execute()` method.
+
+### Markdown
+
+We are using `react-markdown` (built on `markdown-it`) to parse markdown text into html.
+
+[See here](https://www.npmjs.com/package/react-markdown-it#usage) for usage example.
 
 ### Debugging in VSCode
 

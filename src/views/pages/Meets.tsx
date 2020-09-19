@@ -3,11 +3,12 @@ import { MeetCard } from "../components/MeetCard";
 import { Banner } from "../components/Banner";
 import { ConnectContextProps, connectContext } from "../../context/connectContext";
 import { DateUtility } from "../../utils/DateUtility";
-
-//TODO: Remove these fake meets. Filling in for missing seeds right now to show page style
 import { meetFactory } from "../../../test/src/factories/meet.factory";
 import AdminMeetCreateModal from "../components/wrappers/Modal/walas/AdminMeetCreateModal";
 import { connect } from "react-redux";
+import Markdown from "react-markdown";
+
+//TODO: Remove these fake meets. Filling in for missing seeds right now to show page style
 const fakePastMeets = meetFactory.bulk(10);
 
 const d = new DateUtility();
@@ -65,6 +66,16 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
       </header>
       <main className="py-12 ">
         {isAdmin && adminMeetCreateModal}
+        <Markdown source="**Look, no text editor!**" />
+        <Markdown
+          source={`Here is a multiline
+          [Duck Duck Go](https://duckduckgo.com)
+          OOoo down here now
+          things to do:
+          1. finish website
+          2. download vscode
+           `}
+        />
 
         <section
           className="rounded-xl container mx-auto max-w-screen-md mb-12 flex flex-col items-center px-4 py-8"
