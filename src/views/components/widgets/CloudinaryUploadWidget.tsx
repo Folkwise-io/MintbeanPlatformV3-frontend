@@ -2,23 +2,26 @@ import React, { FC } from "react";
 import { Button } from "../Button";
 
 interface Props {
-  exposeImageUrl?: (url: string) => string;
+  exposeImageUrl: (url: string) => string;
 }
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 
 // TODO: types
-export const CloudinaryUploadWidget: FC<Props> = () => {
+export const CloudinaryUploadWidget: FC<Props> = ({ exposeImageUrl }) => {
   const showWidget = () => {
     let widget: any;
-    if (window != undefined && (window as any).cloudinary) {
+    // Initialize
+    if (typeof window !== "undefined" && (window as any).cloudinary) {
       widget = (window as any).cloudinary.createUploadWidget(
         {
+          // TODO: to .env
           cloudName: "dgxkozw6v",
           uploadPreset: "mb-test",
         },
         (error: any, result: any) => {
+          console.log("image info: ", result.info);
           if (!error && result && result.event === "success") {
-            console.log("image info: ", result.info);
+            exposeImageUrl(result.info.url);
           }
         },
       );

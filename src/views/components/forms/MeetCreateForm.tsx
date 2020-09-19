@@ -1,7 +1,8 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
+import { CloudinaryUploadWidget } from "../widgets/CloudinaryUploadWidget";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 // const urlRegEx = /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/;
@@ -23,6 +24,9 @@ interface Props {
 }
 
 export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
+
   const { errors, register, handleSubmit } = useForm({
     resolver: yupResolver(CreateMeetInputSchema),
   });
@@ -32,10 +36,35 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
     createMeet(data);
   };
 
+  const grabImageUrl = (url: string) => {
+    console.log({ url });
+    setImageUrl(url);
+    setThumbnailUrl(url);
+    return url;
+  };
+
+  const resetImageStates = (): void => {
+    setImageUrl(null);
+    setThumbnailUrl(null);
+  };
+
   // Form TODO:
   // - instructions: add markdown editor
   // - coverImageUrl: use cloudinary widget, convert to url before submit
-
+  const thumbnailPreview = (
+    <div
+      className="relative max-w-full bg-white border-dashed border-2 border-gray-700 mb-2"
+      style={{ height: "80px" }}
+    >
+      <img src={imageUrl || undefined} alt="Event image preview" className="w-full h-full object-contain" />
+      <button
+        onClick={resetImageStates}
+        className="absolute bottom-0 right-0 bg-black text-white opacity-75 p-1 rounded "
+      >
+        Remove
+      </button>
+    </div>
+  );
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit, (e) => console.log({ error: e }))}>
       <h1 className="font-semibold">Create a new event</h1>
@@ -65,6 +94,9 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       <label htmlFor="coverImageUrl">Cover image link {/*TODO: cloudinary*/}</label>
       <input type="url" name="coverImageUrl" ref={register} className="mb-2" />
       <p className="text-red-500">{errors.coverImageUrl?.message}</p>
+      {/* Thumbnail preview */}
+      {imageUrl && thumbnailPreview}
+      <CloudinaryUploadWidget exposeImageUrl={grabImageUrl} />
 
       <label htmlFor="startTime">Start time</label>
       <input type="datetime-local" name="startTime" ref={register} className="mb-2" />

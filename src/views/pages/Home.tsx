@@ -8,7 +8,6 @@ import { Modal } from "../components/wrappers/Modal";
 import { Context } from "../../context/contextBuilder";
 import { ModalActionDeclaration } from "../components/wrappers/Modal/ModalActionButton";
 import { MbAction } from "../state/actions/MbAction";
-import { CloudinaryUploadWidget } from "../components/widgets/CloudinaryUploadWidget";
 
 type StateMapping = {
   users: UsersState;
@@ -53,9 +52,10 @@ const Home: FC<StateMapping & DispatchMapping> = (props) => {
       },
     },
   ];
+
   return (
     <div>
-      <CloudinaryUploadWidget />;<Button onClick={() => props.fetchUsers()}>This is a test button</Button>
+      <Button onClick={() => props.fetchUsers()}>This is a test button</Button>
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
