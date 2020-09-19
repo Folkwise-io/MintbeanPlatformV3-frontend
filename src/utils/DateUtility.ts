@@ -39,7 +39,7 @@ export class DateUtility {
     return hoursDifference(endDate, startDate);
   };
   // Returns relative time string from client region's perspective. Client region is guessed if not provided
-  fromNow = (wcStr: string, masterRegion: string, clientRegion?: string) => {
+  fromNow = (wcStr: string, masterRegion: string, clientRegion?: string): string => {
     if (clientRegion === undefined) clientRegion = moment.tz.guess();
     return moment.tz(wcStr, masterRegion).tz(clientRegion).fromNow();
   };
@@ -66,7 +66,7 @@ export class DateUtility {
       datestrInput = [datestrInput];
     }
     const pattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}$/;
-    const results = datestrInput.map((d) => (!!d.match(pattern) ? true : false));
+    const results = datestrInput.map((d) => (d.match(pattern) ? true : false));
     return !results.includes(false);
   };
 }

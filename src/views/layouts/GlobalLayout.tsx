@@ -6,12 +6,19 @@ import { Context } from "../../context/contextBuilder";
 import { Toast } from "../components/Toast";
 import Navbar from "../components/Navbar";
 import { removeToast } from "../../views/state/actions/toastActions";
-import { me } from "../../views/state/actions/authActions";
+
+import { Footer } from "./Footer";
+import { me } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
 
 type StateMapping = {
   toasts: ToastState;
   user: UserState;
+};
+
+const footerArgs = {
+  footerNav: ["Home", "Events", "Terms of Service", "Privacy Policy"],
+  links: ["/", "/events", "/terms-of-service", "/privacy-policy"],
 };
 
 const stp = (state: StoreState) => ({
@@ -46,6 +53,7 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
           ))}
         </div>
       </div>
+      <Footer footer={footerArgs} />
     </div>
   );
 };

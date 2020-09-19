@@ -1,7 +1,7 @@
-// import { fetchMeets } from "../../../src/services/meetService";
 import { TestManager } from "../TestManager";
 import { meetFactory } from "../factories/meet.factory";
-import { userFactory } from "../factories/user.factory";
+// import { userFactory } from "../factories/user.factory";
+// import { fetchMeets } from "../../../src/services/meetService";
 
 const fakeMeets = meetFactory.bulk(10);
 

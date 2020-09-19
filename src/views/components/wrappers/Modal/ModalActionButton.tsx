@@ -15,8 +15,8 @@ interface ModalActionProps extends ModalActionContext, ModalActionDeclaration {}
 export const ModalActionButton: FC<ModalActionProps> = ({ type, text, onClick, closeModal }): ReactElement => {
   const commonClasses = "shadow-md border-solid border-2 rounded-md py-2 px-6 m-2";
   const classes = {
-    primary: "text-white bg-mb-mint border-mb-mint ",
-    secondary: "text-black bg-white border-mb-mint",
+    primary: "text-white bg-mb-green-200 border-mb-green-200 ",
+    secondary: "text-black bg-white border-mb-green-200",
     danger: "text-white bg-red-500 border-red-500",
   };
 

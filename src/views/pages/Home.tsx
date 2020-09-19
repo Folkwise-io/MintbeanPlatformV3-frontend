@@ -5,9 +5,9 @@ import { Button } from "../components/Button";
 import { UserCard } from "../components/UserCard";
 import { ThunkDispatch } from "redux-thunk";
 import { Modal } from "../components/wrappers/Modal";
-import { Context } from "../../context/contextBuilder";
 import { ModalActionDeclaration } from "../components/wrappers/Modal/ModalActionButton";
 import { MbAction } from "../state/actions/MbAction";
+import { Context } from "../../context/contextBuilder";
 
 type StateMapping = {
   users: UsersState;

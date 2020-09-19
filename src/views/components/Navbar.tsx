@@ -44,27 +44,32 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
       <div className="flex flex-col md:flex-row md:items-center justify-between ">
         <section className="h-full">
           <Link to="/" className="mr-2">
-            <img src={logo} alt="Mintbean logo" style={{ maxHeight: "60px" }} />
+            <img src={logo} alt="Mintbean logo" className="pt-2" style={{ maxHeight: "50px" }} />
           </Link>
         </section>
         <section>
-          <Link to="/hackathons" className="mr-2">
-            Hackathons
-          </Link>
-          <Link to="/events" className="mx-2">
-            Events
-          </Link>
-          {user.loadStatus !== "LOADING" &&
-            (isLoggedIn ? (
-              <button className="mx-2" onClick={() => logoutAndRedirect()}>
-                Logout
-              </button>
-            ) : (
-              <>
-                <LoginModal buttonText="Login" className="mx-2" />
-                <RegisterModal buttonText="Sign up" className="text-white mx-2 bg-purple-500 px-3 rounded" />
-              </>
-            ))}
+          <div>
+            <Link to="/hackathons" className="mr-2">
+              Hackathons
+            </Link>
+            <Link to="/events" className="mx-2">
+              Events
+            </Link>
+            {user.loadStatus !== "LOADING" &&
+              (isLoggedIn ? (
+                <button className="mx-2" onClick={() => logoutAndRedirect()}>
+                  Logout
+                </button>
+              ) : (
+                <>
+                  <LoginModal buttonText="Login" className="mx-2" />
+                  <RegisterModal
+                    buttonText="Sign up"
+                    className="text-white mx-2 bg-mb-green-200 px-4 py-2 rounded shadow"
+                  />
+                </>
+              ))}
+          </div>
         </section>
       </div>
     </nav>

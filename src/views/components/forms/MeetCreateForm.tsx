@@ -52,7 +52,6 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
 
   // Form TODO:
   // - instructions: add markdown editor
-  // - coverImageUrl: use cloudinary widget, convert to url before submit
   const thumbnailPreview = (
     <div
       className="relative max-w-full bg-white border-dashed border-2 border-gray-700 mb-2"
