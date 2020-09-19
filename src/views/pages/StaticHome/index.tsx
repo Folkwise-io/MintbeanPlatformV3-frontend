@@ -8,7 +8,7 @@ const Home: FC<void> = () => {
   const cardArgs = {
     title: "Build cool projects and elevate your skills.",
     description:
-      "We have events, workshops and competitions that build your skills, help you make friends, and let you create a dazzling coding portfolio. Here are a few FREE programs that you can be a part of:",
+      "We have events, workshops and competitions that build your skills, help you make friends, and let you create a dazzling coding portfolio. Here are a few FREE programs that you can be a part of: ",
   };
   const listArgs = {
     titles: [
