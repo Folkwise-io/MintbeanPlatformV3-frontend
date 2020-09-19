@@ -24,8 +24,7 @@ interface Props {
 }
 
 export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string>("");
 
   const { errors, register, handleSubmit } = useForm({
     resolver: yupResolver(CreateMeetInputSchema),
@@ -39,13 +38,11 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
   const grabImageUrl = (url: string) => {
     console.log({ url });
     setImageUrl(url);
-    setThumbnailUrl(url);
     return url;
   };
 
   const resetImageStates = (): void => {
-    setImageUrl(null);
-    setThumbnailUrl(null);
+    setImageUrl("");
   };
 
   // Form TODO:
@@ -91,8 +88,9 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       <input type="url" name="registerLink" ref={register} className="mb-2" />
       <p className="text-red-500">{errors.registerLink?.message}</p>
 
-      <label htmlFor="coverImageUrl">Cover image link {/*TODO: cloudinary*/}</label>
-      <input type="url" name="coverImageUrl" ref={register} className="mb-2" />
+      {/* Hidden field for coverImageUrl, value populated by widget */}
+      <label htmlFor="coverImageUrl">Cover image</label>
+      <input type="hidden" name="coverImageUrl" ref={register} className="mb-2" value={imageUrl} />
       <p className="text-red-500">{errors.coverImageUrl?.message}</p>
       {/* Thumbnail preview */}
       {imageUrl && thumbnailPreview}

@@ -14,7 +14,7 @@ export const Button: FC<Props> = (props) => {
     danger: "text-white bg-red-500 border-red-500",
   };
   return (
-    <button {...rest} className={`${common} ${classes[type]}`}>
+    <button {...rest} className={`${common} ${classes[type]}`} type="button">
       {children}
     </button>
   );
