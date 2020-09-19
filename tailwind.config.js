@@ -1,3 +1,5 @@
+const { screens } = require("tailwindcss/defaultTheme");
+
 module.exports = {
   future: {
     // to ensure smooth transition to next semantic release
@@ -5,11 +7,11 @@ module.exports = {
   },
   purge: [],
   theme: {
+    screens: {
+      xs: "400px",
+      ...screens,
+    },
     extend: {
-      colors: {
-        "mb-mint": "#02E0A8",
-        "mb-blue": "#009be2",
-      },
       maxHeight: {
         0: "0",
         25: "25%",
@@ -19,7 +21,21 @@ module.exports = {
       },
       borderRadius: {
         xl: "3rem",
+        "mb-sm": "1.75rem",
+        "mb-md": "4rem",
       },
+      maxWidth: {
+        "7xl": "96rem",
+      },
+      colors: {
+        "mb-green-100": "#A3FEDF",
+        "mb-green-200": "#02E0A8",
+        "mb-blue-100": "#00B1FF",
+        "mb-blue-200": "#00A4DA",
+      },
+    },
+    fontFamily: {
+      body: ["Montserrat", "sans-serif"],
     },
   },
   variants: {
