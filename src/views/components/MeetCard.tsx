@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Button } from "./Button";
 import { DateUtility } from "../../utils/DateUtility";
+import { Link } from "react-router-dom";
 
 const d = new DateUtility();
 
@@ -9,7 +10,7 @@ type MeetProps = {
 };
 
 export const MeetCard: FC<MeetProps> = ({ meet }) => {
-  const { title, description, startTime, endTime, coverImageUrl, region } = meet;
+  const { id, title, description, startTime, endTime, coverImageUrl, region } = meet;
 
   const startTimeStr = d.wcToClientStr(startTime, region);
   const duration = d.getDuration(startTime, endTime);
@@ -27,7 +28,9 @@ export const MeetCard: FC<MeetProps> = ({ meet }) => {
             {startTimeStr} <span>({duration} hours)</span>
           </p>
         </section>
-        <Button>More</Button>
+        <Link to={`/events/${id}`}>
+          <Button>More</Button>
+        </Link>
       </div>
     </div>
   );

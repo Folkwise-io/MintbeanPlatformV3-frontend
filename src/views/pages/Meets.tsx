@@ -43,13 +43,13 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   const upcomingMeets = meets
     .filter((m: Meet) => !d.isPast(m.startTime, m.region))
     .map((meet) => <MeetCard meet={meet} key={meet.id} />);
-  // ** SAVE below **
-  // const pastMeets = meets
-  //   .filter((m: Meet) => d.isPast(m.endTime, m.region))
-  //   .map((meet) => <MeetCard meet={meet} key={meet.id} />);
+  const pastMeets = meets
+    .filter((m: Meet) => d.isPast(m.endTime, m.region))
+    .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime())
+    .map((meet) => <MeetCard meet={meet} key={meet.id} />);
 
-  // TOOD: delete dummy meets below and uncomment lines for real pastMeets above in prod
-  const pastMeets = fakePastMeets.map((meet) => <MeetCard meet={meet} key={meet.id} />);
+  // // TOOD: delete dummy meets below and uncomment lines for real pastMeets above in prod
+  // const pastMeets = fakePastMeets.map((meet) => <MeetCard meet={meet} key={meet.id} />);
 
   const adminMeetCreateModal = (
     <div className="flex justify-center">

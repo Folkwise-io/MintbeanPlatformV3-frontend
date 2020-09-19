@@ -26,6 +26,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   } = match;
   const [meet, setMeet] = useState<Meet | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const isAdmin = user.data?.isAdmin;
 
   useEffect(() => {
     const fetchMeetData = async () => {
@@ -34,7 +35,6 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
         alert("Blame the devs! Something terrible happened.");
         return;
       }
-      // const meetId = match.
       setLoading(true);
       const fetchedMeet = await context.meetService.fetchMeet(id);
       if (fetchedMeet) {
@@ -46,11 +46,17 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     fetchMeetData();
   }, [context]);
 
-  const isAdmin = user.data?.isAdmin;
-
   return (
     <div>
       <header>
+        <div
+          className="w-full h-screen bg-gray-200"
+          style={{
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            backgroundImage: `url(${meet?.coverImageUrl})`,
+          }}
+        ></div>
         <Banner title={meet ? meet.title : ""} subtitle="Come hack with us" />
       </header>
       <main className="py-12"></main>
