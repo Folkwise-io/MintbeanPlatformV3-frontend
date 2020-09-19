@@ -79,4 +79,17 @@ describe("Date Utility", () => {
       expect(d.isChronologicalNoTz("2020-09-15T12:00:00.001", "2020-09-15T12:00:00.000")).toBe(false);
     });
   });
+  describe("validateTimestampsNoTz()", () => {
+    it("returns true if all strings match non timestamp datestring pattern", () => {
+      expect(d.validateTimestamps(["2020-09-15T12:00:00.000", "2020-09-15T13:00:00.000"])).toBe(true);
+      expect(d.validateTimestamps(["2020-09-15T12:00:00.000"])).toBe(true);
+      expect(d.validateTimestamps("2020-09-15T12:00:00.000")).toBe(true);
+    });
+    it("returns false if any of strings do not match non timestamp datestring pattern", () => {
+      expect(d.validateTimestamps(["2020-09-15T12:00:00.000Z", "2020-09-15T13:00:00.000"])).toBe(false);
+      expect(d.validateTimestamps(["xxx"])).toBe(false);
+      expect(d.validateTimestamps("xxx")).toBe(false);
+      expect(d.validateTimestamps([])).toBe(false);
+    });
+  });
 });

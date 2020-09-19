@@ -50,16 +50,24 @@ export class DateUtility {
     const now = moment(new Date()).utc();
     return now > targetDate;
   };
-  // Returns true if date1 is chronologically prior to date2 assuming both in saem region (fomat: '2020-10-15T13:00:00.000')
-  isChronologicalNoTz = (date1: string, date2: string) => {
-    const dateStringRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}$/;
-    if (!date1.match(dateStringRegex) || !date2.match(dateStringRegex)) {
-      return false;
-    }
+  // Returns true if date1 is chronologically prior to date2 assuming both in same region (format: '2020-10-15T13:00:00.000')
+  isChronologicalNoTz = (timestamp1: string, timestamp2: string): boolean => {
+    if (!this.validateTimestamps([timestamp1, timestamp2])) return false;
     // Timezone is irrelevant
-    const d1 = new Date(date1);
-    const d2 = new Date(date2);
+    const d1 = new Date(timestamp1);
+    const d2 = new Date(timestamp2);
     return d1 < d2;
+  };
+
+  // Returns true if strings in arg matche format: '2020-10-15T13:00:00.000'
+  validateTimestamps = (datestrInput: string | string[]): boolean => {
+    if (Array.isArray(datestrInput) && !datestrInput.length) return false;
+    if (typeof datestrInput === "string") {
+      datestrInput = [datestrInput];
+    }
+    const pattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}$/;
+    const results = datestrInput.map((d) => (!!d.match(pattern) ? true : false));
+    return !results.includes(false);
   };
 }
 
