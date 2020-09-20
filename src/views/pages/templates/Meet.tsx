@@ -82,7 +82,9 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                   <Button className="mt-2">Register</Button>
                 </ExternalLink>
               )}
-              {isAdmin && meet && <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToMeets} />}
+              {isAdmin && meet && (
+                <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToMeets} className="ml-2" />
+              )}
             </div>
           </section>
           <section className="bg-gray-800 text-white shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
