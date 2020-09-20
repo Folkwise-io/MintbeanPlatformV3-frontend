@@ -50,7 +50,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   }, [context, id]);
 
   const redirectToMeets = async () => {
-    history.push("/events");
+    history.push("/meets");
   };
 
   const dateInfo = meet
@@ -98,7 +98,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
         </section>
         <section className="shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
           <h2>Submissions</h2>
-          <p>TODO: Event Projects</p>
+          <p>TODO: Meet Projects</p>
         </section>
       </main>
     </div>

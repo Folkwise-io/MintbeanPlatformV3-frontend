@@ -57,7 +57,7 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       className="relative max-w-full bg-white border-dashed border-2 border-gray-700 mb-2"
       style={{ height: "80px" }}
     >
-      <img src={imageUrl || undefined} alt="Event image preview" className="w-full h-full object-contain" />
+      <img src={imageUrl || undefined} alt="Meet image preview" className="w-full h-full object-contain" />
       <button
         onClick={resetImageStates}
         type="button"
@@ -69,9 +69,9 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
   );
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Create a new event</h1>
+      <h1 className="font-semibold">Create a new meet</h1>
 
-      <label htmlFor="meetType">Event type</label>
+      <label htmlFor="meetType">Meet type</label>
       <select name="meetType" ref={register} className="mb-2">
         <option value="hackMeet">Hackathon</option>
       </select>
@@ -109,7 +109,7 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       <input type="datetime-local" name="endTime" ref={register} className="mb-2" />
       <p className="text-red-500">{errors.endTime?.message}</p>
 
-      <label htmlFor="region">Event region</label>
+      <label htmlFor="region">Meet region</label>
       <select name="region" ref={register}>
         <option value="America/Toronto">Toronto</option>
       </select>

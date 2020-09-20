@@ -16,11 +16,11 @@ export const routes: RouteConfig[] = [
   },
   {
     component: Meet,
-    path: "/events/:id",
+    path: "/meets/:id",
   },
   {
     component: Meets,
-    path: "/events",
+    path: "/meets",
   },
   {
     component: Home,

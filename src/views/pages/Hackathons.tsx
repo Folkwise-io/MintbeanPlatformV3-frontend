@@ -46,7 +46,7 @@ const Hackathons: FC<void> = () => {
           </p>
         </section>
         <section className="mb-12">
-          <h2 className="text-3xl">Upcoming Events</h2>
+          <h2 className="text-3xl">Upcoming Meets</h2>
           <p>Coming soon</p>
         </section>
       </main>

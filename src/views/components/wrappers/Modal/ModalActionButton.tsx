@@ -4,7 +4,7 @@ export interface ModalActionDeclaration {
   type: "primary" | "secondary" | "danger";
   buttonType?: "button" | "submit" | "reset";
   text: string;
-  onClick: (evt: React.SyntheticEvent, context: ModalActionContext) => void;
+  onClick: (evt: React.SyntheticMeet, context: ModalActionContext) => void;
 }
 
 interface ModalActionContext {

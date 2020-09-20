@@ -55,8 +55,8 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
             <Link to="/community" className="mx-2 text-black">
               Community
             </Link>
-            <Link to="/events" className="mx-2 text-black">
-              Events
+            <Link to="/meets" className="mx-2 text-black">
+              Meets
             </Link>
             {user.loadStatus !== "LOADING" &&
               (isLoggedIn ? (

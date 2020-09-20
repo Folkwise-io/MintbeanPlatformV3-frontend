@@ -21,7 +21,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   return (
     <div className="shadow-md bg-white flex flex-col md:flex-row max-w-screen-md items-center rounded-lg overflow-hidden">
       <div className="max-w-full md:w-1/3 ">
-        <img className="object-cover" src={coverImageUrl} alt={`${title} event banner`}></img>
+        <img className="object-cover" src={coverImageUrl} alt={`${title} meet banner`}></img>
       </div>
       <div className="w-2/3 py-4 md:p-4">
         <section className="flex flex-col my-1 w-full">
@@ -31,7 +31,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
             {startTimeStr} <span>({duration} hours)</span>
           </p>
         </section>
-        <Link to={`/events/${id}`}>
+        <Link to={`/meets/${id}`}>
           <Button>More</Button>
         </Link>
         {user?.isAdmin && <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={onDelete} className="ml-2" />}

@@ -32,7 +32,7 @@ const LoginModal: FC<Props & DispatchMapping> = ({ login, className, buttonText 
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
-          formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
+          formRef.current.dispatchMeet(new Meet("submit", { cancelable: true }));
         }
       },
     },

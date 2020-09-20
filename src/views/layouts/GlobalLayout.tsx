@@ -17,8 +17,8 @@ type StateMapping = {
 };
 
 const footerArgs = {
-  footerNav: ["Home", "Events", "Terms of Service", "Privacy Policy"],
-  links: ["/", "/events", "/terms-of-service", "/privacy-policy"],
+  footerNav: ["Home", "Meets", "Terms of Service", "Privacy Policy"],
+  links: ["/", "/meets", "/terms-of-service", "/privacy-policy"],
 };
 
 const stp = (state: StoreState) => ({

@@ -19,7 +19,7 @@ export class MeetService {
   async deleteMeet(id: string): Promise<boolean | void> {
     return this.meetDao
       .deleteMeet(id)
-      .then(() => this.logger.success("Successfully deleted the event."))
+      .then(() => this.logger.success("Successfully deleted the meet."))
       .catch((e) => {
         this.logger.handleGraphqlErrors(e);
       });
@@ -28,7 +28,7 @@ export class MeetService {
     return this.meetDao
       .createMeet(params)
       .then((meet) => {
-        this.logger.success(`Created new event "${meet.title}"!`);
+        this.logger.success(`Created new meet "${meet.title}"!`);
         return meet;
       })
       .catch((e) => {

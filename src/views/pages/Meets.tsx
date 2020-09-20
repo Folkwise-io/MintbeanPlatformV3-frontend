@@ -56,7 +56,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   const adminMeetCreateModal = (
     <div className="flex justify-center">
       <AdminMeetCreateModal
-        buttonText="Create new event"
+        buttonText="Create new meet"
         className="rounded px-6 py-2 text-white bg-purple-500 mb-2"
         refetchMeets={fetchMeetData}
       />
@@ -67,7 +67,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   return (
     <div>
       <header>
-        <Banner title="Events" subtitle="Come hack with us" />
+        <Banner title="Meets" subtitle="Come hack with us" />
       </header>
       <main className="py-12 ">
         {isAdmin && adminMeetCreateModal}
@@ -75,17 +75,17 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
           className="rounded-xl container mx-auto max-w-screen-md mb-12 flex flex-col items-center px-4 py-8"
           style={{ background: "linear-gradient(0deg, black, #3d3d3d)" }}
         >
-          <h2 className="text-4xl text-white mb-4">Upcoming events</h2>
+          <h2 className="text-4xl text-white mb-4">Upcoming meets</h2>
           {loading ? (
             <p className="text-white">Loading...</p>
           ) : upcomingMeets.length ? (
             <div className="space-y-4">{upcomingMeets}</div>
           ) : (
-            <p className="text-white text-lg">No upcoming events at the moment... Stay tuned!</p>
+            <p className="text-white text-lg">No upcoming meets at the moment... Stay tuned!</p>
           )}
         </section>
         <section className="container mx-auto max-w-screen-md mb-12 flex flex-col items-center p-4">
-          <h2 className="text-4xl mb-4">Past events</h2>
+          <h2 className="text-4xl mb-4">Past meets</h2>
           <div className="space-y-4">{pastMeets}</div>
         </section>
       </main>

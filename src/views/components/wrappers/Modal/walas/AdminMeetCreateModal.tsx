@@ -16,12 +16,12 @@ const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, classN
   const actions: ModalActionDeclaration[] = [
     {
       type: "primary",
-      text: "Create Event",
+      text: "Create Meet",
       buttonType: "submit",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
-          formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
+          formRef.current.dispatchMeet(new Meet("submit", { cancelable: true }));
         }
       },
     },
