@@ -2,6 +2,8 @@ import React, { FC } from "react";
 import { Button } from "./Button";
 import { DateUtility } from "../../utils/DateUtility";
 import { Link } from "react-router-dom";
+import { Modal } from "./wrappers/Modal";
+import AdminMeetDeleteModal from "./wrappers/Modal/walas/AdminMeetDeleteModal";
 
 const d = new DateUtility();
 
@@ -31,6 +33,7 @@ export const MeetCard: FC<MeetProps> = ({ meet }) => {
         <Link to={`/events/${id}`}>
           <Button>More</Button>
         </Link>
+        <AdminMeetDeleteModal buttonText="Delete" meet={meet} />
       </div>
     </div>
   );
