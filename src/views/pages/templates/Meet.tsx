@@ -46,20 +46,35 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     fetchMeetData();
   }, [context]);
 
+  const dateInfo = meet
+    ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDuration(meet.startTime, meet.endTime)} hours)`
+    : "Loading..";
+
   return (
-    <div>
+    <div className="container mx-auto max-w-screen-lg px-2">
       <header>
-        <div
-          className="w-full h-screen bg-gray-200"
-          style={{
-            backgroundPosition: "center",
-            backgroundSize: "cover",
-            backgroundImage: `url(${meet?.coverImageUrl})`,
-          }}
-        ></div>
-        <Banner title={meet ? meet.title : ""} subtitle="Come hack with us" />
+        <div className="flex justify-center" style={{ background: "linear-gradient(to right, #232526, #414345)" }}>
+          <img src={meet?.coverImageUrl} alt={meet?.title} />
+        </div>
       </header>
-      <main className="py-12"></main>
+      <main className="py-12">
+        <div className="flex">
+          <section className="shadow-lg p-6 border-mb-green-200 border-solid border-2">
+            <div>
+              <h1>{meet?.title}</h1>
+              <p>{dateInfo}</p>
+              <p className="mt-2">{meet?.description}</p>
+            </div>
+          </section>
+          <section className="shadow-lg p-6 border-mb-green-200 border-solid border-2">
+            TODO: Project submission
+          </section>
+        </div>
+        <section className="shadow-lg p-6 border-mb-green-200 border-solid border-2">
+          <h2>Instructions</h2>
+          <Markdown source={meet?.instructions} />
+        </section>
+      </main>
     </div>
   );
 };
