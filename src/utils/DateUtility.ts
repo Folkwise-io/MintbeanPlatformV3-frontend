@@ -39,7 +39,7 @@ export class DateUtility {
     return hoursDifference(endDate, startDate);
   };
   // Returns relative time string from client region's perspective. Client region is guessed if not provided
-  fromNow = (wcStr: string, masterRegion: string, clientRegion?: string) => {
+  fromNow = (wcStr: string, masterRegion: string, clientRegion?: string): string => {
     if (clientRegion === undefined) clientRegion = moment.tz.guess();
     return moment.tz(wcStr, masterRegion).tz(clientRegion).fromNow();
   };
@@ -49,6 +49,25 @@ export class DateUtility {
     const targetDate = moment.tz(wcStr, masterRegion).tz(clientRegion);
     const now = moment(new Date()).utc();
     return now > targetDate;
+  };
+  // Returns true if date1 is chronologically prior to date2 assuming both in same region (format: '2020-10-15T13:00' or '2020-10-15T13:00' )
+  isChronologicalNoTz = (timestamp1: string, timestamp2: string): boolean => {
+    if (!this.validateTimestamps([timestamp1, timestamp2])) return false;
+    // Timezone is irrelevant
+    const d1 = new Date(timestamp1);
+    const d2 = new Date(timestamp2);
+    return d1 < d2;
+  };
+
+  // Returns true if strings in arg matche format: '2020-10-15T13:00:00.000'
+  validateTimestamps = (datestrInput: string | string[]): boolean => {
+    if (Array.isArray(datestrInput) && !datestrInput.length) return false;
+    if (typeof datestrInput === "string") {
+      datestrInput = [datestrInput];
+    }
+    const pattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}\.\d{3})?$/;
+    const results = datestrInput.map((d) => (d.match(pattern) ? true : false));
+    return !results.includes(false);
   };
 }
 

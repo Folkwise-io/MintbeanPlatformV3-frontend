@@ -24,6 +24,7 @@ export class AuthDaoImpl implements AuthDao {
                 firstName
                 lastName
                 createdAt
+                isAdmin
               }
             }
           `,
@@ -86,6 +87,7 @@ export class AuthDaoImpl implements AuthDao {
                 firstName
                 lastName
                 createdAt
+                isAdmin
               }
             }
           `,
@@ -120,6 +122,7 @@ export class AuthDaoImpl implements AuthDao {
             firstName
             lastName
             createdAt
+            isAdmin
           }
         }
         `,
