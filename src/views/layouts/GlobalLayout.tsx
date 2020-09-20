@@ -17,8 +17,8 @@ type StateMapping = {
 };
 
 const footerArgs = {
-  footerNav: ["Home", "Events", "Terms of Service", "Privacy Policy"],
-  links: ["/", "/events", "/terms-of-service", "/privacy-policy"],
+  footerNav: ["Home", "Meets", "Terms of Service", "Privacy Policy"],
+  links: ["/", "/meets", "/terms-of-service", "/privacy-policy"],
 };
 
 const stp = (state: StoreState) => ({
@@ -47,7 +47,7 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
       <Navbar />
       {children}
       <div>
-        <div className="fixed top-0" style={{ marginTop: "40px" }}>
+        <div className="fixed top-0 block" style={{ marginTop: "80px", zIndex: 999 }}>
           {toasts.map((toast: Toast, index: number) => (
             <Toast key={index} toast={toast} removeToast={(id: string) => removeToast(id)} />
           ))}

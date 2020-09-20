@@ -8,4 +8,5 @@ export const userFactory = factory<User>({
   firstName: () => faker.name.firstName(),
   lastName: () => faker.name.lastName(),
   createdAt: () => "2020-10-15T13:00:00.000Z",
+  isAdmin: false,
 });

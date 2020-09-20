@@ -65,4 +65,33 @@ describe("Date Utility", () => {
       expect(isPast).toBe(false);
     });
   });
+  describe("isChronologicalNoTz", () => {
+    it("returns true if date args are chronolgical", () => {
+      expect(d.isChronologicalNoTz("2020-09-15T12:00:00.000", "2020-09-15T13:00:00.000")).toBe(true);
+      expect(d.isChronologicalNoTz("2020-09-15T12:00:00.000", "2020-09-15T23:00:00.001")).toBe(true);
+      expect(d.isChronologicalNoTz("2020-09-15T12:00:00.000", "2020-09-16T12:00:00.000")).toBe(true);
+      expect(d.isChronologicalNoTz("2020-09-15T12:00:00.000", "2021-09-15T12:00:00.000")).toBe(true);
+      expect(d.isChronologicalNoTz("2020-09-15T12:00", "2021-09-15T13:00")).toBe(true);
+    });
+    it("returns false if date args are chronolgical", () => {
+      expect(d.isChronologicalNoTz("2020-09-15T12:00:00.000", "2020-09-15T12:00:00.000")).toBe(false);
+      expect(d.isChronologicalNoTz("2021-09-15T12:00:00.000", "2020-09-15T12:00:00.000")).toBe(false);
+      expect(d.isChronologicalNoTz("2020-09-16T12:00:00.000", "2020-09-16T12:00:00.000")).toBe(false);
+      expect(d.isChronologicalNoTz("2020-09-15T12:00:00.001", "2020-09-15T12:00:00.000")).toBe(false);
+      expect(d.isChronologicalNoTz("2020-10-15T15:00", "2020-09-15T14:00")).toBe(false);
+    });
+  });
+  describe("validateTimestampsNoTz()", () => {
+    it("returns true if all strings match non timestamp datestring pattern", () => {
+      expect(d.validateTimestamps(["2020-09-15T12:00:00.000", "2020-09-15T13:00:00.000"])).toBe(true);
+      expect(d.validateTimestamps(["2020-09-15T12:00:00.000"])).toBe(true);
+      expect(d.validateTimestamps("2020-09-15T12:00:00.000")).toBe(true);
+    });
+    it("returns false if any of strings do not match non timestamp datestring pattern", () => {
+      expect(d.validateTimestamps(["2020-09-15T12:00:00.000Z", "2020-09-15T13:00:00.000"])).toBe(false);
+      expect(d.validateTimestamps(["xxx"])).toBe(false);
+      expect(d.validateTimestamps("xxx")).toBe(false);
+      expect(d.validateTimestamps([])).toBe(false);
+    });
+  });
 });

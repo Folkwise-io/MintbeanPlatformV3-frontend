@@ -1,33 +1,23 @@
 import React, { FC, useRef } from "react";
 import { Modal } from "../";
-import { RegisterForm } from "../../../forms/RegisterForm";
 import { ModalActionDeclaration } from "../ModalActionButton";
-import { register } from "../../../../state/actions/authActions";
-import { ThunkDispatch } from "redux-thunk";
-import { Context } from "../../../../../context/contextBuilder";
-import { MbAction } from "../../../../state/actions/MbAction";
-import { connect } from "react-redux";
+import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
+import { MeetCreateForm } from "../../../forms/MeetCreateForm";
 
 interface Props {
   className?: string;
   buttonText: string;
+  refetchMeets: () => Promise<boolean | void>;
 }
 
-type DispatchMapping = {
-  register: (values: RegisterParams) => void;
-};
-
-const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
-  register: (values: RegisterParams) => dispatch(register(values)),
-});
-
-const RegisterModal: FC<Props & DispatchMapping> = ({ register, className, buttonText }) => {
+const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, className, buttonText, refetchMeets }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const actions: ModalActionDeclaration[] = [
     {
       type: "primary",
-      text: "Sign Up",
+      text: "Create Meet",
+      buttonType: "submit",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
@@ -36,6 +26,14 @@ const RegisterModal: FC<Props & DispatchMapping> = ({ register, className, butto
       },
     },
   ];
+
+  const createMeet = async (params: CreateMeetParams) => {
+    if (context) {
+      context.meetService.createMeet(params).then(() => refetchMeets());
+    } else {
+      alert("Yikes, devs messed up sorry. Action did not work");
+    }
+  };
 
   return (
     <>
@@ -47,10 +45,10 @@ const RegisterModal: FC<Props & DispatchMapping> = ({ register, className, butto
           </button>
         )}
       >
-        <RegisterForm formRef={formRef} registerUser={(values: RegisterParams) => register(values)} />
+        <MeetCreateForm formRef={formRef} createMeet={createMeet} />
       </Modal>
     </>
   );
 };
 
-export default connect(null, dtp)(RegisterModal);
+export default connectContext<ConnectContextProps & Props>(AdminMeetCreateModal);
