@@ -60,7 +60,11 @@ const AdminMeetDeleteModal: FC<ConnectContextProps & Props> = ({ context, meet, 
           </Button>
         )}
       >
-        <p>Are you sure you want to delete meet "{meet.title}"?</p>
+        <p>
+          Are you sure you want to delete meet {'"'}
+          {meet.title}
+          {'"'}?
+        </p>
       </Modal>
     </>
   );

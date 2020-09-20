@@ -55,9 +55,14 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     <div className="container mx-auto max-w-screen-lg px-2">
       <header>
         <div className="flex justify-center bg-gray-800">
-          <img src={meet?.coverImageUrl} alt={meet?.title} />
+          {loading ? (
+            <div className="text-white h-screen-lg p-24 w-full flex justify-center items-center">Loading...</div>
+          ) : (
+            <img src={meet?.coverImageUrl} alt={meet?.title} />
+          )}
         </div>
       </header>
+
       <main className="py-2 md:py-12">
         <div className="flex flex-col md:flex-row">
           <section className="bg-gray-800 text-white flex-grow shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
