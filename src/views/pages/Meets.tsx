@@ -46,12 +46,12 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
       if (dateA === dateB) return 0;
       return dateA - dateB;
     })
-    .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} refetchMeets={fetchMeetData} />);
+    .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeetData} />);
   // reverse-chronological sort
   const pastMeets = meets
     .filter((m: Meet) => d.isPast(m.endTime, m.region))
     .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime())
-    .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} refetchMeets={fetchMeetData} />);
+    .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeetData} />);
 
   console.log(meets.filter((m: Meet) => d.isPast(m.endTime, m.region)));
   const adminMeetCreateModal = (

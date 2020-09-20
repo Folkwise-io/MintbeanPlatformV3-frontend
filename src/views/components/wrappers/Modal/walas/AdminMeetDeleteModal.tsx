@@ -8,16 +8,10 @@ interface Props {
   className?: string;
   buttonText: string;
   meet: Meet;
-  refetchMeets: () => Promise<boolean | void>;
+  onDelete: () => Promise<boolean | void>;
 }
 
-const AdminMeetDeleteModal: FC<ConnectContextProps & Props> = ({
-  context,
-  meet,
-  className,
-  buttonText,
-  refetchMeets,
-}) => {
+const AdminMeetDeleteModal: FC<ConnectContextProps & Props> = ({ context, meet, className, buttonText, onDelete }) => {
   const actions: ModalActionDeclaration[] = [
     {
       type: "secondary",
@@ -31,7 +25,7 @@ const AdminMeetDeleteModal: FC<ConnectContextProps & Props> = ({
       text: "Delete",
       onClick: (_evt, { closeModal }) => {
         deleteMeet(meet.id)
-          .then(() => refetchMeets())
+          .then(() => onDelete())
           .then(() => closeModal());
       },
     },
