@@ -1,26 +1,27 @@
 import React, { FC, useState } from "react";
 import { yupResolver } from "@hookform/resolvers";
-import * as Yup from "yup";
+import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { CloudinaryUploadWidget } from "../widgets/CloudinaryUploadWidget";
 import moment from "moment";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
-const CreateMeetInputSchema = Yup.object().shape({
-  meetType: Yup.string().required("Required"),
-  title: Yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
-  description: Yup.string().min(3, "Too Short!").required("Required"),
-  instructions: Yup.string().min(3, "Too Short!").required("Required"),
-  registerLink: Yup.string().url("Must be a valid URL").required("Required"),
-  coverImageUrl: Yup.string().url("Must be a valid URL").required("Required"),
-  startTime: Yup.string()
+const createMeetInputSchema = yup.object().shape({
+  meetType: yup.string().required("Required"),
+  title: yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
+  description: yup.string().min(3, "Too Short!").required("Required"),
+  instructions: yup.string().min(3, "Too Short!").required("Required"),
+  registerLink: yup.string().url("Must be a valid URL").required("Required"),
+  coverImageUrl: yup.string().url("Must be a valid URL").required("Required"),
+  startTime: yup
+    .string()
     .test("is-chronological", "Start time and end time must be chronological", function (startTime) {
       const isChronological = moment(startTime).isBefore(this.parent.endTime);
       return isChronological;
     })
     .required("Required"),
-  endTime: Yup.string().required("Required"),
-  region: Yup.string().required("Required"),
+  endTime: yup.string().required("Required"),
+  region: yup.string().required("Required"),
 });
 
 interface Props {
@@ -32,7 +33,7 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
   const [imageUrl, setImageUrl] = useState<string>("");
 
   const { errors, register, handleSubmit } = useForm({
-    resolver: yupResolver(CreateMeetInputSchema),
+    resolver: yupResolver(createMeetInputSchema),
   });
 
   // RHF only calls onSubmit callback when form input passes validation
