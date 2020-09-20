@@ -52,7 +52,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
             <Link to="/hackathons" className="mr-2 text-black">
               Hackathons
             </Link>
-            <Link to="/community" className="mx-2">
+            <Link to="/community" className="mx-2 text-black">
               Community
             </Link>
             <Link to="/events" className="mx-2 text-black">
