@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useCallback } from "react";
 import { MeetCard } from "../components/MeetCard";
 import { Banner } from "../components/Banner";
 import { ConnectContextProps, connectContext } from "../../context/connectContext";
@@ -19,12 +19,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   const [meets, setMeets] = useState<Meet[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  // Fetch meets on mount
-  useEffect(() => {
-    fetchMeetData();
-  }, [context]);
-
-  const fetchMeetData = async () => {
+  const fetchMeetData = useCallback(async () => {
     if (!context) {
       console.error(new Error("No context passed to component, but was expected"));
       alert("Blame the devs! Something terrible happened.");
@@ -34,7 +29,13 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
     const fetchedMeets = await context.meetService.fetchMeets();
     setMeets(fetchedMeets);
     setLoading(false);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Fetch meets on mount
+  useEffect(() => {
+    fetchMeetData();
+  }, [context, fetchMeetData]);
 
   // chronological sort
   const upcomingMeets = meets
@@ -52,7 +53,6 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
     .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime())
     .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeetData} />);
 
-  console.log(meets.filter((m: Meet) => d.isPast(m.endTime, m.region)));
   const adminMeetCreateModal = (
     <div className="flex justify-center">
       <AdminMeetCreateModal

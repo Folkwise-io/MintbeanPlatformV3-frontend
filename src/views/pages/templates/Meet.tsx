@@ -47,7 +47,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     };
 
     fetchMeetData();
-  }, [context]);
+  }, [context, id]);
 
   const redirectToMeets = async () => {
     history.push("/events");
