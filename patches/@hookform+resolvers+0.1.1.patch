@@ -3,56 +3,30 @@ index 8c0547d..38bf242 100644
 --- a/node_modules/@hookform/resolvers/dist/index.d.ts
 +++ b/node_modules/@hookform/resolvers/dist/index.d.ts
 @@ -1,3 +1,3 @@
-<<<<<<< HEAD
  export * from './yup';
 -export * from './superstruct';
 -export * from './joi';
 +// export * from './superstruct';
 +// export * from './joi';
-=======
- export * from './yup';
--export * from './superstruct';
--export * from './joi';
-+// export * from './superstruct';
-+// export * from './joi';
->>>>>>> master
 diff --git a/node_modules/@hookform/resolvers/dist/joi.d.ts b/node_modules/@hookform/resolvers/dist/joi.d.ts
 index 4233660..c23984e 100644
 --- a/node_modules/@hookform/resolvers/dist/joi.d.ts
 +++ b/node_modules/@hookform/resolvers/dist/joi.d.ts
 @@ -1,3 +1,3 @@
-<<<<<<< HEAD
 -import { Resolver } from 'react-hook-form';
 -import Joi from '@hapi/joi';
 -export declare const joiResolver: <TFieldValues extends Record<string, any>>(schema: Joi.Schema, options?: Joi.AsyncValidationOptions) => Resolver<TFieldValues, object>;
 +// import { Resolver } from 'react-hook-form';
 +// import Joi from '@hapi/joi';
 +// export declare const joiResolver: <TFieldValues extends Record<string, any>>(schema: Joi.Schema, options?: Joi.AsyncValidationOptions) => Resolver<TFieldValues, object>;
-=======
--import { Resolver } from 'react-hook-form';
--import Joi from '@hapi/joi';
--export declare const joiResolver: <TFieldValues extends Record<string, any>>(schema: Joi.Schema, options?: Joi.AsyncValidationOptions) => Resolver<TFieldValues, object>;
-+// import { Resolver } from 'react-hook-form';
-+// import Joi from '@hapi/joi';
-+// export declare const joiResolver: <TFieldValues extends Record<string, any>>(schema: Joi.Schema, options?: Joi.AsyncValidationOptions) => Resolver<TFieldValues, object>;
->>>>>>> master
 diff --git a/node_modules/@hookform/resolvers/dist/superstruct.d.ts b/node_modules/@hookform/resolvers/dist/superstruct.d.ts
 index 9827192..acc477a 100644
 --- a/node_modules/@hookform/resolvers/dist/superstruct.d.ts
 +++ b/node_modules/@hookform/resolvers/dist/superstruct.d.ts
 @@ -1,3 +1,3 @@
-<<<<<<< HEAD
 -import { Resolver } from 'react-hook-form';
 -import Superstruct from 'superstruct';
 -export declare const superstructResolver: <TFieldValues extends Record<string, any>>(schema: Superstruct.Struct) => Resolver<TFieldValues, object>;
 +// import { Resolver } from 'react-hook-form';
 +// import Superstruct from 'superstruct';
 +// export declare const superstructResolver: <TFieldValues extends Record<string, any>>(schema: Superstruct.Struct) => Resolver<TFieldValues, object>;
-=======
--import { Resolver } from 'react-hook-form';
--import Superstruct from 'superstruct';
--export declare const superstructResolver: <TFieldValues extends Record<string, any>>(schema: Superstruct.Struct) => Resolver<TFieldValues, object>;
-+// import { Resolver } from 'react-hook-form';
-+// import Superstruct from 'superstruct';
-+// export declare const superstructResolver: <TFieldValues extends Record<string, any>>(schema: Superstruct.Struct) => Resolver<TFieldValues, object>;
->>>>>>> master
