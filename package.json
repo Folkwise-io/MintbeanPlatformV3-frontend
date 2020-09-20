@@ -82,6 +82,9 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-brands-svg-icons": "^5.14.0",
+    "@fortawesome/react-fontawesome": "^0.1.11",
     "@hookform/resolvers": "^0.1.1",
     "@popperjs/core": "^2.4.4",
     "@types/history": "^4.7.7",
