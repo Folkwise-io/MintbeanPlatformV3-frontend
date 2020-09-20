@@ -1,5 +1,6 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { MeetDao } from "./MeetDao";
+import { isServerErrorArray } from "../utils/typeGuards";
 
 export class MeetDaoImpl implements MeetDao {
   constructor(private api: ApiQueryExecutor) {}
@@ -36,11 +37,8 @@ export class MeetDaoImpl implements MeetDao {
         // TODO: What potential Types of errors can invoke this catch?
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
-          if (e.errors) {
-            throw e.errors;
-          } else {
-            throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
-          }
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
         })
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );

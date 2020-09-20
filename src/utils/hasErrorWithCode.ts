@@ -3,15 +3,9 @@
 export const hasErrorWithCode = (errors: any, errCode: string): boolean => {
   if (!Array.isArray(errors)) return false;
   const matchedErrors: boolean[] = [];
-
   errors.forEach((err: any) => {
-    // iterate through errors array
-    if (err.errors && Array.isArray(err.errors)) {
-      err.errors.forEach((z: any) => {
-        if (z.extensions && z.extensions.code && z.extensions.code === errCode) {
-          matchedErrors.push(true);
-        }
-      });
+    if (err.extensions && err.extensions.code && err.extensions.code === errCode) {
+      matchedErrors.push(true);
     }
   });
 

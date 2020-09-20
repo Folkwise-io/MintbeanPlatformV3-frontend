@@ -6,9 +6,10 @@ import { Context } from "../../context/contextBuilder";
 import { Toast } from "../components/Toast";
 import Navbar from "../components/Navbar";
 import { removeToast } from "../../views/state/actions/toastActions";
-import { me } from "../../views/state/actions/authActions";
-import { MbAction } from "../state/actions/MbAction";
+
 import { Footer } from "./Footer";
+import { me } from "../state/actions/authActions";
+import { MbAction } from "../state/actions/MbAction";
 
 type StateMapping = {
   toasts: ToastState;
@@ -17,7 +18,7 @@ type StateMapping = {
 
 const footerArgs = {
   footerNav: ["Home", "Events", "Terms of Service", "Privacy Policy"],
-  links: ["/home", "/events", "/terms-of-service", "/privacy-policy"],
+  links: ["/", "/events", "/terms-of-service", "/privacy-policy"],
 };
 
 const stp = (state: StoreState) => ({
@@ -45,9 +46,13 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
     <div>
       <Navbar />
       {children}
-      {toasts.map((toast: Toast, index: number) => (
-        <Toast key={index} toast={toast} removeToast={(id: string) => removeToast(id)} />
-      ))}
+      <div>
+        <div className="fixed top-0" style={{ marginTop: "40px" }}>
+          {toasts.map((toast: Toast, index: number) => (
+            <Toast key={index} toast={toast} removeToast={(id: string) => removeToast(id)} />
+          ))}
+        </div>
+      </div>
       <Footer footer={footerArgs} />
     </div>
   );

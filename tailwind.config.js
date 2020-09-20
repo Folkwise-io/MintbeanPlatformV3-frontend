@@ -33,6 +33,7 @@ module.exports = {
         "7xl": "96rem",
       },
       colors: {
+        black: "#0C0A0B",
         "mb-green-100": "#B2FFE4",
         "mb-green-200": "#02E0A8",
         "mb-blue-100": "#00B1FF",
@@ -49,6 +50,9 @@ module.exports = {
         "mb-1": "1rem",
         "mb-1n": "-1rem",
         "mb-3": "3rem",
+      },
+      minWidth: {
+        "12rem": "12rem",
       },
     },
     fontFamily: {

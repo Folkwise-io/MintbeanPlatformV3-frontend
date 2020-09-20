@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import discordImg from "../../../assets/home/discord.svg";
+import discordImg from "../../../assets/home/discord-logo.png";
 
 type Props = {
   type?: "small" | "large";

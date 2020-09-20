@@ -1,7 +1,6 @@
 import React, { FC, Fragment } from "react";
-import { MainWrapper } from "./HomeMainWrapper";
 import { HomeHeader } from "./HomeHeader";
-import { HomeFocusCard } from "./HomeFocusCard";
+import { FocusCard } from "../../components/FocusCard";
 import { MainList } from "./HomeMainList";
 
 const Home: FC<void> = () => {
@@ -9,7 +8,7 @@ const Home: FC<void> = () => {
   const cardArgs = {
     title: "Build cool projects and elevate your skills.",
     description:
-      "We have events, workshops and competitions that build your skills, help you make friends, and let you create a dazzling coding portfolio. Here are a few FREE programs that you can be a part of:",
+      "We have events, workshops and competitions that build your skills, help you make friends, and let you create a dazzling coding portfolio. Here are a few FREE programs that you can be a part of: ",
   };
   const listArgs = {
     titles: [
@@ -31,11 +30,13 @@ const Home: FC<void> = () => {
   };
   return (
     <Fragment>
-      <MainWrapper>
-        <HomeHeader header={headerArgs} />
-        <HomeFocusCard card={cardArgs} />
-        <MainList list={listArgs} />
-      </MainWrapper>
+      <div className="bg-mb-blue-100 pt-2 pb-8 rounded-mb-md border-t-8 border-b-8 border-mb-green-200">
+        <div className="bg-black w-full pt-12 pb-24 px-2 rounded-mb-md grid place-content-center">
+          <HomeHeader header={headerArgs} />
+          <FocusCard card={cardArgs} />
+          <MainList list={listArgs} />
+        </div>
+      </div>
     </Fragment>
   );
 };

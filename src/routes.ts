@@ -1,5 +1,5 @@
 import React from "react";
-import { Home, Login, StaticHome, Community, Hackathons, NotFound, Meets } from "./views/pages";
+import { Community, Hackathons, NotFound, Meets, StaticHome } from "./views/pages";
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 interface RouteConfig {
@@ -11,10 +11,6 @@ interface RouteConfig {
 
 export const routes: RouteConfig[] = [
   {
-    component: Login,
-    path: "/login",
-  },
-  {
     component: Hackathons,
     path: "/hackathons",
   },
@@ -23,7 +19,7 @@ export const routes: RouteConfig[] = [
     path: "/events",
   },
   {
-    component: Home,
+    component: StaticHome,
     exact: true,
     path: "/",
   },
@@ -31,11 +27,6 @@ export const routes: RouteConfig[] = [
     component: Community,
     exact: true,
     path: "/community",
-  },
-  {
-    component: StaticHome,
-    exact: true,
-    path: "/home",
   },
   {
     component: NotFound,
