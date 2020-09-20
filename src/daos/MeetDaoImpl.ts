@@ -123,4 +123,31 @@ export class MeetDaoImpl implements MeetDao {
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
   }
+  deleteMeet(id: string): Promise<boolean> {
+    return (
+      this.api
+        .query<ApiResponseRaw<{ deleteMeet: boolean }>, { id: string }>(
+          `
+            mutation deleteMeet($id: UUID!) {
+              deleteMeet(id: $id)
+            }
+          `,
+          { id },
+        )
+        .then((result) => {
+          if (result.errors) throw result.errors;
+          if (!result.errors && !result.data.deleteMeet) {
+            throw [{ message: "Something went wrong when creating meet.", extensions: { code: "UNEXPECTED" } }];
+          }
+          return result.data.deleteMeet;
+        })
+        // TODO: What potential Types of errors can invoke this catch?
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+        })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
+    );
+  }
 }

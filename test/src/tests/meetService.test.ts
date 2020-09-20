@@ -1,5 +1,7 @@
 import { TestManager } from "../TestManager";
 import { meetFactory } from "../factories/meet.factory";
+import { userFactory } from "../factories/user.factory";
+import { login } from "../../../src/views/state/actions/authActions";
 // import { userFactory } from "../factories/user.factory";
 
 const fakeMeets = meetFactory.bulk(10);
@@ -158,6 +160,49 @@ describe("MeetService", () => {
       const storeState = testManager.store.getState();
       expect(storeState.errors).toBeTruthy();
       expect(storeState.toasts[0].type).toBe("DANGER");
+    });
+  });
+  describe("deleteMeet()", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.meetDao.clearMockReturns();
+      });
+    });
+
+    it("allows admin to delete meet by id", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.meetDao.mockReturn({ data: true });
+        })
+        .execute((context) => {
+          return context.meetService.deleteMeet("someuuid");
+        });
+      const storeState = testManager.store.getState();
+      expect(storeState.errors.length).toBe(0);
+      expect(storeState.toasts[0].type).toBe("SUCCESS");
+    });
+    it("logs error and throws server message toast on error", async () => {
+      const SERVER_ERR_MSG = "test";
+      await testManager
+        .configureContext((context) => {
+          context.meetDao.mockReturn({
+            data: null,
+            errors: [{ message: SERVER_ERR_MSG, extensions: { code: "TEST_UNAUTHORIZED" } }],
+          });
+        })
+        .execute((context) => {
+          return context.meetService.deleteMeet("someuuid");
+        });
+
+      const storeState = testManager.store.getState();
+      expect(storeState.errors[0].message).toBe(SERVER_ERR_MSG);
+      const lastToast = storeState.toasts.length - 1;
+      expect(storeState.toasts[lastToast].type).toBe("DANGER");
     });
   });
 });

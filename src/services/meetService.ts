@@ -16,6 +16,14 @@ export class MeetService {
       this.logger.handleGraphqlErrors(e);
     });
   }
+  async deleteMeet(id: string): Promise<boolean | void> {
+    return this.meetDao
+      .deleteMeet(id)
+      .then(() => this.logger.success("Successfully deleted the event."))
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
+  }
   async createMeet(params: CreateMeetParams): Promise<Meet | void> {
     return this.meetDao
       .createMeet(params)

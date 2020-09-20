@@ -1,7 +1,7 @@
 import { MeetDao } from "../../../src/daos/MeetDao";
 import { meetFactory } from "../factories/meet.factory";
 
-type SuccessDataTypes = Meet[] | Meet;
+type SuccessDataTypes = Meet[] | Meet | boolean;
 
 // TODO: implement cookie header mocking for authorization tests
 export class TestMeetDao implements MeetDao {
@@ -42,6 +42,14 @@ export class TestMeetDao implements MeetDao {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (params && this.getSuccesses().length) {
       return (this.getSuccesses()[0].data as unknown) as Meet;
+    } else {
+      throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
+    }
+  }
+  async deleteMeet(id: string): Promise<boolean> {
+    if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
+    if (id && this.getSuccesses().length) {
+      return (this.getSuccesses()[0].data as unknown) as boolean;
     } else {
       throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
     }
