@@ -37,7 +37,6 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   };
 
   // chronological sort
-  console.log(meets);
   const upcomingMeets = meets
     .filter((m: Meet) => !d.isPast(m.startTime, m.region))
     .sort((a, b) => {

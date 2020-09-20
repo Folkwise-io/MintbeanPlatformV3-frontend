@@ -3,9 +3,10 @@ import { ConnectContextProps, connectContext } from "../../../context/connectCon
 import { DateUtility } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
 import Markdown from "react-markdown";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { ExternalLink } from "../../components/ExternalLink";
+import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
 
 const d = new DateUtility();
 
@@ -28,6 +29,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const [meet, setMeet] = useState<Meet | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const isAdmin = user.data?.isAdmin;
+  const history = useHistory();
 
   useEffect(() => {
     const fetchMeetData = async () => {
@@ -46,6 +48,10 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
 
     fetchMeetData();
   }, [context]);
+
+  const redirectToMeets = async () => {
+    history.push("/events");
+  };
 
   const dateInfo = meet
     ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDuration(meet.startTime, meet.endTime)} hours)`
@@ -76,6 +82,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                   <Button className="mt-2">Register</Button>
                 </ExternalLink>
               )}
+              {isAdmin && meet && <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToMeets} />}
             </div>
           </section>
           <section className="bg-gray-800 text-white shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">

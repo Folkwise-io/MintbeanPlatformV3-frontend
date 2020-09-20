@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import React, { FC } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
@@ -49,7 +49,7 @@ const AdminMeetDeleteModal: FC<ConnectContextProps & Props> = ({ context, meet, 
           </Button>
         )}
       >
-        <p>
+        <p className="text-black">
           Are you sure you want to delete meet {'"'}
           {meet.title}
           {'"'}?
