@@ -129,7 +129,6 @@ describe("MeetService", () => {
         })
         .execute((context) => {
           return context.meetService.fetchMeet(id).then((result) => {
-            console.log(result);
             expect(result).toMatchObject(meet);
           });
         });
@@ -152,7 +151,6 @@ describe("MeetService", () => {
         })
         .execute((context) => {
           return context.meetService.fetchMeet("thiswontwork").then((result) => {
-            console.log({ result });
             expect(result).toBe(undefined);
           });
         });

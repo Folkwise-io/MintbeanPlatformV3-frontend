@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Markdown from "react-markdown";
 import { RouteComponentProps } from "react-router-dom";
 import { Button } from "../../components/Button";
+import { ExternalLink } from "../../components/ExternalLink";
 
 const d = new DateUtility();
 
@@ -65,12 +66,16 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
               <p>{dateInfo}</p>
               <p className="mt-2">{meet?.description}</p>
               <a href=""></a>
-              <Button>Register</Button>
+              {meet?.registerLink && (
+                <ExternalLink href={meet.registerLink}>
+                  <Button className="mt-2">Register</Button>
+                </ExternalLink>
+              )}
             </div>
           </section>
           <section className="bg-gray-800 text-white shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
             <p>TODO: Project submission</p>
-            <Button>Submit</Button>
+            <Button className="mt-2">Submit</Button>
           </section>
         </div>
         <section className="shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">

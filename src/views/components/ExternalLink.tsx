@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 
 type Props = {
+  href: string;
   blank?: boolean;
   noRefferer?: boolean;
   noOpener?: boolean;
@@ -8,11 +9,11 @@ type Props = {
 };
 
 export const ExternalLink: FC<Props> = (props) => {
-  const { blank = true, noRefferer = true, noOpener = true, className, children, ...rest } = props;
+  const { href, blank = true, noRefferer = true, noOpener = true, className, children, ...rest } = props;
   const target = blank ? "_blank" : "_self";
   const rel = `${noRefferer ? "noreferrer" : ""} ${noOpener ? "noopener" : ""}`;
   return (
-    <a {...rest} className={`${className}`} rel={rel} target={target}>
+    <a {...rest} href={href} className={`${className}`} rel={rel} target={target}>
       {children}
     </a>
   );
