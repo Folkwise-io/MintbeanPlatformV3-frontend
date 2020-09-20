@@ -3,8 +3,8 @@ import { ConnectContextProps, connectContext } from "../../../context/connectCon
 import { DateUtility } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
 import Markdown from "react-markdown";
-import { Banner } from "../../components/Banner";
 import { RouteComponentProps } from "react-router-dom";
+import { Button } from "../../components/Button";
 
 const d = new DateUtility();
 
@@ -53,26 +53,33 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   return (
     <div className="container mx-auto max-w-screen-lg px-2">
       <header>
-        <div className="flex justify-center" style={{ background: "linear-gradient(to right, #232526, #414345)" }}>
+        <div className="flex justify-center bg-gray-800">
           <img src={meet?.coverImageUrl} alt={meet?.title} />
         </div>
       </header>
-      <main className="py-12">
-        <div className="flex">
-          <section className="shadow-lg p-6 border-mb-green-200 border-solid border-2">
+      <main className="py-2 md:py-12">
+        <div className="flex flex-col md:flex-row">
+          <section className="bg-gray-800 text-white flex-grow shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
             <div>
               <h1>{meet?.title}</h1>
               <p>{dateInfo}</p>
               <p className="mt-2">{meet?.description}</p>
+              <a href=""></a>
+              <Button>Register</Button>
             </div>
           </section>
-          <section className="shadow-lg p-6 border-mb-green-200 border-solid border-2">
-            TODO: Project submission
+          <section className="bg-gray-800 text-white shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
+            <p>TODO: Project submission</p>
+            <Button>Submit</Button>
           </section>
         </div>
-        <section className="shadow-lg p-6 border-mb-green-200 border-solid border-2">
+        <section className="shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
           <h2>Instructions</h2>
           <Markdown source={meet?.instructions} />
+        </section>
+        <section className="shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
+          <h2>Submissions</h2>
+          <p>TODO: Event Projects</p>
         </section>
       </main>
     </div>
