@@ -21,17 +21,38 @@ module.exports = {
       },
       borderRadius: {
         xl: "3rem",
+        "mb-xs": "1rem",
         "mb-sm": "1.75rem",
         "mb-md": "4rem",
+        "mb-lg": "8rem",
+      },
+      borderWidth: {
+        10: "10px",
       },
       maxWidth: {
         "7xl": "96rem",
       },
       colors: {
-        "mb-green-100": "#A3FEDF",
+        black: "#0C0A0B",
+        "mb-green-100": "#B2FFE4",
         "mb-green-200": "#02E0A8",
         "mb-blue-100": "#00B1FF",
         "mb-blue-200": "#00A4DA",
+      },
+      boxShadow: {
+        "mb-outline": "0 0 0 3px #ffffff;",
+        "mb-outline-lg": "0 0 0 6px #ffffff;",
+        "mb-outline-green": "0 0 0 1rem #B2FFE4;",
+        "mb-outline-darkgreen": "0 0 0 1rem #02E0A8;",
+        "mb-drop": "-8px 12px 8px 0 rgba(0, 0, 0, 0.16)",
+      },
+      inset: {
+        "mb-1": "1rem",
+        "mb-1n": "-1rem",
+        "mb-3": "3rem",
+      },
+      minWidth: {
+        "12rem": "12rem",
       },
     },
     fontFamily: {

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import home1 from "../../../assets/home/home-header-1.svg";
-import home2 from "../../../assets/home/home-header-2.svg";
-import home3 from "../../../assets/home/home-header-3.svg";
+import home1 from "../../../assets/home/home-header-1.png";
+import home2 from "../../../assets/home/home-header-2.png";
+import home3 from "../../../assets/home/home-header-3.png";
 
 type Props = {
   list: HeaderList;
