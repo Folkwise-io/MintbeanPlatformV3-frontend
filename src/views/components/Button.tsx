@@ -10,7 +10,7 @@ type Props = {
 
 export const Button: FC<Props> = (props) => {
   const { type = "primary", forwardRef, className, buttonType = "button", children, ...rest } = props;
-  const common = "shadow-md py-2 px-6 rounded-lg hover:shadow-sm border-2 border-solid";
+  const common = "shadow-md py-2 px-6 rounded-lg hover:shadow-sm hover:opacity-75 border-2 border-solid";
   const classes = {
     primary: "text-white bg-mb-green-200 border-mb-green-200",
     secondary: "text-gray-700 bg-white border-mb-green-200",

@@ -37,9 +37,15 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   };
 
   // chronological sort
+  console.log(meets);
   const upcomingMeets = meets
     .filter((m: Meet) => !d.isPast(m.startTime, m.region))
-    .sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime())
+    .sort((a, b) => {
+      const dateA = new Date(a.startTime).getTime();
+      const dateB = new Date(b.startTime).getTime();
+      if (dateA === dateB) return 0;
+      return dateA - dateB;
+    })
     .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} refetchMeets={fetchMeetData} />);
   // reverse-chronological sort
   const pastMeets = meets
@@ -47,9 +53,14 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
     .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime())
     .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} refetchMeets={fetchMeetData} />);
 
+  console.log(meets.filter((m: Meet) => d.isPast(m.endTime, m.region)));
   const adminMeetCreateModal = (
     <div className="flex justify-center">
-      <AdminMeetCreateModal buttonText="Create new event" className="rounded px-6 py-2 text-white bg-purple-500 mb-2" />
+      <AdminMeetCreateModal
+        buttonText="Create new event"
+        className="rounded px-6 py-2 text-white bg-purple-500 mb-2"
+        refetchMeets={fetchMeetData}
+      />
     </div>
   );
   const isAdmin = user.data?.isAdmin;

@@ -3,16 +3,15 @@ import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { MeetCreateForm } from "../../../forms/MeetCreateForm";
-import { useHistory } from "react-router-dom";
 
 interface Props {
   className?: string;
   buttonText: string;
+  refetchMeets: () => Promise<boolean | void>;
 }
 
-const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, className, buttonText }) => {
+const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, className, buttonText, refetchMeets }) => {
   const formRef = useRef<HTMLFormElement>(null);
-  const history = useHistory();
 
   const actions: ModalActionDeclaration[] = [
     {
@@ -28,17 +27,16 @@ const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, classN
     },
   ];
 
-  const createMeet = (params: CreateMeetParams) => {
+  const createMeet = async (params: CreateMeetParams) => {
     if (context) {
-      context.meetService.createMeet(params);
+      context.meetService.createMeet(params).then(() => refetchMeets());
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
     }
   };
 
-  const handleCreateMeet = async (values: CreateMeetParams) => {
+  const handleCreateMeet = (values: CreateMeetParams) => {
     createMeet(values);
-    history.push("/events");
   };
 
   return (
