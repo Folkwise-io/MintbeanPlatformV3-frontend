@@ -13,7 +13,7 @@ type Props = {
 export const DiscordButton: FC<Props> = ({ button }) => {
   const { text } = button;
   return (
-    <div className="bg-black text-white grid grid-cols-3 place-items-center py-4 rounded-mb-xs">
+    <div className="bg-black text-white row-span-2 grid grid-cols-3 place-items-center py-4 rounded-mb-xs">
       <DiscordIcon />
       <div className="col-span-2 text-center">
         <p className="pb-2 font-semibold">{text}</p>
