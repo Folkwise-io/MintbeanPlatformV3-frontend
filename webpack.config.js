@@ -13,8 +13,18 @@ const configEnvVariables = () => {
   return envKeys;
 };
 
+/*TODO: figure out a better dynamic env setup for frontend liek backend*/
+const MUST_HAVE_KEYS = ["CLOUDINARY_CLOUD_NAME", "CLOUDINARY_UPLOAD_PRESET"];
+const getEnvKeys = (envKeys) => Object.keys(envKeys).map((k) => k.replace(/process\.env\./, ""));
+const checkForMissingKeys = (keys) => {
+  const presentKeys = getEnvKeys(keys);
+  MUST_HAVE_KEYS.forEach((k) => !presentKeys.includes(k) && console.error(`Missing env var ${k}`));
+};
+
 module.exports = () => {
   const envKeys = configEnvVariables();
+  checkForMissingKeys(envKeys);
+
   return {
     // webpack will take the files from ./src/index
     entry: "./src/index",
