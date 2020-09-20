@@ -15,9 +15,8 @@ const CreateMeetInputSchema = Yup.object().shape({
   coverImageUrl: Yup.string().url("Must be a valid URL").required("Required"),
   startTime: Yup.string()
     .test("is-chronological", "Start time and end time must be chronological", function (startTime) {
-      console.log(startTime);
-      console.log(moment(startTime).isBefore(this.parent.endTime));
-      return moment(startTime).isBefore(this.parent.endTime);
+      const isChronological = moment(startTime).isBefore(this.parent.endTime);
+      return isChronological;
     })
     .required("Required"),
   endTime: Yup.string().required("Required"),
@@ -67,7 +66,7 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
     </div>
   );
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit, (e) => console.log({ error: e }))}>
+    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
       <h1 className="font-semibold">Create a new event</h1>
 
       <label htmlFor="meetType">Event type</label>
