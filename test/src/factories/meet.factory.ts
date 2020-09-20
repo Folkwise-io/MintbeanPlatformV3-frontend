@@ -9,8 +9,8 @@ export const meetFactory = factory<HackMeet>({
   instructions: () => faker.lorem.paragraph(),
   registerLink: () => faker.internet.url(),
   coverImageUrl: () => faker.image.imageUrl(),
-  startTime: "2020-09-15T13:00:00.000",
-  endTime: "2020-09-15T17:00:00.000",
-  createdAt: "2020-09-15T13:00:00.000Z",
+  startTime: "2020-10-15T13:00:00.000",
+  endTime: "2020-10-15T17:00:00.000",
+  createdAt: "2020-10-15T13:00:00.000Z",
   region: "America/Toronto",
 });
