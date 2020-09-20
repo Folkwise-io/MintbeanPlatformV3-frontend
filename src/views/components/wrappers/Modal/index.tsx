@@ -70,7 +70,7 @@ export const Modal: FC<ModalProps> = ({
             style={styles.popper}
             {...attributes.popper}
             data-popper-placement="right"
-            className="bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200"
+            className="bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-sm"
           >
             {/* modal header with the "X" button for closing the modal */}
             <section className="py-1 px-2 flex justify-end text-gray-400">

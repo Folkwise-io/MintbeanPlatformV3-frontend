@@ -50,7 +50,7 @@ export class DateUtility {
     const now = moment(new Date()).utc();
     return now > targetDate;
   };
-  // Returns true if date1 is chronologically prior to date2 assuming both in same region (format: '2020-10-15T13:00:00.000')
+  // Returns true if date1 is chronologically prior to date2 assuming both in same region (format: '2020-10-15T13:00' or '2020-10-15T13:00' )
   isChronologicalNoTz = (timestamp1: string, timestamp2: string): boolean => {
     if (!this.validateTimestamps([timestamp1, timestamp2])) return false;
     // Timezone is irrelevant
@@ -65,7 +65,7 @@ export class DateUtility {
     if (typeof datestrInput === "string") {
       datestrInput = [datestrInput];
     }
-    const pattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}$/;
+    const pattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}\.\d{3})?$/;
     const results = datestrInput.map((d) => (d.match(pattern) ? true : false));
     return !results.includes(false);
   };

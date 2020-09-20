@@ -15,9 +15,9 @@ const CreateMeetInputSchema = Yup.object().shape({
   registerLink: Yup.string().url("Must be a valid URL").required("Required"),
   coverImageUrl: Yup.string().url("Must be a valid URL").required("Required"),
   startTime: Yup.string()
-    // .test("is-chronological", "Start time and end time must be chronological", function (startTime) {
-    //   return d.isChronologicalNoTz(startTime || "", this.parent.endTime);
-    // })
+    .test("is-chronological", "Start time and end time must be chronological", function (startTime) {
+      return d.isChronologicalNoTz(startTime || "", this.parent.endTime);
+    })
     .required("Required"),
   endTime: Yup.string().required("Required"),
   region: Yup.string().required("Required"),
@@ -41,7 +41,6 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
   };
 
   const grabImageUrl = (url: string) => {
-    console.log({ url });
     setImageUrl(url);
     return url;
   };

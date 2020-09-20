@@ -18,7 +18,6 @@ export const CloudinaryUploadWidget: FC<Props> = ({ exposeImageUrl }) => {
           uploadPreset: process.env.CLOUDINARY_UPLOAD_PRESET,
         },
         (error: any, result: any) => {
-          console.log("image info: ", result.info);
           if (!error && result && result.event === "success") {
             exposeImageUrl(result.info.url);
           }
