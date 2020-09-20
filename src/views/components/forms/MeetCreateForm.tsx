@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { CloudinaryUploadWidget } from "../widgets/CloudinaryUploadWidget";
 import { DateUtility } from "../../../utils/DateUtility";
+import moment from "moment";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const d = new DateUtility();
@@ -14,9 +15,16 @@ const CreateMeetInputSchema = Yup.object().shape({
   instructions: Yup.string().min(3, "Too Short!").required("Required"),
   registerLink: Yup.string().url("Must be a valid URL").required("Required"),
   coverImageUrl: Yup.string().url("Must be a valid URL").required("Required"),
+  // startTime: Yup.string()
+  //   .test("is-chronological", "Start time and end time must be chronological", function (startTime) {
+  //     return d.isChronologicalNoTz(startTime || "", this.parent.endTime);
+  //   })
+  //   .required("Required"),
   startTime: Yup.string()
     .test("is-chronological", "Start time and end time must be chronological", function (startTime) {
-      return d.isChronologicalNoTz(startTime || "", this.parent.endTime);
+      console.log(startTime);
+      console.log(moment(startTime).isBefore(this.parent.endTime));
+      return moment(startTime).isBefore(this.parent.endTime);
     })
     .required("Required"),
   endTime: Yup.string().required("Required"),
