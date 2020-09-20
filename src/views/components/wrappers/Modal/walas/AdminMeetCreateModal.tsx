@@ -35,10 +35,6 @@ const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, classN
     }
   };
 
-  const handleCreateMeet = (values: CreateMeetParams) => {
-    createMeet(values);
-  };
-
   return (
     <>
       <Modal
@@ -49,7 +45,7 @@ const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, classN
           </button>
         )}
       >
-        <MeetCreateForm formRef={formRef} createMeet={handleCreateMeet} />
+        <MeetCreateForm formRef={formRef} createMeet={createMeet} />
       </Modal>
     </>
   );
