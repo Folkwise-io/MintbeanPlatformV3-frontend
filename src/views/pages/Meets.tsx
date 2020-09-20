@@ -42,6 +42,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
 
   const upcomingMeets = meets
     .filter((m: Meet) => !d.isPast(m.startTime, m.region))
+    .sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime())
     .map((meet) => <MeetCard meet={meet} key={meet.id} />);
   const pastMeets = meets
     .filter((m: Meet) => d.isPast(m.endTime, m.region))
