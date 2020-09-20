@@ -2,16 +2,16 @@ import React, { FC } from "react";
 import { Button } from "./Button";
 import { DateUtility } from "../../utils/DateUtility";
 import { Link } from "react-router-dom";
-import { Modal } from "./wrappers/Modal";
 import AdminMeetDeleteModal from "./wrappers/Modal/walas/AdminMeetDeleteModal";
 
 const d = new DateUtility();
 
 type MeetProps = {
   meet: Meet;
+  user?: User;
 };
 
-export const MeetCard: FC<MeetProps> = ({ meet }) => {
+export const MeetCard: FC<MeetProps> = ({ meet, user }) => {
   const { id, title, description, startTime, endTime, coverImageUrl, region } = meet;
 
   const startTimeStr = d.wcToClientStr(startTime, region);
@@ -33,7 +33,7 @@ export const MeetCard: FC<MeetProps> = ({ meet }) => {
         <Link to={`/events/${id}`}>
           <Button>More</Button>
         </Link>
-        <AdminMeetDeleteModal buttonText="Delete" meet={meet} />
+        {user?.isAdmin && <AdminMeetDeleteModal buttonText="Delete" meet={meet} />}
       </div>
     </div>
   );
