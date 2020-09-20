@@ -9,9 +9,10 @@ const d = new DateUtility();
 type MeetProps = {
   meet: Meet;
   user?: User;
+  refetchMeets: () => Promise<boolean | void>;
 };
 
-export const MeetCard: FC<MeetProps> = ({ meet, user }) => {
+export const MeetCard: FC<MeetProps> = ({ meet, user, refetchMeets }) => {
   const { id, title, description, startTime, endTime, coverImageUrl, region } = meet;
 
   const startTimeStr = d.wcToClientStr(startTime, region);
@@ -33,7 +34,9 @@ export const MeetCard: FC<MeetProps> = ({ meet, user }) => {
         <Link to={`/events/${id}`}>
           <Button>More</Button>
         </Link>
-        {user?.isAdmin && <AdminMeetDeleteModal buttonText="Delete" meet={meet} />}
+        {user?.isAdmin && (
+          <AdminMeetDeleteModal buttonText="Delete" meet={meet} refetchMeets={refetchMeets} className="ml-2" />
+        )}
       </div>
     </div>
   );

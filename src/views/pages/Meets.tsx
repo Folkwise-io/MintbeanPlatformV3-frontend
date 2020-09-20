@@ -21,29 +21,31 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
 
   // Fetch meets on mount
   useEffect(() => {
-    const fetchMeetData = async () => {
-      if (!context) {
-        console.error(new Error("No context passed to component, but was expected"));
-        alert("Blame the devs! Something terrible happened.");
-        return;
-      }
-      setLoading(true);
-      const fetchedMeets = await context.meetService.fetchMeets();
-      setMeets(fetchedMeets);
-      setLoading(false);
-    };
-
     fetchMeetData();
   }, [context]);
 
+  const fetchMeetData = async () => {
+    if (!context) {
+      console.error(new Error("No context passed to component, but was expected"));
+      alert("Blame the devs! Something terrible happened.");
+      return;
+    }
+    setLoading(true);
+    const fetchedMeets = await context.meetService.fetchMeets();
+    setMeets(fetchedMeets);
+    setLoading(false);
+  };
+
+  // chronological sort
   const upcomingMeets = meets
     .filter((m: Meet) => !d.isPast(m.startTime, m.region))
     .sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime())
-    .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} />);
+    .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} refetchMeets={fetchMeetData} />);
+  // reverse-chronological sort
   const pastMeets = meets
     .filter((m: Meet) => d.isPast(m.endTime, m.region))
     .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime())
-    .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} />);
+    .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} refetchMeets={fetchMeetData} />);
 
   const adminMeetCreateModal = (
     <div className="flex justify-center">

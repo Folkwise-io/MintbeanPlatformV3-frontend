@@ -1,38 +1,24 @@
-// <Modal
-//   actions={actions}
-//   triggerBuilder={(toggleModal, setRef) => (
-//     <button onClick={toggleModal} ref={(el) => setRef(el)} className={className || ""}>
-//       {buttonText}
-//     </button>
-//   )}
-// >
-//   <p>Are you sure you want to delete the event "{title}"?</p>
-// </Modal>
-
 import React, { FC, useRef } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
-import { MeetCreateForm } from "../../../forms/MeetCreateForm";
-import { useHistory } from "react-router-dom";
 import { Button } from "../../../Button";
 
 interface Props {
   className?: string;
   buttonText: string;
   meet: Meet;
+  refetchMeets: () => Promise<boolean | void>;
 }
 
-const AdminMeetDeleteModal: FC<ConnectContextProps & Props> = ({ context, meet, className, buttonText }) => {
+const AdminMeetDeleteModal: FC<ConnectContextProps & Props> = ({
+  context,
+  meet,
+  className,
+  buttonText,
+  refetchMeets,
+}) => {
   const actions: ModalActionDeclaration[] = [
-    {
-      type: "danger",
-      text: "Delete",
-      onClick: (_evt, { closeModal }) => {
-        deleteMeet(meet.id);
-        closeModal();
-      },
-    },
     {
       type: "secondary",
       text: "Cancel",
@@ -40,9 +26,18 @@ const AdminMeetDeleteModal: FC<ConnectContextProps & Props> = ({ context, meet, 
         closeModal();
       },
     },
+    {
+      type: "danger",
+      text: "Delete",
+      onClick: (_evt, { closeModal }) => {
+        deleteMeet(meet.id)
+          .then(() => refetchMeets())
+          .then(() => closeModal());
+      },
+    },
   ];
 
-  const deleteMeet = (id: string) => {
+  const deleteMeet = async (id: string) => {
     if (context) {
       context.meetService.deleteMeet(id);
     } else {
@@ -55,7 +50,7 @@ const AdminMeetDeleteModal: FC<ConnectContextProps & Props> = ({ context, meet, 
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <Button type="danger" onClick={toggleModal} ref={(el) => setRef(el)} className={className || ""}>
+          <Button type="danger" onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className || ""}>
             {buttonText}
           </Button>
         )}
