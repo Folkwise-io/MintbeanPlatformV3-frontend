@@ -73,7 +73,7 @@ describe("Date Utility", () => {
       expect(d.isChronologicalNoTz("2020-09-15T12:00:00.000", "2021-09-15T12:00:00.000")).toBe(true);
       expect(d.isChronologicalNoTz("2020-09-15T12:00", "2021-09-15T13:00")).toBe(true);
     });
-    it.only("returns false if date args are chronolgical", () => {
+    it("returns false if date args are chronolgical", () => {
       expect(d.isChronologicalNoTz("2020-09-15T12:00:00.000", "2020-09-15T12:00:00.000")).toBe(false);
       expect(d.isChronologicalNoTz("2021-09-15T12:00:00.000", "2020-09-15T12:00:00.000")).toBe(false);
       expect(d.isChronologicalNoTz("2020-09-16T12:00:00.000", "2020-09-16T12:00:00.000")).toBe(false);
