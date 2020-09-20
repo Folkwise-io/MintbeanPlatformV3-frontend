@@ -59,6 +59,7 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       <img src={imageUrl || undefined} alt="Event image preview" className="w-full h-full object-contain" />
       <button
         onClick={resetImageStates}
+        type="button"
         className="absolute bottom-0 right-0 bg-black text-white opacity-75 p-1 rounded "
       >
         Remove
@@ -112,6 +113,9 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
         <option value="America/Toronto">Toronto</option>
       </select>
       <p className="text-red-500">{errors.region?.message}</p>
+
+      {/* workaround for allowing form submit on Enter */}
+      <input type="submit" className="hidden" />
     </form>
   );
 };

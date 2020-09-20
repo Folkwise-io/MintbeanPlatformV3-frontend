@@ -55,6 +55,9 @@ export const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
       <label htmlFor="passwordConfirmation">Confirm password</label>
       <input type="password" name="passwordConfirmation" ref={register} />
       <p className="text-red-500">{errors.passwordConfirmation?.message}</p>
+
+      {/* workaround for allowing form submit on Enter */}
+      <input type="submit" className="hidden" />
     </form>
   );
 };

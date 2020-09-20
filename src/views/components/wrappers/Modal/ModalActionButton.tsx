@@ -2,6 +2,7 @@ import React, { FC, ReactElement } from "react";
 
 export interface ModalActionDeclaration {
   type: "primary" | "secondary" | "danger";
+  buttonType?: "button" | "submit" | "reset";
   text: string;
   onClick: (evt: React.SyntheticEvent, context: ModalActionContext) => void;
 }
@@ -12,7 +13,13 @@ interface ModalActionContext {
 
 interface ModalActionProps extends ModalActionContext, ModalActionDeclaration {}
 
-export const ModalActionButton: FC<ModalActionProps> = ({ type, text, onClick, closeModal }): ReactElement => {
+export const ModalActionButton: FC<ModalActionProps> = ({
+  type,
+  text,
+  buttonType = "button",
+  onClick,
+  closeModal,
+}): ReactElement => {
   const commonClasses = "shadow-md border-solid border-2 rounded-md py-2 px-6 m-2";
   const classes = {
     primary: "text-white bg-mb-green-200 border-mb-green-200 ",
@@ -21,7 +28,11 @@ export const ModalActionButton: FC<ModalActionProps> = ({ type, text, onClick, c
   };
 
   return (
-    <button onClick={(evt) => onClick(evt, { closeModal })} className={`${commonClasses} ${classes[type]}`}>
+    <button
+      onClick={(evt) => onClick(evt, { closeModal })}
+      className={`${commonClasses} ${classes[type]}`}
+      type={buttonType}
+    >
       {text}
     </button>
   );

@@ -33,6 +33,9 @@ export const LoginForm: FC<Props> = ({ login, formRef }) => {
       <label htmlFor="password">Password</label>
       <input type="password" name="password" ref={register} />
       <p className="text-red-500">{errors.password?.message}</p>
+
+      {/* workaround for allowing form submit on Enter */}
+      <input type="submit" className="hidden" />
     </form>
   );
 };

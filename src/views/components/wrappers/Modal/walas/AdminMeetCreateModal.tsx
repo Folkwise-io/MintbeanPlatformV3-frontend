@@ -18,6 +18,7 @@ const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, classN
     {
       type: "primary",
       text: "Create Event",
+      buttonType: "submit",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild

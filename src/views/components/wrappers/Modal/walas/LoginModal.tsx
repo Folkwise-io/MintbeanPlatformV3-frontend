@@ -28,6 +28,7 @@ const LoginModal: FC<Props & DispatchMapping> = ({ login, className, buttonText 
     {
       type: "primary",
       text: "Login",
+      buttonType: "submit",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
