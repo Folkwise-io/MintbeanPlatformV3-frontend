@@ -1,5 +1,8 @@
 import faker from "faker";
 import { factory } from "./factory";
+import { meetProjectFactory } from "./project.factory";
+
+const meetProjects = meetProjectFactory.bulk(6);
 
 export const meetFactory = factory<Meet>({
   id: () => faker.random.uuid(),
@@ -13,4 +16,5 @@ export const meetFactory = factory<Meet>({
   endTime: "2020-09-15T17:00:00.000",
   createdAt: "2020-09-15T13:00:00.000Z",
   region: "America/Toronto",
+  projects: meetProjects,
 });
