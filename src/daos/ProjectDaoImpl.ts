@@ -17,15 +17,17 @@ export class ProjectDaoImpl implements ProjectDao {
               sourceCodeUrl
               liveUrl
               createdAt
-              meetId
-              meet: {
+              meet {
                 idea
                 title
               }
-              user: {
+              user {
                 firstName
                 lastName
                 username
+              }
+              mediaAssets {
+                cloudinaryPublicId
               }
             }
           }

@@ -22,7 +22,7 @@ export class TestProjectDao implements ProjectDao {
     const successReturns = this.getSuccesses();
     if (errorReturns.length) {
       // Mock failed
-      throw errorReturns;
+      throw errorReturns[0].errors;
     } else if (successReturns.length) {
       // Mock successful
       return (successReturns[0].data as unknown) as Project;

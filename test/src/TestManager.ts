@@ -54,6 +54,11 @@ export class TestManager {
     return this;
   }
 
+  addProjects(data: Project[]): TestManager {
+    this.context.projectDao.data = data;
+    return this;
+  }
+
   private subscribe(): TestManager {
     this.store.subscribe(() => {
       const state = this.store.getState();

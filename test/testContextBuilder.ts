@@ -5,7 +5,7 @@ import { AuthService } from "../src/services/authService";
 import { TestAuthDao } from "./src/daos/TestAuthDao";
 import { MeetService } from "../src/services/meetService";
 import { TestMeetDao } from "./src/daos/TestMeetDao";
-import { ProjectService } from "./src/services/projectService";
+import { ProjectService } from "../src/services/projectService";
 import { TestProjectDao } from "./src/daos/TestProjectDao";
 import { Context } from "../src/context/contextBuilder";
 import { LoggerService } from "../src/services/loggerService";
@@ -31,7 +31,7 @@ export const testContextBuilder = (): TestContext => {
   const authDao = new TestAuthDao();
   const authService = new AuthService(authDao);
   const projectDao = new TestProjectDao();
-  const projectService = new ProjectService(projectDao);
+  const projectService = new ProjectService(projectDao, loggerService);
 
   return {
     loggerService,

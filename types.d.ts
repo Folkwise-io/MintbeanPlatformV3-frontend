@@ -15,9 +15,9 @@ type Project = {
   sourceCodeUrl: string;
   liveUrl: string;
   createdAt: string;
-  meetId: string;
   meet: MeetForProject;
   user: UserForProject;
+  mediaAssets: CloudinaryPublicIdMediaAsset[];
 };
 interface UserForProject {
   firstName: string;
@@ -48,12 +48,16 @@ interface ProjectForMeet {
   sourceCodeUrl: string;
   liveUrl: string;
   user: UserForProjectForMeet;
-  mediaAssets: { cloudinaryPublicId: string }[];
+  mediaAssets: CloudinaryPublicIdMediaAsset[];
 }
 interface UserForProjectForMeet {
   firstName: string;
   lastName: string;
   username: string;
+}
+
+interface CloudinaryPublicIdMediaAsset {
+  cloudinaryPublicId: string;
 }
 
 // INPUTS --------------------
