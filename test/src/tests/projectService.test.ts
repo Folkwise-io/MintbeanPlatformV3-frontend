@@ -43,7 +43,6 @@ describe("ProjectService", () => {
           });
         });
       const finalState = testManager.store.getState();
-      console.log(finalState);
       expect(finalState.errors[0].message).toBe(SERVER_ERR_MESSAGE);
       expect(finalState.toasts[0].type).toBe("DANGER");
     });
