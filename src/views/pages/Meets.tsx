@@ -66,7 +66,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   const isAdmin = user.data?.isAdmin;
 
   const cardProps = {
-    title: "Events",
+    title: "Meets",
     description: "Come hack with us!",
   };
   return (
@@ -82,18 +82,18 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
           <BgBlock type="black">
             <BgBlock>
               <section className="rounded-xl mb-16 flex flex-col items-center w-full py-8 bg-black max-w-6xl shadow-mb-drop-center">
-                <h2 className="text-4xl text-white mb-4 font-semibold text-center">Upcoming events</h2>
+                <h2 className="text-4xl text-white mb-4 font-semibold text-center">Upcoming meets</h2>
                 {loading ? (
                   <p className="text-white">Loading...</p>
                 ) : upcomingMeets.length ? (
                   <div className="space-y-4">{upcomingMeets}</div>
                 ) : (
-                  <p className="text-white text-lg">No upcoming events at the moment... Stay tuned!</p>
+                  <p className="text-white text-lg">No upcoming meets at the moment... Stay tuned!</p>
                 )}
               </section>
             </BgBlock>
             <section className="max-w-5xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-12 px-6 md:px-24">
-              <h2 className="text-white text-4xl mb-4 text-center">Past events</h2>
+              <h2 className="text-white text-4xl mb-4 text-center">Past meets</h2>
               <div className="space-y-4">{pastMeets}</div>
             </section>
           </BgBlock>
