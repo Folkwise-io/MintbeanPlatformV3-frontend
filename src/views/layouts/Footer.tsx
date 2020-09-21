@@ -32,7 +32,10 @@ export const Footer: FC<Props> = ({ footer }) => {
         <ul className={`grid grid-cols-1 md:flex md:justify-between md:w-full`}>
           {footerNav.map((item, index) => (
             <li key={index}>
-              <Link className="whitespace-no-wrap flex justify-center hover:text-mb-green-200" to={links[index]}>
+              <Link
+                className="whitespace-no-wrap flex justify-center text-black hover:text-mb-green-200"
+                to={links[index]}
+              >
                 {item}
               </Link>
             </li>

@@ -7,7 +7,7 @@ import { testContextBuilder } from "../testContextBuilder";
 import { TestContext } from "../testContextBuilder";
 
 export class TestManager {
-  store: Store;
+  public store: Store;
   results: StoreState[];
   context: TestContext;
   private constructor(store: Store, context: TestContext) {
@@ -23,7 +23,7 @@ export class TestManager {
     return new TestManager(store, context).subscribe();
   }
 
-  // For wrapping tests or returning things from context
+  // For wrapping tests or returning things from context. Use for services that don't touch redux store
   execute<T>(cb: (context: TestContext) => Promise<T>): Promise<T> {
     return cb(this.context);
   }
@@ -49,7 +49,7 @@ export class TestManager {
     return this;
   }
 
-  addMeets(data: HackMeet[]): TestManager {
+  addMeets(data: Meet[]): TestManager {
     this.context.meetDao.data = data;
     return this;
   }

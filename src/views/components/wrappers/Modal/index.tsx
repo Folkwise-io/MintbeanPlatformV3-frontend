@@ -65,16 +65,16 @@ export const Modal: FC<ModalProps> = ({
       {
         // This is the modal itself. It only shows if the trigger was clicked.
         show && (
-          <section
+          <div
             ref={(el) => setPopperElement(el)}
             style={styles.popper}
             {...attributes.popper}
             data-popper-placement="right"
-            className="max-w-screen-sm bg-gray-100 p-3 shadow-xl bg-white rounded-md"
+            className="bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-sm"
           >
             {/* modal header with the "X" button for closing the modal */}
             <section className="py-1 px-2 flex justify-end text-gray-400">
-              <button className="active:bg-mb-mint px-2 rounded-full" onClick={closeModal}>
+              <button className="active:bg-mb-green-200 px-2 rounded-full" onClick={closeModal}>
                 Close
               </button>
             </section>
@@ -91,7 +91,7 @@ export const Modal: FC<ModalProps> = ({
             {/* modal actions */}
             <section className="flex py-1 px-2 justify-center">{actionButtons}</section>
             <div ref={(el) => setArrowElement(el)} style={styles.arrow} />
-          </section>
+          </div>
         )
       }
     </>

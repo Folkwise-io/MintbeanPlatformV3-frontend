@@ -19,7 +19,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
           className="py-2 z-10 w-full"
           style={{ background: "linear-gradient(0deg, #02ed9d, transparent)" }}
         ></div>
-        <section className="bg-mb-mint pointer-events-auto text-center p-2 pb-4 w-full">
+        <section className="bg-mb-green-200 pointer-events-auto text-center p-2 pb-4 w-full">
           <h3 className="text-2xl">{title}</h3>
           <p>
             Created by: <span>{creatorName}</span>

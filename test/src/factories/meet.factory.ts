@@ -1,7 +1,7 @@
 import faker from "faker";
 import { factory } from "./factory";
 
-export const meetFactory = factory<HackMeet>({
+export const meetFactory = factory<Meet>({
   id: () => faker.random.uuid(),
   meetType: "hackMeet",
   title: () => faker.company.bs(),
