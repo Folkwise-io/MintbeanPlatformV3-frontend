@@ -9,17 +9,17 @@ interface User {
   isAdmin: boolean;
 }
 
-type Project = {
-  id: string;
-  title: string;
-  sourceCodeUrl: string;
-  image: string;
-  liveUrl: string;
-  createdAt: string;
-  updatedAt: string;
-  meetId: string;
-  user: User;
-};
+// type Project = {
+//   id: string;
+//   title: string;
+//   sourceCodeUrl: string;
+//   image: string;
+//   liveUrl: string;
+//   createdAt: string;
+//   updatedAt: string;
+//   meetId: string;
+//   user: User;
+// };
 
 interface Meet {
   id: string;
@@ -39,9 +39,9 @@ interface Meet {
 interface ProjectForMeet {
   id: string;
   title: string;
-  user: UserForProjectForMeet;
   sourceCodeUrl: string;
   liveUrl: string;
+  user: UserForProjectForMeet;
   mediaAssets: { cloudinaryPublicId: string }[];
 }
 interface UserForProjectForMeet {

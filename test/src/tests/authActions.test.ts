@@ -4,7 +4,6 @@ import { TEST_EMAIL, TEST_PASSWORD } from "../constants";
 import { userFactory } from "../factories/user.factory";
 
 const fakeUser = userFactory.one();
-
 describe("Auth actions", () => {
   let testManager: TestManager;
 

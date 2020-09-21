@@ -9,7 +9,8 @@ export class TestMeetDao implements MeetDao {
   private mockReturns: ApiResponseRaw<SuccessDataTypes | null>[];
 
   constructor() {
-    this.data = meetFactory.bulk(10);
+    // TODO: fix meet factory to allow recursive testing
+    this.data = meetFactory.bulk();
     this.mockReturns = [];
   }
 
