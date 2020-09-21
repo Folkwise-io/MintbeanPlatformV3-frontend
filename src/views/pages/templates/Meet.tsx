@@ -7,6 +7,7 @@ import { RouteComponentProps, useHistory } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { ExternalLink } from "../../components/ExternalLink";
 import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
+import { ProjectCard } from "../../components/ProjectCard";
 
 const d = new DateUtility();
 
@@ -99,7 +100,9 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
         </section>
         <section className="shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
           <h2>Submissions</h2>
-          {meet?.projects.map((p) => p.title)}
+          {meet?.projects.map((p) => (
+            <ProjectCard project={p} key={p.id} />
+          ))}
         </section>
       </main>
     </div>
