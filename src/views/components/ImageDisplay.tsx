@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-// import { Image, CloudinaryContext } from "cloudinary-react";
+import { Image, CloudinaryContext, Transformation } from "cloudinary-react";
 // Wrapper for cloudinary-react that provides our cloudinary context
 // See docs for ideas on extending: https://github.com/cloudinary/cloudinary-react
 
@@ -25,17 +25,15 @@ export const ImageDisplay: FC<Props> = ({
   radius = "0",
   angle = "0",
 }) => {
-  const url =
-    "https://images.unsplash.com/photo-1600583891277-0b7598418c73?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80;";
-  return <img src={url} alt="" />;
+  return (
+    <CloudinaryContext cloudName={process.env.CLOUDINARY_CLOUD_NAME}>
+      <Image publicId={cloudinaryPublicId}>
+        <Transformation width="200" crop="scale" angle="10" />
+      </Image>
+    </CloudinaryContext>
+  );
 };
 
 // declare module Image;
 // declare module CloudinaryContext;
 // declare module Transformation;
-
-// <CloudinaryContext cloudName={process.env.CLOUDINARY_CLOUD_NAME}>
-// <Image publicId={cloudinaryPublicId}>
-// <Transformation width="200" crop="scale" angle="10" />
-// </Image>
-// </CloudinaryContext>

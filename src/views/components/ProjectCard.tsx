@@ -13,7 +13,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
   const creatorName = `${user.firstName} ${user.lastName}`;
 
   // using first image as default for now
-  const coverImageCloudinaryPublicId = mediaAssets[0].cloudinaryPublicId;
+  const coverImageCloudinaryPublicId = mediaAssets[0]?.cloudinaryPublicId;
 
   return (
     <div className="border-mb-green-200 border-2 flex-grow max-w-lg rounded-lg md:w-1/3">
