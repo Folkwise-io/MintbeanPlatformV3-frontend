@@ -1,7 +1,6 @@
-import Hackathons from "./Hackathons";
-import Meets from "./Meets";
-import NotFound from "./NotFound";
-import Home from "./StaticHome";
-import Community from "./Community";
-
-export { Home, Hackathons, NotFound, Community, Meets };
+export { default as Home } from "./Home";
+export { default as Hackathons } from "./Hackathons";
+export { default as Community } from "./Community";
+export { default as Meets } from "./Meets";
+export { default as Meet } from "./templates/Meet";
+export { default as NotFound } from "./NotFound";

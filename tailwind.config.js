@@ -38,6 +38,7 @@ module.exports = {
         "mb-green-200": "#02E0A8",
         "mb-blue-100": "#00B1FF",
         "mb-blue-200": "#00A4DA",
+        "mb-orange-100": "#F59336",
       },
       boxShadow: {
         "mb-outline": "0 0 0 3px #ffffff;",
@@ -45,6 +46,8 @@ module.exports = {
         "mb-outline-green": "0 0 0 1rem #B2FFE4;",
         "mb-outline-darkgreen": "0 0 0 1rem #02E0A8;",
         "mb-drop": "-8px 12px 8px 0 rgba(0, 0, 0, 0.16)",
+        "mb-drop-center": "0 12px 8px 0 rgba(0, 0, 0, 0.16)",
+        "mb-drop-center-sm": "0 4px 6px 0 rgba(0, 0, 0, 0.16)",
       },
       inset: {
         "mb-1": "1rem",
@@ -53,6 +56,13 @@ module.exports = {
       },
       minWidth: {
         "12rem": "12rem",
+      },
+      spacing: {
+        72: "18rem",
+        84: "21rem",
+        96: "24rem",
+        108: "27rem",
+        120: "30rem",
       },
     },
     fontFamily: {

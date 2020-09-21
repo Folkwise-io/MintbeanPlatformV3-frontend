@@ -1,17 +1,18 @@
 import React, { FC } from "react";
 import { yupResolver } from "@hookform/resolvers";
-import * as Yup from "yup";
+import * as yup from "yup";
 import { useForm } from "react-hook-form";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
-const RegisterSchema = Yup.object().shape({
-  username: Yup.string().min(3, "Too short!").max(20, "Maximum 20 characters!").required("Required"),
-  firstName: Yup.string().min(1, "At least one character!").max(36, "Maximum 36 characters!").required("Required"),
-  lastName: Yup.string().min(1, "At least one character!").max(36, "Maximum 36 characters!").required("Required"),
-  email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().min(6, "Minimum 6 characters!").max(64, "Maximum 64 characters!").required("Required"),
-  passwordConfirmation: Yup.string()
-    .oneOf([Yup.ref("password")], "Passwords must match")
+const registerSchema = yup.object().shape({
+  username: yup.string().min(3, "Too short!").max(20, "Maximum 20 characters!").required("Required"),
+  firstName: yup.string().min(1, "At least one character!").max(36, "Maximum 36 characters!").required("Required"),
+  lastName: yup.string().min(1, "At least one character!").max(36, "Maximum 36 characters!").required("Required"),
+  email: yup.string().email("Invalid email").required("Required"),
+  password: yup.string().min(6, "Minimum 6 characters!").max(64, "Maximum 64 characters!").required("Required"),
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords must match")
     .required("Required"),
 });
 
@@ -22,7 +23,7 @@ type Props = {
 
 export const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
   const { errors, register, handleSubmit } = useForm({
-    resolver: yupResolver(RegisterSchema),
+    resolver: yupResolver(registerSchema),
   });
 
   // RHF only calls onSubmit callback when form input passes validation
@@ -55,6 +56,9 @@ export const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
       <label htmlFor="passwordConfirmation">Confirm password</label>
       <input type="password" name="passwordConfirmation" ref={register} />
       <p className="text-red-500">{errors.passwordConfirmation?.message}</p>
+
+      {/* workaround for allowing form submit on Enter */}
+      <input type="submit" className="hidden" />
     </form>
   );
 };

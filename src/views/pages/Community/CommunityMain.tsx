@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { BgBlock } from "./CommunityBgBlock";
+import { BgBlock } from "../../components/BgBlock";
 import { DiscordCard } from "./CommunityDiscordCard";
 import { InfoSection } from "./CommunityInfoSection";
 import { Pillars } from "./CommunityPillars";
@@ -46,7 +46,7 @@ export const Main: FC<Props> = ({ main }) => {
   const { title, tagline, body } = main;
   return (
     <div>
-      <div className="w-screen overflow-hidden pb-20">
+      <div className="w-full overflow-hidden pb-20">
         <BgBlock type="blackStripe">
           <BgBlock type="grad">
             <BgBlock>
