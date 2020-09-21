@@ -3,10 +3,11 @@ import { ConnectContextProps, connectContext } from "../../../context/connectCon
 import { DateUtility } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
 import Markdown from "react-markdown";
-import { RouteComponentProps, useHistory } from "react-router-dom";
+import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { ExternalLink } from "../../components/ExternalLink";
 import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
+import { ProjectCard } from "../../components/ProjectCard";
 
 const d = new DateUtility();
 
@@ -70,6 +71,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       </header>
 
       <main className="py-2 md:py-12">
+        <Link to="/meets">{"< "} Back to all meets</Link>
         <div className="flex flex-col md:flex-row">
           <section className="bg-gray-800 text-white flex-grow shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
             <div>
@@ -88,8 +90,10 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
             </div>
           </section>
           <section className="bg-gray-800 text-white shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
-            <p>TODO: Project submission</p>
-            <Button className="mt-2">Submit</Button>
+            {/*TODO: Add project submission form*/}
+            <Button onClick={() => alert("Ooops, can't do that yet! This will be a modal form")} className="mt-2">
+              Submit a project
+            </Button>
           </section>
         </div>
         <section className="shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
@@ -98,7 +102,9 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
         </section>
         <section className="shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
           <h2>Submissions</h2>
-          <p>TODO: Meet Projects</p>
+          {meet?.projects.map((p) => (
+            <ProjectCard project={p} key={p.id} />
+          ))}
         </section>
       </main>
     </div>

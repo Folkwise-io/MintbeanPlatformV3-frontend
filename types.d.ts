@@ -9,23 +9,17 @@ interface User {
   isAdmin: boolean;
 }
 
-interface Sponsor {
-  name: string;
-  blurb?: string; // Message
-  image?: string;
-}
-
-type Project = {
-  id: string;
-  title: string;
-  sourceCodeUrl: string;
-  image: string;
-  liveUrl: string;
-  createdAt: string;
-  updatedAt: string;
-  meetId: string;
-  user: User;
-};
+// type Project = {
+//   id: string;
+//   title: string;
+//   sourceCodeUrl: string;
+//   image: string;
+//   liveUrl: string;
+//   createdAt: string;
+//   updatedAt: string;
+//   meetId: string;
+//   user: User;
+// };
 
 interface Meet {
   id: string;
@@ -38,8 +32,22 @@ interface Meet {
   startTime: string;
   endTime: string;
   region: string;
+  projects: ProjectForMeet[];
   // createdAt: string;
   // updatedAt: string;
+}
+interface ProjectForMeet {
+  id: string;
+  title: string;
+  sourceCodeUrl: string;
+  liveUrl: string;
+  user: UserForProjectForMeet;
+  mediaAssets: { cloudinaryPublicId: string }[];
+}
+interface UserForProjectForMeet {
+  firstName: string;
+  lastName: string;
+  username: string;
 }
 
 // INPUTS --------------------
