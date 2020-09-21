@@ -44,14 +44,17 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
 
   return (
     <div>
-      <Navbar />
-      {children}
-      <div>
-        <div className="fixed top-0 block" style={{ marginTop: "80px", zIndex: 999 }}>
-          {toasts.map((toast: Toast, index: number) => (
-            <Toast key={index} toast={toast} removeToast={(id: string) => removeToast(id)} />
-          ))}
+      <div className="min-h-screen">
+        <Navbar />
+        {children}
+        <div>
+          <div className="fixed top-0 block" style={{ marginTop: "80px", zIndex: 999 }}>
+            {toasts.map((toast: Toast, index: number) => (
+              <Toast key={index} toast={toast} removeToast={(id: string) => removeToast(id)} />
+            ))}
+          </div>
         </div>
+        <div className="h-96 md:h-72 lg:h-56"></div>
       </div>
       <Footer footer={footerArgs} />
     </div>
