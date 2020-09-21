@@ -42,7 +42,7 @@ interface ProjectForMeet {
   user: UserForProjectForMeet;
   sourceCodeUrl: string;
   liveUrl: string;
-  mediaAssets: { cloudinary: string }[];
+  mediaAssets: { cloudinaryPublicId: string }[];
 }
 interface UserForProjectForMeet {
   firstName: string;

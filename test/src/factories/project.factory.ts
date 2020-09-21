@@ -11,5 +11,5 @@ export const meetProjectFactory = factory<Project>({
     lastName: () => faker.name.lastName(),
     username: () => faker.random.words().replace(/[\s-]/g, "").toLowerCase() + faker.finance.mask(),
   },
-  mediaAssets: [{ cloudinaryPublicId: "rtcx50vsggqq9wjvhob6" }, { cloudinaryPublicId: "rtcx50vsggqq9wjvhob6" }],
+  mediaAssets: [{ cloudinaryPublicId: "bo3bpbanohqsbf3bzc9c" }, { cloudinaryPublicId: "rtcx50vsggqq9wjvhob6" }],
 });

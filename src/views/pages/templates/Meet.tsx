@@ -41,6 +41,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       setLoading(true);
       const fetchedMeet = await context.meetService.fetchMeet(id);
       if (fetchedMeet) {
+        console.log(fetchedMeet);
         setMeet(fetchedMeet);
       }
       setLoading(false);
@@ -98,7 +99,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
         </section>
         <section className="shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
           <h2>Submissions</h2>
-          <p>TODO: Meet Projects</p>
+          {meet?.projects.map((p) => p.title)}
         </section>
       </main>
     </div>

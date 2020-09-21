@@ -2,12 +2,16 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 
 type ProjectCardProps = {
-  project: Project;
+  project: ProjectForMeet;
 };
 
 export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
-  const { id, title, sourceCodeUrl, image, liveUrl, user } = project;
+  const { id, title, sourceCodeUrl, mediaAssets, liveUrl, user } = project;
   const creatorName = `${user.firstName} ${user.lastName}`;
+
+  // using first image as default for now
+  const coverImageCloudinaryPublicId = mediaAssets[0].cloudinaryPublicId;
+
   return (
     <section className="flex-grow max-w-sm rounded-md overflow-hidden pb-32 relative w-1/3">
       <Link className="cursor-pointer" to={`/project/${id}`}>
