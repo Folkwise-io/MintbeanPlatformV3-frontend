@@ -44,6 +44,7 @@ export class MeetDaoImpl implements MeetDao {
     );
   }
 
+  // get shallow projects, just enough data for project card
   fetchMeet(id: string): Promise<Meet> {
     return (
       this.api
@@ -62,6 +63,20 @@ export class MeetDaoImpl implements MeetDao {
               endTime
               createdAt
               region
+              projects {
+                id
+                title
+                sourceCodeUrl
+                liveUrl
+                user {
+                  firstName
+                  lastName
+                  username
+                }
+                mediaAssets {
+                  cloudinaryPublicId
+                }
+              }
           }
         }
         `,
