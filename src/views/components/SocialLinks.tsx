@@ -19,7 +19,7 @@ export const SocialLinks: FC<Props> = ({ social }) => {
 
   return (
     <ul className="text-white flex justify-center md:justify-start items-end pt-8 md:pt-0 md:pl-8">
-      <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-100 rounded-full">
+      <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-100 rounded-full shadow-mb-drop-center-sm">
         <a
           className="bg-black h-10 w-10 rounded-full flex justify-center items-center hover:text-mb-green-200"
           rel={commonRel}
@@ -30,7 +30,7 @@ export const SocialLinks: FC<Props> = ({ social }) => {
           <FontAwesomeIcon className="text-2xl" icon={faLinkedinIn} />
         </a>
       </li>
-      <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-100 rounded-full mx-4">
+      <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-100 rounded-full mx-4 shadow-mb-drop-center-sm">
         <a
           className="bg-black h-10 w-10 rounded-full flex justify-center items-center hover:text-mb-green-200"
           rel={commonRel}
@@ -41,7 +41,7 @@ export const SocialLinks: FC<Props> = ({ social }) => {
           <FontAwesomeIcon className="text-2xl" icon={faTwitter} />
         </a>
       </li>
-      <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-100 rounded-full">
+      <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-100 rounded-full shadow-mb-drop-center-sm">
         <a
           className="bg-black h-10 w-10 rounded-full flex justify-center items-center hover:text-mb-green-200"
           rel={commonRel}
