@@ -58,7 +58,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
     <div className="flex justify-center">
       <AdminMeetCreateModal
         buttonText="Create new meet"
-        className="rounded px-6 py-2 text-white bg-purple-500 mb-2"
+        className="rounded px-6 py-2 text-white bg-mb-orange-100 mb-2"
         refetchMeets={fetchMeetData}
       />
     </div>
@@ -73,11 +73,12 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
     <div>
       <BgBlock type="gradStripeEvents">
         <BgBlock type="blackStripeEvents">
-          <header className="pt-8 pb-6 flex justify-center">
+          <header className="pt-8 pb-6 flex flex-col items-center">
             <FocusCard type="eventsTitle" card={cardProps} />
+            {isAdmin && adminMeetCreateModal}
           </header>
         </BgBlock>
-        <main className="">
+        <main>
           <BgBlock type="black">
             <BgBlock>
               <section className="rounded-xl mb-16 flex flex-col items-center w-full py-8 bg-black max-w-6xl shadow-mb-drop-center">

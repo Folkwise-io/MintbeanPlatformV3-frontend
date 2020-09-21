@@ -18,10 +18,10 @@ export const SocialLinks: FC<Props> = ({ social }) => {
   const commonRel = "noopener noreferrer";
 
   return (
-    <ul className="text-white flex justify-center md:justify-start items-end pt-8 md:pt-0 md:pl-8">
+    <ul className="flex justify-center md:justify-start items-end pt-8 md:pt-0 md:pl-8">
       <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-100 rounded-full shadow-mb-drop-center-sm">
         <a
-          className="bg-black h-10 w-10 rounded-full flex justify-center items-center hover:text-mb-green-200"
+          className="bg-black h-10 w-10 rounded-full flex justify-center items-center text-white hover:text-mb-green-200"
           rel={commonRel}
           target={commonTarget}
           href="https://www.linkedin.com/company/mintbean/"
@@ -32,7 +32,7 @@ export const SocialLinks: FC<Props> = ({ social }) => {
       </li>
       <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-100 rounded-full mx-4 shadow-mb-drop-center-sm">
         <a
-          className="bg-black h-10 w-10 rounded-full flex justify-center items-center hover:text-mb-green-200"
+          className="bg-black h-10 w-10 rounded-full flex justify-center items-center text-white hover:text-mb-green-200"
           rel={commonRel}
           target={commonTarget}
           href="https://www.linkedin.com/company/mintbean/"
@@ -43,7 +43,7 @@ export const SocialLinks: FC<Props> = ({ social }) => {
       </li>
       <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-100 rounded-full shadow-mb-drop-center-sm">
         <a
-          className="bg-black h-10 w-10 rounded-full flex justify-center items-center hover:text-mb-green-200"
+          className="bg-black h-10 w-10 rounded-full flex justify-center items-center text-white hover:text-mb-green-200"
           rel={commonRel}
           target={commonTarget}
           href="https://www.facebook.com/Mintbean-104353817855570"

@@ -20,7 +20,6 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
 
   return (
     <div className="shadow-md bg-white grid grid-rows-5 place-content-stretch md:pr-8 md:grid-rows-1 md:grid-cols-3 w-11/12 mx-auto rounded-lg lg:p-4 overflow-hidden">
-      {/* <div className="shadow-md bg-white md:pr-8 w-11/12 mx-auto rounded-lg lg:p-4 overflow-hidden grid grid-rows-2"> */}
       <div className="h-64 md:h-56 overflow-hidden row-span-2 md:row-span-1 col-span-1 inline-flex justify-center items-center mx-auto">
         <img className="object-cover" src={coverImageUrl} alt={`${title} event banner`}></img>
       </div>
@@ -34,12 +33,15 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
               {startTimeStr} <span>({duration} hours)</span>
             </p>
           </div>
-          <Button>More</Button>
+          <div>
+            <Link to={`/meets/${id}`}>
+              <Button>More</Button>
+            </Link>
+            {user?.isAdmin && (
+              <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={onDelete} className="ml-2" />
+            )}
+          </div>
         </section>
-        <Link to={`/meets/${id}`}>
-          <Button>More</Button>
-        </Link>
-        {user?.isAdmin && <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={onDelete} className="ml-2" />}
       </div>
     </div>
   );
