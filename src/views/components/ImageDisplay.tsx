@@ -4,36 +4,37 @@ import { Image, CloudinaryContext, Transformation } from "cloudinary-react";
 // See docs for ideas on extending: https://github.com/cloudinary/cloudinary-react
 
 type Props = {
-  cloudinaryPublicId: string;
+  cloudinaryPublicId: string | undefined;
   // Transformations
-  crop?: "imagga_scale" | "imagga_crop" | "crop" | "scale";
-  gravity?: "center" | "face:auto";
+  gravity?: "center" | "face:auto"; // face:auto will center image on human face using facial recognition
   radius?: "max";
   angle?: string;
   width?: string;
   height?: string;
+  className?: string;
 };
 // Transformation reference
 // https://cloudinary.com/documentation/image_transformation_reference
-
 export const ImageDisplay: FC<Props> = ({
   cloudinaryPublicId,
-  crop = "imagga_scale",
   gravity = "center",
   width = "100%",
   height = "100%",
   radius = "0",
-  angle = "0",
+  className,
 }) => {
-  return (
-    <CloudinaryContext cloudName={process.env.CLOUDINARY_CLOUD_NAME}>
-      <Image publicId={cloudinaryPublicId}>
-        <Transformation width="200" crop="scale" angle="10" />
-      </Image>
-    </CloudinaryContext>
-  );
+  // TODO: change default image. currently a gerenuk.
+  const defaultImgUrl = "https://africafreak.com/wp-content/uploads/2020/07/gerenuk-portrait.jpg";
+  if (cloudinaryPublicId) {
+    return (
+      <div className={"overflow-hidden " + className || ""}>
+        <CloudinaryContext cloudName={process.env.CLOUDINARY_CLOUD_NAME}>
+          <Image publicId={cloudinaryPublicId}>
+            <Transformation width={width} height={height} gravity={gravity} radius={radius} />
+          </Image>
+        </CloudinaryContext>
+      </div>
+    );
+  }
+  return <img src={defaultImgUrl} alt="Mintbean project submission default cover image" className={className} />;
 };
-
-// declare module Image;
-// declare module CloudinaryContext;
-// declare module Transformation;

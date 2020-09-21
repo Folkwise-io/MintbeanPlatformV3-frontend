@@ -3,7 +3,7 @@ import { ConnectContextProps, connectContext } from "../../../context/connectCon
 import { DateUtility } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
 import Markdown from "react-markdown";
-import { RouteComponentProps, useHistory } from "react-router-dom";
+import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { ExternalLink } from "../../components/ExternalLink";
 import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
@@ -71,6 +71,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       </header>
 
       <main className="py-2 md:py-12">
+        <Link to="/meets">{"< "} Back to all meets</Link>
         <div className="flex flex-col md:flex-row">
           <section className="bg-gray-800 text-white flex-grow shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
             <div>

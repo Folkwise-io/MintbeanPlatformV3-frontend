@@ -14,11 +14,11 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
 
   // using first image as default for now
   const coverImageCloudinaryPublicId = mediaAssets[0]?.cloudinaryPublicId;
-
+  console.log(ImageDisplay);
   return (
     <div className="border-mb-green-200 border-2 flex-grow max-w-lg rounded-lg md:w-1/3">
       <Link to={`/project/${id}`}>
-        <ImageDisplay cloudinaryPublicId={coverImageCloudinaryPublicId} />
+        <ImageDisplay cloudinaryPublicId={coverImageCloudinaryPublicId} className="rounded-xl" />
       </Link>
       <section className="">
         <div className=""></div>
