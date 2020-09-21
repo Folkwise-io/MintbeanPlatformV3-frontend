@@ -90,8 +90,10 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
             </div>
           </section>
           <section className="bg-gray-800 text-white shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
-            <p>TODO: Project submission</p>
-            <Button className="mt-2">Submit</Button>
+            {/*TODO: Add project submission form*/}
+            <Button onClick={() => alert("Ooops, can't do that yet! This will be a modal form")} className="mt-2">
+              Submit a project
+            </Button>
           </section>
         </div>
         <section className="shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
