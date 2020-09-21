@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { BgBlock } from "./CommunityBgBlock";
+import { BgBlock } from "../../components/BgBlock";
 import { DiscordCard } from "./CommunityDiscordCard";
 import { InfoSection } from "./CommunityInfoSection";
 import { Pillars } from "./CommunityPillars";

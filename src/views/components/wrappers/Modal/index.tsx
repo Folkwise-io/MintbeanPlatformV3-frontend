@@ -67,7 +67,7 @@ export const Modal: FC<ModalProps> = ({
         show && (
           <div
             ref={(el) => setPopperElement(el)}
-            style={styles.popper}
+            style={{ ...styles.popper, zIndex: 89 }}
             {...attributes.popper}
             data-popper-placement="right"
             className="bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-sm"
