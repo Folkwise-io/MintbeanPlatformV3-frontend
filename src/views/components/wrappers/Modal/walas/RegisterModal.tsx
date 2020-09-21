@@ -31,7 +31,7 @@ const RegisterModal: FC<Props & DispatchMapping> = ({ register, className, butto
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
-          formRef.current.dispatchMeet(new Event("submit", { cancelable: true }));
+          formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
         }
       },
     },
