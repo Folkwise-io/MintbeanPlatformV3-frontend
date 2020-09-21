@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+
 module.exports = {
   // webpack will take the files from ./src/index
   entry: "./src/index",
@@ -79,6 +80,38 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
+      favicon: "./src/assets/images/favicon.png",
+      inject: true,
+      meta: [
+        { charset: "UTF-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+        { "http-equiv": "X-UA-Compatible", content: "ie=edge" },
+        { name: "title", content: "Mintbean - Coding Fairs for JavaScript Developers" },
+        {
+          name: "description",
+          content:
+            "Calling JavaScript developers from all levels! Attend our coding fairs. Grow your skills. Build a portfolio. Get job-ready. Make new friends. All at Mintbean.",
+        },
+        { property: "twitter:card", content: "summary_large_image" },
+        { property: "twitter:url", content: "https://mintbean.io/" },
+        { property: "twitter:title", content: "Mintbean - Coding Fairs for JavaScript Developers" },
+        {
+          property: "twitter:description",
+          content:
+            "Calling JavaScript developers from all levels! Attend our coding fairs. Grow your skills. Build a portfolio. Get job-ready. Make new friends. All at Mintbean.",
+        },
+        { property: "twitter:image", content: "./src/assets/images/banners/meta-banner.png" },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: "https://mintbean.io/" },
+        { property: "og:title", content: "Mintbean - Coding Fairs for JavaScript Developers" },
+        {
+          property: "og:description",
+          content:
+            "Calling JavaScript developers from all levels! Attend our coding fairs. Grow your skills. Build a portfolio. Get job-ready. Make new friends. All at Mintbean.",
+        },
+        { property: "og:image", content: "./src/assets/images/banners/meta-banner.png" },
+        { property: "og:site_name", content: "Mintbean" },
+      ],
     }),
   ],
 };
