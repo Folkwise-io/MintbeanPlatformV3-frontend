@@ -9,17 +9,25 @@ interface User {
   isAdmin: boolean;
 }
 
-// type Project = {
-//   id: string;
-//   title: string;
-//   sourceCodeUrl: string;
-//   image: string;
-//   liveUrl: string;
-//   createdAt: string;
-//   updatedAt: string;
-//   meetId: string;
-//   user: User;
-// };
+type Project = {
+  id: string;
+  title: string;
+  sourceCodeUrl: string;
+  liveUrl: string;
+  createdAt: string;
+  meetId: string;
+  meet: MeetForProject;
+  user: UserForProject;
+};
+interface UserForProject {
+  firstName: string;
+  lastName: string;
+  username: string;
+}
+interface MeetForProject {
+  id: string;
+  title: string;
+}
 
 interface Meet {
   id: string;
@@ -33,8 +41,6 @@ interface Meet {
   endTime: string;
   region: string;
   projects: ProjectForMeet[];
-  // createdAt: string;
-  // updatedAt: string;
 }
 interface ProjectForMeet {
   id: string;
