@@ -56,7 +56,6 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   };
 
   const meetHasNotStarted = !d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
-  console.log({ meetHasNotStarted });
   const dateInfo = meet
     ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDuration(meet.startTime, meet.endTime)} hours)`
     : "Loading..";
