@@ -63,7 +63,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     <BgBlock type="blackStripeEvents">
       <BgBlock type="blackMeet">
         <header className="flex flex-col items-center">
-          <div className="flex w-screen min-h-84 bg-gray-800">
+          <div className="flex w-screen min-h-84 max-h-60vh bg-gray-800">
             {loading ? (
               <div className="text-white h-screen-lg p-24 w-full flex justify-center items-center">Loading...</div>
             ) : (
