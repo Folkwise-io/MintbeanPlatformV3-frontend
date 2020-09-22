@@ -31,17 +31,17 @@ export const ImageDisplayTray: FC<Props> = ({ cloudinaryPublicIds, className }) 
       ></div>
       {/* Displayed image */}
       <div
-        className="fixed w-screen left-0 right-0"
+        className="fixed "
         style={{
           zIndex: 10000,
           display: isShowing ? "block" : "none",
-          top: "20%",
-          marginTop: "-calc((100vh / 2))",
-          marginLeft: "calc(100vw * 0.1)",
-          marginRight: "calc(100vw * 0.1)",
+          top: "50%",
+          maxWidth: "1008px",
+          paddingRight: "4em",
+          transform: "translate(0, -50%)",
         }}
       >
-        <ImageDisplay cloudinaryPublicId={selectedId} className="mx-auto" />
+        <ImageDisplay cloudinaryPublicId={selectedId} />
       </div>
     </div>
   );
