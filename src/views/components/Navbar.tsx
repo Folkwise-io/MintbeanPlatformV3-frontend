@@ -8,6 +8,7 @@ import { Context } from "../../context/contextBuilder";
 import RegisterModal from "./wrappers/Modal/walas/RegisterModal";
 import LoginModal from "./wrappers/Modal/walas/LoginModal";
 import logo from "../../assets/images/logos/logo-black.svg";
+import { Button } from "./Button";
 
 type StateMapping = {
   user: UserState;
@@ -40,36 +41,40 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
   };
 
   return (
-    <nav className="py-2 px-6 bg-white sticky top-0" style={{ minHeight: "80px", zIndex: 99 }}>
-      <div className="flex flex-col md:flex-row md:items-center justify-between ">
-        <section className="h-full">
-          <Link to="/" className="mr-2 text-black">
-            <img src={logo} alt="Mintbean logo" className="pt-2" style={{ maxHeight: "50px" }} />
+    <nav className="py-2 px-12 bg-white sticky top-0" style={{ minHeight: "80px", zIndex: 99 }}>
+      <div className="flex flex-col md:flex-row md:items-center justify-between md:py-2">
+        <section className="h-full sm:w-56 mx-auto md:mx-0">
+          <Link to="/" className="text-black hover:text-mb-blue-100 grid place-items-center md:place-items-start">
+            <img src={logo} alt="Mintbean logo" className="" style={{ maxHeight: "50px" }} />
           </Link>
         </section>
         <section>
-          <div>
-            <Link to="/hackathons" className="mr-2 text-black">
-              Hackathons
-            </Link>
-            <Link to="/community" className="mx-2 text-black">
-              Community
-            </Link>
-            <Link to="/meets" className="mx-2 text-black">
-              Meets
-            </Link>
+          <div className="flex flex-col md:flex-row items-center ">
+            <div>
+              <Link to="/hackathons" className="mr-2 text-black hover:text-mb-blue-100">
+                Hackathons
+              </Link>
+              <Link to="/community" className="mx-2 text-black hover:text-mb-blue-100">
+                Community
+              </Link>
+              <Link to="/meets" className="mx-2 text-black hover:text-mb-blue-100">
+                Meets
+              </Link>
+            </div>
             {user.loadStatus !== "LOADING" &&
               (isLoggedIn ? (
-                <button className="mx-2 text-black" onClick={() => logoutAndRedirect()}>
+                <Button type="secondary" onClick={() => logoutAndRedirect()}>
                   Logout
-                </button>
+                </Button>
               ) : (
                 <>
-                  <LoginModal buttonText="Login" className="mx-2" />
-                  <RegisterModal
-                    buttonText="Sign up"
-                    className="text-white mx-2 bg-mb-green-200 px-4 py-2 rounded shadow hover:opacity-75"
-                  />
+                  <div className="flex items-center justify-center">
+                    <LoginModal buttonText="Login" className="m-2 md:my-0" />
+                    <RegisterModal
+                      buttonText="Sign up"
+                      className="text-white mx-2 bg-mb-green-200 px-4 py-2 rounded shadow hover:opacity-75"
+                    />
+                  </div>
                 </>
               ))}
           </div>

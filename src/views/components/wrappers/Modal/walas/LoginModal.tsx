@@ -38,12 +38,15 @@ const LoginModal: FC<Props & DispatchMapping> = ({ login, className, buttonText 
     },
   ];
 
+  const loginButtonClasses =
+    "shadow-md py-2 px-6 rounded-lg hover:shadow-sm hover:opacity-75 border-2 border-solid font-semibold text-gray-700 bg-white border-mb-green-200";
+
   return (
     <>
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <button onClick={toggleModal} ref={(el) => setRef(el)} className={className || ""}>
+          <button onClick={toggleModal} ref={(el) => setRef(el)} className={`${className} ${loginButtonClasses}` || ""}>
             {buttonText}
           </button>
         )}
