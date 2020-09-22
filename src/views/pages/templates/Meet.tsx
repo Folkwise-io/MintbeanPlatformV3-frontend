@@ -55,6 +55,8 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     history.push("/meets");
   };
 
+  const meetHasNotStarted = !d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
+  console.log({ meetHasNotStarted });
   const dateInfo = meet
     ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDuration(meet.startTime, meet.endTime)} hours)`
     : "Loading..";
@@ -112,12 +114,20 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
             <Markdown source={meet?.instructions} />
           </section>
           <section className="shadow-lg bg-white p-12">
-            <h2 className="font-medium">Submissions</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-              {meet?.projects.map((p) => (
-                <ProjectCard project={p} key={p.id} />
-              ))}
-            </div>
+            {meetHasNotStarted ? (
+              <p>Instructions will be released once the meet starts!</p>
+            ) : meet?.projects.length ? (
+              <>
+                <h2 className="font-medium">Submissions</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+                  {meet.projects.map((p) => (
+                    <ProjectCard project={p} key={p.id} />
+                  ))}
+                </div>
+              </>
+            ) : (
+              <p>No submissions yet.</p>
+            )}
           </section>
         </div>
       </main>
