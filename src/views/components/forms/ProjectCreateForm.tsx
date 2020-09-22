@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { CloudinaryUploadWidget } from "../widgets/CloudinaryUploadWidget";
-import moment from "moment";
+import { ImageDisplay } from "../ImageDisplay";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createProjectInputSchema = yup.object().shape({
@@ -18,9 +18,11 @@ const createProjectInputSchema = yup.object().shape({
 interface Props {
   createProject: (values: CreateProjectParams) => void;
   formRef: React.RefObject<HTMLFormElement> | null;
+  userId: string;
+  meetId: string;
 }
 
-export const ProjectCreateForm: FC<Props> = ({ createProject, formRef }) => {
+export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, userId, meetId }) => {
   const [cloudinaryIds, setCloudinaryIds] = useState<string[]>([]);
 
   const { errors, register, handleSubmit } = useForm({
@@ -38,74 +40,58 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef }) => {
     return id;
   };
 
-  const resetAssetIds = (): void => {
+  const resetCloudinaryIds = (): void => {
     setCloudinaryIds([]);
   };
 
-  // Form TODO:
   const thumbnailPreview = (
     <div
       className="relative max-w-full bg-white border-dashed border-2 border-gray-700 mb-2"
       style={{ height: "80px" }}
     >
-    {cloudinaryIds.map((c,i) => )}
-      <img src={imageUrl || undefined} alt="Meet image preview" className="w-full h-full object-contain" />
+      {cloudinaryIds.map((cpid, i) => (
+        <ImageDisplay key={i} cloudinaryPublicId={cpid} />
+      ))}
       <button
-        onClick={resetImageStates}
+        onClick={resetCloudinaryIds}
         type="button"
         className="absolute bottom-0 right-0 bg-black text-white opacity-75 p-1 rounded "
       >
-        Remove
+        Remove all
       </button>
     </div>
   );
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Create a new meet</h1>
+      <h1 className="font-semibold">Submit a project</h1>
 
-      <label htmlFor="meetType">Meet type</label>
-      <select name="meetType" ref={register} className="mb-2">
-        <option value="hackMeet">Hackathon</option>
-      </select>
-      <p className="text-red-500">{errors.meetType?.message}</p>
+      {/* hidden inputs for meetId and userId */}
+      <input type="hidden" name="uderId" ref={register} value={userId} />
+      {/* TODO: remove error msg in UI - for dev purpose only */}
+      <p className="text-red-500">{errors.userId?.message}</p>
+      <input type="hidden" name="meetId" ref={register} value={meetId} />
+      {/* TODO: remove error msg in UI - for dev purpose only */}
+      <p className="text-red-500">{errors.meetId?.message}</p>
 
       <label htmlFor="title">Title</label>
       <input type="text" name="title" ref={register} className="mb-2" />
       <p className="text-red-500">{errors.title?.message}</p>
 
-      <label htmlFor="description">Description</label>
-      <textarea name="description" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.description?.message}</p>
+      <label htmlFor="sourceCodeUrl">Source code url</label>
+      <input type="url" name="sourceCodeUrl" ref={register} className="mb-2" />
+      <p className="text-red-500">{errors.sourceCodeUrl?.message}</p>
 
-      <label htmlFor="instructions">Instructions</label>
-      <textarea name="instructions" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.instructions?.message}</p>
+      <label htmlFor="liveUrl">Deployment url</label>
+      <input type="url" name="liveUrl" ref={register} className="mb-2" />
+      <p className="text-red-500">{errors.liveUrl?.message}</p>
 
-      <label htmlFor="registerLink">Registration link</label>
-      <input type="url" name="registerLink" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.registerLink?.message}</p>
-
-      {/* Hidden field for coverImageUrl, value populated by widget */}
-      <label htmlFor="coverImageUrl">Cover image</label>
-      <input type="hidden" name="coverImageUrl" ref={register} className="mb-2" value={imageUrl} />
+      {/* Hidden field for cloudinaryPublicIds, value populated by widget and local state */}
+      <label htmlFor="cloudinaryPublicIds">Cover image</label>
+      <input type="hidden" name="cloudinaryPublicIds" ref={register} className="mb-2" value={cloudinaryIds} />
       <p className="text-red-500">{errors.coverImageUrl?.message}</p>
       {/* Thumbnail preview */}
-      {imageUrl && thumbnailPreview}
-      <CloudinaryUploadWidget exposeImageUrl={grabImageUrl} />
-
-      <label htmlFor="startTime">Start time</label>
-      <input type="datetime-local" name="startTime" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.startTime?.message}</p>
-
-      <label htmlFor="endTime">End time</label>
-      <input type="datetime-local" name="endTime" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.endTime?.message}</p>
-
-      <label htmlFor="region">Meet region</label>
-      <select name="region" ref={register}>
-        <option value="America/Toronto">Toronto</option>
-      </select>
-      <p className="text-red-500">{errors.region?.message}</p>
+      {cloudinaryIds && thumbnailPreview}
+      <CloudinaryUploadWidget exposeImageUrl={addCloudinaryId} />
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />
