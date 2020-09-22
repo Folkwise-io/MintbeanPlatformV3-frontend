@@ -77,7 +77,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
           ) : (
             // If no media assets, show default image
             // TODO: define deafult image
-            <ImageDisplay cloudinaryPublicId="sample" />
+            <ImageDisplay cloudinaryPublicId="imgNotFoundPlaceholder" />
           )}
         </div>
       </header>
