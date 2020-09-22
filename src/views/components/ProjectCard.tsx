@@ -17,7 +17,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
   console.log(ImageDisplay);
   return (
     <div className="border-mb-green-200 border-2 bg-black text-white rounded-mb-md overflow-hidden m-4 shadow-mb-drop-center-sm">
-      <Link to={`/project/${id}`}>
+      <Link to={`/projects/${id}`}>
         <ImageDisplay
           cloudinaryPublicId={coverImageCloudinaryPublicId}
           className="rounded-b-mb-md min-w-full flex justify-center items-center"
