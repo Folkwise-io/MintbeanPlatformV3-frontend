@@ -18,6 +18,11 @@ module.exports = {
         50: "50%",
         75: "75%",
         full: "100%",
+        "60vh": "60vh",
+      },
+      minHeight: {
+        72: "18rem",
+        84: "21rem",
       },
       borderRadius: {
         xl: "3rem",
