@@ -20,6 +20,7 @@ interface Project {
   mediaAssets: CloudinaryPublicIdMediaAsset[];
 }
 interface UserForProject {
+  id: string;
   firstName: string;
   lastName: string;
   username: string;
@@ -88,6 +89,7 @@ interface CreateMeetParams {
 }
 
 interface CreateProjectParams {
+  userId: string;
   meetId: string;
   title: string;
   sourceCodeUrl: string;

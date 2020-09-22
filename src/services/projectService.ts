@@ -9,20 +9,7 @@ export class ProjectService {
       this.logger.handleGraphqlErrors(e);
     });
   }
-  // async fetchMeets(): Promise<Meet[]> {
-  //   return this.projectDao.fetchMeets().catch((e) => {
-  //     this.logger.handleGraphqlErrors(e);
-  //     return [];
-  //   });
-  // }
-  // async deleteMeet(id: string): Promise<boolean | void> {
-  //   return this.projectDao
-  //     .deleteMeet(id)
-  //     .then(() => this.logger.success("Successfully deleted the meet."))
-  //     .catch((e) => {
-  //       this.logger.handleGraphqlErrors(e);
-  //     });
-  // }
+
   async createProject(params: CreateProjectParams): Promise<Project | void> {
     return this.projectDao
       .createProject(params)

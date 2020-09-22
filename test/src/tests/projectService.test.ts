@@ -1,6 +1,6 @@
 import { TestManager } from "../TestManager";
 import { projectFactory } from "../factories/project.factory";
-import { userFactory } from "../factories/user.factory";
+// import { userFactory } from "../factories/user.factory";
 
 // TODO: fix meet factory to allow recursive assocaition nesting
 const fakeProject = projectFactory.one();
@@ -61,6 +61,7 @@ describe("ProjectService", () => {
 
     const newProjectParams: CreateProjectParams = {
       title: fakeProject.title,
+      userId: fakeProject.user.id,
       meetId: fakeProject.meet.id,
       sourceCodeUrl: fakeProject.sourceCodeUrl,
       liveUrl: fakeProject.liveUrl,
