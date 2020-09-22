@@ -5,20 +5,20 @@ import { isServerErrorArray } from "../utils/typeGuards";
 export class ProjectDaoImpl implements ProjectDao {
   constructor(private api: ApiQueryExecutor) {}
 
-  fetchProject(): Promise<Project> {
+  fetchProject(id: string): Promise<Project> {
     return (
       this.api
-        .query<ApiResponseRaw<{ project: Project }>>(
+        .query<ApiResponseRaw<{ project: Project }>, { id: string }>(
           `
-          query projectForShowPage {
-            project {
+          query projectForShowPage($id: UUID!) {
+            project(id: $id) {
               id
               title
               sourceCodeUrl
               liveUrl
               createdAt
               meet {
-                idea
+                id
                 title
               }
               user {
@@ -32,6 +32,7 @@ export class ProjectDaoImpl implements ProjectDao {
             }
           }
         `,
+          { id },
         )
         .then((result) => {
           if (result.errors) throw result.errors;
