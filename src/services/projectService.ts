@@ -23,15 +23,15 @@ export class ProjectService {
   //       this.logger.handleGraphqlErrors(e);
   //     });
   // }
-  // async createMeet(params: CreateMeetParams): Promise<Meet | void> {
-  //   return this.projectDao
-  //     .createMeet(params)
-  //     .then((meet) => {
-  //       this.logger.success(`Created new meet "${meet.title}"!`);
-  //       return meet;
-  //     })
-  //     .catch((e) => {
-  //       this.logger.handleGraphqlErrors(e);
-  //     });
-  // }
+  async createProject(params: CreateProjectParams): Promise<Project | void> {
+    return this.projectDao
+      .createProject(params)
+      .then((project) => {
+        this.logger.success(`Submitted new project <strong>${project.title}</strong>"!`);
+        return project;
+      })
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
+  }
 }
