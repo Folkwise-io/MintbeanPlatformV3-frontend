@@ -17,7 +17,7 @@ export const ImageDisplayTray: FC<Props> = ({ cloudinaryPublicIds, className }) 
   };
 
   return (
-    <div className={className || ""}>
+    <div className={"flex flex-wrap" + className || ""}>
       {cloudinaryPublicIds.map((cpid, i) => (
         <button key={i} onClick={() => display(i)} className="w-1/4 m-2">
           <ImageDisplay cloudinaryPublicId={cpid} className="w-full" />
