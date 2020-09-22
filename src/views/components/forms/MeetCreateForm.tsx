@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { CloudinaryUploadWidget } from "../widgets/CloudinaryUploadWidget";
+import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/CloudinaryUploadWidget";
 import moment from "moment";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
@@ -41,9 +41,9 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
     createMeet(data);
   };
 
-  const grabImageUrl = (url: string) => {
-    setImageUrl(url);
-    return url;
+  const grabImageData = (data: CloudinaryAssetInfo) => {
+    setImageUrl(data.url);
+    return data.url;
   };
 
   const resetImageStates = (): void => {
@@ -99,7 +99,7 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       <p className="text-red-500">{errors.coverImageUrl?.message}</p>
       {/* Thumbnail preview */}
       {imageUrl && thumbnailPreview}
-      <CloudinaryUploadWidget exposeImageUrl={grabImageUrl} />
+      <CloudinaryUploadWidget exposeImageData={grabImageData} />
 
       <label htmlFor="startTime">Start time</label>
       <input type="datetime-local" name="startTime" ref={register} className="mb-2" />

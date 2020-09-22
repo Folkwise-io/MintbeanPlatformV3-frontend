@@ -1,13 +1,18 @@
 import React, { FC } from "react";
 import { Button } from "../Button";
 
+export interface CloudinaryAssetInfo {
+  url: string;
+  public_id: string;
+  thumbnail_id: string;
+}
 interface Props {
-  exposeImageUrl: (url: string) => string;
+  exposeImageData: (data: CloudinaryAssetInfo) => string;
 }
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 
 // TODO: types
-export const CloudinaryUploadWidget: FC<Props> = ({ exposeImageUrl }) => {
+export const CloudinaryUploadWidget: FC<Props> = ({ exposeImageData }) => {
   const showWidget = () => {
     let widget: any;
     // Initialize
@@ -19,7 +24,8 @@ export const CloudinaryUploadWidget: FC<Props> = ({ exposeImageUrl }) => {
         },
         (error: any, result: any) => {
           if (!error && result && result.event === "success") {
-            exposeImageUrl(result.info.url);
+            console.log(result.info);
+            exposeImageData(result.info);
           }
         },
       );

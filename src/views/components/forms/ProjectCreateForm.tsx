@@ -20,9 +20,10 @@ interface Props {
   formRef: React.RefObject<HTMLFormElement> | null;
   userId: string;
   meetId: string;
+  className?: string;
 }
 
-export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, userId, meetId }) => {
+export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, userId, meetId, className }) => {
   const [cloudinaryIds, setCloudinaryIds] = useState<string[]>([]);
 
   const { errors, register, handleSubmit } = useForm({
@@ -62,8 +63,8 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, userId, m
     </div>
   );
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Submit a project</h1>
+    <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className={className ? className : ""}>
+      <h3 className="font-semibold">Submit a project</h3>
 
       {/* hidden inputs for meetId and userId */}
       <input type="hidden" name="uderId" ref={register} value={userId} />

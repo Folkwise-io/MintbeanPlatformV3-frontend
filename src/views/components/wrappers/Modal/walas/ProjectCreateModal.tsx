@@ -3,6 +3,7 @@ import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { ProjectCreateForm } from "../../../forms/ProjectCreateForm";
+import { Button } from "../../../Button";
 
 interface Props {
   className?: string;
@@ -12,7 +13,7 @@ interface Props {
   refetchMeet: () => Promise<boolean | void>;
 }
 
-const AdminProjectCreateModal: FC<ConnectContextProps & Props> = ({
+const ProjectCreateModal: FC<ConnectContextProps & Props> = ({
   context,
   className,
   buttonText,
@@ -28,6 +29,7 @@ const AdminProjectCreateModal: FC<ConnectContextProps & Props> = ({
       text: "Submit a project",
       buttonType: "submit",
       onClick: async () => {
+        console.log(formRef.current);
         if (formRef.current) {
           // Programatically submit form in grandchild
           formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
@@ -49,15 +51,21 @@ const AdminProjectCreateModal: FC<ConnectContextProps & Props> = ({
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <button onClick={toggleModal} ref={(el) => setRef(el)} className={className || ""}>
+          <Button onClick={toggleModal} forwardRef={(el) => setRef(el)}>
             {buttonText}
-          </button>
+          </Button>
         )}
       >
-        <ProjectCreateForm formRef={formRef} createProject={createProject} userId={userId} meetId={meetId} />
+        <ProjectCreateForm
+          formRef={formRef}
+          createProject={createProject}
+          userId={userId}
+          meetId={meetId}
+          className="text-black font-regular"
+        />
       </Modal>
     </>
   );
 };
 
-export default connectContext<ConnectContextProps & Props>(AdminMeetCreateModal);
+export default connectContext<ConnectContextProps & Props>(ProjectCreateModal);
