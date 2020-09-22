@@ -122,7 +122,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                 <ProjectCreateModal
                   buttonText="Submit a project"
                   meetId={meet.id}
-                  userId={user.data.id}
+                  user={user.data}
                   refetchMeet={fetchMeetData}
                 />
               )}

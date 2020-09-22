@@ -7,12 +7,12 @@ import { Button } from "../../../Button";
 
 interface Props {
   buttonText: string;
-  userId: string;
+  user: string;
   meetId: string;
   refetchMeet: () => Promise<boolean | void>;
 }
 
-const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonText, refetchMeet, meetId, userId }) => {
+const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonText, refetchMeet, meetId, user }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const actions: ModalActionDeclaration[] = [
@@ -50,7 +50,7 @@ const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonTe
         <ProjectCreateForm
           formRef={formRef}
           createProject={createProject}
-          userId={userId}
+          user={user}
           meetId={meetId}
           className="text-black font-regular"
         />

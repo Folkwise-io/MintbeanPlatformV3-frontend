@@ -18,12 +18,12 @@ const createProjectInputSchema = yup.object().shape({
 interface Props {
   createProject: (values: CreateProjectParams) => void;
   formRef: React.RefObject<HTMLFormElement> | null;
-  userId: string;
+  user: User;
   meetId: string;
   className?: string;
 }
 
-export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, userId, meetId, className }) => {
+export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, meetId, className }) => {
   const [cloudinaryIds, setCloudinaryIds] = useState<string[]>([]);
 
   const { errors, register, handleSubmit } = useForm({
@@ -69,10 +69,23 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, userId, m
     <form ref={formRef} onSubmit={handleSubmit(onSubmit, onError)} className={className ? className : ""}>
       <h3 className="font-semibold">Submit a project</h3>
 
-      {/* hidden inputs for meetId and userId */}
-      <input type="hidden" name="userId" ref={register} value={userId} />
-      {/* TODO: remove error msg in UI - for dev purpose only */}
-      <p className="text-red-500">{errors.userId?.message}</p>
+      {user.isAdmin ? (
+        <>
+          {/* Admin view: allow submission on behalf of another user */}
+          {/* TODO: implement user search instead of relying on userId string input */}
+          <label htmlFor="userId">Submitting on behalf of (user ID):</label>
+          <input type="text" name="userId" ref={register} />
+          <p className="text-red-500">{errors.userId?.message}</p>
+        </>
+      ) : (
+        <>
+          {/* Regular user view: infer userID without prompting */}
+          <input type="hidden" name="userId" ref={register} value={user.id} />
+          <p className="text-red-500">{errors.userId?.message}</p>
+        </>
+      )}
+
+      {/* Infer meetId without prompting */}
       <input type="hidden" name="meetId" ref={register} value={meetId} />
       {/* TODO: remove error msg in UI - for dev purpose only */}
       <p className="text-red-500">{errors.meetId?.message}</p>
