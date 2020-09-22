@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { CloudinaryUploadWidget } from "../widgets/CloudinaryUploadWidget";
+import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/CloudinaryUploadWidget";
 import { ImageDisplay } from "../ImageDisplay";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
@@ -12,7 +12,7 @@ const createProjectInputSchema = yup.object().shape({
   title: yup.string().max(64, "Title can be a maximum of 64 characters").required("Project title required!"),
   sourceCodeUrl: yup.string().url("Source code URL must be a valid URL").required("Source code URL required!"),
   liveUrl: yup.string().url("Deployment URL must be a valid URL").required("Deployment URL required!"),
-  cloudinaryPublicIds: yup.array().of(yup.string()).min(1).required("Must submit at least one asset!"),
+  // cloudinaryPublicIds: yup.array().of(yup.string()).min(1).required("Must submit at least one asset!"),
 });
 
 interface Props {
@@ -31,14 +31,15 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, userId, m
   });
 
   // RHF only calls onSubmit callback when form input passes validation
-  const onSubmit = (data: CreateProjectParams) => {
-    createProject(data);
+  const onSubmit = (data: any) => {
+    const dataWithCloudinaryIds = { ...data, cloudinaryPublicIds: cloudinaryIds };
+    createProject(dataWithCloudinaryIds);
   };
 
-  const addCloudinaryId = (id: string) => {
+  const addCloudinaryId = (data: CloudinaryAssetInfo) => {
     //TODO
-    setCloudinaryIds(cloudinaryIds.concat(id));
-    return id;
+    setCloudinaryIds(cloudinaryIds.concat(data.public_id));
+    return data.public_id;
   };
 
   const resetCloudinaryIds = (): void => {
@@ -46,12 +47,13 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, userId, m
   };
 
   const thumbnailPreview = (
-    <div
-      className="relative max-w-full bg-white border-dashed border-2 border-gray-700 mb-2"
-      style={{ height: "80px" }}
-    >
+    <div className="max-w-full bg-white border-dashed border-2 border-gray-700 mb-2" style={{ height: "80px" }}>
       {cloudinaryIds.map((cpid, i) => (
-        <ImageDisplay key={i} cloudinaryPublicId={cpid} />
+        <div key={i} className="w-full flex flex-wrap justify-center">
+          <div className="w-1/4">
+            <ImageDisplay cloudinaryPublicId={cpid} className="w-full h-full" />
+          </div>
+        </div>
       ))}
       <button
         onClick={resetCloudinaryIds}
@@ -62,12 +64,13 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, userId, m
       </button>
     </div>
   );
+  const onError = (e) => console.log(e);
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className={className ? className : ""}>
+    <form ref={formRef} onSubmit={handleSubmit(onSubmit, onError)} className={className ? className : ""}>
       <h3 className="font-semibold">Submit a project</h3>
 
       {/* hidden inputs for meetId and userId */}
-      <input type="hidden" name="uderId" ref={register} value={userId} />
+      <input type="hidden" name="userId" ref={register} value={userId} />
       {/* TODO: remove error msg in UI - for dev purpose only */}
       <p className="text-red-500">{errors.userId?.message}</p>
       <input type="hidden" name="meetId" ref={register} value={meetId} />
@@ -87,12 +90,12 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, userId, m
       <p className="text-red-500">{errors.liveUrl?.message}</p>
 
       {/* Hidden field for cloudinaryPublicIds, value populated by widget and local state */}
-      <label htmlFor="cloudinaryPublicIds">Cover image</label>
+      <label htmlFor="cloudinaryPublicIds">Images and/or GIFs</label>
       <input type="hidden" name="cloudinaryPublicIds" ref={register} className="mb-2" value={cloudinaryIds} />
       <p className="text-red-500">{errors.coverImageUrl?.message}</p>
       {/* Thumbnail preview */}
-      {cloudinaryIds && thumbnailPreview}
-      <CloudinaryUploadWidget exposeImageUrl={addCloudinaryId} />
+      {cloudinaryIds.length && thumbnailPreview}
+      <CloudinaryUploadWidget exposeImageData={addCloudinaryId} />
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />

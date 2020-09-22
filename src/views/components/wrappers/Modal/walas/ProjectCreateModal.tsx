@@ -6,21 +6,13 @@ import { ProjectCreateForm } from "../../../forms/ProjectCreateForm";
 import { Button } from "../../../Button";
 
 interface Props {
-  className?: string;
   buttonText: string;
   userId: string;
   meetId: string;
   refetchMeet: () => Promise<boolean | void>;
 }
 
-const ProjectCreateModal: FC<ConnectContextProps & Props> = ({
-  context,
-  className,
-  buttonText,
-  refetchMeet,
-  meetId,
-  userId,
-}) => {
+const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonText, refetchMeet, meetId, userId }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const actions: ModalActionDeclaration[] = [
@@ -29,7 +21,6 @@ const ProjectCreateModal: FC<ConnectContextProps & Props> = ({
       text: "Submit a project",
       buttonType: "submit",
       onClick: async () => {
-        console.log(formRef.current);
         if (formRef.current) {
           // Programatically submit form in grandchild
           formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));

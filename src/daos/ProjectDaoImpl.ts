@@ -57,7 +57,7 @@ export class ProjectDaoImpl implements ProjectDao {
         .query<ApiResponseRaw<{ createProject: Project }>, { input: CreateProjectParams }>(
           `
           mutation createProject($input: CreateProjectInput!) {
-            createMeet(input: $input) {
+            createProject(input: $input) {
               id
               title
               sourceCodeUrl
