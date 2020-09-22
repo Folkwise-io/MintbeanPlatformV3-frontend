@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 type Props = {
   children?: JSX.Element[] | JSX.Element;
-  type?: "gradStripe" | "grad" | "blackStripe" | "gradStripeEvents" | "blackStripeEvents" | "black";
+  type?: "gradStripe" | "grad" | "blackStripe" | "gradStripeEvents" | "blackStripeEvents" | "black" | "blackMeet";
 };
 
 export const BgBlock: FC<Props> = ({ children, type = "gradStripe" }) => {
@@ -14,6 +14,7 @@ export const BgBlock: FC<Props> = ({ children, type = "gradStripe" }) => {
     gradStripeEvents: "shadow-mb-outline-darkgreen bg-white top-mb-1 relative pb-8",
     blackStripeEvents: "shadow-mb-outline-darkgreen bg-mb-green-100 top-mb-1 relative pb-8",
     black: "bg-mb-green-100 top-mb-1 relative pb-8",
+    blackMeet: "bg-mb-green-100 top-mb-1 relative pb-8",
   };
   const innerClasses = {
     gradStripe:
@@ -24,6 +25,7 @@ export const BgBlock: FC<Props> = ({ children, type = "gradStripe" }) => {
       "bg-gradient-to-b from-mb-blue-100 to-mb-green-200 flex flex-col justify-center gap-16 top-mb-1n relative",
     blackStripeEvents: "bg-black top-mb-1n relative",
     black: "bg-black top-mb-1n relative",
+    blackMeet: "bg-black top-mb-1n relative overflow-hidden",
   };
   return (
     <div className={`${common} ${outerClasses[type]}`}>

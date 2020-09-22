@@ -19,6 +19,10 @@ module.exports = {
         75: "75%",
         full: "100%",
       },
+      minHeight: {
+        72: "18rem",
+        84: "21rem",
+      },
       borderRadius: {
         xl: "3rem",
         "mb-xs": "1rem",

@@ -8,6 +8,7 @@ import { Button } from "../../components/Button";
 import { ExternalLink } from "../../components/ExternalLink";
 import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
 import { ProjectCard } from "../../components/ProjectCard";
+import { BgBlock } from "../../components/BgBlock";
 
 const d = new DateUtility();
 
@@ -59,55 +60,68 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     : "Loading..";
 
   return (
-    <div className="container mx-auto max-w-screen-lg px-2">
-      <header>
-        <div className="flex justify-center bg-gray-800">
-          {loading ? (
-            <div className="text-white h-screen-lg p-24 w-full flex justify-center items-center">Loading...</div>
-          ) : (
-            <img src={meet?.coverImageUrl} alt={meet?.title} />
-          )}
-        </div>
-      </header>
+    <BgBlock type="blackStripeEvents">
+      <BgBlock type="blackMeet">
+        <header className="flex flex-col items-center">
+          <div className="flex w-screen min-h-84 bg-gray-800">
+            {loading ? (
+              <div className="text-white h-screen-lg p-24 w-full flex justify-center items-center">Loading...</div>
+            ) : (
+              <img className="object-cover w-full" src={meet?.coverImageUrl} alt={meet?.title} />
+            )}
+          </div>
+        </header>
+      </BgBlock>
 
-      <main className="py-2 md:py-12">
-        <Link to="/meets">{"< "} Back to all meets</Link>
-        <div className="flex flex-col md:flex-row">
-          <section className="bg-gray-800 text-white flex-grow shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
-            <div>
-              <h1>{meet?.title}</h1>
-              <p>{dateInfo}</p>
-              <p className="mt-2">{meet?.description}</p>
-              <a href=""></a>
-              {meet?.registerLink && (
-                <ExternalLink href={meet.registerLink}>
-                  <Button className="mt-2">Register</Button>
-                </ExternalLink>
-              )}
-              {isAdmin && meet && (
-                <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToMeets} className="ml-2" />
-              )}
+      <main className="w-5/6 min-w-12rem mx-auto py-16 rounded-mb-md overflow-hidden">
+        <Link className="ml-12 mb-2 inline-block" to="/meets">
+          {"< "} Back to all meets
+        </Link>
+        <div className="overflow-hidden rounded-mb-md">
+          <div className="grid grid-rows-2 md:grid-cols-3 md:grid-rows-1 place-items-center md:place-items-end bg-gray-800 px-12 py-8">
+            <section className="text-white md:col-span-2 md:place-self-start">
+              <div className="grid place-items-center md:block">
+                <h1 className="font-semibold">{meet?.title}</h1>
+                <p>{dateInfo}</p>
+                <p className="mt-2">{meet?.description}</p>
+                <a href=""></a>
+                {meet?.registerLink && (
+                  <ExternalLink href={meet.registerLink}>
+                    <Button className="mt-2">Register</Button>
+                  </ExternalLink>
+                )}
+                {isAdmin && meet && (
+                  <AdminMeetDeleteModal
+                    buttonText="Delete"
+                    meet={meet}
+                    onDelete={redirectToMeets}
+                    className="mt-2 md:mt-0 md:ml-2"
+                  />
+                )}
+              </div>
+            </section>
+            <section className="text-white">
+              {/*TODO: Add project submission form*/}
+              <Button onClick={() => alert("Ooops, can't do that yet! This will be a modal form")} className="mt-2">
+                Submit a project
+              </Button>
+            </section>
+          </div>
+          <section className="shadow-lg bg-white p-12">
+            <h2 className="font-medium">Instructions</h2>
+            <Markdown source={meet?.instructions} />
+          </section>
+          <section className="shadow-lg bg-white p-12">
+            <h2 className="font-medium">Submissions</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+              {meet?.projects.map((p) => (
+                <ProjectCard project={p} key={p.id} />
+              ))}
             </div>
           </section>
-          <section className="bg-gray-800 text-white shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
-            {/*TODO: Add project submission form*/}
-            <Button onClick={() => alert("Ooops, can't do that yet! This will be a modal form")} className="mt-2">
-              Submit a project
-            </Button>
-          </section>
         </div>
-        <section className="shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
-          <h2>Instructions</h2>
-          <Markdown source={meet?.instructions} />
-        </section>
-        <section className="shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
-          <h2>Submissions</h2>
-          {meet?.projects.map((p) => (
-            <ProjectCard project={p} key={p.id} />
-          ))}
-        </section>
       </main>
-    </div>
+    </BgBlock>
   );
 };
 
