@@ -10,6 +10,7 @@ import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMee
 import { ProjectCard } from "../../components/ProjectCard";
 import { BgBlock } from "../../components/BgBlock";
 import ProjectCreateModal from "../../components/wrappers/Modal/walas/ProjectCreateModal";
+import AdminMeetEditModal from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
 
 const d = new DateUtility();
 
@@ -106,12 +107,15 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                   </ExternalLink>
                 )}
                 {isAdmin && meet && (
-                  <AdminMeetDeleteModal
-                    buttonText="Delete"
-                    meet={meet}
-                    onDelete={redirectToMeets}
-                    className="mt-2 md:mt-0 md:ml-2"
-                  />
+                  <>
+                    <AdminMeetDeleteModal
+                      buttonText="Delete"
+                      meet={meet}
+                      onDelete={redirectToMeets}
+                      className="mt-2 md:mt-0 md:ml-2"
+                    />
+                    <AdminMeetEditModal buttonText="Edit" meet={meet} />
+                  </>
                 )}
               </div>
             </section>

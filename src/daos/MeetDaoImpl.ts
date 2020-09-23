@@ -143,8 +143,8 @@ export class MeetDaoImpl implements MeetDao {
       this.api
         .query<ApiResponseRaw<{ editMeet: Meet }>, { input: EditMeetParams }>(
           `
-          mutation editMeet($input: EditMeetInput!) {
-            editMeet(input: $input) {
+          mutation editMeet($id: UUID!, $input: EditMeetInput!) {
+            editMeet(id: $id, input: $input) {
               id
               meetType
               title
@@ -159,7 +159,7 @@ export class MeetDaoImpl implements MeetDao {
             }
           }
         `,
-          { input: params },
+          { id, input: params },
         )
         .then((result) => {
           if (result.errors) throw result.errors;
