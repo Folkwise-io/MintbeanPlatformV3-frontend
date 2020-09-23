@@ -9,6 +9,7 @@ import { ExternalLink } from "../../components/ExternalLink";
 import { ImageDisplay } from "../../components/ImageDisplay";
 import { ImageDisplayTray } from "../../components/ImageDisplayTray";
 import { BgBlock } from "../../components/BgBlock";
+import ProjectDeleteModal from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
 
 const d = new DateUtility();
 
@@ -55,10 +56,13 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
     fetchProjectData();
   }, [context, id]);
 
-  const redirectToMeets = async () => {
-    history.push("/meets");
+  const redirectToMeetOrMeets = async () => {
+    if (project) {
+      history.push(`/meets/${project.meet.id}`);
+    } else {
+      history.push(`/meets`);
+    }
   };
-
   // const dateInfo = project
   //   ? `${d.wcToClientStr(project.startTime, project.region)} (${d.getDuration(
   //       project.startTime,
@@ -82,7 +86,10 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
             ) : (
               // If no media assets, show default image
               // TODO: define deafult image
-              <ImageDisplay className="w-full flex justify-center align-center" cloudinaryPublicId="sample" />
+              <ImageDisplay
+                className="w-full flex justify-center align-center"
+                cloudinaryPublicId="imgNotFoundPlaceholder"
+              />
             )}
           </header>
         </BgBlock>
@@ -112,6 +119,12 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                       Demo
                     </Button>
                   </ExternalLink>
+                  <ProjectDeleteModal
+                    buttonText="Delete"
+                    project={project}
+                    onDelete={redirectToMeetOrMeets}
+                    isAdmin={isAdmin}
+                  />
                 </section>
               </section>
               {/* Other media assets */}
