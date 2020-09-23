@@ -101,8 +101,8 @@ export class ProjectDaoImpl implements ProjectDao {
       this.api
         .query<ApiResponseRaw<{ deleteProject: boolean }>, { id: string }>(
           `
-            mutation deleteMeet($id: UUID!) {
-              deleteMeet(id: $id)
+            mutation deleteProject($id: UUID!) {
+              deleteProject(id: $id)
             }
           `,
           { id },
