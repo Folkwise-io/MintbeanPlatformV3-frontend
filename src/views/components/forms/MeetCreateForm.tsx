@@ -43,7 +43,6 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
 
   const grabImageData = (data: CloudinaryAssetInfo) => {
     setImageUrl(data.url);
-    return data.url;
   };
 
   const resetImageStates = (): void => {

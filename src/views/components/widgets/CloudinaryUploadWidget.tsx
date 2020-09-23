@@ -7,7 +7,7 @@ export interface CloudinaryAssetInfo {
   thumbnail_id: string;
 }
 interface Props {
-  exposeImageData: (data: CloudinaryAssetInfo) => string | string[];
+  exposeImageData: (data: CloudinaryAssetInfo) => void;
 }
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 

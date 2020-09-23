@@ -1,9 +1,10 @@
-import React, { FC, useState, useRef } from "react";
+import React, { FC, useRef } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { ProjectCreateForm } from "../../../forms/ProjectCreateForm";
 import { Button } from "../../../Button";
+import { useHistory } from "react-router-dom";
 
 interface Props {
   buttonText: string;
@@ -14,7 +15,7 @@ interface Props {
 
 const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonText, refetchMeet, meetId, user }) => {
   const formRef = useRef<HTMLFormElement>(null);
-  const [triggerClose, setTriggerClose] = useState<number>(0);
+  const history = useHistory();
 
   const actions: ModalActionDeclaration[] = [
     {
@@ -30,17 +31,18 @@ const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonTe
     },
   ];
 
-  // very hacky. forces state update in child with random number
-  const triggerModalClose = () => {
-    setTriggerClose(Math.random());
-  };
-
   const createProject = async (params: CreateProjectParams) => {
+    let projectId: string;
     if (context) {
-      context.projectService
+      await context.projectService
         .createProject(params)
-        .then(() => refetchMeet())
-        .then(() => triggerModalClose());
+        .then((proj) => {
+          console.log({ proj });
+          if (proj) {
+            projectId = proj.id;
+          }
+        })
+        .then(() => history.push(`/projects/${projectId}`));
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
     }
@@ -55,7 +57,6 @@ const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonTe
             {buttonText}
           </Button>
         )}
-        closeFromParent={triggerClose}
       >
         <ProjectCreateForm
           formRef={formRef}

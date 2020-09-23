@@ -3,6 +3,7 @@ import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { MeetCreateForm } from "../../../forms/MeetCreateForm";
+import { useHistory } from "react-router-dom";
 
 interface Props {
   className?: string;
@@ -12,6 +13,7 @@ interface Props {
 
 const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, className, buttonText, refetchMeets }) => {
   const formRef = useRef<HTMLFormElement>(null);
+  const history = useHistory();
 
   const actions: ModalActionDeclaration[] = [
     {
@@ -28,8 +30,16 @@ const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, classN
   ];
 
   const createMeet = async (params: CreateMeetParams) => {
+    let meetId: string;
     if (context) {
-      context.meetService.createMeet(params).then(() => refetchMeets());
+      context.meetService
+        .createMeet(params)
+        .then((newMeet) => {
+          if (newMeet) {
+            meetId = newMeet.id;
+          }
+        })
+        .then(() => history.push(`/meets/${meetId}`));
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
     }

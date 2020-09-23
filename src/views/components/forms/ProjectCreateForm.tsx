@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -37,24 +37,36 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
   };
 
   const addCloudinaryId = (data: CloudinaryAssetInfo) => {
-    //TODO
-    setCloudinaryIds(cloudinaryIds.concat(data.public_id));
-    return data.public_id;
+    setCloudinaryIds((prevState) => [...prevState, data.public_id]);
   };
-
+  const removeCloudinaryIdAt = (i: number): void => {
+    console.log({ i });
+    setCloudinaryIds((prevState) => {
+      const copy = [...prevState];
+      copy.splice(i, 1);
+      return copy;
+    });
+  };
   const resetCloudinaryIds = (): void => {
     setCloudinaryIds([]);
   };
 
   const thumbnailPreview = (
     <div
-      className="relative max-w-full bg-white border-dashed border-2 border-gray-700 mb-2 flex flex-wrap justify-center items-center"
-      style={{ height: "80px" }}
+      className="relative w-full bg-white border-dashed border-2 border-gray-700 mb-2 ml-2"
+      style={{ maxWidth: "200px" }}
     >
       {cloudinaryIds.map((cpid, i) => (
-        <div key={i} className="flex-shrink ">
-          <div className="w-1/4" style={{ height: "74px" }}>
-            <ImageDisplay cloudinaryPublicId={cpid} className="w-full h-full" />
+        <div key={i} className="relative">
+          <button
+            type="button"
+            onClick={() => removeCloudinaryIdAt(i)}
+            className="absolute top-0 right-0 bg-black text-white opacity-75 px-1 rounded-full"
+          >
+            X
+          </button>
+          <div className="" style={{ height: "74px" }}>
+            <ImageDisplay cloudinaryPublicId={cpid} className="max-h-full" />
           </div>
         </div>
       ))}
@@ -67,9 +79,9 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
       </button>
     </div>
   );
-  const onError = (e) => console.log(e);
+
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit, onError)} className={className ? className : ""}>
+    <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className={className ? className : ""}>
       <h3 className="font-semibold">Submit a project</h3>
 
       {user.isAdmin ? (
@@ -107,11 +119,16 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
 
       {/* Hidden field for cloudinaryPublicIds, value populated by widget and local state */}
       <label htmlFor="cloudinaryPublicIds">Images and/or GIFs</label>
+      <p>
+        <em className="font-normal">(First one will be cover image)</em>
+      </p>
       <input type="hidden" name="cloudinaryPublicIds" ref={register} className="mb-2" value={cloudinaryIds} />
       <p className="text-red-500">{errors.coverImageUrl?.message}</p>
-      {/* Thumbnail preview */}
-      {cloudinaryIds.length && thumbnailPreview}
-      <CloudinaryUploadWidget exposeImageData={addCloudinaryId} />
+      <div className="flex flex-col align-items">
+        {/* Thumbnail preview */}
+        {cloudinaryIds.length ? thumbnailPreview : null}
+        <CloudinaryUploadWidget exposeImageData={addCloudinaryId} />
+      </div>
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />
