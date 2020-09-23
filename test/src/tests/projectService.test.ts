@@ -116,7 +116,7 @@ describe("ProjectService", () => {
           context.projectDao.mockReturn({ data: true });
         })
         .execute((context) => {
-          return context.projectService.deleteMeet("someuuid");
+          return context.projectService.deleteProject("someuuid");
         });
       const storeState = testManager.store.getState();
       expect(storeState.errors.length).toBe(0);
@@ -132,7 +132,7 @@ describe("ProjectService", () => {
           });
         })
         .execute((context) => {
-          return context.meetService.deleteMeet("someuuid");
+          return context.projectService.deleteProject("someuuid");
         });
 
       const storeState = testManager.store.getState();

@@ -10,7 +10,7 @@ export class ProjectService {
     });
   }
 
-  async deleteMeet(id: string): Promise<boolean | void> {
+  async deleteProject(id: string): Promise<boolean | void> {
     return this.projectDao
       .deleteProject(id)
       .then(() => this.logger.success("Successfully deleted the project."))
