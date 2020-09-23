@@ -9,7 +9,7 @@ interface User {
   isAdmin: boolean;
 }
 
-type Project = {
+interface Project {
   id: string;
   title: string;
   sourceCodeUrl: string;
@@ -18,8 +18,9 @@ type Project = {
   meet: MeetForProject;
   user: UserForProject;
   mediaAssets: CloudinaryPublicIdMediaAsset[];
-};
+}
 interface UserForProject {
+  id: string;
   firstName: string;
   lastName: string;
   username: string;
@@ -85,6 +86,15 @@ interface CreateMeetParams {
   startTime: string;
   endTime: string;
   region: string;
+}
+
+interface CreateProjectParams {
+  userId: string;
+  meetId: string;
+  title: string;
+  sourceCodeUrl: string;
+  liveUrl: string;
+  cloudinaryPublicIds: string[];
 }
 
 // API -----------------------
