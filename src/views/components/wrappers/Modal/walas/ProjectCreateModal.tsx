@@ -10,10 +10,9 @@ interface Props {
   buttonText: string;
   user: User;
   meetId: string;
-  refetchMeet: () => Promise<boolean | void>;
 }
 
-const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonText, refetchMeet, meetId, user }) => {
+const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonText, meetId, user }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const history = useHistory();
 

@@ -8,6 +8,7 @@ import { ExternalLink } from "../../components/ExternalLink";
 // import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
 import { ImageDisplay } from "../../components/ImageDisplay";
 import { ImageDisplayTray } from "../../components/ImageDisplayTray";
+import ProjectDeleteModal from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
 
 const d = new DateUtility();
 
@@ -54,8 +55,12 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
     fetchProjectData();
   }, [context, id]);
 
-  const redirectToMeets = async () => {
-    history.push("/meets");
+  const redirectToMeetOrMeets = async () => {
+    if (project) {
+      history.push(`/meets/${project.meet.id}`);
+    } else {
+      history.push(`/meets`);
+    }
   };
 
   // const dateInfo = project
@@ -107,6 +112,12 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                         Demo
                       </Button>
                     </ExternalLink>
+                    <ProjectDeleteModal
+                      buttonText="Delete"
+                      project={project}
+                      onDelete={redirectToMeetOrMeets}
+                      isAdmin={isAdmin}
+                    />
                   </section>
                 </section>
                 {/* Other media assets */}

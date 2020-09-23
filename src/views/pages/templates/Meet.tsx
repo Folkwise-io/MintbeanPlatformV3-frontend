@@ -34,21 +34,20 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const isAdmin = user.data?.isAdmin;
   const history = useHistory();
 
-  const fetchMeetData = async () => {
-    if (!context) {
-      console.error(new Error("No context passed to component, but was expected"));
-      alert("Blame the devs! Something terrible happened.");
-      return;
-    }
-    setLoading(true);
-    const fetchedMeet = await context.meetService.fetchMeet(id);
-    if (fetchedMeet) {
-      setMeet(fetchedMeet);
-    }
-    setLoading(false);
-  };
-
   useEffect(() => {
+    const fetchMeetData = async () => {
+      if (!context) {
+        console.error(new Error("No context passed to component, but was expected"));
+        alert("Blame the devs! Something terrible happened.");
+        return;
+      }
+      setLoading(true);
+      const fetchedMeet = await context.meetService.fetchMeet(id);
+      if (fetchedMeet) {
+        setMeet(fetchedMeet);
+      }
+      setLoading(false);
+    };
     fetchMeetData();
   }, [context, id]);
 
@@ -119,12 +118,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
             <section className="text-white">
               {/*TODO: Add project submission form*/}
               {meet && user.data && (
-                <ProjectCreateModal
-                  buttonText="Submit a project"
-                  meetId={meet.id}
-                  user={user.data}
-                  refetchMeet={fetchMeetData}
-                />
+                <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user.data} />
               )}
             </section>
           </div>
