@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from "react";
+import React, { FC, ReactElement, useState, useEffect } from "react";
 import { usePopper } from "react-popper";
 import { Placement } from "@popperjs/core/lib/enums";
 import { ModalActionButton, ModalActionDeclaration } from "./ModalActionButton";
@@ -11,6 +11,7 @@ interface ModalProps {
   placement?: Placement;
   actions?: ModalActionDeclaration[];
   title?: string;
+  closeFromParent?: number;
 }
 
 export const Modal: FC<ModalProps> = ({
@@ -18,6 +19,7 @@ export const Modal: FC<ModalProps> = ({
   actions,
   title,
   children,
+  closeFromParent,
   placement = "bottom",
 }): ReactElement => {
   const [triggerRef, setTriggerRef] = useState<HTMLElement | null>(null);
@@ -38,6 +40,12 @@ export const Modal: FC<ModalProps> = ({
     ],
     placement: placement,
   });
+
+  useEffect(() => {
+    if (closeFromParent) {
+      closeModal();
+    }
+  }, [closeFromParent]);
 
   const closeModal = () => {
     toggleShow(false);

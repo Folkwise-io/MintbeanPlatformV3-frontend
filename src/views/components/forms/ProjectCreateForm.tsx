@@ -31,7 +31,7 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
   });
 
   // RHF only calls onSubmit callback when form input passes validation
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: CreateProjectParams) => {
     const dataWithCloudinaryIds = { ...data, cloudinaryPublicIds: cloudinaryIds };
     createProject(dataWithCloudinaryIds);
   };
@@ -47,10 +47,13 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
   };
 
   const thumbnailPreview = (
-    <div className="max-w-full bg-white border-dashed border-2 border-gray-700 mb-2" style={{ height: "80px" }}>
+    <div
+      className="relative max-w-full bg-white border-dashed border-2 border-gray-700 mb-2 flex flex-wrap justify-center items-center"
+      style={{ height: "80px" }}
+    >
       {cloudinaryIds.map((cpid, i) => (
-        <div key={i} className="w-full flex flex-wrap justify-center">
-          <div className="w-1/4">
+        <div key={i} className="flex-shrink ">
+          <div className="w-1/4" style={{ height: "74px" }}>
             <ImageDisplay cloudinaryPublicId={cpid} className="w-full h-full" />
           </div>
         </div>
