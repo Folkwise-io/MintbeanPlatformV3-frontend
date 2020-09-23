@@ -28,7 +28,7 @@ export class MeetService {
     return this.meetDao
       .createMeet(params)
       .then((meet) => {
-        this.logger.success(`Created new meet <strong>${meet.title}</strong>!`);
+        this.logger.success(`Created new meet **${meet.title}**!`);
         return meet;
       })
       .catch((e) => {
@@ -39,7 +39,7 @@ export class MeetService {
     return this.meetDao
       .editMeet(id, params)
       .then((meet) => {
-        this.logger.success(`Updated info for meet <strong>${meet.title}</strong>!`);
+        this.logger.success(`Updated info for meet **${meet.title}**!`);
         return meet;
       })
       .catch((e) => {

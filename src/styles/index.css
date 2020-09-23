@@ -38,3 +38,8 @@ input {
   padding: 0.25em;
   margin: 0.25em;
 }
+
+.markdown-toast a {
+  color: #000000;
+  text-decoration: underline;
+}
