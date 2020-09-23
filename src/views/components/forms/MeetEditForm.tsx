@@ -34,6 +34,10 @@ interface Props {
 export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
   const [imageUrl, setImageUrl] = useState<string>("");
 
+  const chopOffSecMs = (timestr: string): string => {
+    return timestr.replace(/:\d{2}\.\d{3}$/, "");
+  };
+
   const { errors, register, handleSubmit } = useForm({
     resolver: yupResolver(editMeetInputSchema),
     // pre-populate form
@@ -44,8 +48,9 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
       instructions: meet.instructions,
       registerLink: meet.registerLink,
       coverImageUrl: meet.coverImageUrl,
-      startTime: meet.startTime,
-      endTime: meet.endTime,
+      // make startTime/endTime more user friendly for date picker
+      startTime: chopOffSecMs(meet.startTime),
+      endTime: chopOffSecMs(meet.endTime),
       region: meet.region,
     },
   });
@@ -86,8 +91,8 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
     </div>
   );
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Edit this meet</h1>
+    <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="text-black font-normal">
+      <h3 className="font-semibold">Edit this meet</h3>
 
       <label htmlFor="meetType">Meet type</label>
       <select name="meetType" ref={register} className="mb-2">

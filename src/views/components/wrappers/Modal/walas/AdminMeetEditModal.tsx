@@ -17,8 +17,8 @@ const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, classNam
 
   const actions: ModalActionDeclaration[] = [
     {
-      type: "secondary",
-      text: "Edit",
+      type: "primary",
+      text: "Update meet",
       buttonType: "submit",
       onClick: async () => {
         if (formRef.current) {
@@ -31,7 +31,10 @@ const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, classNam
 
   const editMeet = async (params: CreateMeetParams) => {
     if (context) {
-      context.meetService.editMeet(meet.id, params).then(() => history.push(`/meets/${meet.id}`));
+      await context.meetService.editMeet(meet.id, params).then(() => {
+        console.log(`going here: /meets/${meet.id}`);
+        history.push(`/meets/${meet.id}`);
+      });
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
     }

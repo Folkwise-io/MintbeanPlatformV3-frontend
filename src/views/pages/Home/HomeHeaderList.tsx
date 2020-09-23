@@ -11,7 +11,6 @@ type HeaderList = {
   titles: string[];
   content: string[];
 };
-console.log(home1);
 
 export const HomeHeaderList: FC<Props> = ({ list }) => {
   const { titles, content } = list;

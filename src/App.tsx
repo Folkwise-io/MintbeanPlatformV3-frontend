@@ -20,7 +20,7 @@ const App: React.FC<Props> = ({ store, context }) => {
   return (
     <MbContextProvider context={ctx}>
       <ReduxProvider store={store}>
-        <Router>
+        <Router forceRefresh={true}>
           <GlobalLayout>
             <Switch>
               {routes.map((route) => (

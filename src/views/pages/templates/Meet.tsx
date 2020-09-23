@@ -114,7 +114,12 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                       onDelete={redirectToMeets}
                       className="mt-2 md:mt-0 md:ml-2"
                     />
-                    <AdminMeetEditModal buttonText="Edit" meet={meet} />
+                    {/* Todo use common button class */}
+                    <AdminMeetEditModal
+                      className="font-semibold shadow-md border-solid border-2 rounded-md py-2 px-6 m-2 text-black bg-white border-mb-green-200"
+                      buttonText="Edit"
+                      meet={meet}
+                    />
                   </>
                 )}
               </div>
