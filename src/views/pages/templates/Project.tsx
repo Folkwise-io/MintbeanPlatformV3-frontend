@@ -9,7 +9,6 @@ import { ExternalLink } from "../../components/ExternalLink";
 import { ImageDisplay } from "../../components/ImageDisplay";
 import { ImageDisplayTray } from "../../components/ImageDisplayTray";
 import { BgBlock } from "../../components/BgBlock";
-import ProjectDeleteModal from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
 
 const d = new DateUtility();
 
@@ -56,13 +55,16 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
     fetchProjectData();
   }, [context, id]);
 
-  const redirectToMeetOrMeets = async () => {
-    if (project) {
-      history.push(`/meets/${project.meet.id}`);
-    } else {
-      history.push(`/meets`);
-    }
+  const redirectToMeets = async () => {
+    history.push("/meets");
   };
+
+  // const dateInfo = project
+  //   ? `${d.wcToClientStr(project.startTime, project.region)} (${d.getDuration(
+  //       project.startTime,
+  //       project.endTime,
+  //     )} hours)`
+  //   : "Loading..";
 
   return (
     <BgBlock type="blackStripeEvents">
@@ -71,19 +73,20 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
           <header className="flex justify-center bg-gray-800 max-h-30vh min-h-30vh">
             {loading ? (
               <div className="text-white min-w-full inline-flex justify-center items-center">Loading...</div>
+            ) : project && project.mediaAssets[0] ? (
+              // If media asset found, display
+              <ImageDisplay
+                className="w-full flex justify-center"
+                cloudinaryPublicId={project.mediaAssets[0].cloudinaryPublicId}
+              />
             ) : (
-              project && (
-                // If media asset found, display
-                <ImageDisplay
-                  className="w-full flex justify-center"
-                  cloudinaryPublicId={project.mediaAssets[0]?.cloudinaryPublicId || undefined}
-                />
-              )
+              // If no media assets, show default image
+              // TODO: define deafult image
+              <ImageDisplay className="w-full flex justify-center align-center" cloudinaryPublicId="sample" />
             )}
           </header>
         </BgBlock>
       </div>
-
 
       <main className="pt-16 pb-12 max-w-6xl mx-auto">
         <section className="bg-gray-800 text-white flex-grow shadow-lg py-6 px-8 rounded-mb-sm mx-10 md:mx-16">
@@ -95,34 +98,8 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                 <p className="break-words">
                   by {project.user.firstName} {project.user.lastName} (@{project.user.username})
                 </p>
-
-                  {project.meet?.id && (
-                    <Link to={`/meets/${project.meet.id}`}>Submitted for &quot;{project.meet.title}&quot;</Link>
-                  )}
-                  <section className="flex flex-wrap justify-center p-2 w-full">
-                    <ExternalLink href={project.sourceCodeUrl}>
-                      <Button type="secondary" className="m-2">
-                        Code
-                      </Button>
-                    </ExternalLink>
-                    <ExternalLink href={project.liveUrl}>
-                      <Button type="primary" className="m-2">
-                        Demo
-                      </Button>
-                    </ExternalLink>
-                    <ProjectDeleteModal
-                      buttonText="Delete"
-                      project={project}
-                      onDelete={redirectToMeetOrMeets}
-                      isAdmin={isAdmin}
-                    />
-                  </section>
-                </section>
-                {/* Other media assets */}
-                {project.mediaAssets.length > 1 && (
-                  <section>
-                    <ImageDisplayTray cloudinaryPublicIds={project.mediaAssets.map((ma) => ma.cloudinaryPublicId)} />
-                  </section>
+                {project.meet?.id && (
+                  <Link to={`/meets/${project.meet.id}`}>Submitted for &quot;{project.meet.title}&quot;</Link>
                 )}
                 <section className="flex flex-wrap justify-center p-2 w-full">
                   <ExternalLink href={project.sourceCodeUrl}>
@@ -138,11 +115,11 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                 </section>
               </section>
               {/* Other media assets */}
-              {project.mediaAssets.length ? (
+              {project.mediaAssets.length > 1 && (
                 <section className="grid grid-cols-3">
                   <ImageDisplayTray cloudinaryPublicIds={project.mediaAssets.map((ma) => ma.cloudinaryPublicId)} />
                 </section>
-              ) : null}
+              )}
             </section>
           ) : (
             <p>Uh oh, project not found!</p>
