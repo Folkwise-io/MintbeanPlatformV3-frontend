@@ -59,13 +59,6 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
     history.push("/meets");
   };
 
-  // const dateInfo = project
-  //   ? `${d.wcToClientStr(project.startTime, project.region)} (${d.getDuration(
-  //       project.startTime,
-  //       project.endTime,
-  //     )} hours)`
-  //   : "Loading..";
-
   return (
     <BgBlock type="blackStripeEvents">
       <div className="md:max-h-30vh flex flex-col">
@@ -73,16 +66,14 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
           <header className="flex justify-center bg-gray-800 max-h-30vh min-h-30vh">
             {loading ? (
               <div className="text-white min-w-full inline-flex justify-center items-center">Loading...</div>
-            ) : project && project.mediaAssets[0] ? (
-              // If media asset found, display
-              <ImageDisplay
-                className="w-full flex justify-center"
-                cloudinaryPublicId={project.mediaAssets[0].cloudinaryPublicId}
-              />
             ) : (
-              // If no media assets, show default image
-              // TODO: define deafult image
-              <ImageDisplay className="w-full flex justify-center align-center" cloudinaryPublicId="sample" />
+              project && (
+                // If media asset found, display
+                <ImageDisplay
+                  className="w-full flex justify-center"
+                  cloudinaryPublicId={project.mediaAssets[0]?.cloudinaryPublicId || undefined}
+                />
+              )
             )}
           </header>
         </BgBlock>
@@ -115,11 +106,11 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                 </section>
               </section>
               {/* Other media assets */}
-              {project.mediaAssets.length > 1 && (
+              {project.mediaAssets.length ? (
                 <section className="grid grid-cols-3">
                   <ImageDisplayTray cloudinaryPublicIds={project.mediaAssets.map((ma) => ma.cloudinaryPublicId)} />
                 </section>
-              )}
+              ) : null}
             </section>
           ) : (
             <p>Uh oh, project not found!</p>

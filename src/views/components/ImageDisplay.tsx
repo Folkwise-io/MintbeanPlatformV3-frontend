@@ -23,18 +23,15 @@ export const ImageDisplay: FC<Props> = ({
   radius = "0",
   className,
 }) => {
-  // TODO: change default image. currently a gerenuk.
-  const defaultImgUrl = "https://africafreak.com/wp-content/uploads/2020/07/gerenuk-portrait.jpg";
-  if (cloudinaryPublicId) {
-    return (
-      <div className={"overflow-hidden " + className || ""}>
-        <CloudinaryContext cloudName={process.env.CLOUDINARY_CLOUD_NAME}>
-          <Image publicId={cloudinaryPublicId}>
-            <Transformation width={width} height={height} gravity={gravity} radius={radius} />
-          </Image>
-        </CloudinaryContext>
-      </div>
-    );
-  }
-  return <img src={defaultImgUrl} alt="Mintbean project submission default cover image" className={className} />;
+  // supplies defaul image if cloudinaryPublicId not provided
+  if (!cloudinaryPublicId) cloudinaryPublicId = "imgNotFoundPlaceholder";
+  return (
+    <div className={"overflow-hidden " + className || ""}>
+      <CloudinaryContext cloudName={process.env.CLOUDINARY_CLOUD_NAME}>
+        <Image publicId={cloudinaryPublicId}>
+          <Transformation width={width} height={height} gravity={gravity} radius={radius} />
+        </Image>
+      </CloudinaryContext>
+    </div>
+  );
 };
