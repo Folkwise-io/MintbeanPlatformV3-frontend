@@ -141,7 +141,7 @@ export class MeetDaoImpl implements MeetDao {
   editMeet(id: string, params: EditMeetParams): Promise<Meet> {
     return (
       this.api
-        .query<ApiResponseRaw<{ editMeet: Meet }>, { input: EditMeetParams }>(
+        .query<ApiResponseRaw<{ editMeet: Meet }>, { id: string; input: EditMeetParams }>(
           `
           mutation editMeet($id: UUID!, $input: EditMeetInput!) {
             editMeet(id: $id, input: $input) {
