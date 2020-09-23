@@ -19,7 +19,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
   return (
     <div className="border-mb-green-200 border-2 bg-black text-white rounded-mb-md overflow-hidden m-4 shadow-mb-drop-center-sm grid grid-rows-5 row-auto">
       <Link
-        className="row-span-3 rounded-b-mb-md min-w-full overflow-hidden inline-grid place-items-center"
+        className="row-span-3 rounded-b-mb-md min-w-full overflow-hidden inline-grid place-items-center max-h-30vh"
         to={`/projects/${id}`}
       >
         <ImageDisplay
