@@ -55,30 +55,15 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     history.push("/meets");
   };
 
-  const meetHasNotStarted = !d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
   const dateInfo = meet
     ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDuration(meet.startTime, meet.endTime)} hours)`
     : "Loading..";
-
-  const userInstructionsView = (
-    <>
-      <h2 className="font-medium">Instructions</h2>
-      <Markdown source={meet?.instructions} />
-    </>
-  );
-  const adminInstructionsView = (
-    <>
-      {" "}
-      {meetHasNotStarted && <em>(Users cannot see these instructions until meet starts)</em>}
-      {userInstructionsView}
-    </>
-  );
 
   return (
     <BgBlock type="blackStripeEvents">
       <BgBlock type="blackMeet">
         <header className="flex flex-col items-center">
-          <div className="flex w-screen min-h-84 bg-gray-800">
+          <div className="flex w-screen min-h-84 max-h-60vh bg-gray-800">
             {loading ? (
               <div className="text-white h-screen-lg p-24 w-full flex justify-center items-center">Loading...</div>
             ) : (
@@ -123,27 +108,16 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
             </section>
           </div>
           <section className="shadow-lg bg-white p-12">
-            {user?.data?.isAdmin ? (
-              adminInstructionsView
-            ) : meetHasNotStarted ? (
-              <p>Instructions will be released once the meet starts!</p>
-            ) : (
-              userInstructionsView
-            )}
+            <h2 className="font-medium">Instructions</h2>
+            <Markdown source={meet?.instructions} />
           </section>
           <section className="shadow-lg bg-white p-12">
-            {meet?.projects.length ? (
-              <>
-                <h2 className="font-medium">Submissions</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-                  {meet.projects.map((p) => (
-                    <ProjectCard project={p} key={p.id} />
-                  ))}
-                </div>
-              </>
-            ) : (
-              <p>No submissions yet.</p>
-            )}
+            <h2 className="font-medium">Submissions</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 grid-flow-row">
+              {meet?.projects.map((p) => (
+                <ProjectCard project={p} key={p.id} />
+              ))}
+            </div>
           </section>
         </div>
       </main>

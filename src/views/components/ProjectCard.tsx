@@ -13,36 +13,38 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
   const creatorName = `${user.firstName} ${user.lastName}`;
 
   // using first image as default for now
+  //try relative and absolute
   const coverImageCloudinaryPublicId = mediaAssets[0]?.cloudinaryPublicId;
   console.log(ImageDisplay);
   return (
-    <div className="border-mb-green-200 border-2 bg-black text-white rounded-mb-md overflow-hidden m-4 shadow-mb-drop-center-sm">
-      <Link to={`/projects/${id}`}>
+    <div className="border-mb-green-200 border-2 bg-black text-white rounded-mb-md overflow-hidden m-4 shadow-mb-drop-center-sm flex flex-col justify-between">
+      <Link
+        className="rounded-b-mb-md min-w-full overflow-hidden h-50 inline-grid place-items-center"
+        to={`/projects/${id}`}
+      >
         <ImageDisplay
           cloudinaryPublicId={coverImageCloudinaryPublicId}
-          className="rounded-b-mb-md min-w-full flex justify-center items-center"
+          className="flex justify-center items-center transition duration-500 ease-in-out transform scale-125 hover:scale-150"
         />
       </Link>
-      <section className="">
-        <div className=""></div>
-        <section className="text-center p-2 pb-4 w-full">
-          <h3 className="text-xl text-mb-blue-100 font-medium">{title}</h3>
-          <p>
-            by <span>{creatorName}</span>
-          </p>
 
-          <section className="flex flex-wrap justify-center pt-4 px-4 w-full">
-            <ExternalLink href={sourceCodeUrl}>
-              <Button type="secondary" className="m-2">
-                Code
-              </Button>
-            </ExternalLink>
-            <ExternalLink href={liveUrl}>
-              <Button type="primary" className="m-2">
-                Demo
-              </Button>
-            </ExternalLink>
-          </section>
+      <section className="text-center p-2 pb-4 sm:pb-12 w-full">
+        <h3 className="text-xl text-mb-blue-100 font-medium">{title}</h3>
+        <p>
+          by <span>{creatorName}</span>
+        </p>
+
+        <section className="flex flex-wrap flex-grow justify-center items-center pt-4 px-4 w-full">
+          <ExternalLink href={sourceCodeUrl}>
+            <Button type="secondary" className="m-2">
+              Code
+            </Button>
+          </ExternalLink>
+          <ExternalLink href={liveUrl}>
+            <Button type="primary" className="m-2">
+              Demo
+            </Button>
+          </ExternalLink>
         </section>
       </section>
     </div>

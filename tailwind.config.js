@@ -18,11 +18,17 @@ module.exports = {
         50: "50%",
         75: "75%",
         full: "100%",
+        "50vh": "50vh",
         "60vh": "60vh",
+        "30vh": "30vh",
+        108: "27rem",
+        120: "30rem",
       },
       minHeight: {
         72: "18rem",
         84: "21rem",
+        "50vh": "50vh",
+        "30vh": "30vh",
       },
       borderRadius: {
         xl: "3rem",
@@ -68,6 +74,12 @@ module.exports = {
         96: "24rem",
         108: "27rem",
         120: "30rem",
+      },
+      height: {
+        50: "50%",
+        65: "65%",
+        35: "35%",
+        customProject: "calc(100vh - 30rem)",
       },
     },
     fontFamily: {
