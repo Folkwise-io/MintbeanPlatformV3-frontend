@@ -44,17 +44,26 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
     <nav className="py-2 px-12 bg-white sticky top-0" style={{ minHeight: "80px", zIndex: 99 }}>
       <div className="flex flex-col md:flex-row md:items-center justify-between md:py-2">
         <section className="h-full sm:w-56 mx-auto md:mx-0">
-          <Link to="/" className="text-black hover:text-mb-blue-100 grid place-items-center md:place-items-start">
+          <Link
+            to="/"
+            className="transition duration-500 ease-in-out text-black hover:text-mb-blue-100 grid place-items-center md:place-items-start"
+          >
             <img src={logo} alt="Mintbean logo" className="" style={{ maxHeight: "50px" }} />
           </Link>
         </section>
         <section>
-          <div className="flex flex-col md:flex-row items-center ">
+          <div className="flex flex-col md:flex-row items-center">
             <div>
-              <Link to="/community" className="mx-2 text-black hover:text-mb-blue-100">
+              <Link
+                to="/community"
+                className="transition duration-500 ease-in-out text-semibold mx-2 text-black hover:text-mb-blue-100"
+              >
                 Community
               </Link>
-              <Link to="/meets" className="mx-2 text-black hover:text-mb-blue-100">
+              <Link
+                to="/meets"
+                className="transition duration-500 ease-in-out text-semibold mx-2 text-black hover:text-mb-blue-100"
+              >
                 Meets
               </Link>
             </div>
@@ -69,7 +78,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
                     <LoginModal buttonText="Login" className="m-2 md:my-0" />
                     <RegisterModal
                       buttonText="Sign up"
-                      className="text-white mx-2 bg-mb-green-200 px-4 py-2 rounded shadow hover:opacity-75"
+                      className="transition duration-500 ease-in-out text-white mx-2 bg-mb-green-200 px-4 py-2 rounded shadow hover:opacity-75"
                     />
                   </div>
                 </>
