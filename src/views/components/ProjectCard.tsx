@@ -17,9 +17,9 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
   const coverImageCloudinaryPublicId = mediaAssets[0]?.cloudinaryPublicId;
   console.log(ImageDisplay);
   return (
-    <div className="border-mb-green-200 border-2 bg-black text-white rounded-mb-md overflow-hidden m-4 shadow-mb-drop-center-sm flex flex-col justify-between">
+    <div className="border-mb-green-200 border-2 bg-black text-white rounded-mb-md overflow-hidden m-4 shadow-mb-drop-center-sm grid grid-rows-5 row-auto">
       <Link
-        className="rounded-b-mb-md min-w-full overflow-hidden h-50 inline-grid place-items-center"
+        className="row-span-3 rounded-b-mb-md min-w-full overflow-hidden inline-grid place-items-center"
         to={`/projects/${id}`}
       >
         <ImageDisplay
@@ -28,7 +28,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
         />
       </Link>
 
-      <section className="text-center p-2 pb-4 sm:pb-12 w-full">
+      <section className="row-span-3 text-center p-2 pb-4 sm:pb-12 w-full place-self-end">
         <h3 className="text-xl text-mb-blue-100 font-medium">{title}</h3>
         <p>
           by <span>{creatorName}</span>

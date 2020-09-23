@@ -113,7 +113,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
           </section>
           <section className="shadow-lg bg-white p-12">
             <h2 className="font-medium">Submissions</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 grid-flow-row">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 place-content-evenly row-auto">
               {meet?.projects.map((p) => (
                 <ProjectCard project={p} key={p.id} />
               ))}
