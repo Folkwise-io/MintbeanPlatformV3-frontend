@@ -50,4 +50,77 @@ export class ProjectDaoImpl implements ProjectDao {
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
   }
+
+  createProject(params: CreateProjectParams): Promise<Project> {
+    return (
+      this.api
+        .query<ApiResponseRaw<{ createProject: Project }>, { input: CreateProjectParams }>(
+          `
+          mutation createProject($input: CreateProjectInput!) {
+            createProject(input: $input) {
+              id
+              title
+              sourceCodeUrl
+              liveUrl
+              createdAt
+              meet {
+                id
+                title
+              }
+              user {
+                firstName
+                lastName
+                username
+              }
+              mediaAssets {
+                cloudinaryPublicId
+              }
+            }
+          }
+        `,
+          { input: params },
+        )
+        .then((result) => {
+          if (result.errors) throw result.errors;
+          if (!result.errors && !result.data.createProject) {
+            throw [{ message: "Something went wrong when creating project.", extensions: { code: "UNEXPECTED" } }];
+          }
+          return result.data.createProject;
+        })
+        // TODO: What potential Types of errors can invoke this catch?
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+        })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
+    );
+  }
+  deleteProject(id: string): Promise<boolean> {
+    return (
+      this.api
+        .query<ApiResponseRaw<{ deleteProject: boolean }>, { id: string }>(
+          `
+            mutation deleteProject($id: UUID!) {
+              deleteProject(id: $id)
+            }
+          `,
+          { id },
+        )
+        .then((result) => {
+          if (result.errors) throw result.errors;
+          if (!result.errors && !result.data.deleteProject) {
+            throw [{ message: "Something went wrong when deleteing project.", extensions: { code: "UNEXPECTED" } }];
+          }
+          return result.data.deleteProject;
+        })
+        // TODO: What potential Types of errors can invoke this catch?
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+        })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
+    );
+  }
 }

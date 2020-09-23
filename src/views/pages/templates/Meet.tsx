@@ -9,6 +9,7 @@ import { ExternalLink } from "../../components/ExternalLink";
 import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
 import { ProjectCard } from "../../components/ProjectCard";
 import { BgBlock } from "../../components/BgBlock";
+import ProjectCreateModal from "../../components/wrappers/Modal/walas/ProjectCreateModal";
 
 const d = new DateUtility();
 
@@ -47,7 +48,6 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       }
       setLoading(false);
     };
-
     fetchMeetData();
   }, [context, id]);
 
@@ -102,9 +102,9 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
             </section>
             <section className="text-white">
               {/*TODO: Add project submission form*/}
-              <Button onClick={() => alert("Ooops, can't do that yet! This will be a modal form")} className="mt-2">
-                Submit a project
-              </Button>
+              {meet && user.data && (
+                <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user.data} />
+              )}
             </section>
           </div>
           <section className="shadow-lg bg-white p-12">

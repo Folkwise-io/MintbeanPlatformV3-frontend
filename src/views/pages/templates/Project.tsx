@@ -9,6 +9,7 @@ import { ExternalLink } from "../../components/ExternalLink";
 import { ImageDisplay } from "../../components/ImageDisplay";
 import { ImageDisplayTray } from "../../components/ImageDisplayTray";
 import { BgBlock } from "../../components/BgBlock";
+import ProjectDeleteModal from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
 
 const d = new DateUtility();
 
@@ -55,8 +56,12 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
     fetchProjectData();
   }, [context, id]);
 
-  const redirectToMeets = async () => {
-    history.push("/meets");
+  const redirectToMeetOrMeets = async () => {
+    if (project) {
+      history.push(`/meets/${project.meet.id}`);
+    } else {
+      history.push(`/meets`);
+    }
   };
 
   return (
@@ -79,6 +84,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
         </BgBlock>
       </div>
 
+
       <main className="pt-16 pb-12 max-w-6xl mx-auto">
         <section className="bg-gray-800 text-white flex-grow shadow-lg py-6 px-8 rounded-mb-sm mx-10 md:mx-16">
           {project ? (
@@ -89,8 +95,34 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                 <p className="break-words">
                   by {project.user.firstName} {project.user.lastName} (@{project.user.username})
                 </p>
-                {project.meet?.id && (
-                  <Link to={`/meets/${project.meet.id}`}>Submitted for &quot;{project.meet.title}&quot;</Link>
+
+                  {project.meet?.id && (
+                    <Link to={`/meets/${project.meet.id}`}>Submitted for &quot;{project.meet.title}&quot;</Link>
+                  )}
+                  <section className="flex flex-wrap justify-center p-2 w-full">
+                    <ExternalLink href={project.sourceCodeUrl}>
+                      <Button type="secondary" className="m-2">
+                        Code
+                      </Button>
+                    </ExternalLink>
+                    <ExternalLink href={project.liveUrl}>
+                      <Button type="primary" className="m-2">
+                        Demo
+                      </Button>
+                    </ExternalLink>
+                    <ProjectDeleteModal
+                      buttonText="Delete"
+                      project={project}
+                      onDelete={redirectToMeetOrMeets}
+                      isAdmin={isAdmin}
+                    />
+                  </section>
+                </section>
+                {/* Other media assets */}
+                {project.mediaAssets.length > 1 && (
+                  <section>
+                    <ImageDisplayTray cloudinaryPublicIds={project.mediaAssets.map((ma) => ma.cloudinaryPublicId)} />
+                  </section>
                 )}
                 <section className="flex flex-wrap justify-center p-2 w-full">
                   <ExternalLink href={project.sourceCodeUrl}>

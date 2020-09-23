@@ -9,29 +9,25 @@ export class ProjectService {
       this.logger.handleGraphqlErrors(e);
     });
   }
-  // async fetchMeets(): Promise<Meet[]> {
-  //   return this.projectDao.fetchMeets().catch((e) => {
-  //     this.logger.handleGraphqlErrors(e);
-  //     return [];
-  //   });
-  // }
-  // async deleteMeet(id: string): Promise<boolean | void> {
-  //   return this.projectDao
-  //     .deleteMeet(id)
-  //     .then(() => this.logger.success("Successfully deleted the meet."))
-  //     .catch((e) => {
-  //       this.logger.handleGraphqlErrors(e);
-  //     });
-  // }
-  // async createMeet(params: CreateMeetParams): Promise<Meet | void> {
-  //   return this.projectDao
-  //     .createMeet(params)
-  //     .then((meet) => {
-  //       this.logger.success(`Created new meet "${meet.title}"!`);
-  //       return meet;
-  //     })
-  //     .catch((e) => {
-  //       this.logger.handleGraphqlErrors(e);
-  //     });
-  // }
+
+  async deleteProject(id: string): Promise<boolean | void> {
+    return this.projectDao
+      .deleteProject(id)
+      .then(() => this.logger.success("Successfully deleted the project."))
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
+  }
+
+  async createProject(params: CreateProjectParams): Promise<Project | void> {
+    return this.projectDao
+      .createProject(params)
+      .then((project) => {
+        this.logger.success(`Submitted new project <strong>${project.title}</strong>!`);
+        return project;
+      })
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
+  }
 }

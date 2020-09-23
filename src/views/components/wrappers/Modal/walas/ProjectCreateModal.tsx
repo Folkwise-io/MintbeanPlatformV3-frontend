@@ -2,23 +2,24 @@ import React, { FC, useRef } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
-import { MeetCreateForm } from "../../../forms/MeetCreateForm";
+import { ProjectCreateForm } from "../../../forms/ProjectCreateForm";
+import { Button } from "../../../Button";
 import { useHistory } from "react-router-dom";
 
 interface Props {
-  className?: string;
   buttonText: string;
-  refetchMeets: () => Promise<boolean | void>;
+  user: User;
+  meetId: string;
 }
 
-const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, className, buttonText, refetchMeets }) => {
+const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonText, meetId, user }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const history = useHistory();
 
   const actions: ModalActionDeclaration[] = [
     {
       type: "primary",
-      text: "Create Meet",
+      text: "Submit project",
       buttonType: "submit",
       onClick: async () => {
         if (formRef.current) {
@@ -29,17 +30,18 @@ const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, classN
     },
   ];
 
-  const createMeet = async (params: CreateMeetParams) => {
-    let meetId: string;
+  const createProject = async (params: CreateProjectParams) => {
+    let projectId: string;
     if (context) {
-      context.meetService
-        .createMeet(params)
-        .then((newMeet) => {
-          if (newMeet) {
-            meetId = newMeet.id;
+      await context.projectService
+        .createProject(params)
+        .then((proj) => {
+          console.log({ proj });
+          if (proj) {
+            projectId = proj.id;
           }
         })
-        .then(() => history.push(`/meets/${meetId}`));
+        .then(() => history.push(`/projects/${projectId}`));
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
     }
@@ -50,15 +52,21 @@ const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, classN
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <button onClick={toggleModal} ref={(el) => setRef(el)} className={className || ""}>
+          <Button onClick={toggleModal} forwardRef={(el) => setRef(el)}>
             {buttonText}
-          </button>
+          </Button>
         )}
       >
-        <MeetCreateForm formRef={formRef} createMeet={createMeet} />
+        <ProjectCreateForm
+          formRef={formRef}
+          createProject={createProject}
+          user={user}
+          meetId={meetId}
+          className="text-black font-regular"
+        />
       </Modal>
     </>
   );
 };
 
-export default connectContext<ConnectContextProps & Props>(AdminMeetCreateModal);
+export default connectContext<ConnectContextProps & Props>(ProjectCreateModal);
