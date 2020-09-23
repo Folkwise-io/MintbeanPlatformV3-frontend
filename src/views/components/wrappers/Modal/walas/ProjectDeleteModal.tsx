@@ -60,7 +60,7 @@ const ProjectDeleteModal: FC<ConnectContextProps & Props> = ({
         {" "}
         {isAdmin ? (
           <p className="text-black">
-            Are you sure you want to delete {project.user.firstName}'s project {'"'}
+            Are you sure you want to delete {project.user.firstName}&apos;s project {'"'}
             {project.title}
             {'"'}?
           </p>
