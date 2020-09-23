@@ -51,9 +51,6 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
         <section>
           <div className="flex flex-col md:flex-row items-center ">
             <div>
-              <Link to="/hackathons" className="mr-2 text-black hover:text-mb-blue-100">
-                Hackathons
-              </Link>
               <Link to="/community" className="mx-2 text-black hover:text-mb-blue-100">
                 Community
               </Link>
