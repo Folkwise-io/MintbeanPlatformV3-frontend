@@ -31,12 +31,12 @@ interface Props {
   meet: Meet;
 }
 
+const chopOffSecMs = (timestr: string): string => {
+  return timestr.replace(/:\d{2}\.\d{3}$/, "");
+};
+
 export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
   const [imageUrl, setImageUrl] = useState<string>("");
-
-  const chopOffSecMs = (timestr: string): string => {
-    return timestr.replace(/:\d{2}\.\d{3}$/, "");
-  };
 
   const { errors, register, handleSubmit } = useForm({
     resolver: yupResolver(editMeetInputSchema),
