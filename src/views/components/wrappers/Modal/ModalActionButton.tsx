@@ -20,7 +20,7 @@ export const ModalActionButton: FC<ModalActionProps> = ({
   onClick,
   closeModal,
 }): ReactElement => {
-  const commonClasses = "shadow-md border-solid border-2 rounded-md py-2 px-6 m-2";
+  const commonClasses = "font-semibold shadow-md border-solid border-2 rounded-md py-2 px-6 m-2";
   const classes = {
     primary: "text-white bg-mb-green-200 border-mb-green-200 ",
     secondary: "text-black bg-white border-mb-green-200",

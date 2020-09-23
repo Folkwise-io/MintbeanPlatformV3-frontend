@@ -28,7 +28,7 @@ export class MeetService {
     return this.meetDao
       .createMeet(params)
       .then((meet) => {
-        this.logger.success(`Created new meet "${meet.title}"!`);
+        this.logger.success(`Created new meet <strong>${meet.title}</strong>!`);
         return meet;
       })
       .catch((e) => {

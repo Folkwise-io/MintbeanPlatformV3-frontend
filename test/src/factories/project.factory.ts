@@ -23,6 +23,7 @@ const fakeProject: Project = {
   liveUrl: faker.internet.url(),
   createdAt: "2020-09-15T15:00:00.000Z",
   user: {
+    id: faker.random.uuid(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     username: faker.random.words().replace(/[\s-]/g, "").toLowerCase() + faker.finance.mask(),
