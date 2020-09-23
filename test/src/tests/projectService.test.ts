@@ -126,7 +126,7 @@ describe("ProjectService", () => {
       const SERVER_ERR_MSG = "test";
       await testManager
         .configureContext((context) => {
-          context.meetDao.mockReturn({
+          context.projectDao.mockReturn({
             data: null,
             errors: [{ message: SERVER_ERR_MSG, extensions: { code: "TEST_UNAUTHORIZED" } }],
           });
