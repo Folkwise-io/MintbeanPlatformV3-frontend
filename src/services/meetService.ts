@@ -35,4 +35,15 @@ export class MeetService {
         this.logger.handleGraphqlErrors(e);
       });
   }
+  async editMeet(id: string, params: EditMeetParams): Promise<Meet | void> {
+    return this.meetDao
+      .editMeet(id, params)
+      .then((meet) => {
+        this.logger.success(`Updated info for meet <strong>${meet.title}</strong>!`);
+        return meet;
+      })
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
+  }
 }

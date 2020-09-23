@@ -110,6 +110,68 @@ describe("MeetService", () => {
       expect(storeState.toasts[0].type).toBe("DANGER");
     });
   });
+  describe("editMeet()", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.meetDao.clearMockReturns();
+      });
+    });
+
+    // TODO: implement cookie header mocking for authorization tests
+    // it("only permits admins to create meets", async () => {
+    //   const user = userFactory.one();
+    //    ...
+    // });
+    const existingMeet = meetFactory.one();
+    const NEW_TITLE = "New title";
+    const updatedMeetParams = {
+      meetType: existingMeet.meetType,
+      title: NEW_TITLE,
+      description: existingMeet.description,
+      instructions: existingMeet.instructions,
+      registerLink: existingMeet.registerLink,
+      coverImageUrl: existingMeet.coverImageUrl,
+      startTime: existingMeet.startTime,
+      endTime: existingMeet.endTime,
+      region: existingMeet.region,
+    };
+    it("returns the edited meet on success", async () => {
+      await testManager
+        // add existing meet
+        .addMeets([existingMeet])
+        .execute((context) => {
+          return context.meetService.editMeet(existingMeet.id, updatedMeetParams).then((result) => {
+            if (result) {
+              expect(result.title).toBe(NEW_TITLE);
+            } else {
+              throw "This shouldn't be reached";
+            }
+          });
+        });
+    });
+    it("logs error and throws toast when server error returned", async () => {
+      const ERROR_MESSAGE = "test";
+      await testManager
+        .configureContext((context) => {
+          context.meetDao.mockReturn({
+            data: null,
+            errors: [{ message: ERROR_MESSAGE, extensions: { code: "TEST" } }],
+          });
+        })
+        .execute((context) => context.meetService.editMeet(existingMeet.id, updatedMeetParams));
+
+      const storeState = testManager.store.getState();
+      expect(storeState.errors[0].message).toBe(ERROR_MESSAGE);
+      expect(storeState.toasts[0].message).toBe(ERROR_MESSAGE);
+      expect(storeState.toasts[0].type).toBe("DANGER");
+    });
+  });
+
   describe("fetchMeet()", () => {
     beforeEach(() => {
       testManager = TestManager.build();
