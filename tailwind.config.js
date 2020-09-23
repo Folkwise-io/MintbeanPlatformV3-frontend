@@ -18,6 +18,7 @@ module.exports = {
         50: "50%",
         75: "75%",
         full: "100%",
+        "40vh": "40vh",
         "60vh": "60vh",
       },
       minHeight: {
@@ -69,6 +70,9 @@ module.exports = {
         108: "27rem",
         120: "30rem",
       },
+      backgroundImage: (theme) => ({
+        callToAction: "url(../assets/images/banners/robots-lg.jpg)",
+      }),
     },
     fontFamily: {
       body: ["Montserrat", "sans-serif"],
