@@ -1,6 +1,6 @@
 import { ProjectDao } from "../../../src/daos/ProjectDao";
 
-type SuccessDataTypes = Project;
+type SuccessDataTypes = Project | boolean;
 
 // TODO: implement cookie header mocking for authorization tests
 export class TestProjectDao implements ProjectDao {
@@ -38,6 +38,15 @@ export class TestProjectDao implements ProjectDao {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (params && this.getSuccesses().length) {
       return (this.getSuccesses()[0].data as unknown) as Project;
+    } else {
+      throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
+    }
+  }
+
+  async deleteProject(id: string): Promise<boolean> {
+    if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
+    if (id && this.getSuccesses().length) {
+      return (this.getSuccesses()[0].data as unknown) as boolean;
     } else {
       throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
     }

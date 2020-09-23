@@ -10,6 +10,15 @@ export class ProjectService {
     });
   }
 
+  async deleteMeet(id: string): Promise<boolean | void> {
+    return this.projectDao
+      .deleteProject(id)
+      .then(() => this.logger.success("Successfully deleted the project."))
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
+  }
+
   async createProject(params: CreateProjectParams): Promise<Project | void> {
     return this.projectDao
       .createProject(params)
