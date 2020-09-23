@@ -2,7 +2,7 @@ import React, { FC, useRef } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { MeetEditForm } from "../../../forms/MeetEditForm";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 
 const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, className, buttonText, meet }) => {
   const formRef = useRef<HTMLFormElement>(null);
-  const history = useHistory();
+  // const history = useHistory();
 
   const actions: ModalActionDeclaration[] = [
     {
@@ -32,8 +32,9 @@ const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, classNam
   const editMeet = async (params: CreateMeetParams) => {
     if (context) {
       await context.meetService.editMeet(meet.id, params).then(() => {
-        console.log(`going here: /meets/${meet.id}`);
-        history.push(`/meets/${meet.id}`);
+        console.log({ history });
+        // can't get react router history to push reload same page for some reason
+        window && window.location.reload();
       });
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");

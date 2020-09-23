@@ -57,6 +57,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   };
 
   const meetHasNotStarted = !d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
+  const meetHasNotEnded = !d.isPast(meet?.endTime || "", meet?.region || "America/Toronto");
   const dateInfo = meet
     ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDuration(meet.startTime, meet.endTime)} hours)`
     : "Loading..";
@@ -101,7 +102,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                 <p>{dateInfo}</p>
                 <p className="mt-2">{meet?.description}</p>
                 <a href=""></a>
-                {meet?.registerLink && (
+                {meet?.registerLink && meetHasNotEnded && (
                   <ExternalLink href={meet.registerLink}>
                     <Button className="mt-2">Register</Button>
                   </ExternalLink>
