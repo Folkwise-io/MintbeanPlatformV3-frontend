@@ -36,6 +36,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const isAdmin = user.data?.isAdmin;
+  const isOwner = user.data?.id === project?.user.id;
   const history = useHistory();
 
   useEffect(() => {
@@ -113,12 +114,14 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                       Demo
                     </Button>
                   </ExternalLink>
-                  <ProjectDeleteModal
-                    buttonText="Delete"
-                    project={project}
-                    onDelete={redirectToMeetOrMeets}
-                    isAdmin={isAdmin}
-                  />
+                  {(isAdmin || isOwner) && (
+                    <ProjectDeleteModal
+                      buttonText="Delete"
+                      project={project}
+                      onDelete={redirectToMeetOrMeets}
+                      isAdmin={isAdmin}
+                    />
+                  )}
                 </section>
               </section>
               {/* Other media assets */}
