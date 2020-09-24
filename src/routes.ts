@@ -10,10 +10,11 @@ interface RouteConfig {
 /* eslint-enable  @typescript-eslint/no-explicit-any */
 
 export const routes: RouteConfig[] = [
-  {
-    component: Hackathons,
-    path: "/hackathons",
-  },
+  // Removing Hackathons page for now. Decide whether to delete component later.
+  // {
+  //   component: Hackathons,
+  //   path: "/hackathons",
+  // },
   {
     component: Meet,
     path: "/meets/:id",

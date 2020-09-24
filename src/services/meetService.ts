@@ -28,7 +28,18 @@ export class MeetService {
     return this.meetDao
       .createMeet(params)
       .then((meet) => {
-        this.logger.success(`Created new meet <strong>${meet.title}</strong>!`);
+        this.logger.success(`Created new meet **${meet.title}**!`);
+        return meet;
+      })
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
+  }
+  async editMeet(id: string, params: EditMeetParams): Promise<Meet | void> {
+    return this.meetDao
+      .editMeet(id, params)
+      .then((meet) => {
+        this.logger.success(`Updated info for meet **${meet.title}**!`);
         return meet;
       })
       .catch((e) => {

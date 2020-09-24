@@ -47,6 +47,17 @@ export class TestMeetDao implements MeetDao {
       throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
     }
   }
+  async editMeet(id: string, params: EditMeetParams): Promise<Meet> {
+    if (!id || !params) throw "You messed up in writing your test. Make sure id and input params are passed as args";
+    if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
+    if (id && params && this.getSuccesses().length) {
+      return (this.getSuccesses()[0].data as unknown) as Meet;
+    } else {
+      const index: number = this.data.findIndex((m) => m.id === id);
+      const prevMeet: Meet = this.data[index];
+      return (this.data[index] = { ...prevMeet, ...params });
+    }
+  }
   async deleteMeet(id: string): Promise<boolean> {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (id && this.getSuccesses().length) {

@@ -8,6 +8,7 @@ import { ExternalLink } from "../../components/ExternalLink";
 // import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
 import { ImageDisplay } from "../../components/ImageDisplay";
 import { ImageDisplayTray } from "../../components/ImageDisplayTray";
+import { BgBlock } from "../../components/BgBlock";
 import ProjectDeleteModal from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
 
 const d = new DateUtility();
@@ -62,7 +63,6 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
       history.push(`/meets`);
     }
   };
-
   // const dateInfo = project
   //   ? `${d.wcToClientStr(project.startTime, project.region)} (${d.getDuration(
   //       project.startTime,
@@ -71,69 +71,75 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
   //   : "Loading..";
 
   return (
-    <div className="container mx-auto max-w-screen-lg px-2">
-      <header>
-        <div className="flex justify-center bg-gray-800">
-          {loading ? (
-            <div className="text-white h-screen-lg p-24 w-full flex justify-center items-center">Loading...</div>
-          ) : project && project.mediaAssets[0] ? (
-            // If media asset found, display
-            <ImageDisplay cloudinaryPublicId={project.mediaAssets[0].cloudinaryPublicId} />
-          ) : (
-            // If no media assets, show default image
-            // TODO: define deafult image
-            <ImageDisplay cloudinaryPublicId="imgNotFoundPlaceholder" />
-          )}
-        </div>
-      </header>
-
-      <main className="py-2 md:py-12">
-        <div className="flex flex-col md:flex-row">
-          <section className="bg-gray-800 text-white flex-grow shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
-            {project ? (
-              <section>
-                {/* Project info section */}
-                <section>
-                  <h1>{project.title}</h1>
-                  <p>
-                    by {project.user.firstName} {project.user.lastName} (@{project.user.username})
-                  </p>
-                  {project.meet?.id && (
-                    <Link to={`/meets/${project.meet.id}`}>Submitted for &quot;{project.meet.title}&quot;</Link>
-                  )}
-                  <section className="flex flex-wrap justify-center p-2 w-full">
-                    <ExternalLink href={project.sourceCodeUrl}>
-                      <Button type="secondary" className="m-2">
-                        Code
-                      </Button>
-                    </ExternalLink>
-                    <ExternalLink href={project.liveUrl}>
-                      <Button type="primary" className="m-2">
-                        Demo
-                      </Button>
-                    </ExternalLink>
-                    <ProjectDeleteModal
-                      buttonText="Delete"
-                      project={project}
-                      onDelete={redirectToMeetOrMeets}
-                      isAdmin={isAdmin}
-                    />
-                  </section>
-                </section>
-                {/* Other media assets */}
-                {project.mediaAssets.length > 1 && (
-                  <section>
-                    <ImageDisplayTray cloudinaryPublicIds={project.mediaAssets.map((ma) => ma.cloudinaryPublicId)} />
-                  </section>
-                )}
-              </section>
+    <BgBlock type="blackStripeEvents">
+      <div className="md:max-h-30vh flex flex-col">
+        <BgBlock type="blackMeet">
+          <header className="flex justify-center bg-gray-800 max-h-30vh min-h-30vh">
+            {loading ? (
+              <div className="text-white min-w-full inline-flex justify-center items-center">Loading...</div>
+            ) : project && project.mediaAssets[0] ? (
+              // If media asset found, display
+              <ImageDisplay
+                className="w-full flex justify-center"
+                cloudinaryPublicId={project.mediaAssets[0].cloudinaryPublicId}
+              />
             ) : (
-              <p>Uh oh, project not found!</p>
+              // If no media assets, show default image
+              // TODO: define deafult image
+              <ImageDisplay
+                className="w-full flex justify-center align-center"
+                cloudinaryPublicId="imgNotFoundPlaceholder"
+              />
             )}
-          </section>
-        </div>
+          </header>
+        </BgBlock>
+      </div>
+
+      <main className="pt-16 pb-12 max-w-6xl mx-auto">
+        <section className="bg-gray-800 text-white flex-grow shadow-lg py-6 px-8 rounded-mb-sm mx-10 md:mx-16">
+          {project ? (
+            <section className="text-center">
+              {/* Project info section */}
+              <section>
+                <h1 className="font-semibold">{project.title}</h1>
+                <p className="break-words">
+                  by {project.user.firstName} {project.user.lastName} (@{project.user.username})
+                </p>
+                {project.meet?.id && (
+                  <Link to={`/meets/${project.meet.id}`}>Submitted for &quot;{project.meet.title}&quot;</Link>
+                )}
+                <section className="flex flex-wrap justify-center p-2 w-full">
+                  <ExternalLink href={project.sourceCodeUrl}>
+                    <Button type="secondary" className="m-2">
+                      Code
+                    </Button>
+                  </ExternalLink>
+                  <ExternalLink href={project.liveUrl}>
+                    <Button type="primary" className="m-2">
+                      Demo
+                    </Button>
+                  </ExternalLink>
+                  <ProjectDeleteModal
+                    buttonText="Delete"
+                    project={project}
+                    onDelete={redirectToMeetOrMeets}
+                    isAdmin={isAdmin}
+                  />
+                </section>
+              </section>
+              {/* Other media assets */}
+              {project.mediaAssets.length && (
+                <section className="grid grid-cols-3">
+                  <ImageDisplayTray cloudinaryPublicIds={project.mediaAssets.map((ma) => ma.cloudinaryPublicId)} />
+                </section>
+              )}
+            </section>
+          ) : (
+            <p>Uh oh, project not found!</p>
+          )}
+        </section>
       </main>
-    </div>
+    </BgBlock>
   );
 };
 

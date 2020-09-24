@@ -10,6 +10,7 @@ import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMee
 import { ProjectCard } from "../../components/ProjectCard";
 import { BgBlock } from "../../components/BgBlock";
 import ProjectCreateModal from "../../components/wrappers/Modal/walas/ProjectCreateModal";
+import AdminMeetEditModal from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
 
 const d = new DateUtility();
 
@@ -56,6 +57,8 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   };
 
   const meetHasNotStarted = !d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
+  const meetHasNotEnded = !d.isPast(meet?.endTime || "", meet?.region || "America/Toronto");
+
   const dateInfo = meet
     ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDuration(meet.startTime, meet.endTime)} hours)`
     : "Loading..";
@@ -78,7 +81,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     <BgBlock type="blackStripeEvents">
       <BgBlock type="blackMeet">
         <header className="flex flex-col items-center">
-          <div className="flex w-screen min-h-84 bg-gray-800">
+          <div className="flex w-screen min-h-84 max-h-60vh bg-gray-800">
             {loading ? (
               <div className="text-white h-screen-lg p-24 w-full flex justify-center items-center">Loading...</div>
             ) : (
@@ -100,18 +103,26 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                 <p>{dateInfo}</p>
                 <p className="mt-2">{meet?.description}</p>
                 <a href=""></a>
-                {meet?.registerLink && (
+                {meet?.registerLink && meetHasNotEnded && (
                   <ExternalLink href={meet.registerLink}>
                     <Button className="mt-2">Register</Button>
                   </ExternalLink>
                 )}
                 {isAdmin && meet && (
-                  <AdminMeetDeleteModal
-                    buttonText="Delete"
-                    meet={meet}
-                    onDelete={redirectToMeets}
-                    className="mt-2 md:mt-0 md:ml-2"
-                  />
+                  <>
+                    <AdminMeetDeleteModal
+                      buttonText="Delete"
+                      meet={meet}
+                      onDelete={redirectToMeets}
+                      className="mt-2 md:mt-0 md:ml-2"
+                    />
+                    {/* Todo use common button class */}
+                    <AdminMeetEditModal
+                      className="font-semibold shadow-md border-solid border-2 rounded-md py-2 px-6 m-2 text-black bg-white border-mb-green-200"
+                      buttonText="Edit"
+                      meet={meet}
+                    />
+                  </>
                 )}
               </div>
             </section>

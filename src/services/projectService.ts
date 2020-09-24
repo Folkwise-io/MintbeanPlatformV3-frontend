@@ -23,7 +23,7 @@ export class ProjectService {
     return this.projectDao
       .createProject(params)
       .then((project) => {
-        this.logger.success(`Submitted new project <strong>${project.title}</strong>!`);
+        this.logger.success(`Submitted new project **${project.title}**!`);
         return project;
       })
       .catch((e) => {
