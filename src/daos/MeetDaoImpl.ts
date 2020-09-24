@@ -138,6 +138,45 @@ export class MeetDaoImpl implements MeetDao {
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
   }
+  editMeet(id: string, params: EditMeetParams): Promise<Meet> {
+    return (
+      this.api
+        .query<ApiResponseRaw<{ editMeet: Meet }>, { id: string; input: EditMeetParams }>(
+          `
+          mutation editMeet($id: UUID!, $input: EditMeetInput!) {
+            editMeet(id: $id, input: $input) {
+              id
+              meetType
+              title
+              description
+              instructions
+              registerLink
+              coverImageUrl
+              startTime
+              endTime
+              createdAt
+              region
+            }
+          }
+        `,
+          { id, input: params },
+        )
+        .then((result) => {
+          if (result.errors) throw result.errors;
+          if (!result.errors && !result.data.editMeet) {
+            throw [{ message: "Something went wrong when creating meet.", extensions: { code: "UNEXPECTED" } }];
+          }
+          return result.data.editMeet;
+        })
+        // TODO: What potential Types of errors can invoke this catch?
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+        })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
+    );
+  }
   deleteMeet(id: string): Promise<boolean> {
     return (
       this.api

@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import Markdown from "react-markdown";
 
 type Props = {
   toast: Toast;
@@ -35,7 +36,9 @@ export const Toast: FC<Props> = ({ toast, removeToast }) => {
           Close
         </span>
       </p>
-      <div dangerouslySetInnerHTML={{ __html: toast.message }}></div>
+      <div>
+        <Markdown className="markdown-toast" source={toast.message} />
+      </div>
     </div>
   );
 };

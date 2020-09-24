@@ -10,6 +10,7 @@ import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMee
 import { ProjectCard } from "../../components/ProjectCard";
 import { BgBlock } from "../../components/BgBlock";
 import ProjectCreateModal from "../../components/wrappers/Modal/walas/ProjectCreateModal";
+import AdminMeetEditModal from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
 
 const d = new DateUtility();
 
@@ -55,9 +56,26 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     history.push("/meets");
   };
 
+  const meetHasNotStarted = !d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
+  const meetHasNotEnded = !d.isPast(meet?.endTime || "", meet?.region || "America/Toronto");
+
   const dateInfo = meet
     ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDuration(meet.startTime, meet.endTime)} hours)`
     : "Loading..";
+
+  const userInstructionsView = (
+    <>
+      <h2 className="font-medium">Instructions</h2>
+      <Markdown source={meet?.instructions} />
+    </>
+  );
+  const adminInstructionsView = (
+    <>
+      {" "}
+      {meetHasNotStarted && <em>(Users cannot see these instructions until meet starts)</em>}
+      {userInstructionsView}
+    </>
+  );
 
   return (
     <BgBlock type="blackStripeEvents">
@@ -85,18 +103,26 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                 <p>{dateInfo}</p>
                 <p className="mt-2">{meet?.description}</p>
                 <a href=""></a>
-                {meet?.registerLink && (
+                {meet?.registerLink && meetHasNotEnded && (
                   <ExternalLink href={meet.registerLink}>
                     <Button className="mt-2">Register</Button>
                   </ExternalLink>
                 )}
                 {isAdmin && meet && (
-                  <AdminMeetDeleteModal
-                    buttonText="Delete"
-                    meet={meet}
-                    onDelete={redirectToMeets}
-                    className="mt-2 md:mt-0 md:ml-2"
-                  />
+                  <>
+                    <AdminMeetDeleteModal
+                      buttonText="Delete"
+                      meet={meet}
+                      onDelete={redirectToMeets}
+                      className="mt-2 md:mt-0 md:ml-2"
+                    />
+                    {/* Todo use common button class */}
+                    <AdminMeetEditModal
+                      className="font-semibold shadow-md border-solid border-2 rounded-md py-2 px-6 m-2 text-black bg-white border-mb-green-200"
+                      buttonText="Edit"
+                      meet={meet}
+                    />
+                  </>
                 )}
               </div>
             </section>
@@ -108,16 +134,27 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
             </section>
           </div>
           <section className="shadow-lg bg-white p-12">
-            <h2 className="font-medium">Instructions</h2>
-            <Markdown source={meet?.instructions} />
+            {user?.data?.isAdmin ? (
+              adminInstructionsView
+            ) : meetHasNotStarted ? (
+              <p>Instructions will be released once the meet starts!</p>
+            ) : (
+              userInstructionsView
+            )}
           </section>
           <section className="shadow-lg bg-white p-12">
-            <h2 className="font-medium">Submissions</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 place-content-evenly row-auto">
-              {meet?.projects.map((p) => (
-                <ProjectCard project={p} key={p.id} />
-              ))}
-            </div>
+            {meet?.projects.length ? (
+              <>
+                <h2 className="font-medium">Submissions</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+                  {meet.projects.map((p) => (
+                    <ProjectCard project={p} key={p.id} />
+                  ))}
+                </div>
+              </>
+            ) : (
+              <p>No submissions yet.</p>
+            )}
           </section>
         </div>
       </main>

@@ -87,6 +87,18 @@ interface CreateMeetParams {
   endTime: string;
   region: string;
 }
+// Same as CreateMeetUnput atm
+interface EditMeetParams {
+  meetType: "hackMeet";
+  title: string;
+  description: string;
+  instructions: string;
+  registerLink?: string;
+  coverImageUrl: string;
+  startTime: string;
+  endTime: string;
+  region: string;
+}
 
 interface CreateProjectParams {
   userId: string;
