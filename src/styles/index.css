@@ -39,6 +39,9 @@ input {
   margin: 0.25em;
 }
 
+.markdown p {
+  margin-bottom: 1em;
+}
 .markdown-toast a {
   color: #000000;
   text-decoration: underline;
