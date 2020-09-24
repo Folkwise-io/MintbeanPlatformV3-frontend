@@ -1,4 +1,5 @@
 import moment from "moment-timezone";
+import humanizeDuration from "humanize-duration";
 
 // 'wc' = 'wallclock'
 
@@ -39,8 +40,8 @@ export class DateUtility {
     return hoursDifference(endDate, startDate);
   };
   // Returns a humanized string of a duration using momentjs's humanize() function
-  getDurationString = (number: number, unit: moment.DurationInputArg2): string => {
-    return moment.duration(number, unit).humanize();
+  getDurationStringFromHours = (numberOfHours: number): string => {
+    return humanizeDuration(numberOfHours * 60 * 60 * 1000, { largest: 2 });
   };
   // Returns relative time string from client region's perspective. Client region is guessed if not provided
   fromNow = (wcStr: string, masterRegion: string, clientRegion?: string): string => {

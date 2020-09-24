@@ -17,7 +17,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
 
   const startTimeStr = d.wcToClientStr(startTime, region);
   const durationInHours = d.getDurationInHours(startTime, endTime);
-  const durationString = d.getDurationString(durationInHours, "hours");
+  const durationString = d.getDurationStringFromHours(durationInHours);
 
   return (
     <div className="shadow-md bg-white grid grid-rows-5 place-items-center md:pr-8 md:grid-rows-1 md:grid-cols-3 w-11/12 mx-auto rounded-lg lg:p-4 overflow-hidden">
