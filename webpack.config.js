@@ -112,6 +112,7 @@ module.exports = () => {
             content:
               "Calling JavaScript developers from all levels! Attend our coding fairs. Grow your skills. Build a portfolio. Get job-ready. Make new friends. All at Mintbean.",
           },
+          // og image tags moved to index.html
           { property: "twitter:card", content: "summary_large_image" },
           { property: "twitter:url", content: "https://mintbean.io/" },
           { property: "twitter:title", content: "Mintbean - Coding Fairs for JavaScript Developers" },
@@ -120,7 +121,6 @@ module.exports = () => {
             content:
               "Calling JavaScript developers from all levels! Attend our coding fairs. Grow your skills. Build a portfolio. Get job-ready. Make new friends. All at Mintbean.",
           },
-          { property: "twitter:image", content: "./src/assets/images/banners/meta-banner.png" },
           { property: "og:type", content: "website" },
           { property: "og:url", content: "https://mintbean.io/" },
           { property: "og:title", content: "Mintbean - Coding Fairs for JavaScript Developers" },
@@ -129,7 +129,6 @@ module.exports = () => {
             content:
               "Calling JavaScript developers from all levels! Attend our coding fairs. Grow your skills. Build a portfolio. Get job-ready. Make new friends. All at Mintbean.",
           },
-          { property: "og:image", content: "./src/assets/images/banners/meta-banner.png" },
           { property: "og:site_name", content: "Mintbean" },
         ],
       }),
