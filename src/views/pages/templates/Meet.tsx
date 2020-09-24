@@ -60,7 +60,10 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const meetHasNotEnded = !d.isPast(meet?.endTime || "", meet?.region || "America/Toronto");
 
   const dateInfo = meet
-    ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDuration(meet.startTime, meet.endTime)} hours)`
+    ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDurationString(
+        d.getDurationInHours(meet.startTime, meet.endTime),
+        "hours",
+      )})`
     : "Loading..";
 
   const userInstructionsView = (
