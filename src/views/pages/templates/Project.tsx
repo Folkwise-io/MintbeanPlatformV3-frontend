@@ -128,7 +128,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                 </section>
               </section>
               {/* Other media assets */}
-              {project.mediaAssets.length > 1 && (
+              {project.mediaAssets.length && (
                 <section className="grid grid-cols-3">
                   <ImageDisplayTray cloudinaryPublicIds={project.mediaAssets.map((ma) => ma.cloudinaryPublicId)} />
                 </section>
