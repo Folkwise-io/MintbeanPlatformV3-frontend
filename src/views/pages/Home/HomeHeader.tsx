@@ -31,15 +31,15 @@ export const HomeHeader: FC<Props> = ({ header }) => {
   const { title } = header;
 
   return (
-    <header className="text-xl bg-gradient-to-b from-mb-green-200 to-mb-blue-100 w-auto mx-2 md:mx-6 font-body rounded-mb-md flex flex-col max-w-7xl">
+    <header className="text-xl bg-gradient-to-b from-mb-green-200 to-mb-blue-100 bg-mb-green-200 w-auto mx-2 md:mx-6 font-body rounded-mb-md flex flex-col max-w-7xl">
       <div className="bg-callToAction bg-contain h-72 max-h-40vh grid place-items-center">
-        <div className="bg-black text-center px-8 py-2 rounded-mb-sm">
-          <p className="text-3xl text-white">Check out our </p>
+        <div className="bg-mb-purple-100 text-center px-8 py-4 rounded-mb-sm border-mb-green-100 border-solid border-8">
+          <p className="text-3xl text-white break-words">For upcoming meets</p>
           <Link
-            className="transition duration-500 ease-in-out text-4xl hover:text-mb-orange-100 focus:text-mb-orange-100"
+            className="text-semibold transition duration-500 ease-in-out text-4xl hover:text-mb-orange-100 focus:text-mb-orange-100"
             to="/meets"
           >
-            upcoming meets!
+            Click here.
           </Link>
         </div>
       </div>
