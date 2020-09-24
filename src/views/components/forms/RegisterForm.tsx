@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const registerSchema = yup.object().shape({
-  username: yup.string().min(3, "Too short!").max(20, "Maximum 20 characters!").required("Required"),
   firstName: yup.string().min(1, "At least one character!").max(36, "Maximum 36 characters!").required("Required"),
   lastName: yup.string().min(1, "At least one character!").max(36, "Maximum 36 characters!").required("Required"),
   email: yup.string().email("Invalid email").required("Required"),
@@ -40,10 +39,6 @@ export const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
       <label htmlFor="lastName">Last name</label>
       <input type="text" name="lastName" ref={register} />
       <p className="text-red-500">{errors.lastName?.message}</p>
-
-      <label htmlFor="username">Username</label>
-      <input type="text" name="username" ref={register} />
-      <p className="text-red-500">{errors.username?.message}</p>
 
       <label htmlFor="email">Email</label>
       <input type="email" name="email" ref={register} />

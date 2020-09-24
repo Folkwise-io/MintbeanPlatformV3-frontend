@@ -20,7 +20,6 @@ export class AuthDaoImpl implements AuthDao {
               login(email: $email, password: $password) {
                 id
                 email
-                username
                 firstName
                 lastName
                 createdAt
@@ -83,7 +82,6 @@ export class AuthDaoImpl implements AuthDao {
               me {
                 id
                 email
-                username
                 firstName
                 lastName
                 createdAt
@@ -118,7 +116,6 @@ export class AuthDaoImpl implements AuthDao {
           register(input: $input) {
             id
             email
-            username
             firstName
             lastName
             createdAt
