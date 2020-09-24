@@ -70,7 +70,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
     description: "Come hack with us!",
   };
   return (
-    <div>
+    <div className="mb-8">
       <BgBlock type="gradStripeEvents">
         <BgBlock type="blackStripeEvents">
           <header className="pt-8 pb-6 flex flex-col items-center">

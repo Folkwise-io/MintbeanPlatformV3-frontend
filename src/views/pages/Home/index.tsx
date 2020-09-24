@@ -11,14 +11,7 @@ const Home: FC<void> = () => {
       "We have events, workshops and competitions that build your skills, help you make friends, and let you create a dazzling coding portfolio. Here are a few FREE programs that you can be a part of: ",
   };
   const listArgs = {
-    titles: [
-      "Code mentorship.",
-      "Workshops.",
-      "Live speakers.",
-      "Masterclass",
-      "Competitions",
-      "Dev Evangelist Program.",
-    ],
+    titles: ["Code mentorship", "Workshops", "Live speakers", "Masterclass", "Competitions", "Dev Evangelist Program"],
     content: [
       `Help other devs with your knowledge and expertise, and add “volunteer code mentor” to your resume.`,
       `Learn new skills and technologies with us with the luxury of a live chat.`,
