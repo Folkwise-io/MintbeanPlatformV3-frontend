@@ -63,12 +63,6 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
       history.push(`/meets`);
     }
   };
-  // const dateInfo = project
-  //   ? `${d.wcToClientStr(project.startTime, project.region)} (${d.getDuration(
-  //       project.startTime,
-  //       project.endTime,
-  //     )} hours)`
-  //   : "Loading..";
 
   return (
     <BgBlock type="blackStripeEvents">
@@ -128,7 +122,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                 </section>
               </section>
               {/* Other media assets */}
-              {project.mediaAssets.length && (
+              {project.mediaAssets.length !== 0 && (
                 <section className="grid grid-cols-3">
                   <ImageDisplayTray cloudinaryPublicIds={project.mediaAssets.map((ma) => ma.cloudinaryPublicId)} />
                 </section>

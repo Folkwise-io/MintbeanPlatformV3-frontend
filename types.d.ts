@@ -155,3 +155,10 @@ interface StoreState {
   errors: LoggedError[];
   toasts: ToastState;
 }
+
+// OTHER -------------------------
+// to allow imports of md files in components
+declare module "*.md" {
+  const value: string;
+  export default value;
+}
