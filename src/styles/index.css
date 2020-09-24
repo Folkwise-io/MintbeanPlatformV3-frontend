@@ -43,3 +43,9 @@ input {
   color: #000000;
   text-decoration: underline;
 }
+
+img {
+  display: block;
+  width: 100%;
+  min-height: 100%;
+}
