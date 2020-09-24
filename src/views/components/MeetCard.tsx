@@ -20,12 +20,12 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   const durationString = d.getDurationStringFromHours(durationInHours);
 
   return (
-    <div className="shadow-md bg-white grid grid-rows-5 place-items-center md:pr-8 md:grid-rows-1 md:grid-cols-3 w-11/12 mx-auto rounded-lg lg:p-4 overflow-hidden">
-      <div className="h-64 md:h-56 overflow-hidden row-span-2 md:row-span-1 col-span-1 inline-flex justify-center items-center mx-auto">
+    <div className="shadow-md bg-white md:pr-8 flex-col md:flex md:flex-row w-11/12 mx-auto rounded-lg lg:p-4 overflow-hidden">
+      <div className="h-64 md:w-1/3 md:h-56 overflow-hidden inline-flex justify-center items-center my-auto mx-auto">
         <img className="object-cover" src={coverImageUrl} alt={`${title} event banner`}></img>
       </div>
 
-      <div className="py-8 px-12 md:p-4 row-span-3 md:row-span-1 md:col-span-2">
+      <div className="py-8 px-12 md:p-4 md:w-2/3 ">
         <section className="flex h-full flex-col md:my-1 w-full justify-between items-center text-center">
           <h2 className="text-2xl mb-2 font-medium">{title}</h2>
           <div>
