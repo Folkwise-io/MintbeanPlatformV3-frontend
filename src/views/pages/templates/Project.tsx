@@ -95,7 +95,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
               <section>
                 <h1 className="font-semibold">{project.title}</h1>
                 <p className="break-words">
-                  by {project.user.firstName} {project.user.lastName})
+                  by {project.user.firstName} {project.user.lastName}
                 </p>
                 {project.meet?.id && (
                   <Link to={`/meets/${project.meet.id}`}>Submitted for &quot;{project.meet.title}&quot;</Link>
