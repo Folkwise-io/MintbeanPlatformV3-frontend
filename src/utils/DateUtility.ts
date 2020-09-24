@@ -33,10 +33,14 @@ export class DateUtility {
   };
   /*Returns the hour differences between two datetime strings, assuming start/end is in same region
    (input string example: '2020-10-15T13:00:00.000') */
-  getDuration = (startTime: string, endTime: string): number => {
+  getDurationInHours = (startTime: string, endTime: string): number => {
     const startDate = new Date(startTime);
     const endDate = new Date(endTime);
     return hoursDifference(endDate, startDate);
+  };
+  // Returns a humanized string of a duration using momentjs's humanize() function
+  getDurationString = (number: number, unit: moment.DurationInputArg2): string => {
+    return moment.duration(number, unit).humanize();
   };
   // Returns relative time string from client region's perspective. Client region is guessed if not provided
   fromNow = (wcStr: string, masterRegion: string, clientRegion?: string): string => {

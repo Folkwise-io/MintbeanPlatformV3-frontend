@@ -37,22 +37,22 @@ describe("Date Utility", () => {
       // same day
       const s1 = "2020-10-15T12:00:00.000";
       const e1 = "2020-10-15T16:00:00.000";
-      expect(d.getDuration(s1, e1)).toBe(4);
+      expect(d.getDurationInHours(s1, e1)).toBe(4);
       // multiday
       const s2 = "2020-10-15T12:00:00.000";
       const e2 = "2020-10-17T12:00:00.000";
-      expect(d.getDuration(s2, e2)).toBe(48);
+      expect(d.getDurationInHours(s2, e2)).toBe(48);
       // order doesn't matter
       const s3 = "2020-10-15T12:00:00.000";
       const e3 = "2020-10-17T12:00:00.000";
-      expect(d.getDuration(e3, s3)).toBe(48);
+      expect(d.getDurationInHours(e3, s3)).toBe(48);
       // fractional hours
       const s4 = "2020-10-15T12:00:00.000";
       const e4 = "2020-10-15T16:30:00.000";
-      expect(d.getDuration(e4, s4)).toBe(4.5);
+      expect(d.getDurationInHours(e4, s4)).toBe(4.5);
       const s5 = "2020-10-15T12:00:00.000";
       const e5 = "2020-10-15T16:45:00.000";
-      expect(d.getDuration(e5, s5)).toBe(4.75);
+      expect(d.getDurationInHours(e5, s5)).toBe(4.75);
     });
   });
   describe("isPast", () => {
