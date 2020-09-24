@@ -24,7 +24,7 @@ export const ImageDisplay: FC<Props> = ({
   className,
 }) => {
   // supplies defaul image if cloudinaryPublicId not provided
-  if (!cloudinaryPublicId) cloudinaryPublicId = "imgNotFoundPlaceholder";
+  if (!cloudinaryPublicId) cloudinaryPublicId = "imgNotFoundPlaceholder2";
   return (
     <div className={"overflow-hidden " + className || ""}>
       <CloudinaryContext cloudName={process.env.CLOUDINARY_CLOUD_NAME}>
