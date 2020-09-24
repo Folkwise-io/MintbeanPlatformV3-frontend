@@ -87,6 +87,7 @@ module.exports = () => {
           use: ["style-loader", "css-loader"],
         },
         { test: /\.css$/, loader: "postcss-loader" },
+        { test: /\.md$/, loader: "raw-loader" },
       ],
     },
     devServer: {

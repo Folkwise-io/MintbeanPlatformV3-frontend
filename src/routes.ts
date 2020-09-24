@@ -1,5 +1,14 @@
 import React from "react";
-import { Home, Community, Hackathons, NotFound, Meets, Meet, Project } from "./views/pages";
+import {
+  Home,
+  Community,
+  TermsOfService,
+  PrivacyPolicy,
+  /* Hackathons,*/ NotFound,
+  Meets,
+  Meet,
+  Project,
+} from "./views/pages";
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 interface RouteConfig {
@@ -31,6 +40,14 @@ export const routes: RouteConfig[] = [
     component: Home,
     exact: true,
     path: "/",
+  },
+  {
+    component: TermsOfService,
+    path: "/terms-of-service",
+  },
+  {
+    component: PrivacyPolicy,
+    path: "/privacy-policy",
   },
   {
     component: Community,
