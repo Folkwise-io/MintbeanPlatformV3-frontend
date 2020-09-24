@@ -16,7 +16,8 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   const { id, title, description, startTime, endTime, coverImageUrl, region } = meet;
 
   const startTimeStr = d.wcToClientStr(startTime, region);
-  const duration = d.getDuration(startTime, endTime);
+  const durationInHours = d.getDurationInHours(startTime, endTime);
+  const durationString = d.getDurationStringFromHours(durationInHours);
 
   return (
     <div className="shadow-md bg-white grid grid-rows-5 place-items-center md:pr-8 md:grid-rows-1 md:grid-cols-3 w-11/12 mx-auto rounded-lg lg:p-4 overflow-hidden">
@@ -30,7 +31,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
           <div>
             <p className="mb-2">{description}</p>
             <p className="mb-2">
-              {startTimeStr} <span>({duration} hours)</span>
+              {startTimeStr} <span>({durationString})</span>
             </p>
           </div>
           <div>
