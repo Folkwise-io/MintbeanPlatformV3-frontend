@@ -17,7 +17,6 @@ export class UserDaoImpl implements UserDao {
           query allUsers {
             users {
               id
-              username
               firstName
               lastName
               createdAt

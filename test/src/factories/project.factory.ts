@@ -11,7 +11,6 @@ import faker from "faker";
 //   user: {
 //     firstName: () => faker.name.firstName(),
 //     lastName: () => faker.name.lastName(),
-//     username: () => faker.random.words().replace(/[\s-]/g, "").toLowerCase() + faker.finance.mask(),
 //   },
 //   mediaAssets: [{ cloudinaryPublicId: "bo3bpbanohqsbf3bzc9c" }, { cloudinaryPublicId: "rtcx50vsggqq9wjvhob6" }],
 // });
@@ -26,7 +25,6 @@ const fakeProject: Project = {
     id: faker.random.uuid(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
-    username: faker.random.words().replace(/[\s-]/g, "").toLowerCase() + faker.finance.mask(),
   },
   meet: {
     id: "000000-000000-00000-0000000",
