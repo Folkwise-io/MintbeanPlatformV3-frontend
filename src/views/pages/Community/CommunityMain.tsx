@@ -46,7 +46,7 @@ export const Main: FC<Props> = ({ main }) => {
   const { title, tagline, body } = main;
   return (
     <div>
-      <div className="w-full overflow-hidden pb-20">
+      <div className="w-full overflow-hidden pb-8">
         <BgBlock type="blackStripe">
           <BgBlock type="grad">
             <BgBlock>

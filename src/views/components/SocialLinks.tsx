@@ -35,7 +35,7 @@ export const SocialLinks: FC<Props> = ({ social }) => {
           className="transition duration-500 ease-in-out bg-black h-10 w-10 rounded-full flex justify-center items-center text-white hover:text-mb-green-200 focus:text-mb-green-200"
           rel={commonRel}
           target={commonTarget}
-          href="https://www.linkedin.com/company/mintbean/"
+          href="https://twitter.com/Mintbeanio"
         >
           <span className="sr-only">{twitter}</span>
           <FontAwesomeIcon className="text-2xl" icon={faTwitter} />
