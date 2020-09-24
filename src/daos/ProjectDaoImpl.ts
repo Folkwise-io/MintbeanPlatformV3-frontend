@@ -25,6 +25,7 @@ export class ProjectDaoImpl implements ProjectDao {
                 firstName
                 lastName
                 username
+                id
               }
               mediaAssets {
                 cloudinaryPublicId
