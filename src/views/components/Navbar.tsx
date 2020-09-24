@@ -46,7 +46,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
         <section className="h-full sm:w-56 mx-auto md:mx-0">
           <Link
             to="/"
-            className="transition duration-500 ease-in-out text-black hover:text-mb-blue-100 grid place-items-center md:place-items-start"
+            className="transition duration-500 ease-in-out text-black hover:text-mb-blue-100 focus:text-mb-blue-100 grid place-items-center md:place-items-start"
           >
             <img src={logo} alt="Mintbean logo" className="" style={{ maxHeight: "50px" }} />
           </Link>
@@ -56,13 +56,13 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
             <div>
               <Link
                 to="/community"
-                className="transition duration-500 ease-in-out text-semibold mx-2 text-black hover:text-mb-blue-100"
+                className="transition duration-500 ease-in-out mx-2 text-black hover:text-mb-blue-100 focus:text-mb-blue-100"
               >
                 Community
               </Link>
               <Link
                 to="/meets"
-                className="transition duration-500 ease-in-out text-semibold mx-2 text-black hover:text-mb-blue-100"
+                className="transition duration-500 ease-in-out mx-2 text-black hover:text-mb-blue-100 focus:text-mb-blue-100"
               >
                 Meets
               </Link>
@@ -78,7 +78,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
                     <LoginModal buttonText="Login" className="m-2 md:my-0" />
                     <RegisterModal
                       buttonText="Sign up"
-                      className="transition duration-500 ease-in-out text-white mx-2 bg-mb-green-200 px-4 py-2 rounded shadow hover:opacity-75"
+                      className="transition duration-500 ease-in-out text-white mx-2 bg-mb-green-200 px-4 py-2 rounded shadow hover:opacity-75 focus:opacity-75"
                     />
                   </div>
                 </>

@@ -18,6 +18,7 @@ module.exports = {
         50: "50%",
         75: "75%",
         full: "100%",
+        "40vh": "40vh",
         "50vh": "50vh",
         "60vh": "60vh",
         "30vh": "30vh",
@@ -75,6 +76,9 @@ module.exports = {
         108: "27rem",
         120: "30rem",
       },
+      backgroundImage: (theme) => ({
+        callToAction: "url(../assets/images/banners/robots-lg.jpg)",
+      }),
       height: {
         50: "50%",
         65: "65%",
