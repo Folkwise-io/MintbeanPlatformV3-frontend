@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useCallback } from "react";
 import { ThunkDispatch } from "redux-thunk";
 import { connect } from "react-redux";
 import { useIntercom } from "react-use-intercom";
@@ -38,15 +38,53 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
 });
 
 const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast, user, me, children }) => {
-  const { boot } = useIntercom();
+  const { boot, update, shutdown, getVisitorId } = useIntercom();
+  const { data: userData } = user;
+  const userFullName = userData ? `${userData.firstName} ${userData.lastName}` : undefined;
+  // memoize to prevent unnecessary re-renders
+  const bootWithData = useCallback(() => bootIntercom(userData), [boot]);
+
   // Fetch current user on mount based on JWT cookie
   useEffect(() => {
     if (!user.data) me();
   }, [me, user.data]);
 
+  // boot Intercom on mount
   useEffect(() => {
-    boot(); // boot Intercom
+    bootIntercom(userData);
   }, []);
+
+  const bootIntercom = (u: User | undefined): void => {
+    if (u) {
+      boot({
+        email: u?.email,
+        name: userFullName,
+        userId: u?.id,
+      });
+    } else {
+      boot();
+    }
+  };
+
+  const restartIntercom = () => {
+    shutdown();
+    bootIntercom(userData);
+  };
+
+  // Login/logout logic for Intercom
+  useEffect(() => {
+    if (typeof userData === "undefined") {
+      restartIntercom(); // otherwise still logged into Intercom as previously logged in user
+    } else {
+      bootIntercom(userData);
+      // pass new user data to Intercom on login
+      update({
+        name: userFullName,
+        email: userData?.email,
+        userId: userData.id,
+      });
+    }
+  }, [user]);
 
   return (
     <div>

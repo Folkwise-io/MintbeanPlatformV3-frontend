@@ -16,7 +16,7 @@ interface Props {
   context: Context;
 }
 
-const INTERCOM_APP_ID = "cnqttk95";
+const INTERCOM_APP_ID = "i8mgjyfj"; // TODO: env variable
 
 const App: React.FC<Props> = ({ store, context }) => {
   const [ctx] = useState(context); // set context to local state to prevent re-renders
