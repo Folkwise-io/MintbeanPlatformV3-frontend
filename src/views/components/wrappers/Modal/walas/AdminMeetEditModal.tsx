@@ -4,6 +4,7 @@ import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 // import { useHistory } from "react-router-dom";
 import { MeetEditForm } from "../../../forms/MeetEditForm";
+import { Button } from "../../../Button";
 
 interface Props {
   className?: string;
@@ -46,9 +47,9 @@ const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, classNam
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <button onClick={toggleModal} ref={(el) => setRef(el)} className={className || ""}>
+          <Button type="secondary" onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className || ""}>
             {buttonText}
-          </button>
+          </Button>
         )}
       >
         <MeetEditForm formRef={formRef} editMeet={editMeet} meet={meet} />

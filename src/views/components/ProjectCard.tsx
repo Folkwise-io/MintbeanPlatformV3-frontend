@@ -13,12 +13,12 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
   const creatorName = `${user.firstName} ${user.lastName}`;
 
   // using first image as default for now
-  //try relative and absolute
   const coverImageCloudinaryPublicId = mediaAssets[0]?.cloudinaryPublicId;
+  console.log(ImageDisplay);
   return (
-    <div className="border-mb-green-200 border-2 bg-black text-white rounded-mb-md overflow-hidden m-4 shadow-mb-drop-center-sm grid grid-rows-5 row-auto">
+    <div className="border-mb-green-200 border-2 bg-black text-white rounded-mb-md overflow-hidden m-4 shadow-mb-drop-center-sm grid grid-rows-5 col-auto row-auto max-h-120">
       <Link
-        className="row-span-3 rounded-b-mb-md min-w-full overflow-hidden inline-grid place-items-center max-h-30vh"
+        className="row-span-3 rounded-b-mb-md min-w-full overflow-hidden inline-grid place-items-center"
         to={`/projects/${id}`}
       >
         <ImageDisplay
