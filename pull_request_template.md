@@ -8,5 +8,5 @@ Visual representation of the change.
 
 ## Checklist
 
-[ ] - added documentation (if not, explain why)
-[ ] - added tests (if not, WHY NOT?!?)
+- [ ] added documentation (if not, explain why)
+- [ ] added tests (if not, WHY NOT?!?)
