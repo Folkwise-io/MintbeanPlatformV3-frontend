@@ -67,21 +67,25 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
   // boot Intercom on mount
   useEffect(() => {
     bootIntercom(userData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Login/logout logic for Intercom
   useEffect(() => {
-    if (typeof userData === "undefined") {
+    if (user.loadStatus === "LOADING") {
       restartIntercom(); // otherwise still logged into Intercom as previously logged in user
-    } else {
+    } else if (userData) {
       bootIntercom(userData);
       // pass new user data to Intercom on login
-      update({
-        name: userFullName,
-        email: userData?.email,
-        userId: userData.id,
-      });
+      if (userData) {
+        update({
+          name: userFullName,
+          email: userData?.email,
+          userId: userData.id,
+        });
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (
