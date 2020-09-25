@@ -23,6 +23,11 @@ interface MatchParams {
   id: string;
 }
 
+const isOwner = (user: UserState, project: Project) => {
+  if (!user?.data?.id || !project?.user?.id) return false;
+  return user.data.id === project.user.id;
+};
+
 const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({
   context,
   user,
@@ -111,12 +116,14 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                       Demo
                     </Button>
                   </ExternalLink>
-                  <ProjectDeleteModal
-                    buttonText="Delete"
-                    project={project}
-                    onDelete={redirectToMeetOrMeets}
-                    isAdmin={isAdmin}
-                  />
+                  {(isAdmin || isOwner(user, project)) && (
+                    <ProjectDeleteModal
+                      buttonText="Delete"
+                      project={project}
+                      onDelete={redirectToMeetOrMeets}
+                      isAdmin={isAdmin}
+                    />
+                  )}
                 </section>
               </section>
               {/* Other media assets */}
