@@ -20,6 +20,7 @@ export const InfoSection: FC<Props> = ({ section }) => {
         className="col-span-2 bg-mb-blue-200 pr-12 pl-2 md:mr-20 mt-16 mb-12 md:mt-24 md:mb-40 rounded-r-mb-md shadow-mb-drop"
       >
         <img
+          style={{ maxHeight: "30em", maxWidth: "30em" }}
           className="block w-5/6 ml-auto  relative top-mb-3"
           src={shapesImg}
           alt="a triangle, a circle and a square intertwining"
