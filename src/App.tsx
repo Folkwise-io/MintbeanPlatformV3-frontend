@@ -23,6 +23,7 @@ const App: React.FC<Props> = ({ store, context }) => {
       <ReduxProvider store={store}>
         <Router>
           <ScrollToTop />
+          ..
           <GlobalLayout>
             <Switch>
               {/* In V2, the project links were of form /project/:id. In V3, the project links are of the form
