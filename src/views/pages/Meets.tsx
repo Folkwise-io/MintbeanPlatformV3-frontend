@@ -40,7 +40,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
 
   // chronological sort
   const upcomingMeets = meets
-    .filter((m: Meet) => !d.isPast(m.startTime, m.region))
+    .filter((m: Meet) => !d.isPast(m.endTime, m.region))
     .sort((a, b) => {
       const dateA = new Date(a.startTime).getTime();
       const dateB = new Date(b.startTime).getTime();
