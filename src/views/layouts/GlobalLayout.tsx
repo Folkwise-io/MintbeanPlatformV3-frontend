@@ -41,7 +41,7 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
   useEffect(() => {
     if (!user.data) me();
   }, [me, user.data]);
-
+  // TESTING TESTING
   return (
     <div>
       <div className="min-h-screen">
