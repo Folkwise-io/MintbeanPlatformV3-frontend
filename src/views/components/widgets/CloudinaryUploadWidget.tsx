@@ -24,7 +24,6 @@ export const CloudinaryUploadWidget: FC<Props> = ({ exposeImageData }) => {
         },
         (error: any, result: any) => {
           if (!error && result && result.event === "success") {
-            console.log(result.info);
             exposeImageData(result.info);
           }
         },
