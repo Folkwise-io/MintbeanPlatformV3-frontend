@@ -11,8 +11,6 @@ import { ImageDisplayTray } from "../../components/ImageDisplayTray";
 import { BgBlock } from "../../components/BgBlock";
 import ProjectDeleteModal from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
 
-const d = new DateUtility();
-
 interface StateMapping {
   user: UserState;
 }
@@ -36,6 +34,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const isAdmin = user.data?.isAdmin;
+  const isOwner = user.data?.id === project?.user.id;
   const history = useHistory();
 
   useEffect(() => {
@@ -97,7 +96,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
               <section>
                 <h1 className="font-semibold">{project.title}</h1>
                 <p className="break-words">
-                  by {project.user.firstName} {project.user.lastName} (@{project.user.username})
+                  by {project.user.firstName} {project.user.lastName}
                 </p>
                 {project.meet?.id && (
                   <Link to={`/meets/${project.meet.id}`}>Submitted for &quot;{project.meet.title}&quot;</Link>
@@ -113,12 +112,14 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                       Demo
                     </Button>
                   </ExternalLink>
-                  <ProjectDeleteModal
-                    buttonText="Delete"
-                    project={project}
-                    onDelete={redirectToMeetOrMeets}
-                    isAdmin={isAdmin}
-                  />
+                  {(isAdmin || isOwner) && (
+                    <ProjectDeleteModal
+                      buttonText="Delete"
+                      project={project}
+                      onDelete={redirectToMeetOrMeets}
+                      isAdmin={isAdmin}
+                    />
+                  )}
                 </section>
               </section>
               {/* Other media assets */}

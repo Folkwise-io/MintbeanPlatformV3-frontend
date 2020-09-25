@@ -71,7 +71,6 @@ export class MeetDaoImpl implements MeetDao {
                 user {
                   firstName
                   lastName
-                  username
                 }
                 mediaAssets {
                   cloudinaryPublicId
