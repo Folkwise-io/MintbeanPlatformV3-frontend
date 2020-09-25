@@ -92,7 +92,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
                 )}
               </section>
             </BgBlock>
-            <section className="max-w-5xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-12 px-6 md:px-24">
+            <section className="max-w-6xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-12 px-6 md:px-24">
               <h2 className="text-white text-4xl mb-4 text-center">Past meets</h2>
               <div className="space-y-4">{pastMeets}</div>
             </section>
