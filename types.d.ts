@@ -2,7 +2,6 @@
 interface User {
   id: string;
   email: string;
-  username: string;
   firstName: string;
   lastName: string;
   createdAt: string;
@@ -23,7 +22,6 @@ interface UserForProject {
   id: string;
   firstName: string;
   lastName: string;
-  username: string;
 }
 interface MeetForProject {
   id: string;
@@ -54,7 +52,6 @@ interface ProjectForMeet {
 interface UserForProjectForMeet {
   firstName: string;
   lastName: string;
-  username: string;
 }
 
 interface CloudinaryPublicIdMediaAsset {
@@ -70,7 +67,6 @@ interface LoginParams {
 interface RegisterParams {
   firstName: string;
   lastName: string;
-  username: string;
   email: string;
   password: string;
   passwordConfirmation: string;

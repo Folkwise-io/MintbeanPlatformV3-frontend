@@ -34,7 +34,6 @@ const hardCodedProject = {
   user: {
     firstName: "Randy",
     lastName: "Marsh",
-    username: "rmarsh",
   },
   mediaAssets: [{ cloudinaryPublicId: "djksfhkadjsfhkjd" }],
 };
