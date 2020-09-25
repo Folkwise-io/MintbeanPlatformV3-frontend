@@ -85,7 +85,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
               // TODO: define deafult image
               <ImageDisplay
                 className="w-full flex justify-center align-center"
-                cloudinaryPublicId="imgNotFoundPlaceholder"
+                cloudinaryPublicId="imgNotFoundPlaceholder2"
               />
             )}
           </header>
