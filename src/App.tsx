@@ -9,6 +9,7 @@ import { Store } from "redux";
 
 import { Context } from "./context/contextBuilder";
 import { MbContextProvider } from "./context/MbContextProvider";
+import ScrollToTop from "./views/components/ScrollToTop";
 
 interface Props {
   store: Store;
@@ -21,6 +22,7 @@ const App: React.FC<Props> = ({ store, context }) => {
     <MbContextProvider context={ctx}>
       <ReduxProvider store={store}>
         <Router>
+          <ScrollToTop />
           <GlobalLayout>
             <Switch>
               {/* In V2, the project links were of form /project/:id. In V3, the project links are of the form
