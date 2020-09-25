@@ -24,7 +24,7 @@ export class ProjectDaoImpl implements ProjectDao {
               user {
                 firstName
                 lastName
-                username
+                id
               }
               mediaAssets {
                 cloudinaryPublicId
@@ -70,7 +70,6 @@ export class ProjectDaoImpl implements ProjectDao {
               user {
                 firstName
                 lastName
-                username
               }
               mediaAssets {
                 cloudinaryPublicId

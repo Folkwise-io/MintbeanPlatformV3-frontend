@@ -11,8 +11,6 @@ import { ImageDisplayTray } from "../../components/ImageDisplayTray";
 import { BgBlock } from "../../components/BgBlock";
 import ProjectDeleteModal from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
 
-const d = new DateUtility();
-
 interface StateMapping {
   user: UserState;
 }
@@ -24,6 +22,11 @@ const stp = (state: StoreState) => ({
 interface MatchParams {
   id: string;
 }
+
+const isOwner = (user: UserState, project: Project) => {
+  if (!user?.data?.id || !project?.user?.id) return false;
+  return user.data.id === project.user.id;
+};
 
 const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({
   context,
@@ -82,7 +85,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
               // TODO: define deafult image
               <ImageDisplay
                 className="w-full flex justify-center align-center"
-                cloudinaryPublicId="imgNotFoundPlaceholder"
+                cloudinaryPublicId="imgNotFoundPlaceholder2"
               />
             )}
           </header>
@@ -97,7 +100,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
               <section>
                 <h1 className="font-semibold">{project.title}</h1>
                 <p className="break-words">
-                  by {project.user.firstName} {project.user.lastName} (@{project.user.username})
+                  by {project.user.firstName} {project.user.lastName}
                 </p>
                 {project.meet?.id && (
                   <Link to={`/meets/${project.meet.id}`}>Submitted for &quot;{project.meet.title}&quot;</Link>
@@ -113,12 +116,14 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                       Demo
                     </Button>
                   </ExternalLink>
-                  <ProjectDeleteModal
-                    buttonText="Delete"
-                    project={project}
-                    onDelete={redirectToMeetOrMeets}
-                    isAdmin={isAdmin}
-                  />
+                  {(isAdmin || isOwner(user, project)) && (
+                    <ProjectDeleteModal
+                      buttonText="Delete"
+                      project={project}
+                      onDelete={redirectToMeetOrMeets}
+                      isAdmin={isAdmin}
+                    />
+                  )}
                 </section>
               </section>
               {/* Other media assets */}

@@ -3,7 +3,7 @@ import React, { FC } from "react";
 type Props = {
   type?: "primary" | "secondary" | "danger";
   buttonType?: "button" | "submit" | "reset";
-  onClick?: () => void;
+  onClick?: (event: React.SyntheticEvent) => void;
   className?: string;
   forwardRef?: React.RefCallback<HTMLButtonElement>;
 };
