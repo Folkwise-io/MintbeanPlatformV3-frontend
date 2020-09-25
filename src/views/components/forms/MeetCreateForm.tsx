@@ -11,8 +11,8 @@ const createMeetInputSchema = yup.object().shape({
   title: yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
   description: yup.string().min(3, "Too Short!").required("Required"),
   instructions: yup.string().min(3, "Too Short!").required("Required"),
-  registerLink: yup.string().url("Must be a valid URL").required("Required"),
-  coverImageUrl: yup.string().url("Must be a valid URL").required("Required"),
+  registerLink: yup.string().url("Must be a valid URL (https://...)").required("Required"),
+  coverImageUrl: yup.string().url("Must be a valid URL (https://...)").required("Required"),
   startTime: yup
     .string()
     .test("is-chronological", "Start time and end time must be chronological", function (startTime) {
