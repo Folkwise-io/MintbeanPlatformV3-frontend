@@ -16,8 +16,7 @@ interface Props {
   context: Context;
 }
 
-const INTERCOM_APP_ID = "i8mgjyfj"; // TODO: env variable
-
+const INTERCOM_APP_ID = process.env.INTERCOM_APP_ID || "cnqttk95"; // falls back to prod id (note: prod id does not work on localhost)
 const App: React.FC<Props> = ({ store, context }) => {
   const [ctx] = useState(context); // set context to local state to prevent re-renders
   return (
