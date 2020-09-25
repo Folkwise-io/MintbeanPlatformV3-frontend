@@ -14,7 +14,6 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
 
   // using first image as default for now
   const coverImageCloudinaryPublicId = mediaAssets[0]?.cloudinaryPublicId;
-  console.log(ImageDisplay);
   return (
     <div className="border-mb-green-200 border-2 bg-black text-white rounded-mb-md overflow-hidden m-4 shadow-mb-drop-center-sm grid grid-rows-5 col-auto row-auto max-h-120">
       <Link
