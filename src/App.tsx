@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { routes } from "./routes";
 import { Provider as ReduxProvider } from "react-redux";
+import { IntercomProvider } from "react-use-intercom";
 
 import "./styles/index.css";
 import { GlobalLayout } from "./views/layouts";
@@ -15,19 +16,23 @@ interface Props {
   context: Context;
 }
 
+const INTERCOM_APP_ID = "cnqttk95";
+
 const App: React.FC<Props> = ({ store, context }) => {
   const [ctx] = useState(context); // set context to local state to prevent re-renders
   return (
     <MbContextProvider context={ctx}>
       <ReduxProvider store={store}>
         <Router>
-          <GlobalLayout>
-            <Switch>
-              {routes.map((route) => (
-                <Route key={route.path || "404"} {...route} />
-              ))}
-            </Switch>
-          </GlobalLayout>
+          <IntercomProvider appId={INTERCOM_APP_ID}>
+            <GlobalLayout>
+              <Switch>
+                {routes.map((route) => (
+                  <Route key={route.path || "404"} {...route} />
+                ))}
+              </Switch>
+            </GlobalLayout>
+          </IntercomProvider>
         </Router>
       </ReduxProvider>
     </MbContextProvider>

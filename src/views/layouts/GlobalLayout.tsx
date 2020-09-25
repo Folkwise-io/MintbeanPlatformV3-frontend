@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { ThunkDispatch } from "redux-thunk";
 import { connect } from "react-redux";
+import { useIntercom } from "react-use-intercom";
 
 import { Context } from "../../context/contextBuilder";
 import { Toast } from "../components/Toast";
@@ -37,10 +38,15 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
 });
 
 const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast, user, me, children }) => {
+  const { boot } = useIntercom();
   // Fetch current user on mount based on JWT cookie
   useEffect(() => {
     if (!user.data) me();
   }, [me, user.data]);
+
+  useEffect(() => {
+    boot(); // boot Intercom
+  }, []);
 
   return (
     <div>
