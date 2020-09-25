@@ -23,6 +23,11 @@ interface MatchParams {
   id: string;
 }
 
+const isOwner = (user: UserState, project: Project) => {
+  if (!user?.data?.id || !project?.user?.id) return false;
+  return user.data.id === project.user.id;
+};
+
 const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({
   context,
   user,
@@ -34,7 +39,6 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const isAdmin = user.data?.isAdmin;
-  const isOwner = user.data?.id === project?.user.id;
   const history = useHistory();
 
   useEffect(() => {
@@ -112,7 +116,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                       Demo
                     </Button>
                   </ExternalLink>
-                  {(isAdmin || isOwner) && (
+                  {(isAdmin || isOwner(user, project)) && (
                     <ProjectDeleteModal
                       buttonText="Delete"
                       project={project}
