@@ -53,7 +53,7 @@ export const HomeHeaderList: FC<Props> = ({ list }) => {
           className="bg-mb-purple-100 text-center px-8 py-4 rounded-mb-sm border-mb-green-100 border-solid border-8 m"
         >
           <div className="text-semibold transition duration-500 ease-in-out text-2xl hover:text-mb-orange-100 focus:text-mb-orange-100">
-            Check out our upcoming meets to get started! 🡪
+            Check out our upcoming meets to get started! →
           </div>
         </Link>
       </div>
