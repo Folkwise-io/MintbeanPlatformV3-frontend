@@ -40,19 +40,18 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
 const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast, user, me, children }) => {
   const { boot, update, shutdown } = useIntercom();
   const { data: userData } = user;
-  const userFullName = userData ? `${userData.firstName} ${userData.lastName}` : undefined;
 
   // Fetch current user on mount based on JWT cookie
   useEffect(() => {
     if (!user.data) me();
   }, [me, user.data]);
 
-  const bootIntercom = (u: User | undefined): void => {
-    if (u) {
+  const bootIntercom = (userData: User | undefined): void => {
+    if (userData) {
       boot({
-        email: u?.email,
-        name: userFullName,
-        userId: u?.id,
+        email: userData.email,
+        name: userData.firstName + " " + userData.lastName,
+        userId: userData.id,
       });
     } else {
       boot();
@@ -77,13 +76,11 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
     } else if (userData) {
       bootIntercom(userData);
       // pass new user data to Intercom on login
-      if (userData) {
-        update({
-          name: userFullName,
-          email: userData?.email,
-          userId: userData.id,
-        });
-      }
+      update({
+        name: userData.firstName + " " + userData.lastName,
+        email: userData.email,
+        userId: userData.id,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
