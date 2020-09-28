@@ -29,12 +29,18 @@ const App: React.FC<Props> = ({ store, context }) => {
             <GlobalLayout>
               <Switch>
                 {/* In V2, the project links were of form /project/:id. In V3, the project links are of the form
-              /projects/:id. Since the V2 links may have been shared on social media, we must ensure the old links
-              still work. This is accomplished by the Route below, which redirects /project/:id to /projects/:id */}
+                /projects/:id. Since the V2 links may have been shared on social media, we must ensure the old links
+                still work. This is accomplished by the Route below, which redirects /project/:id to /projects/:id.
+                The same fix needs to be done to map /mb-event/:id in V2 to /meets/:id in V3.  */}
                 <Route
                   exact
                   path="/project/:id"
                   render={(props) => <Redirect to={`/projects/${props.match.params.id}`} />}
+                />
+                <Route
+                  exact
+                  path="/mb-event/:id"
+                  render={(props) => <Redirect to={`/meets/${props.match.params.id}`} />}
                 />
                 {routes.map((route) => (
                   <Route key={route.path || "404"} {...route} />
