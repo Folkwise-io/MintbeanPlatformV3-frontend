@@ -1,20 +1,12 @@
-## What type of PR is this? (check all applicable)
-
-- [ ] Refactor
-- [ ] Feature
-- [ ] Bug Fix
-- [ ] Optimization
-- [ ] Documentation Update
-
 ## Description
 
-This PR Adds [thing] template to the collection.
+A summary of the change. If a fix, include the before/after behavior.
 
-## Added to documentation?
+## Screenshots
 
-- [ ] readme
-- [ ] no documentation needed
+Visual representation of the change.
 
-## [optional] What gif best describes this PR or how it makes you feel?
+## Checklist
 
-![alt_text](gif url)
+- [ ] **added documentation (if not, explain why)**
+- [ ] **added tests (if not, WHY NOT?!?)**
