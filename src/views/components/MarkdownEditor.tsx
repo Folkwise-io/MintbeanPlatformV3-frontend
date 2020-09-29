@@ -19,7 +19,7 @@ export const MarkdownEditor: FC<Props> = ({ value, onBeforeChange }) => {
     <CodeMirror
       value={value}
       options={{ scrollbarStyle: "null", theme: "shadowfox", mode: "markdown" }}
-      onBeforeChange={(editor, data, value) => {
+      onBeforeChange={(_editor, _data, value) => {
         onBeforeChange(value);
       }}
     />

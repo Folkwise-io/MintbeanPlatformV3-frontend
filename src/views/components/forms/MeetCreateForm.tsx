@@ -38,10 +38,10 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
   });
 
   useEffect(() => {
-    register({ name: "description" });
+    register({ name: "instructions" });
   }, [register]);
 
-  const description = watch("description");
+  const instructions = watch("instructions");
 
   // RHF only calls onSubmit callback when form input passes validation
   const onSubmit = (data: CreateMeetParams) => {
@@ -88,13 +88,11 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       <p className="text-red-500">{errors.title?.message}</p>
 
       <label htmlFor="description">Description</label>
-      <MarkdownEditor value={description} onBeforeChange={(value) => setValue("description", value)} />
-
+      <textarea name="description" ref={register} className="mb-2" />
       <p className="text-red-500">{errors.description?.message}</p>
 
       <label htmlFor="instructions">Instructions</label>
-      <textarea name="instructions" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.instructions?.message}</p>
+      <MarkdownEditor value={instructions} onBeforeChange={(value) => setValue("instructions", value)} />
 
       <label htmlFor="registerLink">Registration link</label>
       <input type="url" name="registerLink" ref={register} className="mb-2" />
