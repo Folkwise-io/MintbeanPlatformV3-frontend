@@ -1,9 +1,14 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/CloudinaryUploadWidget";
 import moment from "moment";
+
+import { Controlled as CodeMirror } from "react-codemirror2";
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/shadowfox.css";
+import "codemirror/mode/markdown/markdown";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createMeetInputSchema = yup.object().shape({
@@ -31,10 +36,17 @@ interface Props {
 
 export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
   const [imageUrl, setImageUrl] = useState<string>("");
+  // const [descriptionString, setDescriptionString] = useState<string>("");
 
-  const { errors, register, handleSubmit } = useForm({
+  const { errors, register, handleSubmit, watch, setValue } = useForm({
     resolver: yupResolver(createMeetInputSchema),
   });
+
+  useEffect(() => {
+    register({ name: "description" });
+  }, [register]);
+
+  const description = watch("description");
 
   // RHF only calls onSubmit callback when form input passes validation
   const onSubmit = (data: CreateMeetParams) => {
@@ -81,7 +93,20 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       <p className="text-red-500">{errors.title?.message}</p>
 
       <label htmlFor="description">Description</label>
-      <textarea name="description" ref={register} className="mb-2" />
+      {/* <Controller as={<CodeMirror />} control={control} name="description" defaultValue={"Test lol"}></Controller> */}
+      {/* <Controller as={<CodeMirror value={"Test"}} onBeforeChange={() => undefined} />}></Controller> */}
+      <CodeMirror
+        value={description}
+        options={{ scrollbarStyle: "null", theme: "shadowfox", mode: "markdown" }}
+        onBeforeChange={(editor, data, value) => {
+          setValue("description", value);
+        }}
+        onChange={(editor, data, value) => {
+          console.log("Edited", value);
+        }}
+      />
+
+      {/* <textarea name="description" ref={register} className="mb-2" /> */}
       <p className="text-red-500">{errors.description?.message}</p>
 
       <label htmlFor="instructions">Instructions</label>
