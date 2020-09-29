@@ -1,2 +1,2 @@
 declare module "cloudinary-react";
-declare module "codemirror/mode/markdown/markdown";
+declare module "codemirror/mode";
