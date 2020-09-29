@@ -1,19 +1,9 @@
 import React, { FC, useState, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/CloudinaryUploadWidget";
 import moment from "moment";
-
-import { Controlled as CodeMirror } from "react-codemirror2";
-import "codemirror/lib/codemirror.css";
-import "codemirror/theme/shadowfox.css";
-import "codemirror/mode/markdown/markdown";
-import "codemirror/mode/javascript/javascript";
-import "codemirror/mode/jsx/jsx";
-import "codemirror/mode/htmlmixed/htmlmixed";
-import "codemirror/mode/css/css";
-import "codemirror/mode/sass/sass";
 import { MarkdownEditor } from "../MarkdownEditor";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
