@@ -14,6 +14,7 @@ import "codemirror/mode/jsx/jsx";
 import "codemirror/mode/htmlmixed/htmlmixed";
 import "codemirror/mode/css/css";
 import "codemirror/mode/sass/sass";
+import { MarkdownEditor } from "../MarkdownEditor";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createMeetInputSchema = yup.object().shape({
@@ -98,20 +99,8 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       <p className="text-red-500">{errors.title?.message}</p>
 
       <label htmlFor="description">Description</label>
-      {/* <Controller as={<CodeMirror />} control={control} name="description" defaultValue={"Test lol"}></Controller> */}
-      {/* <Controller as={<CodeMirror value={"Test"}} onBeforeChange={() => undefined} />}></Controller> */}
-      <CodeMirror
-        value={description}
-        options={{ scrollbarStyle: "null", theme: "shadowfox", mode: "markdown" }}
-        onBeforeChange={(editor, data, value) => {
-          setValue("description", value);
-        }}
-        onChange={(editor, data, value) => {
-          console.log("Edited", value);
-        }}
-      />
+      <MarkdownEditor value={description} onBeforeChange={(value) => setValue("description", value)} />
 
-      {/* <textarea name="description" ref={register} className="mb-2" /> */}
       <p className="text-red-500">{errors.description?.message}</p>
 
       <label htmlFor="instructions">Instructions</label>
