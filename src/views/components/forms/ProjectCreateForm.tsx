@@ -40,7 +40,6 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
     setCloudinaryIds((prevState) => [...prevState, data.public_id]);
   };
   const removeCloudinaryIdAt = (i: number): void => {
-    console.log({ i });
     setCloudinaryIds((prevState) => {
       const copy = [...prevState];
       copy.splice(i, 1);

@@ -14,7 +14,7 @@ const configEnvVariables = () => {
 };
 
 /*TODO: figure out a better dynamic env setup for frontend liek backend*/
-const MUST_HAVE_KEYS = ["CLOUDINARY_CLOUD_NAME", "CLOUDINARY_UPLOAD_PRESET"];
+const MUST_HAVE_KEYS = ["INTERCOM_APP_ID", "CLOUDINARY_CLOUD_NAME", "CLOUDINARY_UPLOAD_PRESET"];
 const getEnvKeys = (envKeys) => Object.keys(envKeys).map((k) => k.replace(/process\.env\./, ""));
 const checkForMissingKeys = (keys) => {
   const presentKeys = getEnvKeys(keys);

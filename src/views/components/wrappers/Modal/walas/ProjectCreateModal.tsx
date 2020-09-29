@@ -36,7 +36,6 @@ const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonTe
       await context.projectService
         .createProject(params)
         .then((proj) => {
-          console.log({ proj });
           if (proj) {
             projectId = proj.id;
           }

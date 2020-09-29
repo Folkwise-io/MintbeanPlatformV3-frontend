@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { Link } from "react-router-dom";
 import home1 from "../../../assets/home/home-header-1.png";
 import home2 from "../../../assets/home/home-header-2.png";
 import home3 from "../../../assets/home/home-header-3.png";
@@ -46,6 +47,16 @@ export const HomeHeaderList: FC<Props> = ({ list }) => {
           </li>
         ),
       )}
+      <div className="pb-8 md:py-6 md:py-auto px-8 md:px-12 bg-contain max-h-40vh grid place-items-end">
+        <Link
+          to="/meets"
+          className="bg-mb-purple-100 text-center px-8 py-4 rounded-mb-sm border-mb-green-100 border-solid border-8 m"
+        >
+          <div className="text-semibold transition duration-500 ease-in-out text-2xl hover:text-mb-orange-100 focus:text-mb-orange-100">
+            Check out our upcoming meets to get started &gt;&gt;
+          </div>
+        </Link>
+      </div>
     </ul>
   );
 };
