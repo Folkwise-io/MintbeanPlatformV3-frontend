@@ -42,7 +42,6 @@ interface Props {
 
 export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
   const [imageUrl, setImageUrl] = useState<string>("");
-  // const [descriptionString, setDescriptionString] = useState<string>("");
 
   const { errors, register, handleSubmit, watch, setValue } = useForm({
     resolver: yupResolver(createMeetInputSchema),

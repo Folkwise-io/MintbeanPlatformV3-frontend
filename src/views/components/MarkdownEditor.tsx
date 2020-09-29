@@ -14,7 +14,6 @@ type Props = {
   onBeforeChange: (newValue: string) => void;
 };
 
-// Image tray that displays images in center of screen on semi-opaque overlay when clicked
 export const MarkdownEditor: FC<Props> = ({ value, onBeforeChange }) => {
   return (
     <CodeMirror
