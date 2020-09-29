@@ -42,6 +42,11 @@ input {
 .markdown p {
   margin-bottom: 1em;
 }
+
+.markdown code {
+  background-color: "black";
+}
+
 .markdown-toast a {
   color: #000000;
   text-decoration: underline;

@@ -2,7 +2,6 @@ import React, { FC, useState, useEffect } from "react";
 import { ConnectContextProps, connectContext } from "../../../context/connectContext";
 import { DateUtility } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
-import Markdown from "react-markdown";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { ExternalLink } from "../../components/ExternalLink";
@@ -11,6 +10,7 @@ import { ProjectCard } from "../../components/ProjectCard";
 import { BgBlock } from "../../components/BgBlock";
 import ProjectCreateModal from "../../components/wrappers/Modal/walas/ProjectCreateModal";
 import AdminMeetEditModal from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
+import { MarkdownParser } from "../../components/MarkdownParser";
 
 const d = new DateUtility();
 
@@ -68,7 +68,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const userInstructionsView = (
     <>
       <h2 className="font-medium">Instructions</h2>
-      <Markdown source={meet?.instructions} />
+      <MarkdownParser source={meet?.instructions} />
     </>
   );
   const adminInstructionsView = (
