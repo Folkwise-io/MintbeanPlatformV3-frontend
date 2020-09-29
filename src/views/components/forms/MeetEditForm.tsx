@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/CloudinaryUploadWidget";
 import moment from "moment";
+import { MarkdownEditor } from "../MarkdownEditor";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 // this is same as createMeetInputSchema.... consolidate
@@ -38,7 +39,7 @@ const chopOffSecMs = (timestr: string): string => {
 export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
   const [imageUrl, setImageUrl] = useState<string>("");
 
-  const { errors, register, handleSubmit } = useForm({
+  const { errors, register, handleSubmit, watch, setValue } = useForm({
     resolver: yupResolver(editMeetInputSchema),
     // pre-populate form
     defaultValues: {
@@ -59,6 +60,12 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
   useEffect(() => {
     setImageUrl(meet.coverImageUrl);
   }, [meet]);
+
+  useEffect(() => {
+    register({ name: "instructions" });
+  }, [register]);
+
+  const instructions = watch("instructions");
 
   // RHF only calls onSubmit callback when form input passes validation
   const onSubmit = (data: CreateMeetParams) => {
@@ -109,7 +116,7 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
       <p className="text-red-500">{errors.description?.message}</p>
 
       <label htmlFor="instructions">Instructions</label>
-      <textarea name="instructions" ref={register} className="mb-2" />
+      <MarkdownEditor value={instructions} onBeforeChange={(value) => setValue("instructions", value)} />
       <p className="text-red-500">{errors.instructions?.message}</p>
 
       <label htmlFor="registerLink">Registration link</label>
