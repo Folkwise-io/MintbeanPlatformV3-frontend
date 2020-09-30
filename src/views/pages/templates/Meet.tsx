@@ -2,11 +2,15 @@ import React, { FC, useState, useEffect } from "react";
 import { ConnectContextProps, connectContext } from "../../../context/connectContext";
 import { DateUtility } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
-import Markdown from "react-markdown";
-import { RouteComponentProps, useHistory } from "react-router-dom";
+import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { ExternalLink } from "../../components/ExternalLink";
 import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
+import { ProjectCard } from "../../components/ProjectCard";
+import { BgBlock } from "../../components/BgBlock";
+import ProjectCreateModal from "../../components/wrappers/Modal/walas/ProjectCreateModal";
+import AdminMeetEditModal from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
+import { MarkdownParser } from "../../components/MarkdownParser";
 
 const d = new DateUtility();
 
@@ -45,7 +49,6 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       }
       setLoading(false);
     };
-
     fetchMeetData();
   }, [context, id]);
 
@@ -53,55 +56,111 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     history.push("/meets");
   };
 
+  const meetHasNotStarted = !d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
+  const meetHasNotEnded = !d.isPast(meet?.endTime || "", meet?.region || "America/Toronto");
+
   const dateInfo = meet
-    ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDuration(meet.startTime, meet.endTime)} hours)`
+    ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDurationStringFromHours(
+        d.getDurationInHours(meet.startTime, meet.endTime),
+      )})`
     : "Loading..";
 
-  return (
-    <div className="container mx-auto max-w-screen-lg px-2">
-      <header>
-        <div className="flex justify-center bg-gray-800">
-          {loading ? (
-            <div className="text-white h-screen-lg p-24 w-full flex justify-center items-center">Loading...</div>
-          ) : (
-            <img src={meet?.coverImageUrl} alt={meet?.title} />
-          )}
-        </div>
-      </header>
+  const userInstructionsView = (
+    <>
+      <h2 className="font-medium">Instructions</h2>
+      <MarkdownParser source={meet?.instructions} />
+    </>
+  );
+  const adminInstructionsView = (
+    <>
+      {" "}
+      {meetHasNotStarted && <em>(Users cannot see these instructions until meet starts)</em>}
+      {userInstructionsView}
+    </>
+  );
 
-      <main className="py-2 md:py-12">
-        <div className="flex flex-col md:flex-row">
-          <section className="bg-gray-800 text-white flex-grow shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
-            <div>
-              <h1>{meet?.title}</h1>
-              <p>{dateInfo}</p>
-              <p className="mt-2">{meet?.description}</p>
-              <a href=""></a>
-              {meet?.registerLink && (
-                <ExternalLink href={meet.registerLink}>
-                  <Button className="mt-2">Register</Button>
-                </ExternalLink>
+  return (
+    <BgBlock type="blackStripeEvents">
+      <BgBlock type="blackMeet">
+        <header className="flex flex-col items-center">
+          <div className="flex w-screen min-h-84 max-h-60vh bg-gray-800">
+            {loading ? (
+              <div className="text-white h-screen-lg p-24 w-full flex justify-center items-center">Loading...</div>
+            ) : (
+              <img className="object-cover w-full" src={meet?.coverImageUrl} alt={meet?.title} />
+            )}
+          </div>
+        </header>
+      </BgBlock>
+
+      <main className="w-5/6 min-w-12rem mx-auto py-16 rounded-mb-md overflow-hidden">
+        <Link className="ml-12 mb-2 inline-block" to="/meets">
+          {"< "} Back to all meets
+        </Link>
+        <div className="overflow-hidden rounded-mb-md">
+          <div className="grid grid-rows-2 md:grid-cols-3 md:grid-rows-1 place-items-center md:place-items-end bg-gray-800 px-12 py-8">
+            <section className="text-white md:col-span-2 md:place-self-start">
+              <div className="grid place-items-center md:block">
+                <h1 className="font-semibold">{meet?.title}</h1>
+                <p>{dateInfo}</p>
+                <p className="mt-2">{meet?.description}</p>
+                <a href=""></a>
+                {meet?.registerLink && meetHasNotEnded && (
+                  <ExternalLink href={meet.registerLink}>
+                    <Button className="mt-2">Register</Button>
+                  </ExternalLink>
+                )}
+                {isAdmin && meet && (
+                  <>
+                    <AdminMeetDeleteModal
+                      buttonText="Delete"
+                      meet={meet}
+                      onDelete={redirectToMeets}
+                      className="mt-2 md:mt-0 md:ml-2"
+                    />
+                    {/* Todo use common button class */}
+                    <AdminMeetEditModal
+                      className="font-semibold shadow-md border-solid border-2 rounded-md py-2 px-6 m-2 text-black bg-white border-mb-green-200"
+                      buttonText="Edit"
+                      meet={meet}
+                    />
+                  </>
+                )}
+              </div>
+            </section>
+            <section className="text-white">
+              {/*TODO: Add project submission form*/}
+              {meet && user.data && (
+                <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user.data} />
               )}
-              {isAdmin && meet && (
-                <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToMeets} className="ml-2" />
-              )}
-            </div>
+            </section>
+          </div>
+          <section className="shadow-lg bg-white p-12">
+            {user?.data?.isAdmin ? (
+              adminInstructionsView
+            ) : meetHasNotStarted ? (
+              <p>Instructions will be released once the meet starts!</p>
+            ) : (
+              userInstructionsView
+            )}
           </section>
-          <section className="bg-gray-800 text-white shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
-            <p>TODO: Project submission</p>
-            <Button className="mt-2">Submit</Button>
+          <section className="shadow-lg bg-white p-12">
+            {meet?.projects.length ? (
+              <>
+                <h2 className="font-medium">Submissions</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+                  {meet.projects.map((p) => (
+                    <ProjectCard project={p} key={p.id} />
+                  ))}
+                </div>
+              </>
+            ) : (
+              <p>No submissions yet.</p>
+            )}
           </section>
         </div>
-        <section className="shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
-          <h2>Instructions</h2>
-          <Markdown source={meet?.instructions} />
-        </section>
-        <section className="shadow-lg p-6 bg-white border-mb-green-200 border-solid border-2">
-          <h2>Submissions</h2>
-          <p>TODO: Meet Projects</p>
-        </section>
       </main>
-    </div>
+    </BgBlock>
   );
 };
 

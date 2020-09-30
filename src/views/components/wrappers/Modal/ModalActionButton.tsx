@@ -1,4 +1,5 @@
 import React, { FC, ReactElement } from "react";
+import { Button } from "../../Button";
 
 export interface ModalActionDeclaration {
   type: "primary" | "secondary" | "danger";
@@ -14,26 +15,15 @@ interface ModalActionContext {
 interface ModalActionProps extends ModalActionContext, ModalActionDeclaration {}
 
 export const ModalActionButton: FC<ModalActionProps> = ({
-  type,
+  type = "primary",
   text,
   buttonType = "button",
   onClick,
   closeModal,
 }): ReactElement => {
-  const commonClasses = "shadow-md border-solid border-2 rounded-md py-2 px-6 m-2";
-  const classes = {
-    primary: "text-white bg-mb-green-200 border-mb-green-200 ",
-    secondary: "text-black bg-white border-mb-green-200",
-    danger: "text-white bg-red-500 border-red-500",
-  };
-
   return (
-    <button
-      onClick={(evt) => onClick(evt, { closeModal })}
-      className={`${commonClasses} ${classes[type]}`}
-      type={buttonType}
-    >
+    <Button onClick={(evt: React.SyntheticEvent) => onClick(evt, { closeModal })} type={type} buttonType={buttonType}>
       {text}
-    </button>
+    </Button>
   );
 };

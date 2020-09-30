@@ -1,26 +1,6 @@
-// const webpack = require("webpack");
 const path = require("path");
-// const dotenv = require("dotenv");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
-
-// const configEnvVariables = () => {
-//   const env = dotenv.config().parsed;
-//
-//   const envKeys = Object.keys(env).reduce((prev, next) => {
-//     prev[`process.env.${next}`] = JSON.stringify(env[next]);
-//     return prev;
-//   }, {});
-//   return envKeys;
-// };
-//
-// /*TODO: figure out a better dynamic env setup for frontend liek backend*/
-// const MUST_HAVE_KEYS = ["CLOUDINARY_CLOUD_NAME", "CLOUDINARY_UPLOAD_PRESET"];
-// const getEnvKeys = (envKeys) => Object.keys(envKeys).map((k) => k.replace(/process\.env\./, ""));
-// const checkForMissingKeys = (keys) => {
-//   const presentKeys = getEnvKeys(keys);
-//   MUST_HAVE_KEYS.forEach((k) => !presentKeys.includes(k) && console.error(`Missing env var ${k}`));
-// };
 
 module.exports = {
   // webpack will take the files from ./src/index
@@ -77,13 +57,13 @@ module.exports = {
           },
         ],
       },
-
       // css-loader to bundle all the css files into one file and style-loader to add all the styles  inside the style tag of the document
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
       },
       { test: /\.css$/, loader: "postcss-loader" },
+      { test: /\.md$/, loader: "raw-loader" },
     ],
   },
   devServer: {
@@ -97,8 +77,38 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
+      favicon: "./src/assets/images/favicon.png",
+      inject: true,
+      meta: [
+        { charset: "UTF-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+        { "http-equiv": "X-UA-Compatible", content: "ie=edge" },
+        { name: "title", content: "Mintbean - Immersive Learning Programs for Web Developers" },
+        {
+          name: "description",
+          content:
+            "Calling all web developers! Get job-ready. Get mentorship. Grow your skills. Network. Build a portfolio. All at Mintbean!",
+        },
+        // og image tags moved to index.html
+        { property: "twitter:card", content: "summary_large_image" },
+        { property: "twitter:url", content: "https://mintbean.io/" },
+        { property: "twitter:title", content: "Mintbean - Immersive Learning Programs for Web Developers" },
+        {
+          property: "twitter:description",
+          content:
+            "Calling all web developers! Get job-ready. Get mentorship. Grow your skills. Network. Build a portfolio. All at Mintbean!",
+        },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: "https://mintbean.io/" },
+        { property: "og:title", content: "Mintbean - Immersive Learning Programs for Web Developers" },
+        {
+          property: "og:description",
+          content:
+            "Calling all web developers! Get job-ready. Get mentorship. Grow your skills. Network. Build a portfolio. All at Mintbean!",
+        },
+        { property: "og:site_name", content: "Mintbean" },
+      ],
     }),
-    // set up environment variables
-    new Dotenv({ path: "/.env", safe: true }),
+    new Dotenv(),
   ],
 };

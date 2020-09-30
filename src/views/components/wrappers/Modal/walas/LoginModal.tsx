@@ -32,18 +32,21 @@ const LoginModal: FC<Props & DispatchMapping> = ({ login, className, buttonText 
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
-          formRef.current.dispatchMeet(new Event("submit", { cancelable: true }));
+          formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
         }
       },
     },
   ];
+
+  const loginButtonClasses =
+    "shadow-md py-2 px-6 rounded-lg hover:shadow-sm hover:opacity-75 border-2 border-solid font-semibold text-gray-700 bg-white border-mb-green-200";
 
   return (
     <>
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <button onClick={toggleModal} ref={(el) => setRef(el)} className={className || ""}>
+          <button onClick={toggleModal} ref={(el) => setRef(el)} className={`${className} ${loginButtonClasses}` || ""}>
             {buttonText}
           </button>
         )}

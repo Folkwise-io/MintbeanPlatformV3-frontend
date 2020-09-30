@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { BgBlock } from "./CommunityBgBlock";
+import { BgBlock } from "../../components/BgBlock";
 import { DiscordCard } from "./CommunityDiscordCard";
 import { InfoSection } from "./CommunityInfoSection";
 import { Pillars } from "./CommunityPillars";
@@ -26,19 +26,19 @@ export const Main: FC<Props> = ({ main }) => {
     title: "Find like-minded developers who are interested in learning, just like you.",
     content: [
       "We are a community of senior devs who are looking to mentor the next generation of newer devs.",
-      "We have a constant feed of hackathon channels, code mentors ready to help with debugging, and created we've a learning opportunity to contribute to our open source CLI.",
+      "We have a constant feed of hackathon channels, code mentors ready to help with debugging, and we've created a learning opportunity to contribute to our open source CLI.",
     ],
   };
   const pillarArgs = {
     image: [pillar1, pillar2, pillar3],
     title: ["Support", "Code", "Ship"],
     paragraph1: [
-      "Ask deep tech questions or tag code mentors during hackathons, as we love to help!",
-      "Build practice of coding by not just launching projects but by participating In your prompts!",
-      "Launch projects and get feedback from your fellow community members.",
+      "Ask deep tech questions, or tag code mentors during hackathons! We seriously love to help!",
+      "Build the practice of coding by not just launching projects, but by participating!",
+      "Launch projects and get feedback from your fellow MB community members.",
     ],
     paragraph2: [
-      "There is always someone willing to help in the Mintbean community. We value developers of all levels willing to lend a hand!",
+      "There is always someone willing to help in the Mintbean community. We value developers who are passionate in helping their fellow MB community member!",
       "Explore new challenges, learn new skills, and expand your knowledge, all in the comfort of your own home.",
       "Being a developer can be isolating, but that's no fun! We can offer feedback, support, and a few laughs along the way.",
     ],
@@ -46,7 +46,7 @@ export const Main: FC<Props> = ({ main }) => {
   const { title, tagline, body } = main;
   return (
     <div>
-      <div className="w-screen overflow-hidden pb-20">
+      <div className="w-full overflow-hidden pb-8">
         <BgBlock type="blackStripe">
           <BgBlock type="grad">
             <BgBlock>

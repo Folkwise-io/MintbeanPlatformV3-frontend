@@ -22,7 +22,8 @@ export function login(params: LoginParams): ThunkAction<void, StoreState, Contex
           throw null;
         }
         context.loggerService.success(
-          `<p>Welcome back, ${user.firstName}!</p><p>Check out our <u><strong><a href="/meets">Upcoming Meets</a></strong></u> to get hacking!</p>`,
+          `Welcome back, ${user.firstName}!
+          Check out our **[Upcoming Meets](/meets)** to get hacking!`,
         );
         return dispatch(loginAction("SUCCESS", user));
       })
@@ -113,7 +114,8 @@ export function register(params: RegisterParams): ThunkAction<void, StoreState, 
           throw null;
         }
         context.loggerService.success(
-          `Welcome to Mintbean, ${user.firstName}!<p>Check out our <u><strong><a href="/meets">Upcoming Meets</a></strong></u> to get hacking!</p>`,
+          `Welcome to Mintbean, ${user.firstName}!
+          Check out our **[Upcoming Meets](/meets)** to get hacking!`,
         );
         return dispatch(registerAction("SUCCESS", user));
       })

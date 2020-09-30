@@ -1,50 +1,50 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
+import { ImageDisplay } from "./ImageDisplay";
+import { ExternalLink } from "./ExternalLink";
+import { Button } from "./Button";
 
 type ProjectCardProps = {
-  project: Project;
+  project: ProjectForMeet;
 };
 
 export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
-  const { id, title, sourceCodeUrl, image, liveUrl, user } = project;
+  const { id, title, sourceCodeUrl, mediaAssets, liveUrl, user } = project;
   const creatorName = `${user.firstName} ${user.lastName}`;
-  return (
-    <section className="flex-grow max-w-sm rounded-md overflow-hidden pb-32 relative w-1/3">
-      <Link className="cursor-pointer" to={`/project/${id}`}>
-        <img className="w-full" src={image} alt={`Capture of ${title} created by ${creatorName}`} />
-      </Link>
-      <section className="absolute inset-0 pointer-events-none w-full flex flex-col justify-end items-center h-full">
-        <div
-          data-v-672bf12d=""
-          className="py-2 z-10 w-full"
-          style={{ background: "linear-gradient(0deg, #02ed9d, transparent)" }}
-        ></div>
-        <section className="bg-mb-green-200 pointer-events-auto text-center p-2 pb-4 w-full">
-          <h3 className="text-2xl">{title}</h3>
-          <p>
-            Created by: <span>{creatorName}</span>
-          </p>
 
-          <section className="flex justify-between p-2 w-full">
-            <a
-              className="px-2 py-1 border-green-400 rounded-lg border-2 bg-green-300"
-              href={liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View Live
-            </a>
-            <a
-              className="px-2 py-1 border-green-400 rounded-lg border-2 bg-green-300"
-              href={sourceCodeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View Source
-            </a>
-          </section>
+  // using first image as default for now
+  const coverImageCloudinaryPublicId = mediaAssets[0]?.cloudinaryPublicId;
+  return (
+    <div className="border-mb-green-200 border-2 bg-black text-white rounded-mb-md overflow-hidden m-4 shadow-mb-drop-center-sm grid grid-rows-5 col-auto row-auto max-h-120">
+      <Link
+        className="row-span-3 rounded-b-mb-md min-w-full overflow-hidden inline-grid place-items-center"
+        to={`/projects/${id}`}
+      >
+        <ImageDisplay
+          cloudinaryPublicId={coverImageCloudinaryPublicId}
+          className="flex justify-center items-center transition duration-500 ease-in-out transform scale-125 hover:scale-150"
+        />
+      </Link>
+
+      <section className="row-span-3 text-center p-2 pb-4 sm:pb-12 w-full place-self-end">
+        <h3 className="text-xl text-mb-blue-100 font-medium">{title}</h3>
+        <p>
+          by <span>{creatorName}</span>
+        </p>
+
+        <section className="flex flex-wrap flex-grow justify-center items-center pt-4 px-4 w-full">
+          <ExternalLink href={sourceCodeUrl}>
+            <Button type="secondary" className="m-2">
+              Code
+            </Button>
+          </ExternalLink>
+          <ExternalLink href={liveUrl}>
+            <Button type="primary" className="m-2">
+              Demo
+            </Button>
+          </ExternalLink>
         </section>
       </section>
-    </section>
+    </div>
   );
 };

@@ -2,30 +2,31 @@
 interface User {
   id: string;
   email: string;
-  username: string;
   firstName: string;
   lastName: string;
   createdAt: string;
   isAdmin: boolean;
 }
 
-interface Sponsor {
-  name: string;
-  blurb?: string; // Message
-  image?: string;
-}
-
-type Project = {
+interface Project {
   id: string;
   title: string;
   sourceCodeUrl: string;
-  image: string;
   liveUrl: string;
   createdAt: string;
-  updatedAt: string;
-  meetId: string;
-  user: User;
-};
+  meet: MeetForProject;
+  user: UserForProject;
+  mediaAssets: CloudinaryPublicIdMediaAsset[];
+}
+interface UserForProject {
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+interface MeetForProject {
+  id: string;
+  title: string;
+}
 
 interface Meet {
   id: string;
@@ -38,8 +39,23 @@ interface Meet {
   startTime: string;
   endTime: string;
   region: string;
-  // createdAt: string;
-  // updatedAt: string;
+  projects: ProjectForMeet[];
+}
+interface ProjectForMeet {
+  id: string;
+  title: string;
+  sourceCodeUrl: string;
+  liveUrl: string;
+  user: UserForProjectForMeet;
+  mediaAssets: CloudinaryPublicIdMediaAsset[];
+}
+interface UserForProjectForMeet {
+  firstName: string;
+  lastName: string;
+}
+
+interface CloudinaryPublicIdMediaAsset {
+  cloudinaryPublicId: string;
 }
 
 // INPUTS --------------------
@@ -51,7 +67,6 @@ interface LoginParams {
 interface RegisterParams {
   firstName: string;
   lastName: string;
-  username: string;
   email: string;
   password: string;
   passwordConfirmation: string;
@@ -67,6 +82,27 @@ interface CreateMeetParams {
   startTime: string;
   endTime: string;
   region: string;
+}
+// Same as CreateMeetUnput atm
+interface EditMeetParams {
+  meetType: "hackMeet";
+  title: string;
+  description: string;
+  instructions: string;
+  registerLink?: string;
+  coverImageUrl: string;
+  startTime: string;
+  endTime: string;
+  region: string;
+}
+
+interface CreateProjectParams {
+  userId: string;
+  meetId: string;
+  title: string;
+  sourceCodeUrl: string;
+  liveUrl: string;
+  cloudinaryPublicIds: string[];
 }
 
 // API -----------------------
@@ -114,4 +150,11 @@ interface StoreState {
   users: UsersState;
   errors: LoggedError[];
   toasts: ToastState;
+}
+
+// OTHER -------------------------
+// to allow imports of md files in components
+declare module "*.md" {
+  const value: string;
+  export default value;
 }

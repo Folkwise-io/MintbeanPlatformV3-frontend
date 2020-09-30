@@ -1,9 +1,10 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { CloudinaryUploadWidget } from "../widgets/CloudinaryUploadWidget";
+import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/CloudinaryUploadWidget";
 import moment from "moment";
+import { MarkdownEditor } from "../MarkdownEditor";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createMeetInputSchema = yup.object().shape({
@@ -11,8 +12,8 @@ const createMeetInputSchema = yup.object().shape({
   title: yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
   description: yup.string().min(3, "Too Short!").required("Required"),
   instructions: yup.string().min(3, "Too Short!").required("Required"),
-  registerLink: yup.string().url("Must be a valid URL").required("Required"),
-  coverImageUrl: yup.string().url("Must be a valid URL").required("Required"),
+  registerLink: yup.string().url("Must be a valid URL (https://...)").required("Required"),
+  coverImageUrl: yup.string().url("Must be a valid URL (https://...)").required("Required"),
   startTime: yup
     .string()
     .test("is-chronological", "Start time and end time must be chronological", function (startTime) {
@@ -32,18 +33,23 @@ interface Props {
 export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
   const [imageUrl, setImageUrl] = useState<string>("");
 
-  const { errors, register, handleSubmit } = useForm({
+  const { errors, register, handleSubmit, watch, setValue } = useForm({
     resolver: yupResolver(createMeetInputSchema),
   });
+
+  useEffect(() => {
+    register({ name: "instructions" });
+  }, [register]);
+
+  const instructions = watch("instructions");
 
   // RHF only calls onSubmit callback when form input passes validation
   const onSubmit = (data: CreateMeetParams) => {
     createMeet(data);
   };
 
-  const grabImageUrl = (url: string) => {
-    setImageUrl(url);
-    return url;
+  const grabImageData = (data: CloudinaryAssetInfo) => {
+    setImageUrl(data.url);
   };
 
   const resetImageStates = (): void => {
@@ -86,8 +92,7 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       <p className="text-red-500">{errors.description?.message}</p>
 
       <label htmlFor="instructions">Instructions</label>
-      <textarea name="instructions" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.instructions?.message}</p>
+      <MarkdownEditor value={instructions} onBeforeChange={(value) => setValue("instructions", value)} />
 
       <label htmlFor="registerLink">Registration link</label>
       <input type="url" name="registerLink" ref={register} className="mb-2" />
@@ -99,7 +104,7 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       <p className="text-red-500">{errors.coverImageUrl?.message}</p>
       {/* Thumbnail preview */}
       {imageUrl && thumbnailPreview}
-      <CloudinaryUploadWidget exposeImageUrl={grabImageUrl} />
+      <CloudinaryUploadWidget exposeImageData={grabImageData} />
 
       <label htmlFor="startTime">Start time</label>
       <input type="datetime-local" name="startTime" ref={register} className="mb-2" />

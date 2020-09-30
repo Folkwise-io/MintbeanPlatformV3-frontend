@@ -23,7 +23,7 @@ export const Footer: FC<Props> = ({ footer }) => {
     facebook: "Mintbean - Facebook",
   };
   return (
-    <footer className="w-full font-body text-sm grid grid-rows-2 md:grid-cols-3 md:grid-rows-1 items-stretch py-12 md:gap-4 lg:grid-cols-2 lg:gap-0">
+    <footer className="w-full font-body text-sm grid grid-rows-2 md:grid-cols-3 md:grid-rows-1 items-stretch py-12 h-120 md:h-72 lg:h-56 md:gap-4 lg:grid-cols-2 lg:gap-0 -mt-96 md:-mt-72 lg:-mt-56">
       <article className="mx-10 mb-10 md:mb-0 md:grid md:grid-rows-3 gap-4 md:col-span-1 lg:grid-rows-1 lg:grid-cols-2 md:mr-0 md:ml-16">
         <DiscordButton button={buttonArgs} />
         <SocialLinks social={socialArgs} />
@@ -33,7 +33,7 @@ export const Footer: FC<Props> = ({ footer }) => {
           {footerNav.map((item, index) => (
             <li key={index}>
               <Link
-                className="whitespace-no-wrap flex justify-center text-black hover:text-mb-green-200"
+                className="transition duration-500 ease-in-out whitespace-no-wrap flex justify-center text-black hover:text-mb-green-200 focus:text-mb-green-200"
                 to={links[index]}
               >
                 {item}

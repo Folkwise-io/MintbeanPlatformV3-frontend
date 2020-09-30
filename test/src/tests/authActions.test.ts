@@ -4,7 +4,6 @@ import { TEST_EMAIL, TEST_PASSWORD } from "../constants";
 import { userFactory } from "../factories/user.factory";
 
 const fakeUser = userFactory.one();
-
 describe("Auth actions", () => {
   let testManager: TestManager;
 
@@ -181,7 +180,6 @@ describe("Auth actions", () => {
     const newUserParams: RegisterParams = {
       firstName: "Amy",
       lastName: "Web",
-      username: "amyweb123",
       email: TEST_EMAIL,
       password: TEST_PASSWORD,
       passwordConfirmation: TEST_PASSWORD,
@@ -190,7 +188,6 @@ describe("Auth actions", () => {
       id: "fdsajkhfkjhdf",
       firstName: newUserParams.firstName,
       lastName: newUserParams.lastName,
-      username: newUserParams.username,
       email: newUserParams.email,
       createdAt: "2020-09-15T13:00:00.000Z",
       isAdmin: false,

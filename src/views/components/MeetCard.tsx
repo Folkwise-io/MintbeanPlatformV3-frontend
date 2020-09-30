@@ -16,25 +16,33 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   const { id, title, description, startTime, endTime, coverImageUrl, region } = meet;
 
   const startTimeStr = d.wcToClientStr(startTime, region);
-  const duration = d.getDuration(startTime, endTime);
+  const durationInHours = d.getDurationInHours(startTime, endTime);
+  const durationString = d.getDurationStringFromHours(durationInHours);
 
   return (
-    <div className="shadow-md bg-white flex flex-col md:flex-row max-w-screen-md items-center rounded-lg overflow-hidden">
-      <div className="max-w-full md:w-1/3 ">
-        <img className="object-cover" src={coverImageUrl} alt={`${title} meet banner`}></img>
+    <div className="shadow-md bg-white md:pr-8 flex-col md:flex md:flex-row w-11/12 mx-auto rounded-lg lg:p-4 overflow-hidden">
+      <div className="h-64 md:w-1/3 md:h-56 overflow-hidden inline-flex justify-center items-center my-auto mx-auto">
+        <img className="object-cover" src={coverImageUrl} alt={`${title} event banner`}></img>
       </div>
-      <div className="w-2/3 py-4 md:p-4">
-        <section className="flex flex-col my-1 w-full">
-          <h2 className="text-2xl mb-2">{title}</h2>
-          <p className="mb-2">{description}</p>
-          <p className="mb-2">
-            {startTimeStr} <span>({duration} hours)</span>
-          </p>
+
+      <div className="py-8 px-12 md:p-4 md:w-2/3 ">
+        <section className="flex h-full flex-col md:my-1 w-full justify-between items-center text-center">
+          <h2 className="text-2xl mb-2 font-medium">{title}</h2>
+          <div>
+            <p className="mb-2">{description}</p>
+            <p className="mb-2">
+              {startTimeStr} <span>({durationString})</span>
+            </p>
+          </div>
+          <div>
+            <Link to={`/meets/${id}`}>
+              <Button>More</Button>
+            </Link>
+            {user?.isAdmin && (
+              <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={onDelete} className="ml-2" />
+            )}
+          </div>
         </section>
-        <Link to={`/meets/${id}`}>
-          <Button>More</Button>
-        </Link>
-        {user?.isAdmin && <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={onDelete} className="ml-2" />}
       </div>
     </div>
   );
