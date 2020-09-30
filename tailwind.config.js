@@ -43,6 +43,8 @@ module.exports = {
       },
       maxWidth: {
         "7xl": "96rem",
+        "28vw": "28vw",
+        "20vw": "20vw",
       },
       colors: {
         black: "#0C0A0B",

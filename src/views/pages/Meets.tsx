@@ -52,7 +52,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   const pastMeets = meets
     .filter((m: Meet) => d.isPast(m.endTime, m.region))
     .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime())
-    .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeetData} />);
+    .map((meet) => <MeetCard meet={meet} type="past" key={meet.id} user={user.data} onDelete={fetchMeetData} />);
 
   const adminMeetCreateModal = (
     <div className="flex justify-center">
@@ -94,7 +94,9 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
             </BgBlock>
             <section className="max-w-6xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-12 px-6 md:px-24">
               <h2 className="text-white text-4xl mb-4 text-center">Past meets</h2>
-              <div className="space-y-4">{pastMeets}</div>
+              <div className="grid grid-cols-1 px-12 md:px-0 md:grid-cols-2 lg:grid-cols-3 row-auto gap-6">
+                {pastMeets}
+              </div>
             </section>
           </BgBlock>
         </main>
