@@ -162,13 +162,27 @@ See `meetService.test.ts` for example of calling api service that doesn't touch 
 
 ### Markdown
 
-We are using `react-markdown` (built on `markdown-it`) to parse markdown text into html.
+#### Rendering with `<MarkdownParser />`
 
-[See here](https://www.npmjs.com/package/react-markdown-it#usage) for usage example.
+This component wraps `[react-markdown](https://www.npmjs.com/package/react-markdown-it)` (built on `markdown-it`) to parse markdown text into html. By default all markdown blocks have the class `.markdown` , but additional classes can be supplied by passing the `className` prop.
 
-### Editor
+The `source` prop takes the markdown string to be rendered into HTML.
 
-We will use [Ace](https://github.com/securingsincity/react-ace) for inputs with syntax highlighting on steroids.
+Example usage:
+
+```
+<MarkdownParser source={meet?.instructions} />
+```
+
+#### Editing with `<MarkdownParser />`
+
+This component wraps `[react-codemirror2](https://www.npmjs.com/package/react-codemirror2)` to produce a markdown editor with live syntax highlighting. See component for styling options.
+
+It takes a string `value` prop for an initial value, and an `onBeforeChange` callback prop for how to handle input changes.
+
+```
+<MarkdownEditor value={instructions} onBeforeChange={(value) => setValue("instructions", value)} />
+```
 
 ### Debugging in VSCode
 
