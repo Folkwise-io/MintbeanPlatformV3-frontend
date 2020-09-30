@@ -109,6 +109,6 @@ module.exports = {
         { property: "og:site_name", content: "Mintbean" },
       ],
     }),
-    new Dotenv(),
+    new Dotenv({ safe: true }),
   ],
 };
