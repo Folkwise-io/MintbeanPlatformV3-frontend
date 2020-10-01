@@ -41,7 +41,7 @@ interface FactoryMethods<T> {
 const factory = <T>(defaults: T | {} = {}): FactoryMethods<T> => {
   const one = (overrides: Obj = {}, index?: number): T => fill(Object.assign({}, defaults, overrides), {}, index);
 
-  const bulk = (count: number = 10, overrides: Obj = {}): T[] => {
+  const bulk = (count = 10, overrides: Obj = {}): T[] => {
     const arr = [];
     for (let i = 0; i < count; i++) {
       arr.push(one(overrides, i));
