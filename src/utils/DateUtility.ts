@@ -55,6 +55,12 @@ export class DateUtility {
     const now = moment(new Date()).utc();
     return now > targetDate;
   };
+
+  isCurrent = (date1: string, date2: string): boolean => {
+    // Timezone is irrelevant
+    return moment().isBetween(date1, date2);
+  };
+
   // Returns true if date1 is chronologically prior to date2 assuming both in same region (format: '2020-10-15T13:00' or '2020-10-15T13:00' )
   isChronologicalNoTz = (timestamp1: string, timestamp2: string): boolean => {
     if (!this.validateTimestamps([timestamp1, timestamp2])) return false;

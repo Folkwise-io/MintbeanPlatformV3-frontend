@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { DateUtility } from "../../utils/DateUtility";
 import { Link } from "react-router-dom";
 import AdminMeetDeleteModal from "./wrappers/Modal/walas/AdminMeetDeleteModal";
+import { MeetStatus } from "./MeetStatus";
 
 const d = new DateUtility();
 
@@ -29,9 +30,10 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
           ></img>
         </div>
         <section className="flex flex-col items-center h-full py-2 px-4 lg:px-6 w-full">
-          <p className="text-xs truncate text-center">
-            {pastEndTimeStr} - <span className="uppercase">completed</span>
-          </p>
+          <div className="flex justify-between w-full items-center">
+            <p className="text-xs truncate text-center">{pastEndTimeStr}</p>
+            <MeetStatus status="completed" />
+          </div>
           <h2 className="text-lg text-center font-medium md:break-all lg:break-normal">{title}</h2>
           <p className="text-sm justify-self-end my-auto text-justify">{descriptionStr}</p>
         </section>
