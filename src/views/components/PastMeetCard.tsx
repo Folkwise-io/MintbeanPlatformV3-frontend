@@ -20,8 +20,8 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
 
   return (
     <div className="shadow-md bg-white overflow-hidden rounded-mb-sm flex flex-col">
-      <Link to={`/meets/${id}`} className="grid grid-rows-3 text-black flex-grow">
-        <div className="h-56 overflow-hidden inline-grid place-items-center row-span-2">
+      <Link to={`/meets/${id}`} className="grid grid-rows-2 md:grid-rows-3 text-black flex-grow">
+        <div className="h-56 overflow-hidden inline-grid place-items-center md:row-span-2">
           <img
             className="object-cover w-auto min-h-full transition duration-500 ease-in-out transform scale-125 hover:scale-150"
             src={coverImageUrl}
