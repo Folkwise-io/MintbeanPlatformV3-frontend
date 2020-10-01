@@ -4,11 +4,11 @@ type SuccessDataTypes = Kanban;
 
 // TODO: implement cookie header mocking for authorization tests
 export class TestKanbanDao implements KanbanDao {
-  data: Kanban[];
+  data: Kanban[] | null;
   private mockReturns: ApiResponseRaw<SuccessDataTypes | null>[];
 
   constructor() {
-    this.data = [];
+    this.data = null;
     this.mockReturns = [];
   }
 
@@ -20,13 +20,19 @@ export class TestKanbanDao implements KanbanDao {
         extensions: { code: "TEST_CODE_ERROR" },
       } as ServerError;
     const errorReturns = this.getErrors();
-    const successReturns = this.getSuccesses();
     if (errorReturns.length) {
       // Mock failed
       throw errorReturns;
-    } else if (successReturns.length) {
-      // Mock successful
-      return (successReturns[0].data as unknown) as Kanban;
+    } else if (this.data) {
+      const result = this.data.find((r: Kanban) => r.id === id);
+      if (result) {
+        return result;
+      } else {
+        throw {
+          message: "No kanban with that id found",
+          extensions: { code: "TEST_CODE_ERROR" },
+        } as ServerError;
+      }
     } else {
       throw {
         message: "This shouldn't happen",
