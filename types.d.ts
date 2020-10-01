@@ -40,7 +40,9 @@ interface Meet {
   endTime: string;
   region: string;
   projects: ProjectForMeet[];
+  kanbanId?: string;
 }
+
 interface ProjectForMeet {
   id: string;
   title: string;
@@ -56,6 +58,12 @@ interface UserForProjectForMeet {
 
 interface CloudinaryPublicIdMediaAsset {
   cloudinaryPublicId: string;
+}
+
+interface Kanban {
+  id: string;
+  title: string;
+  description: string;
 }
 
 // INPUTS --------------------
