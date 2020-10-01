@@ -1,14 +1,49 @@
 // TODO: stricter typing using generics
 
-/* eslint-disable  @typescript-eslint/no-explicit-any */
+/* eslint-disable  @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types */
 interface Obj {
   [key: string]: any; // Obj values can be anything
 }
 
+// HELPER ------------------------------------------
+// Recursive deep merge from: https://stackoverflow.com/questions/27936772/how-to-deep-merge-instead-of-shallow-merge/46973278#46973278
+
+const mergeObjects = <T extends Obj>(target: Obj, ...sources: Obj[]): T => {
+  if (!sources.length) {
+    return target as T;
+  }
+  const source = sources.shift();
+  if (source === undefined) {
+    return target as T;
+  }
+
+  if (isMergebleObject(target) && isMergebleObject(source)) {
+    Object.keys(source).forEach(function (key: string) {
+      if (isMergebleObject(source[key])) {
+        if (!target[key]) {
+          target[key] = {};
+        }
+        mergeObjects(target[key], source[key]);
+      } else {
+        target[key] = source[key];
+      }
+    });
+  }
+
+  return mergeObjects(target, ...sources) as T;
+};
+
+const isObject = (item: any): boolean => {
+  return item !== null && typeof item === "object";
+};
+
+const isMergebleObject = (item: any): boolean => {
+  return isObject(item) && !Array.isArray(item);
+};
+
 // copying below code from V2, added types
 
-const fill = <T>(props: Obj, obj: any = {}, index = 0): T => {
-  // console.log({ props });
+const fill = <T>(props: Obj, obj: any = {}): T => {
   Object.entries(props).forEach(([key, definition]) => {
     // since typeof null === 'object', it can't be handled by "case 'object'" below.
     // handling it as a special case here.
@@ -19,10 +54,13 @@ const fill = <T>(props: Obj, obj: any = {}, index = 0): T => {
 
     switch (typeof definition) {
       case "function":
-        obj[key] = definition(obj, index);
+        obj[key] = definition();
         break;
       case "object":
-        obj[key] = fill(definition, obj);
+        if (Array.isArray(definition)) {
+          obj[key] = definition;
+        }
+        obj[key] = fill(definition, obj[key]);
         break;
       default:
         obj[key] = definition;
@@ -33,18 +71,22 @@ const fill = <T>(props: Obj, obj: any = {}, index = 0): T => {
   return obj;
 };
 
+// FACTORY ------------------------------------------
+
 interface FactoryMethods<T> {
-  one: (overrides?: Obj, index?: number) => T;
+  one: (overrides?: Obj) => T;
   bulk: (count?: number, overrides?: Obj) => T[];
 }
 
 const factory = <T>(defaults: T | {} = {}): FactoryMethods<T> => {
-  const one = (overrides: Obj = {}, index?: number): T => fill(Object.assign({}, defaults, overrides), {}, index);
+  const one = (overrides: Obj = {}): T => {
+    return fill(mergeObjects({}, defaults, overrides), {});
+  };
 
   const bulk = (count = 10, overrides: Obj = {}): T[] => {
     const arr = [];
     for (let i = 0; i < count; i++) {
-      arr.push(one(overrides, i));
+      arr.push(one(overrides));
     }
     return arr;
   };
@@ -57,30 +99,4 @@ const factory = <T>(defaults: T | {} = {}): FactoryMethods<T> => {
 
 export { factory };
 
-// Need recursive object merging for models with deep associations.
-// Below deep merge helpers from answer: https://stackoverflow.com/questions/27936772/how-to-deep-merge-instead-of-shallow-merge/34749873
-// const isObject = (item: any): boolean => {
-//   return item && typeof item === "object" && !Array.isArray(item);
-// };
-
-// TODO: make this below work for factories with nested associations
-
-// const mergeDeep = (target: any, ...sources: any[]): Obj => {
-//   if (!sources.length) return target;
-//   const source = sources.shift();
-//
-//   if (isObject(target) && isObject(source)) {
-//     for (const key in source) {
-//       if (isObject(source[key])) {
-//         if (!target[key]) Object.assign(target, { [key]: {} });
-//         mergeDeep(target[key], source[key]);
-//       } else {
-//         Object.assign(target, { [key]: source[key] });
-//       }
-//     }
-//   }
-//
-//   return mergeDeep(target, ...sources);
-// };
-
-/* eslint-enable  @typescript-eslint/no-explicit-any */
+/* eslint-enable  @typescript-eslint/no-explicit-any, , @typescript-eslint/ban-types */
