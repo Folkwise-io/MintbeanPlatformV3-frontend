@@ -3,6 +3,7 @@ import { Button } from "./Button";
 import { DateUtility } from "../../utils/DateUtility";
 import { Link } from "react-router-dom";
 import AdminMeetDeleteModal from "./wrappers/Modal/walas/AdminMeetDeleteModal";
+import { MeetStatus } from "./MeetStatus";
 
 const d = new DateUtility();
 
@@ -28,8 +29,9 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
         <img className="object-cover" src={coverImageUrl} alt={`${title} event banner`}></img>
       </div>
 
-      <div className="py-8 px-12 md:p-4 md:w-2/3 ">
+      <div className="pb-8 px-12 md:px-4 md:pb-4 md:w-2/3 ">
         <section className="flex h-full flex-col md:my-1 w-full justify-between items-center text-center">
+          {isCurrent ? <MeetStatus status="inProgress" /> : <MeetStatus status="comingSoon" />}
           <h2 className="text-2xl mb-2 font-medium">{title}</h2>
           <div>
             <p className="mb-2 truncate">{description}</p>
