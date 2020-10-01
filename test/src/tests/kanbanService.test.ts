@@ -17,7 +17,7 @@ describe("KanbanService", () => {
         context.kanbanDao.clearMockReturns();
       });
     });
-    it("returns a list an existing Kanban by Id", async () => {
+    it("returns an existing Kanban by Id", async () => {
       await testManager.execute((context) => {
         const index = 0;
         const kanbanId = fakeKanbans[index].id;
