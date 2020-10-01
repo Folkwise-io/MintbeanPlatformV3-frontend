@@ -9,4 +9,15 @@ export class KanbanService {
       this.logger.handleGraphqlErrors(e);
     });
   }
+  async createKanbanCard(input: CreateKanbanCardInput): Promise<KanbanCard | void> {
+    return this.kanbanDao
+      .createKanbanCard(input)
+      .then((kanbanCard) => {
+        this.logger.success(`Successfully added the card **${kanbanCard.title}**.`);
+        return kanbanCard;
+      })
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
+  }
 }

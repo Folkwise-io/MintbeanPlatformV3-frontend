@@ -1,5 +1,5 @@
 import { TestManager } from "../TestManager";
-import { kanbanFactory } from "../factories/kanban.factory";
+import { kanbanCardFactory, kanbanFactory } from "../factories/kanban.factory";
 
 const fakeKanbans = kanbanFactory.bulk(6);
 
@@ -35,6 +35,53 @@ describe("KanbanService", () => {
       const finalState = testManager.store.getState();
       expect(finalState.toasts[0].type).toBe("DANGER");
       expect(finalState.errors.length).toBe(1);
+    });
+  });
+  describe("createKanbanCard()", () => {
+    beforeEach(() => {
+      testManager = TestManager.build().addKanbans(fakeKanbans);
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.kanbanDao.clearMockReturns();
+      });
+    });
+    const newKanbanCard = kanbanCardFactory.one({ kanbanId: "afakekanbanid" });
+    const newKanbanCardInput: CreateKanbanCardInput = {
+      kanbanId: newKanbanCard.id,
+      title: newKanbanCard.title,
+      body: newKanbanCard.body,
+    };
+    it("returns a KanbanCard and throws SUCCESS toast on good input", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.kanbanDao.mockReturn({ data: newKanbanCard });
+        })
+        .execute((context) => {
+          return context.kanbanService.createKanbanCard(newKanbanCardInput).then((result) => {
+            expect(result).toMatchObject(newKanbanCard);
+          });
+        });
+      const finalState = testManager.store.getState();
+      expect(finalState.toasts[0].type).toBe("SUCCESS");
+    });
+    it("logs error and throws toast on failure", async () => {
+      const SERVER_ERR_MESSAGE = "Test msg";
+      const FAKE_ERROR = { data: null, errors: [{ message: SERVER_ERR_MESSAGE, extensions: { code: "TEST" } }] };
+      await testManager
+        .configureContext((context) => {
+          context.kanbanDao.mockReturn(FAKE_ERROR);
+        })
+        .execute((context) => {
+          return context.kanbanService.createKanbanCard(newKanbanCardInput).then((result) => {
+            expect(result).toBe(undefined);
+          });
+        });
+      const finalState = testManager.store.getState();
+      expect(finalState.errors[0].message).toBe(SERVER_ERR_MESSAGE);
+      expect(finalState.toasts[0].type).toBe("DANGER");
     });
   });
 });

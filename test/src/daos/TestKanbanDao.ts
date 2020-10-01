@@ -1,6 +1,6 @@
 import { KanbanDao } from "../../../src/daos/KanbanDao";
 
-type SuccessDataTypes = Kanban;
+type SuccessDataTypes = Kanban | KanbanCard;
 
 // TODO: implement cookie header mocking for authorization tests
 export class TestKanbanDao implements KanbanDao {
@@ -41,6 +41,17 @@ export class TestKanbanDao implements KanbanDao {
     }
   }
 
+  // KanbanCard ----------- -----------------------
+  async createKanbanCard(input: CreateKanbanCardInput): Promise<KanbanCard> {
+    if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
+    if (input && this.getSuccesses().length) {
+      return (this.getSuccesses()[0].data as unknown) as KanbanCard;
+    } else {
+      throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
+    }
+  }
+
+  // TestDao general methods -----------------------
   mockReturn(mr: ApiResponseRaw<SuccessDataTypes | null>): void {
     this.mockReturns.push(mr);
   }

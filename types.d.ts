@@ -64,6 +64,14 @@ interface Kanban {
   id: string;
   title: string;
   description: string;
+  kanbanCards: KanbanCard[];
+}
+
+interface KanbanCard {
+  id: string;
+  title: string;
+  body: string;
+  index: number;
 }
 
 // INPUTS --------------------
@@ -111,6 +119,13 @@ interface CreateProjectParams {
   sourceCodeUrl: string;
   liveUrl: string;
   cloudinaryPublicIds: string[];
+}
+
+interface CreateKanbanCardInput {
+  kanbanId: string;
+  title: string;
+  body: string;
+  index?: number;
 }
 
 // API -----------------------
