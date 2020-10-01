@@ -55,7 +55,7 @@ export class DateUtility {
     const now = moment(new Date()).utc();
     return now > targetDate;
   };
-
+  // Returns true if moment is between date1 and date2 assuming both in same region (format: '2020-10-15T13:00' or '2020-10-15T13:00' )
   isCurrent = (date1: string, date2: string): boolean => {
     // Timezone is irrelevant
     return moment().isBetween(date1, date2);
