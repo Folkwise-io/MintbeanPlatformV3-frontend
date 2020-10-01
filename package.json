@@ -108,7 +108,7 @@
     "prop-types": "15.7.2",
     "react-is": "16.13.1",
     "style-loader": "1.2.1",
-    "tailwindcss": "1.7.2",
+    "tailwindcss": "1.8.0",
     "ts-jest": "26.2.0",
     "typescript": "3.9.7",
     "url-loader": "4.1.0",
