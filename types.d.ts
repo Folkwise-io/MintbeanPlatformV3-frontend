@@ -121,15 +121,23 @@ interface CreateProjectParams {
   cloudinaryPublicIds: string[];
 }
 
+interface CreateKanbanInput {
+  title: string;
+  description: string;
+}
+// Same as CreateKanbanInput atm
+interface EditKanbanInput {
+  title: string;
+  description: string;
+}
+
 interface CreateKanbanCardInput {
-  kanbanId: string;
   title: string;
   body: string;
   index?: number;
 }
-// Same as CreatekanbanCardInput atm
+// Same as CreateKanbanCardInput atm
 interface EditKanbanCardInput {
-  kanbanId: string;
   title: string;
   body: string;
   index?: number;

@@ -10,6 +10,28 @@ export class KanbanService {
       this.logger.handleGraphqlErrors(e);
     });
   }
+  async createKanban(input: CreateKanbanInput): Promise<Kanban | void> {
+    return this.kanbanDao
+      .createKanban(input)
+      .then((kanbanCard) => {
+        this.logger.success(`Successfully added the **${kanbanCard.title}** Kanban.`);
+        return kanbanCard;
+      })
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
+  }
+  async editKanban(id: string, input: EditKanbanInput): Promise<Kanban | void> {
+    return this.kanbanDao
+      .editKanban(id, input)
+      .then((kanban) => {
+        this.logger.success(`Updated info for the **${kanban.title}** Kanban.`);
+        return kanban;
+      })
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
+  }
   async deleteKanban(id: string): Promise<boolean | void> {
     return this.kanbanDao
       .deleteKanban(id)

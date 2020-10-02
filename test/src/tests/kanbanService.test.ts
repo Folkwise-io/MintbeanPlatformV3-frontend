@@ -40,6 +40,94 @@ describe("KanbanService", () => {
       expect(finalState.errors.length).toBe(1);
     });
   });
+  describe("createKanban()", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.kanbanDao.clearMockReturns();
+      });
+    });
+    const newKanban = kanbanFactory.one({ kanbanId: "afakekanbanid" });
+    const newKanbanInput: CreateKanbanInput = {
+      title: newKanban.title,
+      description: newKanban.description,
+    };
+    it("returns a Kanban and throws SUCCESS toast on good input", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.kanbanDao.mockReturn({ data: newKanban });
+        })
+        .execute((context) => {
+          return context.kanbanService.createKanban(newKanbanInput).then((result) => {
+            expect(result).toMatchObject(newKanban);
+          });
+        });
+      const finalState = testManager.store.getState();
+      expect(finalState.toasts[0].type).toBe("SUCCESS");
+    });
+    it("logs error and throws toast on failure", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.kanbanDao.mockReturn(FAKE_ERROR);
+        })
+        .execute((context) => {
+          return context.kanbanService.createKanban(newKanbanInput).then((result) => {
+            expect(result).toBe(undefined);
+          });
+        });
+      const finalState = testManager.store.getState();
+      expect(finalState.errors[0].message).toBe(SERVER_ERR_MESSAGE);
+      expect(finalState.toasts[0].type).toBe("DANGER");
+    });
+  });
+  describe("editKanban()", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.kanbanDao.clearMockReturns();
+      });
+    });
+    const existingKanban = kanbanFactory.one({ kanbanId: "afakekanbanid" });
+    const NEW_TITLE = "New title";
+    const editKanbanInput: EditKanbanInput = {
+      title: NEW_TITLE,
+      description: existingKanban.description,
+    };
+
+    it("returns the edited kanban on success", async () => {
+      await testManager.addKanbans([existingKanban]).execute((context) => {
+        return context.kanbanService.editKanban(existingKanban.id, editKanbanInput).then((result) => {
+          if (result) {
+            expect(result.title).toBe(NEW_TITLE);
+          } else {
+            throw "This shouldn't be reached";
+          }
+        });
+      });
+    });
+    it("logs error and throws toast on failure", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.kanbanDao.mockReturn(FAKE_ERROR);
+        })
+        .execute((context) => {
+          return context.kanbanService.editKanban(existingKanban.id, editKanbanInput).then((result) => {
+            expect(result).toBe(undefined);
+          });
+        });
+      const finalState = testManager.store.getState();
+      expect(finalState.errors[0].message).toBe(SERVER_ERR_MESSAGE);
+      expect(finalState.toasts[0].type).toBe("DANGER");
+    });
+  });
   describe("deleteKanban()", () => {
     beforeEach(() => {
       testManager = TestManager.build();
@@ -126,7 +214,6 @@ describe("KanbanService", () => {
     });
     const newKanbanCard = kanbanCardFactory.one({ kanbanId: "afakekanbanid" });
     const newKanbanCardInput: CreateKanbanCardInput = {
-      kanbanId: newKanbanCard.id,
       title: newKanbanCard.title,
       body: newKanbanCard.body,
     };
@@ -172,12 +259,11 @@ describe("KanbanService", () => {
     const existingKanbanCard = kanbanCardFactory.one({ kanbanId: "afakekanbanid" });
     const NEW_TITLE = "New title";
     const editKanbanCardInput: EditKanbanCardInput = {
-      kanbanId: existingKanbanCard.id,
       title: NEW_TITLE,
       body: existingKanbanCard.body,
     };
 
-    it("returns the edited meet on success", async () => {
+    it("returns the edited Kanban Card on success", async () => {
       await testManager.addKanbanCards([existingKanbanCard]).execute((context) => {
         return context.kanbanService.editKanbanCard(existingKanbanCard.id, editKanbanCardInput).then((result) => {
           if (result) {
@@ -188,7 +274,7 @@ describe("KanbanService", () => {
         });
       });
     });
-    it("returns logs error and throws toast on failure", async () => {
+    it("logs error and throws toast on failure", async () => {
       await testManager
         .configureContext((context) => {
           context.kanbanDao.mockReturn(FAKE_ERROR);

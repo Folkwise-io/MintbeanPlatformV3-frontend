@@ -38,6 +38,68 @@ export class KanbanDaoImpl implements KanbanDao {
     );
   }
   // Not connected to backend yet
+  createKanban(input: CreateKanbanInput): Promise<Kanban> {
+    return (
+      this.api
+        .query<ApiResponseRaw<{ createKanban: Kanban }>, { input: CreateKanbanInput }>(
+          `
+            mutation createKanban($input: CreateKanbanInput!) {
+              createKanban(input: $input) {
+                id
+                title 
+                description
+              }
+            }
+          `,
+          { input },
+        )
+        .then((result) => {
+          if (result.errors) throw result.errors;
+          if (!result.errors && !result.data.createKanban) {
+            throw [{ message: "Failed to create Kanban", extensions: { code: "UNEXPECTED" } }];
+          }
+          return result.data.createKanban;
+        })
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+        })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
+    );
+  }
+  // Not connected to backend yet
+  editKanban(id: string, input: EditKanbanInput): Promise<Kanban> {
+    return (
+      this.api
+        .query<ApiResponseRaw<{ editKanban: Kanban }>, { id: string; input: EditKanbanInput }>(
+          `
+            mutation editKanban($input: EditKanbanCardInput!) {
+              editKanban(input: $input) {
+                id
+                title 
+                description
+              }
+            }
+          `,
+          { id, input },
+        )
+        .then((result) => {
+          if (result.errors) throw result.errors;
+          if (!result.errors && !result.data.editKanban) {
+            throw [{ message: "Failed to update Kanban", extensions: { code: "UNEXPECTED" } }];
+          }
+          return result.data.editKanban;
+        })
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+        })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
+    );
+  }
+  // Not connected to backend yet
   deleteKanban(id: string): Promise<boolean> {
     return (
       this.api

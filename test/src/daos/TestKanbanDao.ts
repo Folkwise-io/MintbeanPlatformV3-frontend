@@ -42,6 +42,25 @@ export class TestKanbanDao implements KanbanDao {
       } as ServerError;
     }
   }
+  async createKanban(input: CreateKanbanInput): Promise<Kanban> {
+    if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
+    if (input && this.getSuccesses().length) {
+      return (this.getSuccesses()[0].data as unknown) as Kanban;
+    } else {
+      throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
+    }
+  }
+  async editKanban(id: string, input: EditKanbanInput): Promise<Kanban> {
+    if (!id || !input) throw "You messed up in writing your test. Make sure id and input are passed as args";
+    if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
+    if (id && input && this.getSuccesses().length) {
+      return (this.getSuccesses()[0].data as unknown) as Kanban;
+    } else {
+      const index: number = this.kanbans.findIndex((m) => m.id === id);
+      const prevKanban: Kanban = this.kanbans[index];
+      return (this.kanbans[index] = { ...prevKanban, ...input });
+    }
+  }
   async deleteKanban(id: string): Promise<boolean> {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (id && this.getSuccesses().length) {
