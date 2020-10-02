@@ -4,11 +4,13 @@ type SuccessDataTypes = Kanban | KanbanCard;
 
 // TODO: implement cookie header mocking for authorization tests
 export class TestKanbanDao implements KanbanDao {
-  data: Kanban[] | null;
+  kanbans: Kanban[];
+  kanbanCards: KanbanCard[];
   private mockReturns: ApiResponseRaw<SuccessDataTypes | null>[];
 
   constructor() {
-    this.data = null;
+    this.kanbans = [];
+    this.kanbanCards = [];
     this.mockReturns = [];
   }
 
@@ -23,8 +25,8 @@ export class TestKanbanDao implements KanbanDao {
     if (errorReturns.length) {
       // Mock failed
       throw errorReturns;
-    } else if (this.data) {
-      const result = this.data.find((r: Kanban) => r.id === id);
+    } else if (this.kanbans) {
+      const result = this.kanbans.find((r: Kanban) => r.id === id);
       if (result) {
         return result;
       } else {
@@ -48,6 +50,17 @@ export class TestKanbanDao implements KanbanDao {
       return (this.getSuccesses()[0].data as unknown) as KanbanCard;
     } else {
       throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
+    }
+  }
+  async editKanbanCard(id: string, input: EditKanbanCardInput): Promise<KanbanCard> {
+    if (!id || !input) throw "You messed up in writing your test. Make sure id and input are passed as args";
+    if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
+    if (id && input && this.getSuccesses().length) {
+      return (this.getSuccesses()[0].data as unknown) as KanbanCard;
+    } else {
+      const index: number = this.kanbanCards.findIndex((m) => m.id === id);
+      const prevKanbanCard: KanbanCard = this.kanbanCards[index];
+      return (this.kanbanCards[index] = { ...prevKanbanCard, ...input });
     }
   }
 

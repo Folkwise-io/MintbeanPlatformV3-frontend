@@ -60,7 +60,12 @@ export class TestManager {
   }
 
   addKanbans(data: Kanban[]): TestManager {
-    this.context.kanbanDao.data = data;
+    this.context.kanbanDao.kanbans = data;
+    return this;
+  }
+
+  addKanbanCards(data: KanbanCard[]): TestManager {
+    this.context.kanbanDao.kanbanCards = data;
     return this;
   }
 

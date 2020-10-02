@@ -127,6 +127,13 @@ interface CreateKanbanCardInput {
   body: string;
   index?: number;
 }
+// Same as CreatekanbanCardInput atm
+interface EditKanbanCardInput {
+  kanbanId: string;
+  title: string;
+  body: string;
+  index?: number;
+}
 
 // API -----------------------
 interface ApiResponseRaw<T> {

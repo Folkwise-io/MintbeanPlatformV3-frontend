@@ -42,7 +42,7 @@ export class KanbanDaoImpl implements KanbanDao {
   createKanbanCard(input: CreateKanbanCardInput): Promise<KanbanCard> {
     return (
       this.api
-        .query<ApiResponseRaw<{ kanbanCard: KanbanCard }>, { input: CreateKanbanCardInput }>(
+        .query<ApiResponseRaw<{ createKanbanCard: KanbanCard }>, { input: CreateKanbanCardInput }>(
           `
             mutation createKanbanCard($input: CreateKanbanCardInput!) {
               createKanbanCard(input: $input) {
@@ -57,10 +57,41 @@ export class KanbanDaoImpl implements KanbanDao {
         )
         .then((result) => {
           if (result.errors) throw result.errors;
-          if (!result.errors && !result.data.kanbanCard) {
+          if (!result.errors && !result.data.createKanbanCard) {
             throw [{ message: "Failed to fetch Kanban Card", extensions: { code: "UNEXPECTED" } }];
           }
-          return result.data.kanbanCard;
+          return result.data.createKanbanCard;
+        })
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+        })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
+    );
+  }
+  editKanbanCard(id: string, input: EditKanbanCardInput): Promise<KanbanCard> {
+    return (
+      this.api
+        .query<ApiResponseRaw<{ editKanbanCard: KanbanCard }>, { id: string; input: EditKanbanCardInput }>(
+          `
+            mutation editKanbanCard($input: EditKanbanCardInput!) {
+              editKanbanCard(input: $input) {
+                id
+                title 
+                body
+                index
+              }
+            }
+          `,
+          { id, input },
+        )
+        .then((result) => {
+          if (result.errors) throw result.errors;
+          if (!result.errors && !result.data.editKanbanCard) {
+            throw [{ message: "Failed to fetch Kanban Card", extensions: { code: "UNEXPECTED" } }];
+          }
+          return result.data.editKanbanCard;
         })
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
