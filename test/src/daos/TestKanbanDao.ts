@@ -1,6 +1,6 @@
 import { KanbanDao } from "../../../src/daos/KanbanDao";
 
-type SuccessDataTypes = Kanban | KanbanCard;
+type SuccessDataTypes = Kanban | KanbanCard | boolean;
 
 // TODO: implement cookie header mocking for authorization tests
 export class TestKanbanDao implements KanbanDao {
@@ -88,6 +88,14 @@ export class TestKanbanDao implements KanbanDao {
       const index: number = this.kanbanCards.findIndex((m) => m.id === id);
       const prevKanbanCard: KanbanCard = this.kanbanCards[index];
       return (this.kanbanCards[index] = { ...prevKanbanCard, ...input });
+    }
+  }
+  async deleteKanbanCard(id: string): Promise<boolean> {
+    if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
+    if (id && this.getSuccesses().length) {
+      return (this.getSuccesses()[0].data as unknown) as boolean;
+    } else {
+      throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
     }
   }
 

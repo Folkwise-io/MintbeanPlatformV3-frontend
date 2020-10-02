@@ -190,7 +190,7 @@ export class MeetDaoImpl implements MeetDao {
         .then((result) => {
           if (result.errors) throw result.errors;
           if (!result.errors && !result.data.deleteMeet) {
-            throw [{ message: "Something went wrong when creating meet.", extensions: { code: "UNEXPECTED" } }];
+            throw [{ message: "Something went wrong when deleting the meet.", extensions: { code: "UNEXPECTED" } }];
           }
           return result.data.deleteMeet;
         })

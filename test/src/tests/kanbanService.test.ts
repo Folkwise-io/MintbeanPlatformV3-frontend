@@ -161,4 +161,46 @@ describe("KanbanService", () => {
       expect(finalState.toasts[0].type).toBe("DANGER");
     });
   });
+  describe("deleteKanbanCard()", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.kanbanDao.clearMockReturns();
+      });
+    });
+
+    it("allows admin to delete Kanban Card by id", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.kanbanDao.mockReturn({ data: true });
+        })
+        .execute((context) => {
+          return context.kanbanService.deleteKanbanCard("someuuid");
+        });
+      const storeState = testManager.store.getState();
+      expect(storeState.errors.length).toBe(0);
+      expect(storeState.toasts[0].type).toBe("SUCCESS");
+    });
+    it("logs error and throws server message toast on error", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.kanbanDao.mockReturn({
+            data: null,
+            errors: [{ message: SERVER_ERR_MESSAGE, extensions: { code: "TEST_UNAUTHORIZED" } }],
+          });
+        })
+        .execute((context) => {
+          return context.kanbanService.deleteKanbanCard("someuuid");
+        });
+
+      const storeState = testManager.store.getState();
+      expect(storeState.errors[0].message).toBe(SERVER_ERR_MESSAGE);
+      const lastToast = storeState.toasts.length - 1;
+      expect(storeState.toasts[lastToast].type).toBe("DANGER");
+    });
+  });
 });

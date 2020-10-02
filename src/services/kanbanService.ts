@@ -27,7 +27,6 @@ export class KanbanService {
         this.logger.handleGraphqlErrors(e);
       });
   }
-
   async editKanbanCard(id: string, input: EditKanbanCardInput): Promise<KanbanCard | void> {
     return this.kanbanDao
       .editKanbanCard(id, input)
@@ -35,6 +34,14 @@ export class KanbanService {
         this.logger.success(`Updated info for the card **${kanbanCard.title}**.`);
         return kanbanCard;
       })
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
+  }
+  async deleteKanbanCard(id: string): Promise<boolean | void> {
+    return this.kanbanDao
+      .deleteKanbanCard(id)
+      .then(() => this.logger.success("Successfully deleted the Kanban Card."))
       .catch((e) => {
         this.logger.handleGraphqlErrors(e);
       });
