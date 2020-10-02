@@ -13,7 +13,7 @@ export const MeetStatus: FC<Props> = (props) => {
     completed: "completed",
     comingSoon: "coming soon!",
   };
-  const common = "text-xs uppercase px-2 py-1 rounded-lg inline-flex text-white";
+  const common = "text-xs uppercase px-2 py-1 rounded-lg inline-flex text-white whitespace-no-wrap";
   const classes = {
     inProgress: "bg-red-500",
     completed: "bg-mb-green-300",

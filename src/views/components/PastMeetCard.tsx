@@ -38,8 +38,8 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
           <p className="text-sm justify-self-end my-auto text-justify">{descriptionStr}</p>
         </section>
       </Link>
-      <div className="flex justify-center">
-        {user?.isAdmin && <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={onDelete} className="my-2" />}
+      <div className="flex justify-center my-2">
+        {user?.isAdmin && <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={onDelete} />}
       </div>
     </div>
   );
