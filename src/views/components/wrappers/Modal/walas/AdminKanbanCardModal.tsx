@@ -1,4 +1,4 @@
-import React, { FC /*, useRef */ } from "react";
+import React, { FC } from "react";
 import { Modal } from "../";
 import { KanbanCardDetailsAdmin } from "../../../Kanban/KanbanCardDetailsAdmin";
 import { KanbanCardSummaryAdmin } from "../../../Kanban/KanbanCardSummaryAdmin";
@@ -9,8 +9,6 @@ interface Props {
 }
 
 export const AdminKanbanCardModal: FC<Props> = ({ data }) => {
-  //   const formRef = useRef<HTMLFormElement>(null);
-
   const actions: ModalActionDeclaration[] = [
     {
       type: "secondary",

@@ -1,16 +1,10 @@
-import React, { FC, useRef } from "react";
+import React, { FC } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-interface Props {
-  //   data: KanbanCard;
-}
-
-export const AdminCreateKanbanCardModal: FC<Props> = () => {
-  //   const formRef = useRef<HTMLFormElement>(null);
-
+export const AdminCreateKanbanCardModal: FC = () => {
   const actions: ModalActionDeclaration[] = [
     {
       type: "secondary",
@@ -21,7 +15,7 @@ export const AdminCreateKanbanCardModal: FC<Props> = () => {
       },
     },
   ];
-
+  // TODO: replace <p> with KanbanCardCreate form
   return (
     <>
       <Modal

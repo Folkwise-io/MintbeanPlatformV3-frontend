@@ -54,7 +54,7 @@ export const KanbanViewAdmin: FC<Props> = ({ kanbanId }) => {
   };
 
   const reindex = (list: KanbanCard[], startIndex: number, endIndex: number) => {
-    // TODO - make db call to update kanbanCard.index also. Currently only saved infrontend
+    // TODO - make db call to update kanbanCard.index also. Currently only saved in frontend
     const result = [...list];
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
