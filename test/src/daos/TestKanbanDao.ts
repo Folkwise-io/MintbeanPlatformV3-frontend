@@ -42,6 +42,14 @@ export class TestKanbanDao implements KanbanDao {
       } as ServerError;
     }
   }
+  async deleteKanban(id: string): Promise<boolean> {
+    if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
+    if (id && this.getSuccesses().length) {
+      return (this.getSuccesses()[0].data as unknown) as boolean;
+    } else {
+      throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
+    }
+  }
 
   // KanbanCard ----------- -----------------------
   async fetchKanbanCard(id: string): Promise<KanbanCard> {

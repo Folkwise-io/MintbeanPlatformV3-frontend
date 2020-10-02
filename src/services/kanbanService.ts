@@ -10,6 +10,14 @@ export class KanbanService {
       this.logger.handleGraphqlErrors(e);
     });
   }
+  async deleteKanban(id: string): Promise<boolean | void> {
+    return this.kanbanDao
+      .deleteKanban(id)
+      .then(() => this.logger.success("Successfully deleted the Kanban."))
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
+  }
   // KanbanCard
   async fetchKanbanCard(id: string): Promise<KanbanCard | void> {
     return this.kanbanDao.fetchKanbanCard(id).catch((e) => {

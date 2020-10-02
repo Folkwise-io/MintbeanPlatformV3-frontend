@@ -37,6 +37,38 @@ export class KanbanDaoImpl implements KanbanDao {
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
   }
+  // Not connected to backend yet
+  deleteKanban(id: string): Promise<boolean> {
+    return (
+      this.api
+        .query<ApiResponseRaw<{ deleteKanban: boolean }>, { id: string }>(
+          `
+            mutation deleteKanban($id: UUID!) {
+              deleteKanban(id: $id)
+            }
+          `,
+          { id },
+        )
+        .then((result) => {
+          if (result.errors) throw result.errors;
+          if (!result.errors && !result.data.deleteKanban) {
+            throw [
+              {
+                message: "Something went wrong when deleting the Kanban.",
+                extensions: { code: "UNEXPECTED" },
+              },
+            ];
+          }
+          return result.data.deleteKanban;
+        })
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+        })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
+    );
+  }
   // KanbanCard ----------------------------------
   // Not connected to backend yet
   fetchKanbanCard(id: string): Promise<KanbanCard> {
@@ -133,12 +165,13 @@ export class KanbanDaoImpl implements KanbanDao {
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
   }
+  // Not connected to backend yet
   deleteKanbanCard(id: string): Promise<boolean> {
     return (
       this.api
         .query<ApiResponseRaw<{ deleteKanbanCard: boolean }>, { id: string }>(
           `
-            mutation deleteMeet($id: UUID!) {
+            mutation deleteKanbanCard($id: UUID!) {
               deleteKanbanCard(id: $id)
             }
           `,
@@ -148,7 +181,10 @@ export class KanbanDaoImpl implements KanbanDao {
           if (result.errors) throw result.errors;
           if (!result.errors && !result.data.deleteKanbanCard) {
             throw [
-              { message: "Something went wrong when deleting the Kanban Card.", extensions: { code: "UNEXPECTED" } },
+              {
+                message: "Something went wrong when deleting the Kanban Card.",
+                extensions: { code: "UNEXPECTED" },
+              },
             ];
           }
           return result.data.deleteKanbanCard;
