@@ -49,16 +49,15 @@ export class DateUtility {
     return moment.tz(wcStr, masterRegion).tz(clientRegion).fromNow();
   };
   // Returns true if date is in future relative to client @ now. Client region is guessed if not provided
-  isPast = (wcStr: string, masterRegion: string, clientRegion?: string): boolean => {
-    if (clientRegion === undefined) clientRegion = moment.tz.guess();
-    const targetDate = moment.tz(wcStr, masterRegion).tz(clientRegion);
-    const now = moment(new Date()).utc();
-    return now > targetDate;
+  isPast = (wcStr: string, masterRegion: string): boolean => {
+    const targetDate = moment.tz(wcStr, masterRegion);
+    const now = moment();
+    return targetDate.isBefore(now);
   };
   // Returns true if moment is between date1 and date2 assuming both in same region (format: '2020-10-15T13:00' or '2020-10-15T13:00' )
   isCurrent = (date1: string, date2: string): boolean => {
-    // Timezone is irrelevant
-    return moment().isBetween(date1, date2);
+    const now = moment();
+    return now.isBetween(date1, date2);
   };
 
   // Returns true if date1 is chronologically prior to date2 assuming both in same region (format: '2020-10-15T13:00' or '2020-10-15T13:00' )

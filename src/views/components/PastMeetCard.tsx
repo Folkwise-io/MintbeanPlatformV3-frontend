@@ -21,8 +21,8 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
 
   return (
     <div className="shadow-md bg-white overflow-hidden rounded-mb-sm flex flex-col">
-      <Link to={`/meets/${id}`} className="grid grid-rows-2 md:grid-rows-3 text-black flex-grow">
-        <div className="h-56 overflow-hidden inline-grid place-items-center md:row-span-2">
+      <Link to={`/meets/${id}`} className="grid grid-rows-2 lg:grid-rows-3 text-black flex-grow">
+        <div className="h-full max-h-72 overflow-hidden inline-grid place-items-center lg:row-span-2">
           <img
             className="object-cover w-auto min-h-full transition duration-500 ease-in-out transform scale-125 hover:scale-150"
             src={coverImageUrl}
@@ -30,7 +30,7 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
           ></img>
         </div>
         <section className="flex flex-col items-center h-full py-2 px-4 lg:px-6 w-full">
-          <div className="flex justify-between w-full items-center">
+          <div className="flex justify-between w-full items-center mb-4">
             <p className="text-xs truncate text-center">{pastEndTimeStr}</p>
             <MeetStatus status="completed" />
           </div>
