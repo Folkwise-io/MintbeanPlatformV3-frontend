@@ -44,6 +44,33 @@ export class TestKanbanDao implements KanbanDao {
   }
 
   // KanbanCard ----------- -----------------------
+  async fetchKanbanCard(id: string): Promise<KanbanCard> {
+    if (!id)
+      throw {
+        message: "You forget to inlclude 'id' as a param in test script",
+        extensions: { code: "TEST_CODE_ERROR" },
+      } as ServerError;
+    const errorReturns = this.getErrors();
+    if (errorReturns.length) {
+      // Mock failed
+      throw errorReturns;
+    } else if (this.kanbanCards) {
+      const result = this.kanbanCards.find((r: KanbanCard) => r.id === id);
+      if (result) {
+        return result;
+      } else {
+        throw {
+          message: "No kanban with that id found",
+          extensions: { code: "TEST_CODE_ERROR" },
+        } as ServerError;
+      }
+    } else {
+      throw {
+        message: "This shouldn't happen",
+        extensions: { code: "UNEXPECTED" },
+      } as ServerError;
+    }
+  }
   async createKanbanCard(input: CreateKanbanCardInput): Promise<KanbanCard> {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (input && this.getSuccesses().length) {

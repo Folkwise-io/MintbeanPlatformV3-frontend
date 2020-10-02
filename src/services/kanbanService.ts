@@ -11,6 +11,11 @@ export class KanbanService {
     });
   }
   // KanbanCard
+  async fetchKanbanCard(id: string): Promise<KanbanCard | void> {
+    return this.kanbanDao.fetchKanbanCard(id).catch((e) => {
+      this.logger.handleGraphqlErrors(e);
+    });
+  }
   async createKanbanCard(input: CreateKanbanCardInput): Promise<KanbanCard | void> {
     return this.kanbanDao
       .createKanbanCard(input)

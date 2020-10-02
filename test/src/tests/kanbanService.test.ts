@@ -2,6 +2,7 @@ import { TestManager } from "../TestManager";
 import { kanbanCardFactory, kanbanFactory } from "../factories/kanban.factory";
 
 const fakeKanbans = kanbanFactory.bulk(6);
+const fakeKanbanCards = kanbanCardFactory.bulk(6);
 const SERVER_ERR_MESSAGE = "Test msg";
 const FAKE_ERROR = { data: null, errors: [{ message: SERVER_ERR_MESSAGE, extensions: { code: "TEST" } }] };
 
@@ -31,6 +32,37 @@ describe("KanbanService", () => {
     it("logs an error and throws toast if no kanban found", async () => {
       await testManager.execute((context) => {
         return context.kanbanService.fetchKanban("this0id0wont0exist").then((result) => {
+          expect(result).toBe(undefined);
+        });
+      });
+      const finalState = testManager.store.getState();
+      expect(finalState.toasts[0].type).toBe("DANGER");
+      expect(finalState.errors.length).toBe(1);
+    });
+  });
+  describe("fetchKanbanCard()", () => {
+    beforeEach(() => {
+      testManager = TestManager.build().addKanbanCards(fakeKanbanCards);
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.kanbanDao.clearMockReturns();
+      });
+    });
+    it("returns an existing Kanban by Id", async () => {
+      await testManager.execute((context) => {
+        const index = 0;
+        const kanbanCardId = fakeKanbanCards[index].id;
+        return context.kanbanService.fetchKanbanCard(kanbanCardId).then((result) => {
+          expect(result).toMatchObject(fakeKanbanCards[index]);
+        });
+      });
+    });
+    it("logs an error and throws toast if no Kanban Card found", async () => {
+      await testManager.execute((context) => {
+        return context.kanbanService.fetchKanbanCard("this0id0wont0exist").then((result) => {
           expect(result).toBe(undefined);
         });
       });

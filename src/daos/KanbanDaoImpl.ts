@@ -39,6 +39,37 @@ export class KanbanDaoImpl implements KanbanDao {
   }
   // KanbanCard ----------------------------------
   // Not connected to backend yet
+  fetchKanbanCard(id: string): Promise<KanbanCard> {
+    return (
+      this.api
+        .query<ApiResponseRaw<{ kanbanCard: KanbanCard }>, { id: string }>(
+          `
+            query fetchKanbanCard($id: String!) {
+              kanbanCard(id: $id) {
+                id
+                title 
+                body
+              }
+            }
+          `,
+          { id },
+        )
+        .then((result) => {
+          if (result.errors) throw result.errors;
+          if (!result.errors && !result.data.kanbanCard) {
+            throw [{ message: "Failed to fetch Kanban Card", extensions: { code: "UNEXPECTED" } }];
+          }
+          return result.data.kanbanCard;
+        })
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        .catch((e: any) => {
+          if (isServerErrorArray(e)) throw e;
+          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+        })
+      /* eslint-enable  @typescript-eslint/no-explicit-any */
+    );
+  }
+  // Not connected to backend yet
   createKanbanCard(input: CreateKanbanCardInput): Promise<KanbanCard> {
     return (
       this.api
@@ -70,6 +101,7 @@ export class KanbanDaoImpl implements KanbanDao {
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
   }
+  // Not connected to backend yet
   editKanbanCard(id: string, input: EditKanbanCardInput): Promise<KanbanCard> {
     return (
       this.api

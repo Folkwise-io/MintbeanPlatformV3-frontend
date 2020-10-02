@@ -1,5 +1,3 @@
-// TODO: stricter typing using generics
-
 /* eslint-disable  @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types */
 interface Obj {
   [key: string]: any; // Obj values can be anything
