@@ -1253,7 +1253,7 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@fortawesome/fontawesome-common-types@^0.2.30":
+"@fortawesome/fontawesome-common-types@^0.2.30", "@fortawesome/fontawesome-common-types@^0.2.31":
   version "0.2.31"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.31.tgz#f15a39e5ab4e5dfda0717733bcacb9580e666ad9"
   integrity sha512-xfnPyH6NN5r/h1/qDYoGB0BlHSID902UkQzxR8QsoKDh55KAPr8ruAoie12WQEEQT8lRE2wtV7LoUllJ1HqCag==
@@ -1271,6 +1271,13 @@
   integrity sha512-WsqPFTvJFI7MYkcy0jeFE2zY+blC4OrnB9MJOcn1NxRXT/sSfEEhrI7CwzIkiYajLiVDBKWeErYOvpsMeodmCQ==
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.30"
+
+"@fortawesome/free-solid-svg-icons@true5.15.0":
+  version "5.15.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.15.0.tgz#6f553f25cdebd7d5ae778598c2ddd3321dd63450"
+  integrity sha512-4dGRsOnGBPM7c0fd3LuiU6LgRSLn01rw1LJ370yC2iFMLUcLCLLynZhQbMhsiJmMwQM/YmPQblAdyHKVCgsIAA==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.31"
 
 "@fortawesome/react-fontawesome@0.1.11":
   version "0.1.11"
@@ -8824,7 +8831,7 @@ lodash.uniq@4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.0.1, lodash@^4.15.0, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19:
+lodash@^4.0.1, lodash@^4.15.0, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
@@ -12326,10 +12333,10 @@ table@^5.2.3:
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
 
-tailwindcss@1.7.2:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-1.7.2.tgz#f07669e71d4f9d951016d5a03c6a82788ab2b61b"
-  integrity sha512-O1RQtVpE0KbyZDZDBjCKpph6WOROijC2qc0iPsPpft9R43lhvGDL7vJXGuhb2NVXQew9FVPW+6G61f8naJnyCg==
+tailwindcss@1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-1.8.0.tgz#16df670a8ab04d26680539f0f899e9fc97512847"
+  integrity sha512-BfYNVQ8UQNPvLc26bIQ4bhto3l6m4i0/WoMWSCiC9Y8OQnP7wqmxI4Jxi5Pn4uWX7jlDXEuuuYnBvkUIfmwUag==
   dependencies:
     "@fullhuman/postcss-purgecss" "^2.1.2"
     autoprefixer "^9.4.5"
@@ -12339,7 +12346,8 @@ tailwindcss@1.7.2:
     color "^3.1.2"
     detective "^5.2.0"
     fs-extra "^8.0.0"
-    lodash "^4.17.15"
+    html-tags "^3.1.0"
+    lodash "^4.17.20"
     node-emoji "^1.8.1"
     normalize.css "^8.0.1"
     object-hash "^2.0.3"

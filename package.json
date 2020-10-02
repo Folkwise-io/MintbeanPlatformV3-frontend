@@ -25,6 +25,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "1.2.30",
     "@fortawesome/free-brands-svg-icons": "5.14.0",
+    "@fortawesome/free-solid-svg-icons": "5.15.0",
     "@fortawesome/react-fontawesome": "0.1.11",
     "@hookform/resolvers": "0.1.1",
     "@popperjs/core": "2.4.4",
@@ -108,7 +109,7 @@
     "prop-types": "15.7.2",
     "react-is": "16.13.1",
     "style-loader": "1.2.1",
-    "tailwindcss": "1.7.2",
+    "tailwindcss": "1.8.0",
     "ts-jest": "26.2.0",
     "typescript": "3.9.7",
     "url-loader": "4.1.0",
