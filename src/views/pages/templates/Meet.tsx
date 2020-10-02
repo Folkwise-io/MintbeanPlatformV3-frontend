@@ -11,7 +11,7 @@ import { BgBlock } from "../../components/BgBlock";
 import ProjectCreateModal from "../../components/wrappers/Modal/walas/ProjectCreateModal";
 import AdminMeetEditModal from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
 import { MarkdownParser } from "../../components/MarkdownParser";
-import { kanbanCardFactory, kanbanFactory } from "../../../../test/src/factories/kanban.factory";
+import { KanbanViewAdmin } from "../../components/Kanban/KanbanViewAdmin";
 
 const d = new DateUtility();
 
@@ -26,33 +26,6 @@ const stp = (state: StoreState) => ({
 interface MatchParams {
   id: string;
 }
-
-// TODO: Remove this fake kanban data. For temporary presentational purposes only.
-const kanban = kanbanFactory.one({
-  title: "Build a currency converter",
-  description: "Use an API to create a tool interface that converts currencies in real-time.",
-});
-const kanbanCards = [
-  kanbanCardFactory.one({
-    title: "Getting started",
-    body: `1. Get familiar with the API 
-We will use the Currency Layer API for conversions. Read [the docs](https://currencylayer.com/) 
-
-2. Template a new project
-Use the [mintbean-cli](https://www.npmjs.com/package/mintbean-cli) tool to template a new project in the configuration of your choice.`,
-  }),
-  kanbanCardFactory.one({
-    title: "Code the API fetch logic",
-    body: `Create a service that implements axios to make a GET request to Currency Layer. See [here](google.com) for a sample request. 
-**Be sure to sign up for a Currency Layer account to get API Key**`,
-  }),
-  kanbanCardFactory.one({
-    title: "Create a UI component for carrying out the fetch",
-    body: `Hook up your fetch service to a button in your UI. Give it a few manual tests.`,
-  }),
-];
-kanban.kanbanCards = kanbanCards;
-console.log(kanban);
 
 const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({ context, user, match }) => {
   const {
@@ -106,6 +79,14 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       {userInstructionsView}
     </>
   );
+
+  // Experimental feature. Add feature flag FF_KANBAN=true to your local .env to view.
+  const FF_KANBAN = user?.data?.isAdmin && (
+    <div className="mt-6">
+      <KanbanViewAdmin kanbanId="thisdoesntmatteryet" />
+    </div>
+  );
+  const showKanban = !!process.env.FF_KANBAN;
 
   return (
     <BgBlock type="blackStripeEvents">
@@ -185,6 +166,8 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
             ) : (
               <p>No submissions yet.</p>
             )}
+            {/* Experimental */}
+            {showKanban && FF_KANBAN}
           </section>
         </div>
       </main>
