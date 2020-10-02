@@ -47,9 +47,13 @@ export const KanbanViewAdmin: FC<Props> = ({ kanbanId }) => {
   );
 
   const onDragEnd = (e: DropResult) => {
-    if (e.source?.index && e.destination?.index) {
+    if (typeof e.source?.index === "number" && typeof e.destination?.index === "number") {
       const sorted = reindex(sortedKanbanCards, e.source.index, e.destination.index);
-      setSortedKanbanCards(sorted);
+      const indexedAndSorted = sorted.map((s, i) => {
+        s.index = i;
+        return s;
+      });
+      setSortedKanbanCards(indexedAndSorted);
     }
   };
 
