@@ -34,11 +34,11 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
         {isCurrent ? <MeetStatus status="inProgress" /> : <MeetStatus status="comingSoon" />}
       </div>
       <div className="flex-col md:flex md:flex-row">
-        <div className="h-64 md:w-1/3 md:h-56 overflow-hidden inline-flex my-auto mx-auto">
+        <div className="h-64 md:w-5/12 md:h-56 overflow-hidden inline-flex">
           <img className="object-cover h-full xs:h-auto" src={coverImageUrl} alt={`${title} event banner`}></img>
         </div>
 
-        <div className="pb-8 px-4 sm:px-12 md:px-4 md:pb-4 md:w-2/3 ">
+        <div className="pb-8 px-4 sm:px-12 md:px-4 md:pb-4 md:w-2/3">
           <section className="flex h-full flex-col md:my-1 w-full justify-end items-center text-center">
             <div className="max-w-full">
               <p className="mb-2">{descriptionStr}</p>
