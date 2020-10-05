@@ -11,6 +11,7 @@ import { BgBlock } from "../../components/BgBlock";
 import ProjectCreateModal from "../../components/wrappers/Modal/walas/ProjectCreateModal";
 import AdminMeetEditModal from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
 import { MarkdownParser } from "../../components/MarkdownParser";
+import { KanbanViewAdmin } from "../../components/Kanban/KanbanViewAdmin";
 
 const d = new DateUtility();
 
@@ -78,6 +79,14 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       {userInstructionsView}
     </>
   );
+
+  // Experimental feature. Add feature flag FF_KANBAN=true to your local .env to view.
+  const FF_KANBAN = user?.data?.isAdmin && (
+    <div className="mt-6">
+      <KanbanViewAdmin kanbanId="thisdoesntmatteryet" />
+    </div>
+  );
+  const showKanban = !!process.env.FF_KANBAN;
 
   return (
     <BgBlock type="blackStripeEvents">
@@ -157,6 +166,8 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
             ) : (
               <p>No submissions yet.</p>
             )}
+            {/* Experimental */}
+            {showKanban && FF_KANBAN}
           </section>
         </div>
       </main>

@@ -1,11 +1,7 @@
 import { TestManager } from "../TestManager";
 import { meetFactory } from "../factories/meet.factory";
-import { userFactory } from "../factories/user.factory";
-import { login } from "../../../src/views/state/actions/authActions";
-// import { userFactory } from "../factories/user.factory";
 
-// TODO: fix meet factory to allow recursive assocaition nesting
-const fakeMeets = meetFactory.bulk();
+const fakeMeets = meetFactory.bulk(6);
 
 describe("MeetService", () => {
   let testManager: TestManager;
@@ -26,7 +22,7 @@ describe("MeetService", () => {
 
       await tm.execute((context) => {
         return context.meetService.fetchMeets().then((result) => {
-          expect(result.length).toBe(1);
+          expect(result.length).toBe(6);
         });
       });
     });
@@ -49,8 +45,6 @@ describe("MeetService", () => {
         .execute((context) => context.meetService.fetchMeets());
       const storeState = testManager.store.getState();
       expect(storeState.errors[0].message).toBe(ERR_MSG);
-      // const errors = context.meetDao.getErrors();
-      // expect(errors[0]).toMatchObject(FAKE_ERROR);
     });
   });
   describe("createMeet()", () => {
