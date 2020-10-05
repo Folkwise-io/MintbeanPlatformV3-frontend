@@ -43,7 +43,7 @@ export const KanbanViewAdmin: FC<Props> = ({ kanbanId }) => {
   const kanban = testKanban;
   const { title, description, kanbanCards } = kanban;
   const [sortedKanbanCards, setSortedKanbanCards] = useState<KanbanCard[]>(
-    kanbanCards.sort((a, b) => (a.index > b.index ? 1 : -1)),
+    kanbanCards.sort((a, b) => a.index - b.index),
   );
 
   const onDragEnd = (e: DropResult) => {
