@@ -6,6 +6,7 @@ import AdminMeetCreateModal from "../components/wrappers/Modal/walas/AdminMeetCr
 import { connect } from "react-redux";
 import { BgBlock } from "../components/BgBlock";
 import { FocusCard } from "../components/FocusCard";
+import { PastMeetCard } from "../components/PastMeetCard";
 
 const d = new DateUtility();
 
@@ -52,7 +53,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   const pastMeets = meets
     .filter((m: Meet) => d.isPast(m.endTime, m.region))
     .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime())
-    .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeetData} />);
+    .map((meet) => <PastMeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeetData} />);
 
   const adminMeetCreateModal = (
     <div className="flex justify-center">
@@ -92,9 +93,9 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
                 )}
               </section>
             </BgBlock>
-            <section className="max-w-6xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-12 px-6 md:px-24">
+            <section className="max-w-6xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-20 px-6 md:px-24">
               <h2 className="text-white text-4xl mb-4 text-center">Past meets</h2>
-              <div className="space-y-4">{pastMeets}</div>
+              <div className="grid grid-cols-1 px-0 sm:px-12 md:px-0 md:grid-cols-2 row-auto gap-6">{pastMeets}</div>
             </section>
           </BgBlock>
         </main>
