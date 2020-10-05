@@ -9,3 +9,14 @@ export const userFactory = factory<User>({
   createdAt: () => "2020-10-15T13:00:00.000Z",
   isAdmin: false,
 });
+
+export const userForProjectFactory = factory<User>({
+  id: () => faker.random.uuid(),
+  firstName: () => faker.name.firstName(),
+  lastName: () => faker.name.lastName(),
+});
+
+export const userForMeetForProjectFactory = factory<User>({
+  firstName: () => faker.name.firstName(),
+  lastName: () => faker.name.lastName(),
+});
