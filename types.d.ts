@@ -135,12 +135,14 @@ interface CreateKanbanCardInput {
   title: string;
   body: string;
   index?: number;
+  kanbanId: string;
 }
 // Same as CreateKanbanCardInput atm
 interface EditKanbanCardInput {
   title: string;
   body: string;
   index?: number;
+  kanbanId: string;
 }
 
 // API -----------------------

@@ -16,6 +16,7 @@ import { ProjectService } from "../services/projectService";
 
 import { KanbanDao } from "../daos/KanbanDao";
 import { KanbanDaoImpl } from "../daos/KanbanDaoImpl";
+import { KanbanDaoImplFake } from "../daos/KanbanDaoImplFake";
 import { KanbanService } from "../services/kanbanService";
 
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
@@ -42,7 +43,9 @@ export const contextBuilder = (): Context => {
   const userDao = new UserDaoImpl(apiQueryExecutor);
   const meetDao = new MeetDaoImpl(apiQueryExecutor);
   const projectDao = new ProjectDaoImpl(apiQueryExecutor);
-  const kanbanDao = new KanbanDaoImpl(apiQueryExecutor);
+  // TODO: reinstate real KanbanDaoImpl once hooked to backend. Remove KanbanDaoImplFake reference
+  // const kanbanDao = new KanbanDaoImpl(apiQueryExecutor);
+  const kanbanDao = new KanbanDaoImplFake();
   const userService = new UserService(userDao);
   const authDao = new AuthDaoImpl(apiQueryExecutor);
   const authService = new AuthService(authDao);

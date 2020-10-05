@@ -12,4 +12,5 @@ export const kanbanCardFactory = factory<KanbanCard>({
   id: () => faker.random.uuid(),
   title: () => faker.company.bs(),
   body: () => faker.lorem.sentence(),
+  kanbanId: () => faker.random.uuid(),
 });
