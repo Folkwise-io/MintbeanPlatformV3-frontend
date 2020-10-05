@@ -33,8 +33,9 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     params: { id },
   } = match;
   const [meet, setMeet] = useState<Meet | null>(null);
-  // TODO: remove kanban from local state. This will live on meet in the backend in the future
+  // TODO: remove kanban  from local state. This will be replaced by kanbanId which will live on the meet in the backend in the future
   const [kanban, setKanban] = useState<Kanban | null>(null);
+
   const [loading, setLoading] = useState<boolean>(false);
   const isAdmin = user.data?.isAdmin;
   const history = useHistory();
@@ -89,7 +90,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       {kanban ? (
         <div className="mt-6">
           {/* Actual KanbanViewAdmin will only take kanbanId as a prop and fetch kanban from component*/}
-          <KanbanViewAdmin kanbanId={kanban?.id} kanban={kanban} />
+          <KanbanViewAdmin kanbanId={kanban?.id} kanban={kanban} setKanban={setKanban} />
         </div>
       ) : (
         <AdminKanbanCreateModal buttonText="Add a kanban to this meet" setKanban={setKanban} meetId={meet?.id} />

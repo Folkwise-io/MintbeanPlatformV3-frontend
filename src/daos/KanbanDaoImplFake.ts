@@ -1,7 +1,7 @@
 // TODO: remove this file and it's reference in contextBuilder once backend created
 import { kanbanCardFactory, kanbanFactory } from "../../test/src/factories/kanban.factory";
 import { KanbanDao } from "./KanbanDao";
-
+import faker from "faker";
 // Fake "database" of kanbans
 interface FakeState {
   [id: string]: Kanban;
@@ -22,7 +22,7 @@ export class KanbanDaoImplFake implements KanbanDao {
     return state[id];
   }
   async createKanban(input: CreateKanbanInput): Promise<Kanban> {
-    const id = "" + Math.random();
+    const id = faker.random.uuid();
     state[id] = {
       id,
       title: input.title,

@@ -101,8 +101,6 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
 
       {/* Infer meetId without prompting */}
       <input type="hidden" name="meetId" ref={register} value={meetId} />
-      {/* TODO: remove error msg in UI - for dev purpose only */}
-      <p className="text-red-500">{errors.meetId?.message}</p>
 
       <label htmlFor="title">Title</label>
       <input type="text" name="title" ref={register} className="mb-2" />
