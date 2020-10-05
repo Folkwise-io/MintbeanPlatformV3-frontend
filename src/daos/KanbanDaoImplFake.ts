@@ -2,20 +2,6 @@
 import { kanbanCardFactory, kanbanFactory } from "../../test/src/factories/kanban.factory";
 import { KanbanDao } from "./KanbanDao";
 
-interface Kanban {
-  id: string;
-  title: string;
-  description: string;
-  kanbanCards: KanbanCard[];
-}
-
-interface KanbanCard {
-  id: string;
-  title: string;
-  body: string;
-  index: number;
-}
-
 // Fake "database" of kanbans
 interface FakeState {
   [id: string]: Kanban;
@@ -81,7 +67,11 @@ export class KanbanDaoImplFake implements KanbanDao {
     });
     return updatedCard;
   }
-  deleteKanbanCard(id: string): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  async deleteKanbanCard(id: string): Promise<boolean> {
+    const kanbanCard = getCard(id);
+    if (!kanbanCard) throw new Error("Could not find kanban card");
+    const { kanbanId } = kanbanCard;
+    delete state[kanbanId];
+    return true;
   }
 }

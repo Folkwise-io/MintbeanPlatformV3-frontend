@@ -71,7 +71,8 @@ interface KanbanCard {
   id: string;
   title: string;
   body: string;
-  index: number;
+  index: number; // master index for determining initial order in "Todo" column
+  kanbanId: string;
 }
 
 // INPUTS --------------------
