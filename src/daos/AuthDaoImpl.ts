@@ -1,7 +1,6 @@
 // TODO: use correct mutation once backend structure known
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { AuthDao } from "./AuthDao";
-import { isServerErrorArray } from "../utils/typeGuards";
 import { handleServerError } from "../utils/handleServerError";
 
 interface RegisterInput {

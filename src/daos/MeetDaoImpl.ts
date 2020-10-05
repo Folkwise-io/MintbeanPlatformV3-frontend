@@ -1,6 +1,5 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { MeetDao } from "./MeetDao";
-import { isServerErrorArray } from "../utils/typeGuards";
 import { handleServerError } from "../utils/handleServerError";
 
 export class MeetDaoImpl implements MeetDao {

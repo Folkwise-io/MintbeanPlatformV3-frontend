@@ -1,6 +1,5 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { KanbanDao } from "./KanbanDao";
-import { isServerErrorArray } from "../utils/typeGuards";
 import { handleServerError } from "../utils/handleServerError";
 
 export class KanbanDaoImpl implements KanbanDao {

@@ -1,6 +1,5 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { ProjectDao } from "./ProjectDao";
-import { isServerErrorArray } from "../utils/typeGuards";
 import { handleServerError } from "../utils/handleServerError";
 
 export class ProjectDaoImpl implements ProjectDao {

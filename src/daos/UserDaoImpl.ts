@@ -1,6 +1,5 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { UserDao } from "./UserDao";
-import { isServerErrorArray } from "../utils/typeGuards";
 import { handleServerError } from "../utils/handleServerError";
 
 interface UsersResponseRaw {
