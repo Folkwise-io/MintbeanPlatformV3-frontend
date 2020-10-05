@@ -2,6 +2,7 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { AuthDao } from "./AuthDao";
 import { isServerErrorArray } from "../utils/typeGuards";
+import { handleServerError } from "../utils/handleServerError";
 
 interface RegisterInput {
   input: RegisterParams;
@@ -12,10 +13,9 @@ export class AuthDaoImpl implements AuthDao {
   constructor(private api: ApiQueryExecutor) {}
 
   login(params: LoginParams): Promise<User> {
-    return (
-      this.api
-        .query<ApiResponseRaw<{ login: User }>, LoginParams>(
-          `
+    return this.api
+      .query<ApiResponseRaw<{ login: User }>, LoginParams>(
+        `
             mutation Login($email: String!, $password: String!) {
               login(email: $email, password: $password) {
                 id
@@ -27,57 +27,41 @@ export class AuthDaoImpl implements AuthDao {
               }
             }
           `,
-          params,
-        )
-        .then((result) => {
-          if (result.errors) throw result.errors;
-          if (!result.errors && !result.data.login) {
-            throw [{ message: "Failed to log in", extensions: { code: "UNEXPECTED" } }];
-          }
-          return result.data.login;
-        })
-        // TODO: What potential Types of errors can invoke this catch?
-        /* eslint-disable  @typescript-eslint/no-explicit-any */
-        .catch((e: any) => {
-          if (isServerErrorArray(e)) throw e;
-          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
-        })
-      /* eslint-enable  @typescript-eslint/no-explicit-any */
-    );
+        params,
+      )
+      .then((result) => {
+        if (result.errors) throw result.errors;
+        if (!result.errors && !result.data.login) {
+          throw [{ message: "Failed to log in", extensions: { code: "UNEXPECTED" } }];
+        }
+        return result.data.login;
+      })
+      .catch(handleServerError);
   }
 
   logout(): Promise<boolean> {
-    return (
-      this.api
-        .query<ApiResponseRaw<{ logout: boolean }>>(
-          `
+    return this.api
+      .query<ApiResponseRaw<{ logout: boolean }>>(
+        `
             mutation logout {
               logout
             }
           `,
-        )
-        .then((result) => {
-          if (result.errors) throw result.errors;
-          if (!result.errors && !result.data.logout) {
-            throw [{ message: "Failed to logout", extensions: { code: "UNEXPECTED" } }];
-          }
-          return result.data.logout;
-        })
-        // TODO: What potential Types of errors can invoke this catch?
-        /* eslint-disable  @typescript-eslint/no-explicit-any */
-        .catch((e: any) => {
-          if (isServerErrorArray(e)) throw e;
-          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
-        })
-      /* eslint-enable  @typescript-eslint/no-explicit-any */
-    );
+      )
+      .then((result) => {
+        if (result.errors) throw result.errors;
+        if (!result.errors && !result.data.logout) {
+          throw [{ message: "Failed to logout", extensions: { code: "UNEXPECTED" } }];
+        }
+        return result.data.logout;
+      })
+      .catch(handleServerError);
   }
 
   me(): Promise<User> {
-    return (
-      this.api
-        .query<ApiResponseRaw<{ me: User }>>(
-          `
+    return this.api
+      .query<ApiResponseRaw<{ me: User }>>(
+        `
             query me {
               me {
                 id
@@ -89,29 +73,21 @@ export class AuthDaoImpl implements AuthDao {
               }
             }
           `,
-        )
-        .then((result) => {
-          if (result.errors) throw result.errors;
-          if (!result.errors && !result.data.me) {
-            throw [{ message: "Failed to fetch current user", extensions: { code: "UNEXPECTED" } }];
-          }
-          return result.data.me;
-        })
-        // TODO: What potential Types of errors can invoke this catch?
-        /* eslint-disable  @typescript-eslint/no-explicit-any */
-        .catch((e: any) => {
-          if (isServerErrorArray(e)) throw e;
-          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
-        })
-      /* eslint-enable  @typescript-eslint/no-explicit-any */
-    );
+      )
+      .then((result) => {
+        if (result.errors) throw result.errors;
+        if (!result.errors && !result.data.me) {
+          throw [{ message: "Failed to fetch current user", extensions: { code: "UNEXPECTED" } }];
+        }
+        return result.data.me;
+      })
+      .catch(handleServerError);
   }
 
   register(params: RegisterParams): Promise<User> {
-    return (
-      this.api
-        .query<ApiResponseRaw<{ register: User }>, RegisterInput>(
-          `
+    return this.api
+      .query<ApiResponseRaw<{ register: User }>, RegisterInput>(
+        `
         mutation register($input: UserRegistrationInput!) {
           register(input: $input) {
             id
@@ -123,22 +99,15 @@ export class AuthDaoImpl implements AuthDao {
           }
         }
         `,
-          { input: params },
-        )
-        .then((result) => {
-          if (result.errors) throw result.errors;
-          if (!result.errors && !result.data.register) {
-            throw [{ message: "Failed to register new user.", extensions: { code: "UNEXPECTED" } }];
-          }
-          return result.data.register;
-        })
-        // TODO: What potential Types of errors can invoke this catch?
-        /* eslint-disable  @typescript-eslint/no-explicit-any */
-        .catch((e: any) => {
-          if (isServerErrorArray(e)) throw e;
-          throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
-        })
-      /* eslint-enable  @typescript-eslint/no-explicit-any */
-    );
+        { input: params },
+      )
+      .then((result) => {
+        if (result.errors) throw result.errors;
+        if (!result.errors && !result.data.register) {
+          throw [{ message: "Failed to register new user.", extensions: { code: "UNEXPECTED" } }];
+        }
+        return result.data.register;
+      })
+      .catch(handleServerError);
   }
 }
