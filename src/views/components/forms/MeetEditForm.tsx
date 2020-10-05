@@ -11,7 +11,7 @@ import { MarkdownEditor } from "../MarkdownEditor";
 const editMeetInputSchema = yup.object().shape({
   meetType: yup.string().required("Required"),
   title: yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
-  description: yup.string().min(3, "Too Short!").required("Required"),
+  description: yup.string().min(3, "Too Short!").max(160, "Max characters: 160").required("Required"),
   instructions: yup.string().min(3, "Too Short!").required("Required"),
   registerLink: yup.string().url("Must be a valid URL (https://...)").required("Required"),
   coverImageUrl: yup.string().url("Must be a valid URL (https://...)").required("Required"),
