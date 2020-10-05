@@ -4,4 +4,5 @@ export interface MeetDao {
   createMeet(params: CreateMeetParams): Promise<Meet>;
   editMeet(id: string, params: EditMeetParams): Promise<Meet>;
   deleteMeet(id: string): Promise<boolean>;
+  registerForMeet(meetId: string): Promise<boolean>;
 }

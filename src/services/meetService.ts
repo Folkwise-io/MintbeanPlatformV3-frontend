@@ -46,4 +46,15 @@ export class MeetService {
         this.logger.handleGraphqlErrors(e);
       });
   }
+  async registerForMeet(meetId: string): Promise<boolean | void> {
+    return this.meetDao
+      .registerForMeet(meetId)
+      .then((id) => {
+        this.logger.success(`Successfully registered for meet.`);
+        return id;
+      })
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
+  }
 }

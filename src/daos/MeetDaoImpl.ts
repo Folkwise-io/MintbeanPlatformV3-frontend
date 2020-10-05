@@ -1,6 +1,7 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { MeetDao } from "./MeetDao";
 import { isServerErrorArray } from "../utils/typeGuards";
+import { bool } from "prop-types";
 
 export class MeetDaoImpl implements MeetDao {
   constructor(private api: ApiQueryExecutor) {}
@@ -202,5 +203,29 @@ export class MeetDaoImpl implements MeetDao {
         })
       /* eslint-enable  @typescript-eslint/no-explicit-any */
     );
+  }
+
+  //take user id and meet id
+  registerForMeet(meetId: string): Promise<boolean> {
+    return this.api
+      .query<ApiResponseRaw<{ registerForMeet: boolean }>, { meetId: string }>(
+        `
+        mutation registerMeet($input: RegisterMeetInput!) {
+            registerMeet(meetId: $meetId)
+        }
+        `,
+        { meetId },
+      )
+      .then((result) => {
+        if (result.errors) throw result.errors;
+        if (!result.errors && !result.data.registerForMeet) {
+          throw [{ message: "Something went wrong when registering.", extensions: { code: "UNEXPECTED" } }];
+        }
+        return result.data.registerForMeet;
+      })
+      .catch((e: any) => {
+        if (isServerErrorArray(e)) throw e;
+        throw [{ message: e.message, extensions: { code: "UNEXPECTED" } }];
+      });
   }
 }
