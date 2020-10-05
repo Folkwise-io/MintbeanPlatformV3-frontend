@@ -12,6 +12,7 @@ import ProjectCreateModal from "../../components/wrappers/Modal/walas/ProjectCre
 import AdminMeetEditModal from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
 import { MarkdownParser } from "../../components/MarkdownParser";
 import { KanbanViewAdmin } from "../../components/Kanban/KanbanViewAdmin";
+import AdminKanbanCreateModal from "../../components/wrappers/Modal/walas/AdminKanbanCreateModal";
 
 const d = new DateUtility();
 
@@ -32,6 +33,8 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     params: { id },
   } = match;
   const [meet, setMeet] = useState<Meet | null>(null);
+  // TODO: remove kanban from local state. This will live on meet in the backend in the future
+  const [kanban, setKanban] = useState<Kanban | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const isAdmin = user.data?.isAdmin;
   const history = useHistory();
@@ -82,9 +85,16 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
 
   // Experimental feature. Add feature flag FF_KANBAN=true to your local .env to view.
   const FF_KANBAN = user?.data?.isAdmin && (
-    <div className="mt-6">
-      <KanbanViewAdmin kanbanId="thisdoesntmatteryet" />
-    </div>
+    <>
+      {kanban ? (
+        <div className="mt-6">
+          {/* Actual KanbanViewAdmin will only take kanbanId as a prop and fetch kanban from component*/}
+          <KanbanViewAdmin kanbanId={kanban?.id} kanban={kanban} />
+        </div>
+      ) : (
+        <AdminKanbanCreateModal buttonText="Add a kanban to this meet" setKanban={setKanban} meetId={meet?.id} />
+      )}
+    </>
   );
   const showKanban = !!process.env.FF_KANBAN;
 

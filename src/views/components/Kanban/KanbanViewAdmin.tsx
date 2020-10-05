@@ -5,7 +5,9 @@ import { AdminCreateKanbanCardModal } from "../wrappers/Modal/walas/AdminCreateK
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 
 interface Props {
-  kanbanId: string;
+  kanbanId?: string;
+  // TODO: remove. for demonstration purposes only
+  kanban: Kanban;
 }
 
 // TODO: Remove this fake kanban data. For temporary presentational purposes only.
@@ -38,9 +40,8 @@ Use the [mintbean-cli](https://www.npmjs.com/package/mintbean-cli) tool to templ
 ];
 testKanban.kanbanCards = testKanbanCards;
 
-export const KanbanViewAdmin: FC<Props> = ({ kanbanId }) => {
-  // TODO: on mount fetch kanban data by Id. For now, using fake data
-  const kanban = testKanban;
+export const KanbanViewAdmin: FC<Props> = ({ kanbanId, kanban }) => {
+  // TODO: on mount fetch kanban data by Id. For now, using temp data via kanban prop
   const { title, description, kanbanCards } = kanban;
   const [sortedKanbanCards, setSortedKanbanCards] = useState<KanbanCard[]>(
     kanbanCards.sort((a, b) => a.index - b.index),
