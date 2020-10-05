@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 
 interface Props {
   className?: string;
+  type?: "button" | "plain";
   buttonText: string;
 }
 
@@ -21,7 +22,7 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
   login: (values: LoginParams) => dispatch(login(values)),
 });
 
-const LoginModal: FC<Props & DispatchMapping> = ({ login, className, buttonText }) => {
+const LoginModal: FC<Props & DispatchMapping> = ({ login, className, type = "button", buttonText }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const actions: ModalActionDeclaration[] = [
@@ -46,7 +47,11 @@ const LoginModal: FC<Props & DispatchMapping> = ({ login, className, buttonText 
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <button onClick={toggleModal} ref={(el) => setRef(el)} className={`${className} ${loginButtonClasses}` || ""}>
+          <button
+            onClick={toggleModal}
+            ref={(el) => setRef(el)}
+            className={`${className} ${type != "button" ? "text-mb-green-200" : loginButtonClasses}` || ""}
+          >
             {buttonText}
           </button>
         )}

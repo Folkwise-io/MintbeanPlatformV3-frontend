@@ -40,7 +40,9 @@ interface Meet {
   endTime: string;
   region: string;
   projects: ProjectForMeet[];
+  kanbanId?: string;
 }
+
 interface ProjectForMeet {
   id: string;
   title: string;
@@ -56,6 +58,20 @@ interface UserForProjectForMeet {
 
 interface CloudinaryPublicIdMediaAsset {
   cloudinaryPublicId: string;
+}
+
+interface Kanban {
+  id: string;
+  title: string;
+  description: string;
+  kanbanCards: KanbanCard[];
+}
+
+interface KanbanCard {
+  id: string;
+  title: string;
+  body: string;
+  index: number;
 }
 
 // INPUTS --------------------
@@ -103,6 +119,28 @@ interface CreateProjectParams {
   sourceCodeUrl: string;
   liveUrl: string;
   cloudinaryPublicIds: string[];
+}
+
+interface CreateKanbanInput {
+  title: string;
+  description: string;
+}
+// Same as CreateKanbanInput atm
+interface EditKanbanInput {
+  title: string;
+  description: string;
+}
+
+interface CreateKanbanCardInput {
+  title: string;
+  body: string;
+  index?: number;
+}
+// Same as CreateKanbanCardInput atm
+interface EditKanbanCardInput {
+  title: string;
+  body: string;
+  index?: number;
 }
 
 // API -----------------------

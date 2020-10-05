@@ -59,6 +59,16 @@ export class TestManager {
     return this;
   }
 
+  addKanbans(data: Kanban[]): TestManager {
+    this.context.kanbanDao.kanbans = data;
+    return this;
+  }
+
+  addKanbanCards(data: KanbanCard[]): TestManager {
+    this.context.kanbanDao.kanbanCards = data;
+    return this;
+  }
+
   private subscribe(): TestManager {
     this.store.subscribe(() => {
       const state = this.store.getState();
