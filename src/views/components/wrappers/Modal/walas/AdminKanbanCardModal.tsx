@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { DraggableProvided } from "react-beautiful-dnd";
 import { Modal } from "../";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
@@ -22,9 +22,40 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
   dndProvided,
   className,
 }) => {
-  const formRef = useRef<HTMLFormElement>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
   const [mode, setMode] = useState<"edit" | "view">("view");
 
+  const viewActionButtons: ModalActionDeclaration[] = [
+    {
+      type: "secondary",
+      text: "Close",
+      buttonType: "button",
+      onClick: (_evt: React.SyntheticEvent, { closeModal }: ModalActionContext) => {
+        closeModal();
+      },
+    },
+    {
+      type: "primary",
+      text: "Edit",
+      buttonType: "button",
+      onClick: () => {
+        setMode("edit");
+      },
+    },
+  ];
+  const editActionButtons: ModalActionDeclaration[] = [
+    {
+      type: "primary",
+      text: "Save",
+      buttonType: "button",
+      onClick: async () => {
+        if (formRef.current) {
+          // Programatically submit form in grandchild
+          formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
+        }
+      },
+    },
+  ];
   const actions: ModalActionDeclaration[] = [
     {
       type: "danger",
@@ -39,40 +70,12 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
         }
       },
     },
-  ].concat(
-    mode === "view"
-      ? [
-          {
-            type: "secondary",
-            text: "Close",
-            buttonType: "button",
-            onClick: (_evt, { closeModal }) => {
-              closeModal();
-            },
-          },
-          {
-            type: "primary",
-            text: "Edit",
-            buttonType: "button",
-            onClick: () => {
-              setMode("edit");
-            },
-          },
-        ]
-      : [
-          {
-            type: "primary",
-            text: "Save",
-            buttonType: "button",
-            onClick: async () => {
-              if (formRef.current) {
-                // Programatically submit form in grandchild
-                formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
-              }
-            },
-          },
-        ],
-  );
+  ];
+  // Updates modal action buttons depending on the mode.
+  // Typescript not permitting conditional concat of arrays so merging it this way:
+  mode === "view"
+    ? viewActionButtons.forEach((ab) => actions.push(ab))
+    : editActionButtons.forEach((ab) => actions.push(ab));
 
   const editKanbanCard = async (input: EditKanbanCardInput) => {
     if (context) {
@@ -95,7 +98,8 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
       alert("Yikes, devs messed up sorry. Action did not work");
     }
   };
-  /* Using accessible <div> instead of <button> for trigger due to a problem with button not complying with drag and drop refs */
+
+  /* Using accessible <div> of role button instead of actual <button> for trigger due to a problem with button not complying with drag and drop refs */
   return (
     <>
       <Modal

@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState, useEffect } from "react";
+import React, { FC, ReactElement, useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
 import { Placement } from "@popperjs/core/lib/enums";
 import { ModalActionButton, ModalActionDeclaration } from "./ModalActionButton";
@@ -22,6 +22,7 @@ export const Modal: FC<ModalProps> = ({
   closeFromParent,
   placement = "bottom",
 }): ReactElement => {
+  const isUnmounted = useRef<boolean>(false);
   const [triggerRef, setTriggerRef] = useState<HTMLElement | null>(null);
   const [show, toggleShow] = useState(false);
   const [popperElement, setPopperElement] = useState<HTMLElement | null>(null);
@@ -42,13 +43,21 @@ export const Modal: FC<ModalProps> = ({
   });
 
   useEffect(() => {
+    // cleanup on unmount. This is important to prevent memory leak of orphaned state updaters if modal is deleted
+    return () => {
+      isUnmounted.current = true;
+    };
+  }, []);
+
+  useEffect(() => {
     if (closeFromParent) {
       closeModal();
     }
+    // eslint-disable-next-line
   }, [closeFromParent]);
 
   const closeModal = () => {
-    toggleShow(false);
+    if (!isUnmounted.current) toggleShow(false);
   };
 
   // Wrap the triggerable element with the modal

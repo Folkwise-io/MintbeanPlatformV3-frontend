@@ -138,9 +138,8 @@ export class KanbanDaoImplFake implements KanbanDao {
     if (!kanbanCard) throw new Error("Could not find kanban card");
     this.readState();
     const { kanbanId } = kanbanCard;
-    const kanbanCards = this.state[kanbanId].kanbanCards;
-    const removeIndex = kanbanCards.map((kbc) => kbc.id).indexOf(id);
-    this.state[kanbanId].kanbanCards.splice(removeIndex, 1);
+    const kanbanCards = [...this.state[kanbanId].kanbanCards];
+    this.state[kanbanId].kanbanCards = kanbanCards.filter((kbc) => kbc.id !== id);
     this.writeState();
     return true;
   }
