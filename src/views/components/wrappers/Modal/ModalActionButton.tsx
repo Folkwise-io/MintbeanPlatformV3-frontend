@@ -8,7 +8,7 @@ export interface ModalActionDeclaration {
   onClick: (evt: React.SyntheticEvent, context: ModalActionContext) => void;
 }
 
-interface ModalActionContext {
+export interface ModalActionContext {
   closeModal: () => void;
 }
 

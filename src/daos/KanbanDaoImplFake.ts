@@ -136,8 +136,11 @@ export class KanbanDaoImplFake implements KanbanDao {
   async deleteKanbanCard(id: string): Promise<boolean> {
     const kanbanCard = this.getCard(id);
     if (!kanbanCard) throw new Error("Could not find kanban card");
+    this.readState();
     const { kanbanId } = kanbanCard;
-    delete this.state[kanbanId];
+    const kanbanCards = this.state[kanbanId].kanbanCards;
+    const removeIndex = kanbanCards.map((kbc) => kbc.id).indexOf(id);
+    this.state[kanbanId].kanbanCards.splice(removeIndex, 1);
     this.writeState();
     return true;
   }

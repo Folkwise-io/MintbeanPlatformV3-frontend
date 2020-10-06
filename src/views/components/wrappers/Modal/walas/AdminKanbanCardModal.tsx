@@ -5,7 +5,7 @@ import { connectContext, ConnectContextProps } from "../../../../../context/conn
 import { KanbanCardEditForm } from "../../../forms/KanbanCardEditForm";
 import { KanbanCardDetailsAdmin } from "../../../Kanban/KanbanCardDetailsAdmin";
 import { KanbanCardSummaryAdmin } from "../../../Kanban/KanbanCardSummaryAdmin";
-import { ModalActionDeclaration } from "../ModalActionButton";
+import { ModalActionContext, ModalActionDeclaration } from "../ModalActionButton";
 
 interface Props {
   data: KanbanCard;
@@ -25,7 +25,21 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
   const formRef = useRef<HTMLFormElement>(null);
   const [mode, setMode] = useState<"edit" | "view">("view");
 
-  const actions: ModalActionDeclaration[] =
+  const actions: ModalActionDeclaration[] = [
+    {
+      type: "danger",
+      text: "Delete",
+      buttonType: "button",
+      onClick: (_evt: React.SyntheticEvent, { closeModal }: ModalActionContext) => {
+        const confirmed = confirm("Are you sure you want to delete this kanban card?");
+        if (confirmed) {
+          deleteKanbanCard()
+            .then(() => fetchKanban())
+            .then(() => closeModal());
+        }
+      },
+    },
+  ].concat(
     mode === "view"
       ? [
           {
@@ -57,7 +71,8 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
               }
             },
           },
-        ];
+        ],
+  );
 
   const editKanbanCard = async (input: EditKanbanCardInput) => {
     if (context) {
@@ -67,6 +82,15 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
           fetchKanban();
         })
         .finally(() => setMode("view"));
+    } else {
+      alert("Yikes, devs messed up sorry. Action did not work");
+    }
+  };
+  const deleteKanbanCard = async () => {
+    if (context) {
+      await context.kanbanService.deleteKanbanCard(data.id).then(() => {
+        fetchKanban();
+      });
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
     }
