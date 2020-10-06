@@ -67,6 +67,15 @@ interface Kanban {
   kanbanCards: KanbanCard[];
 }
 
+interface KanbanSession {
+  id: string;
+  title: string;
+  description: string;
+  todoCards: KanbanCard[];
+  wipCards: KanbanCard[];
+  doneCards: KanbanCard[];
+}
+
 interface KanbanCard {
   id: string;
   title: string;

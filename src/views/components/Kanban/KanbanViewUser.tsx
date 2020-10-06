@@ -1,10 +1,10 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { connectContext, ConnectContextProps } from "../../../context/connectContext";
-// TODO: Remove - demo purpose only
-import { kanbanFactory } from "../../../../test/src/factories/kanban.factory";
-import { KanbanViewUserColumn } from "./KanbanViewUserColumn";
 import { connect } from "react-redux";
+import { KanbanViewUserColumn } from "./KanbanViewUserColumn";
+// TODO: Remove - demo purpose only
+import { kanbanSessionFactory } from "../../../../test/src/factories/kanban.factory";
 
 interface ColumnData {
   [key: string]: {
@@ -14,12 +14,10 @@ interface ColumnData {
     setCards: (c: KanbanCard[]) => void;
   };
 }
-// interface DropResultTarget {
-//   droppableId: string;
 
-// }
 interface Props {
   kanbanId: string;
+  meetId: string;
 }
 
 type StateMapping = {
@@ -30,32 +28,31 @@ const stp = (state: StoreState) => ({
   user: state.user,
 });
 
-const KanbanViewUser: FC<ConnectContextProps & StateMapping & Props> = ({ kanbanId, user }) => {
+const KanbanViewUser: FC<ConnectContextProps & StateMapping & Props> = ({ kanbanId, meetId, user }) => {
   const userId = user?.data?.id;
   // TODO: rename kanban to kanbanSession
-  const [kanban, setKanban] = useState<Kanban | null>(null);
+  const [kanbanSession, setKanbanSession] = useState<KanbanSession | null>(null);
   const [todoCards, setTodoCards] = useState<KanbanCard[]>([]);
   const [wipCards, setWipCards] = useState<KanbanCard[]>([]);
   const [doneCards, setDoneCards] = useState<KanbanCard[]>([]);
 
   const fetchKanbanSession = useCallback(async () => {
-    // TODO: change this method to actually fetch kanban from backend by kanbanID prop.
-    const testKanban = kanbanFactory.one({ title: "Test Kanban" });
-    setKanban(testKanban);
+    // TODO: change this function to actually fetch KanbanSession from backend by kanbanID, userId and meetId. Then set cards to local state
+    const demoKanbanSession = kanbanSessionFactory.one({ title: "Test Kanban" });
+    setKanbanSession(demoKanbanSession);
   }, []);
 
   useEffect(() => {
-    // TODO: fetch actual kanbanSession on mount using kanbanId and userId
     fetchKanbanSession();
   }, [fetchKanbanSession]);
 
   useEffect(() => {
-    if (kanban) {
-      setTodoCards(kanban.kanbanCards.sort((a, b) => a.index - b.index));
+    if (kanbanSession) {
+      setTodoCards(kanbanSession.todoCards);
     }
-  }, [kanban]);
+  }, [kanbanSession]);
 
-  // This object associates column droppableIds with column titles and respective card getters/setters.
+  // This object associates column droppableIds with column titles and respective card states.
   // Note: droppableId must match [key] name
   const columns: ColumnData = {
     col1: {
@@ -125,7 +122,7 @@ const KanbanViewUser: FC<ConnectContextProps & StateMapping & Props> = ({ kanban
   };
 
   const reindex = (list: KanbanCard[], startIndex: number, endIndex: number) => {
-    // TODO - make db call to update kanbanCard.index also. Currently only saved in frontend
+    // TODO - make db call to update kanbansession card index also. Currently only saved in frontend
     const result = [...list];
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -134,26 +131,21 @@ const KanbanViewUser: FC<ConnectContextProps & StateMapping & Props> = ({ kanban
   };
 
   return !userId ? (
-    <p>Log in or Sign up to view a kanban for this project!</p>
+    <p>
+      <strong>Log in or Sign up to view a kanban guide for this meet</strong>
+    </p>
   ) : (
-    kanban && (
+    kanbanSession && (
       <div>
-        <h2>{kanban.title}</h2>
-        <p>{kanban.description}</p>
+        <h2>{kanbanSession.title}</h2>
+        <p>{kanbanSession.description}</p>
         <div className="bg-gray-400 p-10 rounded-lg min-h-20">
           <DragDropContext onDragEnd={onDragEnd}>
-            {kanban?.kanbanCards && kanban.kanbanCards.length > 0 && (
-              <div className="flex">
-                {Object.values(columns).map((c) => (
-                  <KanbanViewUserColumn
-                    key={c.droppableId}
-                    droppableId={c.droppableId}
-                    title={c.title}
-                    cards={c.cards}
-                  />
-                ))}
-              </div>
-            )}
+            <div className="flex">
+              {Object.values(columns).map((c) => (
+                <KanbanViewUserColumn key={c.droppableId} droppableId={c.droppableId} title={c.title} cards={c.cards} />
+              ))}
+            </div>
           </DragDropContext>
         </div>
       </div>
