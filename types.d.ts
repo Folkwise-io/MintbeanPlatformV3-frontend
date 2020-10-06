@@ -40,6 +40,7 @@ interface Meet {
   endTime: string;
   region: string;
   projects: ProjectForMeet[];
+  registrants: RegistrantsForMeet[];
   kanbanId?: string;
 }
 
@@ -51,6 +52,13 @@ interface ProjectForMeet {
   user: UserForProjectForMeet;
   mediaAssets: CloudinaryPublicIdMediaAsset[];
 }
+
+interface RegistrantsForMeet {
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
 interface UserForProjectForMeet {
   firstName: string;
   lastName: string;

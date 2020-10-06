@@ -13,7 +13,7 @@ import { MarkdownParser } from "../../components/MarkdownParser";
 import { KanbanViewAdmin } from "../../components/Kanban/KanbanViewAdmin";
 import LoginModal from "../../components/wrappers/Modal/walas/LoginModal";
 import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
-import { ExternalLink } from "../../components/ExternalLink";
+import { MeetStatus } from "../../components/MeetStatus";
 
 const d = new DateUtility();
 
@@ -56,6 +56,24 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     fetchMeetData();
   }, [context, id]);
 
+  const updateRegistrantData = async () => {
+    if (!context) {
+      console.error(new Error("No context passed to component, but was expected"));
+      alert("Blame the devs! Something terrible happened.");
+      return;
+    }
+    if (meet) {
+      setLoading(true);
+      const meetRegistration = await context.meetService.registerForMeet(meet?.id);
+      console.log(meetRegistration);
+      const fetchedMeet = await context.meetService.fetchMeet(id);
+      if (fetchedMeet) {
+        setMeet(fetchedMeet);
+      }
+      setLoading(false);
+    }
+  };
+
   const redirectToMeets = async () => {
     history.push("/meets");
   };
@@ -82,6 +100,24 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       {userInstructionsView}
     </>
   );
+
+  const getRegistrantIds = () => {
+    if (meet) {
+      const registrantIds: string[] = [];
+      meet?.registrants.forEach((registrant) => {
+        registrantIds.push(registrant.id);
+      });
+      return registrantIds;
+    } else {
+      return null;
+    }
+  };
+
+  const isRegistered = () => {
+    if (meet && user.data) {
+      return getRegistrantIds()?.includes(user.data.id) ? true : false;
+    }
+  };
 
   // Experimental feature. Add feature flag FF_KANBAN=true to your local .env to view.
   const FF_KANBAN = user?.data?.isAdmin && (
@@ -116,13 +152,16 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                 <h1 className="font-semibold">{meet?.title}</h1>
                 <p>{dateInfo}</p>
                 <p className="mt-2">{meet?.description}</p>
-                <a href=""></a>
                 {meet?.registerLink &&
                   meetHasNotEnded &&
-                  (isLoggedIn ? (
-                    <ExternalLink href={meet.registerLink}>
-                      <Button className="mt-2">Register</Button>
-                    </ExternalLink>
+                  (isLoggedIn && !isRegistered() ? (
+                    <Button onClick={updateRegistrantData} className="mt-2">
+                      Register
+                    </Button>
+                  ) : isLoggedIn && isRegistered() ? (
+                    <div className="mt-4">
+                      <MeetStatus status="registered" />
+                    </div>
                   ) : (
                     <div>
                       <Button type="disabled">Register</Button>
@@ -150,9 +189,14 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                 )}
               </div>
             </section>
-            <section className="text-white">
+            <section className="text-white h-full flex justify-between flex-col">
+              {meet && (
+                <p>
+                  {meet?.registrants.length} hacker{meet?.registrants.length > 1 && "s"} registered.
+                </p>
+              )}
               {/*TODO: Add project submission form*/}
-              {meet && user.data && (
+              {meet && user.data && isRegistered() && (
                 <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user.data} />
               )}
             </section>

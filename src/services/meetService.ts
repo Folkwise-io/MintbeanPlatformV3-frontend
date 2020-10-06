@@ -49,9 +49,8 @@ export class MeetService {
   async registerForMeet(meetId: string): Promise<boolean | void> {
     return this.meetDao
       .registerForMeet(meetId)
-      .then((id) => {
-        this.logger.success(`Successfully registered for meet.`);
-        return id;
+      .then(() => {
+        this.logger.success(`Successfully registered for meet!`);
       })
       .catch((e) => {
         this.logger.handleGraphqlErrors(e);

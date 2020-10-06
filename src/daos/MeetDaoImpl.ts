@@ -67,6 +67,11 @@ export class MeetDaoImpl implements MeetDao {
                   cloudinaryPublicId
                 }
               }
+              registrants {
+                id
+                firstName
+                lastName
+              }
           }
         }
         `,
@@ -163,14 +168,12 @@ export class MeetDaoImpl implements MeetDao {
       })
       .catch(handleServerError);
   }
-
-  //take user id and meet id
   registerForMeet(meetId: string): Promise<boolean> {
     return this.api
       .query<ApiResponseRaw<{ registerForMeet: boolean }>, { meetId: string }>(
         `
-        mutation registerMeet($input: RegisterMeetInput!) {
-            registerMeet(meetId: $meetId)
+        mutation registerForMeet($meetId: UUID!) {
+          registerForMeet(meetId: $meetId)
         }
         `,
         { meetId },
