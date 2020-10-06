@@ -33,7 +33,6 @@ const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, classNam
   const editMeet = async (params: CreateMeetParams) => {
     if (context) {
       await context.meetService.editMeet(meet.id, params).then(() => {
-        console.log({ history });
         // can't get react router history to push reload same page for some reason
         window && window.location.reload();
       });

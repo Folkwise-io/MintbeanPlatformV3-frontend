@@ -9,10 +9,11 @@ import { connectContext, ConnectContextProps } from "../../../../../context/conn
 interface Props {
   kanbanId: string;
   // TODO: remove kanban and setKanban. For demonstration purpose only.
-  kanban: Kanban;
-  setKanban: React.Dispatch<React.SetStateAction<Kanban | null>>;
+  // kanban: Kanban;
+  // setKanban: React.Dispatch<React.SetStateAction<Kanban | null>>;
+  fetchKanban: () => Promise<void>;
 }
-const AdminKanbanCardCreateModal: FC<ConnectContextProps & Props> = ({ kanbanId, kanban, context, setKanban }) => {
+const AdminKanbanCardCreateModal: FC<ConnectContextProps & Props> = ({ kanbanId, context, fetchKanban }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const actions: ModalActionDeclaration[] = [
@@ -31,17 +32,9 @@ const AdminKanbanCardCreateModal: FC<ConnectContextProps & Props> = ({ kanbanId,
 
   const createKanbanCard = async (input: CreateKanbanCardInput) => {
     if (context) {
-      context.kanbanService.createKanbanCard(input).then((newKanbanCard) => {
+      context.kanbanService.createKanbanCard(input).then(() => {
         // TODO: determine actual post-success behavior
-        console.log({ kanban });
-        if (newKanbanCard) {
-          const kbcards = kanban.kanbanCards.map((kbc) => kbc);
-          console.log({ kbcards });
-          kbcards.push(newKanbanCard);
-          const updatedKanban = { ...kanban, kanbanCards: kbcards };
-          console.log({ updatedKanban });
-          setKanban(updatedKanban);
-        }
+        fetchKanban();
       });
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");

@@ -1,23 +1,39 @@
-import React, { FC, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 // import { kanbanCardFactory, kanbanFactory } from "../../../../test/src/factories/kanban.factory";
-import { AdminKanbanCardModal } from "../wrappers/Modal/walas/AdminKanbanCardModal";
+import AdminKanbanCardModal from "../wrappers/Modal/walas/AdminKanbanCardModal";
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import AdminKanbanCardCreateModal from "../wrappers/Modal/walas/AdminKanbanCardCreateModal";
-import { KanbanService } from "../../../services/kanbanService";
+import { connectContext, ConnectContextProps } from "../../../context/connectContext";
 
 interface Props {
   kanbanId?: string;
   // TODO: remove kanban/setKanban for demonstration purposes only
-  kanban: Kanban;
-  setKanban: React.Dispatch<React.SetStateAction<Kanban | null>>;
+  // kanban: Kanban;
+  // setKanban: React.Dispatch<React.SetStateAction<Kanban | null>>;
 }
 
-export const KanbanViewAdmin: FC<Props> = ({ kanbanId, kanban, setKanban }) => {
+const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context }) => {
   // TODO: on mount fetch kanban data by Id. For now, using temp data via kanban prop
-  const { title, description, kanbanCards } = kanban;
-  const [sortedKanbanCards, setSortedKanbanCards] = useState<KanbanCard[]>(
-    kanbanCards.sort((a, b) => a.index - b.index),
-  );
+  // const { title, description, kanbanCards } = kanban;
+  const [kanban, setKanban] = useState<Kanban | null>(null);
+  const [sortedKanbanCards, setSortedKanbanCards] = useState<KanbanCard[]>([]);
+
+  const fetchKanban = useCallback(async () => {
+    if (context && kanbanId) {
+      const k = await context.kanbanService.fetchKanban(kanbanId);
+      if (k) setKanban(k);
+    }
+  }, [context, kanbanId]);
+  // fetch kanban on mount if kanbanId provided as a prop
+  useEffect(() => {
+    fetchKanban();
+  }, [fetchKanban]);
+
+  useEffect(() => {
+    if (kanban) {
+      setSortedKanbanCards(kanban.kanbanCards.sort((a, b) => a.index - b.index));
+    }
+  }, [kanban]);
 
   const onDragEnd = (e: DropResult) => {
     if (typeof e.source?.index === "number" && typeof e.destination?.index === "number") {
@@ -39,14 +55,14 @@ export const KanbanViewAdmin: FC<Props> = ({ kanbanId, kanban, setKanban }) => {
     return result;
   };
 
-  return !kanbanId ? null : (
+  return !kanbanId || !kanban ? null : (
     <div>
       <p className="italic mb-2">Edit the kanban cards below to provide hackers with project requirements.</p>
-      <h2>{title}</h2>
-      <p>{description}</p>
+      <h2>{kanban.title}</h2>
+      <p>{kanban.description}</p>
       <div className="bg-gray-400 p-10 rounded-lg min-h-20">
         <DragDropContext onDragEnd={onDragEnd}>
-          {kanban.kanbanCards.length > 0 ? (
+          {kanban?.kanbanCards && kanban.kanbanCards.length > 0 ? (
             <Droppable droppableId="droppable">
               {(provided, _snapshot) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
@@ -54,7 +70,7 @@ export const KanbanViewAdmin: FC<Props> = ({ kanbanId, kanban, setKanban }) => {
                     <Draggable key={kbc.id} draggableId={kbc.id} index={index}>
                       {(provided, _snapshot) => (
                         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                          <AdminKanbanCardModal data={kbc} />
+                          <AdminKanbanCardModal data={kbc} fetchKanban={fetchKanban} />
                         </div>
                       )}
                     </Draggable>
@@ -69,12 +85,13 @@ export const KanbanViewAdmin: FC<Props> = ({ kanbanId, kanban, setKanban }) => {
         </DragDropContext>
 
         <div className="w-full flex justify-center mt-4">
-          <AdminKanbanCardCreateModal kanbanId={kanbanId} kanban={kanban} setKanban={setKanban} />
+          <AdminKanbanCardCreateModal kanbanId={kanbanId} fetchKanban={fetchKanban} />
         </div>
       </div>
     </div>
   );
 };
+export default connectContext<ConnectContextProps & Props>(KanbanViewAdmin);
 
 // TODO: Remove this fake kanban data. For temporary presentational purposes only.
 // const testKanban = kanbanFactory.one({

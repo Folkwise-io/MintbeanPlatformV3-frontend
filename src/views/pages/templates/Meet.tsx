@@ -11,7 +11,7 @@ import { BgBlock } from "../../components/BgBlock";
 import ProjectCreateModal from "../../components/wrappers/Modal/walas/ProjectCreateModal";
 import AdminMeetEditModal from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
 import { MarkdownParser } from "../../components/MarkdownParser";
-import { KanbanViewAdmin } from "../../components/Kanban/KanbanViewAdmin";
+import KanbanViewAdmin from "../../components/Kanban/KanbanViewAdmin";
 import AdminKanbanCreateModal from "../../components/wrappers/Modal/walas/AdminKanbanCreateModal";
 
 const d = new DateUtility();
