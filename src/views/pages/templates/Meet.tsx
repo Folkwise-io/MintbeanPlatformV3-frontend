@@ -146,8 +146,8 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
           {"< "} Back to all meets
         </Link>
         <div className="overflow-hidden rounded-mb-md">
-          <div className="grid grid-rows-2 md:grid-cols-3 md:grid-rows-1 place-items-center md:place-items-end bg-gray-800 px-12 py-8">
-            <section className="text-white md:col-span-2 md:place-self-start">
+          <div className="grid grid-rows-4 md:grid-cols-3 md:grid-rows-1 place-items-center md:place-items-end bg-gray-800 px-12 py-8">
+            <section className="text-white row-span-3 md:row-span-1 md:col-span-2 md:place-self-start">
               <div className="grid place-items-center md:block">
                 <h1 className="font-semibold">{meet?.title}</h1>
                 <p>{dateInfo}</p>
@@ -177,11 +177,11 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                       buttonText="Delete"
                       meet={meet}
                       onDelete={redirectToMeets}
-                      className="mt-2 md:mt-0 md:ml-2"
+                      className="mt-2 md:mt-0"
                     />
                     {/* Todo use common button class */}
                     <AdminMeetEditModal
-                      className="font-semibold shadow-md border-solid border-2 rounded-md py-2 px-6 m-2 text-black bg-white border-mb-green-200"
+                      className="font-semibold shadow-md border-solid border-2 rounded-md py-2 px-6 m-2 md:mb-0 text-black bg-white border-mb-green-200"
                       buttonText="Edit"
                       meet={meet}
                     />
@@ -191,8 +191,9 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
             </section>
             <section className="text-white h-full flex justify-between flex-col">
               {meet && (
-                <p>
-                  {meet?.registrants.length} hacker{meet?.registrants.length > 1 && "s"} registered.
+                <p className="text-right">
+                  {meet.registrants.length} hacker
+                  {meet.registrants.length !== 1 && "s"} registered.
                 </p>
               )}
               {/*TODO: Add project submission form*/}
