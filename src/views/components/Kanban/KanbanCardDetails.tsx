@@ -5,7 +5,7 @@ type Props = {
   data: KanbanCard;
 };
 
-export const KanbanCardDetailsAdmin: FC<Props> = ({ data }) => {
+export const KanbanCardDetails: FC<Props> = ({ data }) => {
   // TODO: on mount fetch kanban data by Id. For now, using fake data
   const { title, body } = data;
 
