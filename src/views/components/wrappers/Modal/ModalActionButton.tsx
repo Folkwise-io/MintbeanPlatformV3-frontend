@@ -22,7 +22,12 @@ export const ModalActionButton: FC<ModalActionProps> = ({
   closeModal,
 }): ReactElement => {
   return (
-    <Button onClick={(evt: React.SyntheticEvent) => onClick(evt, { closeModal })} type={type} buttonType={buttonType}>
+    <Button
+      onClick={(evt: React.SyntheticEvent) => onClick(evt, { closeModal })}
+      type={type}
+      buttonType={buttonType}
+      className="mx-1"
+    >
       {text}
     </Button>
   );

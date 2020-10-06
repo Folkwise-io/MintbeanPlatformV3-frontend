@@ -11,10 +11,17 @@ interface Props {
   data: KanbanCard;
   fetchKanban: () => Promise<void>;
   dndProvided: DraggableProvided;
+  className?: string;
 }
 
 // Doubles for viewing and editing kanban cards
-const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({ data, context, fetchKanban, dndProvided }) => {
+const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
+  data,
+  context,
+  fetchKanban,
+  dndProvided,
+  className,
+}) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [mode, setMode] = useState<"edit" | "view">("view");
 
@@ -72,7 +79,7 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({ data, context, 
         triggerBuilder={(toggleModal, setRef) => (
           <div ref={dndProvided.innerRef} {...dndProvided.draggableProps} {...dndProvided.dragHandleProps}>
             <div onClick={toggleModal} role="button" tabIndex={0} className="w-full" ref={(el) => setRef(el)}>
-              <KanbanCardSummaryAdmin data={data} />
+              <KanbanCardSummaryAdmin data={data} className={className ? className : ""} />
             </div>
           </div>
         )}

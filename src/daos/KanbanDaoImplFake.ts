@@ -73,7 +73,6 @@ export class KanbanDaoImplFake implements KanbanDao {
   async createKanban(input: CreateKanbanInput): Promise<Kanban> {
     this.readState();
     const id = faker.random.uuid();
-    console.log(this.state);
     this.state[id] = {
       id,
       title: input.title,

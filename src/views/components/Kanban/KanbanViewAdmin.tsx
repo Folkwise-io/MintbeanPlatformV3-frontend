@@ -64,20 +64,35 @@ const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context })
         <DragDropContext onDragEnd={onDragEnd}>
           {kanban?.kanbanCards && kanban.kanbanCards.length > 0 ? (
             <Droppable droppableId="droppable">
-              {(provided, _snapshot) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {sortedKanbanCards.map((kbc, index) => (
-                    <Draggable key={kbc.id} draggableId={kbc.id} index={index}>
-                      {(provided, _snapshot) => (
-                        <div>
-                          <AdminKanbanCardModal dndProvided={provided} data={kbc} fetchKanban={fetchKanban} />
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
+              {(provided, snapshot) => {
+                const classes = snapshot.isDraggingOver ? "bg-gray-300" : "bg-gray-400";
+                return (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className={`transition-colors duration-200 p-4 rounded-lg ${classes}`}
+                  >
+                    {sortedKanbanCards.map((kbc, index) => (
+                      <Draggable key={kbc.id} draggableId={kbc.id} index={index}>
+                        {(provided, snapshot) => {
+                          const classes = snapshot.isDragging ? "bg-mb-green-100" : "bg-white";
+                          return (
+                            <div>
+                              <AdminKanbanCardModal
+                                dndProvided={provided}
+                                data={kbc}
+                                fetchKanban={fetchKanban}
+                                className={classes}
+                              />
+                            </div>
+                          );
+                        }}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                );
+              }}
             </Droppable>
           ) : (
             <p className="text-center">Click the plus button to add kanban card requirements</p>
