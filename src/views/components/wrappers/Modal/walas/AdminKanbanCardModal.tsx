@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import { DraggableProvided } from "react-beautiful-dnd";
 import { Modal } from "../";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
