@@ -66,10 +66,13 @@ export const Modal: FC<ModalProps> = ({
 
   return (
     <>
-      {
-        // render the trigger element so it can be clicked
-        triggers
-      }
+      <div>
+        {
+          // render the trigger element so it can be clicked
+          triggers
+        }
+      </div>
+
       {
         // This is the modal itself. It only shows if the trigger was clicked.
         show && (

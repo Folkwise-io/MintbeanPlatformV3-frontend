@@ -1,7 +1,8 @@
 // TODO: remove this file and it's reference in contextBuilder once backend created
-import { kanbanCardFactory, kanbanFactory } from "../../test/src/factories/kanban.factory";
+import { kanbanCardFactory } from "../../test/src/factories/kanban.factory";
 import { KanbanDao } from "./KanbanDao";
 import faker from "faker";
+
 // Fake "database" of kanbans
 interface FakeState {
   [id: string]: Kanban;
@@ -9,6 +10,9 @@ interface FakeState {
 
 // local storage getter/setter to persist data (deme purpose)
 /* eslint-disable  @typescript-eslint/no-explicit-any */
+const alertLocalStorageNotSupported = () => {
+  alert("local storage not supported");
+};
 const get = (key: string): any => {
   try {
     const item = window.localStorage.getItem(key);
@@ -17,31 +21,40 @@ const get = (key: string): any => {
     } else {
       return undefined;
     }
-  } catch (e) {
-    alert("local storage not supported");
+  } catch {
+    alertLocalStorageNotSupported();
   }
 };
 const set = (key: string, value: any): void => {
-  console.log({ value });
-  window.localStorage.setItem(key, JSON.stringify(value));
+  try {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    alertLocalStorageNotSupported();
+  }
+};
+const remove = (key: string): void => {
+  try {
+    window.localStorage.removeItem(key);
+  } catch {
+    alertLocalStorageNotSupported();
+  }
 };
 /* eslint-enable  @typescript-eslint/no-explicit-any */
 
-// const this.state: FakeState = {};
-const initialKanban = kanbanFactory.one();
+// const initialKanban = kanbanFactory.one();
 
 export class KanbanDaoImplFake implements KanbanDao {
   state: FakeState;
   constructor() {
-    const persitingState = get("state");
-    if (!persitingState) set("state", { [initialKanban.id]: initialKanban });
-    this.state = get("state") || {};
+    remove("kanban-state");
+    this.state = {};
+    this.writeState();
   }
   writeState = (): void => {
-    set("state", this.state);
+    set("kanban-state", this.state);
   };
   readState = (): void => {
-    this.state = get("state");
+    this.state = get("kanban-state");
   };
   getCard = (id: string): KanbanCard => {
     this.readState();

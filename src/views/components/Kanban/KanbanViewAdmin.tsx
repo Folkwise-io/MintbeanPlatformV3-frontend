@@ -69,8 +69,8 @@ const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context })
                   {sortedKanbanCards.map((kbc, index) => (
                     <Draggable key={kbc.id} draggableId={kbc.id} index={index}>
                       {(provided, _snapshot) => (
-                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                          <AdminKanbanCardModal data={kbc} fetchKanban={fetchKanban} />
+                        <div>
+                          <AdminKanbanCardModal dndProvided={provided} data={kbc} fetchKanban={fetchKanban} />
                         </div>
                       )}
                     </Draggable>
