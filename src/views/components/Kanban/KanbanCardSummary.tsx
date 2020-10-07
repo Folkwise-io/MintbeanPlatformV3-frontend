@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
 type Props = {
-  data: KanbanCard;
+  data: KanbanCard | KanbanSessionCard;
   className?: string;
 };
 

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { MarkdownParser } from "../MarkdownParser";
 
 type Props = {
-  data: KanbanCard;
+  data: KanbanCard | KanbanSessionCard;
 };
 
 export const KanbanCardDetails: FC<Props> = ({ data }) => {

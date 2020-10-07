@@ -6,7 +6,7 @@ import { KanbanCardSummary } from "../../../Kanban/KanbanCardSummary";
 import { ModalActionContext, ModalActionDeclaration } from "../ModalActionButton";
 
 interface Props {
-  data: KanbanCard;
+  data: KanbanSessionCard;
   dndProvided: DraggableProvided;
   className?: string;
 }

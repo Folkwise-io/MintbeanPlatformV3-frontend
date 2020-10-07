@@ -3,15 +3,15 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { connectContext, ConnectContextProps } from "../../../context/connectContext";
 import { connect } from "react-redux";
 import { KanbanViewUserColumn } from "./KanbanViewUserColumn";
-// TODO: Remove - demo purpose only
+// TODO: Remove - for demo purpose only
 import { kanbanSessionFactory } from "../../../../test/src/factories/kanban.factory";
 
 interface ColumnData {
   [key: string]: {
-    droppableId: string;
+    droppableId: "col1" | "col2" | "col3";
     title: string;
-    cards: KanbanCard[];
-    setCards: (c: KanbanCard[]) => void;
+    cards: KanbanSessionCard[];
+    setCards: (c: KanbanSessionCard[]) => void;
   };
 }
 
@@ -32,9 +32,9 @@ const KanbanViewUser: FC<ConnectContextProps & StateMapping & Props> = ({ kanban
   const userId = user?.data?.id;
   // TODO: rename kanban to kanbanSession
   const [kanbanSession, setKanbanSession] = useState<KanbanSession | null>(null);
-  const [todoCards, setTodoCards] = useState<KanbanCard[]>([]);
-  const [wipCards, setWipCards] = useState<KanbanCard[]>([]);
-  const [doneCards, setDoneCards] = useState<KanbanCard[]>([]);
+  const [todoCards, setTodoCards] = useState<KanbanSessionCard[]>([]);
+  const [wipCards, setWipCards] = useState<KanbanSessionCard[]>([]);
+  const [doneCards, setDoneCards] = useState<KanbanSessionCard[]>([]);
 
   const fetchKanbanSession = useCallback(async () => {
     // TODO: change this function to actually fetch KanbanSession from backend by kanbanID, userId and meetId. Then set cards to local state
@@ -59,23 +59,23 @@ const KanbanViewUser: FC<ConnectContextProps & StateMapping & Props> = ({ kanban
       droppableId: "col1",
       title: "Todo",
       cards: todoCards,
-      setCards: (c: KanbanCard[]) => setTodoCards(c),
+      setCards: (c: KanbanSessionCard[]) => setTodoCards(c),
     },
     col2: {
       droppableId: "col2",
       title: "In Progress",
       cards: wipCards,
-      setCards: (c: KanbanCard[]) => setWipCards(c),
+      setCards: (c: KanbanSessionCard[]) => setWipCards(c),
     },
     col3: {
       droppableId: "col3",
       title: "Done",
       cards: doneCards,
-      setCards: (c: KanbanCard[]) => setDoneCards(c),
+      setCards: (c: KanbanSessionCard[]) => setDoneCards(c),
     },
   };
 
-  const getCards = (droppableId: string): KanbanCard[] => columns[droppableId].cards;
+  const getCards = (droppableId: string): KanbanSessionCard[] => columns[droppableId].cards;
 
   // Column/index update logic inspired by https://codesandbox.io/s/ql08j35j3q?file=/index.js:2094-3043
   const onDragEnd = (result: DropResult) => {
@@ -102,8 +102,8 @@ const KanbanViewUser: FC<ConnectContextProps & StateMapping & Props> = ({ kanban
   };
 
   const move = (
-    sourceCards: KanbanCard[],
-    destinationCards: KanbanCard[],
+    sourceCards: KanbanSessionCard[],
+    destinationCards: KanbanSessionCard[],
     droppableSource: DropResult["source"],
     droppableDestination: DropResult["destination"],
   ) => {
@@ -113,7 +113,7 @@ const KanbanViewUser: FC<ConnectContextProps & StateMapping & Props> = ({ kanban
     const [removed] = sourceClone.splice(droppableSource.index, 1);
     destClone.splice(droppableDestination.index, 0, removed);
 
-    const result: { [key: string]: KanbanCard[] } = {};
+    const result: { [key: string]: KanbanSessionCard[] } = {};
     result[droppableSource.droppableId] = sourceClone;
     result[droppableDestination.droppableId] = destClone;
 
@@ -121,7 +121,7 @@ const KanbanViewUser: FC<ConnectContextProps & StateMapping & Props> = ({ kanban
     return result;
   };
 
-  const reindex = (list: KanbanCard[], startIndex: number, endIndex: number) => {
+  const reindex = (list: KanbanSessionCard[], startIndex: number, endIndex: number) => {
     // TODO - make db call to update kanbansession card index also. Currently only saved in frontend
     const result = [...list];
     const [removed] = result.splice(startIndex, 1);
