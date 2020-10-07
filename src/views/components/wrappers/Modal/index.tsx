@@ -12,6 +12,7 @@ interface ModalProps {
   actions?: ModalActionDeclaration[];
   title?: string;
   closeFromParent?: number;
+  isDetached?: boolean;
 }
 
 export const Modal: FC<ModalProps> = ({
@@ -21,6 +22,7 @@ export const Modal: FC<ModalProps> = ({
   children,
   closeFromParent,
   placement = "bottom",
+  isDetached = false,
 }): ReactElement => {
   const isUnmounted = useRef<boolean>(false);
   const [triggerRef, setTriggerRef] = useState<HTMLElement | null>(null);
@@ -73,6 +75,8 @@ export const Modal: FC<ModalProps> = ({
       })
     : [];
 
+  // style for centering modal in middle of screen if isDetached prop = true
+  const detachedStyles = { left: "50%", top: "50%", transform: "translate(-50%, -50%)" };
   return (
     <>
       <div>
@@ -87,10 +91,10 @@ export const Modal: FC<ModalProps> = ({
         show && (
           <div
             ref={(el) => setPopperElement(el)}
-            style={{ ...styles.popper, zIndex: 89 }}
+            style={isDetached ? detachedStyles : { ...styles.popper, zIndex: 89 }}
             {...attributes.popper}
             data-popper-placement="right"
-            className="bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-sm"
+            className="bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-sm fixed"
           >
             {/* modal header with the "X" button for closing the modal */}
             <section className="py-1 px-2 flex justify-end text-gray-400">

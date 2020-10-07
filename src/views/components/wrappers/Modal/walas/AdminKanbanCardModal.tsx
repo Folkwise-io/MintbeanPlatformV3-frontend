@@ -104,6 +104,7 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
     <>
       <Modal
         actions={actions}
+        isDetached
         triggerBuilder={(toggleModal, setRef) => (
           <div ref={dndProvided.innerRef} {...dndProvided.draggableProps} {...dndProvided.dragHandleProps}>
             <div onClick={toggleModal} role="button" tabIndex={0} className="w-full" ref={(el) => setRef(el)}>
