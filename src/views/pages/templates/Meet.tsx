@@ -13,6 +13,7 @@ import AdminMeetEditModal from "../../components/wrappers/Modal/walas/AdminMeetE
 import { MarkdownParser } from "../../components/MarkdownParser";
 import KanbanViewAdmin from "../../components/Kanban/KanbanViewAdmin";
 import AdminKanbanCreateModal from "../../components/wrappers/Modal/walas/AdminKanbanCreateModal";
+import KanbanViewUser from "../../components/Kanban/KanbanViewUser";
 
 const d = new DateUtility();
 
@@ -33,7 +34,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     params: { id },
   } = match;
   const [meet, setMeet] = useState<Meet | null>(null);
-  // TODO: remove kanban  from local state. This will be replaced by kanbanId which will live on the meet in the backend in the future
+  // TODO: remove kanban from local state. This will be replaced by simply passing kanbanId which will live on the meet in the backend in the future
   const [kanban, setKanban] = useState<Kanban | null>(null);
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -84,7 +85,8 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     </>
   );
 
-  // Experimental feature. Add feature flag FF_KANBAN=true to your local .env to view.
+  // Experimental features vvvvvvvvvvvvvvvvvvvvvvvvvvvv
+  // Add feature flag FF_KANBAN=true to your local .env to view.
   const FF_KANBAN = user?.data?.isAdmin && (
     <>
       {kanban ? (
@@ -97,7 +99,19 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       )}
     </>
   );
-  const showKanban = !!process.env.FF_KANBAN;
+  const showKanbanAdmin = !!process.env.FF_KANBAN;
+  // Add feature flag FF_KANBAN_USER=true to your local .env to view.
+  const FF_KANBAN_USER = (
+    <>
+      {meet && (
+        <div className="mt-6">
+          <KanbanViewUser meetId={meet.id} kanbanId={"fakekanbanIdUtilItIsOnMeet"} />
+        </div>
+      )}
+    </>
+  );
+  const showKanbanUser = !!process.env.FF_KANBAN_USER;
+  // End experimental features ^^^^^^^^^^^^^^^^^^
 
   return (
     <BgBlock type="blackStripeEvents">
@@ -178,7 +192,8 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
               <p>No submissions yet.</p>
             )}
             {/* Experimental */}
-            {showKanban && FF_KANBAN}
+            {showKanbanAdmin && FF_KANBAN}
+            {showKanbanUser && FF_KANBAN_USER}
           </section>
         </div>
       </main>

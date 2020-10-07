@@ -45,6 +45,7 @@ const AdminKanbanCardCreateModal: FC<ConnectContextProps & Props> = ({ kanbanId,
     <>
       <Modal
         actions={actions}
+        isDetached
         triggerBuilder={(toggleModal, setRef) => (
           <button
             onClick={toggleModal}

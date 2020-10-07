@@ -14,3 +14,12 @@ export const kanbanCardFactory = factory<KanbanCard>({
   body: () => faker.lorem.sentence(),
   kanbanId: () => faker.random.uuid(),
 });
+
+export const kanbanSessionFactory = factory<KanbanSession>({
+  id: () => faker.random.uuid(),
+  title: () => faker.company.bs(),
+  description: () => faker.lorem.sentence(),
+  todoCards: () => kanbanCardFactory.bulk(3),
+  wipCards: [],
+  doneCards: [],
+});

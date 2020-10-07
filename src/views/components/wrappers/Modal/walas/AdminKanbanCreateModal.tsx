@@ -55,6 +55,7 @@ const AdminKanbanCreateModal: FC<ConnectContextProps & Props> = ({
     <>
       <Modal
         actions={actions}
+        isDetached
         triggerBuilder={(toggleModal, setRef) => (
           <Button onClick={toggleModal} type="primaryAdmin" forwardRef={(el) => setRef(el)} className={className || ""}>
             {buttonText}

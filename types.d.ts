@@ -67,12 +67,32 @@ interface Kanban {
   kanbanCards: KanbanCard[];
 }
 
-interface KanbanCard {
+interface KanbanCardBase {
   id: string;
   title: string;
   body: string;
-  index: number; // master index for determining initial order in "Todo" column
+  index: number;
+}
+interface KanbanCard extends KanbanCardBase {
+  // Note: index here refers to master index, which determines initial order in "Todo" column
   kanbanId: string;
+}
+
+interface KanbanSession {
+  id: string;
+  kanbanId: string;
+  userId: string;
+  meetId?: string;
+  title: string;
+  description: string;
+  todoCards: KanbanSessionCard[];
+  wipCards: KanbanSessionCard[];
+  doneCards: KanbanSessionCard[];
+}
+
+interface KanbanSessionCard extends KanbanCardBase {
+  column: "col1" | "col2" | "col3"; // == Todo, In Progress, Done
+  kanbanSessionId: string;
 }
 
 // INPUTS --------------------

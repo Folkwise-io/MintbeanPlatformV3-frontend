@@ -3,8 +3,8 @@ import { DraggableProvided } from "react-beautiful-dnd";
 import { Modal } from "../";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { KanbanCardEditForm } from "../../../forms/KanbanCardEditForm";
-import { KanbanCardDetailsAdmin } from "../../../Kanban/KanbanCardDetailsAdmin";
-import { KanbanCardSummaryAdmin } from "../../../Kanban/KanbanCardSummaryAdmin";
+import { KanbanCardDetails } from "../../../Kanban/KanbanCardDetails";
+import { KanbanCardSummary } from "../../../Kanban/KanbanCardSummary";
 import { ModalActionContext, ModalActionDeclaration } from "../ModalActionButton";
 
 interface Props {
@@ -104,16 +104,17 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
     <>
       <Modal
         actions={actions}
+        isDetached
         triggerBuilder={(toggleModal, setRef) => (
           <div ref={dndProvided.innerRef} {...dndProvided.draggableProps} {...dndProvided.dragHandleProps}>
             <div onClick={toggleModal} role="button" tabIndex={0} className="w-full" ref={(el) => setRef(el)}>
-              <KanbanCardSummaryAdmin data={data} className={className ? className : ""} />
+              <KanbanCardSummary data={data} className={className ? className : ""} />
             </div>
           </div>
         )}
       >
         {mode === "view" ? (
-          <KanbanCardDetailsAdmin data={data} />
+          <KanbanCardDetails data={data} />
         ) : (
           <KanbanCardEditForm formRef={formRef} editKanbanCard={editKanbanCard} data={data} />
         )}
