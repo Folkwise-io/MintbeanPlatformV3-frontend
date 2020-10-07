@@ -262,4 +262,46 @@ describe("MeetService", () => {
       expect(storeState.toasts[lastToast].type).toBe("DANGER");
     });
   });
+  describe("registerForMeet()", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.meetDao.clearMockReturns();
+      });
+    });
+
+    it("allows user to register for meet", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.meetDao.mockReturn({ data: true });
+        })
+        .execute((context) => {
+          return context.meetService.registerForMeet("someuuid");
+        });
+      const storeState = testManager.store.getState();
+      expect(storeState.errors.length).toBe(0);
+    });
+    it("logs error and throws server message toast on error", async () => {
+      const SERVER_ERR_MSG = "test";
+      await testManager
+        .configureContext((context) => {
+          context.meetDao.mockReturn({
+            data: null,
+            errors: [{ message: SERVER_ERR_MSG, extensions: { code: "TEST_UNAUTHORIZED" } }],
+          });
+        })
+        .execute((context) => {
+          return context.meetService.registerForMeet("someuuid");
+        });
+
+      const storeState = testManager.store.getState();
+      expect(storeState.errors[0].message).toBe(SERVER_ERR_MSG);
+      const lastToast = storeState.toasts.length - 1;
+      expect(storeState.toasts[lastToast].type).toBe("DANGER");
+    });
+  });
 });

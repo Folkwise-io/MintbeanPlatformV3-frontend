@@ -66,6 +66,14 @@ export class TestMeetDao implements MeetDao {
       throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
     }
   }
+  async registerForMeet(meetId: string): Promise<boolean> {
+    if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
+    if (meetId && this.getSuccesses().length) {
+      return (this.getSuccesses()[0].data as unknown) as boolean;
+    } else {
+      throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
+    }
+  }
 
   mockReturn(mr: ApiResponseRaw<SuccessDataTypes | null>) {
     this.mockReturns.push(mr);
