@@ -99,7 +99,8 @@ module.exports = {
     },
   },
   variants: {
-    backgroundColor: ["active"],
+    backgroundColor: ({ after }) => after(["active"]),
+    textColor: ({ after }) => after(["group-hover"]),
   },
   plugins: [],
 };

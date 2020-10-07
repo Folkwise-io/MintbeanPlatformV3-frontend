@@ -33,17 +33,6 @@ export const HomeHeader: FC<Props> = ({ header }) => {
 
   return (
     <header className="text-xl bg-gradient-to-b from-mb-green-200 to-mb-blue-100 bg-mb-green-200 w-auto mx-2 md:mx-6 font-body rounded-mb-md flex flex-col max-w-7xl">
-      <div className="bg-callToAction bg-contain h-72 max-h-40vh grid place-items-center">
-        <Link
-          to="/meets"
-          className="bg-mb-purple-100 text-center px-8 py-4 rounded-mb-sm border-mb-green-100 border-solid border-8"
-        >
-          <p className="text-3xl text-white break-words">For upcoming meets</p>
-          <div className="text-semibold transition duration-500 ease-in-out text-4xl hover:text-mb-orange-100 focus:text-mb-orange-100">
-            Click here.
-          </div>
-        </Link>
-      </div>
       <h1 className="text-center text-3xl font-semibold pt-6 pb-2">{title}</h1>
       <HomeHeaderList list={listArgs} />
     </header>
