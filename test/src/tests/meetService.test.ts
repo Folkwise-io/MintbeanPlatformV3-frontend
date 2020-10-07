@@ -284,6 +284,7 @@ describe("MeetService", () => {
         });
       const storeState = testManager.store.getState();
       expect(storeState.errors.length).toBe(0);
+      expect(storeState.toasts[0].type).toBe("SUCCESS");
     });
     it("logs error and throws server message toast on error", async () => {
       const SERVER_ERR_MSG = "test";
