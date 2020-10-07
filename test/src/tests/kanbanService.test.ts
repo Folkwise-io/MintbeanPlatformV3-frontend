@@ -212,10 +212,12 @@ describe("KanbanService", () => {
         context.kanbanDao.clearMockReturns();
       });
     });
-    const newKanbanCard = kanbanCardFactory.one({ kanbanId: "afakekanbanid" });
+    const kanbanId = "abc";
+    const newKanbanCard = kanbanCardFactory.one({ kanbanId: kanbanId });
     const newKanbanCardInput: CreateKanbanCardInput = {
       title: newKanbanCard.title,
       body: newKanbanCard.body,
+      kanbanId,
     };
     it("returns a KanbanCard and throws SUCCESS toast on good input", async () => {
       await testManager
@@ -256,11 +258,13 @@ describe("KanbanService", () => {
         context.kanbanDao.clearMockReturns();
       });
     });
-    const existingKanbanCard = kanbanCardFactory.one({ kanbanId: "afakekanbanid" });
+    const kanbanId = "abc";
+    const existingKanbanCard = kanbanCardFactory.one({ kanbanId: kanbanId });
     const NEW_TITLE = "New title";
     const editKanbanCardInput: EditKanbanCardInput = {
       title: NEW_TITLE,
       body: existingKanbanCard.body,
+      kanbanId,
     };
 
     it("returns the edited Kanban Card on success", async () => {

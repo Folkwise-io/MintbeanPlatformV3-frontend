@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState, useEffect } from "react";
+import React, { FC, ReactElement, useState, useEffect, useRef } from "react";
 import { usePopper } from "react-popper";
 import { Placement } from "@popperjs/core/lib/enums";
 import { ModalActionButton, ModalActionDeclaration } from "./ModalActionButton";
@@ -12,6 +12,7 @@ interface ModalProps {
   actions?: ModalActionDeclaration[];
   title?: string;
   closeFromParent?: number;
+  isDetached?: boolean;
 }
 
 export const Modal: FC<ModalProps> = ({
@@ -21,7 +22,9 @@ export const Modal: FC<ModalProps> = ({
   children,
   closeFromParent,
   placement = "bottom",
+  isDetached = false,
 }): ReactElement => {
+  const isUnmounted = useRef<boolean>(false);
   const [triggerRef, setTriggerRef] = useState<HTMLElement | null>(null);
   const [show, toggleShow] = useState(false);
   const [popperElement, setPopperElement] = useState<HTMLElement | null>(null);
@@ -42,13 +45,21 @@ export const Modal: FC<ModalProps> = ({
   });
 
   useEffect(() => {
+    // cleanup on unmount. This is important to prevent memory leak of orphaned state updaters if modal is deleted
+    return () => {
+      isUnmounted.current = true;
+    };
+  }, []);
+
+  useEffect(() => {
     if (closeFromParent) {
       closeModal();
     }
+    // eslint-disable-next-line
   }, [closeFromParent]);
 
   const closeModal = () => {
-    toggleShow(false);
+    if (!isUnmounted.current) toggleShow(false);
   };
 
   // Wrap the triggerable element with the modal
@@ -64,21 +75,26 @@ export const Modal: FC<ModalProps> = ({
       })
     : [];
 
+  // style for centering modal in middle of screen if isDetached prop = true
+  const detachedStyles = { left: "50%", top: "50%", transform: "translate(-50%, -50%)" };
   return (
     <>
-      {
-        // render the trigger element so it can be clicked
-        triggers
-      }
+      <div>
+        {
+          // render the trigger element so it can be clicked
+          triggers
+        }
+      </div>
+
       {
         // This is the modal itself. It only shows if the trigger was clicked.
         show && (
           <div
             ref={(el) => setPopperElement(el)}
-            style={{ ...styles.popper, zIndex: 89 }}
+            style={isDetached ? detachedStyles : { ...styles.popper, zIndex: 89 }}
             {...attributes.popper}
             data-popper-placement="right"
-            className="bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-sm text-black"
+            className="bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-sm text-black fixed"
           >
             {/* modal header with the "X" button for closing the modal */}
             <section className="py-1 px-2 flex justify-end text-gray-400">

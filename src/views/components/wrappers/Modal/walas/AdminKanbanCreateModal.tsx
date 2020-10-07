@@ -1,25 +1,33 @@
 import React, { FC, useRef } from "react";
-import { Modal } from "../";
+import { Modal } from "..";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
-// import { useHistory } from "react-router-dom";
-import { MeetEditForm } from "../../../forms/MeetEditForm";
+import { KanbanCreateForm } from "../../../forms/KanbanCreateForm";
+import { useHistory } from "react-router-dom";
 import { Button } from "../../../Button";
 
 interface Props {
   className?: string;
   buttonText: string;
-  meet: Meet;
+  meetId?: string;
+  // TODO: remove this. for demo purpose only
+  setKanban: (kanban: Kanban) => void;
 }
 
-const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, className, buttonText, meet }) => {
+const AdminKanbanCreateModal: FC<ConnectContextProps & Props> = ({
+  setKanban,
+  meetId,
+  context,
+  className,
+  buttonText,
+}) => {
   const formRef = useRef<HTMLFormElement>(null);
   // const history = useHistory();
 
   const actions: ModalActionDeclaration[] = [
     {
       type: "primary",
-      text: "Update meet",
+      text: "Create Kanban",
       buttonType: "submit",
       onClick: async () => {
         if (formRef.current) {
@@ -30,11 +38,13 @@ const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, classNam
     },
   ];
 
-  const editMeet = async (params: CreateMeetParams) => {
+  const createKanban = async (input: CreateKanbanInput) => {
     if (context) {
-      await context.meetService.editMeet(meet.id, params).then(() => {
-        // can't get react router history to push reload same page for some reason
-        window && window.location.reload();
+      context.kanbanService.createKanban(input).then((newKanban) => {
+        // TODO: determine actual post-success behavior
+        if (newKanban) {
+          setKanban(newKanban);
+        }
       });
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
@@ -45,16 +55,17 @@ const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, classNam
     <>
       <Modal
         actions={actions}
+        isDetached
         triggerBuilder={(toggleModal, setRef) => (
-          <Button type="secondary" onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className || ""}>
+          <Button onClick={toggleModal} type="primaryAdmin" forwardRef={(el) => setRef(el)} className={className || ""}>
             {buttonText}
           </Button>
         )}
       >
-        <MeetEditForm formRef={formRef} editMeet={editMeet} meet={meet} />
+        <KanbanCreateForm formRef={formRef} createKanban={createKanban} />
       </Modal>
     </>
   );
 };
 
-export default connectContext<ConnectContextProps & Props>(AdminMeetEditModal);
+export default connectContext<ConnectContextProps & Props>(AdminKanbanCreateModal);
