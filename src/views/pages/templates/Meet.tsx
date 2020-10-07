@@ -4,7 +4,6 @@ import { DateUtility } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button } from "../../components/Button";
-import { ExternalLink } from "../../components/ExternalLink";
 import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
 import { ProjectCard } from "../../components/ProjectCard";
 import { BgBlock } from "../../components/BgBlock";
@@ -14,6 +13,9 @@ import { MarkdownParser } from "../../components/MarkdownParser";
 import KanbanViewAdmin from "../../components/Kanban/KanbanViewAdmin";
 import AdminKanbanCreateModal from "../../components/wrappers/Modal/walas/AdminKanbanCreateModal";
 import KanbanViewUser from "../../components/Kanban/KanbanViewUser";
+import LoginModal from "../../components/wrappers/Modal/walas/LoginModal";
+import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
+import { MeetStatus } from "../../components/MeetStatus";
 
 const d = new DateUtility();
 
@@ -39,6 +41,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
 
   const [loading, setLoading] = useState<boolean>(false);
   const isAdmin = user.data?.isAdmin;
+  const isLoggedIn = user.data;
   const history = useHistory();
 
   useEffect(() => {
@@ -58,12 +61,28 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     fetchMeetData();
   }, [context, id]);
 
+  const updateRegistrantData = async () => {
+    if (!context) {
+      console.error(new Error("No context passed to component, but was expected"));
+      alert("Blame the devs! Something terrible happened.");
+      return;
+    }
+    if (meet) {
+      setLoading(true);
+      await context.meetService
+        .registerForMeet(meet.id)
+        .then(() => context.meetService.fetchMeet(meet.id))
+        .then((fetchedMeet) => fetchedMeet && setMeet(fetchedMeet));
+      setLoading(false);
+    }
+  };
+
   const redirectToMeets = async () => {
     history.push("/meets");
   };
 
-  const meetHasNotStarted = !d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
-  const meetHasNotEnded = !d.isPast(meet?.endTime || "", meet?.region || "America/Toronto");
+  const meetHasStarted = d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
+  const meetHasEnded = d.isPast(meet?.endTime || "", meet?.region || "America/Toronto");
 
   const dateInfo = meet
     ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDurationStringFromHours(
@@ -80,13 +99,29 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const adminInstructionsView = (
     <>
       {" "}
-      {meetHasNotStarted && <em>(Users cannot see these instructions until meet starts)</em>}
+      {!meetHasStarted && <em>(Users cannot see these instructions until meet starts)</em>}
       {userInstructionsView}
     </>
   );
 
+  const getRegistrantIds = () => {
+    if (meet) {
+      const registrantIds: string[] = meet.registrants.map((registrant) => registrant.id);
+      return registrantIds;
+    } else {
+      return null;
+    }
+  };
+
+  const isRegistered = () => {
+    if (meet && user.data) {
+      return getRegistrantIds()?.includes(user.data.id) ? true : false;
+    }
+  };
+
   // Experimental features vvvvvvvvvvvvvvvvvvvvvvvvvvvv
   // Add feature flag FF_KANBAN=true to your local .env to view.
+
   const FF_KANBAN = user?.data?.isAdmin && (
     <>
       {kanban ? (
@@ -132,29 +167,47 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
           {"< "} Back to all meets
         </Link>
         <div className="overflow-hidden rounded-mb-md">
-          <div className="grid grid-rows-2 md:grid-cols-3 md:grid-rows-1 place-items-center md:place-items-end bg-gray-800 px-12 py-8">
-            <section className="text-white md:col-span-2 md:place-self-start">
+          <div className="grid grid-rows-4 md:grid-cols-3 md:grid-rows-1 place-items-center md:place-items-end bg-gray-800 px-12 py-8">
+            <section className="text-white row-span-3 md:row-span-1 md:col-span-2 md:place-self-start">
               <div className="grid place-items-center md:block">
                 <h1 className="font-semibold">{meet?.title}</h1>
                 <p>{dateInfo}</p>
                 <p className="mt-2">{meet?.description}</p>
-                <a href=""></a>
-                {meet?.registerLink && meetHasNotEnded && (
-                  <ExternalLink href={meet.registerLink}>
-                    <Button className="mt-2">Register</Button>
-                  </ExternalLink>
-                )}
+                {meet?.registerLink &&
+                  !meetHasEnded &&
+                  (isLoggedIn && !isRegistered() ? (
+                    <Button onClick={updateRegistrantData} className="mt-2">
+                      Register
+                    </Button>
+                  ) : isLoggedIn && isRegistered() ? (
+                    <div className="mt-4">
+                      {meetHasStarted && !meetHasEnded && (
+                        <span className="mr-2">
+                          <MeetStatus status="inProgress" />
+                        </span>
+                      )}
+                      <MeetStatus status="registered" />
+                    </div>
+                  ) : (
+                    <div>
+                      <Button disabled={true}>Register</Button>
+                      <p>
+                        Please <LoginModal buttonText="log in" type="plain" /> or{" "}
+                        <RegisterModal buttonText="sign up" className="text-mb-green-200" /> to register for this event.
+                      </p>
+                    </div>
+                  ))}
                 {isAdmin && meet && (
                   <>
                     <AdminMeetDeleteModal
                       buttonText="Delete"
                       meet={meet}
                       onDelete={redirectToMeets}
-                      className="mt-2 md:mt-0 md:ml-2"
+                      className="mt-2 md:mt-0"
                     />
                     {/* Todo use common button class */}
                     <AdminMeetEditModal
-                      className="font-semibold shadow-md border-solid border-2 rounded-md py-2 px-6 m-2 text-black bg-white border-mb-green-200"
+                      className="font-semibold shadow-md border-solid border-2 rounded-md py-2 px-6 m-2 md:mb-0 text-black bg-white border-mb-green-200"
                       buttonText="Edit"
                       meet={meet}
                     />
@@ -162,9 +215,15 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                 )}
               </div>
             </section>
-            <section className="text-white">
+            <section className="text-white h-full flex justify-between flex-col">
+              {meet && (
+                <p className="text-right">
+                  {meet.registrants.length} coder
+                  {meet.registrants.length !== 1 && "s"} registered.
+                </p>
+              )}
               {/*TODO: Add project submission form*/}
-              {meet && user.data && (
+              {meet && user.data && isRegistered() && meetHasStarted && !meetHasEnded && (
                 <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user.data} />
               )}
             </section>
@@ -172,7 +231,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
           <section className="shadow-lg bg-white p-12">
             {user?.data?.isAdmin ? (
               adminInstructionsView
-            ) : meetHasNotStarted ? (
+            ) : !meetHasStarted ? (
               <p>Instructions will be released once the meet starts!</p>
             ) : (
               userInstructionsView

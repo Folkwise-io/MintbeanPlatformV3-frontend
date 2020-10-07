@@ -67,6 +67,11 @@ export class MeetDaoImpl implements MeetDao {
                   cloudinaryPublicId
                 }
               }
+              registrants {
+                id
+                firstName
+                lastName
+              }
           }
         }
         `,
@@ -160,6 +165,25 @@ export class MeetDaoImpl implements MeetDao {
           throw [{ message: "Something went wrong when deleting the meet.", extensions: { code: "UNEXPECTED" } }];
         }
         return result.data.deleteMeet;
+      })
+      .catch(handleServerError);
+  }
+  registerForMeet(meetId: string): Promise<boolean> {
+    return this.api
+      .query<ApiResponseRaw<{ registerForMeet: boolean }>, { meetId: string }>(
+        `
+        mutation registerForMeet($meetId: UUID!) {
+          registerForMeet(meetId: $meetId)
+        }
+        `,
+        { meetId },
+      )
+      .then((result) => {
+        if (result.errors) throw result.errors;
+        if (!result.errors && !result.data.registerForMeet) {
+          throw [{ message: "Something went wrong when registering.", extensions: { code: "UNEXPECTED" } }];
+        }
+        return result.data.registerForMeet;
       })
       .catch(handleServerError);
   }

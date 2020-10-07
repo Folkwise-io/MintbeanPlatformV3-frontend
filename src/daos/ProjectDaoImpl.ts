@@ -92,7 +92,7 @@ export class ProjectDaoImpl implements ProjectDao {
       .then((result) => {
         if (result.errors) throw result.errors;
         if (!result.errors && !result.data.deleteProject) {
-          throw [{ message: "Something went wrong when deleteing project.", extensions: { code: "UNEXPECTED" } }];
+          throw [{ message: "Something went wrong when deleting project.", extensions: { code: "UNEXPECTED" } }];
         }
         return result.data.deleteProject;
       })
