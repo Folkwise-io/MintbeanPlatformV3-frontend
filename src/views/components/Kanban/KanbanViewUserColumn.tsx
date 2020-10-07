@@ -10,7 +10,7 @@ interface Props {
 
 export const KanbanViewUserColumn: FC<Props> = ({ droppableId, cards, title }) => {
   return (
-    <div className="w-1/3 h-full mx-1">
+    <div className="w-full lg:w-1/3 h-full mx-1">
       <h3 className="p-4 bg-gray-700 text-white font-semibold mb-2 rounded-lg">{title}</h3>
       <Droppable droppableId={droppableId}>
         {(provided, snapshot) => {

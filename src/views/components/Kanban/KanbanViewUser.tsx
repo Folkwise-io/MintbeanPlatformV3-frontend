@@ -30,7 +30,6 @@ const stp = (state: StoreState) => ({
 
 const KanbanViewUser: FC<ConnectContextProps & StateMapping & Props> = ({ kanbanId, meetId, user }) => {
   const userId = user?.data?.id;
-  // TODO: rename kanban to kanbanSession
   const [kanbanSession, setKanbanSession] = useState<KanbanSession | null>(null);
   const [todoCards, setTodoCards] = useState<KanbanSessionCard[]>([]);
   const [wipCards, setWipCards] = useState<KanbanSessionCard[]>([]);
@@ -122,7 +121,7 @@ const KanbanViewUser: FC<ConnectContextProps & StateMapping & Props> = ({ kanban
   };
 
   const reindex = (list: KanbanSessionCard[], startIndex: number, endIndex: number) => {
-    // TODO - make db call to update kanbansession card index also. Currently only saved in frontend
+    // TODO - make db call to update KanbanSession card index also. Currently only saved in frontend
     const result = [...list];
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -141,7 +140,7 @@ const KanbanViewUser: FC<ConnectContextProps & StateMapping & Props> = ({ kanban
         <p>{kanbanSession.description}</p>
         <div className="bg-gray-400 p-10 rounded-lg min-h-20">
           <DragDropContext onDragEnd={onDragEnd}>
-            <div className="flex">
+            <div className="flex flex-col lg:flex-row ">
               {Object.values(columns).map((c) => (
                 <KanbanViewUserColumn key={c.droppableId} droppableId={c.droppableId} title={c.title} cards={c.cards} />
               ))}
