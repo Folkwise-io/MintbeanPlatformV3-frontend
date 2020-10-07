@@ -6,10 +6,11 @@ type Props = {
   onClick?: (event: React.SyntheticEvent) => void;
   className?: string;
   forwardRef?: React.RefCallback<HTMLButtonElement>;
+  disabled?: boolean;
 };
 
 export const Button: FC<Props> = (props) => {
-  const { type = "primary", forwardRef, className, buttonType = "button", children, ...rest } = props;
+  const { type = "primary", forwardRef, className, buttonType = "button", disabled = false, children, ...rest } = props;
   const common = "shadow-md py-2 px-6 rounded-lg border-2 border-solid font-semibold";
   const classes = {
     primary:
@@ -23,10 +24,10 @@ export const Button: FC<Props> = (props) => {
   /* important: button must be type="button" or it auto-submits parent forms */
   return (
     <button
-      disabled={type == "disabled" ? true : false}
+      disabled={disabled}
       {...rest}
       ref={forwardRef || null}
-      className={`${common} ${classes[type]} ${className ? className : ""}`}
+      className={`${common} ${disabled ? classes.disabled : classes[type]} ${className ? className : ""}`}
       type={buttonType}
     >
       {children}

@@ -64,12 +64,10 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     }
     if (meet) {
       setLoading(true);
-      const meetRegistration = await context.meetService.registerForMeet(meet?.id);
-      console.log(meetRegistration);
-      const fetchedMeet = await context.meetService.fetchMeet(id);
-      if (fetchedMeet) {
-        setMeet(fetchedMeet);
-      }
+      await context.meetService
+        .registerForMeet(meet.id)
+        .then(() => context.meetService.fetchMeet(meet.id))
+        .then((fetchedMeet) => fetchedMeet && setMeet(fetchedMeet));
       setLoading(false);
     }
   };
@@ -78,8 +76,8 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     history.push("/meets");
   };
 
-  const meetHasNotStarted = !d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
-  const meetHasNotEnded = !d.isPast(meet?.endTime || "", meet?.region || "America/Toronto");
+  const meetHasStarted = d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
+  const meetHasEnded = d.isPast(meet?.endTime || "", meet?.region || "America/Toronto");
 
   const dateInfo = meet
     ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDurationStringFromHours(
@@ -96,17 +94,14 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const adminInstructionsView = (
     <>
       {" "}
-      {meetHasNotStarted && <em>(Users cannot see these instructions until meet starts)</em>}
+      {!meetHasStarted && <em>(Users cannot see these instructions until meet starts)</em>}
       {userInstructionsView}
     </>
   );
 
   const getRegistrantIds = () => {
     if (meet) {
-      const registrantIds: string[] = [];
-      meet?.registrants.forEach((registrant) => {
-        registrantIds.push(registrant.id);
-      });
+      const registrantIds: string[] = meet.registrants.map((registrant) => registrant.id);
       return registrantIds;
     } else {
       return null;
@@ -153,18 +148,23 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                 <p>{dateInfo}</p>
                 <p className="mt-2">{meet?.description}</p>
                 {meet?.registerLink &&
-                  meetHasNotEnded &&
+                  !meetHasEnded &&
                   (isLoggedIn && !isRegistered() ? (
                     <Button onClick={updateRegistrantData} className="mt-2">
                       Register
                     </Button>
                   ) : isLoggedIn && isRegistered() ? (
                     <div className="mt-4">
+                      {meetHasStarted && !meetHasEnded && (
+                        <span className="mr-2">
+                          <MeetStatus status="inProgress" />
+                        </span>
+                      )}
                       <MeetStatus status="registered" />
                     </div>
                   ) : (
                     <div>
-                      <Button type="disabled">Register</Button>
+                      <Button disabled={true}>Register</Button>
                       <p>
                         Please <LoginModal buttonText="log in" type="plain" /> or{" "}
                         <RegisterModal buttonText="sign up" className="text-mb-green-200" /> to register for this event.
@@ -192,12 +192,12 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
             <section className="text-white h-full flex justify-between flex-col">
               {meet && (
                 <p className="text-right">
-                  {meet.registrants.length} hacker
+                  {meet.registrants.length} coder
                   {meet.registrants.length !== 1 && "s"} registered.
                 </p>
               )}
               {/*TODO: Add project submission form*/}
-              {meet && user.data && isRegistered() && (
+              {meet && user.data && isRegistered() && meetHasStarted && !meetHasEnded && (
                 <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user.data} />
               )}
             </section>
@@ -205,7 +205,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
           <section className="shadow-lg bg-white p-12">
             {user?.data?.isAdmin ? (
               adminInstructionsView
-            ) : meetHasNotStarted ? (
+            ) : !meetHasStarted ? (
               <p>Instructions will be released once the meet starts!</p>
             ) : (
               userInstructionsView
