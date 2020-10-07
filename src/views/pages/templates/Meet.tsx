@@ -103,10 +103,11 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   // Add feature flag FF_KANBAN_USER=true to your local .env to view.
   const FF_KANBAN_USER = (
     <>
-      <div className="mt-6">
-        {/* Actual KanbanViewUser will only take kanbanId as a prop and fetch kanban from component*/}
-        <KanbanViewUser kanbanId={"fakekanbanId"} />
-      </div>
+      {meet && (
+        <div className="mt-6">
+          <KanbanViewUser meetId={meet.id} kanbanId={"fakekanbanIdUtilItIsOnMeet"} />
+        </div>
+      )}
     </>
   );
   const showKanbanUser = !!process.env.FF_KANBAN_USER;
