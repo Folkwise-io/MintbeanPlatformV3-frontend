@@ -78,7 +78,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
                     <LoginModal buttonText="Login" className="m-2 md:my-0" />
                     <RegisterModal
                       buttonText="Sign up"
-                      className="transition duration-500 ease-in-out text-white mx-2 bg-mb-green-200 px-4 py-2 rounded shadow hover:opacity-75 focus:opacity-75"
+                      className="shadow-md py-2 px-6 rounded-lg border-2 border-solid font-semibold transition duration-500 ease-in-out text-black bg-mb-green-100 border-mb-green-200 hover:shadow-sm hover:opacity-75 hover:text-mb-purple-100 focus:shadow-sm focus:opacity-75"
                     />
                   </div>
                 </>
