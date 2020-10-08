@@ -2,8 +2,13 @@ import React, { FC, Fragment } from "react";
 import { HomeHeader } from "./HomeHeader";
 import { FocusCard } from "../../components/FocusCard";
 import { MainList } from "./HomeMainList";
+import NextMeetSection from "../../components/NextMeetSection";
 
-const Home: FC<void> = () => {
+interface StateMapping {
+  user: UserState;
+}
+
+const Home: FC<StateMapping> = ({ user }) => {
   const headerArgs = { title: "Calling all web developers!" };
   const cardArgs = {
     title: "Build cool projects and elevate your skills.",
@@ -25,6 +30,7 @@ const Home: FC<void> = () => {
     <Fragment>
       <div className="bg-mb-blue-100 pt-2 pb-8 rounded-mb-md border-t-8 border-b-8 border-mb-green-200">
         <div className="bg-black w-full pt-12 pb-24 px-2 rounded-mb-md grid place-content-center">
+          <NextMeetSection />
           <HomeHeader header={headerArgs} />
           <FocusCard card={cardArgs} />
           <MainList list={listArgs} />
