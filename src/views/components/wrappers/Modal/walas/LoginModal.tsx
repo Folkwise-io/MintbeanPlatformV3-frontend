@@ -7,6 +7,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { Context } from "../../../../../context/contextBuilder";
 import { MbAction } from "../../../../state/actions/MbAction";
 import { connect } from "react-redux";
+import { Button } from "../../../Button";
 
 interface Props {
   className?: string;
@@ -47,13 +48,14 @@ const LoginModal: FC<Props & DispatchMapping> = ({ login, className, type = "but
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <button
+          <Button
             onClick={toggleModal}
-            ref={(el) => setRef(el)}
+            forwardRef={(el) => setRef(el)}
             className={`${className} ${type != "button" ? "text-mb-green-200" : loginButtonClasses}` || ""}
+            type="secondary"
           >
             {buttonText}
-          </button>
+          </Button>
         )}
       >
         <LoginForm formRef={formRef} login={(values: LoginParams) => login(values)} />
