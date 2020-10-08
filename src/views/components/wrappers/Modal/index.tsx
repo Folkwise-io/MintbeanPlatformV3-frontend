@@ -97,7 +97,7 @@ export const Modal: FC<ModalProps> = ({
             className="bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-sm text-black"
           >
             {/* modal header with the "X" button for closing the modal */}
-            <section className="py-1 px-2 flex justify-end text-gray-400">
+            <section className="py-1 px-2 flex justify-end text-gray-600">
               <button className="active:bg-mb-green-200 px-2 rounded-full" onClick={closeModal}>
                 Close
               </button>
