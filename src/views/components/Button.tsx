@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
 type Props = {
-  type?: "primary" | "secondary" | "danger" | "disabled";
+  type?: "primary" | "primaryAdmin" | "secondary" | "danger";
   buttonType?: "button" | "submit" | "reset";
   onClick?: (event: React.SyntheticEvent) => void;
   className?: string;
@@ -15,6 +15,7 @@ export const Button: FC<Props> = (props) => {
   const classes = {
     primary:
       "transition duration-500 ease-in-out text-white bg-mb-green-200 border-mb-green-200 hover:shadow-sm hover:opacity-75 focus:shadow-sm focus:opacity-75",
+    primaryAdmin: "text-white bg-yellow-500 border-yellow-500",
     secondary:
       "transition duration-500 ease-in-out text-gray-700 bg-white border-mb-green-200 hover:shadow-sm hover:opacity-75 focus:shadow-sm focus:opacity-75",
     danger:

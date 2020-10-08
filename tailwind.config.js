@@ -76,6 +76,7 @@ module.exports = {
       },
       minWidth: {
         "12rem": "12rem",
+        lg: "32rem",
       },
       spacing: {
         72: "18rem",
@@ -84,7 +85,7 @@ module.exports = {
         108: "27rem",
         120: "30rem",
       },
-      backgroundImage: (theme) => ({
+      backgroundImage: () => ({
         callToAction: "url(../assets/images/banners/robots-lg.jpg)",
       }),
       height: {
