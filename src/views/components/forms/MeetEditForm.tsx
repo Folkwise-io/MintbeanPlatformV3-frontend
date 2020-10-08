@@ -119,7 +119,7 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
       <MarkdownEditor value={instructions} onBeforeChange={(value) => setValue("instructions", value)} />
       <p className="text-red-500">{errors.instructions?.message}</p>
 
-      <label htmlFor="registerLink">Registration link</label>
+      <label htmlFor="registerLink">Zoom link</label>
       <input type="url" name="registerLink" ref={register} className="mb-2" />
       <p className="text-red-500">{errors.registerLink?.message}</p>
 
