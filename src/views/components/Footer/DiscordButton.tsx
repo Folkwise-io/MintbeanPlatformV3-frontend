@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Button } from "../Button";
+import { ExternalLink } from "../ExternalLink";
 import { DiscordIcon } from "./DiscordIcon";
 
 type DiscordButton = {
@@ -17,14 +18,9 @@ export const DiscordButton: FC<Props> = ({ button }) => {
       <DiscordIcon />
       <div className="col-span-2 text-center">
         <p className="pb-2 font-semibold">{text}</p>
-        <a
-          className="transition duration-500 ease-in-out shadow-md py-2 px-6 rounded-lg hover:shadow-sm hover:opacity-75 focus:shadow-sm focus:opacity-75 border-2 border-solid font-semibold text-white bg-mb-green-200 border-mb-green-200 inline-block"
-          href="https://discord.gg/j7CjBAz"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Join Now
-        </a>
+        <ExternalLink href={"https://discord.gg/j7CjBAz"} className="">
+          <Button>Join Now</Button>
+        </ExternalLink>
       </div>
     </div>
   );
