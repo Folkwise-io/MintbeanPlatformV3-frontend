@@ -4,7 +4,6 @@ import { DateUtility } from "../../utils/DateUtility";
 import { Link } from "react-router-dom";
 import AdminMeetDeleteModal from "./wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
-import { Meet } from "../pages";
 
 const d = new DateUtility();
 
