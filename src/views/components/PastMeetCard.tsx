@@ -19,18 +19,11 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   let descriptionStr = description.slice(0, 161);
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
 
-  const getRegistrantIds = () => {
-    if (registrants) {
-      const registrantIds: string[] = registrants.map((registrant) => registrant.id);
-      return registrantIds;
-    } else {
-      return null;
-    }
-  };
+  const registrantIds: string[] | undefined = registrants?.map((registrant) => registrant.id);
 
-  const isRegistered = () => {
-    if (meet && user) {
-      return getRegistrantIds()?.includes(user?.id) ? true : false;
+  const isRegistered = (registrantIds: string[] | undefined, user?: User) => {
+    if (registrantIds && user) {
+      return registrantIds?.includes(user?.id) ? true : false;
     }
   };
 
@@ -49,7 +42,7 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
             <p className="text-xs truncate text-center">{pastEndTimeStr}</p>
             <div className="flex">
               <MeetStatus status="completed" />
-              <div className="ml-1">{isRegistered() && <MeetStatus status="attended" />}</div>
+              <div className="ml-1">{isRegistered(registrantIds, user) && <MeetStatus status="attended" />}</div>
             </div>
           </div>
           <h2 className="text-lg text-center font-medium md:break-all lg:break-normal">{title}</h2>

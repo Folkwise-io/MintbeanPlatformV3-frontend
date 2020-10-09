@@ -23,18 +23,11 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   let descriptionStr = description.slice(0, 161);
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
 
-  const getRegistrantIds = () => {
-    if (registrants) {
-      const registrantIds: string[] = registrants.map((registrant) => registrant.id);
-      return registrantIds;
-    } else {
-      return null;
-    }
-  };
+  const registrantIds: string[] | undefined = registrants?.map((registrant) => registrant.id);
 
-  const isRegistered = () => {
-    if (meet && user) {
-      return getRegistrantIds()?.includes(user?.id) ? true : false;
+  const isRegistered = (registrantIds: string[] | undefined, user?: User) => {
+    if (registrantIds && user) {
+      return registrantIds?.includes(user?.id) ? true : false;
     }
   };
 
@@ -48,10 +41,10 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
         <h2 className="text-2xl font-medium">{title}</h2>
         <div className="self-end md:self-auto flex">
           <div className="mr-1">
-            {isRegistered() && isCurrent ? (
-              <MeetStatus status="registeredSecondary" />
+            {isRegistered(registrantIds, user) && isCurrent ? (
+              <MeetStatus status="registeredInProgress" />
             ) : (
-              isRegistered() && <MeetStatus status="registered" />
+              isRegistered(registrantIds, user) && <MeetStatus status="registered" />
             )}
           </div>
           {isCurrent ? <MeetStatus status="inProgress" /> : <MeetStatus status="comingSoon" />}
