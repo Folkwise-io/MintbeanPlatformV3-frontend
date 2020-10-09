@@ -48,14 +48,15 @@ export const HomeHeaderList: FC<Props> = ({ list }) => {
         ),
       )}
       <div className="bg-callToAction bg-contain h-72 max-h-40vh grid place-items-center mx-4 md:w-11/12 rounded-mb-md md:mx-auto mb-4 pt-6 pb-8 md:py-6 md:py-auto px-8 md:px-12">
-        <Link
-          to="/meets"
-          className="bg-mb-purple-100 text-center px-8 py-4 rounded-mb-sm border-mb-green-100 border-solid border-8"
-        >
-          <p className="text-3xl text-white break-words">For upcoming meets</p>
-          <div className="text-semibold transition duration-500 ease-in-out text-4xl hover:text-mb-orange-100 focus:text-mb-orange-100">
-            Click here.
-          </div>
+        <Link to="/meets" className="pb-8 md:py-6 md:py-auto px-8 md:px-12 bg-contain max-h-40vh grid place-items-end">
+          <a
+            className="bg-mb-purple-100 text-center px-8 py-4 rounded-mb-sm border-mb-green-100 border-solid border-8 m"
+            href="/meets"
+          >
+            <div className="text-semibold transition duration-500 ease-in-out text-2xl hover:text-mb-orange-100 focus:text-mb-orange-100">
+              Check out our upcoming meets to get started &gt;&gt;
+            </div>
+          </a>
         </Link>
       </div>
     </ul>
