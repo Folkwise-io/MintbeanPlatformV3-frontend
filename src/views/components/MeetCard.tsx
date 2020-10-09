@@ -70,7 +70,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
               <p className="text-sm">Starts {startTimeStr}</p>
               <p className="mb-2 text-sm">Submissions close {endTimeStr}</p>
             </div>
-            <div>
+            <div className="flex">
               <Link to={`/meets/${id}`}>
                 <Button>More</Button>
               </Link>
