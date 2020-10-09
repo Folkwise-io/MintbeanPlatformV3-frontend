@@ -4,6 +4,7 @@ import { DateUtility } from "../../utils/DateUtility";
 import { Link } from "react-router-dom";
 import AdminMeetDeleteModal from "./wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
+import { Meet } from "../pages";
 
 const d = new DateUtility();
 
@@ -14,7 +15,7 @@ type MeetProps = {
 };
 
 export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
-  const { id, title, description, startTime, endTime, coverImageUrl, region } = meet;
+  const { id, title, description, startTime, endTime, coverImageUrl, region, registrants } = meet;
 
   const startTimeStr = d.wcToClientStr(startTime, region);
   const endTimeStr = d.wcToClientStr(endTime, region);
@@ -22,6 +23,21 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   const isCurrent = d.isCurrent(startTime, endTime);
   let descriptionStr = description.slice(0, 161);
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
+
+  const getRegistrantIds = () => {
+    if (registrants) {
+      const registrantIds: string[] = registrants.map((registrant) => registrant.id);
+      return registrantIds;
+    } else {
+      return null;
+    }
+  };
+
+  const isRegistered = () => {
+    if (meet && user) {
+      return getRegistrantIds()?.includes(user?.id) ? true : false;
+    }
+  };
 
   return (
     <div className="shadow-md bg-white w-11/12 max-w-4xl mx-auto rounded-lg overflow-hidden">
@@ -31,7 +47,14 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
         }`}
       >
         <h2 className="text-2xl font-medium">{title}</h2>
-        <div className="self-end md:self-auto">
+        <div className="self-end md:self-auto flex">
+          <div className="mr-1">
+            {isRegistered() && isCurrent ? (
+              <MeetStatus status="registeredSecondary" />
+            ) : (
+              isRegistered() && <MeetStatus status="registered" />
+            )}
+          </div>
           {isCurrent ? <MeetStatus status="inProgress" /> : <MeetStatus status="comingSoon" />}
         </div>
       </div>

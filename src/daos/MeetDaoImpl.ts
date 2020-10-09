@@ -22,6 +22,9 @@ export class MeetDaoImpl implements MeetDao {
               endTime
               createdAt
               region
+              registrants {
+                id
+              }
           }
         }
         `,
