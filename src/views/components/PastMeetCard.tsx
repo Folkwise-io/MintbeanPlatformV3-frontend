@@ -3,8 +3,10 @@ import { DateUtility } from "../../utils/DateUtility";
 import { Link } from "react-router-dom";
 import AdminMeetDeleteModal from "./wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
+import { MeetRegistration } from "../../utils/MeetRegistration";
 
 const d = new DateUtility();
+const meetReg = new MeetRegistration();
 
 type MeetProps = {
   meet: Meet;
@@ -18,14 +20,6 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   const pastEndTimeStr = endTimeStr.slice(0, 17);
   let descriptionStr = description.slice(0, 161);
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
-
-  const registrantIds: string[] | undefined = registrants?.map((registrant) => registrant.id);
-
-  const isRegistered = (registrantIds: string[] | undefined, user?: User) => {
-    if (registrantIds && user) {
-      return registrantIds?.includes(user?.id) ? true : false;
-    }
-  };
 
   return (
     <div className="shadow-md bg-white overflow-hidden rounded-mb-sm flex flex-col">
@@ -42,7 +36,7 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
             <p className="text-xs truncate text-center">{pastEndTimeStr}</p>
             <div className="flex">
               <MeetStatus status="completed" />
-              <div className="ml-1">{isRegistered(registrantIds, user) && <MeetStatus status="attended" />}</div>
+              <div className="ml-1">{meetReg.isRegistered(registrants, user) && <MeetStatus status="attended" />}</div>
             </div>
           </div>
           <h2 className="text-lg text-center font-medium md:break-all lg:break-normal">{title}</h2>

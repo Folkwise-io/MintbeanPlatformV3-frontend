@@ -4,8 +4,10 @@ import { DateUtility } from "../../utils/DateUtility";
 import { Link } from "react-router-dom";
 import AdminMeetDeleteModal from "./wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
+import { MeetRegistration } from "../../utils/MeetRegistration";
 
 const d = new DateUtility();
+const meetReg = new MeetRegistration();
 
 type MeetProps = {
   meet: Meet;
@@ -23,14 +25,6 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   let descriptionStr = description.slice(0, 161);
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
 
-  const registrantIds: string[] | undefined = registrants?.map((registrant) => registrant.id);
-
-  const isRegistered = (registrantIds: string[] | undefined, user?: User) => {
-    if (registrantIds && user) {
-      return registrantIds?.includes(user?.id) ? true : false;
-    }
-  };
-
   return (
     <div className="shadow-md bg-white w-11/12 max-w-4xl mx-auto rounded-lg overflow-hidden">
       <div
@@ -41,10 +35,10 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
         <h2 className="text-2xl font-medium">{title}</h2>
         <div className="self-end md:self-auto flex">
           <div className="mr-1">
-            {isRegistered(registrantIds, user) && isCurrent ? (
+            {meetReg.isRegistered(registrants, user) && isCurrent ? (
               <MeetStatus status="registeredInProgress" />
             ) : (
-              isRegistered(registrantIds, user) && <MeetStatus status="registered" />
+              meetReg.isRegistered(registrants, user) && <MeetStatus status="registered" />
             )}
           </div>
           {isCurrent ? <MeetStatus status="inProgress" /> : <MeetStatus status="comingSoon" />}

@@ -16,8 +16,10 @@ import KanbanViewUser from "../../components/Kanban/KanbanViewUser";
 import LoginModal from "../../components/wrappers/Modal/walas/LoginModal";
 import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
 import { MeetStatus } from "../../components/MeetStatus";
+import { MeetRegistration } from "../../../utils/MeetRegistration";
 
 const d = new DateUtility();
+const meetReg = new MeetRegistration();
 
 interface StateMapping {
   user: UserState;
@@ -104,21 +106,6 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     </>
   );
 
-  const getRegistrantIds = () => {
-    if (meet) {
-      const registrantIds: string[] = meet.registrants.map((registrant) => registrant.id);
-      return registrantIds;
-    } else {
-      return null;
-    }
-  };
-
-  const isRegistered = () => {
-    if (meet && user.data) {
-      return getRegistrantIds()?.includes(user.data.id) ? true : false;
-    }
-  };
-
   // Experimental features vvvvvvvvvvvvvvvvvvvvvvvvvvvv
   // Add feature flag FF_KANBAN=true to your local .env to view.
 
@@ -175,11 +162,11 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                 <p className="mt-2">{meet?.description}</p>
                 {meet?.registerLink &&
                   !meetHasEnded &&
-                  (isLoggedIn && !isRegistered() ? (
+                  (isLoggedIn && !meetReg.isRegistered(meet.registrants, user.data) ? (
                     <Button onClick={updateRegistrantData} className="mt-2">
                       Register
                     </Button>
-                  ) : isLoggedIn && isRegistered() ? (
+                  ) : isLoggedIn && meetReg.isRegistered(meet.registrants, user.data) ? (
                     <div className="mt-4">
                       {meetHasStarted && !meetHasEnded && (
                         <span className="mr-2">
@@ -222,9 +209,11 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                 </p>
               )}
               {/*TODO: Add project submission form*/}
-              {meet && user.data && isRegistered() && meetHasStarted && !meetHasEnded && (
-                <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user.data} />
-              )}
+              {meet &&
+                user.data &&
+                meetReg.isRegistered(meet.registrants, user.data) &&
+                meetHasStarted &&
+                !meetHasEnded && <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user.data} />}
             </section>
           </div>
           <section className="shadow-lg bg-white p-12">
