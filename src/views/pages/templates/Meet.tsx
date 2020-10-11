@@ -61,12 +61,20 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     fetchMeetData();
   }, [context, id]);
 
+  const canRegister = meet?.registerLinkStatus !== "CLOSED";
+
   const updateRegistrantData = async () => {
     if (!context) {
       console.error(new Error("No context passed to component, but was expected"));
       alert("Blame the devs! Something terrible happened.");
       return;
     }
+
+    if (!canRegister) {
+      alert("This meet is closed for registrations.");
+      return;
+    }
+
     if (meet) {
       setLoading(true);
       await context.meetService
