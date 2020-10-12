@@ -30,7 +30,7 @@ export const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Hack with us!</h1>
+      <h1 className="font-semibold">Code with us!</h1>
 
       <label htmlFor="firstName">First name</label>
       <input type="text" name="firstName" ref={register} />

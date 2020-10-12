@@ -68,7 +68,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
 
   const cardProps = {
     title: "Meets",
-    description: "Come hack with us!",
+    description: "Come code with us!",
   };
   return (
     <div className="mb-8">
