@@ -1,10 +1,8 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { ConnectContextProps, connectContext } from "../../context/connectContext";
-import { DateUtility } from "../../utils/DateUtility";
 import NextMeetCard from "./NextMeetCard";
-
-const d = new DateUtility();
+import { isPast } from "../../utils/DateUtility";
 
 interface StateMapping {
   user: UserState;
@@ -15,7 +13,7 @@ const stp = (state: StoreState) => ({
 
 const NextMeetSection: FC<ConnectContextProps> = ({ context }) => {
   const [meets, setMeets] = useState<Meet[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [, setLoading] = useState<boolean>(false);
 
   const fetchMeetData = useCallback(async () => {
     if (!context) {
@@ -36,7 +34,7 @@ const NextMeetSection: FC<ConnectContextProps> = ({ context }) => {
   }, [context, fetchMeetData]);
 
   const nextMeet = meets
-    .filter((m: Meet) => !d.isPast(m.endTime, m.region))
+    .filter((m: Meet) => !isPast(m.endTime, m.region))
     .sort((a, b) => {
       const dateA = new Date(a.startTime).getTime();
       const dateB = new Date(b.startTime).getTime();

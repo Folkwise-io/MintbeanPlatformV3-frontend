@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
 import { ConnectContextProps, connectContext } from "../../../context/connectContext";
-import { DateUtility } from "../../../utils/DateUtility";
+import { isPast, wcToClientStr, getDurationInHours, getDurationStringFromHours } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button } from "../../components/Button";
@@ -18,7 +18,6 @@ import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
 import { MeetStatus } from "../../components/MeetStatus";
 import { MeetRegistration } from "../../../utils/MeetRegistration";
 
-const d = new DateUtility();
 const meetReg = new MeetRegistration();
 
 interface StateMapping {
@@ -91,12 +90,12 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     history.push("/meets");
   };
 
-  const meetHasStarted = d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
-  const meetHasEnded = d.isPast(meet?.endTime || "", meet?.region || "America/Toronto");
+  const meetHasStarted = isPast(meet?.startTime || "", meet?.region || "America/Toronto");
+  const meetHasEnded = isPast(meet?.endTime || "", meet?.region || "America/Toronto");
 
   const dateInfo = meet
-    ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDurationStringFromHours(
-        d.getDurationInHours(meet.startTime, meet.endTime),
+    ? `${wcToClientStr(meet.startTime, meet.region)} (${getDurationStringFromHours(
+        getDurationInHours(meet.startTime, meet.endTime),
       )})`
     : "Loading..";
 

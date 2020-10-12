@@ -1,12 +1,11 @@
 import React, { FC } from "react";
 import { Button } from "./Button";
-import { DateUtility } from "../../utils/DateUtility";
 import { Link } from "react-router-dom";
 import AdminMeetDeleteModal from "./wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
 import { MeetRegistration } from "../../utils/MeetRegistration";
+import { wcToClientStr, isCurrent } from "../../utils/DateUtility";
 
-const d = new DateUtility();
 const meetReg = new MeetRegistration();
 
 type MeetProps = {
@@ -18,10 +17,10 @@ type MeetProps = {
 export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   const { id, title, description, startTime, endTime, coverImageUrl, region, registrants } = meet;
 
-  const startTimeStr = d.wcToClientStr(startTime, region);
-  const endTimeStr = d.wcToClientStr(endTime, region);
+  const startTimeStr = wcToClientStr(startTime, region);
+  const endTimeStr = wcToClientStr(endTime, region);
 
-  const isCurrent = d.isCurrent(startTime, endTime);
+  const meetIsCurrent = isCurrent(startTime, endTime);
   let descriptionStr = description.slice(0, 161);
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
 
@@ -29,19 +28,19 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
     <div className="shadow-md bg-white w-11/12 max-w-4xl mx-auto rounded-lg overflow-hidden">
       <div
         className={`flex flex-col md:flex-row md:justify-between md:items-center w-full py-2 px-4  ${
-          isCurrent ? "bg-mb-green-200" : "bg-mb-green-100"
+          meetIsCurrent ? "bg-mb-green-200" : "bg-mb-green-100"
         }`}
       >
         <h2 className="text-2xl font-medium">{title}</h2>
         <div className="self-end md:self-auto flex">
           <div className="mr-1">
-            {meetReg.isRegistered(registrants, user) && isCurrent ? (
+            {meetReg.isRegistered(registrants, user) && meetIsCurrent ? (
               <MeetStatus status="registeredInProgress" />
             ) : (
               meetReg.isRegistered(registrants, user) && <MeetStatus status="registered" />
             )}
           </div>
-          {isCurrent ? <MeetStatus status="inProgress" /> : <MeetStatus status="comingSoon" />}
+          {meetIsCurrent ? <MeetStatus status="inProgress" /> : <MeetStatus status="comingSoon" />}
         </div>
       </div>
       <div className="flex-col md:flex md:flex-row">

@@ -1,14 +1,12 @@
 import React, { FC, useState, useEffect, useCallback } from "react";
 import { MeetCard } from "../components/MeetCard";
 import { ConnectContextProps, connectContext } from "../../context/connectContext";
-import { DateUtility } from "../../utils/DateUtility";
 import AdminMeetCreateModal from "../components/wrappers/Modal/walas/AdminMeetCreateModal";
 import { connect } from "react-redux";
 import { BgBlock } from "../components/BgBlock";
 import { FocusCard } from "../components/FocusCard";
 import { PastMeetCard } from "../components/PastMeetCard";
-
-const d = new DateUtility();
+import { isPast } from "../../utils/DateUtility";
 
 interface StateMapping {
   user: UserState;
@@ -42,7 +40,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   // reverse-chronological sort
   const renderPastMeets = () =>
     meets
-      .filter((m: Meet) => d.isPast(m.endTime, m.region))
+      .filter((m: Meet) => isPast(m.endTime, m.region))
       .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime())
       .map((meet) => <PastMeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeetData} />);
 
@@ -64,7 +62,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
 
     // chronological sort
     const upcomingMeets = meets
-      .filter((m: Meet) => !d.isPast(m.endTime, m.region))
+      .filter((m: Meet) => !isPast(m.endTime, m.region))
       .sort((a, b) => {
         const dateA = new Date(a.startTime).getTime();
         const dateB = new Date(b.startTime).getTime();

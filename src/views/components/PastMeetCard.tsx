@@ -1,11 +1,10 @@
 import React, { FC } from "react";
-import { DateUtility } from "../../utils/DateUtility";
 import { Link } from "react-router-dom";
 import AdminMeetDeleteModal from "./wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
 import { MeetRegistration } from "../../utils/MeetRegistration";
+import { wcToClientStr } from "../../utils/DateUtility";
 
-const d = new DateUtility();
 const meetReg = new MeetRegistration();
 
 type MeetProps = {
@@ -16,7 +15,7 @@ type MeetProps = {
 export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   const { id, title, description, endTime, coverImageUrl, region, registrants } = meet;
 
-  const endTimeStr = d.wcToClientStr(endTime, region);
+  const endTimeStr = wcToClientStr(endTime, region);
   const pastEndTimeStr = endTimeStr.slice(0, 17);
   let descriptionStr = description.slice(0, 161);
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
