@@ -13,7 +13,6 @@ interface wcToClientStrOptions extends wcToClientOptions {
 // Format strings follow moment rules: https://momentjs.com/docs/#/parsing/string-format/
 const DEFAULT_DATE_FORMAT = "llll z"; // "Thu, Oct 15, 2020 12:00 PM EST"
 
-// export class DateUtility {
 // Builds a moment object with time for client region based on master wallclock time & region. Guesses client region if not provided
 export const wcToClient = (wcStr: string, masterRegion: string, opts: wcToClientOptions = {}): moment.Moment => {
   const { clientRegion = moment.tz.guess() } = opts;
