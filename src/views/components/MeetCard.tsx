@@ -3,10 +3,7 @@ import { Button } from "./Button";
 import { Link } from "react-router-dom";
 import AdminMeetDeleteModal from "./wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
-import { MeetRegistration } from "../../utils/MeetRegistration";
 import { wcToClientStr, isCurrent } from "../../utils/DateUtility";
-
-const meetReg = new MeetRegistration();
 
 type MeetProps = {
   meet: Meet;
@@ -33,14 +30,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
       >
         <h2 className="text-2xl font-medium">{title}</h2>
         <div className="self-end md:self-auto flex">
-          <div className="mr-1">
-            {meetReg.isRegistered(registrants, user) && meetIsCurrent ? (
-              <MeetStatus status="registeredInProgress" />
-            ) : (
-              meetReg.isRegistered(registrants, user) && <MeetStatus status="registered" />
-            )}
-          </div>
-          {meetIsCurrent ? <MeetStatus status="inProgress" /> : <MeetStatus status="comingSoon" />}
+          <MeetStatus user={user} meet={meet} />
         </div>
       </div>
       <div className="flex-col md:flex md:flex-row">

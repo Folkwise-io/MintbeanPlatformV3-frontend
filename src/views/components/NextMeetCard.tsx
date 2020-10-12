@@ -10,7 +10,7 @@ type MeetProps = {
   user?: User;
 };
 
-const NextMeetCard: FC<MeetProps> = ({ meet }) => {
+const NextMeetCard: FC<MeetProps> = ({ meet, user }) => {
   const { id, title, description, startTime, endTime, coverImageUrl, region } = meet;
 
   const startTimeStr = wcToClientStr(startTime, region);
@@ -30,7 +30,7 @@ const NextMeetCard: FC<MeetProps> = ({ meet }) => {
               alt={`${title} event banner`}
             ></img>
             <span className="absolute right-mb-1 top-mb-1">
-              {meetIsCurrent ? <MeetStatus status="inProgress" /> : <MeetStatus status="comingSoon" />}
+              <MeetStatus user={user} meet={meet} />
             </span>
           </div>
           <div

@@ -34,8 +34,7 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
           <div className="flex flex-wrap justify-between w-full items-center mb-4">
             <p className="text-xs truncate text-center">{pastEndTimeStr}</p>
             <div className="flex">
-              <MeetStatus status="completed" />
-              <div className="ml-1">{meetReg.isRegistered(registrants, user) && <MeetStatus status="attended" />}</div>
+              <MeetStatus user={user} meet={meet} />
             </div>
           </div>
           <h2 className="text-lg text-center font-medium md:break-all lg:break-normal">{title}</h2>

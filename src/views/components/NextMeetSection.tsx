@@ -11,7 +11,7 @@ const stp = (state: StoreState) => ({
   user: state.user,
 });
 
-const NextMeetSection: FC<ConnectContextProps> = ({ context }) => {
+const NextMeetSection: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   const [meets, setMeets] = useState<Meet[]>([]);
   const [, setLoading] = useState<boolean>(false);
 
@@ -40,17 +40,17 @@ const NextMeetSection: FC<ConnectContextProps> = ({ context }) => {
       const dateB = new Date(b.startTime).getTime();
       if (dateA === dateB) return 0;
       return dateA - dateB;
-    })
-    .slice(0, 1)
-    .map((meet) => <NextMeetCard meet={meet} key={meet.id} />);
+    })[0];
+
+  if (!nextMeet) {
+    return null;
+  }
 
   return (
-    nextMeet && (
-      <div className="pb-8">
-        <h2 className="text-white text-4xl text-center pb-2">Our next meet is...</h2>
-        {nextMeet}
-      </div>
-    )
+    <div className="pb-8">
+      <h2 className="text-white text-4xl text-center pb-2">Our next meet is...</h2>
+      {<NextMeetCard user={user?.data} meet={nextMeet} key={nextMeet.id} />}
+    </div>
   );
 };
 

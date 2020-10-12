@@ -32,7 +32,11 @@ interface MatchParams {
   id: string;
 }
 
-const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({ context, user, match }) => {
+const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({
+  context,
+  user: userState,
+  match,
+}) => {
   const {
     params: { id },
   } = match;
@@ -41,8 +45,9 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const [kanban, setKanban] = useState<Kanban | null>(null);
 
   const [loading, setLoading] = useState<boolean>(false);
-  const isAdmin = user.data?.isAdmin;
-  const isLoggedIn = user.data;
+  const user = userState.data;
+  const isLoggedIn = !!user;
+  const isAdmin = user?.isAdmin;
   const history = useHistory();
 
   useEffect(() => {
@@ -116,7 +121,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   // Experimental features vvvvvvvvvvvvvvvvvvvvvvvvvvvv
   // Add feature flag FF_KANBAN=true to your local .env to view.
 
-  const FF_KANBAN = user?.data?.isAdmin && (
+  const FF_KANBAN = isAdmin && (
     <>
       {kanban ? (
         <div className="mt-6">
@@ -169,18 +174,13 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                 <p className="mt-2">{meet?.description}</p>
                 {meet?.registerLink &&
                   !meetHasEnded &&
-                  (isLoggedIn && !meetReg.isRegistered(meet.registrants, user.data) ? (
+                  (isLoggedIn && !meetReg.isRegistered(meet.registrants, user) ? (
                     <Button onClick={updateRegistrantData} className="mt-2">
                       Register
                     </Button>
-                  ) : isLoggedIn && meetReg.isRegistered(meet.registrants, user.data) ? (
+                  ) : isLoggedIn && meetReg.isRegistered(meet.registrants, user) ? (
                     <div className="mt-4">
-                      {meetHasStarted && !meetHasEnded && (
-                        <span className="mr-2">
-                          <MeetStatus status="inProgress" />
-                        </span>
-                      )}
-                      <MeetStatus status="registered" />
+                      <MeetStatus user={user} meet={meet} />
                     </div>
                   ) : (
                     <div>
@@ -216,15 +216,13 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                 </p>
               )}
               {/*TODO: Add project submission form*/}
-              {meet &&
-                user.data &&
-                meetReg.isRegistered(meet.registrants, user.data) &&
-                meetHasStarted &&
-                !meetHasEnded && <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user.data} />}
+              {meet && user && meetReg.isRegistered(meet.registrants, user) && meetHasStarted && !meetHasEnded && (
+                <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user} />
+              )}
             </section>
           </div>
           <section className="shadow-lg bg-white p-12">
-            {user?.data?.isAdmin ? (
+            {isAdmin ? (
               adminInstructionsView
             ) : !meetHasStarted ? (
               <p>Instructions will be released once the meet starts!</p>
