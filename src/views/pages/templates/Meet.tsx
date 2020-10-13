@@ -167,7 +167,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
           {"< "} Back to all meets
         </Link>
         <div className="overflow-hidden rounded-mb-md">
-          <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-gray-800 px-12 py-8">
+          <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-gray-800 px-6 md:px-12 py-8">
             <section className="text-white row-span-9 md:row-span-1 md:col-span-2 md:place-self-start">
               <div className="block">
                 <h1 className="font-semibold">{meet?.title}</h1>
@@ -190,17 +190,17 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                     </div>
                   ) : (
                     <div>
-                      <div className="flex justify-center md:justify-start mt-4 mb-2">
+                      <div className="flex whitespace-no-wrap mt-4 mb-2">
                         <Button disabled>Register</Button>
                       </div>
                       <div>
                         <span className="inline-block items-center md:text-left">
                           Join us to register!
-                          <span className="flex my-1">
-                            <LoginModal buttonText="Log in" />
+                          <span className="flex flex-col sm:flex-row my-1">
+                            <LoginModal buttonText="Log in" className="whitespace-no-wrap" />
                             <span className="flex mx-2 items-center">or </span>
 
-                            <RegisterModal buttonText="Sign up" />
+                            <RegisterModal buttonText="Sign up" className="whitespace-no-wrap" />
                           </span>{" "}
                         </span>
                       </div>
