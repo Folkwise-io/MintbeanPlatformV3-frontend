@@ -196,9 +196,9 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                       <div>
                         <span className="inline-block items-center md:text-left">
                           Join us to register!
-                          <span className="flex flex-col sm:flex-row my-1">
+                          <span className="flex flex-col xs:flex-row my-1">
                             <LoginModal buttonText="Log in" className="whitespace-no-wrap" />
-                            <span className="flex mx-2 items-center">or </span>
+                            <span className="flex mx-2 items-center">or</span>
 
                             <RegisterModal buttonText="Sign up" className="whitespace-no-wrap" />
                           </span>{" "}
