@@ -26,12 +26,14 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   return (
     <div className="shadow-md bg-white w-11/12 max-w-4xl mx-auto rounded-lg overflow-hidden">
       <div
-        className={`flex justify-between items-center w-full py-2 px-4  ${
+        className={`flex flex-col md:flex-row md:justify-between md:items-center w-full py-2 px-4  ${
           isCurrent ? "bg-mb-green-200" : "bg-mb-green-100"
         }`}
       >
         <h2 className="text-2xl font-medium">{title}</h2>
-        {isCurrent ? <MeetStatus status="inProgress" /> : <MeetStatus status="comingSoon" />}
+        <div className="self-end md:self-auto">
+          {isCurrent ? <MeetStatus status="inProgress" /> : <MeetStatus status="comingSoon" />}
+        </div>
       </div>
       <div className="flex-col md:flex md:flex-row">
         <div className="h-64 md:w-5/12 md:h-56 overflow-hidden inline-flex">
@@ -45,7 +47,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
               <p className="text-sm">Starts {startTimeStr}</p>
               <p className="mb-2 text-sm">Submissions close {endTimeStr}</p>
             </div>
-            <div>
+            <div className="flex">
               <Link to={`/meets/${id}`}>
                 <Button>More</Button>
               </Link>

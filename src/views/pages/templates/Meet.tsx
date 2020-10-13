@@ -193,28 +193,27 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                     </div>
                   ) : (
                     <div>
-                      <Button disabled={true}>Register</Button>
-                      <p>
-                        Please <LoginModal buttonText="log in" type="plain" /> or{" "}
-                        <RegisterModal buttonText="sign up" className="text-mb-green-200" /> to register for this event.
-                      </p>
+                      <div className="flex justify-center md:justify-start my-2">
+                        <Button disabled>Register</Button>
+                      </div>
+                      <div>
+                        <span className="inline-block items-center text-center md:text-left">
+                          Join us to register!
+                          <span className="flex my-1">
+                            <LoginModal buttonText="Log in" />
+                            <span className="flex mx-2 items-center">or </span>
+
+                            <RegisterModal buttonText="Sign up" />
+                          </span>{" "}
+                        </span>
+                      </div>
                     </div>
                   ))}
                 {isAdmin && meet && (
-                  <>
-                    <AdminMeetDeleteModal
-                      buttonText="Delete"
-                      meet={meet}
-                      onDelete={redirectToMeets}
-                      className="mt-2 md:mt-0"
-                    />
-                    {/* Todo use common button class */}
-                    <AdminMeetEditModal
-                      className="font-semibold shadow-md border-solid border-2 rounded-md py-2 px-6 m-2 md:mb-0 text-black bg-white border-mb-green-200"
-                      buttonText="Edit"
-                      meet={meet}
-                    />
-                  </>
+                  <div className="flex items-center py-2">
+                    <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToMeets} className="mr-2" />
+                    <AdminMeetEditModal buttonText="Edit" meet={meet} />
+                  </div>
                 )}
               </div>
             </section>
@@ -222,7 +221,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
               {meet && (
                 <p className="text-right">
                   {meet.registrants.length} coder
-                  {meet.registrants.length !== 1 && "s"} registered.
+                  {meet.registrants.length !== 1 && "s"} registered
                 </p>
               )}
               {/*TODO: Add project submission form*/}

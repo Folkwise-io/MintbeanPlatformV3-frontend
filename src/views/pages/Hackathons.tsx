@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import imgRobots from "../../assets/images/banners/robots-lg.jpg";
+import imgRobots from "../../assets/images/banners/robots-lg.png";
 
 const Hackathons: FC<void> = () => {
   return (

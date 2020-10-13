@@ -7,10 +7,10 @@ import { ThunkDispatch } from "redux-thunk";
 import { Context } from "../../../../../context/contextBuilder";
 import { MbAction } from "../../../../state/actions/MbAction";
 import { connect } from "react-redux";
+import { Button } from "../../../Button";
 
 interface Props {
   className?: string;
-  type?: "button" | "plain";
   buttonText: string;
 }
 
@@ -22,7 +22,7 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
   login: (values: LoginParams) => dispatch(login(values)),
 });
 
-const LoginModal: FC<Props & DispatchMapping> = ({ login, className, type = "button", buttonText }) => {
+const LoginModal: FC<Props & DispatchMapping> = ({ login, className, buttonText }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const actions: ModalActionDeclaration[] = [
@@ -39,21 +39,14 @@ const LoginModal: FC<Props & DispatchMapping> = ({ login, className, type = "but
     },
   ];
 
-  const loginButtonClasses =
-    "shadow-md py-2 px-6 rounded-lg hover:shadow-sm hover:opacity-75 border-2 border-solid font-semibold text-gray-700 bg-white border-mb-green-200";
-
   return (
     <>
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <button
-            onClick={toggleModal}
-            ref={(el) => setRef(el)}
-            className={`${className} ${type != "button" ? "text-mb-green-200" : loginButtonClasses}` || ""}
-          >
+          <Button onClick={toggleModal} forwardRef={(el) => setRef(el)} className={` ${className}`} type="secondary">
             {buttonText}
-          </button>
+          </Button>
         )}
       >
         <LoginForm formRef={formRef} login={(values: LoginParams) => login(values)} />

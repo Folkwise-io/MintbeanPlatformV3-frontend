@@ -86,7 +86,7 @@ module.exports = {
         120: "30rem",
       },
       backgroundImage: () => ({
-        callToAction: "url(../assets/images/banners/robots-lg.jpg)",
+        callToAction: "url(../assets/images/banners/robots-lg.png)",
       }),
       height: {
         50: "50%",
