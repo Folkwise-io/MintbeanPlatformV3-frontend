@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useRef, useState } from "react";
 import { Modal } from "..";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -8,21 +8,20 @@ import { connectContext, ConnectContextProps } from "../../../../../context/conn
 
 interface Props {
   kanbanId: string;
-  // TODO: remove kanban and setKanban. For demonstration purpose only.
-  // kanban: Kanban;
-  // setKanban: React.Dispatch<React.SetStateAction<Kanban | null>>;
   fetchKanban: () => Promise<void>;
 }
 const AdminKanbanCardCreateModal: FC<ConnectContextProps & Props> = ({ kanbanId, context, fetchKanban }) => {
+  const [close, setClose] = useState<(() => void) | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
-
   const actions: ModalActionDeclaration[] = [
     {
       type: "primary",
       text: "Add",
       buttonType: "button",
-      onClick: async () => {
+      onClick: (_evt, { closeModal }) => {
         if (formRef.current) {
+          // hacky way of exposing closModal functionality externally
+          setClose(closeModal);
           // Programatically submit form in grandchild
           formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
         }
@@ -33,8 +32,9 @@ const AdminKanbanCardCreateModal: FC<ConnectContextProps & Props> = ({ kanbanId,
   const createKanbanCard = async (input: CreateKanbanCardInput) => {
     if (context) {
       context.kanbanService.createKanbanCard(input).then(() => {
-        // TODO: determine actual post-success behavior
-        fetchKanban();
+        fetchKanban().then(() => {
+          if (close) close();
+        });
       });
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");

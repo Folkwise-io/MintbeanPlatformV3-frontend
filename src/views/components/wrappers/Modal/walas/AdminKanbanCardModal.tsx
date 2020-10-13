@@ -24,7 +24,6 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
 }) => {
   const formRef = useRef<HTMLFormElement | null>(null);
   const [mode, setMode] = useState<"edit" | "view">("view");
-
   const viewActionButtons: ModalActionDeclaration[] = [
     {
       type: "secondary",

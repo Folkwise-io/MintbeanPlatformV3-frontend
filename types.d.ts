@@ -80,7 +80,7 @@ interface KanbanCardBase {
   id: string;
   title: string;
   body: string;
-  index: number;
+  index?: number;
 }
 interface KanbanCard extends KanbanCardBase {
   // Note: index here refers to master index, which determines initial order in "Todo" column

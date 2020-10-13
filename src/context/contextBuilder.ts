@@ -43,9 +43,8 @@ export const contextBuilder = (): Context => {
   const userDao = new UserDaoImpl(apiQueryExecutor);
   const meetDao = new MeetDaoImpl(apiQueryExecutor);
   const projectDao = new ProjectDaoImpl(apiQueryExecutor);
-  // TODO: reinstate real KanbanDaoImpl once hooked to backend. Remove KanbanDaoImplFake reference
-  // const kanbanDao = new KanbanDaoImpl(apiQueryExecutor);
-  const kanbanDao = new KanbanDaoImplFake();
+  const kanbanDao = new KanbanDaoImpl(apiQueryExecutor);
+  // const kanbanDao = new KanbanDaoImplFake();
   const userService = new UserService(userDao);
   const authDao = new AuthDaoImpl(apiQueryExecutor);
   const authService = new AuthService(authDao);

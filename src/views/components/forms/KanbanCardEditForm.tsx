@@ -20,7 +20,6 @@ export const KanbanCardEditForm: FC<Props> = ({ data, editKanbanCard, formRef })
   const { errors, register, handleSubmit, watch, setValue } = useForm({
     resolver: yupResolver(createKanbanCardInputSchema),
     defaultValues: {
-      kanbanId: data.kanbanId,
       title: data.title,
       body: data.body,
     },
@@ -40,9 +39,6 @@ export const KanbanCardEditForm: FC<Props> = ({ data, editKanbanCard, formRef })
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
       <h1 className="font-semibold">Create a new kanban card</h1>
-
-      {/* Infer kanbanId without prompting */}
-      <input type="hidden" name="kanbanId" ref={register} value={data.kanbanId} />
 
       <label htmlFor="title">Title</label>
       <input type="text" name="title" ref={register} className="mb-2" />

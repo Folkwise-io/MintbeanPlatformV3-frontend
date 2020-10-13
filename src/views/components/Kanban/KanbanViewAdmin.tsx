@@ -5,30 +5,43 @@ import AdminKanbanCardCreateModal from "../wrappers/Modal/walas/AdminKanbanCardC
 import { connectContext, ConnectContextProps } from "../../../context/connectContext";
 
 interface Props {
-  kanbanId?: string;
+  kanbanId?: string; // used for fetching kanban on mount
+  kanban?: Kanban;
 }
 
-const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context }) => {
+const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context, kanban }) => {
   // const { title, description, kanbanCards } = kanban;
-  const [kanban, setKanban] = useState<Kanban | null>(null);
+  const [localKanban, setLocalKanban] = useState<Kanban | null>(kanban || null);
   const [sortedKanbanCards, setSortedKanbanCards] = useState<KanbanCard[]>([]);
 
   const fetchKanban = useCallback(async () => {
-    if (context && kanbanId) {
-      const k = await context.kanbanService.fetchKanban(kanbanId);
-      if (k) setKanban(k);
+    if (context && localKanban?.id) {
+      const k = await context.kanbanService.fetchKanban(localKanban.id);
+      if (k) {
+        setLocalKanban(k);
+        setSortedKanbanCards(k.kanbanCards);
+      }
     }
-  }, [context, kanbanId]);
+  }, [context, localKanban]);
+
   // fetch kanban on mount if kanbanId provided as a prop
   useEffect(() => {
-    fetchKanban();
-  }, [fetchKanban]);
+    if (kanbanId) {
+      fetchKanban();
+    }
+  }, [fetchKanban, kanbanId]);
 
   useEffect(() => {
-    if (kanban) {
-      setSortedKanbanCards(kanban.kanbanCards.sort((a, b) => a.index - b.index));
+    if (localKanban) {
+      setSortedKanbanCards(localKanban.kanbanCards);
     }
-  }, [kanban]);
+  }, [localKanban]);
+
+  // useEffect(() => {
+  //   if (kanban) {
+  //     setSortedKanbanCards(kanban.kanbanCards.sort((a, b) => a.index - b.index));
+  //   }
+  // }, [kanban]);
 
   const onDragEnd = (e: DropResult) => {
     if (typeof e.source?.index === "number" && typeof e.destination?.index === "number") {
@@ -50,14 +63,14 @@ const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context })
     return result;
   };
 
-  return !kanbanId || !kanban ? null : (
+  return !localKanban ? null : (
     <div>
       <p className="italic mb-2">Edit the kanban cards below to provide hackers with project requirements.</p>
-      <h2>{kanban.title}</h2>
-      <p>{kanban.description}</p>
+      <h2>{localKanban.title}</h2>
+      <p>{localKanban.description}</p>
       <div className="bg-gray-400 p-10 rounded-lg min-h-20">
         <DragDropContext onDragEnd={onDragEnd}>
-          {kanban?.kanbanCards && kanban.kanbanCards.length > 0 ? (
+          {localKanban.kanbanCards?.length > 0 ? (
             <Droppable droppableId="droppable">
               {(provided, snapshot) => {
                 const classes = snapshot.isDraggingOver ? "bg-gray-300" : "bg-gray-400";
@@ -67,7 +80,7 @@ const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context })
                     ref={provided.innerRef}
                     className={`transition-colors duration-200 p-4 rounded-lg ${classes}`}
                   >
-                    {sortedKanbanCards.map((kbc, index) => (
+                    {localKanban.kanbanCards.map((kbc, index) => (
                       <Draggable key={kbc.id} draggableId={kbc.id} index={index}>
                         {(provided, snapshot) => {
                           const classes = snapshot.isDragging ? "bg-mb-green-100" : "bg-white";
@@ -93,10 +106,11 @@ const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context })
             <p className="text-center">Click the plus button to add kanban card requirements</p>
           )}
         </DragDropContext>
-
-        <div className="w-full flex justify-center mt-4">
-          <AdminKanbanCardCreateModal kanbanId={kanbanId} fetchKanban={fetchKanban} />
-        </div>
+        {localKanban && (
+          <div className="w-full flex justify-center mt-4">
+            <AdminKanbanCardCreateModal kanbanId={localKanban.id} fetchKanban={fetchKanban} />
+          </div>
+        )}
       </div>
     </div>
   );

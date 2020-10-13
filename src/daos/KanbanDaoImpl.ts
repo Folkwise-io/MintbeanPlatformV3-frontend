@@ -11,11 +11,16 @@ export class KanbanDaoImpl implements KanbanDao {
     return this.api
       .query<ApiResponseRaw<{ kanban: Kanban }>, { id: string }>(
         `
-            query fetchKanban($id: String!) {
+            query fetchKanban($id: UUID!) {
               kanban(id: $id) {
                 id
                 title 
                 description
+                kanbanCards {
+                  id
+                  title
+                  body
+                }
               }
             }
           `,
@@ -59,8 +64,8 @@ export class KanbanDaoImpl implements KanbanDao {
     return this.api
       .query<ApiResponseRaw<{ editKanban: Kanban }>, { id: string; input: EditKanbanInput }>(
         `
-            mutation editKanban($input: EditKanbanCardInput!) {
-              editKanban(input: $input) {
+            mutation editKanban($id: UUID!, $input: EditKanbanCardInput!) {
+              editKanban(id: $id, input: $input) {
                 id
                 title 
                 description
@@ -109,7 +114,7 @@ export class KanbanDaoImpl implements KanbanDao {
     return this.api
       .query<ApiResponseRaw<{ kanbanCard: KanbanCard }>, { id: string }>(
         `
-            query fetchKanbanCard($id: String!) {
+            query fetchKanbanCard($id: UUID!) {
               kanbanCard(id: $id) {
                 id
                 title 
@@ -138,7 +143,6 @@ export class KanbanDaoImpl implements KanbanDao {
                 id
                 title 
                 body
-                index
               }
             }
           `,
@@ -158,12 +162,11 @@ export class KanbanDaoImpl implements KanbanDao {
     return this.api
       .query<ApiResponseRaw<{ editKanbanCard: KanbanCard }>, { id: string; input: EditKanbanCardInput }>(
         `
-            mutation editKanbanCard($input: EditKanbanCardInput!) {
-              editKanbanCard(input: $input) {
+            mutation editKanbanCard($id: UUID!, $input: EditKanbanCardInput!) {
+              editKanbanCard(id: $id, input: $input) {
                 id
                 title 
                 body
-                index
               }
             }
           `,
