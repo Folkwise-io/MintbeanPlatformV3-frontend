@@ -46,7 +46,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
 
         <div className="pb-8 px-4 sm:px-12 md:px-4 md:pb-4 md:w-2/3">
           <section className="flex h-full flex-col md:my-1 w-full justify-end items-center text-center">
-            <div className="max-w-full h-full flex flex-col justify-between mt-2">
+            <div className="max-w-full h-full flex flex-col justify-between">
               <p className="mb-2">{descriptionStr}</p>
               <div>
                 <p className="text-sm">Starts {startTimeStr}</p>
