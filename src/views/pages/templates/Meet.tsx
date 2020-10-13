@@ -55,6 +55,9 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       const fetchedMeet = await context.meetService.fetchMeet(id);
       if (fetchedMeet) {
         setMeet(fetchedMeet);
+        if (fetchedMeet.kanban) {
+          setKanban(fetchedMeet.kanban)
+        }
       }
       setLoading(false);
     };
@@ -127,7 +130,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       {kanban ? (
         <div className="mt-6">
           {/* Actual KanbanViewAdmin will only take kanbanId as a prop and fetch kanban from component*/}
-          <KanbanViewAdmin kanbanId={kanban?.id} />
+          <KanbanViewAdmin kanbanId={kanban.id} />
         </div>
       ) : (
         <AdminKanbanCreateModal buttonText="Add a kanban to this meet" setKanban={setKanban} meetId={meet?.id} />

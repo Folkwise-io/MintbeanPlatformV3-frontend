@@ -72,6 +72,16 @@ export class MeetDaoImpl implements MeetDao {
                 firstName
                 lastName
               }
+              kanban {
+                id
+                title
+                description
+                kanbanCards {
+                  id
+                  title
+                  body
+                }
+              } 
           }
         }
         `,

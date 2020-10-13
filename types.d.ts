@@ -42,6 +42,7 @@ interface Meet {
   projects: ProjectForMeet[];
   registrants: RegistrantsForMeet[];
   kanbanId?: string;
+  kanban?: Kanban;
 }
 
 interface ProjectForMeet {
