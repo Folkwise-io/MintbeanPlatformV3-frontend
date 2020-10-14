@@ -17,6 +17,7 @@ import LoginModal from "../../components/wrappers/Modal/walas/LoginModal";
 import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
 import { MeetStatus } from "../../components/MeetStatus";
 import { MeetRegistration } from "../../../utils/MeetRegistration";
+import { ExternalLink } from "../../components/ExternalLink";
 
 const meetReg = new MeetRegistration();
 
@@ -215,9 +216,18 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                   {meet.registrants.length !== 1 && "s"} registered
                 </p>
               )}
+            </section>
+            <section className="flex flex-col items-center md:col-span-3 md:items-end">
               {/*TODO: Add project submission form*/}
               {meet && user && meetReg.isRegistered(meet.registrants, user) && meetHasStarted && !meetHasEnded && (
-                <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user} />
+                <>
+                  {meet.registerLink && (
+                    <ExternalLink href={meet.registerLink}>
+                      <Button className="mb-2">Meeting link</Button>
+                    </ExternalLink>
+                  )}
+                  <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user} />
+                </>
               )}
             </section>
           </div>

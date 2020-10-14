@@ -1,10 +1,10 @@
 import {
-  getDurationInHours,
-  isChronologicalNoTz,
-  isPast,
-  validateTimestamps,
-  wcToClientStr,
   wcToUTC,
+  wcToClientStr,
+  getDurationInHours,
+  isPast,
+  isChronologicalNoTz,
+  validateTimestamps,
 } from "../../../src/utils/DateUtility";
 
 describe("Date Utility", () => {
@@ -62,12 +62,12 @@ describe("Date Utility", () => {
   });
   describe("isPast", () => {
     it("returns true if date is in past", () => {
-      const past = isPast("2020-09-15T12:00:00.000", "America/Toronto");
-      expect(past).toBe(true);
+      const isPastBool = isPast("2020-09-15T12:00:00.000", "America/Toronto");
+      expect(isPastBool).toBe(true);
     });
     it("returns false if date is in future", () => {
-      const past = isPast("2060-09-15T12:00:00.000", "America/Toronto");
-      expect(past).toBe(false);
+      const isPastBool = isPast("2060-09-15T12:00:00.000", "America/Toronto");
+      expect(isPastBool).toBe(false);
     });
   });
   describe("isChronologicalNoTz", () => {
