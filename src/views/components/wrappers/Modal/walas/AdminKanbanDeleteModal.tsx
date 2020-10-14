@@ -58,7 +58,10 @@ const AdminKanbanDeleteModal: FC<ConnectContextProps & Props> = ({
       >
         {" "}
         <div className="text-black">
-          <p>Warning! Deleting this kanban will delete the progress of any users already using this kanban.</p>
+          <p>
+            <span className="text-red-500 font-semibold">Warning!</span> Deleting this kanban will delete the progress
+            of any users already using this kanban.
+          </p>
           <br />
           <p>
             Are you sure you want to delete kanban{" "}
