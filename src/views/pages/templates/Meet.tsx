@@ -58,20 +58,6 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   }, [context, id]);
 
   useEffect(() => {
-    // const fetchMeetData = async () => {
-    //   if (!context) {
-    //     console.error(new Error("No context passed to component, but was expected"));
-    //     alert("Blame the devs! Something terrible happened.");
-    //     return;
-    //   }
-    //   setLoading(true);
-    //   const fetchedMeet = await context.meetService.fetchMeet(id);
-    //   if (fetchedMeet) {
-    //     setMeet(fetchedMeet);
-    //     setKanban(fetchedMeet?.kanban || null);
-    //   }
-    //   setLoading(false);
-    // };
     fetchMeetData();
   }, [fetchMeetData]);
 
@@ -140,12 +126,15 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     showKanbanAdmin && (
       <>
         {kanban ? (
-          <div className="mt-6">
+          <div className="mt-10">
             {/* Actual KanbanViewAdmin will only take kanbanId as a prop and fetch kanban from component*/}
             <KanbanViewAdmin kanban={kanban} onKanbanDelete={fetchMeetData} />
           </div>
         ) : meet?.id ? (
-          <AdminKanbanCreateModal buttonText="Add a kanban to this meet" onCreate={fetchMeetData} meetId={meet.id} />
+          <div className="mt-10">
+            {" "}
+            <AdminKanbanCreateModal buttonText="Add a kanban to this meet" onCreate={fetchMeetData} meetId={meet.id} />
+          </div>
         ) : null}
       </>
     );
