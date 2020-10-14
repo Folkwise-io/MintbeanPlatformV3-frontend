@@ -1,11 +1,10 @@
 import React, { FC } from "react";
-import { DateUtility } from "../../utils/DateUtility";
 import { Link } from "react-router-dom";
 import AdminMeetDeleteModal from "./wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
 import { MeetRegistration } from "../../utils/MeetRegistration";
+import { wcToClientStr } from "../../utils/DateUtility";
 
-const d = new DateUtility();
 const meetReg = new MeetRegistration();
 
 type MeetProps = {
@@ -16,7 +15,7 @@ type MeetProps = {
 export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   const { id, title, description, endTime, coverImageUrl, region, registrants } = meet;
 
-  const endTimeStr = d.wcToClientStr(endTime, region);
+  const endTimeStr = wcToClientStr(endTime, region);
   const pastEndTimeStr = endTimeStr.slice(0, 17);
   let descriptionStr = description.slice(0, 161);
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
@@ -35,8 +34,7 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
           <div className="flex flex-wrap justify-between w-full items-center mb-4">
             <p className="text-xs truncate text-center">{pastEndTimeStr}</p>
             <div className="flex">
-              <MeetStatus status="completed" />
-              <div className="ml-1">{meetReg.isRegistered(registrants, user) && <MeetStatus status="attended" />}</div>
+              <MeetStatus user={user} meet={meet} />
             </div>
           </div>
           <h2 className="text-lg text-center font-medium md:break-all lg:break-normal">{title}</h2>

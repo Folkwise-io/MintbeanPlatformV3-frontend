@@ -17,6 +17,7 @@ export class MeetDaoImpl implements MeetDao {
               description
               instructions
               registerLink
+              registerLinkStatus
               coverImageUrl
               startTime
               endTime
@@ -52,6 +53,7 @@ export class MeetDaoImpl implements MeetDao {
               description
               instructions
               registerLink
+              registerLinkStatus
               coverImageUrl
               startTime
               endTime
@@ -102,6 +104,7 @@ export class MeetDaoImpl implements MeetDao {
               description
               instructions
               registerLink
+              registerLinkStatus
               coverImageUrl
               startTime
               endTime
@@ -133,6 +136,7 @@ export class MeetDaoImpl implements MeetDao {
               description
               instructions
               registerLink
+              registerLinkStatus
               coverImageUrl
               startTime
               endTime
