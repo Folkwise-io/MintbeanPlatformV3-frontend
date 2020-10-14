@@ -35,7 +35,6 @@ export class KanbanDaoImpl implements KanbanDao {
       })
       .catch(handleServerError);
   }
-  // Not connected to backend yet
   createKanban(input: CreateKanbanInput): Promise<Kanban> {
     return this.api
       .query<ApiResponseRaw<{ createKanban: Kanban }>, { input: CreateKanbanInput }>(

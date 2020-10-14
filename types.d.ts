@@ -131,15 +131,16 @@ interface CreateMeetParams {
 }
 // Same as CreateMeetUnput atm
 interface EditMeetParams {
-  meetType: "hackMeet";
-  title: string;
-  description: string;
-  instructions: string;
+  meetType?: "hackMeet";
+  title?: string;
+  description?: string;
+  instructions?: string;
   registerLink?: string;
-  coverImageUrl: string;
-  startTime: string;
-  endTime: string;
-  region: string;
+  coverImageUrl?: string;
+  startTime?: string;
+  endTime?: string;
+  region?: string;
+  kanbanId?: string;
 }
 
 interface CreateProjectParams {
@@ -152,6 +153,7 @@ interface CreateProjectParams {
 }
 
 interface CreateKanbanInput {
+  meetId?: string;
   title: string;
   description: string;
 }

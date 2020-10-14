@@ -1,36 +1,36 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useRef, useState } from "react";
 import { Modal } from "..";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { KanbanCreateForm } from "../../../forms/KanbanCreateForm";
-import { useHistory } from "react-router-dom";
 import { Button } from "../../../Button";
 
 interface Props {
   className?: string;
   buttonText: string;
   meetId?: string;
-  // TODO: remove this. for demo purpose only
-  setKanban: (kanban: Kanban) => void;
+  onCreate: () => void;
 }
 
 const AdminKanbanCreateModal: FC<ConnectContextProps & Props> = ({
-  setKanban,
+  onCreate,
   meetId,
   context,
   className,
   buttonText,
 }) => {
+  const [close, setClose] = useState<(() => void) | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  // const history = useHistory();
 
   const actions: ModalActionDeclaration[] = [
     {
       type: "primary",
       text: "Create Kanban",
       buttonType: "submit",
-      onClick: async () => {
+      onClick: (_evt, { closeModal }) => {
         if (formRef.current) {
+          // hacky way of exposing closeModal functionality externally
+          setClose(closeModal);
           // Programatically submit form in grandchild
           formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
         }
@@ -40,10 +40,14 @@ const AdminKanbanCreateModal: FC<ConnectContextProps & Props> = ({
 
   const createKanban = async (input: CreateKanbanInput) => {
     if (context) {
-      context.kanbanService.createKanban(input).then((newKanban) => {
-        // TODO: determine actual post-success behavior
+      await context.kanbanService.createKanban(input).then(async (newKanban) => {
         if (newKanban) {
-          setKanban(newKanban);
+          // add new kanban to meet if meetId supplied
+          if (meetId) {
+            await context.meetService.editMeet(meetId, { kanbanId: newKanban.id });
+          }
+          onCreate();
+          if (close) close();
         }
       });
     } else {

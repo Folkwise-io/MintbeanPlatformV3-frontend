@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useCallback } from "react";
 import { ConnectContextProps, connectContext } from "../../../context/connectContext";
 import { DateUtility } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
@@ -41,6 +41,21 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const isAdmin = user.data?.isAdmin;
   const isLoggedIn = user.data;
   const history = useHistory();
+
+  const fetchMeetData = useCallback(async () => {
+    if (!context) {
+      console.error(new Error("No context passed to component, but was expected"));
+      alert("Blame the devs! Something terrible happened.");
+      return;
+    }
+    setLoading(true);
+    const fetchedMeet = await context.meetService.fetchMeet(id);
+    if (fetchedMeet) {
+      setMeet(fetchedMeet);
+      setKanban(fetchedMeet?.kanban || null);
+    }
+    setLoading(false);
+  }, [context, id]);
 
   useEffect(() => {
     const fetchMeetData = async () => {
@@ -128,9 +143,9 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
           {/* Actual KanbanViewAdmin will only take kanbanId as a prop and fetch kanban from component*/}
           <KanbanViewAdmin kanban={kanban} />
         </div>
-      ) : (
-        <AdminKanbanCreateModal buttonText="Add a kanban to this meet" setKanban={setKanban} meetId={meet?.id} />
-      )}
+      ) : meet?.id ? (
+        <AdminKanbanCreateModal buttonText="Add a kanban to this meet" onCreate={fetchMeetData} meetId={meet.id} />
+      ) : null}
     </>
   );
   const showKanbanAdmin = !!process.env.FF_KANBAN;
