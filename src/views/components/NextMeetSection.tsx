@@ -47,10 +47,19 @@ const NextMeetSection: FC<ConnectContextProps & StateMapping> = ({ context, user
   }
 
   return (
+<<<<<<< HEAD
     <div className="pb-8">
       <h2 className="text-white text-4xl text-center pb-2">Our next meet is...</h2>
       {<NextMeetCard user={user?.data} meet={nextMeet} key={nextMeet.id} />}
     </div>
+=======
+    nextMeet && (
+      <div className="pb-8">
+        <h2 className="text-white text-4xl text-center pb-2 mx-auto w-2/3">Our next meet is...</h2>
+        {nextMeet}
+      </div>
+    )
+>>>>>>> staging
   );
 };
 
