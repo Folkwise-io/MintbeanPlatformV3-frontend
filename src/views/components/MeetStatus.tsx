@@ -1,41 +1,66 @@
 import React, { FC } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDotCircle, faStar, faCheckSquare } from "@fortawesome/free-solid-svg-icons";
+import { faDotCircle, faStar, faCheckSquare, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
-type Props = {
-  status?: "inProgress" | "completed" | "comingSoon" | "registered";
-  positionAbsolute?: boolean;
+enum Status {
+  completed = "completed",
+  inProgress = "inProgress",
+  comingSoon = "comingSoon",
+  registered = "registered",
+}
+
+type StatusTypes = keyof typeof Status;
+
+interface Props {
+  status: StatusTypes;
+  isContrast?: boolean;
+}
+
+interface DataDefinitions {
+  spanText: string;
+  classes: string;
+  icon: IconDefinition;
+}
+
+type MeetStatusData = {
+  completed: DataDefinitions;
+  inProgress: DataDefinitions;
+  comingSoon: DataDefinitions;
+  registered: DataDefinitions;
 };
 
-export const MeetStatus: FC<Props> = (props) => {
-  const { status = "comingSoon", positionAbsolute = false } = props;
-
-  const spanText = {
-    inProgress: "live",
-    completed: "event ended",
-    comingSoon: "coming soon!",
-    registered: "registered",
-  };
+export const MeetStatus: FC<Props> = ({ status = "comingSoon", isContrast = false }) => {
   const common = `text-xs uppercase px-2 py-1 rounded-lg inline-flex text-white whitespace-no-wrap ${
-    !!positionAbsolute && "border-2 border-solid"
+    isContrast && "border-2 border-solid"
   }`;
-  const classes = {
-    inProgress: `bg-red-500 ${!!positionAbsolute && "border-red-200"}`,
-    completed: `bg-gray-600 ${!!positionAbsolute && "border-gray-200"}`,
-    comingSoon: `bg-mb-blue-200 ${!!positionAbsolute && "border-blue-100"}`,
-    registered: `bg-mb-green-300 ${!!positionAbsolute && "border-mb-green-100"}`,
-  };
-  const icons = {
-    inProgress: faDotCircle,
-    completed: faCheckSquare,
-    comingSoon: faStar,
-    registered: faCheckSquare,
+
+  const data: MeetStatusData = {
+    inProgress: {
+      spanText: "live",
+      classes: `bg-red-500 ${isContrast && "border-red-200"}`,
+      icon: faDotCircle,
+    },
+    completed: {
+      spanText: "event ended",
+      classes: `bg-gray-600 ${isContrast && "border-gray-200"}`,
+      icon: faCheckSquare,
+    },
+    comingSoon: {
+      spanText: "coming soon!",
+      classes: `bg-mb-blue-200 ${isContrast && "border-blue-100"}`,
+      icon: faStar,
+    },
+    registered: {
+      spanText: "registered",
+      classes: `bg-mb-green-300 ${isContrast && "border-mb-green-100"}`,
+      icon: faCheckSquare,
+    },
   };
 
   return (
-    <span className={`${common} ${classes[status]}`}>
-      <FontAwesomeIcon icon={icons[status]} className="mr-1 my-auto" />
-      {spanText[status]}
+    <span className={`${common} ${data[status].classes}`}>
+      <FontAwesomeIcon icon={data[status].icon} className="mr-1 my-auto" />
+      {data[status].spanText}
     </span>
   );
 };

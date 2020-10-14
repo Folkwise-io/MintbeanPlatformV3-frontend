@@ -32,11 +32,7 @@ const NextMeetCard: FC<MeetProps> = ({ meet }) => {
               alt={`${title} event banner`}
             ></img>
             <span className="absolute right-mb-1 top-mb-1">
-              {isCurrent ? (
-                <MeetStatus status="inProgress" positionAbsolute />
-              ) : (
-                <MeetStatus status="comingSoon" positionAbsolute />
-              )}
+              <MeetStatus status={isCurrent ? "inProgress" : "comingSoon"} isContrast />
             </span>
           </div>
           <div

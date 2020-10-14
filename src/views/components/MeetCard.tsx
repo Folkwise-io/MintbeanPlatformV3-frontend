@@ -32,7 +32,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
       >
         <h2 className="text-2xl font-medium">{title}</h2>
         <div className="self-end md:self-auto">
-          {isCurrent ? <MeetStatus status="inProgress" /> : <MeetStatus status="comingSoon" />}
+          <MeetStatus status={isCurrent ? "inProgress" : "comingSoon"} />
         </div>
       </div>
       <div className="flex-col md:flex md:flex-row">
