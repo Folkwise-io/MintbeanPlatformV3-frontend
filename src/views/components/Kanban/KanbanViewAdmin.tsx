@@ -13,7 +13,6 @@ interface Props {
 }
 
 const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context, kanban, onKanbanDelete }) => {
-  // const { title, description, kanbanCards } = kanban;
   const [localKanban, setLocalKanban] = useState<Kanban | null>(kanban || null);
   const [sortedKanbanCards, setSortedKanbanCards] = useState<KanbanCard[]>([]);
 

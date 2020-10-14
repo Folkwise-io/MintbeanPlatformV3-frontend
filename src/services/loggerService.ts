@@ -3,7 +3,7 @@ import { addSuccessToast, addInfoToast, addDangerToast, addWarningToast } from "
 import { logError } from "../views/state/actions/errorActions";
 import { MbAction } from "../views/state/actions/MbAction";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
 export class LoggerService {
   constructor(private store?: Store) {}
   success(message: string): void {
@@ -43,4 +43,4 @@ export class LoggerService {
     this.store = store;
   }
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */

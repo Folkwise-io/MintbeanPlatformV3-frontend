@@ -1,4 +1,4 @@
-/* eslint-disable  @typescript-eslint/no-explicit-any */
+/* eslint-disable  @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
 // Returns true if Apollo Server error with given code found in errors Array
 export const hasErrorWithCode = (errors: any, errCode: string): boolean => {
   if (!Array.isArray(errors)) return false;
@@ -11,4 +11,4 @@ export const hasErrorWithCode = (errors: any, errCode: string): boolean => {
 
   return matchedErrors.length > 0 ? true : false;
 };
-/* eslint-enable  @typescript-eslint/no-explicit-any */
+/* eslint-enable  @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
