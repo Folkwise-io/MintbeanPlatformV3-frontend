@@ -35,7 +35,7 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
             <MeetStatus status="completed" />
           </div>
           <h2 className="text-lg text-center font-medium md:break-all lg:break-normal">{title}</h2>
-          <p className="text-sm justify-self-end my-auto text-justify">{descriptionStr}</p>
+          <p className="text-sm justify-self-end my-auto text-center sm:text-left">{descriptionStr}</p>
         </section>
       </Link>
       <div className="flex justify-center my-2">
