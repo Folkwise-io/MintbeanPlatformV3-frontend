@@ -94,7 +94,7 @@ export const Modal: FC<ModalProps> = ({
             style={isDetached ? detachedStyles : { ...styles.popper, zIndex: 89 }}
             {...attributes.popper}
             data-popper-placement="right"
-            className={`bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-sm text-black ${
+            className={`bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-xs text-black ${
               isDetached ? "fixed" : ""
             }`}
           >
@@ -107,7 +107,7 @@ export const Modal: FC<ModalProps> = ({
             {/* modal body that displays the children */}
             <section className="flex p-4 justify-center items-center flex-col">
               {title && <div className="font-semibold text-lg text-gray-700 mb-2">{title}</div>}
-              <div className="my-2">
+              <div className="my-2 max-w-full">
                 {
                   // Render the children, i.e. the body of the modal
                   children
