@@ -18,14 +18,14 @@ const makeDefinition = (spanText: string, classes: string, icons: IconDefinition
 
 const definitions = {
   registered: {
-    OPEN: makeDefinition("live", "bg-red-500", faDotCircle),
+    OPEN: makeDefinition("live - join now!", "bg-red-500", faDotCircle),
     WAITING: makeDefinition("registered", "bg-mb-green-300", faCheckSquare),
-    CLOSED: makeDefinition("event ended", "bg-gray-600", faCheckSquare),
+    CLOSED: makeDefinition("attended", "bg-mb-purple-100", faStar),
   },
   nonRegistered: {
-    OPEN: makeDefinition("live", "bg-red-500", faDotCircle),
+    OPEN: makeDefinition("live - join now!", "bg-red-500", faDotCircle),
     WAITING: makeDefinition("registration open!", "bg-mb-blue-200", faStar),
-    CLOSED: makeDefinition("attended", "bg-mb-purple-100", faStar),
+    CLOSED: makeDefinition("event ended", "bg-gray-600", faCheckSquare),
   },
 };
 
