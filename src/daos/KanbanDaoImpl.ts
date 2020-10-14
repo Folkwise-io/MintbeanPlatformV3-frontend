@@ -63,7 +63,7 @@ export class KanbanDaoImpl implements KanbanDao {
     return this.api
       .query<ApiResponseRaw<{ editKanban: Kanban }>, { id: string; input: EditKanbanInput }>(
         `
-            mutation editKanban($id: UUID!, $input: EditKanbanCardInput!) {
+            mutation editKanban($id: UUID!, $input: EditKanbanInput!) {
               editKanban(id: $id, input: $input) {
                 id
                 title 

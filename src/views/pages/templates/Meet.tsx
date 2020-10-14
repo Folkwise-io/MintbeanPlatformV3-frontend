@@ -58,22 +58,22 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   }, [context, id]);
 
   useEffect(() => {
-    const fetchMeetData = async () => {
-      if (!context) {
-        console.error(new Error("No context passed to component, but was expected"));
-        alert("Blame the devs! Something terrible happened.");
-        return;
-      }
-      setLoading(true);
-      const fetchedMeet = await context.meetService.fetchMeet(id);
-      if (fetchedMeet) {
-        setMeet(fetchedMeet);
-        setKanban(fetchedMeet?.kanban || null);
-      }
-      setLoading(false);
-    };
+    // const fetchMeetData = async () => {
+    //   if (!context) {
+    //     console.error(new Error("No context passed to component, but was expected"));
+    //     alert("Blame the devs! Something terrible happened.");
+    //     return;
+    //   }
+    //   setLoading(true);
+    //   const fetchedMeet = await context.meetService.fetchMeet(id);
+    //   if (fetchedMeet) {
+    //     setMeet(fetchedMeet);
+    //     setKanban(fetchedMeet?.kanban || null);
+    //   }
+    //   setLoading(false);
+    // };
     fetchMeetData();
-  }, [context, id]);
+  }, [fetchMeetData]);
 
   const updateRegistrantData = async () => {
     if (!context) {
@@ -135,31 +135,33 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
 
   // Experimental features vvvvvvvvvvvvvvvvvvvvvvvvvvvv
   // Add feature flag FF_KANBAN=true to your local .env to view.
-
-  const FF_KANBAN = user?.data?.isAdmin && (
-    <>
-      {kanban ? (
-        <div className="mt-6">
-          {/* Actual KanbanViewAdmin will only take kanbanId as a prop and fetch kanban from component*/}
-          <KanbanViewAdmin kanban={kanban} />
-        </div>
-      ) : meet?.id ? (
-        <AdminKanbanCreateModal buttonText="Add a kanban to this meet" onCreate={fetchMeetData} meetId={meet.id} />
-      ) : null}
-    </>
-  );
   const showKanbanAdmin = !!process.env.FF_KANBAN;
+  const renderKanbanViewAdmin = () =>
+    showKanbanAdmin && (
+      <>
+        {kanban ? (
+          <div className="mt-6">
+            {/* Actual KanbanViewAdmin will only take kanbanId as a prop and fetch kanban from component*/}
+            <KanbanViewAdmin kanban={kanban} onKanbanDelete={fetchMeetData} />
+          </div>
+        ) : meet?.id ? (
+          <AdminKanbanCreateModal buttonText="Add a kanban to this meet" onCreate={fetchMeetData} meetId={meet.id} />
+        ) : null}
+      </>
+    );
+
   // Add feature flag FF_KANBAN_USER=true to your local .env to view.
-  const FF_KANBAN_USER = (
-    <>
-      {meet && (
-        <div className="mt-6">
-          <KanbanViewUser meetId={meet.id} kanbanId={"fakekanbanIdUtilItIsOnMeet"} />
-        </div>
-      )}
-    </>
-  );
   const showKanbanUser = !!process.env.FF_KANBAN_USER;
+  const renderKanbanViewUser = () =>
+    showKanbanUser && (
+      <>
+        {meet && (
+          <div className="mt-6">
+            <KanbanViewUser meetId={meet.id} kanbanId={"fakekanbanIdUtilItIsOnMeet"} />
+          </div>
+        )}
+      </>
+    );
   // End experimental features ^^^^^^^^^^^^^^^^^^
 
   return (
@@ -264,8 +266,8 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
               <p>No submissions yet.</p>
             )}
             {/* Experimental */}
-            {showKanbanAdmin && FF_KANBAN}
-            {showKanbanUser && FF_KANBAN_USER}
+            {isAdmin && renderKanbanViewAdmin()}
+            {renderKanbanViewUser()}
           </section>
         </div>
       </main>

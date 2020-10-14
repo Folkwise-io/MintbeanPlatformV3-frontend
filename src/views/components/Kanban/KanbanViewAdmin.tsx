@@ -3,13 +3,16 @@ import AdminKanbanCardModal from "../wrappers/Modal/walas/AdminKanbanCardModal";
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import AdminKanbanCardCreateModal from "../wrappers/Modal/walas/AdminKanbanCardCreateModal";
 import { connectContext, ConnectContextProps } from "../../../context/connectContext";
+import AdminKanbanEditModal from "../wrappers/Modal/walas/AdminKanbanEditModal";
+import AdminKanbanDeleteModal from "../wrappers/Modal/walas/AdminKanbanDeleteModal";
 
 interface Props {
-  kanbanId?: string; // used for fetching kanban on mount
+  kanbanId?: string; // used for fetching kanban on mount if desired
   kanban?: Kanban;
+  onKanbanDelete?: () => void;
 }
 
-const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context, kanban }) => {
+const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context, kanban, onKanbanDelete }) => {
   // const { title, description, kanbanCards } = kanban;
   const [localKanban, setLocalKanban] = useState<Kanban | null>(kanban || null);
   const [sortedKanbanCards, setSortedKanbanCards] = useState<KanbanCard[]>([]);
@@ -37,13 +40,8 @@ const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context, k
     }
   }, [localKanban]);
 
-  // useEffect(() => {
-  //   if (kanban) {
-  //     setSortedKanbanCards(kanban.kanbanCards.sort((a, b) => a.index - b.index));
-  //   }
-  // }, [kanban]);
-
   const onDragEnd = (e: DropResult) => {
+    // update kanban card sort in state
     if (typeof e.source?.index === "number" && typeof e.destination?.index === "number") {
       const sorted = reindex(sortedKanbanCards, e.source.index, e.destination.index);
       const indexedAndSorted = sorted.map((s, i) => {
@@ -55,7 +53,7 @@ const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context, k
   };
 
   const reindex = (list: KanbanCard[], startIndex: number, endIndex: number) => {
-    // TODO - make db call to update kanbanCard.index also. Currently only saved in frontend
+    // TODO - make db call to update kanbanCard indexes also. Currently only saved in frontend
     const result = [...list];
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -66,11 +64,22 @@ const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context, k
   return !localKanban ? null : (
     <div>
       <p className="italic mb-2">Edit the kanban cards below to provide hackers with project requirements.</p>
-      <h2>{localKanban.title}</h2>
-      <p>{localKanban.description}</p>
-      <div className="bg-gray-400 p-10 rounded-lg min-h-20">
+      <div>
+        <h2>{localKanban.title}</h2>
+        <p>{localKanban.description}</p>
+      </div>
+      <div className="py-2 flex flex-col xs:flex-row">
+        <AdminKanbanEditModal
+          buttonText="Edit kanban"
+          kanban={localKanban}
+          onEdit={fetchKanban}
+          className="mb-2 xs:mb-0 xs:mr-2"
+        />
+        <AdminKanbanDeleteModal buttonText="Delete kanban" onDelete={onKanbanDelete} kanban={localKanban} />
+      </div>
+      <div className="bg-gray-400 p-2 md:p-10 rounded-lg min-h-20">
         <DragDropContext onDragEnd={onDragEnd}>
-          {localKanban.kanbanCards?.length > 0 ? (
+          {sortedKanbanCards.length > 0 ? (
             <Droppable droppableId="droppable">
               {(provided, snapshot) => {
                 const classes = snapshot.isDraggingOver ? "bg-gray-300" : "bg-gray-400";
@@ -78,9 +87,9 @@ const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context, k
                   <div
                     {...provided.droppableProps}
                     ref={provided.innerRef}
-                    className={`transition-colors duration-200 p-4 rounded-lg ${classes}`}
+                    className={`transition-colors duration-200 p-2 md:p-4 rounded-lg ${classes}`}
                   >
-                    {localKanban.kanbanCards.map((kbc, index) => (
+                    {sortedKanbanCards.map((kbc, index) => (
                       <Draggable key={kbc.id} draggableId={kbc.id} index={index}>
                         {(provided, snapshot) => {
                           const classes = snapshot.isDragging ? "bg-mb-green-100" : "bg-white";
