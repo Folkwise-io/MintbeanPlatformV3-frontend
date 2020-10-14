@@ -15,7 +15,6 @@ import { ProjectDaoImpl } from "../daos/ProjectDaoImpl";
 import { ProjectService } from "../services/projectService";
 
 import { KanbanDao } from "../daos/KanbanDao";
-import { KanbanDaoImpl } from "../daos/KanbanDaoImpl";
 import { KanbanDaoImplFake } from "../daos/KanbanDaoImplFake";
 import { KanbanService } from "../services/kanbanService";
 

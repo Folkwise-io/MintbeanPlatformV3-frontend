@@ -1,66 +1,51 @@
 import React, { FC } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDotCircle, faStar, faCheckSquare, IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { MeetRegistration } from "../../utils/MeetRegistration";
 
-enum Status {
-  completed = "completed",
-  inProgress = "inProgress",
-  comingSoon = "comingSoon",
-  registered = "registered",
-}
+const meetReg = new MeetRegistration();
 
-type StatusTypes = keyof typeof Status;
-
-interface Props {
-  status: StatusTypes;
-  isContrast?: boolean;
-}
-
-interface DataDefinitions {
-  spanText: string;
-  classes: string;
-  icon: IconDefinition;
-}
-
-type MeetStatusData = {
-  completed: DataDefinitions;
-  inProgress: DataDefinitions;
-  comingSoon: DataDefinitions;
-  registered: DataDefinitions;
+type Props = {
+  meet?: Meet;
+  user?: User;
 };
 
-export const MeetStatus: FC<Props> = ({ status = "comingSoon", isContrast = false }) => {
-  const common = `text-xs uppercase px-2 py-1 rounded-lg inline-flex text-white whitespace-no-wrap ${
-    isContrast && "border-2 border-solid"
-  }`;
+const makeDefinition = (spanText: string, classes: string, icons: IconDefinition) => ({
+  spanText,
+  classes: "text-xs uppercase px-2 py-1 rounded-lg inline-flex text-white whitespace-no-wrap " + classes,
+  icons,
+});
 
-  const data: MeetStatusData = {
-    inProgress: {
-      spanText: "live",
-      classes: `bg-red-500 ${isContrast && "border-red-200"}`,
-      icon: faDotCircle,
-    },
-    completed: {
-      spanText: "event ended",
-      classes: `bg-gray-600 ${isContrast && "border-gray-200"}`,
-      icon: faCheckSquare,
-    },
-    comingSoon: {
-      spanText: "coming soon!",
-      classes: `bg-mb-blue-200 ${isContrast && "border-blue-100"}`,
-      icon: faStar,
-    },
-    registered: {
-      spanText: "registered",
-      classes: `bg-mb-green-300 ${isContrast && "border-mb-green-100"}`,
-      icon: faCheckSquare,
-    },
-  };
+const definitions = {
+  registered: {
+    OPEN: makeDefinition("live - join now!", "bg-red-500", faDotCircle),
+    WAITING: makeDefinition("registered", "bg-mb-green-300", faCheckSquare),
+    CLOSED: makeDefinition("attended", "bg-mb-purple-100", faStar),
+  },
+  nonRegistered: {
+    OPEN: makeDefinition("live - join now!", "bg-red-500", faDotCircle),
+    WAITING: makeDefinition("registration open!", "bg-mb-blue-200", faStar),
+    CLOSED: makeDefinition("event ended", "bg-gray-600", faCheckSquare),
+  },
+};
+
+export const MeetStatus: FC<Props> = ({ meet, user }) => {
+  const isUserRegistered = user && meet && meet.registrants && meetReg.isRegistered(meet.registrants, user);
+  const registeredKey = isUserRegistered ? "registered" : "nonRegistered";
+
+  if (!meet) {
+    // no meet, don't render anything
+    return null;
+  }
+
+  let definition;
+  definition = definitions[registeredKey] || definitions.nonRegistered;
+  definition = definition[meet.registerLinkStatus] || definition.WAITING;
 
   return (
-    <span className={`${common} ${data[status].classes}`}>
-      <FontAwesomeIcon icon={data[status].icon} className="mr-1 my-auto" />
-      {data[status].spanText}
+    <span className={definition.classes}>
+      <FontAwesomeIcon icon={definition.icons} className="mr-1 my-auto" />
+      {definition.spanText}
     </span>
   );
 };

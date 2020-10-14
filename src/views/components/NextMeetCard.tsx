@@ -1,23 +1,21 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import { DateUtility } from "../../utils/DateUtility";
 import { MeetStatus } from "./MeetStatus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-
-const d = new DateUtility();
+import { wcToClientStr, isCurrent } from "../../utils/DateUtility";
 
 type MeetProps = {
   meet: Meet;
   user?: User;
 };
 
-const NextMeetCard: FC<MeetProps> = ({ meet }) => {
+const NextMeetCard: FC<MeetProps> = ({ meet, user }) => {
   const { id, title, description, startTime, endTime, coverImageUrl, region } = meet;
 
-  const startTimeStr = d.wcToClientStr(startTime, region);
+  const startTimeStr = wcToClientStr(startTime, region);
 
-  const isCurrent = d.isCurrent(startTime, endTime);
+  const meetIsCurrent = isCurrent(startTime, endTime);
   let descriptionStr = description.slice(0, 161);
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
 
@@ -32,12 +30,12 @@ const NextMeetCard: FC<MeetProps> = ({ meet }) => {
               alt={`${title} event banner`}
             ></img>
             <span className="absolute right-mb-1 top-mb-1">
-              <MeetStatus status={isCurrent ? "inProgress" : "comingSoon"} isContrast />
+              <MeetStatus user={user} meet={meet} />
             </span>
           </div>
           <div
             className={`flex justify-between items-center w-full py-1 px-2  ${
-              isCurrent ? "bg-mb-green-200" : "bg-mb-green-100"
+              meetIsCurrent ? "bg-mb-green-200" : "bg-mb-green-100"
             }`}
           >
             <h2 className="text-xl font-medium text-center w-full">{title}</h2>
