@@ -61,7 +61,6 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       setLoading(true);
       const fetchedMeet = await context.meetService.fetchMeet(id);
       if (fetchedMeet) {
-        console.log(fetchedMeet);
         setMeet(fetchedMeet);
       }
       setLoading(false);
