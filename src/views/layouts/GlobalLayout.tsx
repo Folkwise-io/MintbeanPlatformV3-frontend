@@ -5,12 +5,10 @@ import { useIntercom } from "react-use-intercom";
 
 import { Context } from "../../context/contextBuilder";
 import Navbar from "../components/Navbar";
-import { removeToast } from "../../views/state/actions/toastActions";
 
 import { Footer } from "./Footer";
 import { me } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
-import ToastsContainer from "./ToastsContainer";
 
 type StateMapping = {
   toasts: ToastState;
@@ -87,10 +85,7 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ user, me, children }
     <div>
       <div className="min-h-screen max-w-screen overflow-x-hidden">
         <Navbar />
-        <div>
-          <ToastsContainer stickyOffset={70} />
-          {children}
-        </div>
+        <div>{children}</div>
         <div className="h-96 md:h-72 lg:h-56"></div>
       </div>
       <Footer footer={footerArgs} />

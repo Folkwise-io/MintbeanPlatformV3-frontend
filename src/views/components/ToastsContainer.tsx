@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { Context } from "../../context/contextBuilder";
-import { Toast } from "../components/Toast";
+import { Toast } from "./Toast";
 import { MbAction } from "../state/actions/MbAction";
 import { removeToast } from "../state/actions/toastActions";
 

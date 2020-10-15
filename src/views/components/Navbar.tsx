@@ -9,6 +9,7 @@ import RegisterModal from "./wrappers/Modal/walas/RegisterModal";
 import LoginModal from "./wrappers/Modal/walas/LoginModal";
 import logo from "../../assets/images/logos/logo-black.svg";
 import { Button } from "./Button";
+import ToastsContainer from "./ToastsContainer";
 
 type StateMapping = {
   user: UserState;
@@ -41,52 +42,55 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
   };
 
   return (
-    <nav className="py-2 px-12 bg-white" style={{ minHeight: "80px", zIndex: 99 }}>
-      <div className="flex flex-col md:flex-row md:items-center justify-between md:py-2">
-        <section className="h-full sm:w-56 mx-auto md:mx-0">
-          <Link
-            to="/"
-            className="transition duration-500 ease-in-out text-black hover:text-mb-blue-100 focus:text-mb-blue-100 grid place-items-center md:place-items-start"
-          >
-            <img src={logo} alt="Mintbean logo" className="" style={{ maxHeight: "50px" }} />
-          </Link>
-        </section>
-        <section>
-          <div className="flex flex-col md:flex-row items-center">
-            <div>
-              <Link
-                to="/community"
-                className="transition duration-500 ease-in-out mx-2 text-black hover:text-mb-blue-100 focus:text-mb-blue-100"
-              >
-                Community
-              </Link>
-              <Link
-                to="/meets"
-                className="transition duration-500 ease-in-out mx-2 text-black hover:text-mb-blue-100 focus:text-mb-blue-100"
-              >
-                Meets
-              </Link>
+    <>
+      <nav className="py-2 px-12 bg-white" style={{ minHeight: "80px", zIndex: 99 }}>
+        <div className="flex flex-col md:flex-row md:items-center justify-between md:py-2">
+          <section className="h-full sm:w-56 mx-auto md:mx-0">
+            <Link
+              to="/"
+              className="transition duration-500 ease-in-out text-black hover:text-mb-blue-100 focus:text-mb-blue-100 grid place-items-center md:place-items-start"
+            >
+              <img src={logo} alt="Mintbean logo" className="" style={{ maxHeight: "50px" }} />
+            </Link>
+          </section>
+          <section>
+            <div className="flex flex-col md:flex-row items-center">
+              <div>
+                <Link
+                  to="/community"
+                  className="transition duration-500 ease-in-out mx-2 text-black hover:text-mb-blue-100 focus:text-mb-blue-100"
+                >
+                  Community
+                </Link>
+                <Link
+                  to="/meets"
+                  className="transition duration-500 ease-in-out mx-2 text-black hover:text-mb-blue-100 focus:text-mb-blue-100"
+                >
+                  Meets
+                </Link>
+              </div>
+              {user.loadStatus !== "LOADING" &&
+                (isLoggedIn ? (
+                  <Button type="secondary" onClick={() => logoutAndRedirect()}>
+                    Logout
+                  </Button>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-center">
+                      <LoginModal buttonText="Login" className="m-2 md:my-0 whitespace-no-wrap" />
+                      <RegisterModal
+                        buttonText="Sign up"
+                        className="shadow-md py-2 px-6 rounded-lg border-2 border-solid font-semibold transition duration-500 ease-in-out text-black bg-mb-green-100 border-mb-green-200 hover:shadow-sm hover:opacity-75 hover:text-mb-purple-100 focus:shadow-sm focus:opacity-75 whitespace-no-wrap"
+                      />
+                    </div>
+                  </>
+                ))}
             </div>
-            {user.loadStatus !== "LOADING" &&
-              (isLoggedIn ? (
-                <Button type="secondary" onClick={() => logoutAndRedirect()}>
-                  Logout
-                </Button>
-              ) : (
-                <>
-                  <div className="flex items-center justify-center">
-                    <LoginModal buttonText="Login" className="m-2 md:my-0 whitespace-no-wrap" />
-                    <RegisterModal
-                      buttonText="Sign up"
-                      className="shadow-md py-2 px-6 rounded-lg border-2 border-solid font-semibold transition duration-500 ease-in-out text-black bg-mb-green-100 border-mb-green-200 hover:shadow-sm hover:opacity-75 hover:text-mb-purple-100 focus:shadow-sm focus:opacity-75 whitespace-no-wrap"
-                    />
-                  </div>
-                </>
-              ))}
-          </div>
-        </section>
-      </div>
-    </nav>
+          </section>
+        </div>
+      </nav>
+      <ToastsContainer stickyOffset={80} />
+    </>
   );
 };
 
