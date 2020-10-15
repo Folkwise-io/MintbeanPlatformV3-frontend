@@ -43,7 +43,7 @@ const makeDefinition = (
 const DEFINITIONS = {
   REGISTERED: {
     OPEN: makeDefinition("live - join now!", "bg-red-500", "border-red-200", faDotCircle),
-    WAITING: makeDefinition("registered", "bg-mb-green-300", "border-mb-green-100", faCheckSquare),
+    WAITING: makeDefinition("registered", "bg-mb-green-300", "border-green-100", faCheckSquare),
     CLOSED: makeDefinition("attended", "bg-mb-purple-100", "border-white", faStar),
     ATTENDING: makeDefinition("registered", "bg-white text-mb-green-300", "border-mb-green-300", faCheckSquare),
   },
