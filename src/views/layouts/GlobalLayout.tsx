@@ -87,7 +87,7 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
 
   return (
     <div>
-      <div className="min-h-screen w-screen overflow-hidden">
+      <div className="min-h-screen max-w-screen overflow-hidden">
         <Navbar />
         {children}
         <div>

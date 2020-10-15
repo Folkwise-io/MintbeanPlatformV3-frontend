@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
 import { ConnectContextProps, connectContext } from "../../../context/connectContext";
-import { DateUtility } from "../../../utils/DateUtility";
+import { isPast, wcToClientStr, getDurationInHours, getDurationStringFromHours } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button } from "../../components/Button";
@@ -16,8 +16,10 @@ import KanbanViewUser from "../../components/Kanban/KanbanViewUser";
 import LoginModal from "../../components/wrappers/Modal/walas/LoginModal";
 import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
 import { MeetStatus } from "../../components/MeetStatus";
+import { MeetRegistration } from "../../../utils/MeetRegistration";
+import { ExternalLink } from "../../components/ExternalLink";
 
-const d = new DateUtility();
+const meetReg = new MeetRegistration();
 
 interface StateMapping {
   user: UserState;
@@ -31,7 +33,11 @@ interface MatchParams {
   id: string;
 }
 
-const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({ context, user, match }) => {
+const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({
+  context,
+  user: userState,
+  match,
+}) => {
   const {
     params: { id },
   } = match;
@@ -40,8 +46,9 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const [kanban, setKanban] = useState<Kanban | null>(null);
 
   const [loading, setLoading] = useState<boolean>(false);
-  const isAdmin = user.data?.isAdmin;
-  const isLoggedIn = user.data;
+  const user = userState.data;
+  const isLoggedIn = !!user;
+  const isAdmin = user?.isAdmin;
   const history = useHistory();
 
   useEffect(() => {
@@ -61,12 +68,20 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     fetchMeetData();
   }, [context, id]);
 
+  const canRegister = meet?.registerLinkStatus !== "CLOSED";
+
   const updateRegistrantData = async () => {
     if (!context) {
       console.error(new Error("No context passed to component, but was expected"));
       alert("Blame the devs! Something terrible happened.");
       return;
     }
+
+    if (!canRegister) {
+      alert("This meet is closed for registrations.");
+      return;
+    }
+
     if (meet) {
       setLoading(true);
       await context.meetService
@@ -81,12 +96,12 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     history.push("/meets");
   };
 
-  const meetHasStarted = d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
-  const meetHasEnded = d.isPast(meet?.endTime || "", meet?.region || "America/Toronto");
+  const meetHasStarted = isPast(meet?.startTime || "", meet?.region || "America/Toronto");
+  const meetHasEnded = isPast(meet?.endTime || "", meet?.region || "America/Toronto");
 
   const dateInfo = meet
-    ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDurationStringFromHours(
-        d.getDurationInHours(meet.startTime, meet.endTime),
+    ? `${wcToClientStr(meet.startTime, meet.region)} (${getDurationStringFromHours(
+        getDurationInHours(meet.startTime, meet.endTime),
       )})`
     : "Loading..";
 
@@ -104,25 +119,10 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     </>
   );
 
-  const getRegistrantIds = () => {
-    if (meet) {
-      const registrantIds: string[] = meet.registrants.map((registrant) => registrant.id);
-      return registrantIds;
-    } else {
-      return null;
-    }
-  };
-
-  const isRegistered = () => {
-    if (meet && user.data) {
-      return getRegistrantIds()?.includes(user.data.id) ? true : false;
-    }
-  };
-
   // Experimental features vvvvvvvvvvvvvvvvvvvvvvvvvvvv
   // Add feature flag FF_KANBAN=true to your local .env to view.
 
-  const FF_KANBAN = user?.data?.isAdmin && (
+  const FF_KANBAN = isAdmin && (
     <>
       {kanban ? (
         <div className="mt-6">
@@ -175,18 +175,13 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                 <p className="mt-2">{meet?.description}</p>
                 {meet?.registerLink &&
                   !meetHasEnded &&
-                  (isLoggedIn && !isRegistered() ? (
-                    <Button onClick={updateRegistrantData} className="mt-4">
+                  (isLoggedIn && !meetReg.isRegistered(meet.registrants, user) ? (
+                    <Button onClick={updateRegistrantData} className="mt-2">
                       Register
                     </Button>
-                  ) : isLoggedIn && isRegistered() ? (
+                  ) : isLoggedIn && meetReg.isRegistered(meet.registrants, user) ? (
                     <div className="mt-4">
-                      {meetHasStarted && !meetHasEnded && (
-                        <span className="mr-2">
-                          <MeetStatus status="inProgress" />
-                        </span>
-                      )}
-                      <MeetStatus status="registered" />
+                      <MeetStatus user={user} meet={meet} />
                     </div>
                   ) : (
                     <div>
@@ -221,14 +216,23 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                   {meet.registrants.length !== 1 && "s"} registered
                 </p>
               )}
+            </section>
+            <section className="flex flex-col items-center md:col-span-3 md:items-end">
               {/*TODO: Add project submission form*/}
-              {meet && user.data && isRegistered() && meetHasStarted && !meetHasEnded && (
-                <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user.data} />
+              {meet && user && meetReg.isRegistered(meet.registrants, user) && meetHasStarted && !meetHasEnded && (
+                <>
+                  {meet.registerLink && (
+                    <ExternalLink href={meet.registerLink}>
+                      <Button className="mb-2">Meeting link</Button>
+                    </ExternalLink>
+                  )}
+                  <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user} />
+                </>
               )}
             </section>
           </div>
           <section className="shadow-lg bg-white p-12">
-            {user?.data?.isAdmin ? (
+            {isAdmin ? (
               adminInstructionsView
             ) : !meetHasStarted ? (
               <p>Instructions will be released once the meet starts!</p>
