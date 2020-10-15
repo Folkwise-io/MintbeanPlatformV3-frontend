@@ -10,6 +10,7 @@ import LoginModal from "./wrappers/Modal/walas/LoginModal";
 import logo from "../../assets/images/logos/logo-black.svg";
 import { Button } from "./Button";
 import ToastsContainer from "./ToastsContainer";
+import { debounce } from "../../utils/debounce";
 
 type StateMapping = {
   user: UserState;
@@ -29,7 +30,7 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
 
 const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
   const navRef = useRef<HTMLDivElement>(null);
-  const [currentNavHeight, setCurrentNavHeight] = useState<number>(80);
+  const [currentNavHeight, setCurrentNavHeight] = useState<number>(82); // for safety. This will be updated on mount
   const [isLoggedIn, setLoggedIn] = useState(!!user.data);
   const history = useHistory();
 
@@ -43,14 +44,14 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
     history.push("/");
   };
 
-  // set initial nav height ref
+  // artificially dispatch a resize event on mount to set initial nav hieght
   useEffect(() => {
-    if (window && navRef.current) {
-      setCurrentNavHeight(navRef.current.offsetHeight);
+    if (window) {
+      window.dispatchEvent(new Event("resize"));
     }
-  }, [navRef]);
+  });
 
-  // update currentNavHeight if the resize changes the nav height
+  // update currentNavHeight only if window resize changes the nav height
   const handleResize = useCallback((): void => {
     if (window && navRef.current) {
       if (navRef.current.offsetHeight != currentNavHeight) {
@@ -61,7 +62,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
 
   useEffect(() => {
     if (window) {
-      window.addEventListener("resize", handleResize);
+      window.addEventListener("resize", debounce(handleResize));
     }
     return () => window.removeEventListener("resize", handleResize);
   }, [handleResize]);

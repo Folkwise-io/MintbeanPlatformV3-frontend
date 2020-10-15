@@ -5,6 +5,7 @@ import { Context } from "../../context/contextBuilder";
 import { Toast } from "./Toast";
 import { MbAction } from "../state/actions/MbAction";
 import { removeToast } from "../state/actions/toastActions";
+import { debounce } from "../../utils/debounce";
 
 type StateMapping = {
   toasts: ToastState;
@@ -33,14 +34,14 @@ const ToastsContainer: FC<StateMapping & DispatchMapping & Props> = ({ toasts, r
 
   const handleScroll = useCallback((): void => {
     if (window) {
-      setShouldBeOffset(window.scrollY < stickyOffset); // set offset a little on the early side
+      setShouldBeOffset(window.scrollY < stickyOffset);
       prevScrollY.current = window.scrollY;
     }
   }, [stickyOffset]);
 
   useEffect(() => {
     if (window) {
-      window.addEventListener("scroll", handleScroll);
+      window.addEventListener("scroll", debounce(handleScroll));
     }
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
