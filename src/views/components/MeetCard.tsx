@@ -22,7 +22,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
 
   return (
-    <div className="shadow-md bg-white w-11/12 max-w-4xl mx-auto rounded-lg overflow-hidden">
+    <div className="shadow-md bg-white w-11/12 max-w-4xl mx-auto rounded-lg overflow-hidden border-solid border-2 border-white">
       <div
         className={`flex flex-col md:flex-row md:justify-between md:items-center w-full py-2 px-4  ${
           meetIsCurrent ? "bg-mb-green-200" : "bg-mb-green-100"
