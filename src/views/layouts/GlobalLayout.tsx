@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import { useIntercom } from "react-use-intercom";
 
 import { Context } from "../../context/contextBuilder";
-import { Toast } from "../components/Toast";
 import Navbar from "../components/Navbar";
 import { removeToast } from "../../views/state/actions/toastActions";
 
 import { Footer } from "./Footer";
 import { me } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
+import ToastsContainer from "./ToastsContainer";
 
 type StateMapping = {
   toasts: ToastState;
@@ -28,16 +28,14 @@ const stp = (state: StoreState) => ({
 });
 
 type DispatchMapping = {
-  removeToast: (id: string) => void;
   me: () => void;
 };
 
 const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
-  removeToast: (id: string) => dispatch(removeToast(id)),
   me: () => dispatch(me()),
 });
 
-const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast, user, me, children }) => {
+const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ user, me, children }) => {
   const { boot, update, shutdown } = useIntercom();
   const { data: userData } = user;
 
@@ -89,13 +87,9 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ toasts, removeToast,
     <div>
       <div className="min-h-screen max-w-screen overflow-x-hidden">
         <Navbar />
-        {children}
         <div>
-          <div className="fixed top-0 block" style={{ marginTop: "80px", zIndex: 999 }}>
-            {toasts.map((toast: Toast, index: number) => (
-              <Toast key={index} toast={toast} removeToast={(id: string) => removeToast(id)} />
-            ))}
-          </div>
+          <ToastsContainer stickyOffset={70} />
+          {children}
         </div>
         <div className="h-96 md:h-72 lg:h-56"></div>
       </div>
