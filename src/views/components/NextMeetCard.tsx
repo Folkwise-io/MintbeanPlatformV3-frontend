@@ -20,7 +20,7 @@ const NextMeetCard: FC<MeetProps> = ({ meet, user }) => {
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
 
   return (
-    <div className="shadow-md bg-white mx-6 max-w-3xl md:mx-auto max-w-screen-md rounded-lg overflow-hidden group">
+    <div className="shadow-md bg-white mx-6 md:mx-auto max-w-screen-md rounded-lg overflow-hidden group border-solid border-2 border-white bg-clip-padding">
       <Link to={`/meets/${id}`}>
         <div className="flex flex-col text-black">
           <div className="overflow-hidden inline-flex max-h-72 relative">

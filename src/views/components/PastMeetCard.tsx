@@ -21,11 +21,11 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
 
   return (
-    <div className="shadow-md bg-white overflow-hidden rounded-mb-sm flex flex-col">
+    <div className="shadow-md bg-white overflow-hidden rounded-mb-sm flex flex-col border-solid border-white border-2">
       <Link to={`/meets/${id}`} className="grid grid-rows-2 lg:grid-rows-3 text-black flex-grow">
         <div className="h-full max-h-72 overflow-hidden inline-grid place-items-center lg:row-span-2">
           <img
-            className="object-cover bg-black w-auto min-h-full transition duration-500 ease-in-out transform scale-125 hover:scale-150"
+            className="object-contain bg-black w-auto min-h-full transition duration-500 ease-in-out transform scale-100 hover:scale-125"
             src={coverImageUrl}
             alt={`${title} event banner`}
           ></img>
