@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
@@ -28,6 +28,8 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
 });
 
 const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
+  const navRef = useRef<HTMLDivElement>(null);
+  const [currentNavHeight, setCurrentNavHeight] = useState<number>(80);
   const [isLoggedIn, setLoggedIn] = useState(!!user.data);
   const history = useHistory();
 
@@ -41,9 +43,32 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
     history.push("/");
   };
 
+  // set initial nav height ref
+  useEffect(() => {
+    if (window && navRef.current) {
+      setCurrentNavHeight(navRef.current.offsetHeight);
+    }
+  }, [navRef]);
+
+  // update currentNavHeight if the resize changes the nav height
+  const handleResize = useCallback((): void => {
+    if (window && navRef.current) {
+      if (navRef.current.offsetHeight != currentNavHeight) {
+        setCurrentNavHeight(navRef.current.offsetHeight);
+      }
+    }
+  }, [currentNavHeight]);
+
+  useEffect(() => {
+    if (window) {
+      window.addEventListener("resize", handleResize);
+    }
+    return () => window.removeEventListener("resize", handleResize);
+  }, [handleResize]);
+
   return (
     <>
-      <nav className="py-2 px-12 bg-white" style={{ minHeight: "80px", zIndex: 99 }}>
+      <nav ref={navRef} className="py-2 px-12 bg-white" style={{ minHeight: "80px", zIndex: 99 }}>
         <div className="flex flex-col md:flex-row md:items-center justify-between md:py-2">
           <section className="h-full sm:w-56 mx-auto md:mx-0">
             <Link
@@ -89,7 +114,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
           </section>
         </div>
       </nav>
-      <ToastsContainer stickyOffset={80} />
+      <ToastsContainer stickyOffset={currentNavHeight} />
     </>
   );
 };

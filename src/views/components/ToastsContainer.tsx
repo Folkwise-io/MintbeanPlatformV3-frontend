@@ -33,7 +33,7 @@ const ToastsContainer: FC<StateMapping & DispatchMapping & Props> = ({ toasts, r
 
   const handleScroll = useCallback((): void => {
     if (window) {
-      setShouldBeOffset(window.scrollY < stickyOffset);
+      setShouldBeOffset(window.scrollY < stickyOffset); // set offset a little on the early side
       prevScrollY.current = window.scrollY;
     }
   }, [stickyOffset]);
