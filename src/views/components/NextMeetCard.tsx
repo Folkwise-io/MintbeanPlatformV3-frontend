@@ -25,7 +25,7 @@ const NextMeetCard: FC<MeetProps> = ({ meet, user }) => {
         <div className="flex flex-col text-black">
           <div className="overflow-hidden inline-flex max-h-72 relative">
             <img
-              className="object-cover h-full xs:h-auto transition duration-500 ease-in-out transform scale-100 hover:scale-125"
+              className="object-contain bg-black xs:h-auto transition duration-500 ease-in-out transform scale-100 hover:scale-125"
               src={coverImageUrl}
               alt={`${title} event banner`}
             ></img>

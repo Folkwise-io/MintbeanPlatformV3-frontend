@@ -25,7 +25,7 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
       <Link to={`/meets/${id}`} className="grid grid-rows-2 lg:grid-rows-3 text-black flex-grow">
         <div className="h-full max-h-72 overflow-hidden inline-grid place-items-center lg:row-span-2">
           <img
-            className="object-cover w-auto min-h-full transition duration-500 ease-in-out transform scale-125 hover:scale-150"
+            className="object-contain bg-black w-auto min-h-full transition duration-500 ease-in-out transform scale-125 hover:scale-150"
             src={coverImageUrl}
             alt={`${title} event banner`}
           ></img>
