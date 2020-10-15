@@ -30,7 +30,7 @@ const NextMeetCard: FC<MeetProps> = ({ meet, user }) => {
               alt={`${title} event banner`}
             ></img>
             <span className="absolute right-mb-1 top-mb-1">
-              <MeetStatus user={user} meet={meet} />
+              <MeetStatus user={user} meet={meet} isBordered />
             </span>
           </div>
           <div
