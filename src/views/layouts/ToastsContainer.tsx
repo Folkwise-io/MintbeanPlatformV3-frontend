@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { Context } from "../../context/contextBuilder";
@@ -31,20 +31,19 @@ const ToastsContainer: FC<StateMapping & DispatchMapping & Props> = ({ toasts, r
   const [shouldBeOffset, setShouldBeOffset] = useState<boolean>(initialScrollPos < stickyOffset);
   const prevScrollY = useRef(initialScrollPos);
 
+  const handleScroll = useCallback((): void => {
+    if (window) {
+      setShouldBeOffset(window.scrollY < stickyOffset);
+      prevScrollY.current = window.scrollY;
+    }
+  }, [stickyOffset]);
+
   useEffect(() => {
     if (window) {
       window.addEventListener("scroll", handleScroll);
     }
     return () => window.removeEventListener("scroll", handleScroll);
-  });
-
-  const handleScroll = (): void => {
-    if (window) {
-      const oughtToBeOffset = window.scrollY < stickyOffset;
-      setShouldBeOffset(oughtToBeOffset);
-      prevScrollY.current = window.scrollY;
-    }
-  };
+  }, [handleScroll]);
 
   const top = shouldBeOffset ? stickyOffset : 0;
 
