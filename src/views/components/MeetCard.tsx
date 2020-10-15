@@ -30,7 +30,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
       >
         <h2 className="text-2xl font-medium">{title}</h2>
         <div className="self-end md:self-auto flex">
-          <MeetStatus user={user} meet={meet} />
+          <MeetStatus user={user} meet={meet} isBordered={!meetIsCurrent} />
         </div>
       </div>
       <div className="flex-col md:flex md:flex-row">
