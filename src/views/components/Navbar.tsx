@@ -64,7 +64,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
     if (window) {
       window.addEventListener("resize", debounce(handleResize));
     }
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", debounce(handleResize));
   }, [handleResize]);
 
   return (

@@ -43,7 +43,7 @@ const ToastsContainer: FC<StateMapping & DispatchMapping & Props> = ({ toasts, r
     if (window) {
       window.addEventListener("scroll", debounce(handleScroll));
     }
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", debounce(handleScroll));
   }, [handleScroll]);
 
   const top = shouldBeOffset ? stickyOffset : 0;
