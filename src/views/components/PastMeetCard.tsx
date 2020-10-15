@@ -30,15 +30,15 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
             alt={`${title} event banner`}
           ></img>
         </div>
-        <section className="flex flex-col items-center h-full py-2 px-4 w-full">
-          <div className="flex flex-wrap justify-between w-full items-center mb-4">
+        <section className="flex flex-col items-center h-full py-2 px-4 lg:px-6 w-full">
+          <div className="flex flex-col xs:flex-row xs:justify-between w-full items-center xs:mb-4">
             <p className="text-xs truncate text-center">{pastEndTimeStr}</p>
             <div className="flex">
               <MeetStatus user={user} meet={meet} />
             </div>
           </div>
           <h2 className="text-lg text-center font-medium md:break-all lg:break-normal">{title}</h2>
-          <p className="text-sm justify-self-end my-auto text-justify">{descriptionStr}</p>
+          <p className="text-sm justify-self-end my-auto text-center">{descriptionStr}</p>
         </section>
       </Link>
       <div className="flex justify-center my-2">
