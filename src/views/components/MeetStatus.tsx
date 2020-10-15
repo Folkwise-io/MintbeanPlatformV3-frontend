@@ -45,6 +45,7 @@ const DEFINITIONS = {
     OPEN: makeDefinition("live - join now!", "bg-red-500", "border-red-200", faDotCircle),
     WAITING: makeDefinition("registered", "bg-mb-green-300", "border-mb-green-100", faCheckSquare),
     CLOSED: makeDefinition("attended", "bg-mb-purple-100", "border-white", faStar),
+    ATTENDING: makeDefinition("registered", "bg-white text-mb-green-300", "", faCheckSquare),
   },
   NON_REGISTERED: {
     OPEN: makeDefinition("live - join now!", "bg-red-500", "border-red-200", faDotCircle),
@@ -68,13 +69,25 @@ export const MeetStatus: FC<Props> = ({ meet, user, isBordered = false }) => {
   // Are we OPEN, WAITING or CLOSED?
   const definitionBuilder = defStep1[meet.registerLinkStatus] || defStep1.WAITING;
 
+  const registeredBuilder = DEFINITIONS.REGISTERED.ATTENDING;
+
   // Are we bordered?
   const definition = definitionBuilder(isBordered);
 
+  const registeredDefinition = registeredBuilder(isBordered);
+
   return (
-    <span className={definition.classes}>
-      <FontAwesomeIcon icon={definition.icons} className="mr-1 my-auto" />
-      {definition.spanText}
-    </span>
+    <>
+      {definitionType === "REGISTERED" && definitionBuilder === defStep1.OPEN && (
+        <span className={`${registeredDefinition.classes} mr-2`}>
+          <FontAwesomeIcon icon={registeredDefinition.icons} className="mr-1 my-auto" />
+          {registeredDefinition.spanText}
+        </span>
+      )}{" "}
+      <span className={definition.classes}>
+        <FontAwesomeIcon icon={definition.icons} className="mr-1 my-auto" />
+        {definition.spanText}
+      </span>
+    </>
   );
 };
