@@ -26,7 +26,7 @@ const makeDefinition = (
   borderClass: string,
   icons: IconDefinition,
 ): ButtonDefinitionBuilder => (isBordered: boolean) => {
-  let classes = "text-xs uppercase px-2 py-1 rounded-lg inline-flex text-white whitespace-no-wrap " + _classes;
+  let classes = "text-xs uppercase px-2 py-1 rounded-lg inline-flex text-white whitespace-no-wrap my-1 " + _classes;
 
   if (isBordered) {
     classes = classes + " border-2 border-solid";
