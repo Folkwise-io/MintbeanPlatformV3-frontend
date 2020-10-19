@@ -18,7 +18,7 @@ export const BgBlock: FC<Props> = ({ children, type = "gradStripe" }) => {
   };
   const innerClasses = {
     gradStripe:
-      "bg-gradient-to-b from-mb-blue-100 to-mb-green-200 flex flex-col justify-center md:items-center md:flex-row px-10 md:px-12 lg:px-24 gap-16 top-mb-1n relative",
+      "bg-gradient-to-b from-mb-blue-100 to-mb-green-200 flex flex-col justify-center md:items-center md:flex-row px-auto xs:px-6 md:px-12 lg:px-24 gap-16 top-mb-1n relative",
     grad: "bg-gradient-to-b from-mb-blue-100 to-mb-green-200",
     blackStripe: "bg-black top-mb-1n relative",
     gradStripeEvents:
