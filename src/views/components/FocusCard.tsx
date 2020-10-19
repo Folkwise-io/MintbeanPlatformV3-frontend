@@ -26,7 +26,7 @@ export const FocusCard: FC<Props> = ({ type = "homeCard", card }) => {
   };
   return (
     <section
-      className={`my-10 pt-6 pb-8 text-center font-body leading-loose px-8 md:px-12 max-w-7xl ${sectionClasses[type]}`}
+      className={`md:my-8 pt-6 pb-8 text-center font-body leading-loose px-8 md:px-12 max-w-7xl ${sectionClasses[type]}`}
     >
       {type == "eventsTitle" ? (
         <h1 className={`mx-auto font-semibold text-white ${titleClasses[type]}`}>{title}</h1>
