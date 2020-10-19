@@ -81,7 +81,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
     <div className="mb-8">
       <BgBlock type="gradStripeEvents">
         <BgBlock type="blackStripeEvents">
-          <header className="pt-8 pb-6 flex flex-col items-center">
+          <header className="md:pt-8 md:pb-6 flex flex-col items-center">
             <FocusCard
               type="eventsTitle"
               card={{
