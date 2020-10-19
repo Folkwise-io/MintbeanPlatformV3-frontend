@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDotCircle, faStar, faCheckSquare, IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import { MeetRegistration } from "../../utils/MeetRegistration";
+import { MeetRegistration } from "../../../utils/MeetRegistration";
 
 const meetReg = new MeetRegistration();
 

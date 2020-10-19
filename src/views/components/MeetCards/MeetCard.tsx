@@ -1,9 +1,9 @@
 import React, { FC } from "react";
-import { Button } from "./Button";
+import { Button } from "../Button";
 import { Link } from "react-router-dom";
-import AdminMeetDeleteModal from "./wrappers/Modal/walas/AdminMeetDeleteModal";
+import AdminMeetDeleteModal from "../wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
-import { wcToClientStr, isCurrent } from "../../utils/DateUtility";
+import { wcToClientStr, isCurrent } from "../../../utils/DateUtility";
 
 type MeetProps = {
   meet: Meet;
@@ -40,13 +40,17 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
 
         <div className="pb-8 px-4 sm:px-12 md:px-4 md:pb-4 md:w-2/3">
           <section className="flex h-full flex-col md:my-1 w-full justify-end items-center text-center">
-            <div className="max-w-full h-full flex flex-col justify-between">
+            <div className="w-full h-full flex flex-col mb-2">
               <div className="h-full flex items-center">
                 <p className="mb-2">{descriptionStr}</p>
               </div>
-              <div>
-                <p className="text-sm">Starts {startTimeStr}</p>
-                <p className="mb-2 text-sm">Submissions close {endTimeStr}</p>
+              <div className="text-sm bg-black text-white inline-flex flex-col min-w-full rounded-mb-xs py-1 px-2">
+                <p>
+                  Starts <span className="font-semibold">{startTimeStr}</span>
+                </p>
+                <p>
+                  Submissions close <span className="font-semibold">{endTimeStr}</span>
+                </p>
               </div>
             </div>
             <div className="flex">

@@ -15,7 +15,7 @@ import AdminKanbanCreateModal from "../../components/wrappers/Modal/walas/AdminK
 import KanbanViewUser from "../../components/Kanban/KanbanViewUser";
 import LoginModal from "../../components/wrappers/Modal/walas/LoginModal";
 import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
-import { MeetStatus } from "../../components/MeetStatus";
+import { MeetStatus } from "../../components/MeetCards/MeetStatus";
 import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { ExternalLink } from "../../components/ExternalLink";
 

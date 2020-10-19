@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import { SocialLinks } from "../components/SocialLinks";
-import { DiscordButton } from "../components/Footer/DiscordButton";
+import { SocialLinks } from "../SocialLinks";
+import { DiscordButton } from "./DiscordButton";
 
 type Footer = {
   footerNav: string[];

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { MeetStatus } from "./MeetStatus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { wcToClientStr, isCurrent } from "../../utils/DateUtility";
+import { wcToClientStr, isCurrent } from "../../../utils/DateUtility";
 
 type MeetProps = {
   meet: Meet;
