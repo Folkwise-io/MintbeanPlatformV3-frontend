@@ -121,6 +121,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                       project={project}
                       onDelete={redirectToMeetOrMeets}
                       isAdmin={isAdmin}
+                      className="m-2"
                     />
                   )}
                 </section>
