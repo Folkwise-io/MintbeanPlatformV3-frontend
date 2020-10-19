@@ -26,7 +26,7 @@ const makeDefinition = (
   borderClass: string,
   icons: IconDefinition,
 ): ButtonDefinitionBuilder => (isBordered: boolean) => {
-  let classes = "text-xs uppercase px-2 py-1 rounded-lg inline-flex text-white whitespace-no-wrap " + _classes;
+  let classes = "text-xs uppercase px-2 py-1 rounded-lg inline-flex text-white whitespace-no-wrap my-1 " + _classes;
 
   if (isBordered) {
     classes = classes + " border-2 border-solid";
@@ -77,7 +77,7 @@ export const MeetStatus: FC<Props> = ({ meet, user, isBordered = false }) => {
   const registeredDefinition = registeredBuilder(isBordered);
 
   return (
-    <>
+    <span className="flex flex-wrap justify-center md:flex-no-wrap">
       {definitionType === "REGISTERED" && definitionBuilder === defStep1.OPEN && (
         <span className={`${registeredDefinition.classes + " " + registeredDefinition.borderClass} mr-2`}>
           <FontAwesomeIcon icon={registeredDefinition.icons} className="mr-1 my-auto" />
@@ -88,6 +88,6 @@ export const MeetStatus: FC<Props> = ({ meet, user, isBordered = false }) => {
         <FontAwesomeIcon icon={definition.icons} className="mr-1 my-auto" />
         {definition.spanText}
       </span>
-    </>
+    </span>
   );
 };
