@@ -20,12 +20,12 @@ const NextMeetCard: FC<MeetProps> = ({ meet, user }) => {
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
 
   return (
-    <div className="shadow-md bg-white mx-6 max-w-3xl md:mx-auto xl:max-w-5xl rounded-lg overflow-hidden group">
+    <div className="shadow-md bg-white mx-6 md:mx-auto max-w-screen-md rounded-lg overflow-hidden group border-solid border-2 border-white bg-clip-padding">
       <Link to={`/meets/${id}`}>
         <div className="flex flex-col text-black">
           <div className="overflow-hidden inline-flex max-h-72 relative">
             <img
-              className="object-cover h-full xs:h-auto transition duration-500 ease-in-out transform scale-100 hover:scale-125"
+              className="object-contain bg-black xs:h-auto transition duration-500 ease-in-out transform scale-100 hover:scale-125"
               src={coverImageUrl}
               alt={`${title} event banner`}
             ></img>
