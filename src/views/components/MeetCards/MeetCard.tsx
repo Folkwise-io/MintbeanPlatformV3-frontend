@@ -12,7 +12,7 @@ type MeetProps = {
 };
 
 export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
-  const { id, title, description, startTime, endTime, coverImageUrl, region, registrants } = meet;
+  const { id, title, description, startTime, endTime, coverImageUrl, region } = meet;
 
   const startTimeStr = wcToClientStr(startTime, region);
   const endTimeStr = wcToClientStr(endTime, region);
