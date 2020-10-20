@@ -18,6 +18,8 @@ import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
 import { MeetStatus } from "../../components/MeetCards/MeetStatus";
 import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { ExternalLink } from "../../components/ExternalLink";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
 const meetReg = new MeetRegistration();
 
@@ -100,7 +102,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const meetHasEnded = isPast(meet?.endTime || "", meet?.region || "America/Toronto");
 
   const dateInfo = meet
-    ? `${wcToClientStr(meet.startTime, meet.region)} (${getDurationStringFromHours(
+    ? `${wcToClientStr(meet.startTime, meet.region)} (Duration: ${getDurationStringFromHours(
         getDurationInHours(meet.startTime, meet.endTime),
       )})`
     : "Loading..";
@@ -171,7 +173,11 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
             <section className="text-white row-span-9 md:row-span-1 md:col-span-2 md:place-self-start">
               <div className="block">
                 <h1 className="font-semibold">{meet?.title}</h1>
-                <p>{dateInfo}</p>
+                <p className="text-mb-gray-100 text-sm flex flex-wrap items-center">
+                  Starts
+                  <FontAwesomeIcon icon={faCalendarAlt} className="mx-2 text-xs" />
+                  {dateInfo}
+                </p>
                 <p className="mt-2">{meet?.description}</p>
                 {meet?.registerLink &&
                   !meetHasEnded &&
