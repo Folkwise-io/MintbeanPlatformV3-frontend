@@ -38,7 +38,7 @@ const Home: FC<StateMapping> = ({ user }) => {
           >
             {" "}
             <p className="text-3xl text-white break-words">For all upcoming meets</p>
-            <div className="text-semibold transition duration-500 ease-in-out text-4xl hover:text-mb-orange-100 focus:text-mb-orange-100">
+            <div className="text-semibold mb-transition text-4xl hover:text-mb-orange-100 focus:text-mb-orange-100">
               Click here.
             </div>
           </Link>

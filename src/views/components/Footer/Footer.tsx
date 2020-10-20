@@ -33,7 +33,7 @@ export const Footer: FC<Props> = ({ footer }) => {
           {footerNav.map((item, index) => (
             <li key={index}>
               <Link
-                className="transition duration-500 ease-in-out whitespace-no-wrap flex justify-center text-black hover:text-mb-green-200 focus:text-mb-green-200"
+                className="mb-transition whitespace-no-wrap flex justify-center text-black hover:text-mb-green-200 focus:text-mb-green-200"
                 to={links[index]}
               >
                 {item}

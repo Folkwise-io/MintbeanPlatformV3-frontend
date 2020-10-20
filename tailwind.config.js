@@ -1,4 +1,5 @@
 const { screens } = require("tailwindcss/defaultTheme");
+const plugin = require("tailwindcss/plugin");
 
 module.exports = {
   future: {
@@ -111,5 +112,19 @@ module.exports = {
     backgroundColor: ({ after }) => after(["active"]),
     textColor: ({ after }) => after(["group-hover"]),
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addComponents }) {
+      const transition = {
+        ".mb-transition": {
+          transitionDuration: "500ms",
+          transitionProperty: "all",
+          transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+        },
+      };
+      // const links = {
+      //   'standard'
+      // }
+      addComponents(transition);
+    }),
+  ],
 };
