@@ -10970,6 +10970,11 @@ react-textarea-autosize@^8.1.1:
     use-composed-ref "^1.0.0"
     use-latest "^1.0.0"
 
+react-tiny-fab@true4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-tiny-fab/-/react-tiny-fab-4.0.1.tgz#d538354cd600bedcb3107000fb87bd97a49c9ded"
+  integrity sha512-Cp25pYwwfWA9T4l96PkhJhUiswaupKfpGdjAYQA3+sthhy8dJPeRF9Uo7dNwELi9qUrqH+wf83XHhs5NoaRnDA==
+
 react-use-intercom@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-use-intercom/-/react-use-intercom-1.1.0.tgz#b375b5ea96008e29382b01f1a900169e4a8e6f30"
