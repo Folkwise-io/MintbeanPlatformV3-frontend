@@ -18,7 +18,7 @@ export const SocialLinks: FC<Props> = ({ social }) => {
 
   return (
     <ul className="flex justify-center md:justify-start items-end pt-8 md:pt-0 md:pl-8">
-      <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-100 rounded-full shadow-mb-drop-center-sm">
+      <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-300 rounded-full shadow-mb-drop-center-sm">
         <ExternalLink
           href="https://www.linkedin.com/company/mintbean/"
           className="transition duration-500 ease-in-out bg-black h-10 w-10 rounded-full flex justify-center items-center text-white hover:text-mb-green-200 focus:text-mb-green-200"
@@ -27,7 +27,7 @@ export const SocialLinks: FC<Props> = ({ social }) => {
           <FontAwesomeIcon className="text-2xl" icon={faLinkedinIn} />
         </ExternalLink>
       </li>
-      <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-100 rounded-full mx-4 shadow-mb-drop-center-sm">
+      <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-300 rounded-full mx-4 shadow-mb-drop-center-sm">
         <ExternalLink
           className="transition duration-500 ease-in-out bg-black h-10 w-10 rounded-full flex justify-center items-center text-white hover:text-mb-green-200 focus:text-mb-green-200"
           href="https://twitter.com/Mintbeanio"
@@ -36,7 +36,7 @@ export const SocialLinks: FC<Props> = ({ social }) => {
           <FontAwesomeIcon className="text-2xl" icon={faTwitter} />
         </ExternalLink>
       </li>
-      <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-100 rounded-full shadow-mb-drop-center-sm">
+      <li className="h-12 w-12 flex justify-center items-center bg-gradient-to-b from-mb-green-200 to-mb-blue-300 rounded-full shadow-mb-drop-center-sm">
         <ExternalLink
           className="transition duration-500 ease-in-out bg-black h-10 w-10 rounded-full flex justify-center items-center text-white hover:text-mb-green-200 focus:text-mb-green-200"
           href="https://www.facebook.com/Mintbean-104353817855570"

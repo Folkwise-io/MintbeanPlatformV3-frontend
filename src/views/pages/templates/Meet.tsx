@@ -167,7 +167,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
           {"< "} Back to all meets
         </Link>
         <div className="overflow-hidden rounded-mb-md">
-          <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-gray-800 px-6 md:px-12 py-8">
+          <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-mb-gray-300 px-6 md:px-12 py-8">
             <section className="text-white row-span-9 md:row-span-1 md:col-span-2 md:place-self-start">
               <div className="block">
                 <h1 className="font-semibold">{meet?.title}</h1>

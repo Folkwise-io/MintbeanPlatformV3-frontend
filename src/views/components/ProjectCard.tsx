@@ -15,7 +15,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
   // using first image as default for now
   const coverImageCloudinaryPublicId = mediaAssets[0]?.cloudinaryPublicId;
   return (
-    <div className="border-mb-green-200 border-2 bg-black text-white rounded-mb-md overflow-hidden m-4 shadow-mb-drop-center-sm grid grid-rows-5 col-auto row-auto max-h-120">
+    <div className="border-mb-green-200 border-2 bg-mb-gray-400 text-white rounded-mb-md overflow-hidden m-4 shadow-mb-drop-center-sm grid grid-rows-5 col-auto row-auto max-h-120">
       <Link
         className="row-span-3 rounded-b-mb-md min-w-full overflow-hidden inline-grid place-items-center"
         to={`/projects/${id}`}
@@ -27,7 +27,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
       </Link>
 
       <section className="row-span-3 text-center p-2 pb-4 sm:pb-12 w-full place-self-end">
-        <h3 className="text-xl text-mb-blue-100 font-medium">{title}</h3>
+        <h3 className="text-xl text-mb-blue-300 font-medium">{title}</h3>
         <p>
           by <span>{creatorName}</span>
         </p>

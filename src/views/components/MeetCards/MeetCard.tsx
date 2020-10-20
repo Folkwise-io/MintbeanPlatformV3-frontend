@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import AdminMeetDeleteModal from "../wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
 import { wcToClientStr, isCurrent } from "../../../utils/DateUtility";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock as faFasClock } from "@fortawesome/free-solid-svg-icons";
+import { faClock as faFarClock } from "@fortawesome/free-regular-svg-icons";
 
 type MeetProps = {
   meet: Meet;
@@ -44,12 +47,16 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
               <div className="h-full flex items-center">
                 <p className="mb-2">{descriptionStr}</p>
               </div>
-              <div className="text-sm bg-black text-white inline-flex flex-col min-w-full rounded-mb-xs py-1 px-2">
+              <div className="text-sm text-mb-gray-200 inline-flex flex-col min-w-full rounded-mb-xs py-1 px-2 md:text-right">
                 <p>
-                  Starts <span className="font-semibold">{startTimeStr}</span>
+                  Starts
+                  <FontAwesomeIcon icon={faFarClock} className="mx-1" />
+                  <span className="font-semibold">{startTimeStr}</span>
                 </p>
                 <p>
-                  Submissions close <span className="font-semibold">{endTimeStr}</span>
+                  Submissions close
+                  <FontAwesomeIcon icon={faFasClock} className="mx-1" />
+                  <span className="font-semibold">{endTimeStr}</span>
                 </p>
               </div>
             </div>

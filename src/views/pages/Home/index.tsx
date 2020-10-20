@@ -29,7 +29,7 @@ const Home: FC<StateMapping> = ({ user }) => {
   };
   return (
     <Fragment>
-      <div className="bg-mb-blue-100 pt-2 pb-8 rounded-mb-md border-t-8 border-b-8 border-mb-green-200">
+      <div className="bg-mb-blue-300 pt-2 pb-8 rounded-mb-md border-t-8 border-b-8 border-mb-green-200">
         <div className="bg-black w-full pt-12 pb-24 px-2 rounded-mb-md grid place-content-center">
           <NextMeetSection />
           <Link

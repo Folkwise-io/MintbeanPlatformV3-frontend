@@ -42,15 +42,15 @@ const makeDefinition = (
 
 const DEFINITIONS = {
   REGISTERED: {
-    OPEN: makeDefinition("live - join now!", "bg-red-500", "border-red-200", faDotCircle),
-    WAITING: makeDefinition("registered", "bg-mb-green-300", "border-green-100", faCheckSquare),
+    OPEN: makeDefinition("live - join now!", "bg-mb-red-200", "border-mb-red-100", faDotCircle),
+    WAITING: makeDefinition("registered", "bg-mb-green-300", "border-mb-green-000", faCheckSquare),
     CLOSED: makeDefinition("attended", "bg-mb-purple-100", "border-white", faStar),
     ATTENDING: makeDefinition("registered", "bg-white text-mb-green-300", "border-mb-green-300", faCheckSquare),
   },
   NON_REGISTERED: {
-    OPEN: makeDefinition("live - join now!", "bg-red-500", "border-red-200", faDotCircle),
-    WAITING: makeDefinition("registration open!", "bg-mb-blue-200", "border-blue-100", faStar),
-    CLOSED: makeDefinition("event ended", "bg-gray-600", "border-gray-200", faCheckSquare),
+    OPEN: makeDefinition("live - join now!", "bg-mb-red-200", "border-mb-red-100", faDotCircle),
+    WAITING: makeDefinition("registration open!", "bg-mb-blue-200", "border-mb-blue-100", faStar),
+    CLOSED: makeDefinition("event ended", "bg-mb-gray-200", "border-mb-gray-100", faCheckSquare),
   },
 };
 

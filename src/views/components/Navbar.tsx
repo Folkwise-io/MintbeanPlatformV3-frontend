@@ -46,7 +46,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
         <section className="h-full sm:w-56 mx-auto md:mx-0">
           <Link
             to="/"
-            className="transition duration-500 ease-in-out text-black hover:text-mb-blue-100 focus:text-mb-blue-100 grid place-items-center md:place-items-start"
+            className="transition duration-500 ease-in-out text-black hover:text-mb-blue-300 focus:text-mb-blue-300 grid place-items-center md:place-items-start"
           >
             <img src={logo} alt="Mintbean logo" className="" style={{ maxHeight: "50px" }} />
           </Link>
@@ -56,13 +56,13 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
             <div>
               <Link
                 to="/community"
-                className="transition duration-500 ease-in-out mx-2 text-black hover:text-mb-blue-100 focus:text-mb-blue-100"
+                className="transition duration-500 ease-in-out mx-2 text-black hover:text-mb-blue-300 focus:text-mb-blue-300"
               >
                 Community
               </Link>
               <Link
                 to="/meets"
-                className="transition duration-500 ease-in-out mx-2 text-black hover:text-mb-blue-100 focus:text-mb-blue-100"
+                className="transition duration-500 ease-in-out mx-2 text-black hover:text-mb-blue-300 focus:text-mb-blue-300"
               >
                 Meets
               </Link>
