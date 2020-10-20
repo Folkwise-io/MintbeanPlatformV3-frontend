@@ -47,7 +47,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
               <div className="h-full flex items-center">
                 <p className="mb-2">{descriptionStr}</p>
               </div>
-              <div className="text-sm text-mb-gray-200 inline-flex flex-col min-w-full rounded-mb-xs py-1 px-2 md:text-right">
+              <div className="text-sm text-mb-gray-200 inline-flex flex-col min-w-full rounded-mb-xs py-1 px-2">
                 <p>
                   Starts
                   <FontAwesomeIcon icon={faFarClock} className="mx-1" />
