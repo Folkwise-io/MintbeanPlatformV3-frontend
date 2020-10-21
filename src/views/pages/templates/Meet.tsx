@@ -156,7 +156,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
         <header className="flex flex-col items-center">
           <div className="flex w-screen min-h-84 max-h-60vh bg-gray-800">
             {loading ? (
-              <div className="text-white h-screen-lg p-24 w-full flex justify-center items-center">Loading...</div>
+              <div className="text-white h-screen-lg p-24 w-full mb-flex-centered">Loading...</div>
             ) : (
               <img className="object-contain bg-black w-full" src={meet?.coverImageUrl} alt={meet?.title} />
             )}

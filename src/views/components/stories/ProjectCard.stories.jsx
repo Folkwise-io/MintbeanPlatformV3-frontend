@@ -21,7 +21,7 @@ const Template = (args) => {
   console.log(project);
   return (
     <Router>
-      <div className="w-full flex justify-center items-center">
+      <div className="w-full mb-flex-centered">
         <ProjectCard project={project} />
       </div>
     </Router>

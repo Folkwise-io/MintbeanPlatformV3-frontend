@@ -46,7 +46,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
         <section className="h-full sm:w-56 mx-auto md:mx-0">
           <Link
             to="/"
-            className="mb-transition text-black hover:text-mb-blue-300 focus:text-mb-blue-300 grid place-items-center md:place-items-start"
+            className="mb-transition text-black hover:text-mb-blue-300 focus:text-mb-blue-300 mb-grid-centered md:place-items-start"
           >
             <img src={logo} alt="Mintbean logo" className="" style={{ maxHeight: "50px" }} />
           </Link>
@@ -71,7 +71,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
                 </Button>
               ) : (
                 <>
-                  <div className="flex items-center justify-center">
+                  <div className="mb-flex-centered">
                     <LoginModal buttonText="Login" className="m-2 md:my-0 whitespace-no-wrap" />
                     <RegisterModal
                       buttonText="Sign up"

@@ -9,7 +9,7 @@ interface StateMapping {
   user: UserState;
 }
 
-const Home: FC<StateMapping> = ({ user }) => {
+const Home: FC<StateMapping> = () => {
   const headerArgs = { title: "Calling all web developers!" };
   const cardArgs = {
     title: "Build cool projects and elevate your skills.",

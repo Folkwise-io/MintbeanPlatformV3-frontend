@@ -17,9 +17,9 @@ export const Button: FC<Props> = (props) => {
       "mb-transition text-black bg-mb-green-100 border-mb-green-200 hover:shadow-sm hover:opacity-75 hover:text-mb-purple-100 focus:shadow-sm focus:opacity-75",
     primaryAdmin: "text-white bg-yellow-500 border-yellow-500",
     secondary:
-      "mb-transition ease-in-out text-gray-700 bg-white border-mb-green-200 hover:shadow-sm hover:opacity-75 focus:shadow-sm focus:opacity-75",
+      "mb-transition text-gray-700 bg-white border-mb-green-200 hover:shadow-sm hover:opacity-75 focus:shadow-sm focus:opacity-75",
     danger:
-      "mb-transition ease-in-out text-white bg-red-500 border-red-500 hover:shadow-sm hover:opacity-75 focus:shadow-sm focus:opacity-75",
+      "mb-transition text-white bg-red-500 border-red-500 hover:shadow-sm hover:opacity-75 focus:shadow-sm focus:opacity-75",
     disabled: "text-white bg-gray-500 border-gray-700 cursor-not-allowed",
   };
   /* important: button must be type="button" or it auto-submits parent forms */

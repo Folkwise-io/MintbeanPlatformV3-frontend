@@ -50,7 +50,7 @@ const AdminKanbanCardCreateModal: FC<ConnectContextProps & Props> = ({ kanbanId,
           <button
             onClick={toggleModal}
             ref={(el) => setRef(el)}
-            className="rounded-full text-white bg-mb-green-200 border-mb-green-200 border-solid border-2 h-12 w-12 flex justify-center items-center shadow-lg"
+            className="rounded-full text-white bg-mb-green-200 border-mb-green-200 border-solid border-2 h-12 w-12 mb-flex-centered shadow-lg"
           >
             <>
               <span className="sr-only">Add kanban card</span>

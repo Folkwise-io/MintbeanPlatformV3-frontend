@@ -114,17 +114,35 @@ module.exports = {
   },
   plugins: [
     plugin(function ({ addComponents }) {
-      const transition = {
+      const components = {
         ".mb-transition": {
           transitionDuration: "500ms",
           transitionProperty: "all",
           transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
         },
+        ".mb-white-link": {
+          color: "#fff",
+          "&:hover": {
+            color: "#02E0A8",
+          },
+          "&:focus": {
+            color: "#02E0A8",
+          },
+        },
+        ".mb-flex-centered": {
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        },
+        ".mb-grid-centered": {
+          display: "grid",
+          placeItems: "center center",
+        },
       };
       // const links = {
       //   'standard'
       // }
-      addComponents(transition);
+      addComponents(components, ["responsive", "hover"]);
     }),
   ],
 };

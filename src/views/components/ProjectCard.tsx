@@ -22,7 +22,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
       >
         <ImageDisplay
           cloudinaryPublicId={coverImageCloudinaryPublicId}
-          className="flex justify-center items-center transition duration-500 ease-in-out transform scale-125 hover:scale-150"
+          className="mb-flex-centered mb-transition transform scale-125 hover:scale-150"
         />
       </Link>
 
