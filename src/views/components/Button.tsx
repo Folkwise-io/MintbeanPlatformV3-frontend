@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
 type Props = {
-  type?: "primary" | "primaryAdmin" | "secondary" | "danger" | "disabled";
+  type?: "primary" | "primaryAdmin" | "secondary" | "danger" | "disabled" | "invisible";
   buttonType?: "button" | "submit" | "reset";
   onClick?: (event: React.SyntheticEvent) => void;
   className?: string;
@@ -21,6 +21,7 @@ export const Button: FC<Props> = (props) => {
     danger:
       "transition duration-500 ease-in-out text-white bg-red-500 border-red-500 hover:shadow-sm hover:opacity-75 focus:shadow-sm focus:opacity-75",
     disabled: "text-white bg-gray-500 border-gray-700 cursor-not-allowed",
+    invisible: "transition duration-500 ease-in-out  text-white hover:text-mb-green-200 focus:text-mb-green-200",
   };
   /* important: button must be type="button" or it auto-submits parent forms */
   return (
@@ -28,7 +29,9 @@ export const Button: FC<Props> = (props) => {
       disabled={disabled}
       {...rest}
       ref={forwardRef || null}
-      className={`${common} ${disabled ? classes.disabled : classes[type]} ${className ? className : ""}`}
+      className={`${type !== "invisible" ? common : ""} ${disabled ? classes.disabled : classes[type]} ${
+        className ? className : ""
+      }`}
       type={buttonType}
     >
       {children}

@@ -13,7 +13,9 @@ interface ModalProps {
   title?: string;
   closeFromParent?: number;
   isDetached?: boolean;
+  detachedStyles?: React.CSSProperties;
 }
+const stylesWhenDetached = { left: "50%", top: "50%", transform: "translate(-50%, -50%)" };
 
 export const Modal: FC<ModalProps> = ({
   triggerBuilder,
@@ -23,6 +25,7 @@ export const Modal: FC<ModalProps> = ({
   closeFromParent,
   placement = "bottom",
   isDetached = false,
+  detachedStyles = stylesWhenDetached,
 }): ReactElement => {
   const isUnmounted = useRef<boolean>(false);
   const [triggerRef, setTriggerRef] = useState<HTMLElement | null>(null);
@@ -76,7 +79,6 @@ export const Modal: FC<ModalProps> = ({
     : [];
 
   // style for centering modal in middle of screen if isDetached prop = true
-  const detachedStyles = { left: "50%", top: "50%", transform: "translate(-50%, -50%)" };
   return (
     <>
       <div>
@@ -94,7 +96,7 @@ export const Modal: FC<ModalProps> = ({
             style={isDetached ? detachedStyles : { ...styles.popper, zIndex: 89 }}
             {...attributes.popper}
             data-popper-placement="right"
-            className={`bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-xs text-black ${
+            className={`bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 xs:max-w-screen-xs text-black ${
               isDetached ? "fixed" : ""
             }`}
           >

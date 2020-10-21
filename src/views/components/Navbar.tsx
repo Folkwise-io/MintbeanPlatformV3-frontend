@@ -9,7 +9,7 @@ import RegisterModal from "./wrappers/Modal/walas/RegisterModal";
 import LoginModal from "./wrappers/Modal/walas/LoginModal";
 import logo from "../../assets/images/logos/logo-black.svg";
 import { Button } from "./Button";
-import { TinyFabNav } from "./TinyFabNav";
+import TinyFabNav from "./TinyFabNav";
 
 type StateMapping = {
   user: UserState;
@@ -55,9 +55,9 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
             <img src={logo} alt="Mintbean logo" className="" style={{ maxHeight: "50px" }} />
           </Link>
         </section>
-        <section>
+        <section className="hidden md:block">
           <div className="flex flex-col md:flex-row items-center">
-            <div className="hidden md:block">
+            <div>
               <Link
                 to="/community"
                 className="transition duration-500 ease-in-out mx-2 text-black hover:text-mb-blue-100 focus:text-mb-blue-100"

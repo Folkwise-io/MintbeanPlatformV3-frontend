@@ -8,10 +8,13 @@ import { Context } from "../../../../../context/contextBuilder";
 import { MbAction } from "../../../../state/actions/MbAction";
 import { connect } from "react-redux";
 import { Button } from "../../../Button";
+import { Placement } from "@popperjs/core";
 
 interface Props {
   className?: string;
-  buttonText: string;
+  buttonText: string | JSX.Element;
+  type?: "secondary" | "invisible";
+  placement?: Placement;
 }
 
 type DispatchMapping = {
@@ -22,7 +25,13 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
   login: (values: LoginParams) => dispatch(login(values)),
 });
 
-const LoginModal: FC<Props & DispatchMapping> = ({ login, className, buttonText }) => {
+const LoginModal: FC<Props & DispatchMapping> = ({
+  login,
+  className,
+  buttonText,
+  type = "secondary",
+  placement = "bottom",
+}) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const actions: ModalActionDeclaration[] = [
@@ -44,10 +53,11 @@ const LoginModal: FC<Props & DispatchMapping> = ({ login, className, buttonText 
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <Button onClick={toggleModal} forwardRef={(el) => setRef(el)} className={` ${className}`} type="secondary">
+          <Button onClick={toggleModal} forwardRef={(el) => setRef(el)} className={` ${className}`} type={type}>
             {buttonText}
           </Button>
         )}
+        placement={placement}
       >
         <LoginForm formRef={formRef} login={(values: LoginParams) => login(values)} />
       </Modal>

@@ -101,7 +101,7 @@ module.exports = {
   },
   variants: {
     backgroundColor: ({ after }) => after(["active"]),
-    textColor: ({ after }) => after(["group-hover"]),
+    textColor: ({ after }) => after(["group-hover", "focus-within"]),
   },
   plugins: [],
 };
