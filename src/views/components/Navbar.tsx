@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/images/logos/logo-black.svg";
 import TinyFabNav from "./TinyFabNav";
 
-const Navbar: FC<JSX.Element> = () => {
+const Navbar: FC = () => {
   return (
     <nav className="py-2 px-12 my-4 md:my-0 bg-white sticky top-0" style={{ minHeight: "80px", zIndex: 99 }}>
       <TinyFabNav />
