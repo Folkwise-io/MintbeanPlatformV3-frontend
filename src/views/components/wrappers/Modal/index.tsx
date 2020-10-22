@@ -89,35 +89,38 @@ export const Modal: FC<ModalProps> = ({
       {
         // This is the modal itself. It only shows if the trigger was clicked.
         show && (
-          <div
-            ref={(el) => setPopperElement(el)}
-            style={isDetached ? detachedStyles : { ...styles.popper, zIndex: 89 }}
-            {...attributes.popper}
-            data-popper-placement="right"
-            className={`bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-xs text-black ${
-              isDetached ? "fixed" : ""
-            }`}
-          >
-            {/* modal header with the "X" button for closing the modal */}
-            <section className="py-1 px-2 flex justify-end text-gray-600">
-              <button className="active:bg-mb-green-200 px-2 rounded-full" onClick={closeModal}>
-                Close
-              </button>
-            </section>
-            {/* modal body that displays the children */}
-            <section className="flex p-4 justify-center items-center flex-col">
-              {title && <div className="font-semibold text-lg text-gray-700 mb-2">{title}</div>}
-              <div className="my-2 max-w-full">
-                {
-                  // Render the children, i.e. the body of the modal
-                  children
-                }
-              </div>
-            </section>
-            {/* modal actions */}
-            <section className="flex py-1 px-2 justify-center">{actionButtons}</section>
-            <div ref={(el) => setArrowElement(el)} style={styles.arrow} />
-          </div>
+          <>
+            <div className="h-screen w-screen absolute inset-0 z-0" onClick={closeModal}></div>
+            <div
+              ref={(el) => setPopperElement(el)}
+              style={isDetached ? detachedStyles : { ...styles.popper, zIndex: 89 }}
+              {...attributes.popper}
+              data-popper-placement="right"
+              className={` bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-xs text-black ${
+                isDetached ? "fixed" : ""
+              }`}
+            >
+              {/* modal header with the "X" button for closing the modal */}
+              <section className="py-1 px-2 flex justify-end text-gray-600">
+                <button className="active:bg-mb-green-200 px-2 rounded-full" onClick={closeModal}>
+                  Close
+                </button>
+              </section>
+              {/* modal body that displays the children */}
+              <section className="flex p-4 justify-center items-center flex-col">
+                {title && <div className="font-semibold text-lg text-gray-700 mb-2">{title}</div>}
+                <div className="my-2 max-w-full">
+                  {
+                    // Render the children, i.e. the body of the modal
+                    children
+                  }
+                </div>
+              </section>
+              {/* modal actions */}
+              <section className="flex py-1 px-2 justify-center">{actionButtons}</section>
+              <div ref={(el) => setArrowElement(el)} style={styles.arrow} />
+            </div>
+          </>
         )
       }
     </>
