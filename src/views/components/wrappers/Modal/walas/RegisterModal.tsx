@@ -8,7 +8,7 @@ import { Context } from "../../../../../context/contextBuilder";
 import { MbAction } from "../../../../state/actions/MbAction";
 import { connect } from "react-redux";
 import { Button } from "../../../Button";
-import { Placement, placements } from "@popperjs/core";
+import { Placement } from "@popperjs/core";
 
 interface Props {
   className?: string;

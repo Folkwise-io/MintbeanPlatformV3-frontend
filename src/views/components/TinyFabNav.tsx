@@ -1,6 +1,13 @@
-import React, { FC, Fragment, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Fab, Action } from "react-tiny-fab";
+import { Context } from "../../context/contextBuilder";
+import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { logout } from "../state/actions/authActions";
+import { MbAction } from "../state/actions/MbAction";
+import LoginModal from "./wrappers/Modal/walas/LoginModal";
+import RegisterModal from "./wrappers/Modal/walas/RegisterModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
@@ -10,13 +17,6 @@ import {
   faSignInAlt,
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import { Context } from "../../context/contextBuilder";
-import { connect } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
-import { logout } from "../state/actions/authActions";
-import { MbAction } from "../state/actions/MbAction";
-import LoginModal from "./wrappers/Modal/walas/LoginModal";
-import RegisterModal from "./wrappers/Modal/walas/RegisterModal";
 
 interface FabProps {
   event?: "hover" | "click";
@@ -59,13 +59,15 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
     history.push("/");
   };
   const buttonStyles = { backgroundColor: "#0C0A0B", border: "2px solid #B2FFE4" };
-
+  const modalClasses = "h-full w-full flex justify-center items-center rtf--ab";
+  const modalButtonClasses =
+    "transition duration-500 ease-in-out text-mb-green-200 hover:text-mb-orange-100 focus:text-mb-orange-100 focus-within:text-mb-orange-100";
   const linkTextStyles =
     "transition duration-500 ease-in-out h-full w-full flex justify-center items-center hover:text-mb-orange-100 focus:text-mb-orange-100";
   return (
     <Fab
       mainButtonStyles={buttonStyles}
-      style={{ top: 0, right: 0 }}
+      alwaysShowTitle
       icon={
         <div className="transition duration-500 ease-in-out text-white hover:text-mb-green-200 focus:text-mb-green-200 h-full w-full flex items-center justify-center">
           <FontAwesomeIcon icon={faBars} />
@@ -89,34 +91,30 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
         </Action>
       )}
       {user.loadStatus !== "LOADING" && !isLoggedIn && (
-        <Action text="Log in" tabIndex={-1} style={buttonStyles}>
+        <>
           <LoginModal
             type="invisible"
-            buttonText={
-              <FontAwesomeIcon
-                icon={faSignInAlt}
-                className="absolute transition duration-500 ease-in-out text-mb-green-200 hover:text-mb-orange-100 focus:text-mb-orange-100 focus-within:text-mb-orange-100"
-              />
-            }
-            className="h-full w-full flex justify-center items-center"
+            buttonText={<FontAwesomeIcon icon={faSignInAlt} className={modalButtonClasses} />}
+            className={`${modalClasses} ${modalButtonClasses}`}
             placement="auto"
           />
-        </Action>
+          <span className="right always-show" aria-hidden="true">
+            Log in
+          </span>
+        </>
       )}
       {user.loadStatus !== "LOADING" && !isLoggedIn && (
-        <Action text="Sign up" tabIndex={-1} style={buttonStyles}>
+        <>
           <RegisterModal
-            buttonText={
-              <FontAwesomeIcon
-                icon={faUserPlus}
-                className="absolute transition duration-500 ease-in-out text-mb-green-200 hover:text-mb-orange-100 focus:text-mb-orange-100 focus-within:text-mb-orange-100"
-              />
-            }
-            className="h-full w-full flex justify-center items-center"
+            buttonText={<FontAwesomeIcon icon={faUserPlus} className={modalButtonClasses} />}
+            className={modalClasses}
             type="invisible"
             placement="auto"
           />
-        </Action>
+          <span className="right always-show" aria-hidden="true">
+            Sign up
+          </span>
+        </>
       )}
     </Fab>
   );

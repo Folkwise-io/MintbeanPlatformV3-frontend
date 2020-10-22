@@ -53,7 +53,7 @@ const LoginModal: FC<Props & DispatchMapping> = ({
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <Button onClick={toggleModal} forwardRef={(el) => setRef(el)} className={` ${className}`} type={type}>
+          <Button onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className} type={type}>
             {buttonText}
           </Button>
         )}
