@@ -22,7 +22,20 @@ export const Button: FC<Props> = (props) => {
       "mb-transition text-white bg-red-500 border-red-500 hover:shadow-sm hover:opacity-75 focus:shadow-sm focus:opacity-75",
   };
   const disabledStyles = "text-white bg-gray-500 border-gray-700 cursor-not-allowed";
-  const computedStyles = `${common} ${disabled ? disabledStyles : classes[type]} ${className && className}`;
+  // const computedStyles = `${common} ${disabled ? disabledStyles : classes[type]} ${className && className}`;
+
+  let computedStyles = common;
+
+  if (disabled) {
+    computedStyles += ` ${disabledStyles}`;
+  } else {
+    computedStyles += ` ${classes[type]}`;
+  }
+
+  if (className) {
+    computedStyles += ` ${className}`;
+  }
+
   /* important: button must be type="button" or it auto-submits parent forms */
   return (
     <button disabled={disabled} {...rest} ref={forwardRef || null} className={computedStyles} type={buttonType}>

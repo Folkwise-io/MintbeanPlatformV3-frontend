@@ -48,7 +48,7 @@ export const HomeHeaderList: FC<Props> = ({ list }) => {
         ),
       )}
 
-      <div className="bg-callToAction bg-black bg-contain h-72 max-h-40vh mb-grid-centered mx-4 md:w-11/12 rounded-mb-md md:mx-auto mb-4 md:py-auto px-8 md:px-12">
+      <div className="bg-callToAction bg-black bg-contain h-72 max-h-40vh grid place-items-center mx-4 md:w-11/12 rounded-mb-md md:mx-auto mb-4 md:py-auto px-8 md:px-12">
         <Link to="/meets" className="md:py-6 md:py-auto sm:px-8 md:px-12 bg-contain max-h-40vh grid place-items-end">
           <div className="bg-mb-purple-100 text-center sm:px-8 md:px-8 py-4 rounded-mb-sm border-mb-green-100 border-solid border-8">
             <div className="text-semibold mb-transition text-lg md:text-2xl hover:text-mb-orange-100 focus:text-mb-orange-100">
