@@ -1,12 +1,12 @@
 import React, { FC, useState, useEffect, useCallback } from "react";
-import { MeetCard } from "../components/MeetCard";
+import { MeetCard } from "../components/MeetCards/MeetCard";
 import { ConnectContextProps, connectContext } from "../../context/connectContext";
 import AdminMeetCreateModal from "../components/wrappers/Modal/walas/AdminMeetCreateModal";
 import { connect } from "react-redux";
 import { BgBlock } from "../components/BgBlock";
 import { FocusCard } from "../components/FocusCard";
-import { PastMeetCard } from "../components/PastMeetCard";
 import { isPast } from "../../utils/DateUtility";
+import { PastMeetCard } from "../components/MeetCards/PastMeetCard";
 
 interface StateMapping {
   user: UserState;

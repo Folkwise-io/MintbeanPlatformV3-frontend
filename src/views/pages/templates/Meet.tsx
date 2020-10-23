@@ -15,9 +15,11 @@ import AdminKanbanCreateModal from "../../components/wrappers/Modal/walas/AdminK
 import KanbanViewUser from "../../components/Kanban/KanbanViewUser";
 import LoginModal from "../../components/wrappers/Modal/walas/LoginModal";
 import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
-import { MeetStatus } from "../../components/MeetStatus";
+import { MeetStatus } from "../../components/MeetCards/MeetStatus";
 import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { ExternalLink } from "../../components/ExternalLink";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
 const meetReg = new MeetRegistration();
 
@@ -100,7 +102,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const meetHasEnded = isPast(meet?.endTime || "", meet?.region || "America/Toronto");
 
   const dateInfo = meet
-    ? `${wcToClientStr(meet.startTime, meet.region)} (${getDurationStringFromHours(
+    ? `${wcToClientStr(meet.startTime, meet.region)} (Duration: ${getDurationStringFromHours(
         getDurationInHours(meet.startTime, meet.endTime),
       )})`
     : "Loading..";
@@ -154,7 +156,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
         <header className="flex flex-col items-center">
           <div className="flex w-screen min-h-84 max-h-60vh bg-gray-800">
             {loading ? (
-              <div className="text-white h-screen-lg p-24 w-full flex justify-center items-center">Loading...</div>
+              <div className="text-white h-screen-lg p-24 w-full mb-flex-centered">Loading...</div>
             ) : (
               <img className="object-contain bg-black w-full" src={meet?.coverImageUrl} alt={meet?.title} />
             )}
@@ -167,11 +169,15 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
           {"< "} Back to all meets
         </Link>
         <div className="overflow-hidden rounded-mb-md">
-          <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-gray-800 px-6 md:px-12 py-8">
+          <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-mb-gray-300 px-6 md:px-12 py-8">
             <section className="text-white row-span-9 md:row-span-1 md:col-span-2 md:place-self-start">
               <div className="block">
                 <h1 className="font-semibold">{meet?.title}</h1>
-                <p>{dateInfo}</p>
+                <p className="text-mb-gray-100 text-sm flex flex-wrap items-center">
+                  Starts
+                  <FontAwesomeIcon icon={faCalendarAlt} className="mx-2 text-xs" />
+                  {dateInfo}
+                </p>
                 <p className="mt-2">{meet?.description}</p>
                 {meet?.registerLink &&
                   !meetHasEnded &&

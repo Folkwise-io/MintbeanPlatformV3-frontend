@@ -79,12 +79,12 @@ export const Modal: FC<ModalProps> = ({
   // style for centering modal in middle of screen if isDetached prop = true
   return (
     <>
-      <div>
+      <>
         {
           // render the trigger element so it can be clicked
           triggers
         }
-      </div>
+      </>
 
       {
         // This is the modal itself. It only shows if the trigger was clicked.

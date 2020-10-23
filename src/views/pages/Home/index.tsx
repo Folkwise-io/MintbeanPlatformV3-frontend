@@ -9,7 +9,7 @@ interface StateMapping {
   user: UserState;
 }
 
-const Home: FC<StateMapping> = ({ user }) => {
+const Home: FC<StateMapping> = () => {
   const headerArgs = { title: "Calling all web developers!" };
   const cardArgs = {
     title: "Build cool projects and elevate your skills.",
@@ -29,7 +29,7 @@ const Home: FC<StateMapping> = ({ user }) => {
   };
   return (
     <Fragment>
-      <div className="bg-mb-blue-100 pt-2 pb-8 rounded-mb-md border-t-8 border-b-8 border-mb-green-200">
+      <div className="bg-mb-blue-300 pt-2 pb-8 rounded-mb-md border-t-8 border-b-8 border-mb-green-200">
         <div className="bg-black w-full pt-12 pb-24 px-2 rounded-mb-md grid place-content-center">
           <NextMeetSection />
           <Link
@@ -38,7 +38,7 @@ const Home: FC<StateMapping> = ({ user }) => {
           >
             {" "}
             <p className="text-3xl text-white break-words">For all upcoming meets</p>
-            <div className="text-semibold transition duration-500 ease-in-out text-4xl hover:text-mb-orange-100 focus:text-mb-orange-100">
+            <div className="text-semibold mb-transition text-4xl hover:text-mb-orange-100 focus:text-mb-orange-100">
               Click here.
             </div>
           </Link>

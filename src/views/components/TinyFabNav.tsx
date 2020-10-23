@@ -58,18 +58,19 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
     logout();
     history.push("/");
   };
+
   const buttonStyles = { backgroundColor: "#0C0A0B", border: "2px solid #B2FFE4" };
-  const modalClasses = "h-full w-full flex justify-center items-center rtf--ab";
+  const modalClasses = "flex justify-center items-center rtf--ab-mb";
   const modalButtonClasses =
-    "transition duration-500 ease-in-out text-mb-green-200 hover:text-mb-orange-100 focus:text-mb-orange-100 focus-within:text-mb-orange-100";
+    "mb-transition text-mb-green-200 hover:text-mb-orange-100 focus:text-mb-orange-100 focus-within:text-mb-orange-100";
   const linkTextStyles =
-    "transition duration-500 ease-in-out h-full w-full flex justify-center items-center hover:text-mb-orange-100 focus:text-mb-orange-100";
+    "mb-transition h-full w-full flex justify-center items-center hover:text-mb-orange-100 focus:text-mb-orange-100";
   return (
     <Fab
       mainButtonStyles={buttonStyles}
       alwaysShowTitle
       icon={
-        <div className="transition duration-500 ease-in-out text-white hover:text-mb-green-200 focus:text-mb-green-200 h-full w-full flex items-center justify-center">
+        <div className="mb-transition text-white hover:text-mb-green-200 focus:text-mb-green-200 h-full w-full flex items-center justify-center">
           <FontAwesomeIcon icon={faBars} />
         </div>
       }
@@ -95,7 +96,7 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
           <LoginModal
             type="invisible"
             buttonText={<FontAwesomeIcon icon={faSignInAlt} className={modalButtonClasses} />}
-            className={`${modalClasses} ${modalButtonClasses}`}
+            className={modalClasses}
             placement="auto"
           />
           <span className="right always-show" aria-hidden="true">
