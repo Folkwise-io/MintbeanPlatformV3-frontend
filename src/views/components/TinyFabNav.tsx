@@ -21,7 +21,7 @@ import {
 interface FabProps {
   event?: "hover" | "click";
   style?: React.CSSProperties;
-  alwaysShowTitle?: boolean;
+  alwaysShowTitle?: true;
   icon?: React.ReactNode;
   mainButtonStyles?: React.CSSProperties;
   onClick?: (e: React.FormEvent) => void;

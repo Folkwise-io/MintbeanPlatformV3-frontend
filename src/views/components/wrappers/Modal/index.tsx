@@ -13,9 +13,8 @@ interface ModalProps {
   title?: string;
   closeFromParent?: number;
   isDetached?: boolean;
-  detachedStyles?: React.CSSProperties;
 }
-const stylesWhenDetached = { left: "50%", top: "50%", transform: "translate(-50%, -50%)" };
+const detachedStyles = { left: "50%", top: "50%", transform: "translate(-50%, -50%)" };
 
 export const Modal: FC<ModalProps> = ({
   triggerBuilder,
@@ -25,7 +24,6 @@ export const Modal: FC<ModalProps> = ({
   closeFromParent,
   placement = "bottom",
   isDetached = false,
-  detachedStyles = stylesWhenDetached,
 }): ReactElement => {
   const isUnmounted = useRef<boolean>(false);
   const [triggerRef, setTriggerRef] = useState<HTMLElement | null>(null);
