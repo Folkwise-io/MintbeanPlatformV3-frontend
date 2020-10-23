@@ -90,7 +90,7 @@ export const Modal: FC<ModalProps> = ({
         // This is the modal itself. It only shows if the trigger was clicked.
         show && (
           <>
-            <div className="h-screen w-screen absolute inset-0 z-0" onClick={closeModal}></div>
+            <div className="h-screen w-screen fixed inset-0 z-0" onClick={closeModal}></div>
             <div
               ref={(el) => setPopperElement(el)}
               style={isDetached ? detachedStyles : { ...styles.popper, zIndex: 89 }}
