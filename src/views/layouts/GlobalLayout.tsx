@@ -8,7 +8,7 @@ import { Toast } from "../components/Toast";
 import Navbar from "../components/Navbar";
 import { removeToast } from "../../views/state/actions/toastActions";
 
-import { Footer } from "./Footer";
+import { Footer } from "../components/Footer/Footer";
 import { me } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
 

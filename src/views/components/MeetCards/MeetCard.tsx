@@ -1,9 +1,12 @@
 import React, { FC } from "react";
-import { Button } from "./Button";
+import { Button } from "../Button";
 import { Link } from "react-router-dom";
-import AdminMeetDeleteModal from "./wrappers/Modal/walas/AdminMeetDeleteModal";
+import AdminMeetDeleteModal from "../wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
-import { wcToClientStr, isCurrent } from "../../utils/DateUtility";
+import { wcToClientStr, isCurrent } from "../../../utils/DateUtility";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock as faFasClock } from "@fortawesome/free-solid-svg-icons";
+import { faClock as faFarClock } from "@fortawesome/free-regular-svg-icons";
 
 type MeetProps = {
   meet: Meet;
@@ -12,7 +15,7 @@ type MeetProps = {
 };
 
 export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
-  const { id, title, description, startTime, endTime, coverImageUrl, region, registrants } = meet;
+  const { id, title, description, startTime, endTime, coverImageUrl, region } = meet;
 
   const startTimeStr = wcToClientStr(startTime, region);
   const endTimeStr = wcToClientStr(endTime, region);
@@ -40,13 +43,21 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
 
         <div className="pb-8 px-4 sm:px-12 md:px-4 md:pb-4 md:w-2/3">
           <section className="flex h-full flex-col md:my-1 w-full justify-end items-center text-center">
-            <div className="max-w-full h-full flex flex-col justify-between">
+            <div className="w-full h-full flex flex-col mb-2">
               <div className="h-full flex items-center">
                 <p className="mb-2">{descriptionStr}</p>
               </div>
-              <div>
-                <p className="text-sm">Starts {startTimeStr}</p>
-                <p className="mb-2 text-sm">Submissions close {endTimeStr}</p>
+              <div className="text-sm text-mb-gray-200 inline-flex flex-col min-w-full rounded-mb-xs py-1 px-2">
+                <p>
+                  Starts
+                  <FontAwesomeIcon icon={faFarClock} className="mx-1" />
+                  <span className="font-semibold">{startTimeStr}</span>
+                </p>
+                <p>
+                  Submissions close
+                  <FontAwesomeIcon icon={faFasClock} className="mx-1" />
+                  <span className="font-semibold">{endTimeStr}</span>
+                </p>
               </div>
             </div>
             <div className="flex">
