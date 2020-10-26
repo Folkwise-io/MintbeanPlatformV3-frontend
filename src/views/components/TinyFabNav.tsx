@@ -95,8 +95,8 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
         <>
           <LoginModal
             type="invisible"
-            buttonText={<FontAwesomeIcon icon={faSignInAlt} className={modalButtonClasses} />}
-            className={modalClasses}
+            buttonText={<FontAwesomeIcon icon={faSignInAlt} />}
+            className={modalButtonClasses + modalClasses}
             placement="auto"
           />
           <span className="right always-show" aria-hidden="true">
@@ -107,8 +107,8 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
       {user.loadStatus !== "LOADING" && !isLoggedIn && (
         <>
           <RegisterModal
-            buttonText={<FontAwesomeIcon icon={faUserPlus} className={modalButtonClasses} />}
-            className={modalClasses}
+            buttonText={<FontAwesomeIcon icon={faUserPlus} />}
+            className={modalButtonClasses + modalClasses}
             type="invisible"
             placement="auto"
           />

@@ -57,3 +57,29 @@ img {
   display: block;
   width: 100%;
 }
+
+.rtf--ab-mb {
+  height: 48px;
+  width: 48px;
+  background-color: #0c0a0b;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border: solid 2px #b2ffe4;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  font-weight: 700;
+  color: #02e0a8;
+  margin-right: 4px;
+  font-size: 16px;
+  z-index: 10000;
+}
+.rtf--ab-mb:hover,
+.rtf--ab-mb:focus,
+.rtf--ab-mb:focus-within {
+  color: #f59336;
+}

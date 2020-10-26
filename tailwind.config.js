@@ -129,32 +129,6 @@ module.exports = {
           justifyContent: "center",
           alignItems: "center",
         },
-        ".rtf--ab-mb": {
-          height: "48px",
-          width: "48px",
-          backgroundColor: "#0C0A0B",
-          display: "inline-flex",
-          justifyContent: "center",
-          alignItems: "center",
-          position: "relative",
-          border: "solid 2px #B2FFE4",
-          borderRadius: "50%",
-          boxShadow: "0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28)",
-          cursor: "pointer",
-          outline: "none",
-          padding: "0",
-          fontWeight: 700,
-          color: "#02E0A8",
-          marginRight: "4px",
-          fontSize: "16px",
-          zIndex: 10000,
-          "&:hover": {
-            color: "#F59336",
-          },
-          "&:focus": {
-            color: "#F59336",
-          },
-        },
       };
 
       addComponents(components, ["responsive", "hover"]);
