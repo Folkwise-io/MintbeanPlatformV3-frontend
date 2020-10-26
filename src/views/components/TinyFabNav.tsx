@@ -69,6 +69,7 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
     <Fab
       mainButtonStyles={buttonStyles}
       alwaysShowTitle
+      event="click"
       icon={
         <div className="mb-transition text-white hover:text-mb-green-200 focus:text-mb-green-200 h-full w-full flex items-center justify-center">
           <FontAwesomeIcon icon={faBars} />
