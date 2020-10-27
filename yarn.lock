@@ -2654,11 +2654,7 @@
   dependencies:
     "@types/react" "*"
 
-<<<<<<< HEAD
-"@types/react@*":
-=======
 "@types/react@*", "@types/react@16.9.53":
->>>>>>> 4932f14b2ca6f43a23eb6f285689143b5966ec20
   version "16.9.53"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.53.tgz#40cd4f8b8d6b9528aedd1fff8fcffe7a112a3d23"
   integrity sha512-4nW60Sd4L7+WMXH1D6jCdVftuW7j4Za6zdp6tJ33Rqv0nk1ZAmQKML9ZLD4H0dehA3FZxXR/GM8gXplf82oNGw==
@@ -2666,17 +2662,6 @@
     "@types/prop-types" "*"
     csstype "^3.0.2"
 
-<<<<<<< HEAD
-"@types/react@16.9.49":
-  version "16.9.49"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.49.tgz#09db021cf8089aba0cdb12a49f8021a69cce4872"
-  integrity sha512-DtLFjSj0OYAdVLBbyjhuV9CdGVHCkHn2R+xr3XkBvK2rS1Y1tkc14XSGjYgm5Fjjr90AxH9tiSzc1pCFMGO06g==
-  dependencies:
-    "@types/prop-types" "*"
-    csstype "^3.0.2"
-
-=======
->>>>>>> 4932f14b2ca6f43a23eb6f285689143b5966ec20
 "@types/reactcss@*":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@types/reactcss/-/reactcss-1.2.3.tgz#af28ae11bbb277978b99d04d1eedfd068ca71834"
@@ -11091,9 +11076,9 @@ react-textarea-autosize@^8.1.1:
     use-composed-ref "^1.0.0"
     use-latest "^1.0.0"
 
-"react-tiny-fab@https://github.com/theFl00f/react-tiny-fab#add055e":
+"react-tiny-fab@https://github.com/theFl00f/react-tiny-fab#f59582e":
   version "4.0.1"
-  resolved "https://github.com/theFl00f/react-tiny-fab#add055efa06813e40213c049df1f70bace173079"
+  resolved "https://github.com/theFl00f/react-tiny-fab#f59582e8e86abe453c586c648ffea1d6134d4b48"
 
 react-use-intercom@1.1.0:
   version "1.1.0"
