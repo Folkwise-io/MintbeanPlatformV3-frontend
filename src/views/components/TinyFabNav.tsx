@@ -17,6 +17,7 @@ import {
   faSignInAlt,
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
+import "./TinyFabNav.css";
 
 interface FabProps {
   event?: "hover" | "click";
@@ -69,9 +70,12 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
     <Fab
       mainButtonStyles={buttonStyles}
       alwaysShowTitle
-      event="click"
+      style={{
+        bottom: 0,
+        right: 0,
+      }}
       icon={
-        <div className="mb-transition text-white hover:text-mb-green-200 focus:text-mb-green-200 h-full w-full flex items-center justify-center">
+        <div className="mb-transition h-full w-full flex items-center justify-center">
           <FontAwesomeIcon icon={faBars} />
         </div>
       }
