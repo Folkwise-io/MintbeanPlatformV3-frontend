@@ -50,7 +50,7 @@
     "react-redux": "7.2.1",
     "react-router-dom": "5.2.0",
     "react-tailwindcss": "1.0.0",
-    "react-tiny-fab": "https://github.com/theFl00f/react-tiny-fab#71ec058",
+    "react-tiny-fab": "https://github.com/theFl00f/react-tiny-fab.git",
     "react-use-intercom": "1.1.0",
     "redux": "4.0.5",
     "redux-devtools-extension": "2.13.8",
