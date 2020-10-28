@@ -64,7 +64,7 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
   const modalClasses = "flex justify-center items-center rtf--ab-mb";
   const modalButtonClasses =
     "mb-transition text-mb-green-200 hover:text-mb-orange-100 focus:text-mb-orange-100 focus-within:text-mb-orange-100";
-  const linkTextStyles =
+  const linkTextClasses =
     "mb-transition h-full w-full flex justify-center items-center hover:text-mb-orange-100 focus:text-mb-orange-100";
   return (
     <Fab
@@ -81,18 +81,18 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
       }
     >
       <Action text="Community" tabIndex={-1} style={buttonStyles}>
-        <Link to="/community" className={linkTextStyles}>
+        <Link to="/community" className={linkTextClasses}>
           <FontAwesomeIcon icon={faUsers} />
         </Link>
       </Action>
       <Action text="Meets" tabIndex={-1} style={buttonStyles}>
-        <Link to="/meets" className={linkTextStyles}>
+        <Link to="/meets" className={linkTextClasses}>
           <FontAwesomeIcon icon={faCalendarAlt} />
         </Link>
       </Action>
 
       {user.loadStatus !== "LOADING" && isLoggedIn && (
-        <Action text="Log out" className={linkTextStyles} style={buttonStyles} onClick={() => logoutAndRedirect()}>
+        <Action text="Log out" className={linkTextClasses} style={buttonStyles} onClick={() => logoutAndRedirect()}>
           <FontAwesomeIcon icon={faSignOutAlt} />
         </Action>
       )}

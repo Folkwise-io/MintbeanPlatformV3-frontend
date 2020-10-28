@@ -24,15 +24,6 @@
   color: #f59336;
 }
 
-/* !important is required to override inline styles provided by react-tiny-fab */
-
-@media screen and (min-width: 768px) {
-  .rtf {
-    top: 0 !important;
-    bottom: unset !important;
-  }
-}
-
 .rtf--mb {
   color: white;
 }
