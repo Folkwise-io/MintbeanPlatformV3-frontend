@@ -89,14 +89,15 @@ export const Modal: FC<ModalProps> = ({
       </>
 
       {
-        // This is the modal itself. It only shows if the trigger was clicked.
-
         //transform translate y: 37%
         //transform translate x: 5%
+        // classname of overlay takes hasRelativeParent into account by adjusting transform value to above. the reason this is necessary is because of the transform translates on the Action components, which resets the center for 'fixed', see more here:
+        // https://developer.mozilla.org/en-US/docs/Web/CSS/position
+
+        // This is the modal itself. It only shows if the trigger was clicked.
         show && (
           <>
             <div
-              //classname takes hasRelativeParent into account by adjusting transform value
               className={`h-screen w-screen fixed right-50 bottom-50 z-0 transform ${
                 hasRelativeParent ? "translate-x-5% translate-y-37%" : "translate-x-1/2 translate-y-1/2"
               }`}

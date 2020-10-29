@@ -24,11 +24,29 @@
   color: #f59336;
 }
 
-.rtf--mb {
-  color: white;
+.rtf--ab {
+  border: 2px solid #b2ffe4;
 }
 
-.rtf--mb:focus,
+.rtf--mb {
+  color: white;
+  outline: none;
+  border: 2px solid #b2ffe4;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .rtf--mb:hover {
+  color: #b2ffe4;
+}
+
+.rtf--mb:focus {
   color: #02e0a8;
+}
+
+.rtf--mb:focus {
+  outline: none;
+}
+
+.open .rtf--mb {
+  border-color: #f59336;
 }

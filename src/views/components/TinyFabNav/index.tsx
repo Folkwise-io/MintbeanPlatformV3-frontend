@@ -60,7 +60,7 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
     history.push("/");
   };
 
-  const buttonStyles = { backgroundColor: "#0C0A0B", border: "2px solid #B2FFE4" };
+  const buttonStyles = { backgroundColor: "#0C0A0B" };
   const modalClasses = "flex justify-center items-center rtf--ab-mb";
   const modalButtonClasses =
     "mb-transition text-mb-green-200 hover:text-mb-orange-100 focus:text-mb-orange-100 focus-within:text-mb-orange-100";
