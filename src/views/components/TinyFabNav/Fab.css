@@ -1,3 +1,5 @@
+/* Code heavily borrows from React Tiny Fab : https://github.com/dericgw/react-tiny-fab */
+
 .rtf {
   box-sizing: border-box;
   margin: 25px;
