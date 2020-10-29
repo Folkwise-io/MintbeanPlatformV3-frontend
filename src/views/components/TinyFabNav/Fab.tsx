@@ -57,7 +57,11 @@ const Fab: React.FC<FabProps> = ({
   const close = () => setIsOpen(false);
   const enter = () => event === "hover" && open();
   const leave = () => event === "hover" && !isOpenAndClicked && close();
-  const toggle = (e: React.FormEvent) => {
+  // (e: any) because unable to get correct Typescript event type to allow for .keyCode
+  // eslint-disable-next-line
+  const toggle = (e: any) => {
+    // ignore any keydown 'click' events unless "Enter" or "Space" (keyCodes 13, 32)
+    if (e.keyCode && e.keyCode !== 13 && e.keyCode !== 32) return;
     if (onClick) {
       onClick(e);
     }
@@ -113,16 +117,22 @@ const Fab: React.FC<FabProps> = ({
       {...p}
     >
       <li className="rtf--mb__c">
-        <MB
-          onClick={toggle}
-          style={mainButtonStyles}
-          data-testid="main-button"
-          role="button"
-          aria-label="Floating menu"
-          tabIndex={0}
-        >
-          {icon}
-        </MB>
+        {/* The outer div is for keyboard access to toggle on main button, therefore has the tab index 0.*/}
+        {/* The inner MB is for mouse access to toggle main button. It has tabindex -1 to be skipped by keyboard*/}
+        {/* Focus outline will only appear on keyboard accessed button, not click*/}
+        <div role="button" className="outer" tabIndex={0} onKeyDown={toggle}>
+          <MB
+            onClick={toggle}
+            style={mainButtonStyles}
+            data-testid="main-button"
+            role="button"
+            aria-label="Floating menu"
+            tabIndex={-1}
+          >
+            {icon}
+          </MB>
+        </div>
+
         {text && (
           <span
             className={`${"right" in style ? "right" : ""} ${alwaysShowTitle ? "always-show" : ""}`}
