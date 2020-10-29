@@ -1,13 +1,13 @@
 import React, { FC, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Fab, Action } from "react-tiny-fab";
-import { Context } from "../../context/contextBuilder";
+import { Fab, Action } from "./Fab";
+import { Context } from "../../../context/contextBuilder";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { logout } from "../state/actions/authActions";
-import { MbAction } from "../state/actions/MbAction";
-import LoginModal from "./wrappers/Modal/walas/LoginModal";
-import RegisterModal from "./wrappers/Modal/walas/RegisterModal";
+import { logout } from "../../state/actions/authActions";
+import { MbAction } from "../../state/actions/MbAction";
+import LoginModal from "../wrappers/Modal/walas/LoginModal";
+import RegisterModal from "../wrappers/Modal/walas/RegisterModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
@@ -17,7 +17,7 @@ import {
   faSignInAlt,
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import "./TinyFabNav.css";
+import "./index.css";
 
 interface FabProps {
   event?: "hover" | "click";

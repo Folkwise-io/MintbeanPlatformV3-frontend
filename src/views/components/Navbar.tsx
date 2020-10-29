@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logos/logo-black.svg";
-import TinyFabNav from "./TinyFabNav";
+import TinyFabNav from "./TinyFabNav/index";
 
 const Navbar: FC = () => {
   return (
