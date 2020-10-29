@@ -15,6 +15,7 @@ interface Props {
   buttonText: string | JSX.Element;
   type?: "secondary" | "invisible";
   placement?: Placement;
+  hasRelativeParent?: boolean;
 }
 
 type DispatchMapping = {
@@ -31,6 +32,7 @@ const LoginModal: FC<Props & DispatchMapping> = ({
   buttonText,
   type = "secondary",
   placement = "bottom",
+  hasRelativeParent = false,
 }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -58,6 +60,7 @@ const LoginModal: FC<Props & DispatchMapping> = ({
           </Button>
         )}
         placement={placement}
+        hasRelativeParent={hasRelativeParent}
       >
         <LoginForm formRef={formRef} login={(values: LoginParams) => login(values)} />
       </Modal>

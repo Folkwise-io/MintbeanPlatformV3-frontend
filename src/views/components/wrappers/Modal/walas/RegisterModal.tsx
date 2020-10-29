@@ -15,6 +15,7 @@ interface Props {
   buttonText: string | JSX.Element;
   type?: "primary" | "invisible";
   placement?: Placement;
+  hasRelativeParent?: boolean;
 }
 
 type DispatchMapping = {
@@ -31,6 +32,7 @@ const RegisterModal: FC<Props & DispatchMapping> = ({
   buttonText,
   type = "primary",
   placement = "bottom",
+  hasRelativeParent = false,
 }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -57,6 +59,7 @@ const RegisterModal: FC<Props & DispatchMapping> = ({
           </Button>
         )}
         placement={placement}
+        hasRelativeParent={hasRelativeParent}
       >
         <RegisterForm formRef={formRef} registerUser={(values: RegisterParams) => register(values)} />
       </Modal>

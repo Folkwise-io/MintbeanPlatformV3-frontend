@@ -74,6 +74,7 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
         bottom: 0,
         right: 0,
       }}
+      event="click"
       icon={
         <div className="mb-transition h-full w-full flex items-center justify-center">
           <FontAwesomeIcon icon={faBars} />
@@ -103,6 +104,7 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
             buttonText={<FontAwesomeIcon icon={faSignInAlt} />}
             className={modalButtonClasses + modalClasses}
             placement="auto"
+            hasRelativeParent
           />
           <span className="right always-show" aria-hidden="true">
             Log in
@@ -116,6 +118,7 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
             className={modalButtonClasses + modalClasses}
             type="invisible"
             placement="auto"
+            hasRelativeParent
           />
           <span className="right always-show" aria-hidden="true">
             Sign up
