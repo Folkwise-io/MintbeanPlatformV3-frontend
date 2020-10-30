@@ -13,7 +13,7 @@ import { Placement } from "@popperjs/core";
 interface Props {
   className?: string;
   buttonText: string | JSX.Element;
-  type?: "secondary" | "invisible";
+  type?: "secondary" | "override";
   placement?: Placement;
   hasRelativeParent?: boolean;
 }

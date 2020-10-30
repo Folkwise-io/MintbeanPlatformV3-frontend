@@ -61,7 +61,7 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
   };
 
   const buttonStyles = { backgroundColor: "#0C0A0B" };
-  const modalClasses = "flex justify-center items-center rtf--ab-mb";
+  const modalClasses = "flex justify-center items-center";
   const modalButtonClasses =
     "mb-transition text-mb-green-200 hover:text-mb-orange-100 focus:text-mb-orange-100 focus-within:text-mb-orange-100";
   const linkTextClasses =
@@ -98,32 +98,26 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
         </Action>
       )}
       {user.loadStatus !== "LOADING" && !isLoggedIn && (
-        <>
+        <Action text="Login" className={linkTextClasses} tabIndex={-1} style={buttonStyles}>
           <LoginModal
-            type="invisible"
+            type="override"
             buttonText={<FontAwesomeIcon icon={faSignInAlt} />}
-            className={modalButtonClasses + modalClasses}
+            className={`${modalButtonClasses} ${modalClasses} w-full h-full`}
             placement="auto"
             hasRelativeParent
           />
-          <span className="right always-show" aria-hidden="true">
-            Log in
-          </span>
-        </>
+        </Action>
       )}
       {user.loadStatus !== "LOADING" && !isLoggedIn && (
-        <>
+        <Action text="Sign up" className={linkTextClasses} tabIndex={-1} style={buttonStyles}>
           <RegisterModal
             buttonText={<FontAwesomeIcon icon={faUserPlus} />}
-            className={modalButtonClasses + modalClasses}
-            type="invisible"
+            className={`${modalButtonClasses} ${modalClasses} w-full h-full`}
+            type="override"
             placement="auto"
             hasRelativeParent
           />
-          <span className="right always-show" aria-hidden="true">
-            Sign up
-          </span>
-        </>
+        </Action>
       )}
     </Fab>
   );

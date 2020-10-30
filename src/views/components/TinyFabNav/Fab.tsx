@@ -4,16 +4,16 @@ import React, { useState } from "react";
 
 import "./Fab.css";
 
-interface ABProps extends React.HTMLAttributes<HTMLButtonElement> {
+interface ABProps extends React.HTMLAttributes<HTMLDivElement> {
   text?: string;
   onClick?: (e: React.FormEvent) => void;
   "data-testid"?: string;
 }
 
 const AB: React.FC<ABProps> = ({ children, ...p }) => (
-  <button type="button" {...p} className="rtf--ab">
+  <div role="button" {...p} className="rtf--ab">
     {children}
-  </button>
+  </div>
 );
 
 interface MBProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, "tabIndex"> {
