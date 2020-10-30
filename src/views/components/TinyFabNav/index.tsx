@@ -48,6 +48,7 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
 
 const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logout }) => {
   const [isLoggedIn, setLoggedIn] = useState(!!user.data);
+  const [showTitles, setShowTitles] = useState(true);
   const history = useHistory();
 
   useEffect(() => {
@@ -60,6 +61,10 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
     history.push("/");
   };
 
+  const toggleTitles = (): void => {
+    setShowTitles(!showTitles);
+  };
+
   const buttonStyles = { backgroundColor: "#0C0A0B" };
   const modalClasses = "flex justify-center items-center";
   const modalButtonClasses =
@@ -69,7 +74,7 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
   return (
     <Fab
       mainButtonStyles={buttonStyles}
-      alwaysShowTitle
+      alwaysShowTitle={showTitles}
       style={{
         bottom: 0,
         right: 0,
@@ -98,7 +103,7 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
         </Action>
       )}
       {user.loadStatus !== "LOADING" && !isLoggedIn && (
-        <Action text="Login" className={linkTextClasses} tabIndex={-1} style={buttonStyles}>
+        <Action text="Login" onClick={toggleTitles} className={linkTextClasses} tabIndex={-1} style={buttonStyles}>
           <LoginModal
             type="override"
             buttonText={<FontAwesomeIcon icon={faSignInAlt} />}
@@ -109,7 +114,7 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
         </Action>
       )}
       {user.loadStatus !== "LOADING" && !isLoggedIn && (
-        <Action text="Sign up" className={linkTextClasses} tabIndex={-1} style={buttonStyles}>
+        <Action text="Sign up" onClick={toggleTitles} className={linkTextClasses} tabIndex={-1} style={buttonStyles}>
           <RegisterModal
             buttonText={<FontAwesomeIcon icon={faUserPlus} />}
             className={`${modalButtonClasses} ${modalClasses} w-full h-full`}

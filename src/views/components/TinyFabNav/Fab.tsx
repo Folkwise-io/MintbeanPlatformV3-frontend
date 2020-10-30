@@ -72,7 +72,7 @@ const Fab: React.FC<FabProps> = ({
 
   const actionOnClick = (e: React.FormEvent, userFunc: (e: React.FormEvent) => void) => {
     e.persist();
-    setIsOpen(false);
+    // setIsOpen(false);  // Do not want to close fab nav on menu click
     setTimeout(() => {
       userFunc(e);
     }, 1);
