@@ -6,6 +6,7 @@ import { Pillars } from "./CommunityPillars";
 import pillar1 from "../../../assets/community/community-pillars-1.png";
 import pillar2 from "../../../assets/community/community-pillars-2.png";
 import pillar3 from "../../../assets/community/community-pillars-3.png";
+import IconLookup from "../../components/IconLookup";
 
 type Header = {
   title: string;
@@ -51,6 +52,7 @@ export const Main: FC<Props> = ({ main }) => {
           <BgBlock type="grad">
             <BgBlock>
               <div>
+                <IconLookup />
                 <div className="col-span-3 pt-10 md:py-20 text-center md:text-left">
                   <h1 className="text-4xl md:text-5xl font-bold leading-tight">{title}</h1>
                   <h3 className="text-lg md:text-xl py-2">{tagline}</h3>
