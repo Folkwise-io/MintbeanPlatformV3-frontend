@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
 type Props = {
-  type?: "primary" | "primaryAdmin" | "secondary" | "danger" | "override";
+  type?: "primary" | "primaryAdmin" | "secondary" | "danger" | "override"; // type: "override" allows overriding the common class styles for custom ones via className
   buttonType?: "button" | "submit" | "reset";
   onClick?: (event: React.SyntheticEvent) => void;
   className?: string;
@@ -40,7 +40,7 @@ export const Button: FC<Props> = (props) => {
     computedStyles += ` ${className}`;
   }
 
-  /* important: button must be type="button" or it auto-submits parent forms */
+  /* important: button must be type="button" if not a submit button or else it auto-submits parent forms */
   return (
     <button disabled={disabled} {...rest} ref={forwardRef || null} className={computedStyles} type={buttonType}>
       {children}
