@@ -42,6 +42,7 @@
 
 .rtf--mb:focus {
   color: #02e0a8;
+  outline: none;
 }
 
 .open .rtf--mb {
