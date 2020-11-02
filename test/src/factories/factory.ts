@@ -1,5 +1,5 @@
-/* eslint-disable  @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types */
 interface Obj {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types  */
   [key: string]: any; // Obj values can be anything
 }
 
@@ -31,16 +31,18 @@ const mergeObjects = <T extends Obj>(target: Obj, ...sources: Obj[]): T => {
   return mergeObjects(target, ...sources) as T;
 };
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types  */
 const isObject = (item: any): boolean => {
   return item !== null && typeof item === "object";
 };
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types  */
 const isMergebleObject = (item: any): boolean => {
   return isObject(item) && !Array.isArray(item);
 };
 
 // copying below code from V2, added types
-
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types  */
 const fill = <T>(props: Obj, obj: any = {}): T => {
   Object.entries(props).forEach(([key, definition]) => {
     // since typeof null === 'object', it can't be handled by "case 'object'" below.
@@ -76,6 +78,7 @@ interface FactoryMethods<T> {
   bulk: (count?: number, overrides?: Obj) => T[];
 }
 
+/* eslint-disable-next-line @typescript-eslint/ban-types  */
 const factory = <T>(defaults: T | {} = {}): FactoryMethods<T> => {
   const one = (overrides: Obj = {}): T => {
     return fill(mergeObjects({}, defaults, overrides), {});
@@ -96,5 +99,3 @@ const factory = <T>(defaults: T | {} = {}): FactoryMethods<T> => {
 };
 
 export { factory };
-
-/* eslint-enable  @typescript-eslint/no-explicit-any, , @typescript-eslint/ban-types */

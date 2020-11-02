@@ -1,12 +1,12 @@
 import { AuthDao } from "../../../src/daos/AuthDao";
 import { TestDao } from "../../testTypes";
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 
 // any potential responses from this test dao, besides null (error case)
 type SuccessDataTypes = User | boolean;
 
 /*TODO refactor mockReturn handling in TestDao methods once pattern is understood */
 export class TestAuthDao implements AuthDao, TestDao {
+  /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
   data: any;
   private mockReturns: ApiResponseRaw<SuccessDataTypes | null>[];
 
@@ -83,4 +83,3 @@ export class TestAuthDao implements AuthDao, TestDao {
     this.mockReturns = [];
   }
 }
-/* eslint-enable  @typescript-eslint/no-explicit-any */

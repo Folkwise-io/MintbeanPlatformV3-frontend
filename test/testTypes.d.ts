@@ -1,5 +1,4 @@
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 export interface TestDao {
+  /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
   mockReturn(obj: any): void;
 }
-/* eslint-enable  @typescript-eslint/no-explicit-any */
