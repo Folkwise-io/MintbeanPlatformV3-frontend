@@ -8,10 +8,14 @@ import { Context } from "../../../../../context/contextBuilder";
 import { MbAction } from "../../../../state/actions/MbAction";
 import { connect } from "react-redux";
 import { Button } from "../../../Button";
+import { Placement } from "@popperjs/core";
 
 interface Props {
   className?: string;
-  buttonText: string;
+  buttonText: string | JSX.Element;
+  type?: "primary" | "override";
+  placement?: Placement;
+  hasRelativeParent?: boolean;
 }
 
 type DispatchMapping = {
@@ -22,7 +26,14 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
   register: (values: RegisterParams) => dispatch(register(values)),
 });
 
-const RegisterModal: FC<Props & DispatchMapping> = ({ register, className, buttonText }) => {
+const RegisterModal: FC<Props & DispatchMapping> = ({
+  register,
+  className,
+  buttonText,
+  type = "primary",
+  placement = "bottom",
+  hasRelativeParent = false,
+}) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const actions: ModalActionDeclaration[] = [
@@ -43,10 +54,12 @@ const RegisterModal: FC<Props & DispatchMapping> = ({ register, className, butto
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <Button onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className || ""}>
+          <Button type={type} onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className || ""}>
             {buttonText}
           </Button>
         )}
+        placement={placement}
+        hasRelativeParent={hasRelativeParent}
       >
         <RegisterForm formRef={formRef} registerUser={(values: RegisterParams) => register(values)} />
       </Modal>

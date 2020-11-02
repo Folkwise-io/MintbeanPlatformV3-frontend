@@ -83,6 +83,11 @@ module.exports = {
         "mb-1": "1rem",
         "mb-1n": "-1rem",
         "mb-3": "3rem",
+        "50": "50%",
+      },
+      translate: {
+        "37%": "37%",
+        "5%": "5%",
       },
       minWidth: {
         "12rem": "12rem",
@@ -103,6 +108,10 @@ module.exports = {
         65: "65%",
         35: "35%",
         customProject: "calc(100vh - 30rem)",
+        "50px": "50px",
+      },
+      width: {
+        "50px": "50px",
       },
     },
     fontFamily: {
@@ -111,7 +120,7 @@ module.exports = {
   },
   variants: {
     backgroundColor: ({ after }) => after(["active"]),
-    textColor: ({ after }) => after(["group-hover"]),
+    textColor: ({ after }) => after(["group-hover", "focus-within"]),
   },
   plugins: [
     plugin(function ({ addComponents }) {

@@ -13,7 +13,9 @@ interface ModalProps {
   title?: string;
   closeFromParent?: number;
   isDetached?: boolean;
+  hasRelativeParent?: boolean;
 }
+const detachedStyles = { left: "50%", top: "50%", transform: "translate(-50%, -50%)" };
 
 export const Modal: FC<ModalProps> = ({
   triggerBuilder,
@@ -23,6 +25,7 @@ export const Modal: FC<ModalProps> = ({
   closeFromParent,
   placement = "bottom",
   isDetached = false,
+  hasRelativeParent = false,
 }): ReactElement => {
   const isUnmounted = useRef<boolean>(false);
   const [triggerRef, setTriggerRef] = useState<HTMLElement | null>(null);
@@ -76,21 +79,30 @@ export const Modal: FC<ModalProps> = ({
     : [];
 
   // style for centering modal in middle of screen if isDetached prop = true
-  const detachedStyles = { left: "50%", top: "50%", transform: "translate(-50%, -50%)" };
   return (
     <>
-      <div>
+      <>
         {
           // render the trigger element so it can be clicked
           triggers
         }
-      </div>
+      </>
 
       {
+        //transform translate y: 37%
+        //transform translate x: 5%
+        // classname of overlay takes hasRelativeParent into account by adjusting transform value to above. the reason this is necessary is because of the transform translates on the Action components, which resets the center for 'fixed', see more here:
+        // https://developer.mozilla.org/en-US/docs/Web/CSS/position
+
         // This is the modal itself. It only shows if the trigger was clicked.
         show && (
           <>
-            <div className="h-screen w-screen fixed inset-0 z-0" onClick={closeModal}></div>
+            <div
+              className={`h-screen w-screen fixed right-50 bottom-50 z-0 transform ${
+                hasRelativeParent ? "translate-x-5% translate-y-37%" : "translate-x-1/2 translate-y-1/2"
+              }`}
+              onClick={closeModal}
+            ></div>
             <div
               ref={(el) => setPopperElement(el)}
               style={isDetached ? detachedStyles : { ...styles.popper, zIndex: 89 }}
