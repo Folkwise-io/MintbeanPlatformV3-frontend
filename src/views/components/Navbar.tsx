@@ -44,7 +44,7 @@ const Navbar: FC = () => {
               to="/"
               className="mb-transition text-black hover:text-mb-blue-300 focus:text-mb-blue-300 grid place-items-center md:place-items-start"
             >
-              <img src={logo} alt="Mintbean logo" className="" style={{ maxHeight: "50px" }} />
+              <img src={logo} alt="Mintbean logo" style={{ maxHeight: "50px" }} />
             </Link>
           </section>
         </div>
