@@ -1,4 +1,5 @@
 const { screens } = require("tailwindcss/defaultTheme");
+const plugin = require("tailwindcss/plugin");
 
 module.exports = {
   future: {
@@ -18,10 +19,11 @@ module.exports = {
         50: "50%",
         75: "75%",
         full: "100%",
+        "30vh": "30vh",
         "40vh": "40vh",
         "50vh": "50vh",
         "60vh": "60vh",
-        "30vh": "30vh",
+        "70vh": "70vh",
         72: "18rem",
         84: "21rem",
         96: "24rem",
@@ -51,12 +53,20 @@ module.exports = {
       },
       colors: {
         black: "#0C0A0B",
+        "mb-gray-100": "#E2E8F0",
+        "mb-gray-200": "#737494",
+        "mb-gray-300": "#2d2e48",
+        "mb-gray-400": "#1f2036",
+        "mb-red-100": "#FED7D7",
+        "mb-red-200": "#E53E3E",
+        "mb-orange-100": "#F59336",
+        "mb-green-000": "#F0FFF4",
         "mb-green-100": "#B2FFE4",
         "mb-green-200": "#02E0A8",
         "mb-green-300": "#3BC482",
-        "mb-blue-100": "#00B1FF",
+        "mb-blue-100": "#EBF8FF",
         "mb-blue-200": "#00A4DA",
-        "mb-orange-100": "#F59336",
+        "mb-blue-300": "#00B1FF",
         "mb-purple-100": "#5C1FD6",
       },
       boxShadow: {
@@ -73,6 +83,11 @@ module.exports = {
         "mb-1": "1rem",
         "mb-1n": "-1rem",
         "mb-3": "3rem",
+        "50": "50%",
+      },
+      translate: {
+        "37%": "37%",
+        "5%": "5%",
       },
       minWidth: {
         "12rem": "12rem",
@@ -93,6 +108,10 @@ module.exports = {
         65: "65%",
         35: "35%",
         customProject: "calc(100vh - 30rem)",
+        "50px": "50px",
+      },
+      width: {
+        "50px": "50px",
       },
     },
     fontFamily: {
@@ -101,7 +120,24 @@ module.exports = {
   },
   variants: {
     backgroundColor: ({ after }) => after(["active"]),
-    textColor: ({ after }) => after(["group-hover"]),
+    textColor: ({ after }) => after(["group-hover", "focus-within"]),
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addComponents }) {
+      const components = {
+        ".mb-transition": {
+          transitionDuration: "500ms",
+          transitionProperty: "all",
+          transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+        },
+        ".mb-flex-centered": {
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        },
+      };
+
+      addComponents(components, ["responsive", "hover"]);
+    }),
+  ],
 };

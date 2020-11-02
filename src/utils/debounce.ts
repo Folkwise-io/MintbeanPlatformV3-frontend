@@ -5,6 +5,6 @@ export const debounce = <T extends Function>(cb: T, wait = 20): T => {
     clearTimeout(h);
     h = setTimeout(() => cb(...args), wait);
   };
-  return <T>(<any>callable);
+  return (callable as unknown) as T;
 };
 /* eslint-enable  @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types  */

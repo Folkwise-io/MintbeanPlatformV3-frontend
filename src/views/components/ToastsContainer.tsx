@@ -33,17 +33,14 @@ const ToastsContainer: FC<StateMapping & DispatchMapping & Props> = ({ toasts, r
   const prevScrollY = useRef(initialScrollPos);
 
   const handleScroll = useCallback((): void => {
-    if (window) {
-      setShouldBeOffset(window.scrollY < stickyOffset);
-      prevScrollY.current = window.scrollY;
-    }
+    setShouldBeOffset(window.scrollY < stickyOffset);
+    prevScrollY.current = window.scrollY;
   }, [stickyOffset]);
 
   useEffect(() => {
-    if (window) {
-      window.addEventListener("scroll", debounce(handleScroll));
-    }
-    return () => window.removeEventListener("scroll", debounce(handleScroll));
+    const handler = debounce(handleScroll);
+    window.addEventListener("scroll", handler);
+    return () => window.removeEventListener("scroll", handler);
   }, [handleScroll]);
 
   const top = shouldBeOffset ? stickyOffset : 0;

@@ -6,7 +6,7 @@ import { useIntercom } from "react-use-intercom";
 import { Context } from "../../context/contextBuilder";
 import Navbar from "../components/Navbar";
 
-import { Footer } from "./Footer";
+import { Footer } from "../components/Footer/Footer";
 import { me } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
 
