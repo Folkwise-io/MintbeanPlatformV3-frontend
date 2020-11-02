@@ -11,17 +11,19 @@ const Navbar: FC = () => {
 
   // artificially dispatch a resize event on mount to set initial nav hieght
   useEffect(() => {
-    if (window) {
-      window.dispatchEvent(new Event("resize"));
-    }
-  });
+    window.dispatchEvent(new Event("resize"));
+  }, []);
 
   // update currentNavHeight only if window resize changes the nav height
   const handleResize = useCallback((): void => {
-    if (window && navRef.current) {
-      if (navRef.current.offsetHeight != currentNavHeight) {
-        setCurrentNavHeight(navRef.current.offsetHeight);
-      }
+    if (!navRef.current) return;
+
+    const { offsetHeight } = navRef.current;
+
+    const navHeightChanged = offsetHeight != currentNavHeight;
+
+    if (navHeightChanged) {
+      setCurrentNavHeight(offsetHeight);
     }
   }, [currentNavHeight]);
 

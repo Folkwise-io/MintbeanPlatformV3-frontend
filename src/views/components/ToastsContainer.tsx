@@ -28,7 +28,7 @@ interface Props {
 }
 
 const ToastsContainer: FC<StateMapping & DispatchMapping & Props> = ({ toasts, removeToast, stickyOffset }) => {
-  const initialScrollPos = window ? window.scrollY : 0;
+  const initialScrollPos = window.scrollY || 0;
   const [shouldBeOffset, setShouldBeOffset] = useState<boolean>(initialScrollPos < stickyOffset);
   const prevScrollY = useRef(initialScrollPos);
 
