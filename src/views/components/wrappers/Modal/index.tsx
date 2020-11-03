@@ -108,7 +108,7 @@ export const Modal: FC<ModalProps> = ({
               style={isDetached ? detachedStyles : { ...styles.popper, zIndex: 89 }}
               {...attributes.popper}
               data-popper-placement="right"
-              className={` bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-xs text-black max-h-70vh overflow-y-scroll ${
+              className={` bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-xs text-black max-h-70vh overflow-y-auto ${
                 isDetached ? "fixed" : ""
               }`}
             >

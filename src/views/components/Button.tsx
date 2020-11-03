@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
 type Props = {
-  type?: "primary" | "primaryAdmin" | "secondary" | "danger" | "invisible";
+  type?: "primary" | "primaryAdmin" | "secondary" | "danger" | "override"; // type: "override" allows overriding the common class styles for custom ones via className
   buttonType?: "button" | "submit" | "reset";
   onClick?: (event: React.SyntheticEvent) => void;
   className?: string;
@@ -20,13 +20,13 @@ export const Button: FC<Props> = (props) => {
       "mb-transition text-gray-700 bg-white border-mb-green-200 hover:shadow-sm hover:opacity-75 focus:shadow-sm focus:opacity-75",
     danger:
       "mb-transition text-white bg-red-500 border-red-500 hover:shadow-sm hover:opacity-75 focus:shadow-sm focus:opacity-75",
-    invisible: "mb-transition",
+    override: "mb-transition",
   };
   const disabledStyles = "text-white bg-gray-500 border-gray-700 cursor-not-allowed";
 
   let computedStyles = "";
 
-  if (type !== "invisible") {
+  if (type !== "override") {
     computedStyles += common;
   }
 
@@ -40,7 +40,7 @@ export const Button: FC<Props> = (props) => {
     computedStyles += ` ${className}`;
   }
 
-  /* important: button must be type="button" or it auto-submits parent forms */
+  /* important: button must be type="button" if not a submit button or else it auto-submits parent forms */
   return (
     <button disabled={disabled} {...rest} ref={forwardRef || null} className={computedStyles} type={buttonType}>
       {children}

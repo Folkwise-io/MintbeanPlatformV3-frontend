@@ -48,11 +48,12 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
 });
 
 const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user: userState, logout }) => {
+  const [showTitles, setShowTitles] = useState(true);
+  const history = useHistory();
+  const [loading, setLoading] = useState<boolean>(false);
   const user = userState.data;
   const isLoggedIn = !!user;
   const isAdmin = user?.isAdmin;
-  const history = useHistory();
-  const [loading, setLoading] = useState<boolean>(false);
 
   // TODO: use protected routes instead of in-component redirects
   const logoutAndRedirect = (): void => {
@@ -60,8 +61,12 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user: userS
     history.push("/");
   };
 
+  const toggleTitles = (): void => {
+    setShowTitles(!showTitles);
+  };
+
   const buttonStyles = { backgroundColor: "#0C0A0B" };
-  const modalClasses = "flex justify-center items-center rtf--ab-mb";
+  const modalClasses = "flex justify-center items-center";
   const modalButtonClasses =
     "mb-transition text-mb-green-200 hover:text-mb-orange-100 focus:text-mb-orange-100 focus-within:text-mb-orange-100";
   const linkTextClasses =
@@ -69,7 +74,7 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user: userS
   return (
     <Fab
       mainButtonStyles={buttonStyles}
-      alwaysShowTitle
+      alwaysShowTitle={showTitles}
       style={{
         bottom: 0,
         right: 0,
@@ -106,33 +111,26 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user: userS
         </Action>
       )}
       {!isLoggedIn && (
-        <>
+        <Action text="Login" onClick={toggleTitles} className={linkTextClasses} tabIndex={-1} style={buttonStyles}>
           <LoginModal
-            type="invisible"
+            type="override"
             buttonText={<FontAwesomeIcon icon={faSignInAlt} />}
-            className={modalButtonClasses + modalClasses}
+            className={`${modalButtonClasses} ${modalClasses} w-full h-full`}
             placement="auto"
             hasRelativeParent
           />
-          <span className="right always-show" aria-hidden="true">
-            Log in
-          </span>
-        </>
+        </Action>
       )}
-      {/* two return statements due to FabNav getting confused and putting both actions in one li */}
       {!isLoggedIn && (
-        <>
+        <Action text="Sign up" onClick={toggleTitles} className={linkTextClasses} tabIndex={-1} style={buttonStyles}>
           <RegisterModal
             buttonText={<FontAwesomeIcon icon={faUserPlus} />}
-            className={modalButtonClasses + modalClasses}
-            type="invisible"
+            className={`${modalButtonClasses} ${modalClasses} w-full h-full`}
+            type="override"
             placement="auto"
             hasRelativeParent
           />
-          <span className="right always-show" aria-hidden="true">
-            Sign up
-          </span>
-        </>
+        </Action>
       )}
     </Fab>
   );

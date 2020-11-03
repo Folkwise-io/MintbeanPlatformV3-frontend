@@ -9,11 +9,11 @@ const serverErrorSchema = yup.object().shape({
 });
 const serverErrorArraySchema = yup.array().of(serverErrorSchema);
 
-/* eslint-disable  @typescript-eslint/no-explicit-any */
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types  */
 export const isServerError = (tbd: any): boolean => {
   return serverErrorSchema.isValidSync(tbd);
 };
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types  */
 export const isServerErrorArray = (tbd: any): boolean => {
   return serverErrorArraySchema.isValidSync(tbd);
 };
-/* eslint-enable  @typescript-eslint/no-explicit-any */
