@@ -10,13 +10,12 @@ import {
   Project,
 } from "./views/pages";
 
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 interface RouteConfig {
+  /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
   component: React.FC<any>;
   exact?: boolean;
   path?: string;
 }
-/* eslint-enable  @typescript-eslint/no-explicit-any */
 
 export const routes: RouteConfig[] = [
   // Removing Hackathons page for now. Decide whether to delete component later.

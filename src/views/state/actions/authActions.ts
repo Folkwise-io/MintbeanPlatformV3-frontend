@@ -77,7 +77,7 @@ export function me(): ThunkAction<void, StoreState, Context, MbAction<void>> {
           }
           return dispatch(meAction("SUCCESS", user));
         })
-        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
           // we expect an UNAUTHENTICATED error from Apollo Server if user is not logged in
           if (hasErrorWithCode(e, "UNAUTHENTICATED")) {
@@ -89,7 +89,6 @@ export function me(): ThunkAction<void, StoreState, Context, MbAction<void>> {
           );
         })
     );
-    /* eslint-enable  @typescript-eslint/no-explicit-any */
   };
 }
 
