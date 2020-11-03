@@ -1,3 +1,5 @@
+// import { IconName } from "@fortawesome/fontawesome-svg-core";
+
 // MODELS ---------------------
 interface User {
   id: string;

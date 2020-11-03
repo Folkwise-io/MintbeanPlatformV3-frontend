@@ -8,6 +8,7 @@ import {
   Meets,
   Meet,
   Project,
+  Admin,
 } from "./views/pages";
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
@@ -53,6 +54,11 @@ export const routes: RouteConfig[] = [
     component: Community,
     exact: true,
     path: "/community",
+  },
+  {
+    component: Admin,
+    exact: true,
+    path: "/admin",
   },
   {
     component: NotFound,

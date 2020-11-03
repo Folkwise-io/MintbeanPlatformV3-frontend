@@ -16,6 +16,7 @@ import {
   faSignOutAlt,
   faSignInAlt,
   faUserPlus,
+  faUserCog,
 } from "@fortawesome/free-solid-svg-icons";
 import "./index.css";
 
@@ -46,13 +47,12 @@ const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
   logout: () => dispatch(logout()),
 });
 
-const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logout }) => {
-  const [isLoggedIn, setLoggedIn] = useState(!!user.data);
+const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user: userState, logout }) => {
+  const user = userState.data;
+  const isLoggedIn = !!user;
+  const isAdmin = user?.isAdmin;
   const history = useHistory();
-
-  useEffect(() => {
-    setLoggedIn(!!user.data);
-  }, [user]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // TODO: use protected routes instead of in-component redirects
   const logoutAndRedirect = (): void => {
@@ -81,6 +81,14 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
         </div>
       }
     >
+      {isAdmin && (
+        <Action text="Admin" tabIndex={-1} style={buttonStyles}>
+          <Link to="/admin" className={linkTextClasses}>
+            <FontAwesomeIcon icon={faUserCog} />
+          </Link>
+        </Action>
+      )}
+
       <Action text="Community" tabIndex={-1} style={buttonStyles}>
         <Link to="/community" className={linkTextClasses}>
           <FontAwesomeIcon icon={faUsers} />
@@ -92,12 +100,12 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
         </Link>
       </Action>
 
-      {user.loadStatus !== "LOADING" && isLoggedIn && (
+      {isLoggedIn && (
         <Action text="Log out" className={linkTextClasses} style={buttonStyles} onClick={() => logoutAndRedirect()}>
           <FontAwesomeIcon icon={faSignOutAlt} />
         </Action>
       )}
-      {user.loadStatus !== "LOADING" && !isLoggedIn && (
+      {!isLoggedIn && (
         <>
           <LoginModal
             type="invisible"
@@ -111,7 +119,8 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
           </span>
         </>
       )}
-      {user.loadStatus !== "LOADING" && !isLoggedIn && (
+      {/* two return statements due to FabNav getting confused and putting both actions in one li */}
+      {!isLoggedIn && (
         <>
           <RegisterModal
             buttonText={<FontAwesomeIcon icon={faUserPlus} />}

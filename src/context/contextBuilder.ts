@@ -10,6 +10,10 @@ import { MeetDao } from "../daos/MeetDao";
 import { MeetDaoImpl } from "../daos/MeetDaoImpl";
 import { MeetService } from "../services/meetService";
 
+import { BadgeDao } from "../daos/BadgeDao";
+import { BadgeDaoImpl } from "../daos/BadgeDaoImpl";
+import { BadgeService } from "../services/badgeService";
+
 import { ProjectDao } from "../daos/ProjectDao";
 import { ProjectDaoImpl } from "../daos/ProjectDaoImpl";
 import { ProjectService } from "../services/projectService";
@@ -26,11 +30,13 @@ export interface Context {
   userDao: UserDao;
   authDao: AuthDao;
   meetDao: MeetDao;
+  badgeDao: BadgeDao;
   projectDao: ProjectDao;
   kanbanDao: KanbanDao;
   userService: UserService;
   authService: AuthService;
   meetService: MeetService;
+  badgeService: BadgeService;
   projectService: ProjectService;
   kanbanService: KanbanService;
   loggerService: LoggerService;
@@ -41,6 +47,7 @@ export const contextBuilder = (): Context => {
   const apiQueryExecutor = new ApiQueryExecutor();
   const userDao = new UserDaoImpl(apiQueryExecutor);
   const meetDao = new MeetDaoImpl(apiQueryExecutor);
+  const badgeDao = new BadgeDaoImpl(apiQueryExecutor);
   const projectDao = new ProjectDaoImpl(apiQueryExecutor);
   // TODO: reinstate real KanbanDaoImpl once hooked to backend. Remove KanbanDaoImplFake reference
   // const kanbanDao = new KanbanDaoImpl(apiQueryExecutor);
@@ -49,6 +56,7 @@ export const contextBuilder = (): Context => {
   const authDao = new AuthDaoImpl(apiQueryExecutor);
   const authService = new AuthService(authDao);
   const meetService = new MeetService(meetDao, loggerService);
+  const badgeService = new BadgeService(badgeDao, loggerService);
   const projectService = new ProjectService(projectDao, loggerService);
   const kanbanService = new KanbanService(kanbanDao, loggerService);
 
@@ -57,11 +65,13 @@ export const contextBuilder = (): Context => {
     userDao,
     authDao,
     meetDao,
+    badgeDao,
     projectDao,
     kanbanDao,
     userService,
     authService,
     meetService,
+    badgeService,
     projectService,
     kanbanService,
     loggerService,
