@@ -24,12 +24,11 @@ export function fetchUsers(): ThunkAction<void, StoreState, Context, MbAction<vo
           context.loggerService.success("Successfully fetched users!");
           return dispatch(action("SUCCESS", users));
         })
-        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
         .catch((e: any) => {
           context.loggerService.handleGraphqlErrors(e.errors ? e.errors : [{ message: "Failed to fetch users." }]);
           return dispatch(action("ERROR"));
         })
     );
-    /* eslint-enable  @typescript-eslint/no-explicit-any */
   };
 }

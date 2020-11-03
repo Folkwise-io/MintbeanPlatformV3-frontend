@@ -1,8 +1,8 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { ConnectContextProps, connectContext } from "../../context/connectContext";
-import NextMeetCard from "./NextMeetCard";
 import { isPast } from "../../utils/DateUtility";
+import NextMeetCard from "./MeetCards/NextMeetCard";
 
 interface StateMapping {
   user: UserState;

@@ -9,10 +9,11 @@ interface FakeState {
 }
 
 // local storage getter/setter to persist data (deme purpose)
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 const alertLocalStorageNotSupported = () => {
   alert("local storage not supported");
 };
+
+/* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
 const get = (key: string): any => {
   try {
     const item = window.localStorage.getItem(key);
@@ -25,6 +26,7 @@ const get = (key: string): any => {
     alertLocalStorageNotSupported();
   }
 };
+/* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
 const set = (key: string, value: any): void => {
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
@@ -39,7 +41,6 @@ const remove = (key: string): void => {
     alertLocalStorageNotSupported();
   }
 };
-/* eslint-enable  @typescript-eslint/no-explicit-any */
 
 // const initialKanban = kanbanFactory.one();
 
