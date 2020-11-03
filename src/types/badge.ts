@@ -12,3 +12,5 @@ export interface Badge {
   weight?: number;
   createdAt: string;
 }
+
+export type CustomOptionType = { value: IconName; label: IconName };

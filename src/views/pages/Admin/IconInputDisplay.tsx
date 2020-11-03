@@ -1,15 +1,14 @@
-import { findIconDefinition, IconDefinition, IconLookup, IconName } from "@fortawesome/fontawesome-svg-core";
+import { findIconDefinition, IconDefinition, IconLookup } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC, useState } from "react";
-import Select from "react-select";
-
-type CustomOptionType = { value: IconName; label: string };
+import Select, { OptionsType, OptionTypeBase } from "react-select";
+import { CustomOptionType } from "../../../types/badge";
 
 type Props = {
-  options: CustomOptionType[];
+  options: CustomOptionType[] | OptionsType<OptionTypeBase>;
 };
 
-const Autocomplete: FC<Props> = ({ options }) => {
+const IconInputDisplay: FC<Props> = ({ options }) => {
   const [selectedValue, setSelectedValue] = useState(options[0].value);
   let iconLookup: IconLookup = { prefix: "fas", iconName: selectedValue };
   let iconDefinition: IconDefinition = findIconDefinition(iconLookup);
@@ -23,16 +22,16 @@ const Autocomplete: FC<Props> = ({ options }) => {
   /* eslint-enable  @typescript-eslint/no-explicit-any */
 
   return (
-    <>
-      <FontAwesomeIcon icon={iconDefinition} />
-      {/* <FontAwesomeIcon icon={["fas", setSelectedValue]} /> */}
+    <div className="grid grid-rows-3 place-items-center">
+      <FontAwesomeIcon icon={iconDefinition} className="text-6xl row-span-2" />
       <Select
         options={options}
         value={options.filter((obj) => obj.value === selectedValue)}
         onChange={(option) => handleChange(option)}
+        className="w-full"
       ></Select>
-    </>
+    </div>
   );
 };
 
-export default Autocomplete;
+export default IconInputDisplay;

@@ -8,3 +8,5 @@ export { default as Meet } from "./templates/Meet";
 export { default as Project } from "./templates/Project";
 export { default as NotFound } from "./NotFound";
 export { default as Admin } from "./Admin";
+export { default as BadgeSearch } from "./Admin/BadgeSearch";
+export { default as CreateBadge } from "./Admin/CreateBadge";

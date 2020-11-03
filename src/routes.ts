@@ -9,6 +9,8 @@ import {
   Meet,
   Project,
   Admin,
+  CreateBadge,
+  BadgeSearch,
 } from "./views/pages";
 
 interface RouteConfig {
@@ -54,10 +56,20 @@ export const routes: RouteConfig[] = [
     exact: true,
     path: "/community",
   },
+  // {
+  //   component: Admin,
+  //   exact: true,
+  //   path: "/admin",
+  // },
   {
-    component: Admin,
+    component: CreateBadge,
     exact: true,
-    path: "/admin",
+    path: "/admin/create-badge",
+  },
+  {
+    component: BadgeSearch,
+    exact: true,
+    path: "/admin/badge-search",
   },
   {
     component: NotFound,
