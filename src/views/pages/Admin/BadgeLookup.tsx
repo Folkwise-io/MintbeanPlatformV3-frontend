@@ -1,4 +1,4 @@
-import { IconLookup, IconDefinition, findIconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { IconLookup, IconDefinition, findIconDefinition, IconName } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { default as Select } from "react-select";
@@ -10,7 +10,6 @@ const BadgeLookup: FC<ConnectContextProps> = ({ context }) => {
   const [badge, setBadge] = useState<Badge>();
   const [, setLoading] = useState<boolean>(false);
   const badgeSearchOptions = badges.map(({ badgeId, alias }) => ({ value: badgeId, label: alias }));
-  // const [selectedValue, setSelectedValue] = useState(badgeSearchOptions[0].value);
 
   const fetchBadgesData = useCallback(async () => {
     if (!context) {
@@ -43,25 +42,39 @@ const BadgeLookup: FC<ConnectContextProps> = ({ context }) => {
 
   useEffect(() => {
     fetchBadgesData();
-    fetchBadgeData("00000000-0000-0000-0000-000000000000");
-  }, [context, fetchBadgesData, fetchBadgeData]);
+  }, [context, fetchBadgesData]);
 
-  // const handleChange = (option: any) => {
-  //   setSelectedValue(option.value);
-  //   iconLookup = { prefix: "fas", iconName: selectedValue };
-  //   iconDefinition = findIconDefinition(iconLookup);
-  // };
+  //any is used to avoid importing static enum into backend, as FA is updated quite frequently
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
+  const handleChange = async (option: any) => {
+    fetchBadgeData(option.value);
+  };
+  /* eslint-enable  @typescript-eslint/no-explicit-any */
 
-  console.log(badgeSearchOptions[0]);
   return (
     <>
-      <Select
-        options={badgeSearchOptions}
-        // value={badgeSearchOptions.filter((obj) => obj.value === selectedValue)}
-        // onChange={(option) => handleChange(option)}
-      ></Select>
+      <Select options={badgeSearchOptions} onChange={(option) => handleChange(option)}></Select>
       <ul className="grid grid-cols-3 place-items-center">
-        {badge && <div>{badge.alias}</div>}
+        {badge && (
+          <li className="flex flex-col items-center">
+            <div
+              className="mb-flex-centered"
+              style={{
+                backgroundColor: `#${badge.backgroundHex}`,
+                height: 50,
+                width: 50,
+                fontSize: 25,
+                borderRadius: "50%",
+              }}
+            >
+              <FontAwesomeIcon
+                icon={findIconDefinition({ prefix: "fas", iconName: badge.faIcon })}
+                style={{ color: `#${badge.iconHex}` }}
+              />
+            </div>
+            <p>{badge.alias}</p>
+          </li>
+        )}
         {badges.map((badge, index) => {
           const {
             badgeId,

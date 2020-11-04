@@ -4,7 +4,8 @@ import {
   Community,
   TermsOfService,
   PrivacyPolicy,
-  /* Hackathons,*/ NotFound,
+  /* Hackathons,*/
+  NotFound,
   Meets,
   Meet,
   Project,
@@ -56,11 +57,11 @@ export const routes: RouteConfig[] = [
     exact: true,
     path: "/community",
   },
-  // {
-  //   component: Admin,
-  //   exact: true,
-  //   path: "/admin",
-  // },
+  {
+    component: Admin,
+    exact: true,
+    path: "/admin",
+  },
   {
     component: CreateBadge,
     exact: true,
