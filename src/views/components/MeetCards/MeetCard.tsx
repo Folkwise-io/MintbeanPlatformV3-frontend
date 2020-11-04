@@ -48,15 +48,15 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
                 <p className="mb-2">{descriptionStr}</p>
               </div>
               <div className="text-sm text-mb-gray-200 inline-flex flex-col min-w-full rounded-mb-xs py-1 px-2">
-                <p>
+                <p className="font-semibold">
                   Starts
                   <FontAwesomeIcon icon={faFarClock} className="mx-1" />
-                  <span className="font-semibold">{startTimeStr}</span>
+                  <span className="font-normal">{startTimeStr}</span>
                 </p>
-                <p>
-                  Submissions close
+                <p className="font-semibold">
+                  Ends
                   <FontAwesomeIcon icon={faFasClock} className="mx-1" />
-                  <span className="font-semibold">{endTimeStr}</span>
+                  <span className="font-normal">{endTimeStr}</span>
                 </p>
               </div>
             </div>
