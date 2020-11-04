@@ -7,8 +7,8 @@ import { MeetService } from "../src/services/meetService";
 import { TestMeetDao } from "./src/daos/TestMeetDao";
 import { ProjectService } from "../src/services/projectService";
 import { TestProjectDao } from "./src/daos/TestProjectDao";
-import { KanbanService } from "../src/services/kanbanService";
-import { TestKanbanDao } from "./src/daos/TestKanbanDao";
+import { KanbanCanonService } from "../src/services/kanbanCanonService";
+import { TestKanbanCanonDao } from "./src/daos/TestKanbanCanonDao";
 import { Context } from "../src/context/contextBuilder";
 import { LoggerService } from "../src/services/loggerService";
 
@@ -22,8 +22,8 @@ export interface TestContext extends Context {
   authService: AuthService;
   projectDao: TestProjectDao;
   projectService: ProjectService;
-  kanbanDao: TestKanbanDao;
-  kanbanService: KanbanService;
+  kanbanCanonDao: TestKanbanCanonDao;
+  kanbanCanonService: KanbanCanonService;
 }
 
 export const testContextBuilder = (): TestContext => {
@@ -36,8 +36,8 @@ export const testContextBuilder = (): TestContext => {
   const authService = new AuthService(authDao);
   const projectDao = new TestProjectDao();
   const projectService = new ProjectService(projectDao, loggerService);
-  const kanbanDao = new TestKanbanDao();
-  const kanbanService = new KanbanService(kanbanDao, loggerService);
+  const kanbanCanonDao = new TestKanbanCanonDao();
+  const kanbanCanonService = new KanbanService(kanbanCanonDao, loggerService);
 
   return {
     loggerService,
@@ -50,7 +50,7 @@ export const testContextBuilder = (): TestContext => {
     authService,
     projectDao,
     projectService,
-    kanbanDao,
-    kanbanService,
+    kanbanCanonDao,
+    kanbanCanonService,
   };
 };

@@ -1,6 +1,6 @@
 // TODO: remove this file and it's reference in contextBuilder once backend created
 import { kanbanCardFactory } from "../../test/src/factories/kanban.factory";
-import { KanbanDao } from "./KanbanDao";
+import { KanbanCanonDao } from "./KanbanCanonDao";
 import faker from "faker";
 
 // Fake "database" of kanbans
@@ -70,7 +70,7 @@ export class KanbanDaoImplFake implements KanbanDao {
     this.readState();
     return this.state[id];
   }
-  async createKanban(input: CreateKanbanInput): Promise<Kanban> {
+  async createKanban(input: CreateKanbanCanonInput): Promise<Kanban> {
     this.readState();
     const id = faker.random.uuid();
     this.state[id] = {
@@ -82,7 +82,7 @@ export class KanbanDaoImplFake implements KanbanDao {
     this.writeState();
     return this.state[id];
   }
-  async editKanban(id: string, input: EditKanbanInput): Promise<Kanban> {
+  async editKanban(id: string, input: EditKanbanCanonInput): Promise<Kanban> {
     this.readState();
     if (!this.state[id]) throw new Error("Could not find kanban.");
     const kanban = this.state[id];
@@ -105,7 +105,7 @@ export class KanbanDaoImplFake implements KanbanDao {
     }
     return card;
   }
-  async createKanbanCard(input: CreateKanbanCardInput): Promise<KanbanCard> {
+  async createKanbanCard(input: CreateKanbanCanonCardInput): Promise<KanbanCard> {
     this.readState();
     const { kanbanId } = input;
     if (!this.state[kanbanId]) throw new Error("kanban not found");
@@ -114,7 +114,7 @@ export class KanbanDaoImplFake implements KanbanDao {
     this.writeState();
     return kanbanCard;
   }
-  async editKanbanCard(id: string, input: EditKanbanCardInput): Promise<KanbanCard> {
+  async editKanbanCard(id: string, input: EditKanbanCanonCardInput): Promise<KanbanCard> {
     this.readState();
     const { kanbanId } = input;
     if (!this.state[kanbanId]) throw new Error("kanban not found");

@@ -14,9 +14,9 @@ import { ProjectDao } from "../daos/ProjectDao";
 import { ProjectDaoImpl } from "../daos/ProjectDaoImpl";
 import { ProjectService } from "../services/projectService";
 
-import { KanbanDao } from "../daos/KanbanDao";
-import { KanbanDaoImpl } from "../daos/KanbanDaoImpl";
-import { KanbanService } from "../services/kanbanService";
+import { KanbanCanonDao } from "../daos/KanbanCanonDao";
+import { KanbanCanonDaoImpl } from "../daos/KanbanCanonDaoImpl";
+import { KanbanCanonService } from "../services/kanbanCanonService";
 
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { LoggerService } from "../services/loggerService";
@@ -27,12 +27,12 @@ export interface Context {
   authDao: AuthDao;
   meetDao: MeetDao;
   projectDao: ProjectDao;
-  kanbanDao: KanbanDao;
+  kanbanCanonDao: KanbanCanonDao;
   userService: UserService;
   authService: AuthService;
   meetService: MeetService;
   projectService: ProjectService;
-  kanbanService: KanbanService;
+  kanbanCanonService: KanbanCanonService;
   loggerService: LoggerService;
 }
 
@@ -48,7 +48,7 @@ export const contextBuilder = (): Context => {
   const authService = new AuthService(authDao);
   const meetService = new MeetService(meetDao, loggerService);
   const projectService = new ProjectService(projectDao, loggerService);
-  const kanbanService = new KanbanService(kanbanDao, loggerService);
+  const kanbanCanonService = new KanbanCanonService(kanbanCanonDao, loggerService);
 
   return {
     apiQueryExecutor,
@@ -61,7 +61,7 @@ export const contextBuilder = (): Context => {
     authService,
     meetService,
     projectService,
-    kanbanService,
+    kanbanCanonService,
     loggerService,
   };
 };

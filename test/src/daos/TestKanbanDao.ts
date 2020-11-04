@@ -1,21 +1,21 @@
-import { KanbanDao } from "../../../src/daos/KanbanDao";
+import { KanbanCanonDao } from "../../../src/daos/KanbanCanonDao";
 
-type SuccessDataTypes = Kanban | KanbanCard | boolean;
+type SuccessDataTypes = KanbanCanon | KanbanCanonCard | boolean;
 
 // TODO: implement cookie header mocking for authorization tests
-export class TestKanbanDao implements KanbanDao {
-  kanbans: Kanban[];
-  kanbanCards: KanbanCard[];
+export class TestKanbanCanonDao implements KanbanCanonDao {
+  kanbanCanons: KanbanCanon[];
+  kanbanCanonCards: KanbanCanonCard[];
   private mockReturns: ApiResponseRaw<SuccessDataTypes | null>[];
 
   constructor() {
-    this.kanbans = [];
-    this.kanbanCards = [];
+    this.kanbanCanons = [];
+    this.kanbanCanonCards = [];
     this.mockReturns = [];
   }
 
-  // Kanban -----------------------------------------
-  async fetchKanban(id: string): Promise<Kanban> {
+  // KanbanCanon -----------------------------------------
+  async fetchKanbanCanon(id: string): Promise<KanbanCanon> {
     if (!id)
       throw {
         message: "You forget to inlclude 'id' as a param in test script",
@@ -25,8 +25,8 @@ export class TestKanbanDao implements KanbanDao {
     if (errorReturns.length) {
       // Mock failed
       throw errorReturns;
-    } else if (this.kanbans) {
-      const result = this.kanbans.find((r: Kanban) => r.id === id);
+    } else if (this.kanbanCanons) {
+      const result = this.kanbanCanons.find((r: KanbanCanon) => r.id === id);
       if (result) {
         return result;
       } else {
@@ -42,26 +42,26 @@ export class TestKanbanDao implements KanbanDao {
       } as ServerError;
     }
   }
-  async createKanban(input: CreateKanbanInput): Promise<Kanban> {
+  async createKanbanCanon(input: CreateKanbanCanonInput): Promise<KanbanCanon> {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (input && this.getSuccesses().length) {
-      return (this.getSuccesses()[0].data as unknown) as Kanban;
+      return (this.getSuccesses()[0].data as unknown) as KanbanCanon;
     } else {
       throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
     }
   }
-  async editKanban(id: string, input: EditKanbanInput): Promise<Kanban> {
+  async editKanbanCanon(id: string, input: EditKanbanCanonInput): Promise<KanbanCanon> {
     if (!id || !input) throw "You messed up in writing your test. Make sure id and input are passed as args";
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (id && input && this.getSuccesses().length) {
-      return (this.getSuccesses()[0].data as unknown) as Kanban;
+      return (this.getSuccesses()[0].data as unknown) as KanbanCanon;
     } else {
-      const index: number = this.kanbans.findIndex((m) => m.id === id);
-      const prevKanban: Kanban = this.kanbans[index];
-      return (this.kanbans[index] = { ...prevKanban, ...input });
+      const index: number = this.kanbanCanons.findIndex((m) => m.id === id);
+      const prevKanbanCanon: KanbanCanon = this.kanbanCanons[index];
+      return (this.kanbanCanons[index] = { ...prevKanbanCanon, ...input });
     }
   }
-  async deleteKanban(id: string): Promise<boolean> {
+  async deleteKanbanCanon(id: string): Promise<boolean> {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (id && this.getSuccesses().length) {
       return (this.getSuccesses()[0].data as unknown) as boolean;
@@ -70,8 +70,8 @@ export class TestKanbanDao implements KanbanDao {
     }
   }
 
-  // KanbanCard ----------- -----------------------
-  async fetchKanbanCard(id: string): Promise<KanbanCard> {
+  // KanbanCanonCard ----------- -----------------------
+  async fetchKanbanCanonCard(id: string): Promise<KanbanCanonCard> {
     if (!id)
       throw {
         message: "You forget to inlclude 'id' as a param in test script",
@@ -81,8 +81,8 @@ export class TestKanbanDao implements KanbanDao {
     if (errorReturns.length) {
       // Mock failed
       throw errorReturns;
-    } else if (this.kanbanCards) {
-      const result = this.kanbanCards.find((r: KanbanCard) => r.id === id);
+    } else if (this.kanbanCanonCards) {
+      const result = this.kanbanCanonCards.find((r: KanbanCanonCard) => r.id === id);
       if (result) {
         return result;
       } else {
@@ -98,26 +98,26 @@ export class TestKanbanDao implements KanbanDao {
       } as ServerError;
     }
   }
-  async createKanbanCard(input: CreateKanbanCardInput): Promise<KanbanCard> {
+  async createKanbanCanonCard(input: CreateKanbanCanonCardInput): Promise<KanbanCanonCard> {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (input && this.getSuccesses().length) {
-      return (this.getSuccesses()[0].data as unknown) as KanbanCard;
+      return (this.getSuccesses()[0].data as unknown) as KanbanCanonCard;
     } else {
       throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
     }
   }
-  async editKanbanCard(id: string, input: EditKanbanCardInput): Promise<KanbanCard> {
+  async editKanbanCanonCard(id: string, input: EditKanbanCanonCardInput): Promise<KanbanCanonCard> {
     if (!id || !input) throw "You messed up in writing your test. Make sure id and input are passed as args";
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (id && input && this.getSuccesses().length) {
-      return (this.getSuccesses()[0].data as unknown) as KanbanCard;
+      return (this.getSuccesses()[0].data as unknown) as KanbanCanonCard;
     } else {
-      const index: number = this.kanbanCards.findIndex((m) => m.id === id);
-      const prevKanbanCard: KanbanCard = this.kanbanCards[index];
-      return (this.kanbanCards[index] = { ...prevKanbanCard, ...input });
+      const index: number = this.kanbanCanonCards.findIndex((m) => m.id === id);
+      const prevKanbanCanonCard: KanbanCanonCard = this.kanbanCanonCards[index];
+      return (this.kanbanCanonCards[index] = { ...prevKanbanCanonCard, ...input });
     }
   }
-  async deleteKanbanCard(id: string): Promise<boolean> {
+  async deleteKanbanCanonCard(id: string): Promise<boolean> {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (id && this.getSuccesses().length) {
       return (this.getSuccesses()[0].data as unknown) as boolean;

@@ -36,7 +36,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     params: { id },
   } = match;
   const [meet, setMeet] = useState<Meet | null>(null);
-  const [kanban, setKanban] = useState<Kanban | null>(null);
+  const [kanbanCanon, setKanbanCanon] = useState<KanbanCanon | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const isAdmin = user.data?.isAdmin;
   const isLoggedIn = user.data;
@@ -52,7 +52,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     const fetchedMeet = await context.meetService.fetchMeet(id);
     if (fetchedMeet) {
       setMeet(fetchedMeet);
-      setKanban(fetchedMeet?.kanban || null);
+      setKanbanCanon(fetchedMeet?.kanbanCanon || null);
     }
     setLoading(false);
   }, [context, id]);
@@ -119,25 +119,20 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     }
   };
 
-  // Experimental features vvvvvvvvvvvvvvvvvvvvvvvvvvvv
-  // Add feature flag FF_KANBAN=true to your local .env to view.
-  const showKanbanAdmin = !!process.env.FF_KANBAN;
-  const renderKanbanViewAdmin = () =>
-    showKanbanAdmin && (
-      <>
-        {kanban ? (
-          <div className="mt-10">
-            {/* Actual KanbanViewAdmin will only take kanbanId as a prop and fetch kanban from component*/}
-            <KanbanViewAdmin kanban={kanban} onKanbanDelete={fetchMeetData} />
-          </div>
-        ) : meet?.id ? (
-          <div className="mt-10">
-            {" "}
-            <AdminKanbanCreateModal buttonText="Add a kanban to this meet" onCreate={fetchMeetData} meetId={meet.id} />
-          </div>
-        ) : null}
-      </>
-    );
+  const renderKanbanViewAdmin = () => (
+    <>
+      {kanbanCanon ? (
+        <div className="mt-10">
+          <KanbanViewAdmin kanbanCanon={kanbanCanon} onKanbanDelete={fetchMeetData} />
+        </div>
+      ) : meet?.id ? (
+        <div className="mt-10">
+          {" "}
+          <AdminKanbanCreateModal buttonText="Add a kanban to this meet" onCreate={fetchMeetData} meetId={meet.id} />
+        </div>
+      ) : null}
+    </>
+  );
 
   // Add feature flag FF_KANBAN_USER=true to your local .env to view.
   const showKanbanUser = !!process.env.FF_KANBAN_USER;

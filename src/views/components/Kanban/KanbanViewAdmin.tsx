@@ -8,30 +8,30 @@ import AdminKanbanDeleteModal from "../wrappers/Modal/walas/AdminKanbanDeleteMod
 
 interface Props {
   kanbanId?: string; // used for fetching kanban on mount if desired
-  kanban?: Kanban;
+  kanbanCanon?: KanbanCanon;
   onKanbanDelete?: () => void;
 }
 
-const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context, kanban, onKanbanDelete }) => {
-  const [localKanban, setLocalKanban] = useState<Kanban | null>(kanban || null);
-  const [sortedKanbanCards, setSortedKanbanCards] = useState<KanbanCard[]>([]);
+const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanCanonId, context, kanbanCanon, onKanbanDelete }) => {
+  const [localKanban, setLocalKanban] = useState<KanbanCanon | null>(kanbanCanon || null);
+  const [sortedKanbanCards, setSortedKanbanCards] = useState<KanbanCanonCard[]>([]);
 
   const fetchKanban = useCallback(async () => {
     if (context && localKanban?.id) {
       const k = await context.kanbanService.fetchKanban(localKanban.id);
       if (k) {
         setLocalKanban(k);
-        setSortedKanbanCards(k.kanbanCards);
+        setSortedKanbanCards(k.kanbanCanonCards);
       }
     }
   }, [context, localKanban]);
 
-  // fetch kanban on mount if kanbanId provided as a prop
+  // fetch kanban on mount if kanbanCanonId provided as a prop
   useEffect(() => {
-    if (kanbanId) {
+    if (kanbanCanonId) {
       fetchKanban();
     }
-  }, [fetchKanban, kanbanId]);
+  }, [fetchKanban, kanbanCanonId]);
 
   useEffect(() => {
     if (localKanban) {
@@ -116,7 +116,7 @@ const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanId, context, k
         </DragDropContext>
         {localKanban && (
           <div className="w-full flex justify-center mt-4">
-            <AdminKanbanCardCreateModal kanbanId={localKanban.id} fetchKanban={fetchKanban} />
+            <AdminKanbanCardCreateModal kanbanCanonId={localKanban.id} fetchKanban={fetchKanban} />
           </div>
         )}
       </div>

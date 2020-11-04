@@ -42,7 +42,8 @@ interface Meet {
   projects: ProjectForMeet[];
   registrants: RegistrantsForMeet[];
   kanbanId?: string;
-  kanban?: Kanban;
+  kanbanCanon: KanbanCanon | null;
+  kanbanCanonId: KanbanCanon | null;
 }
 
 interface ProjectForMeet {
@@ -69,39 +70,36 @@ interface CloudinaryPublicIdMediaAsset {
   cloudinaryPublicId: string;
 }
 
-interface Kanban {
+interface KanbanBase {
   id: string;
   title: string;
   description: string;
-  kanbanCards: KanbanCard[];
 }
-
+// Re: status - unable to use enum in d.ts file. Using union instead
 interface KanbanCardBase {
   id: string;
   title: string;
   body: string;
-  index?: number;
+  status: "TODO" | "WIP" | "DONE";
 }
+
+interface KanbanCanonCard extends KanbanCardBase {
+  kanbanCanonId: string;
+}
+
 interface KanbanCard extends KanbanCardBase {
-  // Note: index here refers to master index, which determines initial order in "Todo" column
   kanbanId: string;
 }
 
-interface KanbanSession {
-  id: string;
-  kanbanId: string;
+interface KanbanCanon extends KanbanBase {
+  kanbanCanonCards: KanbanCanonCard[];
+}
+
+interface Kanban extends KanbanBase {
+  kanbanCanonId: string;
   userId: string;
   meetId?: string;
-  title: string;
-  description: string;
-  todoCards: KanbanSessionCard[];
-  wipCards: KanbanSessionCard[];
-  doneCards: KanbanSessionCard[];
-}
-
-interface KanbanSessionCard extends KanbanCardBase {
-  column: "col1" | "col2" | "col3"; // == Todo, In Progress, Done
-  kanbanSessionId: string;
+  kanbanCards: KanbanCard[];
 }
 
 // INPUTS --------------------
@@ -152,25 +150,25 @@ interface CreateProjectParams {
   cloudinaryPublicIds: string[];
 }
 
-interface CreateKanbanInput {
+interface CreateKanbanCanonInput {
   meetId?: string;
   title: string;
   description: string;
 }
 // Same as CreateKanbanInput atm
-interface EditKanbanInput {
+interface EditKanbanCanonInput {
   title: string;
   description: string;
 }
 
-interface CreateKanbanCardInput {
+interface CreateKanbanCanonCardInput {
   title: string;
   body: string;
   index?: number;
   kanbanId: string;
 }
 // Same as CreateKanbanCardInput atm
-interface EditKanbanCardInput {
+interface EditKanbanCanonCardInput {
   title: string;
   body: string;
   index?: number;
