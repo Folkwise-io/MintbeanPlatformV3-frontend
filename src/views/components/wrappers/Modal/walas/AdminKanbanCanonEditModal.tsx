@@ -1,18 +1,24 @@
 import React, { FC, useRef, useState } from "react";
-import { Modal } from "../";
+import { Modal } from "..";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { Button } from "../../../Button";
-import { KanbanEditForm } from "../../../forms/KanbanEditForm";
+import { KanbanCanonEditForm } from "../../../forms/KanbanCanonEditForm";
 
 interface Props {
   className?: string;
   buttonText: string;
-  kanban: Kanban;
+  kanbanCanon: KanbanCanon;
   onEdit: () => void;
 }
 
-const AdminKanbanEditModal: FC<ConnectContextProps & Props> = ({ context, className, buttonText, kanban, onEdit }) => {
+const AdminKanbanCanonEditModal: FC<ConnectContextProps & Props> = ({
+  context,
+  className,
+  buttonText,
+  kanbanCanon,
+  onEdit,
+}) => {
   const [close, setClose] = useState<(() => void) | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -32,9 +38,9 @@ const AdminKanbanEditModal: FC<ConnectContextProps & Props> = ({ context, classN
     },
   ];
 
-  const editKanban = async (params: EditKanbanInput) => {
+  const editKanbanCanon = async (params: EditKanbanCanonInput) => {
     if (context) {
-      await context.kanbanService.editKanban(kanban.id, params).then(() => {
+      await context.kanbanCanonService.editKanbanCanon(kanbanCanon.id, params).then(() => {
         onEdit();
         if (close) close();
       });
@@ -54,10 +60,10 @@ const AdminKanbanEditModal: FC<ConnectContextProps & Props> = ({ context, classN
           </Button>
         )}
       >
-        <KanbanEditForm formRef={formRef} editKanban={editKanban} kanban={kanban} />
+        <KanbanCanonEditForm formRef={formRef} editKanbanCanon={editKanbanCanon} kanbanCanon={kanbanCanon} />
       </Modal>
     </>
   );
 };
 
-export default connectContext<ConnectContextProps & Props>(AdminKanbanEditModal);
+export default connectContext<ConnectContextProps & Props>(AdminKanbanCanonEditModal);

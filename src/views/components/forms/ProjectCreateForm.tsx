@@ -16,7 +16,7 @@ const createProjectInputSchema = yup.object().shape({
 });
 
 interface Props {
-  createProject: (values: CreateProjectParams) => void;
+  createProject: (values: CreateProjectInput) => void;
   formRef: React.RefObject<HTMLFormElement> | null;
   user: User;
   meetId: string;
@@ -31,7 +31,7 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
   });
 
   // RHF only calls onSubmit callback when form input passes validation
-  const onSubmit = (data: CreateProjectParams) => {
+  const onSubmit = (data: CreateProjectInput) => {
     const dataWithCloudinaryIds = { ...data, cloudinaryPublicIds: cloudinaryIds };
     createProject(dataWithCloudinaryIds);
   };

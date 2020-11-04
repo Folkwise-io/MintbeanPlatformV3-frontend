@@ -1,24 +1,24 @@
 import React, { FC, useRef, useState } from "react";
 import { DraggableProvided } from "react-beautiful-dnd";
-import { Modal } from "../";
+import { Modal } from "..";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
-import { KanbanCardEditForm } from "../../../forms/KanbanCardEditForm";
+import { KanbanCanonCardEditForm } from "../../../forms/KanbanCanonCardEditForm";
 import { KanbanCardDetails } from "../../../Kanban/KanbanCardDetails";
 import { KanbanCardSummary } from "../../../Kanban/KanbanCardSummary";
 import { ModalActionContext, ModalActionDeclaration } from "../ModalActionButton";
 
 interface Props {
-  data: KanbanCard;
-  fetchKanban: () => Promise<void>;
+  data: KanbanCanonCard;
+  fetchKanbanCanon: () => Promise<void>;
   dndProvided: DraggableProvided;
   className?: string;
 }
 
-// Doubles for viewing and editing kanban cards
-const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
+// Doubles for viewing and editing kanbanCanon cards
+const AdminKanbanCanonCardModal: FC<ConnectContextProps & Props> = ({
   data,
   context,
-  fetchKanban,
+  fetchKanbanCanon,
   dndProvided,
   className,
 }) => {
@@ -61,10 +61,10 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
       text: "Delete",
       buttonType: "button",
       onClick: (_evt: React.SyntheticEvent, { closeModal }: ModalActionContext) => {
-        const confirmed = confirm("Are you sure you want to delete this kanban card?");
+        const confirmed = confirm("Are you sure you want to delete this kanban canon card?");
         if (confirmed) {
-          deleteKanbanCard()
-            .then(() => fetchKanban())
+          deleteKanbanCanonCard()
+            .then(() => fetchKanbanCanon())
             .then(() => closeModal());
         }
       },
@@ -76,22 +76,22 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
     ? viewActionButtons.forEach((ab) => actions.push(ab))
     : editActionButtons.forEach((ab) => actions.push(ab));
 
-  const editKanbanCard = async (input: EditKanbanCardInput) => {
+  const editKanbanCanonCard = async (input: EditKanbanCanonCardInput) => {
     if (context) {
-      await context.kanbanService
-        .editKanbanCard(data.id, input)
+      await context.kanbanCanonService
+        .editKanbanCanonCard(data.id, input)
         .then(() => {
-          fetchKanban();
+          fetchKanbanCanon();
         })
         .finally(() => setMode("view"));
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
     }
   };
-  const deleteKanbanCard = async () => {
+  const deleteKanbanCanonCard = async () => {
     if (context) {
-      await context.kanbanService.deleteKanbanCard(data.id).then(() => {
-        fetchKanban();
+      await context.kanbanCanonService.deleteKanbanCanonCard(data.id).then(() => {
+        fetchKanbanCanon();
       });
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
@@ -115,10 +115,10 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
         {mode === "view" ? (
           <KanbanCardDetails data={data} />
         ) : (
-          <KanbanCardEditForm formRef={formRef} editKanbanCard={editKanbanCard} data={data} />
+          <KanbanCanonCardEditForm formRef={formRef} editKanbanCanonCard={editKanbanCanonCard} data={data} />
         )}
       </Modal>
     </>
   );
 };
-export default connectContext<ConnectContextProps & Props>(AdminKanbanCardModal);
+export default connectContext<ConnectContextProps & Props>(AdminKanbanCanonCardModal);

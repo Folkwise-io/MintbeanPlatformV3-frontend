@@ -5,20 +5,24 @@ import { useForm } from "react-hook-form";
 import { MarkdownEditor } from "../MarkdownEditor";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
-const createKanbanCardInputSchema = yup.object().shape({
-  title: yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
-  body: yup.string().min(3, "Too Short!").required("Required"),
+const editKanbanCanonInputSchema = yup.object().shape({
+  title: yup.string().min(2, "Too Short!").max(64, "Too Long!"),
+  description: yup.string().min(3, "Too Short!").max(150, "Too Long!"),
 });
 
 interface Props {
-  kanbanId: string;
-  createKanbanCard: (values: CreateKanbanCardInput) => void;
+  data: KanbanCanonCard;
+  editCanonCanonCard: (input: EditKanbanCanonCardInput) => void;
   formRef: React.RefObject<HTMLFormElement> | null;
 }
 
-export const KanbanCardCreateForm: FC<Props> = ({ kanbanId, createKanbanCard, formRef }) => {
+export const KanbanCanonCardEditForm: FC<Props> = ({ data, editCanonCanonCard, formRef }) => {
   const { errors, register, handleSubmit, watch, setValue } = useForm({
-    resolver: yupResolver(createKanbanCardInputSchema),
+    resolver: yupResolver(editKanbanCanonInputSchema),
+    defaultValues: {
+      title: data.title,
+      body: data.body,
+    },
   });
 
   useEffect(() => {
@@ -28,16 +32,13 @@ export const KanbanCardCreateForm: FC<Props> = ({ kanbanId, createKanbanCard, fo
   const body = watch("body");
 
   // RHF only calls onSubmit callback when form input passes validation
-  const onSubmit = (input: CreateKanbanCardInput) => {
-    createKanbanCard(input);
+  const onSubmit = (input: CreateKanbanCanonCardInput) => {
+    editCanonCanonCard(input);
   };
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
       <h1 className="font-semibold">Create a new kanban card</h1>
-
-      {/* Infer kanbanId without prompting */}
-      <input type="hidden" name="kanbanId" ref={register} value={kanbanId} />
 
       <label htmlFor="title">Title</label>
       <input type="text" name="title" ref={register} className="mb-2" />

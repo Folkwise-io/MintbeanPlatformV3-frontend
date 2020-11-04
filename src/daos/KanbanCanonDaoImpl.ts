@@ -1,12 +1,11 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
-import { KanbanCanonCanonDao } from "./KanbanCanonCanonDao";
+import { KanbanCanonDao } from "./KanbanCanonDao";
 import { handleServerError } from "../utils/handleServerError";
 
-export class KanbanCanonCanonDaoImpl implements KanbanCanonCanonDao {
+export class KanbanCanonDaoImpl implements KanbanCanonDao {
   constructor(private api: ApiQueryExecutor) {}
 
   // KanbanCanon ----------------------------------
-  // Not connected to backend yet
   fetchKanbanCanon(id: string): Promise<KanbanCanon> {
     return this.api
       .query<ApiResponseRaw<{ kanbanCanon: KanbanCanon }>, { id: string }>(
@@ -59,7 +58,6 @@ export class KanbanCanonCanonDaoImpl implements KanbanCanonCanonDao {
       })
       .catch(handleServerError);
   }
-  // Not connected to backend yet
   editKanbanCanon(id: string, input: EditKanbanCanonInput): Promise<KanbanCanon> {
     return this.api
       .query<ApiResponseRaw<{ editKanbanCanon: KanbanCanon }>, { id: string; input: EditKanbanCanonInput }>(
@@ -83,7 +81,6 @@ export class KanbanCanonCanonDaoImpl implements KanbanCanonCanonDao {
       })
       .catch(handleServerError);
   }
-  // Not connected to backend yet
   deleteKanbanCanon(id: string): Promise<boolean> {
     return this.api
       .query<ApiResponseRaw<{ deleteKanbanCanon: boolean }>, { id: string }>(
@@ -109,7 +106,6 @@ export class KanbanCanonCanonDaoImpl implements KanbanCanonCanonDao {
       .catch(handleServerError);
   }
   // KanbanCanonCard ----------------------------------
-  // Not connected to backend yet
   fetchKanbanCanonCard(id: string): Promise<KanbanCanonCard> {
     return this.api
       .query<ApiResponseRaw<{ kanbanCanonCard: KanbanCanonCard }>, { id: string }>(
@@ -133,7 +129,6 @@ export class KanbanCanonCanonDaoImpl implements KanbanCanonCanonDao {
       })
       .catch(handleServerError);
   }
-  // Not connected to backend yet
   createKanbanCanonCard(input: CreateKanbanCanonCardInput): Promise<KanbanCanonCard> {
     return this.api
       .query<ApiResponseRaw<{ createKanbanCanonCard: KanbanCanonCard }>, { input: CreateKanbanCanonCardInput }>(
@@ -157,7 +152,6 @@ export class KanbanCanonCanonDaoImpl implements KanbanCanonCanonDao {
       })
       .catch(handleServerError);
   }
-  // Not connected to backend yet
   editKanbanCanonCard(id: string, input: EditKanbanCanonCardInput): Promise<KanbanCanonCard> {
     return this.api
       .query<ApiResponseRaw<{ editKanbanCanonCard: KanbanCanonCard }>, { id: string; input: EditKanbanCanonCardInput }>(
@@ -181,7 +175,6 @@ export class KanbanCanonCanonDaoImpl implements KanbanCanonCanonDao {
       })
       .catch(handleServerError);
   }
-  // Not connected to backend yet
   deleteKanbanCanonCard(id: string): Promise<boolean> {
     return this.api
       .query<ApiResponseRaw<{ deleteKanbanCanonCard: boolean }>, { id: string }>(

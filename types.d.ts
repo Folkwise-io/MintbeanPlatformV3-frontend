@@ -41,9 +41,10 @@ interface Meet {
   region: string;
   projects: ProjectForMeet[];
   registrants: RegistrantsForMeet[];
-  kanbanId?: string;
   kanbanCanon: KanbanCanon | null;
   kanbanCanonId: KanbanCanon | null;
+  kanbanId: string | null;
+  kanban: Kanban | null;
 }
 
 interface ProjectForMeet {
@@ -76,11 +77,14 @@ interface KanbanBase {
   description: string;
 }
 // Re: status - unable to use enum in d.ts file. Using union instead
+type KanbanCanonCardStatus = "TODO" | "WIP" | "DONE";
+
 interface KanbanCardBase {
   id: string;
   title: string;
   body: string;
-  status: "TODO" | "WIP" | "DONE";
+  status: KanbanCanonCardStatus;
+  index?: number;
 }
 
 interface KanbanCanonCard extends KanbanCardBase {
@@ -102,13 +106,20 @@ interface Kanban extends KanbanBase {
   kanbanCards: KanbanCard[];
 }
 
-// INPUTS --------------------
-interface LoginParams {
+// ARGS ----------------------
+interface LoginArgs {
   email: string;
   password: string;
 }
 
-interface RegisterParams {
+interface FetchKanbanArgs {
+  kanbanCanonId: string;
+  userId: string;
+  meetId?: string | null;
+}
+
+// INPUTS --------------------
+interface RegisterInput {
   firstName: string;
   lastName: string;
   email: string;
@@ -116,7 +127,7 @@ interface RegisterParams {
   passwordConfirmation: string;
 }
 
-interface CreateMeetParams {
+interface CreateMeetInput {
   meetType: "hackMeet";
   title: string;
   description: string;
@@ -128,7 +139,7 @@ interface CreateMeetParams {
   region: string;
 }
 // Same as CreateMeetUnput atm
-interface EditMeetParams {
+interface EditMeetInput {
   meetType?: "hackMeet";
   title?: string;
   description?: string;
@@ -138,10 +149,10 @@ interface EditMeetParams {
   startTime?: string;
   endTime?: string;
   region?: string;
-  kanbanId?: string;
+  kanbanCanonId?: string;
 }
 
-interface CreateProjectParams {
+interface CreateProjectInput {
   userId: string;
   meetId: string;
   title: string;
@@ -155,10 +166,22 @@ interface CreateKanbanCanonInput {
   title: string;
   description: string;
 }
-// Same as CreateKanbanInput atm
+
 interface EditKanbanCanonInput {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
+}
+
+interface CreateKanbanInput {
+  meetId?: string;
+  userId: string;
+  kanbanCanonId: string;
+}
+
+interface UpdateKanbanCardInput {
+  id: string;
+  kanbanId: string;
+  status: KanbanCanonCardStatus;
 }
 
 interface CreateKanbanCanonCardInput {

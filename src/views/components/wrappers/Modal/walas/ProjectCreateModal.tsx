@@ -30,7 +30,7 @@ const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonTe
     },
   ];
 
-  const createProject = async (params: CreateProjectParams) => {
+  const createProject = async (params: CreateProjectInput) => {
     let projectId: string;
     if (context) {
       await context.projectService

@@ -10,12 +10,13 @@ import { BgBlock } from "../../components/BgBlock";
 import ProjectCreateModal from "../../components/wrappers/Modal/walas/ProjectCreateModal";
 import AdminMeetEditModal from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
 import { MarkdownParser } from "../../components/MarkdownParser";
-import KanbanViewAdmin from "../../components/Kanban/KanbanViewAdmin";
-import AdminKanbanCreateModal from "../../components/wrappers/Modal/walas/AdminKanbanCreateModal";
-import KanbanViewUser from "../../components/Kanban/KanbanViewUser";
+import KanbanCanonViewer from "../../components/Kanban/KanbanCanonViewer";
+import AdminKanbanCreateModal from "../../components/wrappers/Modal/walas/AdminKanbanCanonCreateModal";
+import KanbanViewer from "../../components/Kanban/KanbanViewer";
 import LoginModal from "../../components/wrappers/Modal/walas/LoginModal";
 import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
 import { MeetStatus } from "../../components/MeetStatus";
+import CreateKanbanButton from "../../components/Kanban/CreateKanbanButton";
 
 const d = new DateUtility();
 
@@ -119,34 +120,42 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     }
   };
 
-  const renderKanbanViewAdmin = () => (
-    <>
-      {kanbanCanon ? (
-        <div className="mt-10">
-          <KanbanViewAdmin kanbanCanon={kanbanCanon} onKanbanDelete={fetchMeetData} />
-        </div>
-      ) : meet?.id ? (
-        <div className="mt-10">
-          {" "}
-          <AdminKanbanCreateModal buttonText="Add a kanban to this meet" onCreate={fetchMeetData} meetId={meet.id} />
-        </div>
-      ) : null}
-    </>
-  );
+  const renderKanbanViewAdmin = () => {
+    return meet && kanbanCanon ? (
+      <div className="mt-10">
+        <KanbanCanonViewer kanbanCanon={kanbanCanon} onKanbanCanonDelete={fetchMeetData} />
+      </div>
+    ) : meet?.id ? (
+      <div className="mt-10">
+        {" "}
+        <AdminKanbanCreateModal buttonText="Add a kanban to this meet" onCreate={fetchMeetData} meetId={meet.id} />
+      </div>
+    ) : null;
+  };
 
-  // Add feature flag FF_KANBAN_USER=true to your local .env to view.
-  const showKanbanUser = !!process.env.FF_KANBAN_USER;
-  const renderKanbanViewUser = () =>
-    showKanbanUser && (
-      <>
-        {meet && (
-          <div className="mt-6">
-            <KanbanViewUser meetId={meet.id} kanbanId={"fakekanbanIdUtilItIsOnMeet"} />
-          </div>
-        )}
-      </>
-    );
-  // End experimental features ^^^^^^^^^^^^^^^^^^
+  const renderKanbanViewUser = () => {
+    // Meet as a kanbanCanon and user already has a kanban for it
+    if (kanbanCanon && meet?.kanban) {
+      return (
+        <div className="mt-6">
+          <KanbanViewer meetId={meet.id} kanbanCanonId={kanbanCanon.id} kanbanId={meet.kanban.id} />
+        </div>
+      );
+    }
+    // meet has a kanbanCanon but logged in user doesn't have a kanban for it
+    else if (kanbanCanon && meet && user.data) {
+      return (
+        <CreateKanbanButton
+          onCreate={fetchMeetData}
+          meetId={meet.id}
+          userId={user.data.id}
+          kanbanCanonId={kanbanCanon.id}
+        />
+      );
+    }
+    // otherwise
+    return null;
+  };
 
   return (
     <BgBlock type="blackStripeEvents">

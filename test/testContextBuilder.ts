@@ -37,7 +37,7 @@ export const testContextBuilder = (): TestContext => {
   const projectDao = new TestProjectDao();
   const projectService = new ProjectService(projectDao, loggerService);
   const kanbanCanonDao = new TestKanbanCanonDao();
-  const kanbanCanonService = new KanbanService(kanbanCanonDao, loggerService);
+  const kanbanCanonService = new KanbanCanonService(kanbanCanonDao, loggerService);
 
   return {
     loggerService,

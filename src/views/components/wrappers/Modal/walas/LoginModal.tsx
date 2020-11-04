@@ -15,11 +15,11 @@ interface Props {
 }
 
 type DispatchMapping = {
-  login: (values: LoginParams) => void;
+  login: (values: LoginArgs) => void;
 };
 
 const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
-  login: (values: LoginParams) => dispatch(login(values)),
+  login: (values: LoginArgs) => dispatch(login(values)),
 });
 
 const LoginModal: FC<Props & DispatchMapping> = ({ login, className, buttonText }) => {
@@ -49,7 +49,7 @@ const LoginModal: FC<Props & DispatchMapping> = ({ login, className, buttonText 
           </Button>
         )}
       >
-        <LoginForm formRef={formRef} login={(values: LoginParams) => login(values)} />
+        <LoginForm formRef={formRef} login={(values: LoginArgs) => login(values)} />
       </Modal>
     </>
   );

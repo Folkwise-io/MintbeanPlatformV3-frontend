@@ -4,16 +4,16 @@ import { AuthDao } from "./AuthDao";
 import { handleServerError } from "../utils/handleServerError";
 
 interface RegisterInput {
-  input: RegisterParams;
+  input: RegisterInput;
 }
 
 /* TODO: consider refactoring User attributes query into a resuable function */
 export class AuthDaoImpl implements AuthDao {
   constructor(private api: ApiQueryExecutor) {}
 
-  login(params: LoginParams): Promise<User> {
+  login(params: LoginArgs): Promise<User> {
     return this.api
-      .query<ApiResponseRaw<{ login: User }>, LoginParams>(
+      .query<ApiResponseRaw<{ login: User }>, LoginArgs>(
         `
             mutation Login($email: String!, $password: String!) {
               login(email: $email, password: $password) {
@@ -83,7 +83,7 @@ export class AuthDaoImpl implements AuthDao {
       .catch(handleServerError);
   }
 
-  register(params: RegisterParams): Promise<User> {
+  register(input: RegisterInput): Promise<User> {
     return this.api
       .query<ApiResponseRaw<{ register: User }>, RegisterInput>(
         `
@@ -98,7 +98,7 @@ export class AuthDaoImpl implements AuthDao {
           }
         }
         `,
-        { input: params },
+        { input },
       )
       .then((result) => {
         if (result.errors) throw result.errors;

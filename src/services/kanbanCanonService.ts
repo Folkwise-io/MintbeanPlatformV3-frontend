@@ -5,28 +5,28 @@ export class KanbanCanonService {
   constructor(private kanbanCanonDao: KanbanCanonDao, private logger: LoggerService) {}
 
   // KanbanCanon
-  async fetchKanban(id: string): Promise<KanbanCanon | void> {
+  async fetchKanbanCanon(id: string): Promise<KanbanCanon | void> {
     return this.kanbanCanonDao.fetchKanbanCanon(id).catch((e) => {
       this.logger.handleGraphqlErrors(e);
     });
   }
-  async createKanban(input: CreateKanbanCanonInput): Promise<KanbanCanon | void> {
+  async createKanbanCanon(input: CreateKanbanCanonInput): Promise<KanbanCanon | void> {
     return this.kanbanCanonDao
       .createKanbanCanon(input)
-      .then((kanbanCanonCard) => {
-        this.logger.success(`Successfully added the **${kanbanCanonCard.title}** Kanban.`);
-        return kanbanCanonCard;
+      .then((kanbanCanon) => {
+        this.logger.success(`Successfully added the **${kanbanCanon.title}** Kanban.`);
+        return kanbanCanon;
       })
       .catch((e) => {
         this.logger.handleGraphqlErrors(e);
       });
   }
-  async editKanban(id: string, input: EditKanbanCanonInput): Promise<KanbanCanon | void> {
+  async editKanbanCanon(id: string, input: EditKanbanCanonInput): Promise<KanbanCanon | void> {
     return this.kanbanCanonDao
       .editKanbanCanon(id, input)
-      .then((kanban) => {
-        this.logger.success(`Updated info for the **${kanban.title}** Kanban.`);
-        return kanban;
+      .then((kanbanCanon) => {
+        this.logger.success(`Updated info for the **${kanbanCanon.title}** Kanban.`);
+        return kanbanCanon;
       })
       .catch((e) => {
         this.logger.handleGraphqlErrors(e);
@@ -41,12 +41,12 @@ export class KanbanCanonService {
       });
   }
   // KanbanCanonCard
-  async fetchKanbanCard(id: string): Promise<KanbanCanonCard | void> {
+  async fetchKanbanCanonCard(id: string): Promise<KanbanCanonCard | void> {
     return this.kanbanCanonDao.fetchKanbanCanonCard(id).catch((e) => {
       this.logger.handleGraphqlErrors(e);
     });
   }
-  async createKanbanCard(input: CreateKanbanCanonCardInput): Promise<KanbanCanonCard | void> {
+  async createKanbanCanonCard(input: CreateKanbanCanonCardInput): Promise<KanbanCanonCard | void> {
     return this.kanbanCanonDao
       .createKanbanCanonCard(input)
       .then((kanbanCanonCard) => {
@@ -57,7 +57,7 @@ export class KanbanCanonService {
         this.logger.handleGraphqlErrors(e);
       });
   }
-  async editKanbanCard(id: string, input: EditKanbanCanonCardInput): Promise<KanbanCanonCard | void> {
+  async editKanbanCanonCard(id: string, input: EditKanbanCanonCardInput): Promise<KanbanCanonCard | void> {
     return this.kanbanCanonDao
       .editKanbanCanonCard(id, input)
       .then((kanbanCanonCard) => {
@@ -68,7 +68,7 @@ export class KanbanCanonService {
         this.logger.handleGraphqlErrors(e);
       });
   }
-  async deleteKanbanCard(id: string): Promise<boolean | void> {
+  async deleteKanbanCanonCard(id: string): Promise<boolean | void> {
     return this.kanbanCanonDao
       .deleteKanbanCanonCard(id)
       .then(() => this.logger.success("Successfully deleted the Kanban Card."))

@@ -19,7 +19,7 @@ export class ProjectService {
       });
   }
 
-  async createProject(params: CreateProjectParams): Promise<Project | void> {
+  async createProject(params: CreateProjectInput): Promise<Project | void> {
     return this.projectDao
       .createProject(params)
       .then((project) => {

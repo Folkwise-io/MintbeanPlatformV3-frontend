@@ -43,9 +43,9 @@ export class ProjectDaoImpl implements ProjectDao {
       .catch(handleServerError);
   }
 
-  createProject(params: CreateProjectParams): Promise<Project> {
+  createProject(params: CreateProjectInput): Promise<Project> {
     return this.api
-      .query<ApiResponseRaw<{ createProject: Project }>, { input: CreateProjectParams }>(
+      .query<ApiResponseRaw<{ createProject: Project }>, { input: CreateProjectInput }>(
         `
           mutation createProject($input: CreateProjectInput!) {
             createProject(input: $input) {

@@ -2,6 +2,36 @@ import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { MeetDao } from "./MeetDao";
 import { handleServerError } from "../utils/handleServerError";
 
+const KANBAN_CANON_RESPONSE_QUERY = `
+  kanbanCanonId
+  kanbanCanon {
+    id
+    title
+    description
+    kanbanCanonCards {
+      id
+      title
+      body
+      status
+    }
+  }`;
+const KANBAN_RESPONSE_QUERY = `
+  kanbanId
+  kanban {
+    id
+    title
+    description
+    userId
+    meetId
+    kanbanCanonId
+    kanbanCards {
+      id
+      title
+      body
+      status
+    }
+  } `;
+
 export class MeetDaoImpl implements MeetDao {
   constructor(private api: ApiQueryExecutor) {}
 
@@ -22,6 +52,7 @@ export class MeetDaoImpl implements MeetDao {
               endTime
               createdAt
               region
+              ${KANBAN_CANON_RESPONSE_QUERY}
           }
         }
         `,
@@ -72,16 +103,8 @@ export class MeetDaoImpl implements MeetDao {
                 firstName
                 lastName
               }
-              kanban {
-                id
-                title
-                description
-                kanbanCards {
-                  id
-                  title
-                  body
-                }
-              } 
+              ${KANBAN_CANON_RESPONSE_QUERY}
+              ${KANBAN_RESPONSE_QUERY}
           }
         }
         `,
@@ -97,9 +120,9 @@ export class MeetDaoImpl implements MeetDao {
       .catch(handleServerError);
   }
 
-  createMeet(params: CreateMeetParams): Promise<Meet> {
+  createMeet(params: CreateMeetInput): Promise<Meet> {
     return this.api
-      .query<ApiResponseRaw<{ createMeet: Meet }>, { input: CreateMeetParams }>(
+      .query<ApiResponseRaw<{ createMeet: Meet }>, { input: CreateMeetInput }>(
         `
           mutation createMeet($input: CreateMeetInput!) {
             createMeet(input: $input) {
@@ -114,6 +137,8 @@ export class MeetDaoImpl implements MeetDao {
               endTime
               createdAt
               region
+              ${KANBAN_CANON_RESPONSE_QUERY}
+              ${KANBAN_RESPONSE_QUERY}
             }
           }
         `,
@@ -128,9 +153,9 @@ export class MeetDaoImpl implements MeetDao {
       })
       .catch(handleServerError);
   }
-  editMeet(id: string, params: EditMeetParams): Promise<Meet> {
+  editMeet(id: string, params: EditMeetInput): Promise<Meet> {
     return this.api
-      .query<ApiResponseRaw<{ editMeet: Meet }>, { id: string; input: EditMeetParams }>(
+      .query<ApiResponseRaw<{ editMeet: Meet }>, { id: string; input: EditMeetInput }>(
         `
           mutation editMeet($id: UUID!, $input: EditMeetInput!) {
             editMeet(id: $id, input: $input) {
@@ -145,6 +170,8 @@ export class MeetDaoImpl implements MeetDao {
               endTime
               createdAt
               region
+              ${KANBAN_CANON_RESPONSE_QUERY}
+              ${KANBAN_RESPONSE_QUERY}
             }
           }
         `,

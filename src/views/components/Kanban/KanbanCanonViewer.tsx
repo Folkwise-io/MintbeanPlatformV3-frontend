@@ -1,57 +1,62 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
-import AdminKanbanCardModal from "../wrappers/Modal/walas/AdminKanbanCardModal";
+import AdminKanbanCardModal from "../wrappers/Modal/walas/AdminKanbanCanonCardModal";
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
-import AdminKanbanCardCreateModal from "../wrappers/Modal/walas/AdminKanbanCardCreateModal";
 import { connectContext, ConnectContextProps } from "../../../context/connectContext";
-import AdminKanbanEditModal from "../wrappers/Modal/walas/AdminKanbanEditModal";
-import AdminKanbanDeleteModal from "../wrappers/Modal/walas/AdminKanbanDeleteModal";
+import AdminKanbanEditModal from "../wrappers/Modal/walas/AdminKanbanCanonEditModal";
+import AdminKanbanDeleteModal from "../wrappers/Modal/walas/AdminKanbanCanonDeleteModal";
+import AdminKanbanCanonCardCreateModal from "../wrappers/Modal/walas/AdminKanbanCanonCardCreateModal";
 
 interface Props {
-  kanbanId?: string; // used for fetching kanban on mount if desired
+  kanbanCanonId?: string; // used for fetching kanban on mount if desired
   kanbanCanon?: KanbanCanon;
-  onKanbanDelete?: () => void;
+  onKanbanCanonDelete?: () => void;
 }
 
-const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanCanonId, context, kanbanCanon, onKanbanDelete }) => {
-  const [localKanban, setLocalKanban] = useState<KanbanCanon | null>(kanbanCanon || null);
-  const [sortedKanbanCards, setSortedKanbanCards] = useState<KanbanCanonCard[]>([]);
+const KanbanCanonViewer: FC<ConnectContextProps & Props> = ({
+  kanbanCanonId,
+  context,
+  kanbanCanon,
+  onKanbanCanonDelete,
+}) => {
+  const [localKanbanCanon, setLocalKanbanCanon] = useState<KanbanCanon | null>(kanbanCanon || null);
+  const [sortedKanbanCanonCards, setSortedKanbanCanonCards] = useState<KanbanCanonCard[]>([]);
 
-  const fetchKanban = useCallback(async () => {
-    if (context && localKanban?.id) {
-      const k = await context.kanbanService.fetchKanban(localKanban.id);
+  const fetchKanbanCanon = useCallback(async () => {
+    if (context && localKanbanCanon?.id) {
+      const k = await context.kanbanCanonService.fetchKanbanCanon(localKanbanCanon.id);
       if (k) {
-        setLocalKanban(k);
-        setSortedKanbanCards(k.kanbanCanonCards);
+        setLocalKanbanCanon(k);
+        setSortedKanbanCanonCards(k.kanbanCanonCards);
       }
     }
-  }, [context, localKanban]);
+  }, [context, localKanbanCanon]);
 
   // fetch kanban on mount if kanbanCanonId provided as a prop
   useEffect(() => {
     if (kanbanCanonId) {
-      fetchKanban();
+      fetchKanbanCanon();
     }
-  }, [fetchKanban, kanbanCanonId]);
+  }, [fetchKanbanCanon, kanbanCanonId]);
 
   useEffect(() => {
-    if (localKanban) {
-      setSortedKanbanCards(localKanban.kanbanCards);
+    if (localKanbanCanon) {
+      setSortedKanbanCanonCards(localKanbanCanon.kanbanCanonCards);
     }
-  }, [localKanban]);
+  }, [localKanbanCanon]);
 
   const onDragEnd = (e: DropResult) => {
     // update kanban card sort in state
     if (typeof e.source?.index === "number" && typeof e.destination?.index === "number") {
-      const sorted = reindex(sortedKanbanCards, e.source.index, e.destination.index);
+      const sorted = reindex(sortedKanbanCanonCards, e.source.index, e.destination.index);
       const indexedAndSorted = sorted.map((s, i) => {
         s.index = i;
         return s;
       });
-      setSortedKanbanCards(indexedAndSorted);
+      setSortedKanbanCanonCards(indexedAndSorted);
     }
   };
 
-  const reindex = (list: KanbanCard[], startIndex: number, endIndex: number) => {
+  const reindex = (list: KanbanCanonCard[], startIndex: number, endIndex: number) => {
     // TODO - make db call to update kanbanCard indexes also. Currently only saved in frontend
     const result = [...list];
     const [removed] = result.splice(startIndex, 1);
@@ -60,25 +65,29 @@ const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanCanonId, conte
     return result;
   };
 
-  return !localKanban ? null : (
+  return !localKanbanCanon ? null : (
     <div>
       <p className="italic mb-2">Edit the kanban cards below to provide hackers with project requirements.</p>
       <div>
-        <h2>{localKanban.title}</h2>
-        <p>{localKanban.description}</p>
+        <h2>{localKanbanCanon.title}</h2>
+        <p>{localKanbanCanon.description}</p>
       </div>
       <div className="py-2 flex flex-col xs:flex-row">
         <AdminKanbanEditModal
           buttonText="Edit kanban"
-          kanban={localKanban}
-          onEdit={fetchKanban}
+          kanbanCanon={localKanbanCanon}
+          onEdit={fetchKanbanCanon}
           className="mb-2 xs:mb-0 xs:mr-2"
         />
-        <AdminKanbanDeleteModal buttonText="Delete kanban" onDelete={onKanbanDelete} kanban={localKanban} />
+        <AdminKanbanDeleteModal
+          buttonText="Delete kanban"
+          onDelete={onKanbanCanonDelete}
+          kanbanCanon={localKanbanCanon}
+        />
       </div>
       <div className="bg-gray-400 p-2 md:p-10 rounded-lg min-h-20">
         <DragDropContext onDragEnd={onDragEnd}>
-          {sortedKanbanCards.length > 0 ? (
+          {sortedKanbanCanonCards.length > 0 ? (
             <Droppable droppableId="droppable">
               {(provided, snapshot) => {
                 const classes = snapshot.isDraggingOver ? "bg-gray-300" : "bg-gray-400";
@@ -88,7 +97,7 @@ const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanCanonId, conte
                     ref={provided.innerRef}
                     className={`transition-colors duration-200 p-2 md:p-4 rounded-lg ${classes}`}
                   >
-                    {sortedKanbanCards.map((kbc, index) => (
+                    {sortedKanbanCanonCards.map((kbc, index) => (
                       <Draggable key={kbc.id} draggableId={kbc.id} index={index}>
                         {(provided, snapshot) => {
                           const classes = snapshot.isDragging ? "bg-mb-green-100" : "bg-white";
@@ -97,7 +106,7 @@ const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanCanonId, conte
                               <AdminKanbanCardModal
                                 dndProvided={provided}
                                 data={kbc}
-                                fetchKanban={fetchKanban}
+                                fetchKanbanCanon={fetchKanbanCanon}
                                 className={classes}
                               />
                             </div>
@@ -114,13 +123,13 @@ const KanbanViewAdmin: FC<ConnectContextProps & Props> = ({ kanbanCanonId, conte
             <p className="text-center">Click the plus button to add kanban card requirements</p>
           )}
         </DragDropContext>
-        {localKanban && (
+        {localKanbanCanon && (
           <div className="w-full flex justify-center mt-4">
-            <AdminKanbanCardCreateModal kanbanCanonId={localKanban.id} fetchKanban={fetchKanban} />
+            <AdminKanbanCanonCardCreateModal kanbanCanonId={localKanbanCanon.id} fetchKanbanCanon={fetchKanbanCanon} />
           </div>
         )}
       </div>
     </div>
   );
 };
-export default connectContext<ConnectContextProps & Props>(KanbanViewAdmin);
+export default connectContext<ConnectContextProps & Props>(KanbanCanonViewer);

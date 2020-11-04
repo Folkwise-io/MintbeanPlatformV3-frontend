@@ -3,7 +3,7 @@ import { AuthDao } from "../daos/AuthDao";
 export class AuthService {
   constructor(private authDao: AuthDao) {}
 
-  login(params: LoginParams): Promise<User> {
+  login(params: LoginArgs): Promise<User> {
     return this.authDao.login(params);
   }
   logout(): Promise<boolean> {
@@ -12,7 +12,7 @@ export class AuthService {
   me(): Promise<User> {
     return this.authDao.me();
   }
-  register(params: RegisterParams): Promise<User> {
+  register(params: RegisterInput): Promise<User> {
     return this.authDao.register(params);
   }
 }

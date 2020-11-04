@@ -5,24 +5,20 @@ import { useForm } from "react-hook-form";
 import { MarkdownEditor } from "../MarkdownEditor";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
-const createKanbanCardInputSchema = yup.object().shape({
+const createKanbanCanonCardInputSchema = yup.object().shape({
   title: yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
   body: yup.string().min(3, "Too Short!").required("Required"),
 });
 
 interface Props {
-  data: KanbanCard;
-  editKanbanCard: (input: EditKanbanCardInput) => void;
+  kanbanCanonId: string;
+  createKanbanCanonCard: (values: CreateKanbanCanonCardInput) => void;
   formRef: React.RefObject<HTMLFormElement> | null;
 }
 
-export const KanbanCardEditForm: FC<Props> = ({ data, editKanbanCard, formRef }) => {
+export const KanbanCanonCardCreateForm: FC<Props> = ({ kanbanCanonId, createKanbanCanonCard, formRef }) => {
   const { errors, register, handleSubmit, watch, setValue } = useForm({
-    resolver: yupResolver(createKanbanCardInputSchema),
-    defaultValues: {
-      title: data.title,
-      body: data.body,
-    },
+    resolver: yupResolver(createKanbanCanonCardInputSchema),
   });
 
   useEffect(() => {
@@ -32,13 +28,16 @@ export const KanbanCardEditForm: FC<Props> = ({ data, editKanbanCard, formRef })
   const body = watch("body");
 
   // RHF only calls onSubmit callback when form input passes validation
-  const onSubmit = (input: CreateKanbanCardInput) => {
-    editKanbanCard(input);
+  const onSubmit = (input: CreateKanbanCanonCardInput) => {
+    createKanbanCanonCard(input);
   };
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Create a new kanban card</h1>
+      <h1 className="font-semibold">Create a new kanban canon card</h1>
+
+      {/* Infer kanbanCanonId without prompting */}
+      <input type="hidden" name="kanbanCanonId" ref={register} value={kanbanCanonId} />
 
       <label htmlFor="title">Title</label>
       <input type="text" name="title" ref={register} className="mb-2" />

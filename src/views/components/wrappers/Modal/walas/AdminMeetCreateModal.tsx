@@ -29,7 +29,7 @@ const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, classN
     },
   ];
 
-  const createMeet = async (params: CreateMeetParams) => {
+  const createMeet = async (params: CreateMeetInput) => {
     let meetId: string;
     if (context) {
       context.meetService

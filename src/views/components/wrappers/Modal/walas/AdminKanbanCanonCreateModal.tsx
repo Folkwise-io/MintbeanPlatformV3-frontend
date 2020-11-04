@@ -2,7 +2,7 @@ import React, { FC, useRef, useState } from "react";
 import { Modal } from "..";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
-import { KanbanCreateForm } from "../../../forms/KanbanCreateForm";
+import { KanbanCanonCreateForm } from "../../../forms/KanbanCanonCreateForm";
 import { Button } from "../../../Button";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
   onCreate: () => void;
 }
 
-const AdminKanbanCreateModal: FC<ConnectContextProps & Props> = ({
+const AdminKanbanCanonCreateModal: FC<ConnectContextProps & Props> = ({
   onCreate,
   meetId,
   context,
@@ -25,7 +25,7 @@ const AdminKanbanCreateModal: FC<ConnectContextProps & Props> = ({
   const actions: ModalActionDeclaration[] = [
     {
       type: "primary",
-      text: "Create Kanban",
+      text: "Create Kanban Canon",
       buttonType: "submit",
       onClick: (_evt, { closeModal }) => {
         if (formRef.current) {
@@ -38,13 +38,13 @@ const AdminKanbanCreateModal: FC<ConnectContextProps & Props> = ({
     },
   ];
 
-  const createKanban = async (input: CreateKanbanInput) => {
+  const createKanbanCanon = async (input: CreateKanbanCanonInput) => {
     if (context) {
-      await context.kanbanService.createKanban(input).then(async (newKanban) => {
-        if (newKanban) {
-          // add new kanban to meet if meetId supplied
+      await context.kanbanCanonService.createKanbanCanon(input).then(async (newKanbanCanon) => {
+        if (newKanbanCanon) {
+          // add new kanbanCanon to meet if meetId supplied
           if (meetId) {
-            await context.meetService.editMeet(meetId, { kanbanId: newKanban.id });
+            await context.meetService.editMeet(meetId, { kanbanCanonId: newKanbanCanon.id });
           }
           onCreate();
           if (close) close();
@@ -66,10 +66,10 @@ const AdminKanbanCreateModal: FC<ConnectContextProps & Props> = ({
           </Button>
         )}
       >
-        <KanbanCreateForm formRef={formRef} createKanban={createKanban} />
+        <KanbanCanonCreateForm formRef={formRef} createKanbanCanon={createKanbanCanon} />
       </Modal>
     </>
   );
 };
 
-export default connectContext<ConnectContextProps & Props>(AdminKanbanCreateModal);
+export default connectContext<ConnectContextProps & Props>(AdminKanbanCanonCreateModal);

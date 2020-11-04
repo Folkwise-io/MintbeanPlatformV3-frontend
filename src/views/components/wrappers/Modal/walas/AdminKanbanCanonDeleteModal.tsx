@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Modal } from "../";
+import { Modal } from "..";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { Button } from "../../../Button";
@@ -7,13 +7,13 @@ import { Button } from "../../../Button";
 interface Props {
   className?: string;
   buttonText: string;
-  kanban: Kanban;
+  kanbanCanon: KanbanCanon;
   onDelete?: () => void;
 }
 
-const AdminKanbanDeleteModal: FC<ConnectContextProps & Props> = ({
+const AdminKanbanCanonDeleteModal: FC<ConnectContextProps & Props> = ({
   context,
-  kanban,
+  kanbanCanon,
   className,
   buttonText,
   onDelete,
@@ -30,16 +30,16 @@ const AdminKanbanDeleteModal: FC<ConnectContextProps & Props> = ({
       type: "danger",
       text: "Delete",
       onClick: async (_evt, { closeModal }) => {
-        await deleteKanban(kanban.id);
+        await deleteKanbanCanon(kanbanCanon.id);
         if (onDelete) onDelete();
         closeModal();
       },
     },
   ];
 
-  const deleteKanban = async (id: string) => {
+  const deleteKanbanCanon = async (id: string) => {
     if (context) {
-      await context.kanbanService.deleteKanban(id);
+      await context.kanbanCanonService.deleteKanbanCanon(id);
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
     }
@@ -59,15 +59,15 @@ const AdminKanbanDeleteModal: FC<ConnectContextProps & Props> = ({
         {" "}
         <div className="text-black">
           <p>
-            <span className="text-red-500 font-semibold">Warning!</span> Deleting this kanban will delete the progress
-            of any users already using this kanban.
+            <span className="text-red-500 font-semibold">Warning!</span> Deleting this kanban canon will delete the
+            progress of any users already using this kanban canon.
           </p>
           <br />
           <p>
-            Are you sure you want to delete kanban{" "}
+            Are you sure you want to delete kanban canon{" "}
             <strong>
               {'"'}
-              {kanban.title}
+              {kanbanCanon.title}
             </strong>
             {'"'}?
           </p>
@@ -77,4 +77,4 @@ const AdminKanbanDeleteModal: FC<ConnectContextProps & Props> = ({
   );
 };
 
-export default connectContext<ConnectContextProps & Props>(AdminKanbanDeleteModal);
+export default connectContext<ConnectContextProps & Props>(AdminKanbanCanonDeleteModal);

@@ -11,7 +11,7 @@ const loginAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<User> 
   loadStatus,
 });
 
-export function login(params: LoginParams): ThunkAction<void, StoreState, Context, MbAction<void>> {
+export function login(params: LoginArgs): ThunkAction<void, StoreState, Context, MbAction<void>> {
   return (dispatch: Dispatch, _getState, context) => {
     dispatch(loginAction("LOADING"));
     return context.authService
@@ -99,7 +99,7 @@ const registerAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<Use
   loadStatus,
 });
 
-export function register(params: RegisterParams): ThunkAction<void, StoreState, Context, MbAction<void>> {
+export function register(params: RegisterInput): ThunkAction<void, StoreState, Context, MbAction<void>> {
   return (dispatch: Dispatch, getState, context) => {
     const userAlreadyLoggedin = getState().user.data;
     if (userAlreadyLoggedin) {

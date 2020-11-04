@@ -3,14 +3,18 @@ import { Modal } from "..";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { KanbanCardCreateForm } from "../../../forms/KanbanCardCreateForm";
+import { KanbanCanonCardCreateForm } from "../../../forms/KanbanCanonCardCreateForm";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 
 interface Props {
-  kanbanId: string;
-  fetchKanban: () => Promise<void>;
+  kanbanCanonId: string;
+  fetchKanbanCanon: () => Promise<void>;
 }
-const AdminKanbanCardCreateModal: FC<ConnectContextProps & Props> = ({ kanbanId, context, fetchKanban }) => {
+const AdminKanbanCanonCardCreateModal: FC<ConnectContextProps & Props> = ({
+  kanbanCanonId,
+  context,
+  fetchKanbanCanon,
+}) => {
   const [close, setClose] = useState<(() => void) | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const actions: ModalActionDeclaration[] = [
@@ -29,10 +33,10 @@ const AdminKanbanCardCreateModal: FC<ConnectContextProps & Props> = ({ kanbanId,
     },
   ];
 
-  const createKanbanCard = async (input: CreateKanbanCardInput) => {
+  const createKanbanCanonCard = async (input: CreateKanbanCanonCardInput) => {
     if (context) {
-      context.kanbanService.createKanbanCard(input).then(() => {
-        fetchKanban().then(() => {
+      context.kanbanCanonService.createKanbanCanonCard(input).then(() => {
+        fetchKanbanCanon().then(() => {
           if (close) close();
         });
       });
@@ -59,10 +63,14 @@ const AdminKanbanCardCreateModal: FC<ConnectContextProps & Props> = ({ kanbanId,
           </button>
         )}
       >
-        <KanbanCardCreateForm formRef={formRef} createKanbanCard={createKanbanCard} kanbanId={kanbanId} />
+        <KanbanCanonCardCreateForm
+          formRef={formRef}
+          createKanbanCanonCard={createKanbanCanonCard}
+          kanbanCanonId={kanbanCanonId}
+        />
       </Modal>
     </>
   );
 };
 
-export default connectContext<ConnectContextProps & Props>(AdminKanbanCardCreateModal);
+export default connectContext<ConnectContextProps & Props>(AdminKanbanCanonCardCreateModal);

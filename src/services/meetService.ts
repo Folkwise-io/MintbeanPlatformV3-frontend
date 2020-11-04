@@ -24,7 +24,7 @@ export class MeetService {
         this.logger.handleGraphqlErrors(e);
       });
   }
-  async createMeet(params: CreateMeetParams): Promise<Meet | void> {
+  async createMeet(params: CreateMeetInput): Promise<Meet | void> {
     return this.meetDao
       .createMeet(params)
       .then((meet) => {
@@ -35,7 +35,7 @@ export class MeetService {
         this.logger.handleGraphqlErrors(e);
       });
   }
-  async editMeet(id: string, params: EditMeetParams): Promise<Meet | void> {
+  async editMeet(id: string, params: EditMeetInput): Promise<Meet | void> {
     return this.meetDao
       .editMeet(id, params)
       .then((meet) => {

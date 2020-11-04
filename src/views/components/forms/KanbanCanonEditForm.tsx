@@ -10,28 +10,28 @@ const editKanbanInputSchema = yup.object().shape({
 });
 
 interface Props {
-  editKanban: (values: EditKanbanInput) => void;
+  editKanbanCanon: (values: EditKanbanCanonInput) => void;
   formRef: React.RefObject<HTMLFormElement> | null;
-  kanban: Kanban;
+  kanbanCanon: KanbanCanon;
 }
 
-export const KanbanEditForm: FC<Props> = ({ editKanban, formRef, kanban }) => {
+export const KanbanCanonEditForm: FC<Props> = ({ editKanbanCanon, formRef, kanbanCanon }) => {
   const { errors, register, handleSubmit } = useForm({
     resolver: yupResolver(editKanbanInputSchema),
     defaultValues: {
-      title: kanban.title,
-      description: kanban.description,
+      title: kanbanCanon.title,
+      description: kanbanCanon.description,
     },
   });
 
   // RHF only calls onSubmit callback when form input passes validation
-  const onSubmit = (data: CreateMeetParams) => {
-    editKanban(data);
+  const onSubmit = (data: CreateMeetInput) => {
+    editKanbanCanon(data);
   };
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Edit this kanban</h1>
+      <h1 className="font-semibold">Edit this kanban canon</h1>
 
       <label htmlFor="title">Title</label>
       <input type="text" name="title" ref={register} className="mb-2" />
