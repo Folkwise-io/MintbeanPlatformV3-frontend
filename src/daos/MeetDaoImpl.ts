@@ -47,12 +47,19 @@ export class MeetDaoImpl implements MeetDao {
               description
               instructions
               registerLink
+              registerLinkStatus
               coverImageUrl
               startTime
               endTime
               createdAt
               region
+<<<<<<< HEAD
               ${KANBAN_CANON_RESPONSE_QUERY}
+=======
+              registrants {
+                id
+              }
+>>>>>>> 5b15a5993d8b6946c6e1e9afdd7b3b8cee2f6739
           }
         }
         `,
@@ -80,6 +87,7 @@ export class MeetDaoImpl implements MeetDao {
               description
               instructions
               registerLink
+              registerLinkStatus
               coverImageUrl
               startTime
               endTime
@@ -132,6 +140,7 @@ export class MeetDaoImpl implements MeetDao {
               description
               instructions
               registerLink
+              registerLinkStatus
               coverImageUrl
               startTime
               endTime
@@ -165,6 +174,7 @@ export class MeetDaoImpl implements MeetDao {
               description
               instructions
               registerLink
+              registerLinkStatus
               coverImageUrl
               startTime
               endTime

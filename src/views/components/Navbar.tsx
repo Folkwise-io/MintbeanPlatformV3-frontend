@@ -1,93 +1,59 @@
-import React, { FC, useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
-import { ThunkDispatch } from "redux-thunk";
-import { logout } from "../state/actions/authActions";
-import { MbAction } from "../state/actions/MbAction";
-import { Context } from "../../context/contextBuilder";
-import RegisterModal from "./wrappers/Modal/walas/RegisterModal";
-import LoginModal from "./wrappers/Modal/walas/LoginModal";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import logo from "../../assets/images/logos/logo-black.svg";
-import { Button } from "./Button";
+import ToastsContainer from "./ToastsContainer";
+import { debounce } from "../../utils/debounce";
+import TinyFabNav from "./TinyFabNav/index";
 
-type StateMapping = {
-  user: UserState;
-};
+const Navbar: FC = () => {
+  const navRef = useRef<HTMLDivElement>(null);
+  const [currentNavHeight, setCurrentNavHeight] = useState<number>(80); // for safety. Matches the min-height of the navbar
 
-const stp = (state: StoreState) => ({
-  user: state.user,
-});
+  // artificially dispatch a resize event on mount to set initial nav hieght
+  useEffect(() => {
+    window.dispatchEvent(new Event("resize"));
+  }, []);
 
-type DispatchMapping = {
-  logout: () => void;
-};
+  // update currentNavHeight only if window resize changes the nav height
+  const handleResize = useCallback((): void => {
+    if (!navRef.current) return;
 
-const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
-  logout: () => dispatch(logout()),
-});
+    const { offsetHeight } = navRef.current;
 
-const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
-  const [isLoggedIn, setLoggedIn] = useState(!!user.data);
-  const history = useHistory();
+    const navHeightChanged = offsetHeight != currentNavHeight;
+
+    if (navHeightChanged) {
+      setCurrentNavHeight(offsetHeight);
+    }
+  }, [currentNavHeight]);
 
   useEffect(() => {
-    setLoggedIn(!!user.data);
-  }, [user]);
-
-  // TODO: use protected routes instead of in-component redirects
-  const logoutAndRedirect = (): void => {
-    logout();
-    history.push("/");
-  };
+    const handler = debounce(handleResize);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, [handleResize]);
 
   return (
-    <nav className="py-2 px-12 bg-white sticky top-0" style={{ minHeight: "80px", zIndex: 99 }}>
-      <div className="flex flex-col md:flex-row md:items-center justify-between md:py-2">
-        <section className="h-full sm:w-56 mx-auto md:mx-0">
-          <Link
-            to="/"
-            className="transition duration-500 ease-in-out text-black hover:text-mb-blue-100 focus:text-mb-blue-100 grid place-items-center md:place-items-start"
-          >
-            <img src={logo} alt="Mintbean logo" className="" style={{ maxHeight: "50px" }} />
-          </Link>
-        </section>
-        <section>
-          <div className="flex flex-col md:flex-row items-center">
-            <div>
-              <Link
-                to="/community"
-                className="transition duration-500 ease-in-out mx-2 text-black hover:text-mb-blue-100 focus:text-mb-blue-100"
-              >
-                Community
-              </Link>
-              <Link
-                to="/meets"
-                className="transition duration-500 ease-in-out mx-2 text-black hover:text-mb-blue-100 focus:text-mb-blue-100"
-              >
-                Meets
-              </Link>
-            </div>
-            {user.loadStatus !== "LOADING" &&
-              (isLoggedIn ? (
-                <Button type="secondary" onClick={() => logoutAndRedirect()}>
-                  Logout
-                </Button>
-              ) : (
-                <>
-                  <div className="flex items-center justify-center">
-                    <LoginModal buttonText="Login" className="m-2 md:my-0 whitespace-no-wrap" />
-                    <RegisterModal
-                      buttonText="Sign up"
-                      className="shadow-md py-2 px-6 rounded-lg border-2 border-solid font-semibold transition duration-500 ease-in-out text-black bg-mb-green-100 border-mb-green-200 hover:shadow-sm hover:opacity-75 hover:text-mb-purple-100 focus:shadow-sm focus:opacity-75 whitespace-no-wrap"
-                    />
-                  </div>
-                </>
-              ))}
-          </div>
-        </section>
-      </div>
-    </nav>
+    <>
+      <nav
+        ref={navRef}
+        className="py-2 px-12 my-4 md:my-0 bg-white sticky top-0"
+        style={{ minHeight: "80px", zIndex: 99 }}
+      >
+        <div className="flex flex-col md:flex-row md:items-center justify-between md:py-2">
+          <section className="h-full sm:w-56 mx-auto md:mx-0 pb-4 md:pb-0">
+            <Link
+              to="/"
+              className="mb-transition text-black hover:text-mb-blue-300 focus:text-mb-blue-300 grid place-items-center md:place-items-start"
+            >
+              <img src={logo} alt="Mintbean logo" style={{ maxHeight: "50px" }} />
+            </Link>
+          </section>
+        </div>
+      </nav>
+      <ToastsContainer stickyOffset={currentNavHeight} />
+      <TinyFabNav />
+    </>
   );
 };
-
-export default connect(stp, dtp)(Navbar);
+export default Navbar;

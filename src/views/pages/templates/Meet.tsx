@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect, useCallback } from "react";
 import { ConnectContextProps, connectContext } from "../../../context/connectContext";
-import { DateUtility } from "../../../utils/DateUtility";
+import { isPast, wcToClientStr, getDurationInHours, getDurationStringFromHours } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button } from "../../components/Button";
@@ -15,10 +15,14 @@ import AdminKanbanCreateModal from "../../components/wrappers/Modal/walas/AdminK
 import KanbanViewer from "../../components/Kanban/KanbanViewer";
 import LoginModal from "../../components/wrappers/Modal/walas/LoginModal";
 import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
-import { MeetStatus } from "../../components/MeetStatus";
+import { MeetStatus } from "../../components/MeetCards/MeetStatus";
+import { MeetRegistration } from "../../../utils/MeetRegistration";
+import { ExternalLink } from "../../components/ExternalLink";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import CreateKanbanButton from "../../components/Kanban/CreateKanbanButton";
 
-const d = new DateUtility();
+const meetReg = new MeetRegistration();
 
 interface StateMapping {
   user: UserState;
@@ -32,15 +36,20 @@ interface MatchParams {
   id: string;
 }
 
-const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({ context, user, match }) => {
+const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({
+  context,
+  user: userState,
+  match,
+}) => {
   const {
     params: { id },
   } = match;
   const [meet, setMeet] = useState<Meet | null>(null);
   const [kanbanCanon, setKanbanCanon] = useState<KanbanCanon | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const isAdmin = user.data?.isAdmin;
-  const isLoggedIn = user.data;
+  const user = userState.data;
+  const isLoggedIn = !!user;
+  const isAdmin = user?.isAdmin;
   const history = useHistory();
 
   const fetchMeetData = useCallback(async () => {
@@ -62,12 +71,20 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     fetchMeetData();
   }, [fetchMeetData]);
 
+  const canRegister = meet?.registerLinkStatus !== "CLOSED";
+
   const updateRegistrantData = async () => {
     if (!context) {
       console.error(new Error("No context passed to component, but was expected"));
       alert("Blame the devs! Something terrible happened.");
       return;
     }
+
+    if (!canRegister) {
+      alert("This meet is closed for registrations.");
+      return;
+    }
+
     if (meet) {
       setLoading(true);
       await context.meetService
@@ -82,12 +99,12 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     history.push("/meets");
   };
 
-  const meetHasStarted = d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
-  const meetHasEnded = d.isPast(meet?.endTime || "", meet?.region || "America/Toronto");
+  const meetHasStarted = isPast(meet?.startTime || "", meet?.region || "America/Toronto");
+  const meetHasEnded = isPast(meet?.endTime || "", meet?.region || "America/Toronto");
 
   const dateInfo = meet
-    ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDurationStringFromHours(
-        d.getDurationInHours(meet.startTime, meet.endTime),
+    ? `${wcToClientStr(meet.startTime, meet.region)} (Duration: ${getDurationStringFromHours(
+        getDurationInHours(meet.startTime, meet.endTime),
       )})`
     : "Loading..";
 
@@ -115,8 +132,8 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   };
 
   const isRegistered = () => {
-    if (meet && user.data) {
-      return getRegistrantIds()?.includes(user.data.id) ? true : false;
+    if (meet && user) {
+      return getRegistrantIds()?.includes(user.id) ? true : false;
     }
   };
 
@@ -143,14 +160,9 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       );
     }
     // meet has a kanbanCanon but logged in user doesn't have a kanban for it
-    else if (kanbanCanon && meet && user.data) {
+    else if (kanbanCanon && meet && user) {
       return (
-        <CreateKanbanButton
-          onCreate={fetchMeetData}
-          meetId={meet.id}
-          userId={user.data.id}
-          kanbanCanonId={kanbanCanon.id}
-        />
+        <CreateKanbanButton onCreate={fetchMeetData} meetId={meet.id} userId={user.id} kanbanCanonId={kanbanCanon.id} />
       );
     }
     // otherwise
@@ -163,9 +175,9 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
         <header className="flex flex-col items-center">
           <div className="flex w-screen min-h-84 max-h-60vh bg-gray-800">
             {loading ? (
-              <div className="text-white h-screen-lg p-24 w-full flex justify-center items-center">Loading...</div>
+              <div className="text-white h-screen-lg p-24 w-full mb-flex-centered">Loading...</div>
             ) : (
-              <img className="object-cover w-full" src={meet?.coverImageUrl} alt={meet?.title} />
+              <img className="object-contain bg-black w-full" src={meet?.coverImageUrl} alt={meet?.title} />
             )}
           </div>
         </header>
@@ -176,26 +188,25 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
           {"< "} Back to all meets
         </Link>
         <div className="overflow-hidden rounded-mb-md">
-          <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-gray-800 px-6 md:px-12 py-8">
+          <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-mb-gray-300 px-6 md:px-12 py-8">
             <section className="text-white row-span-9 md:row-span-1 md:col-span-2 md:place-self-start">
               <div className="block">
                 <h1 className="font-semibold">{meet?.title}</h1>
-                <p>{dateInfo}</p>
+                <p className="text-mb-gray-100 text-sm flex flex-wrap items-center">
+                  Starts
+                  <FontAwesomeIcon icon={faCalendarAlt} className="mx-2 text-xs" />
+                  {dateInfo}
+                </p>
                 <p className="mt-2">{meet?.description}</p>
                 {meet?.registerLink &&
                   !meetHasEnded &&
-                  (isLoggedIn && !isRegistered() ? (
-                    <Button onClick={updateRegistrantData} className="mt-4">
+                  (isLoggedIn && !meetReg.isRegistered(meet.registrants, user) ? (
+                    <Button onClick={updateRegistrantData} className="mt-2">
                       Register
                     </Button>
-                  ) : isLoggedIn && isRegistered() ? (
+                  ) : isLoggedIn && meetReg.isRegistered(meet.registrants, user) ? (
                     <div className="mt-4">
-                      {meetHasStarted && !meetHasEnded && (
-                        <span className="mr-2">
-                          <MeetStatus status="inProgress" />
-                        </span>
-                      )}
-                      <MeetStatus status="registered" />
+                      <MeetStatus user={user} meet={meet} />
                     </div>
                   ) : (
                     <div>
@@ -230,14 +241,23 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                   {meet.registrants.length !== 1 && "s"} registered
                 </p>
               )}
+            </section>
+            <section className="flex flex-col items-center md:col-span-3 md:items-end">
               {/*TODO: Add project submission form*/}
-              {meet && user.data && isRegistered() && meetHasStarted && !meetHasEnded && (
-                <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user.data} />
+              {meet && user && meetReg.isRegistered(meet.registrants, user) && meetHasStarted && !meetHasEnded && (
+                <>
+                  {meet.registerLink && (
+                    <ExternalLink href={meet.registerLink}>
+                      <Button className="mb-2">Meeting link</Button>
+                    </ExternalLink>
+                  )}
+                  <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user} />
+                </>
               )}
             </section>
           </div>
           <section className="shadow-lg bg-white p-12">
-            {user?.data?.isAdmin ? (
+            {isAdmin ? (
               adminInstructionsView
             ) : !meetHasStarted ? (
               <p>Instructions will be released once the meet starts!</p>

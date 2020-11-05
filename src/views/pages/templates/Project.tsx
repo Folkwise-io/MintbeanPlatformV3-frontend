@@ -1,6 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
 import { ConnectContextProps, connectContext } from "../../../context/connectContext";
-import { DateUtility } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button } from "../../components/Button";
@@ -122,6 +121,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                       project={project}
                       onDelete={redirectToMeetOrMeets}
                       isAdmin={isAdmin}
+                      className="m-2"
                     />
                   )}
                 </section>

@@ -28,12 +28,16 @@ interface MeetForProject {
   title: string;
 }
 
+/** Whether registration is going to open, is open now, or is closed. */
+type RegisterLinkStatus = "WAITING" | "OPEN" | "CLOSED";
+
 interface Meet {
   id: string;
   title: string;
   description: string;
   instructions: string;
   registerLink?: string;
+  registerLinkStatus: RegisterLinkStatus;
   meetType: "hackMeet"; // TODO: change to enum, extend variants once more meet types
   coverImageUrl: string;
   startTime: string;

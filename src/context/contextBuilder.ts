@@ -32,6 +32,7 @@ export interface Context {
   meetDao: MeetDao;
   projectDao: ProjectDao;
   kanbanCanonDao: KanbanCanonDao;
+  kanbanDao: KanbanDao;
   userService: UserService;
   authService: AuthService;
   meetService: MeetService;

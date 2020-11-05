@@ -3,7 +3,6 @@ import { addSuccessToast, addInfoToast, addDangerToast, addWarningToast } from "
 import { logError } from "../views/state/actions/errorActions";
 import { MbAction } from "../views/state/actions/MbAction";
 
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
 export class LoggerService {
   constructor(private store?: Store) {}
   success(message: string): void {
@@ -27,6 +26,7 @@ export class LoggerService {
     this.dispatch(logError(theMessage, theCode));
     if (!silent) this.dispatch(addDangerToast(theMessage));
   }
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
   handleGraphqlErrors(error: any, silent = false): void {
     if (Array.isArray(error)) {
       error.forEach((e): void => {
@@ -43,4 +43,3 @@ export class LoggerService {
     this.store = store;
   }
 }
-/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */

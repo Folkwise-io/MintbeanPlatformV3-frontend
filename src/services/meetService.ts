@@ -50,7 +50,7 @@ export class MeetService {
     return this.meetDao
       .registerForMeet(meetId)
       .then(() => {
-        this.logger.success(`Successfully registered for meet!`);
+        this.logger.success(`You're signed up! Check your email for details on how to join.`);
       })
       .catch((e) => {
         this.logger.handleGraphqlErrors(e);

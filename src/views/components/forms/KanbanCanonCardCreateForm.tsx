@@ -33,7 +33,7 @@ export const KanbanCanonCardCreateForm: FC<Props> = ({ kanbanCanonId, createKanb
   };
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+    <form ref={formRef} onSubmit={handleSubmit(onSubmit, (e) => console.log(e))}>
       <h1 className="font-semibold">Create a new kanban canon card</h1>
 
       {/* Infer kanbanCanonId without prompting */}

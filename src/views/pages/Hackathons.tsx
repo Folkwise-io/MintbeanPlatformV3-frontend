@@ -7,7 +7,7 @@ const Hackathons: FC<void> = () => {
       <header className="w-full">
         <div className="flex flex-col-reverse md:flex-row h-full">
           <aside
-            className="w-full md:w-2/4 flex justify-center items-center p-6"
+            className="w-full md:w-2/4 mb-flex-centered p-6"
             /* TODO : refactor gradient to tailwind config for global use*/
             style={{
               background: "linear-gradient(45deg, #00A5DB, #00ADD8, #00C7CD, #00DAC6, #00FFB8, #00FF9C)",
