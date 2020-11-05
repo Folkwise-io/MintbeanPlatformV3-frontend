@@ -2,7 +2,6 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { AuthDao } from "./AuthDao";
 import { handleServerError } from "../utils/handleServerError";
-import { RegisterForm } from "../views/components/forms/RegisterForm";
 
 /* TODO: consider refactoring User attributes query into a resuable function */
 export class AuthDaoImpl implements AuthDao {
