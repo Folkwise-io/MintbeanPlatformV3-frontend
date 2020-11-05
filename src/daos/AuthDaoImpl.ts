@@ -2,10 +2,7 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { AuthDao } from "./AuthDao";
 import { handleServerError } from "../utils/handleServerError";
-
-interface RegisterInput {
-  input: RegisterInput;
-}
+import { RegisterForm } from "../views/components/forms/RegisterForm";
 
 /* TODO: consider refactoring User attributes query into a resuable function */
 export class AuthDaoImpl implements AuthDao {
@@ -85,7 +82,7 @@ export class AuthDaoImpl implements AuthDao {
 
   register(input: RegisterInput): Promise<User> {
     return this.api
-      .query<ApiResponseRaw<{ register: User }>, RegisterInput>(
+      .query<ApiResponseRaw<{ register: User }>, { input: RegisterInput }>(
         `
         mutation register($input: UserRegistrationInput!) {
           register(input: $input) {
