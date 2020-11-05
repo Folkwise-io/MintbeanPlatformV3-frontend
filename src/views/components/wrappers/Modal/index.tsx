@@ -15,7 +15,8 @@ interface ModalProps {
   isDetached?: boolean;
   hasRelativeParent?: boolean;
 }
-const detachedStyles = { left: "50%", top: "50%", transform: "translate(-50%, -50%)" };
+// style for centering modal in middle of screen if isDetached prop = true
+const detachedStyles = { left: "50%", top: "50%", transform: "translate(-50%, -50%)", zIndex: 999 };
 
 export const Modal: FC<ModalProps> = ({
   triggerBuilder,
@@ -78,8 +79,6 @@ export const Modal: FC<ModalProps> = ({
       })
     : [];
 
-  // style for centering modal in middle of screen if isDetached prop = true
-  const detachedStyles = { left: "50%", top: "50%", transform: "translate(-50%, -50%)", zIndex: 999 };
   return (
     <>
       <>
