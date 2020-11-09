@@ -135,6 +135,9 @@ module.exports = {
           justifyContent: "center",
           alignItems: "center",
         },
+        ".mb-badge-star": {
+          clipPath: "polygon(50% 0%, 69% 26%, 98% 35%, 79% 59%, 83% 93%, 50% 82%, 18% 92%, 22% 58%, 0 35%, 32% 24%)",
+        },
       };
 
       addComponents(components, ["responsive", "hover"]);

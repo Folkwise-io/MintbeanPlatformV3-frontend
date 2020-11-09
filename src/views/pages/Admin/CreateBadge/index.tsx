@@ -1,12 +1,11 @@
 import React, { FC } from "react";
+import BadgeCreateForm from "../../../components/forms/BadgeCreateForm";
 import AdminLayout from "../AdminLayout";
-import IconLookupComponent from "../IconLookupComponent";
 
 const CreateBadge: FC = () => {
   return (
     <AdminLayout>
-      <p>meow</p>
-      <IconLookupComponent component="BadgeCreateForm" />
+      <BadgeCreateForm />
     </AdminLayout>
   );
 };

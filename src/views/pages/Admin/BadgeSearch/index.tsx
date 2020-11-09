@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import AdminLayout from "../AdminLayout";
-import IconLookupComponent from "../IconLookupComponent";
+import BadgeLookup from "../BadgeLookup";
 
 const BadgeSearch: FC = () => {
   return (
     <AdminLayout>
-      <IconLookupComponent component="BadgeLookup" />
+      <BadgeLookup />
     </AdminLayout>
   );
 };

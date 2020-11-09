@@ -1,9 +1,8 @@
-import { IconLookup, IconDefinition, findIconDefinition, IconName } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { default as Select } from "react-select";
 import { ConnectContextProps, connectContext } from "../../../context/connectContext";
 import { Badge } from "../../../types/badge";
+import BadgeDisplay from "../../components/BadgeDisplay";
 
 const BadgeLookup: FC<ConnectContextProps> = ({ context }) => {
   const [badges, setBadges] = useState<Badge[]>([]);
@@ -55,59 +54,11 @@ const BadgeLookup: FC<ConnectContextProps> = ({ context }) => {
     <>
       <Select options={badgeSearchOptions} onChange={(option) => handleChange(option)}></Select>
       <ul className="grid grid-cols-3 place-items-center">
-        {badge && (
-          <li className="flex flex-col items-center">
-            <div
-              className="mb-flex-centered"
-              style={{
-                backgroundColor: `#${badge.backgroundHex}`,
-                height: 50,
-                width: 50,
-                fontSize: 25,
-                borderRadius: "50%",
-              }}
-            >
-              <FontAwesomeIcon
-                icon={findIconDefinition({ prefix: "fas", iconName: badge.faIcon })}
-                style={{ color: `#${badge.iconHex}` }}
-              />
-            </div>
-            <p>{badge.alias}</p>
-          </li>
-        )}
-        {badges.map((badge, index) => {
-          const {
-            badgeId,
-            alias,
-            badgeShape,
-            faIcon,
-            backgroundHex,
-            iconHex,
-            title,
-            description,
-            weight,
-            createdAt,
-          } = badge;
-          const iconLookup: IconLookup = { prefix: "fas", iconName: faIcon };
-          const iconDefinition: IconDefinition = findIconDefinition(iconLookup);
-          return (
-            <li key={index} className="flex flex-col items-center">
-              <div
-                className="mb-flex-centered"
-                style={{
-                  backgroundColor: `#${backgroundHex}`,
-                  height: 50,
-                  width: 50,
-                  fontSize: 25,
-                  borderRadius: "50%",
-                }}
-              >
-                <FontAwesomeIcon icon={iconDefinition} style={{ color: `#${iconHex}` }} />
-              </div>
-              <p>{alias}</p>
-            </li>
-          );
-        })}
+        {badge && <BadgeDisplay badge={badge} size="large" />}
+        {badges &&
+          badges.map((badge, index) => {
+            return <BadgeDisplay badge={badge} key={index} />;
+          })}
       </ul>
     </>
   );
