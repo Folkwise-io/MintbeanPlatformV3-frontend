@@ -54,10 +54,18 @@ const BadgeLookup: FC<ConnectContextProps> = ({ context }) => {
     <>
       <Select options={badgeSearchOptions} onChange={(option) => handleChange(option)}></Select>
       <ul className="grid grid-cols-3 place-items-center">
-        {badge && <BadgeDisplay badge={badge} size="large" />}
+        {badge && (
+          <li className="flex flex-col items-center">
+            <BadgeDisplay badge={badge} size="medium" />
+          </li>
+        )}
         {badges &&
           badges.map((badge, index) => {
-            return <BadgeDisplay badge={badge} key={index} />;
+            return (
+              <li className="flex flex-col items-center" key={index}>
+                <BadgeDisplay badge={badge} />
+              </li>
+            );
           })}
       </ul>
     </>

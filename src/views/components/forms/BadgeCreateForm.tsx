@@ -7,13 +7,20 @@ import { Color, SketchPicker } from "react-color";
 import FaPicker from "../../pages/Admin/FaPicker";
 import { debounce } from "../../../utils/debounce";
 import { paletteOptions } from "../../../utils/Palette";
+import { CreateBadgeParams } from "../../../types/badge";
+import BadgeDisplay from "../BadgeDisplay";
 
 const BadgeCreateForm: FC = () => {
   //set icon search input state to empty string
   const [searchInput, setSearchInput] = useState<string>("");
   const searchIconsInput = useRef<HTMLInputElement | null>(null);
+  const aliasInput = useRef<HTMLInputElement | null>(null);
+  const badgeTitleInput = useRef<HTMLInputElement | null>(null);
   const [iconColor, setIconColor] = useState<Color>(paletteOptions[1]);
   const [badgeColor, setBadgeColor] = useState<Color>(paletteOptions[14]);
+  const [alias, setAlias] = useState<string>("");
+  const [badgeTitle, setBadgeTitle] = useState<string>("");
+
   //imports fas object from fontawesome and saves values
   const fasObjectValues = Object.values(fas);
   //formats into typed icon names
@@ -68,19 +75,17 @@ const BadgeCreateForm: FC = () => {
     }
   };
 
-  //set event target value to state
+  //set icon search event target value to state
   const searchIconsHandleChange = useCallback(
     (e: Event): void => {
-      console.log("changed");
       const target = e.target as HTMLInputElement;
       setSearchInput(target.value);
     },
     [setSearchInput],
   );
 
-  // add and debounce event from input
+  // and debounce event from input
   useEffect(() => {
-    console.log("useEffect");
     const input = searchIconsInput?.current;
     if (!input) return;
     const handler = debounce(searchIconsHandleChange);
@@ -104,35 +109,64 @@ const BadgeCreateForm: FC = () => {
     return className;
   };
 
+  // set alias event target to state
+  const aliasHandleChange = useCallback(
+    (e: Event): void => {
+      const target = e.target as HTMLInputElement;
+      setAlias(target.value);
+    },
+    [setAlias],
+  );
+
+  // and debounce event from input
+  useEffect(() => {
+    const input = aliasInput?.current;
+    if (!input) return;
+    const handler = debounce(aliasHandleChange);
+    input.addEventListener("input", handler);
+    return () => input && input.removeEventListener("input", handler);
+  }, [aliasHandleChange]);
+
+  // set title event target to state
+  const badgeTitleHandleChange = useCallback(
+    (e: Event): void => {
+      const target = e.target as HTMLInputElement;
+      setBadgeTitle(target.value);
+    },
+    [setBadgeTitle],
+  );
+
+  // and debounce event from input
+  useEffect(() => {
+    const input = badgeTitleInput?.current;
+    if (!input) return;
+    const handler = debounce(badgeTitleHandleChange);
+    input.addEventListener("input", handler);
+    return () => input && input.removeEventListener("input", handler);
+  }, [badgeTitleHandleChange]);
+
+  //shape into badge
+  const previewBadge: CreateBadgeParams = {
+    alias: alias,
+    badgeShape: selectedShape as "circle" | "square" | "star",
+    faIcon: selectedIcon,
+    title: badgeTitle,
+    backgroundHex: badgeColor.toString().slice(1),
+    iconHex: iconColor.toString().slice(1),
+  };
+
   return (
     <form action="" name="createBadgeForm" autoComplete="off">
       <label htmlFor="createBadgeForm">Create a badge</label>
       <div className="mb-flex-centered flex-col">
-        <div
-          className={getComputedClassName(selectedShape as "circle" | "square" | "star")}
-          style={{
-            backgroundColor: `${badgeColor}`,
-          }}
-        >
-          <FontAwesomeIcon
-            icon={iconDefinition}
-            style={{ color: `${iconColor}`, minHeight: "70%", width: "80%" }}
-            className="row-span-1"
-          />
-        </div>
+        <BadgeDisplay badge={previewBadge} size="large" />
         <div className="w-full row-span-2">
           <div>
             <div className="grid grid-cols-2">
               <div>
                 <label htmlFor="searchIcons" className="w-full inline-block">
                   Search...
-                  <input
-                    ref={searchIconsInput}
-                    name="searchIcons"
-                    type="text"
-                    className="w-full m-0"
-                    // onChange={searchIconsHandleChange}
-                  />
+                  <input ref={searchIconsInput} name="searchIcons" type="text" className="w-full m-0" />
                 </label>
                 <FaPicker icons={iconNamesFiltered} onSelect={iconHandleChange} />
                 <Select
@@ -140,6 +174,28 @@ const BadgeCreateForm: FC = () => {
                   value={badgeShapeOptions.filter((obj) => obj.value === selectedShape)}
                   onChange={(option) => shapeHandleChange(option)}
                 ></Select>
+                <label htmlFor="alias" className="w-full inline-block">
+                  {/*TODO: add the : with js*/}
+                  Choose an alias, must be :surrounded-by-colons:
+                  <input
+                    ref={aliasInput}
+                    name="alias"
+                    type="text"
+                    className="w-full m-0"
+                    placeholder="choose your :alias:"
+                  />
+                </label>
+                <label htmlFor="badgeTitle" className="w-full inline-block">
+                  Choose a badge title
+                  <input
+                    ref={badgeTitleInput}
+                    name="badgeTitle"
+                    type="text"
+                    className="w-full m-0"
+                    placeholder="choose your :alias:"
+                  />
+                </label>
+                {/*TODO: Description, weight*/}
               </div>
               <div className="flex">
                 {/* for icon color: use MB palette for presets */}

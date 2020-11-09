@@ -1,16 +1,16 @@
 import { IconLookup, IconDefinition, findIconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC } from "react";
-import { Badge } from "../../types/badge";
+import { Badge, CreateBadgeParams } from "../../types/badge";
 
 interface Props {
-  badge: Badge;
+  badge: Badge | CreateBadgeParams;
   key?: number;
   size?: "small" | "medium" | "large";
 }
 
 const BadgeDisplay: FC<Props> = ({ badge, size = "small" }) => {
-  const { badgeId, alias, badgeShape, faIcon, backgroundHex, iconHex, title, description, weight, createdAt } = badge;
+  const { alias, badgeShape, faIcon, backgroundHex, iconHex, title, description, weight } = badge;
   const iconLookup: IconLookup = { prefix: "fas", iconName: faIcon };
   const iconDefinition: IconDefinition = findIconDefinition(iconLookup);
   const getComputedClassName = (option: "circle" | "square" | "star") => {
@@ -35,7 +35,7 @@ const BadgeDisplay: FC<Props> = ({ badge, size = "small" }) => {
     return className;
   };
   return (
-    <li className="flex flex-col items-center">
+    <>
       <div
         className={getComputedClassName(badgeShape)}
         style={{
@@ -46,7 +46,7 @@ const BadgeDisplay: FC<Props> = ({ badge, size = "small" }) => {
         <FontAwesomeIcon icon={iconDefinition} style={{ color: `#${iconHex}`, height: "80%", width: "70%" }} />
       </div>
       <p>{alias}</p>
-    </li>
+    </>
   );
 };
 

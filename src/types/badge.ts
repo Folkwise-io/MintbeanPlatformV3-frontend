@@ -13,6 +13,17 @@ export interface Badge {
   createdAt: string;
 }
 
+export interface CreateBadgeParams {
+  alias: string;
+  badgeShape: "star" | "circle" | "square";
+  faIcon: IconName;
+  backgroundHex?: string;
+  iconHex?: string;
+  title: string;
+  description?: string;
+  weight?: number;
+}
+
 export interface EditBadgeParams {
   alias?: string;
   badgeShape?: "star" | "circle" | "square";
