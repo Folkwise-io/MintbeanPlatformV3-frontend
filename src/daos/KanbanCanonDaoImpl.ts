@@ -2,6 +2,26 @@ import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { KanbanCanonDao } from "./KanbanCanonDao";
 import { handleServerError } from "../utils/handleServerError";
 
+export const KANBAN_CANON_CARD_RESPONSE_QUERY = `
+  id
+  kanbanCanonId
+  title 
+  body
+`;
+export const KANBAN_CANON_RESPONSE_QUERY = `
+    id
+    title
+    description
+    kanbanCanonCards {
+      ${KANBAN_CANON_CARD_RESPONSE_QUERY}
+    }
+    cardPositions {
+      todo
+      wip
+      done
+    }
+  `;
+
 export class KanbanCanonDaoImpl implements KanbanCanonDao {
   constructor(private api: ApiQueryExecutor) {}
 
@@ -12,15 +32,7 @@ export class KanbanCanonDaoImpl implements KanbanCanonDao {
         `
             query fetchKanbanCanon($id: UUID!) {
               kanbanCanon(id: $id) {
-                id
-                title 
-                description
-                kanbanCanonCards {
-                  id
-                  title
-                  body
-                  status
-                }
+                ${KANBAN_CANON_RESPONSE_QUERY}
               }
             }
           `,
@@ -41,9 +53,7 @@ export class KanbanCanonDaoImpl implements KanbanCanonDao {
         `
             mutation createKanbanCanon($input: CreateKanbanCanonInput!) {
               createKanbanCanon(input: $input) {
-                id
-                title 
-                description
+                ${KANBAN_CANON_RESPONSE_QUERY}
               }
             }
           `,
@@ -64,9 +74,7 @@ export class KanbanCanonDaoImpl implements KanbanCanonDao {
         `
             mutation editKanbanCanon($id: UUID!, $input: EditKanbanCanonInput!) {
               editKanbanCanon(id: $id, input: $input) {
-                id
-                title 
-                description
+                ${KANBAN_CANON_RESPONSE_QUERY}
               }
             }
           `,
@@ -112,9 +120,7 @@ export class KanbanCanonDaoImpl implements KanbanCanonDao {
         `
             query fetchKanbanCanonCard($id: UUID!) {
               kanbanCanonCard(id: $id) {
-                id
-                title 
-                body
+                ${KANBAN_CANON_CARD_RESPONSE_QUERY}
               }
             }
           `,
@@ -135,9 +141,7 @@ export class KanbanCanonDaoImpl implements KanbanCanonDao {
         `
             mutation createKanbanCanonCard($input: CreateKanbanCanonCardInput!) {
               createKanbanCanonCard(input: $input) {
-                id
-                title 
-                body
+                ${KANBAN_CANON_CARD_RESPONSE_QUERY}
               }
             }
           `,
@@ -158,9 +162,7 @@ export class KanbanCanonDaoImpl implements KanbanCanonDao {
         `
             mutation editKanbanCanonCard($id: UUID!, $input: EditKanbanCanonCardInput!) {
               editKanbanCanonCard(id: $id, input: $input) {
-                id
-                title 
-                body
+                ${KANBAN_CANON_CARD_RESPONSE_QUERY}
               }
             }
           `,

@@ -1,6 +1,24 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { KanbanDao } from "./KanbanDao";
 import { handleServerError } from "../utils/handleServerError";
+import { KANBAN_CANON_CARD_RESPONSE_QUERY } from "./KanbanCanonDaoImpl";
+
+export const KANBAN_RESPONSE_QUERY = `
+    id
+    title
+    description
+    kanbanCanonId
+    userId
+    meetId
+    kanbanCards {
+      ${KANBAN_CANON_CARD_RESPONSE_QUERY}
+    }
+    cardPositions {
+      todo
+      wip
+      done
+    }
+  `;
 
 export class KanbanDaoImpl implements KanbanDao {
   constructor(private api: ApiQueryExecutor) {}
@@ -12,18 +30,7 @@ export class KanbanDaoImpl implements KanbanDao {
         `
             query fetchKanban($kanbanCanonId: UUID!, $userId: UUID!, $meetId: UUID) {
               kanban(kanbanCanonId: $kanbanCanonId, userId: $userId, meetId: $meetId) {
-                id
-                userId
-                kanbanCanonId
-                meetId
-                title 
-                description
-                kanbanCards {
-                  id
-                  title
-                  body
-                  status
-                }
+                ${KANBAN_RESPONSE_QUERY}
               }
             }
           `,
@@ -45,18 +52,7 @@ export class KanbanDaoImpl implements KanbanDao {
         `
             mutation createKanban($input: CreateKanbanInput!) {
               createKanban(input: $input) {
-                id
-                userId
-                kanbanCanonId
-                meetId
-                title 
-                description
-                kanbanCards {
-                  id
-                  title
-                  body
-                  status
-                }
+                ${KANBAN_RESPONSE_QUERY}
               }
             }
           `,
@@ -80,9 +76,7 @@ export class KanbanDaoImpl implements KanbanDao {
         `
             mutation updateKanbanCard($input: UpdateKanbanCardInput!) {
               updateKanbanCard(input: $input) {
-                id
-                title 
-                description
+                ${KANBAN_RESPONSE_QUERY}
               }
             }
           `,

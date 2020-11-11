@@ -75,19 +75,25 @@ interface CloudinaryPublicIdMediaAsset {
   cloudinaryPublicId: string;
 }
 
+// Re: status - unable to use enum in d.ts file. Using union instead
+type KanbanCanonCardStatus = "TODO" | "WIP" | "DONE";
+// TODO: how to map card status enum to lower case keys?
+interface KanbanCardPositionsObject {
+  todo: string[];
+  wip: string[];
+  done: string[];
+}
+
 interface KanbanBase {
   id: string;
   title: string;
   description: string;
+  cardPositions: KanbanCardPositionsObject;
 }
-// Re: status - unable to use enum in d.ts file. Using union instead
-type KanbanCanonCardStatus = "TODO" | "WIP" | "DONE";
-
 interface KanbanCardBase {
   id: string;
   title: string;
   body: string;
-  status: KanbanCanonCardStatus;
   index?: number;
 }
 
@@ -182,6 +188,7 @@ interface CreateKanbanInput {
   kanbanCanonId: string;
 }
 
+// TODO: change to new update call input type
 interface UpdateKanbanCardInput {
   id: string;
   kanbanId: string;
@@ -191,14 +198,12 @@ interface UpdateKanbanCardInput {
 interface CreateKanbanCanonCardInput {
   title: string;
   body: string;
-  index?: number;
   kanbanId: string;
 }
 // Same as CreateKanbanCardInput atm
 interface EditKanbanCanonCardInput {
   title: string;
   body: string;
-  index?: number;
   kanbanId: string;
 }
 

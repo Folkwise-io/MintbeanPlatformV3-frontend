@@ -1,36 +1,8 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { MeetDao } from "./MeetDao";
 import { handleServerError } from "../utils/handleServerError";
-
-const KANBAN_CANON_RESPONSE_QUERY = `
-  kanbanCanonId
-  kanbanCanon {
-    id
-    title
-    description
-    kanbanCanonCards {
-      id
-      title
-      body
-      status
-    }
-  }`;
-const KANBAN_RESPONSE_QUERY = `
-  kanbanId
-  kanban {
-    id
-    title
-    description
-    userId
-    meetId
-    kanbanCanonId
-    kanbanCards {
-      id
-      title
-      body
-      status
-    }
-  } `;
+import { KANBAN_CANON_RESPONSE_QUERY } from "./KanbanCanonDaoImpl";
+import { KANBAN_RESPONSE_QUERY } from "./KanbanDaoImpl";
 
 export class MeetDaoImpl implements MeetDao {
   constructor(private api: ApiQueryExecutor) {}
@@ -53,7 +25,7 @@ export class MeetDaoImpl implements MeetDao {
               endTime
               createdAt
               region
-              ${KANBAN_CANON_RESPONSE_QUERY}
+              kanbanCanonId
               registrants {
                 id
               }
@@ -108,8 +80,14 @@ export class MeetDaoImpl implements MeetDao {
                 firstName
                 lastName
               }
-              ${KANBAN_CANON_RESPONSE_QUERY}
-              ${KANBAN_RESPONSE_QUERY}
+              kanbanCanonId
+              kanbanId
+              kanbanCanon {
+                ${KANBAN_CANON_RESPONSE_QUERY}
+              }
+              kanban {
+                ${KANBAN_RESPONSE_QUERY}
+              }
           }
         }
         `,
@@ -143,8 +121,14 @@ export class MeetDaoImpl implements MeetDao {
               endTime
               createdAt
               region
-              ${KANBAN_CANON_RESPONSE_QUERY}
-              ${KANBAN_RESPONSE_QUERY}
+              kanbanCanonId
+              kanbanId
+              kanbanCanon {
+                ${KANBAN_CANON_RESPONSE_QUERY}
+              }
+              kanban {
+                ${KANBAN_RESPONSE_QUERY}
+              }
             }
           }
         `,
@@ -177,8 +161,14 @@ export class MeetDaoImpl implements MeetDao {
               endTime
               createdAt
               region
-              ${KANBAN_CANON_RESPONSE_QUERY}
-              ${KANBAN_RESPONSE_QUERY}
+              kanbanCanonId
+              kanbanId
+              kanbanCanon {
+                ${KANBAN_CANON_RESPONSE_QUERY}
+              }
+              kanban {
+                ${KANBAN_RESPONSE_QUERY}
+              }
             }
           }
         `,
