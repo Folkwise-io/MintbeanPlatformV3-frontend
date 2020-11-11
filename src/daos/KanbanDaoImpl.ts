@@ -70,25 +70,25 @@ export class KanbanDaoImpl implements KanbanDao {
 
   // KanbanCard
   // TODO: restructurure input to separate identification keys?
-  updateKanbanCard(input: UpdateKanbanCardInput): Promise<KanbanCard> {
-    return this.api
-      .query<ApiResponseRaw<{ updateKanbanCard: KanbanCard }>, { input: UpdateKanbanCardInput }>(
-        `
-            mutation updateKanbanCard($input: UpdateKanbanCardInput!) {
-              updateKanbanCard(input: $input) {
-                ${KANBAN_RESPONSE_QUERY}
-              }
-            }
-          `,
-        { input },
-      )
-      .then((result) => {
-        if (result.errors) throw result.errors;
-        if (!result.errors && !result.data.updateKanbanCard) {
-          throw [{ message: "Failed to update kanban card", extensions: { code: "UNEXPECTED" } }];
-        }
-        return result.data.updateKanbanCard;
-      })
-      .catch(handleServerError);
-  }
+  // updateKanbanCard(input: UpdateKanbanCardInput): Promise<KanbanCard> {
+  //   return this.api
+  //     .query<ApiResponseRaw<{ updateKanbanCard: KanbanCard }>, { input: UpdateKanbanCardInput }>(
+  //       `
+  //           mutation updateKanbanCard($input: UpdateKanbanCardInput!) {
+  //             updateKanbanCard(input: $input) {
+  //               ${KANBAN_RESPONSE_QUERY}
+  //             }
+  //           }
+  //         `,
+  //       { input },
+  //     )
+  //     .then((result) => {
+  //       if (result.errors) throw result.errors;
+  //       if (!result.errors && !result.data.updateKanbanCard) {
+  //         throw [{ message: "Failed to update kanban card", extensions: { code: "UNEXPECTED" } }];
+  //       }
+  //       return result.data.updateKanbanCard;
+  //     })
+  //     .catch(handleServerError);
+  // }
 }

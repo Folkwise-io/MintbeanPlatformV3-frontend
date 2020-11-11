@@ -59,12 +59,22 @@ export class TestManager {
     return this;
   }
 
+  addKanbanCanons(data: KanbanCanon[]): TestManager {
+    this.context.kanbanCanonDao.kanbanCanons = data;
+    return this;
+  }
+
+  addKanbanCanonCards(data: KanbanCanonCard[]): TestManager {
+    this.context.kanbanCanonDao.kanbanCanonCards = data;
+    return this;
+  }
+
   addKanbans(data: Kanban[]): TestManager {
     this.context.kanbanDao.kanbans = data;
     return this;
   }
 
-  addKanbanCards(data: KanbanCard[]): TestManager {
+  addKanbanCards(data: KanbanCanonCard[]): TestManager {
     this.context.kanbanDao.kanbanCards = data;
     return this;
   }

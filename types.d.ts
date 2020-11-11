@@ -46,7 +46,7 @@ interface Meet {
   projects: ProjectForMeet[];
   registrants: RegistrantsForMeet[];
   kanbanCanon: KanbanCanon | null;
-  kanbanCanonId: KanbanCanon | null;
+  kanbanCanonId: string | null;
   kanbanId: string | null;
   kanban: Kanban | null;
 }
@@ -78,31 +78,30 @@ interface CloudinaryPublicIdMediaAsset {
 // Re: status - unable to use enum in d.ts file. Using union instead
 type KanbanCanonCardStatus = "TODO" | "WIP" | "DONE";
 // TODO: how to map card status enum to lower case keys?
-interface KanbanCardPositionsObject {
+interface KanbanCardPositions {
   todo: string[];
   wip: string[];
   done: string[];
+}
+
+interface InflatedKanbanCardPositions {
+  todo: KanbanCanonCard[];
+  wip: KanbanCanonCard[];
+  done: KanbanCanonCard[];
 }
 
 interface KanbanBase {
   id: string;
   title: string;
   description: string;
-  cardPositions: KanbanCardPositionsObject;
+  meetId?: string;
+  cardPositions: KanbanCardPositions;
 }
-interface KanbanCardBase {
+interface KanbanCanonCard {
   id: string;
+  kanbanCanonId: string;
   title: string;
   body: string;
-  index?: number;
-}
-
-interface KanbanCanonCard extends KanbanCardBase {
-  kanbanCanonId: string;
-}
-
-interface KanbanCard extends KanbanCardBase {
-  kanbanId: string;
 }
 
 interface KanbanCanon extends KanbanBase {
@@ -112,8 +111,7 @@ interface KanbanCanon extends KanbanBase {
 interface Kanban extends KanbanBase {
   kanbanCanonId: string;
   userId: string;
-  meetId?: string;
-  kanbanCards: KanbanCard[];
+  kanbanCards: KanbanCanonCard[];
 }
 
 // ARGS ----------------------
@@ -188,23 +186,15 @@ interface CreateKanbanInput {
   kanbanCanonId: string;
 }
 
-// TODO: change to new update call input type
-interface UpdateKanbanCardInput {
-  id: string;
-  kanbanId: string;
-  status: KanbanCanonCardStatus;
-}
-
 interface CreateKanbanCanonCardInput {
   title: string;
   body: string;
-  kanbanId: string;
+  kanbanCanonId: string;
 }
 // Same as CreateKanbanCardInput atm
 interface EditKanbanCanonCardInput {
   title: string;
   body: string;
-  kanbanId: string;
 }
 
 // API -----------------------

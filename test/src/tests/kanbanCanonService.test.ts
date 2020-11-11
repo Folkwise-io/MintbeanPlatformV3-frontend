@@ -1,5 +1,5 @@
 import { TestManager } from "../TestManager";
-import { kanbanCanonCardFactory, kanbanCanonFactory } from "../factories/kanbanCanon.factory";
+import { kanbanCanonCardFactory, kanbanCanonFactory } from "../factories/kanban.factory";
 
 const fakeKanbanCanons = kanbanCanonFactory.bulk(6);
 const fakeKanbanCanonCards = kanbanCanonCardFactory.bulk(6);
@@ -268,7 +268,6 @@ describe("KanbanCanonService", () => {
     const editKanbanCanonCardInput: EditKanbanCanonCardInput = {
       title: NEW_TITLE,
       body: existingKanbanCanonCard.body,
-      kanbanCanonId,
     };
 
     it("returns the edited KanbanCanonCard on success", async () => {

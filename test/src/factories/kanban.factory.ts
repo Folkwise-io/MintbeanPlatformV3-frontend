@@ -1,14 +1,14 @@
 import faker from "faker";
 import { factory } from "./factory";
 
-export const kanbanCanonFactory = factory<Kanban>({
+export const kanbanCanonFactory = factory<KanbanCanon>({
   id: () => faker.random.uuid(),
   title: () => faker.company.bs(),
   description: () => faker.lorem.sentence(),
   kanbanCanonCards: () => kanbanCanonCardFactory.bulk(3),
 });
 
-export const kanbanCanonCardFactory = factory<KanbanCard>({
+export const kanbanCanonCardFactory = factory<KanbanCanonCard>({
   id: () => faker.random.uuid(),
   title: () => faker.company.bs(),
   body: () => faker.lorem.sentence(),

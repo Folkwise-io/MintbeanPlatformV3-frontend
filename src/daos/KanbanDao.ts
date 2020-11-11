@@ -3,5 +3,5 @@ export interface KanbanDao {
   fetchKanban(args: FetchKanbanArgs): Promise<Kanban>;
   createKanban(input: CreateKanbanInput): Promise<Kanban>;
   // KanbanCard
-  updateKanbanCard(input: UpdateKanbanCardInput): Promise<KanbanCard>;
+  // updateKanbanCardPositions(input: UpdateKanbanCardPositionsInput): Promise<KanbanCardPositions>;
 }

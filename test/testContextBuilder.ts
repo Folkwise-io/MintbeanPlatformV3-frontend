@@ -11,6 +11,8 @@ import { KanbanCanonService } from "../src/services/kanbanCanonService";
 import { TestKanbanCanonDao } from "./src/daos/TestKanbanCanonDao";
 import { Context } from "../src/context/contextBuilder";
 import { LoggerService } from "../src/services/loggerService";
+import { KanbanService } from "../src/services/kanbanService";
+import { TestKanbanDao } from "./src/daos/TestKanbanDao";
 
 export interface TestContext extends Context {
   apiQueryExecutor?: ApiQueryExecutor;
@@ -24,6 +26,8 @@ export interface TestContext extends Context {
   projectService: ProjectService;
   kanbanCanonDao: TestKanbanCanonDao;
   kanbanCanonService: KanbanCanonService;
+  kanbanDao: TestKanbanDao;
+  kanbanService: KanbanService;
 }
 
 export const testContextBuilder = (): TestContext => {
@@ -38,6 +42,8 @@ export const testContextBuilder = (): TestContext => {
   const projectService = new ProjectService(projectDao, loggerService);
   const kanbanCanonDao = new TestKanbanCanonDao();
   const kanbanCanonService = new KanbanCanonService(kanbanCanonDao, loggerService);
+  const kanbanDao = new TestKanbanDao();
+  const kanbanService = new KanbanService(kanbanDao, loggerService);
 
   return {
     loggerService,
@@ -52,5 +58,7 @@ export const testContextBuilder = (): TestContext => {
     projectService,
     kanbanCanonDao,
     kanbanCanonService,
+    kanbanDao,
+    kanbanService,
   };
 };
