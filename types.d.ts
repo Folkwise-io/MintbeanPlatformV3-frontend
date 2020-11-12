@@ -77,7 +77,7 @@ interface CloudinaryPublicIdMediaAsset {
 
 // Re: status - unable to use enum in d.ts file. Using union instead
 type KanbanCanonCardStatus = "TODO" | "WIP" | "DONE";
-// TODO: how to map card status enum to lower case keys?
+// TODO: how to map card status enum to lower case keys? hard-coding below for now
 interface KanbanCardPositions {
   todo: string[];
   wip: string[];
@@ -196,6 +196,12 @@ interface CreateKanbanCanonCardInput {
 interface EditKanbanCanonCardInput {
   title: string;
   body: string;
+}
+
+interface UpdateCardPositionInput {
+  cardId: string;
+  status: KanbanCanonCardStatus;
+  index: number;
 }
 
 // API -----------------------

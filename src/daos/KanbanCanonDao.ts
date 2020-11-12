@@ -3,6 +3,7 @@ export interface KanbanCanonDao {
   fetchKanbanCanon(id: string): Promise<KanbanCanon>;
   createKanbanCanon(input: CreateKanbanCanonInput): Promise<KanbanCanon>;
   editKanbanCanon(id: string, input: EditKanbanCanonInput): Promise<KanbanCanon>;
+  updateCardPositions(id: string, input: UpdateCardPositionInput): Promise<KanbanCardPositions>;
   deleteKanbanCanon(id: string): Promise<boolean>;
   // KanbanCanonCard
   fetchKanbanCanonCard(id: string): Promise<KanbanCanonCard>;

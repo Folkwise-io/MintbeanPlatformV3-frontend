@@ -32,6 +32,11 @@ export class KanbanCanonService {
         this.logger.handleGraphqlErrors(e);
       });
   }
+  async updateCardPositions(id: string, input: UpdateCardPositionInput): Promise<KanbanCardPositions | void> {
+    return this.kanbanCanonDao.updateCardPositions(id, input).catch((e) => {
+      this.logger.handleGraphqlErrors(e);
+    });
+  }
   async deleteKanbanCanon(id: string): Promise<boolean | void> {
     return this.kanbanCanonDao
       .deleteKanbanCanon(id)

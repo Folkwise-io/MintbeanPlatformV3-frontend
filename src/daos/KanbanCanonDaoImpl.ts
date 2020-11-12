@@ -89,6 +89,38 @@ export class KanbanCanonDaoImpl implements KanbanCanonDao {
       })
       .catch(handleServerError);
   }
+
+  updateCardPositions(id: string, input: UpdateCardPositionInput): Promise<KanbanCardPositions> {
+    return this.api
+      .query<
+        ApiResponseRaw<{ updateKanbanCanonCardPositions: KanbanCardPositions }>,
+        { id: string; input: UpdateCardPositionInput }
+      >(
+        `
+          mutation updateKanbanCanonCardPositions($id: UUID!, $input: UpdateCardPositionInput!) {
+            updateKanbanCanonCardPositions(id: $id, input: $input) {
+              todo
+              wip
+              done
+            }
+          }
+          `,
+        { id, input },
+      )
+      .then((result) => {
+        if (result.errors) throw result.errors;
+        if (!result.errors && !result.data.updateKanbanCanonCardPositions) {
+          throw [
+            {
+              message: "Something went wrong when updating card positions for the Kanban Canon.",
+              extensions: { code: "UNEXPECTED" },
+            },
+          ];
+        }
+        return result.data.updateKanbanCanonCardPositions;
+      })
+      .catch(handleServerError);
+  }
   deleteKanbanCanon(id: string): Promise<boolean> {
     return this.api
       .query<ApiResponseRaw<{ deleteKanbanCanon: boolean }>, { id: string }>(
