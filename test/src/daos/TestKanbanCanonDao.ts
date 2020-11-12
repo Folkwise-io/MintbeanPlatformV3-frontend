@@ -1,6 +1,6 @@
 import { KanbanCanonDao } from "../../../src/daos/KanbanCanonDao";
 
-type SuccessDataTypes = KanbanCanon | KanbanCanonCard | boolean;
+type SuccessDataTypes = KanbanCanon | KanbanCanonCard | KanbanCardPositions | boolean;
 
 // TODO: implement cookie header mocking for authorization tests
 export class TestKanbanCanonDao implements KanbanCanonDao {
@@ -12,9 +12,6 @@ export class TestKanbanCanonDao implements KanbanCanonDao {
     this.kanbanCanons = [];
     this.kanbanCanonCards = [];
     this.mockReturns = [];
-  }
-  updateCardPositions(id: string, input: UpdateCardPositionInput): Promise<KanbanCardPositions> {
-    throw new Error("Method not implemented.");
   }
 
   // KanbanCanon -----------------------------------------
@@ -62,6 +59,15 @@ export class TestKanbanCanonDao implements KanbanCanonDao {
       const index: number = this.kanbanCanons.findIndex((m) => m.id === id);
       const prevKanbanCanon: KanbanCanon = this.kanbanCanons[index];
       return (this.kanbanCanons[index] = { ...prevKanbanCanon, ...input });
+    }
+  }
+  async updateCardPositions(id: string, input: UpdateCardPositionInput): Promise<KanbanCardPositions> {
+    if (!id || !input) throw "You messed up in writing your test. Make sure id and input are passed as args";
+    if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
+    if (id && input && this.getSuccesses().length) {
+      return (this.getSuccesses()[0].data as unknown) as KanbanCardPositions;
+    } else {
+      throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
     }
   }
   async deleteKanbanCanon(id: string): Promise<boolean> {

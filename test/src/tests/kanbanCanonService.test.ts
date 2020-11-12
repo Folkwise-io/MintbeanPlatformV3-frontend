@@ -84,6 +84,71 @@ describe("KanbanCanonService", () => {
       expect(finalState.toasts[0].type).toBe("DANGER");
     });
   });
+  describe("updateKanbanCanonCardPositions()", () => {
+    const KANBAN_CANON_ID = "somethin";
+    const KANBAN_CANON_CARDS = kanbanCanonCardFactory
+      .bulk(3)
+      .map((kcc) => ({ ...kcc, kanbanCanonId: KANBAN_CANON_ID }));
+    const A = KANBAN_CANON_CARDS[0];
+    const B = KANBAN_CANON_CARDS[1];
+    const C = KANBAN_CANON_CARDS[2];
+    const input = {
+      cardId: A.id,
+      status: "TODO" as KanbanCanonCardStatus,
+      index: 1,
+    };
+
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.kanbanCanonDao.clearMockReturns();
+      });
+    });
+
+    it("updates a card's index within a column silently (no toasts)", async () => {
+      const expectedCardPositions: KanbanCardPositions = {
+        todo: [B.id, C.id],
+        wip: [A.id],
+        done: [],
+      };
+      await testManager
+        .configureContext((context) => {
+          context.kanbanCanonDao.mockReturn({ data: expectedCardPositions });
+        })
+        .execute((context) => {
+          return context.kanbanCanonService.updateCardPositions(KANBAN_CANON_ID, input).then((result) => {
+            if (result) {
+              expect(result).toBe(expectedCardPositions);
+            } else {
+              throw "This shouldn't be reached";
+            }
+          });
+        });
+      const finalState = testManager.store.getState();
+      expect(finalState.toasts).toHaveLength(0);
+      expect(finalState.errors).toHaveLength(0);
+    });
+    it("logs error and throws toast on server error", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.kanbanCanonDao.mockReturn(FAKE_ERROR);
+        })
+        .execute((context) => {
+          return context.kanbanCanonService.updateCardPositions(KANBAN_CANON_ID, input).then((result) => {
+            if (result) {
+              expect(result).toBe(undefined);
+            }
+          });
+        });
+      const finalState = testManager.store.getState();
+      expect(finalState.errors[0].message).toBe(SERVER_ERR_MESSAGE);
+      expect(finalState.toasts[0].type).toBe("DANGER");
+    });
+  });
   describe("editKanbanCanon()", () => {
     beforeEach(() => {
       testManager = TestManager.build();
