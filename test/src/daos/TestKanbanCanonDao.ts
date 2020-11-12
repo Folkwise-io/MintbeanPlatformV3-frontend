@@ -13,6 +13,9 @@ export class TestKanbanCanonDao implements KanbanCanonDao {
     this.kanbanCanonCards = [];
     this.mockReturns = [];
   }
+  updateCardPositions(id: string, input: UpdateCardPositionInput): Promise<KanbanCardPositions> {
+    throw new Error("Method not implemented.");
+  }
 
   // KanbanCanon -----------------------------------------
   async fetchKanbanCanon(id: string): Promise<KanbanCanon> {
