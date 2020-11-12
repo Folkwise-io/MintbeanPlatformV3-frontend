@@ -152,17 +152,24 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
 
   const renderKanbanViewUser = () => {
     // Meet as a kanbanCanon and user already has a kanban for it
-    if (kanbanCanon && meet?.kanban) {
+    if (meet?.kanban) {
       return (
         <div className="mt-6">
-          <KanbanViewer meetId={meet.id} kanbanCanonId={kanbanCanon.id} kanbanId={meet.kanban.id} />
+          <KanbanViewer kanban={meet.kanban} />
         </div>
       );
     }
     // meet has a kanbanCanon but logged in user doesn't have a kanban for it
     else if (kanbanCanon && meet && user) {
       return (
-        <CreateKanbanButton onCreate={fetchMeetData} meetId={meet.id} userId={user.id} kanbanCanonId={kanbanCanon.id} />
+        <div className="mt-6">
+          <CreateKanbanButton
+            onCreate={fetchMeetData}
+            meetId={meet.id}
+            userId={user.id}
+            kanbanCanonId={kanbanCanon.id}
+          />
+        </div>
       );
     }
     // otherwise

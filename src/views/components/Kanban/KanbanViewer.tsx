@@ -1,12 +1,13 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { DropResult } from "react-beautiful-dnd";
 import { connectContext, ConnectContextProps } from "../../../context/connectContext";
 import { connect } from "react-redux";
-import { KanbanViewUserColumn } from "./KanbanViewUserColumn";
+import { KanbanContext } from "./KanbanContext";
+import { inflateCardPositions } from "../../../utils/inflateCardPositions";
 
-interface ColumnData {
+export interface ColumnData {
   [key: string]: {
-    droppableId: "col1" | "col2" | "col3";
+    droppableId: "TODO" | "WIP" | "DONE";
     title: string;
     cards: KanbanCanonCard[];
     setCards: (c: KanbanCanonCard[]) => void;
@@ -14,10 +15,7 @@ interface ColumnData {
 }
 
 interface Props {
-  kanbanId?: string;
-  meetId?: string;
-  kanban?: Kanban;
-  kanbanCanonId: string;
+  kanban: Kanban;
 }
 
 type StateMapping = {
@@ -28,69 +26,72 @@ const stp = (state: StoreState) => ({
   user: state.user,
 });
 
-interface SortedCards {
-  TODO: KanbanCanonCard[];
-  WIP: KanbanCanonCard[];
-  DONE: KanbanCanonCard[];
-}
-
-const KanbanViewer: FC<ConnectContextProps & StateMapping & Props> = ({
-  kanban,
-  context,
-  meetId,
-  kanbanCanonId,
-  user,
-}) => {
+const emptyCardPositions = {
+  todo: [],
+  wip: [],
+  done: [],
+};
+const KanbanViewer: FC<ConnectContextProps & StateMapping & Props> = ({ kanban, context, user }) => {
   const userId = user?.data?.id;
-  const [localKanban, setLocalKanban] = useState<Kanban | null>(kanban || null);
-  const [todoCards, setTodoCards] = useState<KanbanCanonCard[]>([]);
-  const [wipCards, setWipCards] = useState<KanbanCanonCard[]>([]);
-  const [doneCards, setDoneCards] = useState<KanbanCanonCard[]>([]);
+  const { cardPositions, kanbanCards } = kanban;
+
+  const [currKanban, setCurrKanban] = useState<Kanban>(kanban);
+  const [cards, setCards] = useState<InflatedKanbanCardPositions>(emptyCardPositions);
+
+  const inflateCards = (cardPositions: KanbanCardPositions, kanbanCanonCards: KanbanCanonCard[]) => {
+    const inflated = inflateCardPositions(cardPositions, kanbanCanonCards);
+    setCards(inflated);
+  };
+
+  // set initial card positions on mount
+  useEffect(() => {
+    inflateCards(cardPositions, kanbanCards);
+  }, [cardPositions, kanbanCards]);
 
   const fetchKanban = useCallback(async () => {
-    if (!kanban && context && localKanban?.id && user.data) {
+    if (context && user.data) {
       const theKanban = await context.kanbanService.fetchKanban({
         userId: user.data.id,
-        kanbanCanonId,
-        meetId: meetId || null,
+        kanbanCanonId: kanban.kanbanCanonId,
+        meetId: kanban.meetId || null,
       });
       if (theKanban) {
-        setLocalKanban(theKanban);
+        setCurrKanban(theKanban);
         // updateCardsState(theKanban.kanbanCards);
       }
     }
-  }, [context, localKanban, kanban, kanbanCanonId, meetId, user.data]);
+  }, [context, kanban, user.data]);
+
+  const updateDbCardPositions = async (input: UpdateCardPositionInput) => {
+    if (context) {
+      context.kanbanService.updateCardPositions(currKanban.id, input);
+    }
+  };
 
   useEffect(() => {
     fetchKanban();
   }, [fetchKanban]);
 
-  useEffect(() => {
-    if (kanban) {
-      // updateCardsState(kanban.kanbanCards);
-    }
-  }, [kanban]);
-
   // This object associates column droppableIds with column titles and respective card states.
-  // Note: droppableId must match [key] name
+  // Note: column [key] name must match droppableId which also matches status column name in cardPositions object
   const columns: ColumnData = {
-    col1: {
-      droppableId: "col1",
+    TODO: {
+      droppableId: "TODO",
       title: "Todo",
-      cards: todoCards,
-      setCards: (c: KanbanCanonCard[]) => setTodoCards(c),
+      cards: cards.todo,
+      setCards: (c: KanbanCanonCard[]) => setCards((prev) => ({ ...prev, todo: c })),
     },
-    col2: {
-      droppableId: "col2",
+    WIP: {
+      droppableId: "WIP",
       title: "In Progress",
-      cards: wipCards,
-      setCards: (c: KanbanCanonCard[]) => setWipCards(c),
+      cards: cards.wip,
+      setCards: (c: KanbanCanonCard[]) => setCards((prev) => ({ ...prev, wip: c })),
     },
-    col3: {
-      droppableId: "col3",
+    DONE: {
+      droppableId: "DONE",
       title: "Done",
-      cards: doneCards,
-      setCards: (c: KanbanCanonCard[]) => setDoneCards(c),
+      cards: cards.done,
+      setCards: (c: KanbanCanonCard[]) => setCards((prev) => ({ ...prev, done: c })),
     },
   };
 
@@ -110,9 +111,15 @@ const KanbanViewer: FC<ConnectContextProps & StateMapping & Props> = ({
       columns[source.droppableId].setCards(reindexed);
     } // Case: column has changed
     else {
-      const result = move(getCards(source.droppableId), getCards(destination.droppableId), source, destination);
-      if (result) {
-        for (const [droppableId, cards] of Object.entries(result)) {
+      // update card data in db asynchronously
+      updateDbCardPositions({
+        cardId: result.draggableId,
+        status: destination.droppableId as KanbanCanonCardStatus,
+        index: destination.index,
+      });
+      const inflatedResult = move(getCards(source.droppableId), getCards(destination.droppableId), source, destination);
+      if (inflatedResult) {
+        for (const [droppableId, cards] of Object.entries(inflatedResult)) {
           columns[droppableId].setCards(cards);
         }
       }
@@ -128,19 +135,19 @@ const KanbanViewer: FC<ConnectContextProps & StateMapping & Props> = ({
     if (!droppableDestination) return;
     const sourceClone = [...sourceCards];
     const destClone = [...destinationCards];
+    // remove item at source index
     const [removed] = sourceClone.splice(droppableSource.index, 1);
+    // add item at destination index
     destClone.splice(droppableDestination.index, 0, removed);
 
     const result: { [key: string]: KanbanCanonCard[] } = {};
     result[droppableSource.droppableId] = sourceClone;
     result[droppableDestination.droppableId] = destClone;
 
-    // TODO - make db call to update KanbanCanonCard column & index data. Currently only reflected in frontend
     return result;
   };
 
   const reindex = (list: KanbanCanonCard[], startIndex: number, endIndex: number) => {
-    // TODO - make db call to update Kanban card index also. Currently only saved in frontend
     const result = [...list];
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -149,21 +156,15 @@ const KanbanViewer: FC<ConnectContextProps & StateMapping & Props> = ({
   };
 
   const renderKanban = () => {
-    return kanban ? (
+    return (
       <div>
-        <h2>{kanban.title}</h2>
-        <p>{kanban.description}</p>
+        <h2>{currKanban.title}</h2>
+        <p>{currKanban.description}</p>
         <div className="bg-gray-400 p-10 rounded-lg min-h-20">
-          <DragDropContext onDragEnd={onDragEnd}>
-            <div className="flex flex-col lg:flex-row ">
-              {Object.values(columns).map((c) => (
-                <KanbanViewUserColumn key={c.droppableId} droppableId={c.droppableId} title={c.title} cards={c.cards} />
-              ))}
-            </div>
-          </DragDropContext>
+          <KanbanContext columns={columns} onDragEnd={onDragEnd} />
         </div>
       </div>
-    ) : null;
+    );
   };
 
   return !userId ? (

@@ -68,27 +68,36 @@ export class KanbanDaoImpl implements KanbanDao {
       .catch(handleServerError);
   }
 
-  // KanbanCard
-  // TODO: restructurure input to separate identification keys?
-  // updateKanbanCard(input: UpdateKanbanCardInput): Promise<KanbanCard> {
-  //   return this.api
-  //     .query<ApiResponseRaw<{ updateKanbanCard: KanbanCard }>, { input: UpdateKanbanCardInput }>(
-  //       `
-  //           mutation updateKanbanCard($input: UpdateKanbanCardInput!) {
-  //             updateKanbanCard(input: $input) {
-  //               ${KANBAN_RESPONSE_QUERY}
-  //             }
-  //           }
-  //         `,
-  //       { input },
-  //     )
-  //     .then((result) => {
-  //       if (result.errors) throw result.errors;
-  //       if (!result.errors && !result.data.updateKanbanCard) {
-  //         throw [{ message: "Failed to update kanban card", extensions: { code: "UNEXPECTED" } }];
-  //       }
-  //       return result.data.updateKanbanCard;
-  //     })
-  //     .catch(handleServerError);
-  // }
+  updateCardPositions(id: string, input: UpdateCardPositionInput): Promise<KanbanCardPositions> {
+    return this.api
+      .query<
+        ApiResponseRaw<{ updateKanbanCardPositions: KanbanCardPositions }>,
+        { id: string; input: UpdateCardPositionInput }
+      >(
+        `
+          mutation updateKanbanCardPositions($id: UUID!, $input: UpdateCardPositionInput!) {
+            updateKanbanCardPositions(id: $id, input: $input) {
+              todo
+              wip
+              done
+            }
+          }
+          `,
+        { id, input },
+      )
+      .then((result) => {
+        if (result.errors) throw result.errors;
+        if (!result.errors && !result.data.updateKanbanCardPositions) {
+          throw [
+            {
+              message:
+                "Something went wrong when updating card positions for this Kanban. Your changes may not persist after refreshing the page",
+              extensions: { code: "UNEXPECTED" },
+            },
+          ];
+        }
+        return result.data.updateKanbanCardPositions;
+      })
+      .catch(handleServerError);
+  }
 }

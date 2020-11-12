@@ -8,7 +8,7 @@ interface Props {
   title: string;
 }
 
-export const KanbanViewUserColumn: FC<Props> = ({ droppableId, cards, title }) => {
+export const KanbanColumn: FC<Props> = ({ droppableId, cards, title }) => {
   return (
     <div className="w-full lg:w-1/3 h-full mx-1">
       <h3 className="p-4 bg-gray-700 text-white font-semibold mb-2 rounded-lg">{title}</h3>

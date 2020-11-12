@@ -21,4 +21,9 @@ export class KanbanService {
         this.logger.handleGraphqlErrors(e);
       });
   }
+  async updateCardPositions(id: string, input: UpdateCardPositionInput): Promise<KanbanCardPositions | void> {
+    return this.kanbanDao.updateCardPositions(id, input).catch((e) => {
+      this.logger.handleGraphqlErrors(e);
+    });
+  }
 }
