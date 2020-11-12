@@ -4,7 +4,7 @@ import { UserKanbanCardModal } from "../wrappers/Modal/walas/UserKanbanCardModal
 
 interface Props {
   droppableId: string;
-  cards: KanbanSessionCard[];
+  cards: KanbanCanonCard[];
   title: string;
 }
 

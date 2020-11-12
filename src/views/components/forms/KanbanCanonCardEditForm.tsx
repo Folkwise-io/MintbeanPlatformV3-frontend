@@ -12,11 +12,11 @@ const editKanbanCanonInputSchema = yup.object().shape({
 
 interface Props {
   data: KanbanCanonCard;
-  editCanonCanonCard: (input: EditKanbanCanonCardInput) => void;
+  editKanbanCanonCard: (input: EditKanbanCanonCardInput) => void;
   formRef: React.RefObject<HTMLFormElement> | null;
 }
 
-export const KanbanCanonCardEditForm: FC<Props> = ({ data, editCanonCanonCard, formRef }) => {
+export const KanbanCanonCardEditForm: FC<Props> = ({ data, editKanbanCanonCard, formRef }) => {
   const { errors, register, handleSubmit, watch, setValue } = useForm({
     resolver: yupResolver(editKanbanCanonInputSchema),
     defaultValues: {
@@ -33,7 +33,7 @@ export const KanbanCanonCardEditForm: FC<Props> = ({ data, editCanonCanonCard, f
 
   // RHF only calls onSubmit callback when form input passes validation
   const onSubmit = (input: CreateKanbanCanonCardInput) => {
-    editCanonCanonCard(input);
+    editKanbanCanonCard(input);
   };
 
   return (

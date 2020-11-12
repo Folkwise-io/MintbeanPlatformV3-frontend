@@ -102,6 +102,7 @@ interface KanbanCanonCard {
   kanbanCanonId: string;
   title: string;
   body: string;
+  index?: number; // frontend-only: for drag + drop indexing
 }
 
 interface KanbanCanon extends KanbanBase {

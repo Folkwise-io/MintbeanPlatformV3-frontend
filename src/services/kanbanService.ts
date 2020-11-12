@@ -21,14 +21,4 @@ export class KanbanService {
         this.logger.handleGraphqlErrors(e);
       });
   }
-
-  // KanbanCard
-  async updateKanbanCard(input: UpdateKanbanCardInput): Promise<KanbanCard | void> {
-    return this.kanbanDao
-      .updateKanbanCard(input)
-
-      .catch((e: ServerError) => {
-        this.logger.handleGraphqlErrors(e);
-      });
-  }
 }
