@@ -40,16 +40,22 @@ const AdminKanbanCanonCreateModal: FC<ConnectContextProps & Props> = ({
 
   const createKanbanCanon = async (input: CreateKanbanCanonInput) => {
     if (context) {
-      await context.kanbanCanonService.createKanbanCanon(input).then(async (newKanbanCanon) => {
-        if (newKanbanCanon) {
-          // add new kanbanCanon to meet if meetId supplied
-          if (meetId) {
-            await context.meetService.editMeet(meetId, { kanbanCanonId: newKanbanCanon.id });
+      const confirmed = confirm(
+        "Are you sure you want to create a kanban?\n\n Once created, a kanban cannot be deleted or removed from a meet without contacting the dev team.\n\nPress OK to continue.",
+      );
+
+      if (confirmed) {
+        await context.kanbanCanonService.createKanbanCanon(input).then(async (newKanbanCanon) => {
+          if (newKanbanCanon) {
+            // add new kanbanCanon to meet if meetId supplied
+            if (meetId) {
+              await context.meetService.editMeet(meetId, { kanbanCanonId: newKanbanCanon.id });
+            }
+            onCreate();
+            if (close) close();
           }
-          onCreate();
-          if (close) close();
-        }
-      });
+        });
+      }
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
     }

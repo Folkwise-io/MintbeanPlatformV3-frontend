@@ -140,7 +140,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const renderKanbanViewAdmin = () => {
     return meet && kanbanCanon ? (
       <div className="mt-10">
-        <KanbanCanonViewer kanbanCanon={kanbanCanon} onKanbanCanonDelete={fetchMeetData} />
+        <KanbanCanonViewer kanbanCanon={kanbanCanon} />
       </div>
     ) : meet?.id ? (
       <div className="mt-10">

@@ -1,13 +1,11 @@
 import React, { FC, useEffect, useState } from "react";
 import { connectContext, ConnectContextProps } from "../../../context/connectContext";
 import AdminKanbanEditModal from "../wrappers/Modal/walas/AdminKanbanCanonEditModal";
-import AdminKanbanDeleteModal from "../wrappers/Modal/walas/AdminKanbanCanonDeleteModal";
 import { inflateCardPositions } from "../../../utils/inflateCardPositions";
 import { KanbanCanonContext } from "./KanbanCanonContext";
 
 interface Props {
   kanbanCanon: KanbanCanon;
-  onKanbanCanonDelete?: () => void;
 }
 const emptyCardPositions = {
   todo: [],
@@ -15,7 +13,7 @@ const emptyCardPositions = {
   done: [],
 };
 
-const KanbanCanonViewer: FC<ConnectContextProps & Props> = ({ context, kanbanCanon, onKanbanCanonDelete }) => {
+const KanbanCanonViewer: FC<ConnectContextProps & Props> = ({ context, kanbanCanon }) => {
   const { cardPositions, kanbanCanonCards } = kanbanCanon;
   const [currKanbanCanon, setCurrKanbanCanon] = useState<KanbanCanon>(kanbanCanon);
   const [cards, setCards] = useState<InflatedKanbanCardPositions>(emptyCardPositions);
@@ -77,7 +75,6 @@ const KanbanCanonViewer: FC<ConnectContextProps & Props> = ({ context, kanbanCan
           onEdit={fetchKanbanCanon}
           className="mb-2 xs:mb-0 xs:mr-2"
         />
-        <AdminKanbanDeleteModal buttonText="Delete kanban" onDelete={onKanbanCanonDelete} kanbanCanon={kanbanCanon} />
       </div>
       <div className="bg-gray-400 p-2 md:p-10 rounded-lg min-h-20 max-w-screen-md mx-auto">
         <KanbanCanonContext

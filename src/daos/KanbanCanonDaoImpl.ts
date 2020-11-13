@@ -121,30 +121,7 @@ export class KanbanCanonDaoImpl implements KanbanCanonDao {
       })
       .catch(handleServerError);
   }
-  deleteKanbanCanon(id: string): Promise<boolean> {
-    return this.api
-      .query<ApiResponseRaw<{ deleteKanbanCanon: boolean }>, { id: string }>(
-        `
-            mutation deleteKanbanCanon($id: UUID!) {
-              deleteKanbanCanon(id: $id)
-            }
-          `,
-        { id },
-      )
-      .then((result) => {
-        if (result.errors) throw result.errors;
-        if (!result.errors && !result.data.deleteKanbanCanon) {
-          throw [
-            {
-              message: "Something went wrong when deleting the KanbanCanon.",
-              extensions: { code: "UNEXPECTED" },
-            },
-          ];
-        }
-        return result.data.deleteKanbanCanon;
-      })
-      .catch(handleServerError);
-  }
+
   // KanbanCanonCard ----------------------------------
   fetchKanbanCanonCard(id: string): Promise<KanbanCanonCard> {
     return this.api

@@ -37,14 +37,7 @@ export class KanbanCanonService {
       this.logger.handleGraphqlErrors(e);
     });
   }
-  async deleteKanbanCanon(id: string): Promise<boolean | void> {
-    return this.kanbanCanonDao
-      .deleteKanbanCanon(id)
-      .then(() => this.logger.success("Successfully deleted the Kanban."))
-      .catch((e) => {
-        this.logger.handleGraphqlErrors(e);
-      });
-  }
+
   // KanbanCanonCard
   async fetchKanbanCanonCard(id: string): Promise<KanbanCanonCard | void> {
     return this.kanbanCanonDao.fetchKanbanCanonCard(id).catch((e) => {

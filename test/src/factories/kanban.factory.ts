@@ -20,4 +20,5 @@ export const kanbanFactory = factory<Kanban>({
   title: () => faker.company.bs(),
   description: () => faker.lorem.sentence(),
   kanbanCards: [],
+  cardPositions: { todo: [], wip: [], done: [] },
 });

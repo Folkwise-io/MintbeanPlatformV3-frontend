@@ -38,7 +38,7 @@ export const KanbanCanonCardEditForm: FC<Props> = ({ data, editKanbanCanonCard, 
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Create a new kanban card</h1>
+      <h1 className="font-semibold">Edit a new kanban card</h1>
 
       <label htmlFor="title">Title</label>
       <input type="text" name="title" ref={register} className="mb-2" />
