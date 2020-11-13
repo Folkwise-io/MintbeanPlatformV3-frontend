@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import Markdown from "react-markdown";
+import "./markdown.css";
 
 type Props = {
   source?: string;
