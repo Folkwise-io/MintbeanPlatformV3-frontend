@@ -11,7 +11,8 @@ import {
   Project,
   Admin,
   CreateBadge,
-  BadgeSearch,
+  Badges,
+  BadgeTemplate,
 } from "./views/pages";
 
 interface RouteConfig {
@@ -68,9 +69,13 @@ export const routes: RouteConfig[] = [
     path: "/admin/create-badge",
   },
   {
-    component: BadgeSearch,
+    component: Badges,
     exact: true,
-    path: "/admin/badge-search",
+    path: "/badges",
+  },
+  {
+    component: BadgeTemplate,
+    path: "/badges/:id",
   },
   {
     component: NotFound,

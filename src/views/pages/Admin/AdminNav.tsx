@@ -5,7 +5,7 @@ const AdminNav: FC = () => {
   return (
     <nav>
       <Link to="/admin/create-badge">Create a badge</Link>
-      <Link to="/admin/badge-search">Search</Link>
+      <Link to="/badges">Search</Link>
     </nav>
   );
 };

@@ -2,16 +2,15 @@ import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import React, { ChangeEvent, FC, useRef, useState } from "react";
 import Select, { OptionTypeBase, ValueType } from "react-select";
-import { Color, SketchPicker } from "react-color";
+import { SketchPicker } from "react-color";
 import FaPicker from "../../pages/Admin/FaPicker";
 import { paletteOptions } from "../../../utils/Palette";
-import { CreateBadgeParams } from "../../../types/badge";
-import BadgeDisplay from "../BadgeDisplay";
+import { Badge, CreateBadgeParams, EditBadgeParams } from "../../../types/badge";
 import { Controller, FieldErrors, SubmitErrorHandler, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import * as yup from "yup";
 import { connectContext, ConnectContextProps } from "../../../context/connectContext";
 import { yupResolver } from "@hookform/resolvers";
-import { useHistory } from "react-router-dom";
+import BadgeDisplay from "../BadgeDisplay";
 import { Button } from "../Button";
 
 const createBadgeSchema = yup.object().shape({
@@ -31,15 +30,17 @@ const createBadgeSchema = yup.object().shape({
   faIcon: yup.string().required("icon is required!"),
 });
 
-const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
-  //State for preview
+interface Props {
+  badge: Badge;
+}
+
+const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  //State for icon search
   const [searchInput, setSearchInput] = useState<string>("");
-  const [iconColor, setIconColor] = useState<Color>(paletteOptions[1]);
-  const [badgeColor, setBadgeColor] = useState<Color>(paletteOptions[14]);
-  // refs for preview/hook-forms
+  // refs for icon search/hook-forms
   const searchIconsInput = useRef<HTMLInputElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
-  const history = useHistory();
 
   //imports fas object from fontawesome and saves values
   const fasObjectValues = Object.values(fas);
@@ -55,40 +56,31 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
     { value: "square", label: "Square" },
     { value: "star", label: "Star" },
   ];
-  //selected FA icon state
-  const [selectedIcon, setSelectedIcon] = useState(fasIconNames[0]);
-  //selected badge shape state
-  const [selectedShape, setSelectedShape] = useState(badgeShapeOptions[0].value);
 
   //react-hook-form setup
   const { register, handleSubmit, setValue, control } = useForm<CreateBadgeParams>({
     mode: "onBlur",
     resolver: yupResolver(createBadgeSchema),
     defaultValues: {
-      backgroundHex: badgeColor.toString().slice(1),
-      iconHex: iconColor.toString().slice(1),
-      title: "",
-      alias: "",
-      badgeShape: selectedShape as "star" | "circle" | "square",
-      faIcon: selectedIcon,
-      weight: 0,
-      description: "",
+      backgroundHex: badge.backgroundHex,
+      iconHex: badge.iconHex,
+      title: badge.title,
+      alias: badge.alias,
+      badgeShape: badge.badgeShape,
+      faIcon: badge.faIcon,
+      weight: badge.weight,
+      description: badge.description,
     },
   });
 
-  //fontawesome icon lookup and icon definition with selected icon state
-
-  const createBadge = async (params: CreateBadgeParams) => {
-    let badgeId: string;
+  const editBadge = async (badgeId: string, params: EditBadgeParams) => {
     if (context) {
-      context.badgeService
-        .createBadge(params)
-        .then((newBadge) => {
-          if (newBadge) {
-            badgeId = newBadge.badgeId;
-          }
-        })
-        .then(() => history.push(`/badges/${badgeId}`));
+      context.badgeService.editBadge(badgeId, params).then((badge) => {
+        // can't get react router history to push reload same page for some reason
+        if (badge) {
+          window && window.location.reload();
+        }
+      });
     } else {
       alert("Yikes, devs messed up, sorry. Action did not work");
     }
@@ -97,33 +89,49 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
   //on selection of a new icon, set to state and reassign icon definition
   const iconHandleChange = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    setLoading(true);
     const target = e.target as HTMLElement;
     let icon = target.dataset.icon as IconName;
     if (icon) {
-      setSelectedIcon(icon);
       setValue("faIcon", icon);
     } else if (target.parentElement) {
       icon = target.parentElement.dataset.icon as IconName;
-      setSelectedIcon(icon);
       setValue("faIcon", icon);
+    }
+    setLoading(false);
+  };
+
+  const onSubmit: SubmitHandler<CreateBadgeParams> = (data: EditBadgeParams) => {
+    editBadge(badge.badgeId, data);
+  };
+
+  const onError: SubmitErrorHandler<CreateBadgeParams> = (errors: FieldErrors<EditBadgeParams>) => {
+    let errorMessage = "";
+    if (errors) {
+      Object.values(errors).map((error) => {
+        if (error) {
+          errorMessage += `${error.message} `;
+        }
+      });
+      alert(errorMessage);
     }
   };
 
-  //if valid option, get computed classname for that option
   const shapeHandleChange = (
     option: ValueType<{
       value: string;
       label: string;
     }>,
   ) => {
+    setLoading(true);
     if (option) {
       const shapeOption = option as OptionTypeBase;
       const value = shapeOption.value;
-      setSelectedShape(value);
+      setValue("badgeShape", value);
     }
+    setLoading(false);
   };
 
-  //shape into badge
   const previewBadge: CreateBadgeParams = {
     alias: "",
     badgeShape: useWatch({
@@ -145,31 +153,26 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
     }),
   };
 
-  const onSubmit: SubmitHandler<CreateBadgeParams> = (data: CreateBadgeParams) => {
-    createBadge(data);
-  };
-
-  const onError: SubmitErrorHandler<CreateBadgeParams> = (errors: FieldErrors<CreateBadgeParams>) => {
-    let errorMessage = "";
-    if (errors) {
-      Object.values(errors).map((error) => {
-        if (error) {
-          errorMessage += `${error.message} `;
-        }
-      });
-      alert(errorMessage);
-    }
-  };
-
   return (
-    <form ref={formRef} name="createBadgeForm" autoComplete="off" onSubmit={handleSubmit(onSubmit, onError)}>
-      <label htmlFor="createBadgeForm">Create a badge</label>
+    <form
+      ref={formRef}
+      className="mt-2 mb-4"
+      name="editBadgeForm"
+      autoComplete="off"
+      onSubmit={handleSubmit(onSubmit, onError)}
+    >
+      <label htmlFor="editBadgeForm" className="text-lg">
+        Edit this badge
+      </label>
       <div className="mb-flex-centered flex-col">
-        <BadgeDisplay badge={previewBadge} size="large" />
         <div className="w-full row-span-2">
           <div>
             <div className="lg:grid grid-cols-3">
               <div className="col-span-2">
+                <div className="w-full mb-flex-centered flex-col bg-mb-gray-100 py-2">
+                  <BadgeDisplay badge={previewBadge} />
+                  {loading && <p>loading...</p>}
+                </div>
                 <label htmlFor="searchIcons" className="w-full inline-block">
                   Look up a FontAwesome icon by name
                   <input
@@ -194,9 +197,8 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
                   render={() => (
                     <Select
                       options={badgeShapeOptions}
-                      value={badgeShapeOptions.filter((obj) => obj.value === selectedShape)}
+                      value={badgeShapeOptions.filter((obj) => obj.value === badge.badgeShape)}
                       onChange={(option) => shapeHandleChange(option)}
-                      onBlur={() => setValue("badgeShape", selectedShape)}
                     ></Select>
                   )}
                 />
@@ -261,10 +263,11 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
                       <SketchPicker
                         disableAlpha
                         presetColors={paletteOptions}
-                        color={iconColor}
+                        color={`#${badge.iconHex}`}
+                        onChange={() => setLoading(true)}
                         onChangeComplete={(color) => {
-                          setIconColor(color.hex);
                           setValue("iconHex", color.hex.slice(1));
+                          setLoading(false);
                         }}
                         ref={register}
                       />
@@ -281,11 +284,12 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
                       <SketchPicker
                         disableAlpha
                         presetColors={paletteOptions}
-                        color={badgeColor}
+                        color={`#${badge.backgroundHex}`}
                         ref={register}
+                        onChange={() => setLoading(true)}
                         onChangeComplete={(color) => {
-                          setBadgeColor(color.hex);
                           setValue("backgroundHex", color.hex.slice(1));
+                          setLoading(false);
                         }}
                       />
                     </label>
@@ -293,7 +297,9 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
                 />
               </div>
             </div>
-            <Button buttonType="submit">Create</Button>
+            <Button className="mt-2" buttonType="submit">
+              Edit {badge.alias}
+            </Button>
           </div>
         </div>
       </div>
@@ -301,4 +307,4 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
   );
 };
 
-export default connectContext<ConnectContextProps>(BadgeCreateForm);
+export default connectContext<Props & ConnectContextProps>(BadgeEditForm);

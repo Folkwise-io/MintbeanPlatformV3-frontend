@@ -48,21 +48,22 @@ export class TestBadgeDao implements BadgeDao {
     }
   }
 
-  async editMeet(id: string, params: EditBadgeParams): Promise<Badge> {
-    if (!id || !params) throw "You messed up in writing your test. Make sure id and input params are passed as args";
+  async editBadge(badgeId: string, params: EditBadgeParams): Promise<Badge> {
+    if (!badgeId || !params)
+      throw "You messed up in writing your test. Make sure id and input params are passed as args";
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
-    if (id && params && this.getSuccesses().length) {
+    if (badgeId && params && this.getSuccesses().length) {
       return (this.getSuccesses()[0].data as unknown) as Badge;
     } else {
-      const index: number = this.data.findIndex((m) => m.badgeId === id);
+      const index: number = this.data.findIndex((m) => m.badgeId === badgeId);
       const prevBadge: Badge = this.data[index];
       return (this.data[index] = { ...prevBadge, ...params });
     }
   }
 
-  async deleteMeet(id: string): Promise<boolean> {
+  async deleteBadge(badgeId: string): Promise<boolean> {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
-    if (id && this.getSuccesses().length) {
+    if (badgeId && this.getSuccesses().length) {
       return (this.getSuccesses()[0].data as unknown) as boolean;
     } else {
       throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;

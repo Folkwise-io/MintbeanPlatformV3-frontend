@@ -10,7 +10,7 @@ interface Props {
 }
 
 const BadgeDisplay: FC<Props> = ({ badge, size = "small" }) => {
-  const { alias, badgeShape, faIcon, backgroundHex, iconHex, title, description, weight } = badge;
+  const { badgeShape, faIcon, backgroundHex, iconHex } = badge;
   const iconLookup: IconLookup = { prefix: "fas", iconName: faIcon };
   const iconDefinition: IconDefinition = findIconDefinition(iconLookup);
   const getComputedClassName = (option: "circle" | "square" | "star") => {
@@ -21,7 +21,7 @@ const BadgeDisplay: FC<Props> = ({ badge, size = "small" }) => {
 
     let className = "";
     if (option === "circle") className = baseStyles + " rounded-full";
-    if (option === "square") className = baseStyles;
+    if (option === "square") className = baseStyles + " rounded";
     if (option === "star") {
       const starStyles = baseStyles + " mb-badge-star";
       if (size === "small") {
@@ -40,12 +40,10 @@ const BadgeDisplay: FC<Props> = ({ badge, size = "small" }) => {
         className={getComputedClassName(badgeShape)}
         style={{
           backgroundColor: `#${backgroundHex}`,
-          borderRadius: "50%",
         }}
       >
         <FontAwesomeIcon icon={iconDefinition} style={{ color: `#${iconHex}`, height: "80%", width: "70%" }} />
       </div>
-      <p>{alias}</p>
     </>
   );
 };
