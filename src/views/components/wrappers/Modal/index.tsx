@@ -16,7 +16,21 @@ interface ModalProps {
   hasRelativeParent?: boolean;
 }
 // style for centering modal in middle of screen if isDetached prop = true
-const detachedStyles = { left: "50%", top: "50%", transform: "translate(-50%, -50%)", zIndex: 999 };
+const detachedStyles = {
+  position: "fixed",
+  left: "50%",
+  top: "50%",
+  transform: "translate(-50%, -50%)",
+  zIndex: 999,
+  overflow: "auto",
+  maxHeight: "80vh",
+} as React.CSSProperties;
+
+const relativeStyles = {
+  zIndex: 89,
+  overflow: "auto",
+  maxWidth: "90vw",
+} as React.CSSProperties;
 
 export const Modal: FC<ModalProps> = ({
   triggerBuilder,
@@ -105,11 +119,10 @@ export const Modal: FC<ModalProps> = ({
             ></div>
             <div
               ref={(el) => setPopperElement(el)}
-              style={isDetached ? detachedStyles : { ...styles.popper, zIndex: 89 }}
+              style={isDetached ? detachedStyles : { ...styles.popper, ...relativeStyles }}
               {...attributes.popper}
               data-popper-placement="right"
-              className={` bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-xs text-black max-h-70vh overflow-y-auto ${
-                isDetached ? "fixed" : ""
+              className={`resize bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-sm md:max-w-screen-md text-black max-h-70vh"
               }`}
             >
               {/* modal header with the "X" button for closing the modal */}
