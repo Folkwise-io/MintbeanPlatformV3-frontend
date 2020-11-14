@@ -24,6 +24,7 @@ const detachedStyles = {
   zIndex: 999,
   overflow: "auto",
   maxHeight: "80vh",
+  maxWidth: "90vw",
 } as React.CSSProperties;
 
 const relativeStyles = {
