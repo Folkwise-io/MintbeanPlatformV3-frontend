@@ -174,12 +174,12 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const renderKanbanViewUser = () => {
     // Bail if this meet doesn't have a kanbanCanon
     if (!meet?.kanbanCanon) return null;
-    // if kanbanCanon exists on meet and user not logged in
-    if (kanbanCanon && !user) {
-      return <p className="font-semibold mt-6">Login or Sign up to view a kanban guide for this challenge!</p>;
-    }
     // Only show kanban options if meet has started
     if (meetHasStarted) {
+      // if kanbanCanon exists on meet and user not logged in
+      if (kanbanCanon && !user) {
+        return <p className="font-semibold mt-6">Login or Sign up to view a kanban guide for this challenge!</p>;
+      }
       // Meet has a kanbanCanon and user already has a kanban for it
       if (meet?.kanban) {
         return (
