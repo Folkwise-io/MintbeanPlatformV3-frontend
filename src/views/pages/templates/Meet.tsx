@@ -114,6 +114,16 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
       <MarkdownParser source={meet?.instructions} />
     </>
   );
+
+  const renderInstructions = () =>
+    isAdmin ? (
+      adminInstructionsView
+    ) : !meetHasStarted ? (
+      <p>Instructions will be released once the meet starts!</p>
+    ) : (
+      userInstructionsView
+    );
+
   const adminInstructionsView = (
     <>
       {" "}
@@ -122,6 +132,17 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     </>
   );
 
+  const renderAdminMeetControls = () => {
+    return (
+      isAdmin &&
+      meet && (
+        <div className="flex items-center py-2">
+          <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToMeets} className="mr-2" />
+          <AdminMeetEditModal buttonText="Edit" meet={meet} />
+        </div>
+      )
+    );
+  };
   const getRegistrantIds = () => {
     if (meet) {
       const registrantIds: string[] = meet.registrants.map((registrant) => registrant.id);
@@ -153,6 +174,10 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const renderKanbanViewUser = () => {
     // Bail if this meet doesn't have a kanbanCanon
     if (!meet?.kanbanCanon) return null;
+    // if kanbanCanon exists on meet and user not logged in
+    if (kanbanCanon && !user) {
+      return <p className="font-semibold mt-6">Login or Sign up to view a kanban guide for this challenge!</p>;
+    }
     // Only show kanban options if meet has started
     if (meetHasStarted) {
       // Meet has a kanbanCanon and user already has a kanban for it
@@ -177,7 +202,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
         );
       }
     }
-    // Otherwise
+    // Otherwise just in
     return null;
   };
 
@@ -238,12 +263,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                       </div>
                     </div>
                   ))}
-                {isAdmin && meet && (
-                  <div className="flex items-center py-2">
-                    <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToMeets} className="mr-2" />
-                    <AdminMeetEditModal buttonText="Edit" meet={meet} />
-                  </div>
-                )}
+                {renderAdminMeetControls()}
               </div>
             </section>
             <section className="text-white h-full flex justify-between flex-col">
@@ -268,15 +288,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
               )}
             </section>
           </div>
-          <section className="shadow-lg bg-white p-12">
-            {isAdmin ? (
-              adminInstructionsView
-            ) : !meetHasStarted ? (
-              <p>Instructions will be released once the meet starts!</p>
-            ) : (
-              userInstructionsView
-            )}
-          </section>
+          <section className="shadow-lg bg-white p-12">{renderInstructions()}</section>
           <section className="shadow-lg bg-white p-12">
             {meet?.projects.length ? (
               <>
@@ -290,7 +302,6 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
             ) : (
               <p>No submissions yet.</p>
             )}
-            {/* Experimental */}
             {isAdmin && renderKanbanViewAdmin()}
             {renderKanbanViewUser()}
           </section>
