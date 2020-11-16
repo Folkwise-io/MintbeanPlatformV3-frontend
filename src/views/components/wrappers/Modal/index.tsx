@@ -1,9 +1,9 @@
-import React, { FC, ReactElement, useState, useEffect, useRef } from "react";
+import React, { ReactElement, useState, useEffect, useRef, FC } from "react";
 import { usePopper } from "react-popper";
 import { Placement } from "@popperjs/core/lib/enums";
 import { ModalActionButton, ModalActionDeclaration } from "./ModalActionButton";
 
-interface ModalProps {
+interface Props {
   triggerBuilder: (
     toggleModal: () => void,
     ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
@@ -11,10 +11,11 @@ interface ModalProps {
   placement?: Placement;
   actions?: ModalActionDeclaration[];
   title?: string;
-  closeFromParent?: number;
   isDetached?: boolean;
   hasRelativeParent?: boolean;
+  triggerCloseFromParent?: number; // a random number passed to trigger modal close from parent
 }
+
 // style for centering modal in middle of screen if isDetached prop = true
 const detachedStyles = {
   position: "fixed",
@@ -33,12 +34,12 @@ const relativeStyles = {
   maxWidth: "90vw",
 } as React.CSSProperties;
 
-export const Modal: FC<ModalProps> = ({
+export const Modal: FC<Props> = ({
   triggerBuilder,
   actions,
   title,
   children,
-  closeFromParent,
+  triggerCloseFromParent,
   placement = "bottom",
   isDetached = false,
   hasRelativeParent = false,
@@ -71,11 +72,10 @@ export const Modal: FC<ModalProps> = ({
   }, []);
 
   useEffect(() => {
-    if (closeFromParent) {
+    if (triggerCloseFromParent) {
       closeModal();
     }
-    // eslint-disable-next-line
-  }, [closeFromParent]);
+  }, [triggerCloseFromParent]);
 
   const closeModal = () => {
     if (!isUnmounted.current) toggleShow(false);

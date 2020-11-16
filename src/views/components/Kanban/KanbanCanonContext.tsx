@@ -51,11 +51,13 @@ export const KanbanCanonContext: FC<Props> = ({ kanbanCanonId, fetchKanbanCanon,
             );
           }}
         </Droppable>
-        <p className="text-center mt-4">Add a kanban canon card</p>
       </DragDropContext>
 
       <div className="w-full flex justify-center mt-4">
-        <AdminKanbanCanonCardCreateModal kanbanCanonId={kanbanCanonId} fetchKanbanCanon={fetchKanbanCanon} />
+        <div className="w-full flex flex-col items-center">
+          <p className="text-center mt-4">Add a kanban canon card</p>
+          <AdminKanbanCanonCardCreateModal kanbanCanonId={kanbanCanonId} fetchKanbanCanon={fetchKanbanCanon} />
+        </div>
       </div>
     </>
   );

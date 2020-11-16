@@ -65,8 +65,8 @@ const KanbanCanonViewer: FC<ConnectContextProps & Props> = ({ context, kanbanCan
     <div>
       <p className="italic mb-2">Edit the kanban canon cards below to provide coders with project requirements.</p>
       <div>
-        <h2>{kanbanCanon.title}</h2>
-        <p>{kanbanCanon.description}</p>
+        <h2>{currKanbanCanon.title}</h2>
+        <p>{currKanbanCanon.description}</p>
       </div>
       <div className="py-2 flex flex-col xs:flex-row">
         <AdminKanbanEditModal

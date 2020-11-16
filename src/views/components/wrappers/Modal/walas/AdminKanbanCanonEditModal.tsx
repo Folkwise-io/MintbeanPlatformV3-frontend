@@ -19,7 +19,7 @@ const AdminKanbanCanonEditModal: FC<ConnectContextProps & Props> = ({
   kanbanCanon,
   onEdit,
 }) => {
-  const [close, setClose] = useState<(() => void) | null>(null);
+  const [close, triggerCloseFromParent] = useState<number>(0);
   const formRef = useRef<HTMLFormElement>(null);
 
   const actions: ModalActionDeclaration[] = [
@@ -27,10 +27,8 @@ const AdminKanbanCanonEditModal: FC<ConnectContextProps & Props> = ({
       type: "primary",
       text: "Save",
       buttonType: "submit",
-      onClick: (_evt, { closeModal }) => {
+      onClick: () => {
         if (formRef.current) {
-          // hacky trick for exposing closeModal functionally externally
-          setClose(closeModal);
           // Programatically submit form in grandchild
           formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
         }
@@ -42,11 +40,15 @@ const AdminKanbanCanonEditModal: FC<ConnectContextProps & Props> = ({
     if (context) {
       await context.kanbanCanonService.editKanbanCanon(kanbanCanon.id, params).then(() => {
         onEdit();
-        if (close) close();
+        closeModal();
       });
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
     }
+  };
+
+  const closeModal = (): void => {
+    triggerCloseFromParent(Math.random());
   };
 
   return (
@@ -54,6 +56,7 @@ const AdminKanbanCanonEditModal: FC<ConnectContextProps & Props> = ({
       <Modal
         actions={actions}
         isDetached
+        triggerCloseFromParent={close}
         triggerBuilder={(toggleModal, setRef) => (
           <Button type="secondary" onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className || ""}>
             {buttonText}

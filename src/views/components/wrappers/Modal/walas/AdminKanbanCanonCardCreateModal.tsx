@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from "react";
-import { Modal } from "..";
+import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,24 +8,22 @@ import { connectContext, ConnectContextProps } from "../../../../../context/conn
 
 interface Props {
   kanbanCanonId: string;
-  fetchKanbanCanon: () => Promise<void>;
+  fetchKanbanCanon: () => void;
 }
 const AdminKanbanCanonCardCreateModal: FC<ConnectContextProps & Props> = ({
   kanbanCanonId,
   context,
   fetchKanbanCanon,
 }) => {
-  const [close, setClose] = useState<(() => void) | null>(null);
+  const [close, triggerCloseModal] = useState<number>(0);
   const formRef = useRef<HTMLFormElement>(null);
   const actions: ModalActionDeclaration[] = [
     {
       type: "primary",
       text: "Add",
       buttonType: "button",
-      onClick: (_evt, { closeModal }) => {
+      onClick: () => {
         if (formRef.current) {
-          // hacky way of exposing closModal functionality externally
-          setClose(closeModal);
           // Programatically submit form in grandchild
           formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
         }
@@ -35,14 +33,18 @@ const AdminKanbanCanonCardCreateModal: FC<ConnectContextProps & Props> = ({
 
   const createKanbanCanonCard = async (input: CreateKanbanCanonCardInput) => {
     if (context) {
-      context.kanbanCanonService.createKanbanCanonCard(input).then(() => {
-        fetchKanbanCanon().then(() => {
-          if (close) close();
-        });
-      });
+      const newKanbanCard = await context.kanbanCanonService.createKanbanCanonCard(input);
+      if (newKanbanCard) {
+        fetchKanbanCanon();
+        closeModal();
+      }
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
     }
+  };
+
+  const closeModal = () => {
+    triggerCloseModal(Math.random());
   };
 
   return (
@@ -50,6 +52,7 @@ const AdminKanbanCanonCardCreateModal: FC<ConnectContextProps & Props> = ({
       <Modal
         actions={actions}
         isDetached
+        triggerCloseFromParent={close}
         triggerBuilder={(toggleModal, setRef) => (
           <button
             onClick={toggleModal}
