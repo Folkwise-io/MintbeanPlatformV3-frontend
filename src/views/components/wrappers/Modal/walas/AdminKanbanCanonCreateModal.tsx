@@ -41,7 +41,7 @@ const AdminKanbanCanonCreateModal: FC<ConnectContextProps & Props> = ({
   const createKanbanCanon = async (input: CreateKanbanCanonInput) => {
     if (context) {
       const confirmed = confirm(
-        "Are you sure you want to create a kanban?\n\n Once created, a kanban cannot be deleted or removed from a meet without contacting the dev team.\n\nPress OK to continue.",
+        "Are you sure you want to create a kanban?\n\nOnce created, a kanban cannot be deleted or removed from a meet without contacting the dev team.\n\nPress OK to continue.",
       );
 
       if (confirmed) {
