@@ -7,10 +7,16 @@
 
 @tailwind utilities;
 
-/* Global base styles using tailwind - feel free to edit & extend */
+/* Base styles for tags that were difficult to refactor into block components. */
+/* Keep as minimal as possible and use block componets where doable. */
 @layer base {
+  /* anchor tag style are here in order to ensure uniform style between both ExternalLink and Link (react-router-component) */
+  /* react-router Link wraps a native anchor tag which could not be replaced with a block component */
+  a {
+    @apply text-mb-green-200;
+  }
   body {
-    color: #09090b; /* TODO: use a standard mb color*/
+    @apply text-mb-black;
   }
 }
 
@@ -29,12 +35,4 @@ textarea {
   border: solid gray 2px;
   padding: 0.25em;
   margin: 0.25em;
-}
-
-.markdown p {
-  margin-bottom: 1em;
-}
-
-.markdown code {
-  background-color: "black";
 }

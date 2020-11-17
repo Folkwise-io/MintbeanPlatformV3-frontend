@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { A } from "./blocks/A";
 
 type Props = {
   href: string;
@@ -24,8 +23,8 @@ export const ExternalLink: FC<Props> = (props) => {
   const target = blank ? "_blank" : "_self";
   const rel = `${noRefferer ? "noreferrer" : ""} ${noOpener ? "noopener" : ""} ${noFollow ? "nofollow" : ""}`;
   return (
-    <A {...rest} href={href} className={className ? className : ""} rel={rel} target={target}>
+    <a {...rest} href={href} className={className ? className : ""} rel={rel} target={target}>
       {children}
-    </A>
+    </a>
   );
 };

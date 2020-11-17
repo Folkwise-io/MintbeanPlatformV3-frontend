@@ -166,7 +166,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
 
       <main className="w-5/6 min-w-12rem mx-auto py-16 rounded-mb-md overflow-hidden">
         <Link className="ml-12 mb-2 inline-block" to="/meets">
-          {"< "} Back to all meets
+          {"< "}Back to all meets
         </Link>
         <div className="overflow-hidden rounded-mb-md">
           <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-mb-gray-300 px-6 md:px-12 py-8">
