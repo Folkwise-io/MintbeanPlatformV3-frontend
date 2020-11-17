@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/CloudinaryUploadWidget";
 import moment from "moment";
 import { MarkdownEditor } from "../MarkdownEditor";
+import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 // this is same as createMeetInputSchema.... consolidate
@@ -102,48 +103,48 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
       <h3 className="font-semibold">Edit this meet</h3>
 
       <label htmlFor="meetType">Meet type</label>
-      <select name="meetType" ref={register} className="mb-2">
+      <select className="block mb-2 " name="meetType" ref={register}>
         <option value="hackMeet">Hackathon</option>
       </select>
-      <p className="text-red-500">{errors.meetType?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.meetType?.message} />
 
       <label htmlFor="title">Title</label>
-      <input type="text" name="title" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.title?.message}</p>
+      <input type="text" name="title" ref={register} className="mb-2 block" />
+      <FormValidationErrorMsg errorMessage={errors.title?.message} />
 
       <label htmlFor="description">Description</label>
       <textarea name="description" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.description?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.description?.message} />
 
       <label htmlFor="instructions">Instructions</label>
       <MarkdownEditor value={instructions} onBeforeChange={(value) => setValue("instructions", value)} />
-      <p className="text-red-500">{errors.instructions?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.instructions?.message} />
 
       <label htmlFor="registerLink">Zoom link</label>
       <input type="url" name="registerLink" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.registerLink?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.registerLink?.message} />
 
       {/* Hidden field for coverImageUrl, value populated by widget */}
       <label htmlFor="coverImageUrl">Cover image</label>
       <input type="hidden" name="coverImageUrl" ref={register} className="mb-2" value={imageUrl} />
-      <p className="text-red-500">{errors.coverImageUrl?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.coverImageUrl?.message} />
       {/* Thumbnail preview */}
       {imageUrl && thumbnailPreview}
       <CloudinaryUploadWidget exposeImageData={grabImageData} />
 
       <label htmlFor="startTime">Start time</label>
       <input type="datetime-local" name="startTime" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.startTime?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.startTime?.message} />
 
       <label htmlFor="endTime">End time</label>
       <input type="datetime-local" name="endTime" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.endTime?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.endTime?.message} />
 
       <label htmlFor="region">Meet region</label>
       <select name="region" ref={register}>
         <option value="America/Toronto">Toronto</option>
       </select>
-      <p className="text-red-500">{errors.region?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.region?.message} />
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />

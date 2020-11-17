@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/CloudinaryUploadWidget";
 import { ImageDisplay } from "../ImageDisplay";
+import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createProjectInputSchema = yup.object().shape({
@@ -89,13 +90,12 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
           {/* TODO: implement user search instead of relying on userId string input */}
           <label htmlFor="userId">Submitting on behalf of (user ID):</label>
           <input type="text" name="userId" ref={register} />
-          <p className="text-red-500">{errors.userId?.message}</p>
+          <FormValidationErrorMsg errorMessage={errors.userId?.message} />
         </>
       ) : (
         <>
           {/* Regular user view: infer userID without prompting */}
           <input type="hidden" name="userId" ref={register} value={user.id} />
-          <p className="text-red-500">{errors.userId?.message}</p>
         </>
       )}
 
@@ -104,15 +104,15 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
 
       <label htmlFor="title">Title</label>
       <input type="text" name="title" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.title?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.title?.message} />
 
       <label htmlFor="sourceCodeUrl">Source code url</label>
       <input type="url" name="sourceCodeUrl" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.sourceCodeUrl?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.sourceCodeUrl?.message} />
 
       <label htmlFor="liveUrl">Deployment url</label>
       <input type="url" name="liveUrl" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.liveUrl?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.liveUrl?.message} />
 
       {/* Hidden field for cloudinaryPublicIds, value populated by widget and local state */}
       <label htmlFor="cloudinaryPublicIds">Images and/or GIFs</label>
@@ -120,7 +120,7 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
         <em className="font-normal">(First one will be cover image)</em>
       </p>
       <input type="hidden" name="cloudinaryPublicIds" ref={register} className="mb-2" value={cloudinaryIds} />
-      <p className="text-red-500">{errors.coverImageUrl?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.coverImageUrl?.message} />
       <div className="flex flex-col align-items">
         {/* Thumbnail preview */}
         {cloudinaryIds.length ? thumbnailPreview : null}

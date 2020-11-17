@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
+import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createKanbanInputSchema = yup.object().shape({
@@ -30,11 +31,11 @@ export const KanbanCreateForm: FC<Props> = ({ createKanban, formRef }) => {
 
       <label htmlFor="title">Title</label>
       <input type="text" name="title" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.title?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.title?.message} />
 
       <label htmlFor="description">Description</label>
       <textarea name="description" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.description?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.description?.message} />
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />

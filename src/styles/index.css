@@ -16,18 +16,13 @@
     @apply text-mb-green-200;
   }
   body {
-    @apply text-mb-black;
+    @apply text-mb-black-500;
   }
 }
 
 html,
 body {
   font-family: "Montserrat", sans-serif;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
 }
 
 input,

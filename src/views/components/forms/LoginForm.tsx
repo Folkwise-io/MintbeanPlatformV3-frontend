@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { FormValidationErrorMsg } from "./blocks/FormValidationErrorMsg";
+import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const loginSchema = yup.object().shape({

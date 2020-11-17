@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { MarkdownEditor } from "../MarkdownEditor";
+import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createKanbanCardInputSchema = yup.object().shape({
@@ -46,11 +47,11 @@ export const KanbanCardEditForm: FC<Props> = ({ data, editKanbanCard, formRef })
 
       <label htmlFor="title">Title</label>
       <input type="text" name="title" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.title?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.title?.message} />
 
       <label htmlFor="body">Body</label>
       <MarkdownEditor value={body} onBeforeChange={(value) => setValue("body", value)} />
-      <p className="text-red-500">{errors.body?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.body?.message} />
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/CloudinaryUploadWidget";
 import moment from "moment";
 import { MarkdownEditor } from "../MarkdownEditor";
-import { FormValidationErrorMsg } from "./blocks/FormValidationErrorMsg";
+import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createMeetInputSchema = yup.object().shape({
