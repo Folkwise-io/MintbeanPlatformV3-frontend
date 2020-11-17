@@ -33,8 +33,9 @@ module.exports = {
       minHeight: {
         72: "18rem",
         84: "21rem",
-        "50vh": "50vh",
+        "20vh": "20vh",
         "30vh": "30vh",
+        "50vh": "50vh",
       },
       borderRadius: {
         xl: "3rem",

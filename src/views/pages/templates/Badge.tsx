@@ -1,6 +1,8 @@
+import { faAngleDoubleLeft, faSadCry } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps, useHistory } from "react-router-dom";
+import { Link, RouteComponentProps, useHistory } from "react-router-dom";
 import { connectContext, ConnectContextProps } from "../../../context/connectContext";
 import { Badge } from "../../../types/badge";
 import BadgeDisplay from "../../components/BadgeDisplay";
@@ -55,16 +57,25 @@ const BadgeTemplate: FC<ConnectContextProps & StateMapping & RouteComponentProps
 
   return (
     <BgBlock>
-      <div className="min-h-50vh w-11/12 mx-auto sm:mx-0 sm:w-full py-8 flex flex-col">
+      <div className="min-h-50vh w-11/12 mx-auto sm:mx-0 sm:w-full pt-8 pb-12 flex flex-col">
         <div className="bg-white flex-grow rounded-mb-sm overflow-hidden">
           {loading && (
             <div className="w-full h-full mb-flex-centered text-center bg-mb-gray-400 text-white">
               <p>loading...</p>
             </div>
           )}
+          {!loading && !badge && (
+            <div className="w-full h-full mb-flex-centered flex-col text-center bg-mb-gray-400 text-white gap-2 relative">
+              <FontAwesomeIcon className="text-2xl" icon={faSadCry} />
+              <p>No Badge found.</p>
+              <Link to="/badges">
+                <FontAwesomeIcon icon={faAngleDoubleLeft} /> Head back to badges
+              </Link>
+            </div>
+          )}
           {badge && (
             <div className="flex flex-col min-h-full">
-              <div className="grid grid-rows-3 sm:grid-rows-1 sm:grid-cols-3 bg-mb-gray-100">
+              <div className="grid grid-rows-3 sm:grid-rows-1 sm:grid-cols-3 bg-mb-gray-100 min-h-20vh">
                 <div className="mb-flex-centered bg-mb-gray-300 py-4 row-span-2 sm:row-span-1">
                   <BadgeDisplay size="medium" badge={badge} />
                 </div>
@@ -79,7 +90,7 @@ const BadgeTemplate: FC<ConnectContextProps & StateMapping & RouteComponentProps
               {isAdmin && (
                 <>
                   <div className="bg-mb-gray-400">
-                    <div className="w-11/12 mx-auto y-4 flex items-center justify-between py-2">
+                    <div className="w-11/12 mx-auto flex items-center justify-between py-2">
                       <h2 className="text-white font-semibold text-2xl">Admin</h2>
                       <AdminBadgeDeleteModal
                         buttonText="Delete"
@@ -89,11 +100,21 @@ const BadgeTemplate: FC<ConnectContextProps & StateMapping & RouteComponentProps
                       />
                     </div>
                   </div>
-                  <div className="w-11/12 mx-auto y-4">
+                  <div className="w-11/12 mx-auto">
                     <BadgeEditForm badge={badge} />
                   </div>
                 </>
               )}
+              <div className="bg-mb-gray-400">
+                <div className="w-11/12 mx-auto flex items-center justify-between py-2">
+                  <h2 className="text-white font-semibold text-2xl">Stats</h2>
+                </div>
+              </div>
+              <ul className="bg-white grid grid-cols-1 flex-grow mt-2 mb-4">
+                <li className="mb-flex-centered flex-col">
+                  <span className="text-2xl">0</span> projects have this badge
+                </li>
+              </ul>
             </div>
           )}
         </div>
