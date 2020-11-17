@@ -15,9 +15,9 @@ interface Props {
 export const UserKanbanCardModal: FC<Props> = ({ data, dndProvided, className }) => {
   const actions: ModalActionDeclaration[] = [
     {
-      type: "secondary",
+      buttonStyle: "secondary",
       text: "Close",
-      buttonType: "button",
+      type: "button",
       onClick: (_evt: React.SyntheticEvent, { closeModal }: ModalActionContext) => {
         closeModal();
       },

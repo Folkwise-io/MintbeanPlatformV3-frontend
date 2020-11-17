@@ -3,8 +3,7 @@ import { Modal } from "..";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { KanbanCreateForm } from "../../../forms/KanbanCreateForm";
-import { useHistory } from "react-router-dom";
-import { Button } from "../../../Button";
+import { Button } from "../../../blocks/Button";
 
 interface Props {
   className?: string;
@@ -26,9 +25,9 @@ const AdminKanbanCreateModal: FC<ConnectContextProps & Props> = ({
 
   const actions: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Create Kanban",
-      buttonType: "submit",
+      type: "submit",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
@@ -57,7 +56,12 @@ const AdminKanbanCreateModal: FC<ConnectContextProps & Props> = ({
         actions={actions}
         isDetached
         triggerBuilder={(toggleModal, setRef) => (
-          <Button onClick={toggleModal} type="primaryAdmin" forwardRef={(el) => setRef(el)} className={className || ""}>
+          <Button
+            onClick={toggleModal}
+            buttonStyle="primaryAdmin"
+            forwardRef={(el) => setRef(el)}
+            className={className || ""}
+          >
             {buttonText}
           </Button>
         )}

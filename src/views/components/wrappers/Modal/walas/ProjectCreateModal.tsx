@@ -3,7 +3,7 @@ import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { ProjectCreateForm } from "../../../forms/ProjectCreateForm";
-import { Button } from "../../../Button";
+import { Button } from "../../../blocks/Button";
 import { useHistory } from "react-router-dom";
 
 interface Props {
@@ -18,9 +18,9 @@ const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonTe
 
   const actions: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Submit project",
-      buttonType: "submit",
+      type: "submit",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild

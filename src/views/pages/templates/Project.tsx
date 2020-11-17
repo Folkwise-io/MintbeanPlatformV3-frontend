@@ -2,9 +2,8 @@ import React, { FC, useState, useEffect } from "react";
 import { ConnectContextProps, connectContext } from "../../../context/connectContext";
 import { connect } from "react-redux";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/blocks/Button";
 import { ExternalLink } from "../../components/ExternalLink";
-// import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
 import { ImageDisplay } from "../../components/ImageDisplay";
 import { ImageDisplayTray } from "../../components/ImageDisplayTray";
 import { BgBlock } from "../../components/BgBlock";
@@ -106,12 +105,12 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                 )}
                 <section className="flex flex-wrap justify-center p-2 w-full">
                   <ExternalLink href={project.sourceCodeUrl}>
-                    <Button type="secondary" className="m-2">
+                    <Button buttonStyle="secondary" className="m-2">
                       Code
                     </Button>
                   </ExternalLink>
                   <ExternalLink href={project.liveUrl}>
-                    <Button type="primary" className="m-2">
+                    <Button buttonStyle="primary" className="m-2">
                       Demo
                     </Button>
                   </ExternalLink>

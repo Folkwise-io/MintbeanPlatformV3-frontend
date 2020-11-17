@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
-import { Button } from "../../../Button";
+import { Button } from "../../../blocks/Button";
 
 interface Props {
   className?: string;
@@ -14,14 +14,14 @@ interface Props {
 const AdminMeetDeleteModal: FC<ConnectContextProps & Props> = ({ context, meet, className, buttonText, onDelete }) => {
   const actions: ModalActionDeclaration[] = [
     {
-      type: "secondary",
+      buttonStyle: "secondary",
       text: "Cancel",
       onClick: (_evt, { closeModal }) => {
         closeModal();
       },
     },
     {
-      type: "danger",
+      buttonStyle: "danger",
       text: "Delete",
       onClick: (_evt, { closeModal }) => {
         deleteMeet(meet.id)
@@ -44,7 +44,12 @@ const AdminMeetDeleteModal: FC<ConnectContextProps & Props> = ({ context, meet, 
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <Button type="danger" onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className || ""}>
+          <Button
+            buttonStyle="danger"
+            onClick={toggleModal}
+            forwardRef={(el) => setRef(el)}
+            className={className || ""}
+          >
             {buttonText}
           </Button>
         )}

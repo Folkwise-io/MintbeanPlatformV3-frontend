@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { ImageDisplay } from "./ImageDisplay";
 import { ExternalLink } from "./ExternalLink";
-import { Button } from "./Button";
+import { Button } from "./blocks/Button";
 
 type ProjectCardProps = {
   project: ProjectForMeet;
@@ -34,12 +34,12 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
 
         <section className="flex flex-wrap flex-grow justify-center items-center pt-4 px-4 w-full">
           <ExternalLink href={sourceCodeUrl}>
-            <Button type="secondary" className="m-2">
+            <Button buttonStyle="secondary" className="m-2">
               Code
             </Button>
           </ExternalLink>
           <ExternalLink href={liveUrl}>
-            <Button type="primary" className="m-2">
+            <Button buttonStyle="primary" className="m-2">
               Demo
             </Button>
           </ExternalLink>

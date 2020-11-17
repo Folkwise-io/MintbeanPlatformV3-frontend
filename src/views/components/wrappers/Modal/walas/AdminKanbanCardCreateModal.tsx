@@ -18,9 +18,9 @@ const AdminKanbanCardCreateModal: FC<ConnectContextProps & Props> = ({ kanbanId,
 
   const actions: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Add",
-      buttonType: "button",
+      type: "button",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild

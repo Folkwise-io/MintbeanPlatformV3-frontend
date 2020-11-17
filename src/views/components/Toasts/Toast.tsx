@@ -1,5 +1,7 @@
 import React, { FC } from "react";
-import { MarkdownParser } from "./MarkdownParser";
+import { MarkdownParser } from "../MarkdownParser";
+
+import "./toast.css";
 
 type Props = {
   toast: Toast;

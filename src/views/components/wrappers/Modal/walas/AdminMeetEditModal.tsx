@@ -2,9 +2,8 @@ import React, { FC, useRef } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
-// import { useHistory } from "react-router-dom";
 import { MeetEditForm } from "../../../forms/MeetEditForm";
-import { Button } from "../../../Button";
+import { Button } from "../../../blocks/Button";
 
 interface Props {
   className?: string;
@@ -18,9 +17,9 @@ const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, classNam
 
   const actions: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Update meet",
-      buttonType: "submit",
+      type: "submit",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
@@ -46,7 +45,12 @@ const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, classNam
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <Button type="secondary" onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className || ""}>
+          <Button
+            buttonStyle="secondary"
+            onClick={toggleModal}
+            forwardRef={(el) => setRef(el)}
+            className={className || ""}
+          >
             {buttonText}
           </Button>
         )}

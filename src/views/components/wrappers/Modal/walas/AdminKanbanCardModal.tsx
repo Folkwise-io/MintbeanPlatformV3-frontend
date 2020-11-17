@@ -27,17 +27,17 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
 
   const viewActionButtons: ModalActionDeclaration[] = [
     {
-      type: "secondary",
+      buttonStyle: "secondary",
       text: "Close",
-      buttonType: "button",
+      type: "button",
       onClick: (_evt: React.SyntheticEvent, { closeModal }: ModalActionContext) => {
         closeModal();
       },
     },
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Edit",
-      buttonType: "button",
+      type: "button",
       onClick: () => {
         setMode("edit");
       },
@@ -45,9 +45,9 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
   ];
   const editActionButtons: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Save",
-      buttonType: "button",
+      type: "button",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
@@ -58,9 +58,9 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
   ];
   const actions: ModalActionDeclaration[] = [
     {
-      type: "danger",
+      buttonStyle: "danger",
       text: "Delete",
-      buttonType: "button",
+      type: "button",
       onClick: (_evt: React.SyntheticEvent, { closeModal }: ModalActionContext) => {
         const confirmed = confirm("Are you sure you want to delete this kanban card?");
         if (confirmed) {

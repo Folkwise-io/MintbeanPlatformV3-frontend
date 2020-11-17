@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Button } from "../Button";
+import { Button } from "../blocks/Button";
 import { Link } from "react-router-dom";
 import AdminMeetDeleteModal from "../wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";

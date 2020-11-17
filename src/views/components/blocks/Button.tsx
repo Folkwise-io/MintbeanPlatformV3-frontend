@@ -1,16 +1,22 @@
 import React, { FC } from "react";
 
-type Props = {
-  type?: "primary" | "primaryAdmin" | "secondary" | "danger" | "override"; // type: "override" allows overriding the common class styles for custom ones via className
-  buttonType?: "button" | "submit" | "reset";
-  onClick?: (event: React.SyntheticEvent) => void;
-  className?: string;
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  buttonStyle?: "primary" | "primaryAdmin" | "secondary" | "danger" | "override"; // buttonStyle: "override" allows overriding the common class styles for custom ones via className
+  type?: "button" | "submit" | "reset";
   forwardRef?: React.RefCallback<HTMLButtonElement>;
   disabled?: boolean;
-};
+}
 
 export const Button: FC<Props> = (props) => {
-  const { type = "primary", forwardRef, className, buttonType = "button", disabled = false, children, ...rest } = props;
+  const {
+    buttonStyle = "primary",
+    forwardRef,
+    className,
+    type = "button",
+    disabled = false,
+    children,
+    ...rest
+  } = props;
   const common = "shadow-md py-2 px-6 rounded-lg border-2 border-solid font-semibold";
   const classes = {
     primary:
@@ -26,14 +32,14 @@ export const Button: FC<Props> = (props) => {
 
   let computedStyles = "";
 
-  if (type !== "override") {
+  if (buttonStyle !== "override") {
     computedStyles += common;
   }
 
   if (disabled) {
     computedStyles += ` ${disabledStyles}`;
   } else {
-    computedStyles += ` ${classes[type]}`;
+    computedStyles += ` ${classes[buttonStyle]}`;
   }
 
   if (className) {
@@ -42,7 +48,7 @@ export const Button: FC<Props> = (props) => {
 
   /* important: button must be type="button" if not a submit button or else it auto-submits parent forms */
   return (
-    <button disabled={disabled} {...rest} ref={forwardRef || null} className={computedStyles} type={buttonType}>
+    <button disabled={disabled} {...rest} ref={forwardRef || null} className={computedStyles} type={type}>
       {children}
     </button>
   );

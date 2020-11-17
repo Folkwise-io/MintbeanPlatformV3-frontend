@@ -9,15 +9,6 @@
 
 /* Global base styles using tailwind - feel free to edit & extend */
 @layer base {
-  h1 {
-    @apply text-2xl;
-  }
-  h2 {
-    @apply text-xl;
-  }
-  a {
-    @apply text-mb-green-200;
-  }
   body {
     color: #09090b; /* TODO: use a standard mb color*/
   }
@@ -46,14 +37,4 @@ textarea {
 
 .markdown code {
   background-color: "black";
-}
-
-.markdown-toast a {
-  color: #000000;
-  text-decoration: underline;
-}
-
-img {
-  display: block;
-  width: 100%;
 }

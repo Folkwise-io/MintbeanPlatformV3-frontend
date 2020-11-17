@@ -105,7 +105,7 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
       {user.loadStatus !== "LOADING" && !isLoggedIn && (
         <Action text="Login" onClick={toggleTitles} className={linkTextClasses} tabIndex={-1} style={buttonStyles}>
           <LoginModal
-            type="override"
+            buttonStyle="override"
             buttonText={<FontAwesomeIcon icon={faSignInAlt} />}
             className={`${modalButtonClasses} ${modalClasses} w-full h-full`}
             placement="auto"
@@ -118,7 +118,7 @@ const TinyFabNav: FC<StateMapping & DispatchMapping & FabProps> = ({ user, logou
           <RegisterModal
             buttonText={<FontAwesomeIcon icon={faUserPlus} />}
             className={`${modalButtonClasses} ${modalClasses} w-full h-full`}
-            type="override"
+            buttonStyle="override"
             placement="auto"
             hasRelativeParent
           />
