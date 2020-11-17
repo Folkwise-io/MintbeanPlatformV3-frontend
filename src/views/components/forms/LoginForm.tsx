@@ -3,6 +3,8 @@ import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
+import { Form } from "../blocks/Form";
+import { H2 } from "../blocks/H2";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const loginSchema = yup.object().shape({
@@ -12,7 +14,7 @@ const loginSchema = yup.object().shape({
 
 interface Props {
   login: (values: LoginParams) => void;
-  formRef: React.RefObject<HTMLFormElement> | null;
+  formRef: React.RefObject<HTMLFormElement>;
 }
 
 export const LoginForm: FC<Props> = ({ login, formRef }) => {
@@ -24,8 +26,8 @@ export const LoginForm: FC<Props> = ({ login, formRef }) => {
   const onSubmit = (data: RegisterParams) => login(data);
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Login</h1>
+    <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+      <H2>Login</H2>
 
       <label htmlFor="email">Email</label>
       <input type="email" name="email" ref={register} />
@@ -37,6 +39,6 @@ export const LoginForm: FC<Props> = ({ login, formRef }) => {
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />
-    </form>
+    </Form>
   );
 };

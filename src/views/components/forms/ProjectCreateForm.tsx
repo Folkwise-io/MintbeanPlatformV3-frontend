@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/CloudinaryUploadWidget";
 import { ImageDisplay } from "../ImageDisplay";
 import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
+import { Form } from "../blocks/Form";
+import { H2 } from "../blocks/H2";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createProjectInputSchema = yup.object().shape({
@@ -18,7 +20,7 @@ const createProjectInputSchema = yup.object().shape({
 
 interface Props {
   createProject: (values: CreateProjectParams) => void;
-  formRef: React.RefObject<HTMLFormElement> | null;
+  formRef: React.RefObject<HTMLFormElement>;
   user: User;
   meetId: string;
   className?: string;
@@ -81,8 +83,8 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
   );
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className={className ? className : ""}>
-      <h3 className="font-semibold">Submit a project</h3>
+    <Form ref={formRef} onSubmit={handleSubmit(onSubmit)} className={className ? className : ""}>
+      <H2>Submit a project</H2>
 
       {user.isAdmin ? (
         <>
@@ -129,6 +131,6 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />
-    </form>
+    </Form>
   );
 };

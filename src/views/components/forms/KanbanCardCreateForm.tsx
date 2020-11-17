@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { MarkdownEditor } from "../MarkdownEditor";
 import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
+import { Form } from "../blocks/Form";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createKanbanCardInputSchema = yup.object().shape({
@@ -14,7 +15,7 @@ const createKanbanCardInputSchema = yup.object().shape({
 interface Props {
   kanbanId: string;
   createKanbanCard: (values: CreateKanbanCardInput) => void;
-  formRef: React.RefObject<HTMLFormElement> | null;
+  formRef: React.RefObject<HTMLFormElement>;
 }
 
 export const KanbanCardCreateForm: FC<Props> = ({ kanbanId, createKanbanCard, formRef }) => {
@@ -34,8 +35,8 @@ export const KanbanCardCreateForm: FC<Props> = ({ kanbanId, createKanbanCard, fo
   };
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Create a new kanban card</h1>
+    <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+      <H2>Create a new kanban card</H2>
 
       {/* Infer kanbanId without prompting */}
       <input type="hidden" name="kanbanId" ref={register} value={kanbanId} />
@@ -50,6 +51,6 @@ export const KanbanCardCreateForm: FC<Props> = ({ kanbanId, createKanbanCard, fo
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />
-    </form>
+    </Form>
   );
 };

@@ -3,6 +3,8 @@ import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
+import { Form } from "../blocks/Form";
+import { H2 } from "../blocks/H2";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createKanbanInputSchema = yup.object().shape({
@@ -12,7 +14,7 @@ const createKanbanInputSchema = yup.object().shape({
 
 interface Props {
   createKanban: (values: CreateKanbanInput) => void;
-  formRef: React.RefObject<HTMLFormElement> | null;
+  formRef: React.RefObject<HTMLFormElement>;
 }
 
 export const KanbanCreateForm: FC<Props> = ({ createKanban, formRef }) => {
@@ -26,8 +28,8 @@ export const KanbanCreateForm: FC<Props> = ({ createKanban, formRef }) => {
   };
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Create a new kanban</h1>
+    <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+      <H2>Create a new kanban</H2>
 
       <label htmlFor="title">Title</label>
       <input type="text" name="title" ref={register} className="mb-2" />
@@ -39,6 +41,6 @@ export const KanbanCreateForm: FC<Props> = ({ createKanban, formRef }) => {
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />
-    </form>
+    </Form>
   );
 };

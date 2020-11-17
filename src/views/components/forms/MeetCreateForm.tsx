@@ -6,6 +6,8 @@ import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/Cloudina
 import moment from "moment";
 import { MarkdownEditor } from "../MarkdownEditor";
 import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
+import { Form } from "../blocks/Form";
+import { H2 } from "../blocks/H2";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createMeetInputSchema = yup.object().shape({
@@ -28,7 +30,7 @@ const createMeetInputSchema = yup.object().shape({
 
 interface Props {
   createMeet: (values: CreateMeetParams) => void;
-  formRef: React.RefObject<HTMLFormElement> | null;
+  formRef: React.RefObject<HTMLFormElement>;
 }
 
 export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
@@ -75,8 +77,8 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
     </div>
   );
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Create a new meet</h1>
+    <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+      <H2>Create a new meet</H2>
 
       <label htmlFor="meetType">Meet type</label>
       <select name="meetType" ref={register} className="mb-2">
@@ -124,6 +126,6 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />
-    </form>
+    </Form>
   );
 };
