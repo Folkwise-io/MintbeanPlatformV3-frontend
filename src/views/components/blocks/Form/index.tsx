@@ -1,10 +1,10 @@
-import React, { FC } from "react";
+import React from "react";
 import { appendOptionalClasses } from "../../../utils/appendOptionalClasses";
 
-interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
-  ref?: React.RefObject<HTMLFormElement>;
-}
-export const Form: FC<Props> = ({ children, ref, className, ...rest }) => {
+export const Form = React.forwardRef<HTMLFormElement, React.FormHTMLAttributes<HTMLFormElement>>(function form(
+  { children, className, ...rest },
+  ref,
+) {
   const baseClasses = "flex flex-col";
   const classes = appendOptionalClasses(baseClasses, className);
   return (
@@ -12,4 +12,4 @@ export const Form: FC<Props> = ({ children, ref, className, ...rest }) => {
       {children}
     </form>
   );
-};
+});

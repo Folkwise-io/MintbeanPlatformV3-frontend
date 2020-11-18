@@ -105,9 +105,7 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
     <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
       <H2>Edit this meet</H2>
 
-      <Select label="Meet type" name="meetType" ref={register}>
-        <option value="hackMeet">Hackathon</option>
-      </Select>
+      <Select label="Meet type" name="meetType" ref={register} options={[{ value: "hackMeet", label: "Hackathon" }]} />
       <FormValidationErrorMsg errorMessage={errors.meetType?.message} />
 
       <label htmlFor="title">Title</label>
@@ -142,9 +140,12 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
       <input type="datetime-local" name="endTime" ref={register} className="mb-2" />
       <FormValidationErrorMsg errorMessage={errors.endTime?.message} />
 
-      <Select label="Meet region" name="region" ref={register}>
-        <option value="America/Toronto">Toronto</option>
-      </Select>
+      <Select
+        label="Meet region"
+        name="region"
+        ref={register}
+        options={[{ value: "America/Toronto", label: "Toronto" }]}
+      />
       <FormValidationErrorMsg errorMessage={errors.region?.message} />
 
       {/* workaround for allowing form submit on Enter */}

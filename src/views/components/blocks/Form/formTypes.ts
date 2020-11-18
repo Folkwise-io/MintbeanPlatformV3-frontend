@@ -1,17 +1,20 @@
-type RefReturn<TargetFieldT> =
+// Locally scoped typings to help with defining form-related blocks
+// Typings supplied from react-hook-forms documentation
+// https://react-hook-form.com/get-started#Integratinganexistingform
+
+export type RefReturn<HTMLElementT> =
   | string
-  | ((instance: TargetFieldT | null) => void)
-  | React.RefObject<TargetFieldT>
+  | ((instance: HTMLElementT | null) => void)
+  | React.RefObject<HTMLElementT>
   | null
   | undefined;
 
-export type Option = {
-  label: React.ReactNode;
+export interface Option {
+  label: string;
   value: string | number | string[];
-};
-export type SelectProps = React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> & {
-  options: Option[];
-} & HTMLSelectElement;
-
-// Typings supplied from react-hook-forms documentation
-// https://react-hook-form.com/get-started#Integratinganexistingform
+}
+// export type SelectProps = React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> & {
+//   options: Option[];
+// } & HTMLSelectElement;
+export type SelectProps = React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> &
+  HTMLSelectElement;

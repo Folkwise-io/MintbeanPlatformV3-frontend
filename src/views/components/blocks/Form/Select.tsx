@@ -1,17 +1,18 @@
 import React from "react";
 import { appendOptionalClasses } from "../../../utils/appendOptionalClasses";
 import { formConstants } from "./constants";
-import { SelectProps } from "./formTypes";
+import { SelectProps, Option } from "./formTypes";
 
 interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
   className?: string;
-  label?: string;
+  label: string;
   name: string;
+  options: Option[];
 }
 
 // must name function in forwardRef argument (non-arrow function) in order to avoid missing diplayName error
 export const Select = React.forwardRef<SelectProps, Props>(function select(
-  { children, className, name, label, ...rest },
+  { options, className, name, label, ...rest },
   passedRef,
 ) {
   const baseClasses = formConstants.itemSpacing;
@@ -19,9 +20,13 @@ export const Select = React.forwardRef<SelectProps, Props>(function select(
 
   return (
     <>
-      {label && <label htmlFor={name}>{label}</label>}
-      <select {...rest} ref={passedRef} className={classes}>
-        {children}
+      <label htmlFor={name}>{label}</label>
+      <select {...rest} name={name} ref={passedRef || null} className={classes}>
+        {options.map((opt, i) => (
+          <option key={i} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
       </select>
     </>
   );

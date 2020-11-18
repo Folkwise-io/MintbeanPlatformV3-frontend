@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { MarkdownEditor } from "../MarkdownEditor";
 import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { Form } from "../blocks/Form";
+import { H2 } from "../blocks/H2";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createKanbanCardInputSchema = yup.object().shape({
