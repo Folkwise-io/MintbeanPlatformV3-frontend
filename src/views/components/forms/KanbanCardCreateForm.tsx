@@ -6,6 +6,7 @@ import { MarkdownEditor } from "../MarkdownEditor";
 import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { Form } from "../blocks/Form";
 import { H2 } from "../blocks/H2";
+import { Input } from "../blocks/Form/Input";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createKanbanCardInputSchema = yup.object().shape({
@@ -42,8 +43,7 @@ export const KanbanCardCreateForm: FC<Props> = ({ kanbanId, createKanbanCard, fo
       {/* Infer kanbanId without prompting */}
       <input type="hidden" name="kanbanId" ref={register} value={kanbanId} />
 
-      <label htmlFor="title">Title</label>
-      <input type="text" name="title" ref={register} className="mb-2" />
+      <Input label="Title" name="title" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.title?.message} />
 
       <label htmlFor="body">Body</label>

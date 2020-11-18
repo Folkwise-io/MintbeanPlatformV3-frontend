@@ -9,6 +9,9 @@ import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { Form } from "../blocks/Form";
 import { H2 } from "../blocks/H2";
 import { Select } from "../blocks/Form/Select";
+import { Input } from "../blocks/Form/Input";
+import { TextArea } from "../blocks/Form/TextArea";
+import { meetTypeOptions, regionOptions } from "./constants";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 // this is same as createMeetInputSchema.... consolidate
@@ -105,23 +108,21 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
     <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
       <H2>Edit this meet</H2>
 
-      <Select label="Meet type" name="meetType" ref={register} options={[{ value: "hackMeet", label: "Hackathon" }]} />
+      <Select label="Meet type" name="meetType" ref={register} options={meetTypeOptions} />
       <FormValidationErrorMsg errorMessage={errors.meetType?.message} />
 
-      <label htmlFor="title">Title</label>
-      <input type="text" name="title" ref={register} className="mb-2 block" />
+      <Input label="Title" name="title" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.title?.message} />
 
-      <label htmlFor="description">Description</label>
-      <textarea name="description" ref={register} className="mb-2" />
+      <TextArea label="Description" name="description" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.description?.message} />
 
+      {/* TODO: Is it wise to refactor these three lines to separate compoment? Has react-hook-form dependencies so thought I'd leave it where it's easy to see what's going on*/}
       <label htmlFor="instructions">Instructions</label>
       <MarkdownEditor value={instructions} onBeforeChange={(value) => setValue("instructions", value)} />
       <FormValidationErrorMsg errorMessage={errors.instructions?.message} />
 
-      <label htmlFor="registerLink">Zoom link</label>
-      <input type="url" name="registerLink" ref={register} className="mb-2" />
+      <Input type="url" label="Zoom link" name="registerLink" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.registerLink?.message} />
 
       {/* Hidden field for coverImageUrl, value populated by widget */}
@@ -132,20 +133,13 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
       {imageUrl && thumbnailPreview}
       <CloudinaryUploadWidget exposeImageData={grabImageData} />
 
-      <label htmlFor="startTime">Start time</label>
-      <input type="datetime-local" name="startTime" ref={register} className="mb-2" />
+      <Input label="Start time" type="datetime-local" name="startTime" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.startTime?.message} />
 
-      <label htmlFor="endTime">End time</label>
-      <input type="datetime-local" name="endTime" ref={register} className="mb-2" />
+      <Input label="End time" type="datetime-local" name="endTime" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.endTime?.message} />
 
-      <Select
-        label="Meet region"
-        name="region"
-        ref={register}
-        options={[{ value: "America/Toronto", label: "Toronto" }]}
-      />
+      <Select label="Meet region" name="region" ref={register} options={regionOptions} />
       <FormValidationErrorMsg errorMessage={errors.region?.message} />
 
       {/* workaround for allowing form submit on Enter */}

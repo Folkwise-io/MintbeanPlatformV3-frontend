@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { Form } from "../blocks/Form";
 import { H2 } from "../blocks/H2";
+import { Input } from "../blocks/Form/Input";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const loginSchema = yup.object().shape({
@@ -29,12 +30,10 @@ export const LoginForm: FC<Props> = ({ login, formRef }) => {
     <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
       <H2>Login</H2>
 
-      <label htmlFor="email">Email</label>
-      <input type="email" name="email" ref={register} />
+      <Input type="email" label="Email" name="email" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.email?.message} />
 
-      <label htmlFor="password">Password</label>
-      <input type="password" name="password" ref={register} />
+      <Input type="password" label="Password" name="password" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.password?.message} />
 
       {/* workaround for allowing form submit on Enter */}

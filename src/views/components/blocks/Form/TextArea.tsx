@@ -1,16 +1,16 @@
 import React from "react";
 import { appendOptionalClasses } from "../../../utils/appendOptionalClasses";
 import { formConstants } from "./constants";
-import { InputProps } from "./formTypes";
+import { TextAreaProps } from "./formTypes";
 
-interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
   label: string;
   name: string;
 }
 
 // must name function in forwardRef argument (non-arrow function) in order to avoid missing diplayName error
-export const Input = React.forwardRef<InputProps, Props>(function input(
+export const TextArea = React.forwardRef<TextAreaProps, Props>(function textarea(
   { className, name, label, ...rest },
   passedRef,
 ) {
@@ -20,7 +20,7 @@ export const Input = React.forwardRef<InputProps, Props>(function input(
   return (
     <>
       <label htmlFor={name}>{label}</label>
-      <input {...rest} name={name} ref={passedRef || null} className={classes} />
+      <textarea {...rest} name={name} ref={passedRef || null} className={classes} />
     </>
   );
 });

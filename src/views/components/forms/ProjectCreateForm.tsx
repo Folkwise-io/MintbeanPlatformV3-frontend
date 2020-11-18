@@ -7,6 +7,7 @@ import { ImageDisplay } from "../ImageDisplay";
 import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { Form } from "../blocks/Form";
 import { H2 } from "../blocks/H2";
+import { Input } from "../blocks/Form/Input";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createProjectInputSchema = yup.object().shape({
@@ -82,18 +83,21 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
     </div>
   );
 
+  /* Admin view: allow submission on behalf of another user */
+  /* TODO: implement user search instead of relying on userId string input */
+  const renderAdminInputs = () => (
+    <>
+      <Input label="Submitting on behalf of (user ID):" name="userId" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.userId?.message} />
+    </>
+  );
+
   return (
     <Form ref={formRef} onSubmit={handleSubmit(onSubmit)} className={className ? className : ""}>
       <H2>Submit a project</H2>
 
       {user.isAdmin ? (
-        <>
-          {/* Admin view: allow submission on behalf of another user */}
-          {/* TODO: implement user search instead of relying on userId string input */}
-          <label htmlFor="userId">Submitting on behalf of (user ID):</label>
-          <input type="text" name="userId" ref={register} />
-          <FormValidationErrorMsg errorMessage={errors.userId?.message} />
-        </>
+        renderAdminInputs()
       ) : (
         <>
           {/* Regular user view: infer userID without prompting */}
@@ -104,16 +108,13 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
       {/* Infer meetId without prompting */}
       <input type="hidden" name="meetId" ref={register} value={meetId} />
 
-      <label htmlFor="title">Title</label>
-      <input type="text" name="title" ref={register} className="mb-2" />
+      <Input label="Title" name="title" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.title?.message} />
 
-      <label htmlFor="sourceCodeUrl">Source code url</label>
-      <input type="url" name="sourceCodeUrl" ref={register} className="mb-2" />
+      <Input label="Cource code url" name="sourceCodeUrl" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.sourceCodeUrl?.message} />
 
-      <label htmlFor="liveUrl">Deployment url</label>
-      <input type="url" name="liveUrl" ref={register} className="mb-2" />
+      <Input label="Deployment url" name="liveUrl" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.liveUrl?.message} />
 
       {/* Hidden field for cloudinaryPublicIds, value populated by widget and local state */}

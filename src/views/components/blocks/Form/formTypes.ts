@@ -13,8 +13,15 @@ export interface Option {
   label: string;
   value: string | number | string[];
 }
-// export type SelectProps = React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> & {
-//   options: Option[];
-// } & HTMLSelectElement;
+
+export type InputProps = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> &
+  HTMLInputElement;
+
+export type TextAreaProps = React.DetailedHTMLProps<
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  HTMLTextAreaElement
+> &
+  HTMLTextAreaElement;
+
 export type SelectProps = React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> &
   HTMLSelectElement;

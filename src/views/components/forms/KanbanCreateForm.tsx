@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { Form } from "../blocks/Form";
 import { H2 } from "../blocks/H2";
+import { Input } from "../blocks/Form/Input";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createKanbanInputSchema = yup.object().shape({
@@ -31,12 +32,10 @@ export const KanbanCreateForm: FC<Props> = ({ createKanban, formRef }) => {
     <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
       <H2>Create a new kanban</H2>
 
-      <label htmlFor="title">Title</label>
-      <input type="text" name="title" ref={register} className="mb-2" />
+      <Input label="Title" name="title" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.title?.message} />
 
-      <label htmlFor="description">Description</label>
-      <textarea name="description" ref={register} className="mb-2" />
+      <Input label="Description" name="description" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.description?.message} />
 
       {/* workaround for allowing form submit on Enter */}
