@@ -7,7 +7,6 @@ interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
 export const Form: FC<Props> = ({ children, ref, className, ...rest }) => {
   const baseClasses = "flex flex-col";
   const classes = appendOptionalClasses(baseClasses, className);
-  console.log({ classes });
   return (
     <form {...rest} ref={ref || null} className={classes}>
       {children}

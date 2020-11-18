@@ -8,6 +8,7 @@ import { MarkdownEditor } from "../MarkdownEditor";
 import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { Form } from "../blocks/Form";
 import { H2 } from "../blocks/H2";
+import { Select } from "../blocks/Form/Select";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createMeetInputSchema = yup.object().shape({
@@ -80,10 +81,9 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
     <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
       <H2>Create a new meet</H2>
 
-      <label htmlFor="meetType">Meet type</label>
-      <select name="meetType" ref={register} className="mb-2">
+      <Select label="Meet type" name="meetType" ref={register}>
         <option value="hackMeet">Hackathon</option>
-      </select>
+      </Select>
       <FormValidationErrorMsg errorMessage={errors.meetType?.message} />
 
       <label htmlFor="title">Title</label>
@@ -118,10 +118,9 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
       <input type="datetime-local" name="endTime" ref={register} className="mb-2" />
       <FormValidationErrorMsg errorMessage={errors.endTime?.message} />
 
-      <label htmlFor="region">Meet region</label>
-      <select name="region" ref={register}>
+      <Select label="Meet region" name="region" ref={register}>
         <option value="America/Toronto">Toronto</option>
-      </select>
+      </Select>
       <FormValidationErrorMsg errorMessage={errors.region?.message} />
 
       {/* workaround for allowing form submit on Enter */}
