@@ -17,7 +17,6 @@ export const Select = React.forwardRef<SelectProps, Props>(function select(
   const baseClasses = formConstants.itemSpacing;
   const classes = appendOptionalClasses(baseClasses, className);
 
-  // if react-hook-form register function is passed as a prop, use that as ref. Otherwise, if ref is passed use that. Otherwise do not add ref attribute.
   return (
     <>
       {label && <label htmlFor={name}>{label}</label>}
