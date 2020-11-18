@@ -15,7 +15,8 @@ export const Select = React.forwardRef<SelectProps, Props>(function select(
   { options, className, name, label, ...rest },
   passedRef,
 ) {
-  const baseClasses = formConstants.itemSpacing;
+  const { itemSpacing, inputStyles } = formConstants;
+  const baseClasses = [itemSpacing, inputStyles].join(" ");
   const classes = appendOptionalClasses(baseClasses, className);
 
   return (

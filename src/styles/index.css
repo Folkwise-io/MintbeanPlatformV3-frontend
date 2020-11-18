@@ -24,10 +24,3 @@ html,
 body {
   font-family: "Montserrat", sans-serif;
 }
-
-input,
-textarea {
-  border: solid gray 2px;
-  padding: 0.25em;
-  margin: 0.25em;
-}
