@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Home,
-  Community,
-  TermsOfService,
-  PrivacyPolicy,
-  /* Hackathons,*/ NotFound,
-  Meets,
-  Meet,
-  Project,
-} from "./views/pages";
+import { Home, Community, TermsOfService, PrivacyPolicy, NotFound, Meets, Meet, Project } from "./views/pages";
 
 interface RouteConfig {
   /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
@@ -18,11 +9,6 @@ interface RouteConfig {
 }
 
 export const routes: RouteConfig[] = [
-  // Removing Hackathons page for now. Decide whether to delete component later.
-  // {
-  //   component: Hackathons,
-  //   path: "/hackathons",
-  // },
   {
     component: Meet,
     path: "/meets/:id",

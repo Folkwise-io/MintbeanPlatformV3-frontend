@@ -8,6 +8,7 @@ import { ImageDisplay } from "../../components/ImageDisplay";
 import { ImageDisplayTray } from "../../components/ImageDisplayTray";
 import { BgBlock } from "../../components/BgBlock";
 import ProjectDeleteModal from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
+import { H1 } from "../../components/blocks/H1";
 
 interface StateMapping {
   user: UserState;
@@ -96,7 +97,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
             <section className="text-center">
               {/* Project info section */}
               <section>
-                <h1 className="font-semibold">{project.title}</h1>
+                <H1 className="font-semibold">{project.title}</H1>
                 <p className="break-words">
                   by {project.user.firstName} {project.user.lastName}
                 </p>

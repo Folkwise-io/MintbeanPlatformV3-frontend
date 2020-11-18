@@ -20,6 +20,7 @@ import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { ExternalLink } from "../../components/ExternalLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { H1 } from "../../components/blocks/H1";
 
 const meetReg = new MeetRegistration();
 
@@ -172,7 +173,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
           <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-mb-gray-300 px-6 md:px-12 py-8">
             <section className="text-white row-span-9 md:row-span-1 md:col-span-2 md:place-self-start">
               <div className="block">
-                <h1 className="font-semibold">{meet?.title}</h1>
+                <H1 className="font-semibold">{meet?.title}</H1>
                 <p className="text-mb-gray-100 text-sm flex flex-wrap items-center">
                   Starts
                   <FontAwesomeIcon icon={faCalendarAlt} className="mx-2 text-xs" />
