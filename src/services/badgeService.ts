@@ -10,8 +10,8 @@ export class BadgeService {
       return [];
     });
   }
-  async fetchBadge(badgeId: string): Promise<Badge | void> {
-    return this.badgeDao.fetchBadge(badgeId).catch((e) => {
+  async fetchBadge(id: string): Promise<Badge | void> {
+    return this.badgeDao.fetchBadge(id).catch((e) => {
       this.logger.handleGraphqlErrors(e);
     });
   }
@@ -27,17 +27,17 @@ export class BadgeService {
       });
   }
 
-  async deleteBadge(badgeId: string): Promise<boolean | void> {
+  async deleteBadge(id: string): Promise<boolean | void> {
     return this.badgeDao
-      .deleteBadge(badgeId)
+      .deleteBadge(id)
       .then(() => this.logger.success("Successfully deleted the badge."))
       .catch((e) => {
         this.logger.handleGraphqlErrors(e);
       });
   }
-  async editBadge(badgeId: string, params: EditBadgeParams): Promise<Badge | void> {
+  async editBadge(id: string, params: EditBadgeParams): Promise<Badge | void> {
     return this.badgeDao
-      .editBadge(badgeId, params)
+      .editBadge(id, params)
       .then((badge) => {
         this.logger.success(`Updated info for badge **${badge.alias}**`);
         return badge;

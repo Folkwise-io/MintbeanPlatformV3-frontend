@@ -31,16 +31,16 @@ const AdminBadgeDeleteModal: FC<ConnectContextProps & Props> = ({
       type: "danger",
       text: "Delete",
       onClick: (_evt, { closeModal }) => {
-        deleteMeet(badge.badgeId)
+        deleteMeet(badge.id)
           .then(() => onDelete())
           .then(() => closeModal());
       },
     },
   ];
 
-  const deleteMeet = async (badgeId: string) => {
+  const deleteMeet = async (id: string) => {
     if (context) {
-      context.badgeService.deleteBadge(badgeId);
+      context.badgeService.deleteBadge(id);
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
     }

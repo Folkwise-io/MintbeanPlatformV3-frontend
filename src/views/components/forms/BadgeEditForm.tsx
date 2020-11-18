@@ -73,9 +73,9 @@ const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
     },
   });
 
-  const editBadge = async (badgeId: string, params: EditBadgeParams) => {
+  const editBadge = async (id: string, params: EditBadgeParams) => {
     if (context) {
-      context.badgeService.editBadge(badgeId, params).then((badge) => {
+      context.badgeService.editBadge(id, params).then((badge) => {
         // can't get react router history to push reload same page for some reason
         if (badge) {
           window && window.location.reload();
@@ -102,7 +102,7 @@ const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
   };
 
   const onSubmit: SubmitHandler<CreateBadgeParams> = (data: EditBadgeParams) => {
-    editBadge(badge.badgeId, data);
+    editBadge(badge.id, data);
   };
 
   const onError: SubmitErrorHandler<CreateBadgeParams> = (errors: FieldErrors<EditBadgeParams>) => {

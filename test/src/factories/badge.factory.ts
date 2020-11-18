@@ -5,7 +5,7 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import { paletteOptions } from "../../../src/utils/Palette";
 
 export const badgeFactory = factory<Badge>({
-  badgeId: () => faker.random.uuid(),
+  id: () => faker.random.uuid(),
   alias: () => faker.random.word(),
   badgeShape: faker.random.arrayElement(["star", "circle", "square"]),
   faIcon: () => faker.random.arrayElement(Object.values(fas).map(({ iconName }) => iconName)),

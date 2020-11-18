@@ -85,7 +85,7 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
         .createBadge(params)
         .then((newBadge) => {
           if (newBadge) {
-            badgeId = newBadge.badgeId;
+            badgeId = newBadge.id;
           }
         })
         .then(() => history.push(`/badges/${badgeId}`));

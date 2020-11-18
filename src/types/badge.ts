@@ -1,7 +1,7 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 
 export interface Badge {
-  badgeId: string;
+  id: string;
   alias: string;
   badgeShape: "star" | "circle" | "square";
   faIcon: IconName;

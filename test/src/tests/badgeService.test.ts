@@ -59,7 +59,7 @@ describe("BadgeService", () => {
       });
     });
     const badge = badgeFactory.one();
-    const id = badge.badgeId;
+    const id = badge.id;
     it("returns a meet by id", async () => {
       await testManager.configureContext((context) => {
         return context.badgeService.fetchBadge(id).then((result) => {
@@ -195,7 +195,7 @@ describe("BadgeService", () => {
     const existingBadge = badgeFactory.one();
     const NEW_TITLE = "New title";
     const updatedBadgeParams = {
-      badgeId: existingBadge.badgeId,
+      id: existingBadge.id,
       alias: existingBadge.alias,
       title: NEW_TITLE,
       badgeShape: existingBadge.badgeShape,
@@ -210,7 +210,7 @@ describe("BadgeService", () => {
         // add existing meet
         .addBadges([existingBadge])
         .execute((context) => {
-          return context.badgeService.editBadge(existingBadge.badgeId, updatedBadgeParams).then((result) => {
+          return context.badgeService.editBadge(existingBadge.id, updatedBadgeParams).then((result) => {
             if (result) {
               expect(result.title).toBe(NEW_TITLE);
             } else {
@@ -228,7 +228,7 @@ describe("BadgeService", () => {
             errors: [{ message: ERROR_MESSAGE, extensions: { code: "TEST" } }],
           });
         })
-        .execute((context) => context.badgeService.editBadge(existingBadge.badgeId, updatedBadgeParams));
+        .execute((context) => context.badgeService.editBadge(existingBadge.id, updatedBadgeParams));
 
       const storeState = testManager.store.getState();
       expect(storeState.errors[0].message).toBe(ERROR_MESSAGE);

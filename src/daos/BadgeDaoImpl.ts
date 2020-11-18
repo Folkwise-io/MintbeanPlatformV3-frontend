@@ -11,7 +11,7 @@ export class BadgeDaoImpl implements BadgeDao {
         `
       query badges {
         badges {
-          badgeId
+          id
           alias
           badgeShape
           faIcon
@@ -35,13 +35,13 @@ export class BadgeDaoImpl implements BadgeDao {
       })
       .catch(handleServerError);
   }
-  fetchBadge(badgeId: string): Promise<Badge> {
+  fetchBadge(id: string): Promise<Badge> {
     return this.api
-      .query<ApiResponseRaw<{ badge: Badge }>, { badgeId: string }>(
+      .query<ApiResponseRaw<{ badge: Badge }>, { id: string }>(
         `
-      query badge($badgeId: UUID!) {
-        badge(badgeId: $badgeId) {
-          badgeId
+      query badge($id: UUID!) {
+        badge(id: $id) {
+          id
           alias
           badgeShape
           faIcon
@@ -54,7 +54,7 @@ export class BadgeDaoImpl implements BadgeDao {
         }
       }
       `,
-        { badgeId },
+        { id },
       )
       .then((result) => {
         if (result.errors) throw result.errors;
@@ -71,7 +71,7 @@ export class BadgeDaoImpl implements BadgeDao {
         `
       mutation createBadge($input: CreateBadgeInput!) {
         createBadge(input: $input) {
-          badgeId
+          id
           badgeShape
           alias
           title
@@ -93,15 +93,15 @@ export class BadgeDaoImpl implements BadgeDao {
       })
       .catch(handleServerError);
   }
-  deleteBadge(badgeId: string): Promise<boolean> {
+  deleteBadge(id: string): Promise<boolean> {
     return this.api
-      .query<ApiResponseRaw<{ deleteBadge: boolean }>, { badgeId: string }>(
+      .query<ApiResponseRaw<{ deleteBadge: boolean }>, { id: string }>(
         `
-      mutation deleteBadge($badgeId: UUID = "c4465b88-57da-4f70-b8be-3555de8fc81b") {
-        deleteBadge(badgeId: $badgeId)
+      mutation deleteBadge($id: UUID = "c4465b88-57da-4f70-b8be-3555de8fc81b") {
+        deleteBadge(id: $id)
       }
       `,
-        { badgeId },
+        { id },
       )
       .then((result) => {
         if (result.errors) throw result.errors;
@@ -112,12 +112,12 @@ export class BadgeDaoImpl implements BadgeDao {
       })
       .catch(handleServerError);
   }
-  editBadge(badgeId: string, params: EditBadgeParams): Promise<Badge> {
+  editBadge(id: string, params: EditBadgeParams): Promise<Badge> {
     return this.api
-      .query<ApiResponseRaw<{ editBadge: Badge }>, { badgeId: string; input: EditBadgeParams }>(
+      .query<ApiResponseRaw<{ editBadge: Badge }>, { id: string; input: EditBadgeParams }>(
         `
-      mutation editBadge($badgeId: UUID!, $input: EditBadgeInput!) {
-        editBadge(badgeId: $badgeId, input: $input) {
+      mutation editBadge($id: UUID!, $input: EditBadgeInput!) {
+        editBadge(id: $id, input: $input) {
           alias
           badgeShape
           faIcon
@@ -131,7 +131,7 @@ export class BadgeDaoImpl implements BadgeDao {
         }
       }
       `,
-        { badgeId, input: params },
+        { id, input: params },
       )
       .then((result) => {
         if (result.errors) throw result.errors;
