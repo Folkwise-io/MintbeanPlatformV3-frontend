@@ -43,7 +43,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const {
     params: { id },
   } = match;
-  const [meet, setMeet] = useState<MeetType | null>(null);
+  const [meet, setMeet] = useState<Meet | null>(null);
   // TODO: remove kanban from local state. This will be replaced by simply passing kanbanId which will live on the meet in the backend in the future
   const [kanban, setKanban] = useState<Kanban | null>(null);
 

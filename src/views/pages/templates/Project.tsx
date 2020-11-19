@@ -4,12 +4,10 @@ import { connect } from "react-redux";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { ExternalLink } from "../../components/ExternalLink";
-// import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
 import { ImageDisplay } from "../../components/ImageDisplay";
 import { ImageDisplayTray } from "../../components/ImageDisplayTray";
 import { BgBlock } from "../../components/BgBlock";
 import ProjectDeleteModal from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
-import { UserState, StoreState, Project as ProjectType } from "../../../../types";
 import BadgeDisplay from "../../components/BadgeDisplay";
 
 interface StateMapping {
@@ -24,7 +22,7 @@ interface MatchParams {
   id: string;
 }
 
-const isOwner = (user: UserState, project: ProjectType) => {
+const isOwner = (user: UserState, project: Project) => {
   if (!user?.data?.id || !project?.user?.id) return false;
   return user.data.id === project.user.id;
 };
@@ -37,7 +35,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
   const {
     params: { id },
   } = match;
-  const [project, setProject] = useState<ProjectType | null>(null);
+  const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const isAdmin = user.data?.isAdmin;
   const history = useHistory();
@@ -112,7 +110,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                       Wow, this project&apos;s a winner! Check out the badges they&apos;ve earned:
                     </p>
                     <div className="flex justify-center gap-2 py-2">
-                      {project.badges.map((badge) => (
+                      {project.badges.map((badge: BadgesForProject) => (
                         <Link to={`/badges/${badge.id}`} key={badge.id}>
                           <BadgeDisplay size="xs" badge={badge} />
                         </Link>
