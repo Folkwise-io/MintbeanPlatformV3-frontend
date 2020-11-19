@@ -1,5 +1,6 @@
 import { TestManager } from "../TestManager";
 import { projectFactory } from "../factories/project.factory";
+import { CreateProjectParams } from "../../../types";
 // import { userFactory } from "../factories/user.factory";
 
 // TODO: fix meet factory to allow recursive assocaition nesting

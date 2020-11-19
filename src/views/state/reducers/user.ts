@@ -1,6 +1,7 @@
 import { AuthActionType } from "../actions/actionTypes";
 import { Reducer } from "redux";
 import { MbAction } from "../actions/MbAction";
+import { UserState, User } from "../../../../types";
 
 export const userInitialState: UserState = { data: undefined, loadStatus: "SUCCESS" };
 

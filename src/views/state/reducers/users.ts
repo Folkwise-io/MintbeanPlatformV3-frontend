@@ -1,6 +1,7 @@
 import { UserActionType } from "../actions/actionTypes";
 import { Reducer } from "redux";
 import { MbAction } from "../actions/MbAction";
+import { UsersState, User } from "../../../../types";
 
 export const usersInitialState: UsersState = { data: [], loadStatus: "SUCCESS" };
 

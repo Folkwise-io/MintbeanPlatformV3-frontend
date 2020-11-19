@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { KanbanCard, KanbanSessionCard } from "../../../../types";
 import { MarkdownParser } from "../MarkdownParser";
 
 type Props = {

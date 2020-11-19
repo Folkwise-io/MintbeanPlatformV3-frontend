@@ -2,6 +2,7 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { AuthDao } from "./AuthDao";
 import { handleServerError } from "../utils/handleServerError";
+import { RegisterParams, LoginParams, User, ApiResponseRaw } from "../../types";
 
 interface RegisterInput {
   input: RegisterParams;

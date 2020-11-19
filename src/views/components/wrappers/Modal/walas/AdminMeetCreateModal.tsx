@@ -4,6 +4,7 @@ import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { MeetCreateForm } from "../../../forms/MeetCreateForm";
 import { useHistory } from "react-router-dom";
+import { CreateMeetParams } from "../../../../../../types";
 
 interface Props {
   className?: string;

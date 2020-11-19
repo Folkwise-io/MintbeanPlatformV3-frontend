@@ -9,6 +9,7 @@ import { MbAction } from "../../../../state/actions/MbAction";
 import { connect } from "react-redux";
 import { Button } from "../../../Button";
 import { Placement } from "@popperjs/core";
+import { LoginParams, StoreState } from "../../../../../../types";
 
 interface Props {
   className?: string;

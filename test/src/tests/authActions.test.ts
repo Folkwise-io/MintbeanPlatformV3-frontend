@@ -2,6 +2,7 @@ import { login, logout, me, register } from "../../../src/views/state/actions/au
 import { TestManager } from "../TestManager";
 import { TEST_EMAIL, TEST_PASSWORD } from "../constants";
 import { userFactory } from "../factories/user.factory";
+import { User, RegisterParams } from "../../../types";
 
 const fakeUser = userFactory.one();
 describe("Auth actions", () => {

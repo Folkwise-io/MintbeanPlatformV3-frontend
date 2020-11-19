@@ -1,4 +1,5 @@
 import faker from "faker";
+import { Kanban, KanbanCard, KanbanSession } from "../../../types";
 import { factory } from "./factory";
 
 export const kanbanFactory = factory<Kanban>({

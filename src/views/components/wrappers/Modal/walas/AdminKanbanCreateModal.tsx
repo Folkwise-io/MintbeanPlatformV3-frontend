@@ -5,6 +5,7 @@ import { connectContext, ConnectContextProps } from "../../../../../context/conn
 import { KanbanCreateForm } from "../../../forms/KanbanCreateForm";
 import { useHistory } from "react-router-dom";
 import { Button } from "../../../Button";
+import { CreateKanbanInput, Kanban } from "../../../../../../types";
 
 interface Props {
   className?: string;

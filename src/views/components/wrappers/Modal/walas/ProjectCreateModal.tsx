@@ -5,6 +5,7 @@ import { connectContext, ConnectContextProps } from "../../../../../context/conn
 import { ProjectCreateForm } from "../../../forms/ProjectCreateForm";
 import { Button } from "../../../Button";
 import { useHistory } from "react-router-dom";
+import { User, CreateProjectParams } from "../../../../../../types";
 
 interface Props {
   buttonText: string;

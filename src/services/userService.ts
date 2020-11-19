@@ -1,3 +1,4 @@
+import { User } from "../../types";
 import { UserDao } from "../daos/UserDao";
 
 export class UserService {

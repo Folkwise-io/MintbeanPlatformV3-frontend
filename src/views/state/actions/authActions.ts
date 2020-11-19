@@ -4,6 +4,7 @@ import { Dispatch } from "redux";
 import { MbAction } from "./MbAction";
 import { Context } from "../../../context/contextBuilder";
 import { hasErrorWithCode } from "../../../utils/hasErrorWithCode";
+import { ApiDataStatus, User, LoginParams, StoreState, RegisterParams } from "../../../../types";
 
 const loginAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<User> => ({
   type: AuthActionType.LOGIN,

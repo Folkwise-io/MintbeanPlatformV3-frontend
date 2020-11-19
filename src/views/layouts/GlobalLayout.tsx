@@ -9,6 +9,7 @@ import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer/Footer";
 import { me } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
+import { ToastState, UserState, StoreState, User } from "../../../types";
 
 type StateMapping = {
   toasts: ToastState;

@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { UserState, StoreState, Meet } from "../../../types";
 import { ConnectContextProps, connectContext } from "../../context/connectContext";
 import { isPast } from "../../utils/DateUtility";
 import NextMeetCard from "./MeetCards/NextMeetCard";

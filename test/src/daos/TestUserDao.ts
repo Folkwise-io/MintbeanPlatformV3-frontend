@@ -1,4 +1,5 @@
 import { UserDao } from "../../../src/daos/UserDao";
+import { User, ApiResponseRaw } from "../../../types";
 import { TestDao } from "../../testTypes";
 
 // any potential responses from this test dao, besides null (error case)

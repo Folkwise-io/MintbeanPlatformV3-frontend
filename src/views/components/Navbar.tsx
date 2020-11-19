@@ -11,6 +11,7 @@ import { Context } from "../../context/contextBuilder";
 import { MbAction } from "../state/actions/MbAction";
 import { logout } from "../state/actions/authActions";
 import { connect } from "react-redux";
+import { UserState, StoreState } from "../../../types";
 
 type StateMapping = {
   user: UserState;

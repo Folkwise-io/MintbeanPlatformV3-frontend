@@ -7,6 +7,7 @@ import { wcToClientStr, isCurrent } from "../../../utils/DateUtility";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock as faFasClock } from "@fortawesome/free-solid-svg-icons";
 import { faClock as faFarClock } from "@fortawesome/free-regular-svg-icons";
+import { Meet, User } from "../../../../types";
 
 type MeetProps = {
   meet: Meet;

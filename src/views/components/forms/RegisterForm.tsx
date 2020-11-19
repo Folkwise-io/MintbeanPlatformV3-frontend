@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
+import { RegisterParams } from "../../../../types";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const registerSchema = yup.object().shape({

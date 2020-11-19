@@ -6,6 +6,7 @@ import { Toast } from "./Toast";
 import { MbAction } from "../state/actions/MbAction";
 import { removeToast } from "../state/actions/toastActions";
 import { debounce } from "../../utils/debounce";
+import { StoreState, ToastState, Toast as ToastType } from "../../../types";
 
 type StateMapping = {
   toasts: ToastState;
@@ -47,7 +48,7 @@ const ToastsContainer: FC<StateMapping & DispatchMapping & Props> = ({ toasts, r
 
   return (
     <div className="fixed" style={{ top, zIndex: 999 }}>
-      {toasts.map((toast: Toast, index: number) => (
+      {toasts.map((toast: ToastType, index: number) => (
         <Toast key={index} toast={toast} removeToast={(id: string) => removeToast(id)} />
       ))}
     </div>

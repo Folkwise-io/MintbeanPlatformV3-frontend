@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { MarkdownEditor } from "../MarkdownEditor";
+import { KanbanCard, EditKanbanCardInput, CreateKanbanCardInput } from "../../../../types";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createKanbanCardInputSchema = yup.object().shape({

@@ -4,6 +4,7 @@ import { MeetStatus } from "./MeetStatus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { wcToClientStr, isCurrent } from "../../../utils/DateUtility";
+import { Meet, User } from "../../../../types";
 
 type MeetProps = {
   meet: Meet;

@@ -1,3 +1,5 @@
+import { LoginParams, User, RegisterParams } from "../../types";
+
 export interface AuthDao {
   login(params: LoginParams): Promise<User>;
   logout(): Promise<boolean>;

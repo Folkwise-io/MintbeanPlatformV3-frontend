@@ -1,6 +1,7 @@
 import { fetchUsers } from "../../../src/views/state/actions/userActions";
 import { TestManager } from "../TestManager";
 import { userFactory } from "../factories/user.factory";
+import { User } from "../../../types";
 
 const testUsers = userFactory.bulk(5);
 

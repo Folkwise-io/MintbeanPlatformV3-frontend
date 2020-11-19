@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { KanbanViewUserColumn } from "./KanbanViewUserColumn";
 // TODO: Remove - for demo purpose only
 import { kanbanSessionFactory } from "../../../../test/src/factories/kanban.factory";
+import { KanbanSessionCard, UserState, StoreState, KanbanSession } from "../../../../types";
 
 interface ColumnData {
   [key: string]: {

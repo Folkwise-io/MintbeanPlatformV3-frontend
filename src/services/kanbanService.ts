@@ -1,3 +1,11 @@
+import {
+  Kanban,
+  CreateKanbanInput,
+  EditKanbanInput,
+  KanbanCard,
+  CreateKanbanCardInput,
+  EditKanbanCardInput,
+} from "../../types";
 import { KanbanDao } from "../daos/KanbanDao";
 import { LoggerService } from "./loggerService";
 

@@ -7,6 +7,7 @@ import { BgBlock } from "../components/BgBlock";
 import { FocusCard } from "../components/FocusCard";
 import { isPast } from "../../utils/DateUtility";
 import { PastMeetCard } from "../components/MeetCards/PastMeetCard";
+import { UserState, StoreState, Meet } from "../../../types";
 
 interface StateMapping {
   user: UserState;

@@ -1,8 +1,9 @@
 import React, { FC } from "react";
+import { ToastTypes, Toast as ToastType } from "../../../types";
 import { MarkdownParser } from "./MarkdownParser";
 
 type Props = {
-  toast: Toast;
+  toast: ToastType;
   removeToast: (id: string) => void;
 };
 

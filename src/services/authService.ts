@@ -1,3 +1,4 @@
+import { LoginParams, User, RegisterParams } from "../../types";
 import { AuthDao } from "../daos/AuthDao";
 
 export class AuthService {

@@ -1,3 +1,5 @@
+import { RegistrantsForMeet, User } from "../../types";
+
 export class MeetRegistration {
   isRegistered = (registrants?: RegistrantsForMeet[], user?: User): boolean => {
     if (!registrants || !user) return false;

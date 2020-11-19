@@ -19,6 +19,7 @@ import {
   faUserCog,
 } from "@fortawesome/free-solid-svg-icons";
 import "./index.css";
+import { UserState, StoreState } from "../../../../types";
 
 interface FabProps {
   event?: "hover" | "click";

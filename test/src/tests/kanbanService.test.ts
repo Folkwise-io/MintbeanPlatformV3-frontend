@@ -1,5 +1,6 @@
 import { TestManager } from "../TestManager";
 import { kanbanCardFactory, kanbanFactory } from "../factories/kanban.factory";
+import { CreateKanbanInput, EditKanbanInput, CreateKanbanCardInput, EditKanbanCardInput } from "../../../types";
 
 const fakeKanbans = kanbanFactory.bulk(6);
 const fakeKanbanCards = kanbanCardFactory.bulk(6);

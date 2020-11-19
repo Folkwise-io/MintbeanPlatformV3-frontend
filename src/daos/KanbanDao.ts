@@ -1,3 +1,12 @@
+import {
+  Kanban,
+  CreateKanbanInput,
+  EditKanbanInput,
+  KanbanCard,
+  CreateKanbanCardInput,
+  EditKanbanCardInput,
+} from "../../types";
+
 export interface KanbanDao {
   // Kanban
   fetchKanban(id: string): Promise<Kanban>;

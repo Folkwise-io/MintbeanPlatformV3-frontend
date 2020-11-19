@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, RouteComponentProps, useHistory } from "react-router-dom";
+import { UserState, StoreState } from "../../../../types";
 import { connectContext, ConnectContextProps } from "../../../context/connectContext";
 import { Badge } from "../../../types/badge";
 import BadgeDisplay from "../../components/BadgeDisplay";

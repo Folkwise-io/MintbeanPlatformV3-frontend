@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/CloudinaryUploadWidget";
 import moment from "moment";
 import { MarkdownEditor } from "../MarkdownEditor";
+import { EditMeetParams, Meet, CreateMeetParams } from "../../../../types";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 // this is same as createMeetInputSchema.... consolidate

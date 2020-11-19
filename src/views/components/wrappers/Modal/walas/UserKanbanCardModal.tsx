@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { DraggableProvided } from "react-beautiful-dnd";
 import { Modal } from "../";
+import { KanbanSessionCard } from "../../../../../../types";
 import { KanbanCardDetails } from "../../../Kanban/KanbanCardDetails";
 import { KanbanCardSummary } from "../../../Kanban/KanbanCardSummary";
 import { ModalActionContext, ModalActionDeclaration } from "../ModalActionButton";

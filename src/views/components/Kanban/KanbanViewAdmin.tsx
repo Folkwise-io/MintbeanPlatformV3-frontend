@@ -3,6 +3,7 @@ import AdminKanbanCardModal from "../wrappers/Modal/walas/AdminKanbanCardModal";
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import AdminKanbanCardCreateModal from "../wrappers/Modal/walas/AdminKanbanCardCreateModal";
 import { connectContext, ConnectContextProps } from "../../../context/connectContext";
+import { Kanban, KanbanCard } from "../../../../types";
 
 interface Props {
   kanbanId?: string;

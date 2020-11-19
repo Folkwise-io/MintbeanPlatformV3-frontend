@@ -5,6 +5,7 @@ import { rootReducer, initialStoreState } from "./reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { Context } from "../../context/contextBuilder";
 import { MbAction } from "./actions/MbAction";
+import { StoreState } from "../../../types";
 
 export function configureStoreAndLogger(context: Context): Store<StoreState, MbAction> {
   const middlewares = [thunkMiddleware.withExtraArgument(context)];

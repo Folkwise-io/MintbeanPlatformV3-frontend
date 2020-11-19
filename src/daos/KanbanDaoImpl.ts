@@ -1,6 +1,15 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { KanbanDao } from "./KanbanDao";
 import { handleServerError } from "../utils/handleServerError";
+import {
+  Kanban,
+  ApiResponseRaw,
+  CreateKanbanInput,
+  EditKanbanInput,
+  KanbanCard,
+  CreateKanbanCardInput,
+  EditKanbanCardInput,
+} from "../../types";
 
 export class KanbanDaoImpl implements KanbanDao {
   constructor(private api: ApiQueryExecutor) {}

@@ -1,6 +1,7 @@
 import React, { FC, useRef, useState } from "react";
 import { DraggableProvided } from "react-beautiful-dnd";
 import { Modal } from "../";
+import { KanbanCard, EditKanbanCardInput } from "../../../../../../types";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { KanbanCardEditForm } from "../../../forms/KanbanCardEditForm";
 import { KanbanCardDetails } from "../../../Kanban/KanbanCardDetails";

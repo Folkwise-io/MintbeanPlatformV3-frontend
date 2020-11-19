@@ -3,6 +3,7 @@ import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { Button } from "../../../Button";
+import { Project } from "../../../../../../types";
 
 interface Props {
   className?: string;

@@ -4,6 +4,7 @@ import { Context } from "../../src/context/contextBuilder";
 import { Badge } from "../../src/types/badge";
 import { MbAction } from "../../src/views/state/actions/MbAction";
 import { configureStoreAndLogger } from "../../src/views/state/configureStoreAndLogger";
+import { StoreState, User, Meet, Project, Kanban, KanbanCard } from "../../types";
 import { testContextBuilder } from "../testContextBuilder";
 import { TestContext } from "../testContextBuilder";
 

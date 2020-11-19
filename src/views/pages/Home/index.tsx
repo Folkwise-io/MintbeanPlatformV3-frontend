@@ -4,6 +4,7 @@ import { FocusCard } from "../../components/FocusCard";
 import { MainList } from "./HomeMainList";
 import NextMeetSection from "../../components/NextMeetSection";
 import { Link } from "react-router-dom";
+import { UserState } from "../../../../types";
 
 interface StateMapping {
   user: UserState;

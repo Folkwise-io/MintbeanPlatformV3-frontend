@@ -3,6 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { Context } from "../../../context/contextBuilder";
 import { Dispatch } from "redux";
 import { MbAction } from "./MbAction";
+import { ApiDataStatus, User, StoreState } from "../../../../types";
 
 const action = (loadStatus: ApiDataStatus, payload?: User[]): MbAction<User[]> => ({
   type: UserActionType.FETCH_USERS,

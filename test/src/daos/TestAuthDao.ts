@@ -1,4 +1,5 @@
 import { AuthDao } from "../../../src/daos/AuthDao";
+import { User, ApiResponseRaw, LoginParams, ServerError, RegisterParams } from "../../../types";
 import { TestDao } from "../../testTypes";
 
 // any potential responses from this test dao, besides null (error case)

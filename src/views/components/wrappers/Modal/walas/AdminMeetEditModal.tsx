@@ -5,6 +5,7 @@ import { connectContext, ConnectContextProps } from "../../../../../context/conn
 // import { useHistory } from "react-router-dom";
 import { MeetEditForm } from "../../../forms/MeetEditForm";
 import { Button } from "../../../Button";
+import { Meet, CreateMeetParams } from "../../../../../../types";
 
 interface Props {
   className?: string;

@@ -2,6 +2,14 @@
 import { kanbanCardFactory } from "../../test/src/factories/kanban.factory";
 import { KanbanDao } from "./KanbanDao";
 import faker from "faker";
+import {
+  CreateKanbanCardInput,
+  CreateKanbanInput,
+  EditKanbanCardInput,
+  EditKanbanInput,
+  Kanban,
+  KanbanCard,
+} from "../../types";
 
 // Fake "database" of kanbans
 interface FakeState {

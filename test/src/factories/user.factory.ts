@@ -1,4 +1,5 @@
 import faker from "faker";
+import { User } from "../../../types";
 import { factory } from "./factory";
 
 export const userFactory = factory<User>({

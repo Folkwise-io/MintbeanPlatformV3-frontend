@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import { KanbanSessionCard } from "../../../../types";
 import { UserKanbanCardModal } from "../wrappers/Modal/walas/UserKanbanCardModal";
 
 interface Props {

@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
+import { Meet, User } from "../../../../types";
 import { wcToClientStr } from "../../../utils/DateUtility";
 import AdminMeetDeleteModal from "../wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";

@@ -1,6 +1,7 @@
 import { ToastActionType } from "./actionTypes";
 import { v4 as uuidV4 } from "uuid";
 import { MbAction } from "./MbAction";
+import { Toast, ToastTypes } from "../../../../types";
 
 const toastActionHoc = (type: ToastTypes) => (message: string): MbAction<Toast> => ({
   type: ToastActionType.ADD_TOAST,

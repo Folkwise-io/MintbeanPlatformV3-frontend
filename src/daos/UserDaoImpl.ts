@@ -1,6 +1,7 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { UserDao } from "./UserDao";
 import { handleServerError } from "../utils/handleServerError";
+import { User, ApiResponseRaw } from "../../types";
 
 interface UsersResponseRaw {
   users: User[];
