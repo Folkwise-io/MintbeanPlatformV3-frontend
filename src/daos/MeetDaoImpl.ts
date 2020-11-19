@@ -1,7 +1,6 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { MeetDao } from "./MeetDao";
 import { handleServerError } from "../utils/handleServerError";
-import { Meet, ApiResponseRaw, CreateMeetParams, EditMeetParams } from "../../types";
 
 export class MeetDaoImpl implements MeetDao {
   constructor(private api: ApiQueryExecutor) {}

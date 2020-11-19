@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ImageDisplay } from "./ImageDisplay";
 import { ExternalLink } from "./ExternalLink";
 import { Button } from "./Button";
-import { BadgesForProject, ProjectForMeet, User } from "../../../types";
 import BadgeDisplay from "./BadgeDisplay";
 import Select, { OptionTypeBase } from "react-select";
 import { AwardBadgesParams, Badge } from "../../types/badge";

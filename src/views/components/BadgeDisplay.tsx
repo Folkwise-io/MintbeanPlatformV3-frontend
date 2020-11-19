@@ -1,7 +1,6 @@
-import { IconLookup, IconDefinition, findIconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { IconLookup, IconDefinition, findIconDefinition, IconName } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC } from "react";
-import { BadgesForProject } from "../../../types";
 import { Badge, CreateBadgeParams } from "../../types/badge";
 
 interface Props {
@@ -12,7 +11,7 @@ interface Props {
 
 const BadgeDisplay: FC<Props> = ({ badge, size = "sm" }) => {
   const { badgeShape, faIcon, backgroundHex, iconHex, title } = badge;
-  const iconLookup: IconLookup = { prefix: "fas", iconName: faIcon };
+  const iconLookup: IconLookup = { prefix: "fas", iconName: faIcon as IconName };
   const iconDefinition: IconDefinition = findIconDefinition(iconLookup);
   const getComputedClassName = (option: "circle" | "square" | "star") => {
     let baseStyles = "mb-flex-centered";

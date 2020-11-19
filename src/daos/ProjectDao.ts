@@ -1,4 +1,3 @@
-import { Project, CreateProjectParams } from "../../types";
 import { AwardBadgesParams } from "../types/badge";
 
 export interface ProjectDao {

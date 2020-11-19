@@ -2,7 +2,6 @@ import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { BadgeDao } from "./BadgeDao";
 import { handleServerError } from "../utils/handleServerError";
 import { Badge, CreateBadgeParams, EditBadgeParams } from "../types/badge";
-import { ApiResponseRaw } from "../../types";
 
 export class BadgeDaoImpl implements BadgeDao {
   constructor(private api: ApiQueryExecutor) {}

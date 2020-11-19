@@ -1,4 +1,3 @@
-import { CreateProjectParams, Project } from "../../types";
 import { ProjectDao } from "../daos/ProjectDao";
 import { AwardBadgesParams } from "../types/badge";
 import { LoggerService } from "./loggerService";

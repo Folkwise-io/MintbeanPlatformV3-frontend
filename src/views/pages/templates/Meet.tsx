@@ -19,7 +19,6 @@ import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { ExternalLink } from "../../components/ExternalLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import { UserState, StoreState, Kanban, Meet as MeetType, ProjectForMeet } from "../../../../types";
 import ProjectCard from "../../components/ProjectCard";
 
 const meetReg = new MeetRegistration();
