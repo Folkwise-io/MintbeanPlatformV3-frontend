@@ -1,7 +1,3 @@
-// import { IconName } from "@fortawesome/fontawesome-svg-core";
-
-import { IconName } from "@fortawesome/fontawesome-svg-core";
-
 // MODELS ---------------------
 interface User {
   id: string;
@@ -38,7 +34,7 @@ interface BadgesForProject {
   id: string;
   alias: string;
   badgeShape: "star" | "circle" | "square";
-  faIcon: IconName;
+  faIcon: string;
   backgroundHex: string;
   iconHex: string;
   weight: number;

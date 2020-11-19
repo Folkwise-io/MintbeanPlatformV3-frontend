@@ -1,4 +1,5 @@
 import { ProjectDao } from "../../../src/daos/ProjectDao";
+import { AwardBadgesParams } from "../../../src/types/badge";
 
 type SuccessDataTypes = Project | boolean;
 
@@ -47,6 +48,15 @@ export class TestProjectDao implements ProjectDao {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (id && this.getSuccesses().length) {
       return (this.getSuccesses()[0].data as unknown) as boolean;
+    } else {
+      throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
+    }
+  }
+
+  async awardBadges(params: AwardBadgesParams): Promise<Project> {
+    if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
+    if (params && this.getSuccesses().length) {
+      return (this.getSuccesses()[0].data as unknown) as Project;
     } else {
       throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
     }
