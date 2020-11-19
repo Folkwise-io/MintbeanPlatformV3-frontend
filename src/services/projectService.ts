@@ -1,4 +1,6 @@
+import { CreateProjectParams, Project } from "../../types";
 import { ProjectDao } from "../daos/ProjectDao";
+import { AwardBadgesParams } from "../types/badge";
 import { LoggerService } from "./loggerService";
 
 export class ProjectService {
@@ -24,6 +26,18 @@ export class ProjectService {
       .createProject(params)
       .then((project) => {
         this.logger.success(`Submitted new project **${project.title}**!`);
+        return project;
+      })
+      .catch((e) => {
+        this.logger.handleGraphqlErrors(e);
+      });
+  }
+
+  async awardBadges(params: AwardBadgesParams): Promise<Project | void> {
+    return this.projectDao
+      .awardBadges(params)
+      .then((project) => {
+        this.logger.success(`Awarded badges to **${project.title}**!`);
         return project;
       })
       .catch((e) => {

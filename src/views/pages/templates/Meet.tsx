@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button } from "../../components/Button";
 import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
-import { ProjectCard } from "../../components/ProjectCard";
 import { BgBlock } from "../../components/BgBlock";
 import ProjectCreateModal from "../../components/wrappers/Modal/walas/ProjectCreateModal";
 import AdminMeetEditModal from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
@@ -20,6 +19,8 @@ import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { ExternalLink } from "../../components/ExternalLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { UserState, StoreState, Kanban, Meet as MeetType, ProjectForMeet } from "../../../../types";
+import ProjectCard from "../../components/ProjectCard";
 
 const meetReg = new MeetRegistration();
 
@@ -43,7 +44,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const {
     params: { id },
   } = match;
-  const [meet, setMeet] = useState<Meet | null>(null);
+  const [meet, setMeet] = useState<MeetType | null>(null);
   // TODO: remove kanban from local state. This will be replaced by simply passing kanbanId which will live on the meet in the backend in the future
   const [kanban, setKanban] = useState<Kanban | null>(null);
 
@@ -251,8 +252,8 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
               <>
                 <h2 className="font-medium">Submissions</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-                  {meet.projects.map((p) => (
-                    <ProjectCard project={p} key={p.id} />
+                  {meet.projects.map((p: ProjectForMeet) => (
+                    <ProjectCard userState={user} project={p} key={p.id} />
                   ))}
                 </div>
               </>

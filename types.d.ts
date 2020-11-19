@@ -1,5 +1,7 @@
 // import { IconName } from "@fortawesome/fontawesome-svg-core";
 
+import { IconName } from "@fortawesome/fontawesome-svg-core";
+
 // MODELS ---------------------
 interface User {
   id: string;
@@ -19,6 +21,7 @@ interface Project {
   meet: MeetForProject;
   user: UserForProject;
   mediaAssets: CloudinaryPublicIdMediaAsset[];
+  badges: BadgesForProject[];
 }
 interface UserForProject {
   id: string;
@@ -28,6 +31,17 @@ interface UserForProject {
 interface MeetForProject {
   id: string;
   title: string;
+}
+
+interface BadgesForProject {
+  title: string;
+  id: string;
+  alias: string;
+  badgeShape: "star" | "circle" | "square";
+  faIcon: IconName;
+  backgroundHex: string;
+  iconHex: string;
+  weight: number;
 }
 
 /** Whether registration is going to open, is open now, or is closed. */
@@ -57,6 +71,7 @@ interface ProjectForMeet {
   liveUrl: string;
   user: UserForProjectForMeet;
   mediaAssets: CloudinaryPublicIdMediaAsset[];
+  badges: BadgesForProject[];
 }
 
 interface RegistrantsForMeet {

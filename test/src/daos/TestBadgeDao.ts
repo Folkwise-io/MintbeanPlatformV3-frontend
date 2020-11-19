@@ -1,5 +1,6 @@
 import { BadgeDao } from "../../../src/daos/BadgeDao";
 import { Badge, EditBadgeParams } from "../../../src/types/badge";
+import { ApiResponseRaw, ServerError } from "../../../types";
 import { badgeFactory } from "../factories/badge.factory";
 
 type SuccessDataTypes = Badge[] | Badge | boolean;

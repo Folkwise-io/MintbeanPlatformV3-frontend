@@ -55,6 +55,8 @@ const BadgeTemplate: FC<ConnectContextProps & StateMapping & RouteComponentProps
     history.push("/badges");
   };
 
+  const awardedProjects = badge ? badge.projects.length : 0;
+
   return (
     <BgBlock>
       <div className="min-h-50vh w-11/12 mx-auto sm:mx-0 sm:w-full pt-8 pb-12 flex flex-col">
@@ -77,7 +79,7 @@ const BadgeTemplate: FC<ConnectContextProps & StateMapping & RouteComponentProps
             <div className="flex flex-col min-h-full">
               <div className="grid grid-rows-3 sm:grid-rows-1 sm:grid-cols-3 bg-mb-gray-100 min-h-20vh">
                 <div className="mb-flex-centered bg-mb-gray-300 py-4 row-span-2 sm:row-span-1">
-                  <BadgeDisplay size="medium" badge={badge} />
+                  <BadgeDisplay size="md" badge={badge} />
                 </div>
                 <div className="mb-flex-centered text-center flex-col sm:col-span-2 my-4 md:mx-4">
                   <h1 className="capitalize font-semibold">the {badge.title} badge</h1>
@@ -112,7 +114,8 @@ const BadgeTemplate: FC<ConnectContextProps & StateMapping & RouteComponentProps
               </div>
               <ul className="bg-white grid grid-cols-1 flex-grow mt-2 mb-4">
                 <li className="mb-flex-centered flex-col">
-                  <span className="text-2xl">0</span> projects have this badge
+                  <span className="text-2xl">{awardedProjects}</span>{" "}
+                  {awardedProjects !== 1 ? "projects have" : "project has"} this badge
                 </li>
               </ul>
             </div>

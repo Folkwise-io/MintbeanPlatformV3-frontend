@@ -165,7 +165,7 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
     <form ref={formRef} name="createBadgeForm" autoComplete="off" onSubmit={handleSubmit(onSubmit, onError)}>
       <label htmlFor="createBadgeForm">Create a badge</label>
       <div className="mb-flex-centered flex-col">
-        <BadgeDisplay badge={previewBadge} size="large" />
+        <BadgeDisplay badge={previewBadge} size="lg" />
         <div className="w-full row-span-2">
           <div>
             <div className="lg:grid grid-cols-3">

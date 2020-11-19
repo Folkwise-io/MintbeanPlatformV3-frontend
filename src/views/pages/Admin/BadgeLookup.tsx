@@ -57,7 +57,7 @@ const BadgeLookup: FC<ConnectContextProps> = ({ context }) => {
       <ul className="pt-4 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 row-auto place-items-center">
         {badge && (
           <li className="flex flex-col items-center xs:col-span-2 sm:col-span-3">
-            <BadgeDisplay badge={badge} size="medium" />
+            <BadgeDisplay badge={badge} size="md" />
             <Link to={`/badges/${badge.id}`}>view {badge.alias}</Link>
           </li>
         )}

@@ -1,6 +1,8 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { ProjectDao } from "./ProjectDao";
 import { handleServerError } from "../utils/handleServerError";
+import { AwardBadgesParams } from "../types/badge";
+import { Project, ApiResponseRaw, CreateProjectParams } from "../../types";
 
 export class ProjectDaoImpl implements ProjectDao {
   constructor(private api: ApiQueryExecutor) {}
@@ -27,6 +29,16 @@ export class ProjectDaoImpl implements ProjectDao {
               }
               mediaAssets {
                 cloudinaryPublicId
+              }
+              badges {
+                id
+                title
+                alias
+                badgeShape
+                faIcon
+                backgroundHex
+                iconHex
+                weight
               }
             }
           }
@@ -95,6 +107,47 @@ export class ProjectDaoImpl implements ProjectDao {
           throw [{ message: "Something went wrong when deleting project.", extensions: { code: "UNEXPECTED" } }];
         }
         return result.data.deleteProject;
+      })
+      .catch(handleServerError);
+  }
+  awardBadges(params: AwardBadgesParams): Promise<Project> {
+    const { projectId, badgeIds } = params;
+    return this.api
+      .query<ApiResponseRaw<{ awardBadges: Project }>, { projectId: string; badgeIds: string[] }>(
+        `
+      mutation awardBadges($projectId: UUID!, $badgeIds:[UUID]!) {
+        awardBadges(projectId: $projectId, badgeIds: $badgeIds) {
+          id
+          title
+          sourceCodeUrl
+          liveUrl
+          createdAt
+          meet {
+            id
+            title
+          }
+          user {
+            firstName
+            lastName
+            id
+          }
+          mediaAssets {
+            cloudinaryPublicId
+          }
+          badges {
+            alias
+          }
+        }
+      }
+      `,
+        { projectId, badgeIds },
+      )
+      .then((result) => {
+        if (result.errors) throw result.errors;
+        if (!result.errors && !result.data.awardBadges) {
+          throw [{ message: "Something went wrong when awarding badges.", extensions: { code: "UNEXPECTED" } }];
+        }
+        return result.data.awardBadges;
       })
       .catch(handleServerError);
   }

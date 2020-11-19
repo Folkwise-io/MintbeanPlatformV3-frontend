@@ -1,6 +1,7 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { MeetDao } from "./MeetDao";
 import { handleServerError } from "../utils/handleServerError";
+import { Meet, ApiResponseRaw, CreateMeetParams, EditMeetParams } from "../../types";
 
 export class MeetDaoImpl implements MeetDao {
   constructor(private api: ApiQueryExecutor) {}
@@ -70,6 +71,16 @@ export class MeetDaoImpl implements MeetDao {
                 }
                 mediaAssets {
                   cloudinaryPublicId
+                }
+                badges {
+                  id
+                  title
+                  alias
+                  badgeShape
+                  faIcon
+                  backgroundHex
+                  iconHex
+                  weight
                 }
               }
               registrants {

@@ -1,3 +1,5 @@
+import { Meet, CreateMeetParams, EditMeetParams } from "../../types";
+
 export interface MeetDao {
   fetchMeets(): Promise<Meet[]>;
   fetchMeet(id: string): Promise<Meet>;
