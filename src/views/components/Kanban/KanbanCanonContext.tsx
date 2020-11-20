@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
+import { isNumeric } from "../../../utils/isNumeric";
 import AdminKanbanCanonCardCreateModal from "../wrappers/Modal/walas/AdminKanbanCanonCardCreateModal";
 import AdminKanbanCanonCardModal from "../wrappers/Modal/walas/AdminKanbanCanonCardModal";
 
@@ -12,7 +13,8 @@ interface Props {
 
 export const KanbanCanonContext: FC<Props> = ({ kanbanCanonId, fetchKanbanCanon, todoCards, updateCardPositions }) => {
   const onDragEnd = (e: DropResult) => {
-    if (typeof e.source?.index === "number" && typeof e.destination?.index === "number") {
+    if (!e.destination || !e.source) return;
+    if (isNumeric(e.source?.index) && isNumeric(e.destination?.index)) {
       updateCardPositions({ cardId: e.draggableId, status: "TODO", index: e.destination.index }, e.source.index);
     }
   };
