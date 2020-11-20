@@ -109,8 +109,7 @@ export class ProjectDaoImpl implements ProjectDao {
       })
       .catch(handleServerError);
   }
-  awardBadges(params: AwardBadgesParams): Promise<Project> {
-    const { projectId, badgeIds } = params;
+  awardBadges(projectId: string, badgeIds: string[]): Promise<Project> {
     return this.api
       .query<ApiResponseRaw<{ awardBadges: Project }>, { projectId: string; badgeIds: string[] }>(
         `

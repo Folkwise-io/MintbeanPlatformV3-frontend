@@ -43,11 +43,7 @@ const ProjectCard: FC<ConnectContextProps & ProjectCardProps> = ({ context, proj
 
   const awardBadges = async (params: string[]) => {
     if (context) {
-      const input = {
-        projectId: id,
-        badgeIds: params,
-      };
-      context.projectService.awardBadges(input).then((project) => {
+      context.projectService.awardBadges(id, params).then((project) => {
         // can't get react router history to push reload same page for some reason
         if (project) {
           console.log(project);

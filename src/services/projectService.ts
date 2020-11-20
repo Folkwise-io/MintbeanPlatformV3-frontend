@@ -1,5 +1,4 @@
 import { ProjectDao } from "../daos/ProjectDao";
-import { AwardBadgesParams } from "../types/badge";
 import { LoggerService } from "./loggerService";
 
 export class ProjectService {
@@ -32,9 +31,9 @@ export class ProjectService {
       });
   }
 
-  async awardBadges(params: AwardBadgesParams): Promise<Project | void> {
+  async awardBadges(projectId: string, badgeIds: string[]): Promise<Project | void> {
     return this.projectDao
-      .awardBadges(params)
+      .awardBadges(projectId, badgeIds)
       .then((project) => {
         this.logger.success(`Awarded badges to **${project.title}**!`);
         return project;
