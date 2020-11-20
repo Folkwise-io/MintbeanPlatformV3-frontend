@@ -2,7 +2,7 @@ import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { KanbanCanonDao } from "./KanbanCanonDao";
 import { handleServerError } from "../utils/handleServerError";
 
-export const KANBAN_CANON_CARD_RESPONSE_QUERY = `
+const KANBAN_CANON_CARD_RESPONSE_QUERY = `
   id
   kanbanCanonId
   title 

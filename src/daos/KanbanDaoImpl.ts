@@ -1,7 +1,14 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { KanbanDao } from "./KanbanDao";
 import { handleServerError } from "../utils/handleServerError";
-import { KANBAN_CANON_CARD_RESPONSE_QUERY } from "./KanbanCanonDaoImpl";
+
+// note: currently same query as in KanbanCanonDao's card query, but purposefully decoupled for future-proofing
+const KANBAN_CARD_RESPONSE_QUERY = `
+  id
+  kanbanCanonId
+  title 
+  body
+`;
 
 export const KANBAN_RESPONSE_QUERY = `
     id
@@ -11,7 +18,7 @@ export const KANBAN_RESPONSE_QUERY = `
     userId
     meetId
     kanbanCards {
-      ${KANBAN_CANON_CARD_RESPONSE_QUERY}
+      ${KANBAN_CARD_RESPONSE_QUERY}
     }
     cardPositions {
       todo

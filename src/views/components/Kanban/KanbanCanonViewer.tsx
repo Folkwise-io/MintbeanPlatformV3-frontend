@@ -29,11 +29,10 @@ const KanbanCanonViewer: FC<ConnectContextProps & Props> = ({ context, kanbanCan
   }, [cardPositions, kanbanCanonCards]);
 
   const fetchKanbanCanon = async () => {
-    if (context) {
-      const kc = await context.kanbanCanonService.fetchKanbanCanon(kanbanCanon.id);
-      if (kc) {
-        updateKanbanLocalState(kc);
-      }
+    if (!context) return;
+    const kc = await context.kanbanCanonService.fetchKanbanCanon(kanbanCanon.id);
+    if (kc) {
+      updateKanbanLocalState(kc);
     }
   };
 
@@ -43,13 +42,12 @@ const KanbanCanonViewer: FC<ConnectContextProps & Props> = ({ context, kanbanCan
   };
 
   const updateCardPositions = async (args: UpdateCardPositionInput, sourceIndex: number) => {
+    if (!context) return;
     // update local state immediately for flicker-less re-render
     const reindexedTodos = reindex(cards.todo, sourceIndex, args.index);
     setCards((prev) => ({ ...prev, todo: reindexedTodos }));
     // update db
-    if (context) {
-      await context.kanbanCanonService.updateCardPositions(kanbanCanon.id, args);
-    }
+    await context.kanbanCanonService.updateCardPositions(kanbanCanon.id, args);
   };
 
   const reindex = (list: KanbanCanonCard[], startIndex: number, endIndex: number) => {

@@ -37,6 +37,8 @@ registerForMeet(meetId: string): Promise<boolean> {
   }
 ```
 
+One there is stricter error handling in dao, we can be more explicit with error typing in the application, such as in the `loggerService.ts` file.
+
 ### [S] Refactor re-used tags to block components
 
 Even small tags can be refactored out for consistency. Ideally pages do not have much Tailwind action except the bare minimum for building layouts

@@ -49,7 +49,8 @@ const KanbanViewer: FC<ConnectContextProps & StateMapping & Props> = ({ kanban, 
   }, [cardPositions, kanbanCards]);
 
   const fetchKanban = useCallback(async () => {
-    if (context && user.data) {
+    if (!context) return;
+    if (user.data) {
       const theKanban = await context.kanbanService.fetchKanban({
         userId: user.data.id,
         kanbanCanonId: kanban.kanbanCanonId,
