@@ -1,5 +1,6 @@
 import { TestManager } from "../TestManager";
 import { projectFactory } from "../factories/project.factory";
+import { badgeForProjectFactory } from "../factories/badge.factory";
 
 // TODO: fix meet factory to allow recursive assocaition nesting
 const fakeProject = projectFactory.one();
