@@ -10,8 +10,14 @@ type Props = {
 };
 
 const CreateKanbanButton: FC<Props & ConnectContextProps> = ({ userId, kanbanCanonId, meetId, context, onCreate }) => {
-  const createKanban = () => {
-    context && context.kanbanService.createKanban({ userId, kanbanCanonId, meetId }).then(() => onCreate());
+  const createKanban = async () => {
+    if (!context) return;
+    try {
+      await context.kanbanService.createKanban({ userId, kanbanCanonId, meetId });
+      onCreate();
+    } catch {
+      alert("Failed to unlock kanban.");
+    }
   };
 
   return <Button onClick={createKanban}>Unlock a kanban guide!</Button>;
