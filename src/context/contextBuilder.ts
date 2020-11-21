@@ -4,7 +4,6 @@ import { UserService } from "../services/userService";
 
 import { AuthDao } from "../daos/AuthDao";
 import { AuthDaoImpl } from "../daos/AuthDaoImpl";
-import { AuthService } from "../services/authService";
 
 import { MeetDao } from "../daos/MeetDao";
 import { MeetDaoImpl } from "../daos/MeetDaoImpl";
@@ -34,7 +33,6 @@ export interface Context {
   kanbanCanonDao: KanbanCanonDao;
   kanbanDao: KanbanDao;
   userService: UserService;
-  authService: AuthService;
   meetService: MeetService;
   projectService: ProjectService;
   kanbanCanonService: KanbanCanonService;
@@ -52,7 +50,6 @@ export const contextBuilder = (): Context => {
   const kanbanDao = new KanbanDaoImpl(apiQueryExecutor);
   const userService = new UserService(userDao);
   const authDao = new AuthDaoImpl(apiQueryExecutor);
-  const authService = new AuthService(authDao);
   const meetService = new MeetService(meetDao, loggerService);
   const projectService = new ProjectService(projectDao, loggerService);
   const kanbanCanonService = new KanbanCanonService(kanbanCanonDao, loggerService);
@@ -67,7 +64,6 @@ export const contextBuilder = (): Context => {
     kanbanCanonDao,
     kanbanDao,
     userService,
-    authService,
     meetService,
     projectService,
     kanbanCanonService,

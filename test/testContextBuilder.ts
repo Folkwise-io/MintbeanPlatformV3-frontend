@@ -1,7 +1,6 @@
 import { ApiQueryExecutor } from "../src/api/ApiQueryExecutor";
 import { UserService } from "../src/services/userService";
 import { TestUserDao } from "./src/daos/TestUserDao";
-import { AuthService } from "../src/services/authService";
 import { TestAuthDao } from "./src/daos/TestAuthDao";
 import { MeetService } from "../src/services/meetService";
 import { TestMeetDao } from "./src/daos/TestMeetDao";
@@ -21,7 +20,6 @@ export interface TestContext extends Context {
   meetDao: TestMeetDao;
   meetService: MeetService;
   authDao: TestAuthDao;
-  authService: AuthService;
   projectDao: TestProjectDao;
   projectService: ProjectService;
   kanbanCanonDao: TestKanbanCanonDao;
@@ -37,7 +35,6 @@ export const testContextBuilder = (): TestContext => {
   const meetDao = new TestMeetDao();
   const meetService = new MeetService(meetDao, loggerService);
   const authDao = new TestAuthDao();
-  const authService = new AuthService(authDao);
   const projectDao = new TestProjectDao();
   const projectService = new ProjectService(projectDao, loggerService);
   const kanbanCanonDao = new TestKanbanCanonDao();
@@ -53,7 +50,6 @@ export const testContextBuilder = (): TestContext => {
     meetDao,
     meetService,
     authDao,
-    authService,
     projectDao,
     projectService,
     kanbanCanonDao,
