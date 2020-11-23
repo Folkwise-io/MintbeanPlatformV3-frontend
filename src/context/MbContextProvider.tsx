@@ -3,7 +3,7 @@ import { Context } from "./contextBuilder";
 import { MbContext } from "./MbContext";
 
 type ProviderProps = {
-  context: Context | undefined;
+  context: Context;
   children: React.ReactNode;
 };
 
