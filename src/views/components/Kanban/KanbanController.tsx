@@ -59,7 +59,7 @@ const KanbanController: FC<StateMapping & Props> = ({ kanbanId, user }) => {
   useEffect(() => {
     setLoading(true);
     async () => await fetchKanban();
-    setLoading(true);
+    setLoading(false);
   }, [fetchKanban]);
 
   // update local card state everytime kanban changes

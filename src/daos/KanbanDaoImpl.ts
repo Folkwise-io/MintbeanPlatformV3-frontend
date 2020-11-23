@@ -31,12 +31,14 @@ export class KanbanDaoImpl implements KanbanDao {
   constructor(private api: ApiQueryExecutor) {}
 
   // Kanban ----------------------------------
+  // Currently only supports lookup by ID in frontend since we get resolved kanbanId from meet.
+  // Backend also allows a composite lookup of kanbanCanonId + userId + (meetId?)
   fetchKanban(args: FetchKanbanArgs): Promise<Kanban> {
     return this.api
       .query<ApiResponseRaw<{ kanban: Kanban }>, FetchKanbanArgs>(
         `
-            query fetchKanban($kanbanCanonId: UUID!, $userId: UUID!, $meetId: UUID) {
-              kanban(kanbanCanonId: $kanbanCanonId, userId: $userId, meetId: $meetId) {
+            query fetchKanban($id: UUID!) {
+              kanban(id: $id) {
                 ${KANBAN_RESPONSE_QUERY}
               }
             }

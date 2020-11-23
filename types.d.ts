@@ -120,6 +120,8 @@ interface LoginArgs {
   password: string;
 }
 
+// Currently only supports lookup by ID in frontend.
+// Backend also allows a composite lookup of kanbanCanonId + userId + (meetId?)
 interface FetchKanbanArgs {
   id: string;
 }

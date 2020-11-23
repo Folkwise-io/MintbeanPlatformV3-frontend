@@ -145,7 +145,6 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   };
 
   const renderKanbanViewUser = () => {
-    console.log({ meet });
     // Bail if this meet doesn't have a kanbanCanon
     if (!meet?.kanbanCanonId) return null;
     // Only show kanban options if meet has started
