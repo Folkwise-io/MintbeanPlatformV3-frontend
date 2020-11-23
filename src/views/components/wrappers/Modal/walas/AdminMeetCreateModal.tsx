@@ -1,9 +1,10 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useContext, useRef } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
-import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { MeetCreateForm } from "../../../forms/MeetCreateForm";
 import { useHistory } from "react-router-dom";
+import { MbContext } from "../../../../../context/MbContext";
+import { Context } from "../../../../../context/contextBuilder";
 
 interface Props {
   className?: string;
@@ -11,7 +12,8 @@ interface Props {
   refetchMeets: () => Promise<boolean | void>;
 }
 
-const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, className, buttonText, refetchMeets }) => {
+export const AdminMeetCreateModal: FC<Props> = ({ className, buttonText, refetchMeets }) => {
+  const context = useContext<Context>(MbContext);
   const formRef = useRef<HTMLFormElement>(null);
   const history = useHistory();
 
@@ -31,18 +33,14 @@ const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, classN
 
   const createMeet = async (params: CreateMeetInput) => {
     let meetId: string;
-    if (context) {
-      context.meetService
-        .createMeet(params)
-        .then((newMeet) => {
-          if (newMeet) {
-            meetId = newMeet.id;
-          }
-        })
-        .then(() => history.push(`/meets/${meetId}`));
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
-    }
+    context.meetService
+      .createMeet(params)
+      .then((newMeet) => {
+        if (newMeet) {
+          meetId = newMeet.id;
+        }
+      })
+      .then(() => history.push(`/meets/${meetId}`));
   };
 
   return (
@@ -60,5 +58,3 @@ const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, classN
     </>
   );
 };
-
-export default connectContext<ConnectContextProps & Props>(AdminMeetCreateModal);

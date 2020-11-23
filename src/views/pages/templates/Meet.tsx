@@ -1,17 +1,16 @@
-import React, { FC, useState, useEffect, useCallback } from "react";
-import { ConnectContextProps, connectContext } from "../../../context/connectContext";
+import React, { FC, useState, useEffect, useCallback, useContext } from "react";
 import { isPast, wcToClientStr, getDurationInHours, getDurationStringFromHours } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button } from "../../components/Button";
-import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
+import { AdminMeetDeleteModal } from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
 import { ProjectCard } from "../../components/ProjectCard";
 import { BgBlock } from "../../components/BgBlock";
-import ProjectCreateModal from "../../components/wrappers/Modal/walas/ProjectCreateModal";
-import AdminMeetEditModal from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
+import { ProjectCreateModal } from "../../components/wrappers/Modal/walas/ProjectCreateModal";
+import { AdminMeetEditModal } from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
 import { MarkdownParser } from "../../components/MarkdownParser";
-import KanbanCanonViewer from "../../components/Kanban/KanbanCanonViewer";
-import AdminKanbanCreateModal from "../../components/wrappers/Modal/walas/AdminKanbanCanonCreateModal";
+import { KanbanCanonViewer } from "../../components/Kanban/KanbanCanonViewer";
+import { AdminKanbanCanonCreateModal } from "../../components/wrappers/Modal/walas/AdminKanbanCanonCreateModal";
 import KanbanViewer from "../../components/Kanban/KanbanViewer";
 import LoginModal from "../../components/wrappers/Modal/walas/LoginModal";
 import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
@@ -20,7 +19,9 @@ import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { ExternalLink } from "../../components/ExternalLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import CreateKanbanButton from "../../components/Kanban/CreateKanbanButton";
+import { CreateKanbanButton } from "../../components/Kanban/CreateKanbanButton";
+import { MbContext } from "../../../context/MbContext";
+import { Context } from "../../../context/contextBuilder";
 
 const meetReg = new MeetRegistration();
 
@@ -36,11 +37,8 @@ interface MatchParams {
   id: string;
 }
 
-const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({
-  context,
-  user: userState,
-  match,
-}) => {
+const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userState, match }) => {
+  const context = useContext<Context>(MbContext);
   const {
     params: { id },
   } = match;
@@ -53,11 +51,6 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const history = useHistory();
 
   const fetchMeetData = useCallback(async () => {
-    if (!context) {
-      console.error(new Error("No context passed to component, but was expected"));
-      alert("Blame the devs! Something terrible happened.");
-      return;
-    }
     setLoading(true);
     const fetchedMeet = await context.meetService.fetchMeet(id);
     if (fetchedMeet) {
@@ -74,12 +67,6 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const canRegister = meet?.registerLinkStatus !== "CLOSED";
 
   const updateRegistrantData = async () => {
-    if (!context) {
-      console.error(new Error("No context passed to component, but was expected"));
-      alert("Blame the devs! Something terrible happened.");
-      return;
-    }
-
     if (!canRegister) {
       alert("This meet is closed for registrations.");
       return;
@@ -166,7 +153,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
     ) : meet?.id ? (
       <div className="mt-10">
         {" "}
-        <AdminKanbanCreateModal buttonText="Add a kanban to this meet" onCreate={fetchMeetData} meetId={meet.id} />
+        <AdminKanbanCanonCreateModal buttonText="Add a kanban to this meet" onCreate={fetchMeetData} meetId={meet.id} />
       </div>
     ) : null;
   };
@@ -311,6 +298,4 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   );
 };
 
-export default connectContext<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>>(
-  connect(stp)(Meet),
-);
+export default connect(stp)(Meet);

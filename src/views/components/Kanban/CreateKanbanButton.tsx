@@ -1,5 +1,6 @@
-import React, { FC } from "react";
-import { connectContext, ConnectContextProps } from "../../../context/connectContext";
+import React, { FC, useContext } from "react";
+import { Context } from "../../../context/contextBuilder";
+import { MbContext } from "../../../context/MbContext";
 import { Button } from "../Button";
 
 type Props = {
@@ -9,9 +10,9 @@ type Props = {
   onCreate: () => void;
 };
 
-const CreateKanbanButton: FC<Props & ConnectContextProps> = ({ userId, kanbanCanonId, meetId, context, onCreate }) => {
+export const CreateKanbanButton: FC<Props> = ({ userId, kanbanCanonId, meetId, onCreate }) => {
+  const context = useContext<Context>(MbContext);
   const createKanban = async () => {
-    if (!context) return;
     try {
       await context.kanbanService.createKanban({ userId, kanbanCanonId, meetId });
       onCreate();
@@ -22,5 +23,3 @@ const CreateKanbanButton: FC<Props & ConnectContextProps> = ({ userId, kanbanCan
 
   return <Button onClick={createKanban}>Unlock a kanban guide!</Button>;
 };
-
-export default connectContext<Props & ConnectContextProps>(CreateKanbanButton);

@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { isNumeric } from "../../../utils/isNumeric";
-import AdminKanbanCanonCardCreateModal from "../wrappers/Modal/walas/AdminKanbanCanonCardCreateModal";
-import AdminKanbanCanonCardModal from "../wrappers/Modal/walas/AdminKanbanCanonCardModal";
+import { AdminKanbanCanonCardCreateModal } from "../wrappers/Modal/walas/AdminKanbanCanonCardCreateModal";
+import { AdminKanbanCanonCardModal } from "../wrappers/Modal/walas/AdminKanbanCanonCardModal";
 
 interface Props {
   kanbanCanonId: string;

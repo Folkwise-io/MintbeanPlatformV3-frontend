@@ -1,8 +1,9 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useState, useContext } from "react";
 import { connect } from "react-redux";
-import { ConnectContextProps, connectContext } from "../../context/connectContext";
 import { isPast } from "../../utils/DateUtility";
 import NextMeetCard from "./MeetCards/NextMeetCard";
+import { MbContext } from "../../context/MbContext";
+import { Context } from "../../context/contextBuilder";
 
 interface StateMapping {
   user: UserState;
@@ -11,16 +12,12 @@ const stp = (state: StoreState) => ({
   user: state.user,
 });
 
-const NextMeetSection: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
+const NextMeetSection: FC<StateMapping> = ({ user }) => {
+  const context = useContext<Context>(MbContext);
   const [meets, setMeets] = useState<Meet[]>([]);
   const [, setLoading] = useState<boolean>(false);
 
   const fetchMeetData = useCallback(async () => {
-    if (!context) {
-      console.error(new Error("No context passed to component, but was expected"));
-      alert("Blame the devs! Something terrible happened.");
-      return;
-    }
     setLoading(true);
     const fetchedMeets = await context.meetService.fetchMeets();
     setMeets(fetchedMeets);
@@ -54,4 +51,4 @@ const NextMeetSection: FC<ConnectContextProps & StateMapping> = ({ context, user
   );
 };
 
-export default connectContext<ConnectContextProps>(connect(stp)(NextMeetSection));
+export default connect(stp)(NextMeetSection);

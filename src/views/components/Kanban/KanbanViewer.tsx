@@ -1,9 +1,10 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useCallback, useContext, useEffect, useState } from "react";
 import { DropResult } from "react-beautiful-dnd";
-import { connectContext, ConnectContextProps } from "../../../context/connectContext";
 import { connect } from "react-redux";
 import { KanbanContext } from "./KanbanContext";
 import { inflateCardPositions } from "../../../utils/inflateCardPositions";
+import { MbContext } from "../../../context/MbContext";
+import { Context } from "../../../context/contextBuilder";
 
 export interface ColumnData {
   [key: string]: {
@@ -31,7 +32,8 @@ const emptyCardPositions = {
   wip: [],
   done: [],
 };
-const KanbanViewer: FC<ConnectContextProps & StateMapping & Props> = ({ kanban, context, user }) => {
+const KanbanViewer: FC<StateMapping & Props> = ({ kanban, user }) => {
+  const context = useContext<Context>(MbContext);
   const userId = user?.data?.id;
   const { cardPositions, kanbanCards } = kanban;
 
@@ -49,7 +51,6 @@ const KanbanViewer: FC<ConnectContextProps & StateMapping & Props> = ({ kanban, 
   }, [cardPositions, kanbanCards]);
 
   const fetchKanban = useCallback(async () => {
-    if (!context) return;
     if (user.data) {
       const theKanban = await context.kanbanService.fetchKanban({
         userId: user.data.id,
@@ -64,9 +65,7 @@ const KanbanViewer: FC<ConnectContextProps & StateMapping & Props> = ({ kanban, 
   }, [context, kanban, user.data]);
 
   const updateDbCardPositions = async (input: UpdateCardPositionInput) => {
-    if (context) {
-      context.kanbanService.updateCardPositions(currKanban.id, input);
-    }
+    context.kanbanService.updateCardPositions(currKanban.id, input);
   };
 
   useEffect(() => {
@@ -176,4 +175,4 @@ const KanbanViewer: FC<ConnectContextProps & StateMapping & Props> = ({ kanban, 
     renderKanban()
   );
 };
-export default connectContext<ConnectContextProps & Props>(connect(stp)(KanbanViewer));
+export default connect(stp)(KanbanViewer);

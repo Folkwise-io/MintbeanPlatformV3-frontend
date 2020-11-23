@@ -1,8 +1,9 @@
-import React, { FC, useEffect, useState } from "react";
-import { connectContext, ConnectContextProps } from "../../../context/connectContext";
-import AdminKanbanEditModal from "../wrappers/Modal/walas/AdminKanbanCanonEditModal";
+import React, { FC, useContext, useEffect, useState } from "react";
+import { AdminKanbanCanonEditModal } from "../wrappers/Modal/walas/AdminKanbanCanonEditModal";
 import { inflateCardPositions } from "../../../utils/inflateCardPositions";
 import { KanbanCanonContext } from "./KanbanCanonContext";
+import { Context } from "../../../context/contextBuilder";
+import { MbContext } from "../../../context/MbContext";
 
 interface Props {
   kanbanCanon: KanbanCanon;
@@ -13,7 +14,8 @@ const emptyCardPositions = {
   done: [],
 };
 
-const KanbanCanonViewer: FC<ConnectContextProps & Props> = ({ context, kanbanCanon }) => {
+export const KanbanCanonViewer: FC<Props> = ({ kanbanCanon }) => {
+  const context = useContext<Context>(MbContext);
   const { cardPositions, kanbanCanonCards } = kanbanCanon;
   const [currKanbanCanon, setCurrKanbanCanon] = useState<KanbanCanon>(kanbanCanon);
   const [cards, setCards] = useState<InflatedKanbanCardPositions>(emptyCardPositions);
@@ -29,7 +31,6 @@ const KanbanCanonViewer: FC<ConnectContextProps & Props> = ({ context, kanbanCan
   }, [cardPositions, kanbanCanonCards]);
 
   const fetchKanbanCanon = async () => {
-    if (!context) return;
     const kc = await context.kanbanCanonService.fetchKanbanCanon(kanbanCanon.id);
     if (kc) {
       updateKanbanLocalState(kc);
@@ -67,7 +68,7 @@ const KanbanCanonViewer: FC<ConnectContextProps & Props> = ({ context, kanbanCan
         <p>{currKanbanCanon.description}</p>
       </div>
       <div className="py-2 flex flex-col xs:flex-row">
-        <AdminKanbanEditModal
+        <AdminKanbanCanonEditModal
           buttonText="Edit kanban"
           kanbanCanon={currKanbanCanon}
           onEdit={fetchKanbanCanon}
@@ -85,4 +86,3 @@ const KanbanCanonViewer: FC<ConnectContextProps & Props> = ({ context, kanbanCan
     </div>
   );
 };
-export default connectContext<ConnectContextProps & Props>(KanbanCanonViewer);

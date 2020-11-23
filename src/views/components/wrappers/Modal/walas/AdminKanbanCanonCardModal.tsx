@@ -1,7 +1,8 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useContext, useRef, useState } from "react";
 import { DraggableProvided } from "react-beautiful-dnd";
 import { Modal } from "..";
-import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
+import { Context } from "../../../../../context/contextBuilder";
+import { MbContext } from "../../../../../context/MbContext";
 import { KanbanCanonCardEditForm } from "../../../forms/KanbanCanonCardEditForm";
 import { KanbanCardDetails } from "../../../Kanban/KanbanCardDetails";
 import { KanbanCardSummary } from "../../../Kanban/KanbanCardSummary";
@@ -15,13 +16,8 @@ interface Props {
 }
 
 // Doubles for viewing and editing kanbanCanon cards
-const AdminKanbanCanonCardModal: FC<ConnectContextProps & Props> = ({
-  data,
-  context,
-  fetchKanbanCanon,
-  dndProvided,
-  className,
-}) => {
+export const AdminKanbanCanonCardModal: FC<Props> = ({ data, fetchKanbanCanon, dndProvided, className }) => {
+  const context = useContext<Context>(MbContext);
   const formRef = useRef<HTMLFormElement | null>(null);
   const [mode, setMode] = useState<"edit" | "view">("view");
   const viewActionButtons: ModalActionDeclaration[] = [
@@ -77,25 +73,17 @@ const AdminKanbanCanonCardModal: FC<ConnectContextProps & Props> = ({
     : editActionButtons.forEach((ab) => actions.push(ab));
 
   const editKanbanCanonCard = async (input: EditKanbanCanonCardInput) => {
-    if (context) {
-      await context.kanbanCanonService
-        .editKanbanCanonCard(data.id, input)
-        .then(() => {
-          fetchKanbanCanon();
-        })
-        .finally(() => setMode("view"));
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
-    }
+    await context.kanbanCanonService
+      .editKanbanCanonCard(data.id, input)
+      .then(() => {
+        fetchKanbanCanon();
+      })
+      .finally(() => setMode("view"));
   };
   const deleteKanbanCanonCard = async () => {
-    if (context) {
-      await context.kanbanCanonService.deleteKanbanCanonCard(data.id).then(() => {
-        fetchKanbanCanon();
-      });
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
-    }
+    await context.kanbanCanonService.deleteKanbanCanonCard(data.id).then(() => {
+      fetchKanbanCanon();
+    });
   };
 
   /* Using accessible <div> of role button instead of actual <button> for trigger due to a problem with button not complying with drag and drop refs */
@@ -121,4 +109,3 @@ const AdminKanbanCanonCardModal: FC<ConnectContextProps & Props> = ({
     </>
   );
 };
-export default connectContext<ConnectContextProps & Props>(AdminKanbanCanonCardModal);

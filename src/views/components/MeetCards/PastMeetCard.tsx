@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { wcToClientStr } from "../../../utils/DateUtility";
-import AdminMeetDeleteModal from "../wrappers/Modal/walas/AdminMeetDeleteModal";
+import { AdminMeetDeleteModal } from "../wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
 
 type MeetProps = {

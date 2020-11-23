@@ -1,9 +1,10 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useContext, useRef, useState } from "react";
 import { Modal } from "..";
 import { ModalActionDeclaration } from "../ModalActionButton";
-import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { Button } from "../../../Button";
 import { KanbanCanonEditForm } from "../../../forms/KanbanCanonEditForm";
+import { MbContext } from "../../../../../context/MbContext";
+import { Context } from "../../../../../context/contextBuilder";
 
 interface Props {
   className?: string;
@@ -12,13 +13,8 @@ interface Props {
   onEdit: () => void;
 }
 
-const AdminKanbanCanonEditModal: FC<ConnectContextProps & Props> = ({
-  context,
-  className,
-  buttonText,
-  kanbanCanon,
-  onEdit,
-}) => {
+export const AdminKanbanCanonEditModal: FC<Props> = ({ className, buttonText, kanbanCanon, onEdit }) => {
+  const context = useContext<Context>(MbContext);
   const [close, triggerCloseFromParent] = useState<number>(0);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -37,14 +33,10 @@ const AdminKanbanCanonEditModal: FC<ConnectContextProps & Props> = ({
   ];
 
   const editKanbanCanon = async (params: EditKanbanCanonInput) => {
-    if (context) {
-      await context.kanbanCanonService.editKanbanCanon(kanbanCanon.id, params).then(() => {
-        onEdit();
-        closeModal();
-      });
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
-    }
+    await context.kanbanCanonService.editKanbanCanon(kanbanCanon.id, params).then(() => {
+      onEdit();
+      closeModal();
+    });
   };
 
   const closeModal = (): void => {
@@ -68,5 +60,3 @@ const AdminKanbanCanonEditModal: FC<ConnectContextProps & Props> = ({
     </>
   );
 };
-
-export default connectContext<ConnectContextProps & Props>(AdminKanbanCanonEditModal);

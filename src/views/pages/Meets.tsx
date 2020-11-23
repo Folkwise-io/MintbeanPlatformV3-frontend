@@ -1,12 +1,13 @@
-import React, { FC, useState, useEffect, useCallback } from "react";
+import React, { FC, useState, useEffect, useCallback, useContext } from "react";
 import { MeetCard } from "../components/MeetCards/MeetCard";
-import { ConnectContextProps, connectContext } from "../../context/connectContext";
-import AdminMeetCreateModal from "../components/wrappers/Modal/walas/AdminMeetCreateModal";
+import { AdminMeetCreateModal } from "../components/wrappers/Modal/walas/AdminMeetCreateModal";
 import { connect } from "react-redux";
 import { BgBlock } from "../components/BgBlock";
 import { FocusCard } from "../components/FocusCard";
 import { isPast } from "../../utils/DateUtility";
 import { PastMeetCard } from "../components/MeetCards/PastMeetCard";
+import { MbContext } from "../../context/MbContext";
+import { Context } from "../../context/contextBuilder";
 
 interface StateMapping {
   user: UserState;
@@ -15,16 +16,12 @@ const stp = (state: StoreState) => ({
   user: state.user,
 });
 
-const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
+const Meets: FC<StateMapping> = ({ user }) => {
+  const context = useContext<Context>(MbContext);
   const [meets, setMeets] = useState<Meet[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchMeetData = useCallback(async () => {
-    if (!context) {
-      console.error(new Error("No context passed to component, but was expected"));
-      alert("Blame the devs! Something terrible happened.");
-      return;
-    }
     setLoading(true);
     const fetchedMeets = await context.meetService.fetchMeets();
     setMeets(fetchedMeets);
@@ -113,4 +110,4 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   );
 };
 
-export default connectContext<ConnectContextProps>(connect(stp)(Meets));
+export default connect(stp)(Meets);

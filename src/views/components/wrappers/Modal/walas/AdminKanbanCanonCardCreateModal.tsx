@@ -1,20 +1,18 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useContext, useRef, useState } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { KanbanCanonCardCreateForm } from "../../../forms/KanbanCanonCardCreateForm";
-import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
+import { MbContext } from "../../../../../context/MbContext";
+import { Context } from "../../../../../context/contextBuilder";
 
 interface Props {
   kanbanCanonId: string;
   fetchKanbanCanon: () => void;
 }
-const AdminKanbanCanonCardCreateModal: FC<ConnectContextProps & Props> = ({
-  kanbanCanonId,
-  context,
-  fetchKanbanCanon,
-}) => {
+export const AdminKanbanCanonCardCreateModal: FC<Props> = ({ kanbanCanonId, fetchKanbanCanon }) => {
+  const context = useContext<Context>(MbContext);
   const [close, triggerCloseModal] = useState<number>(0);
   const formRef = useRef<HTMLFormElement>(null);
   const actions: ModalActionDeclaration[] = [
@@ -32,14 +30,10 @@ const AdminKanbanCanonCardCreateModal: FC<ConnectContextProps & Props> = ({
   ];
 
   const createKanbanCanonCard = async (input: CreateKanbanCanonCardInput) => {
-    if (context) {
-      const newKanbanCard = await context.kanbanCanonService.createKanbanCanonCard(input);
-      if (newKanbanCard) {
-        fetchKanbanCanon();
-        closeModal();
-      }
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
+    const newKanbanCard = await context.kanbanCanonService.createKanbanCanonCard(input);
+    if (newKanbanCard) {
+      fetchKanbanCanon();
+      closeModal();
     }
   };
 
@@ -75,5 +69,3 @@ const AdminKanbanCanonCardCreateModal: FC<ConnectContextProps & Props> = ({
     </>
   );
 };
-
-export default connectContext<ConnectContextProps & Props>(AdminKanbanCanonCardCreateModal);

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Button } from "../Button";
 import { Link } from "react-router-dom";
-import AdminMeetDeleteModal from "../wrappers/Modal/walas/AdminMeetDeleteModal";
+import { AdminMeetDeleteModal } from "../wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
 import { wcToClientStr, isCurrent } from "../../../utils/DateUtility";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

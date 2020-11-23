@@ -1,9 +1,10 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useContext, useRef, useState } from "react";
 import { Modal } from "..";
 import { ModalActionDeclaration } from "../ModalActionButton";
-import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { KanbanCanonCreateForm } from "../../../forms/KanbanCanonCreateForm";
 import { Button } from "../../../Button";
+import { MbContext } from "../../../../../context/MbContext";
+import { Context } from "../../../../../context/contextBuilder";
 
 interface Props {
   className?: string;
@@ -12,13 +13,8 @@ interface Props {
   onCreate: () => void;
 }
 
-const AdminKanbanCanonCreateModal: FC<ConnectContextProps & Props> = ({
-  onCreate,
-  meetId,
-  context,
-  className,
-  buttonText,
-}) => {
+export const AdminKanbanCanonCreateModal: FC<Props> = ({ onCreate, meetId, className, buttonText }) => {
+  const context = useContext<Context>(MbContext);
   const [close, setClose] = useState<(() => void) | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -39,25 +35,21 @@ const AdminKanbanCanonCreateModal: FC<ConnectContextProps & Props> = ({
   ];
 
   const createKanbanCanon = async (input: CreateKanbanCanonInput) => {
-    if (context) {
-      const confirmed = confirm(
-        "Are you sure you want to create a kanban?\n\nOnce created, a kanban cannot be deleted or removed from a meet without contacting the dev team.\n\nPress OK to continue.",
-      );
+    const confirmed = confirm(
+      "Are you sure you want to create a kanban?\n\nOnce created, a kanban cannot be deleted or removed from a meet without contacting the dev team.\n\nPress OK to continue.",
+    );
 
-      if (confirmed) {
-        await context.kanbanCanonService.createKanbanCanon(input).then(async (newKanbanCanon) => {
-          if (newKanbanCanon) {
-            // add new kanbanCanon to meet if meetId supplied
-            if (meetId) {
-              await context.meetService.editMeet(meetId, { kanbanCanonId: newKanbanCanon.id });
-            }
-            onCreate();
-            if (close) close();
+    if (confirmed) {
+      await context.kanbanCanonService.createKanbanCanon(input).then(async (newKanbanCanon) => {
+        if (newKanbanCanon) {
+          // add new kanbanCanon to meet if meetId supplied
+          if (meetId) {
+            await context.meetService.editMeet(meetId, { kanbanCanonId: newKanbanCanon.id });
           }
-        });
-      }
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
+          onCreate();
+          if (close) close();
+        }
+      });
     }
   };
 
@@ -77,5 +69,3 @@ const AdminKanbanCanonCreateModal: FC<ConnectContextProps & Props> = ({
     </>
   );
 };
-
-export default connectContext<ConnectContextProps & Props>(AdminKanbanCanonCreateModal);
