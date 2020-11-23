@@ -147,7 +147,7 @@ interface CreateMeetInput {
   endTime: string;
   region: string;
 }
-// Same as CreateMeetUnput atm
+
 interface EditMeetInput {
   meetType?: "hackMeet";
   title?: string;
@@ -192,10 +192,10 @@ interface CreateKanbanCanonCardInput {
   body: string;
   kanbanCanonId: string;
 }
-// Same as CreateKanbanCardInput atm
+
 interface EditKanbanCanonCardInput {
-  title: string;
-  body: string;
+  title?: string;
+  body?: string;
 }
 
 interface UpdateCardPositionInput {

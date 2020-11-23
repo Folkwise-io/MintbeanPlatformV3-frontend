@@ -176,7 +176,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
         );
       }
       // meet has a kanbanCanon but logged in user doesn't have a kanban for it
-      else if (kanbanCanon && meet && user) {
+      if (kanbanCanon && meet && user) {
         return (
           <div className="mt-6">
             <CreateKanbanButton
@@ -189,7 +189,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
         );
       }
     }
-    // Otherwise just in
+    // Otherwise
     return null;
   };
 
