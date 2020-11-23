@@ -119,6 +119,7 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
     if (option) {
       const shapeOption = option as OptionTypeBase;
       const value = shapeOption.value;
+      setValue("badgeShape", value);
       setSelectedShape(value);
     }
   };
@@ -196,7 +197,6 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
                       options={badgeShapeOptions}
                       value={badgeShapeOptions.filter((obj) => obj.value === selectedShape)}
                       onChange={(option) => shapeHandleChange(option)}
-                      onBlur={() => setValue("badgeShape", selectedShape)}
                     ></Select>
                   )}
                 />

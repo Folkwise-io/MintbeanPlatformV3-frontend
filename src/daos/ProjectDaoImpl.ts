@@ -1,7 +1,6 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { ProjectDao } from "./ProjectDao";
 import { handleServerError } from "../utils/handleServerError";
-import { AwardBadgesParams } from "../types/badge";
 
 export class ProjectDaoImpl implements ProjectDao {
   constructor(private api: ApiQueryExecutor) {}

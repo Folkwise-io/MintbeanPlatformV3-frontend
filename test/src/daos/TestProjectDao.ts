@@ -1,5 +1,4 @@
 import { ProjectDao } from "../../../src/daos/ProjectDao";
-import { AwardBadgesParams } from "../../../src/types/badge";
 
 type SuccessDataTypes = Project | boolean;
 
@@ -59,7 +58,7 @@ export class TestProjectDao implements ProjectDao {
     if (errorReturns.length) {
       // Mock failed
       throw errorReturns[0].errors;
-    } else if (successReturns.length) {
+    } else if (successReturns.length && projectId && badgeIds) {
       // Mock successful
       return (successReturns[0].data as unknown) as Project;
     } else {
