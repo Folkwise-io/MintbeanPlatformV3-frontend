@@ -242,10 +242,17 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                     </div>
                   ))}
                 {isAdmin && meet && (
-                  <div className="flex items-center py-2">
-                    <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToMeets} className="mr-2" />
-                    <AdminMeetEditModal buttonText="Edit" meet={meet} />
-                    <div className="ml-2">{renderProjectExport()}</div>
+                  <div className="flex flex-col sm:flex-row items-center py-2">
+                    <div className="my-2">
+                      <AdminMeetDeleteModal
+                        buttonText="Delete"
+                        meet={meet}
+                        onDelete={redirectToMeets}
+                        className="mr-2"
+                      />
+                      <AdminMeetEditModal buttonText="Edit" meet={meet} className="" />
+                    </div>{" "}
+                    <div className="sm:ml-2 my-1">{renderProjectExport()}</div>
                   </div>
                 )}
               </div>
