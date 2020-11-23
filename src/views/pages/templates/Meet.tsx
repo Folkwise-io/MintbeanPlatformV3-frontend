@@ -20,6 +20,7 @@ import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { ExternalLink } from "../../components/ExternalLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { CSVExport } from "../../components/CSVExport";
 
 const meetReg = new MeetRegistration();
 
@@ -150,6 +151,39 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   const showKanbanUser = !!process.env.FF_KANBAN_USER;
   // End experimental features ^^^^^^^^^^^^^^^^^^
 
+  const projectExportData = meet?.projects
+    ? meet.projects.map((p) => ({
+        meetTitle: meet.title,
+        meetStartTime: meet.startTime,
+        meetEndTime: meet.endTime,
+        projectTitle: p.title,
+        projectOwner: p.user.firstName + " " + p.user.lastName,
+        projectDemoUrl: p.liveUrl,
+        projectCodeUrl: p.sourceCodeUrl,
+        projectSubmittedAt: p.createdAt,
+      }))
+    : [];
+
+  const projectExportHeaders = [
+    { label: "Meet title", key: "meetTitle" },
+    { label: "Meet start", key: "meetStartTime" },
+    { label: "Meet end", key: "meetEndTime" },
+    { label: "Project title", key: "projectTitle" },
+    { label: "Project owner", key: "projectOwner" },
+    { label: "Demo url", key: "projectDemoUrl" },
+    { label: "Code url", key: "projectCodeUrl" },
+    { label: "Submitted at", key: "projectSubmittedAt" },
+  ];
+
+  const renderProjectExport = () =>
+    meet?.projects.length ? (
+      <CSVExport
+        filename={`${meet.title}_${meet.endTime}_project_data.csv`}
+        data={projectExportData}
+        headers={projectExportHeaders}
+      />
+    ) : null;
+
   return (
     <BgBlock type="blackStripeEvents">
       <BgBlock type="blackMeet">
@@ -211,6 +245,7 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
                   <div className="flex items-center py-2">
                     <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToMeets} className="mr-2" />
                     <AdminMeetEditModal buttonText="Edit" meet={meet} />
+                    <div className="ml-2">{renderProjectExport()}</div>
                   </div>
                 )}
               </div>
