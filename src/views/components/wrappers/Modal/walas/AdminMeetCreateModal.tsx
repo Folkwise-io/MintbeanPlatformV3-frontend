@@ -1,21 +1,21 @@
-import React, { FC, useContext, useRef } from "react";
+import React, { FC, useContext, useRef, useState } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { MeetCreateForm } from "../../../forms/MeetCreateForm";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { MbContext } from "../../../../../context/MbContext";
 import { Context } from "../../../../../context/contextBuilder";
 
 interface Props {
   className?: string;
   buttonText: string;
-  refetchMeets: () => Promise<boolean | void>;
+  onCreate: () => Promise<boolean | void>;
 }
 
-export const AdminMeetCreateModal: FC<Props> = ({ className, buttonText, refetchMeets }) => {
+export const AdminMeetCreateModal: FC<Props> = ({ className, buttonText, onCreate }) => {
   const context = useContext<Context>(MbContext);
+  const [close, triggerCloseModal] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
-  const history = useHistory();
 
   const actions: ModalActionDeclaration[] = [
     {
@@ -31,22 +31,22 @@ export const AdminMeetCreateModal: FC<Props> = ({ className, buttonText, refetch
     },
   ];
 
+  const closeModal = () => {
+    triggerCloseModal(Math.random());
+  };
+
   const createMeet = async (params: CreateMeetInput) => {
-    let meetId: string;
     context.meetService
       .createMeet(params)
-      .then((newMeet) => {
-        if (newMeet) {
-          meetId = newMeet.id;
-        }
-      })
-      .then(() => history.push(`/meets/${meetId}`));
+      .then(() => onCreate())
+      .then(() => closeModal());
   };
 
   return (
     <>
       <Modal
         actions={actions}
+        triggerCloseFromParent={close}
         triggerBuilder={(toggleModal, setRef) => (
           <button onClick={toggleModal} ref={(el) => setRef(el)} className={className || ""}>
             {buttonText}

@@ -21,7 +21,7 @@ const Meets: FC<StateMapping> = ({ user }) => {
   const [meets, setMeets] = useState<Meet[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchMeetData = useCallback(async () => {
+  const fetchMeets = useCallback(async () => {
     setLoading(true);
     const fetchedMeets = await context.meetService.fetchMeets();
     setMeets(fetchedMeets);
@@ -31,15 +31,15 @@ const Meets: FC<StateMapping> = ({ user }) => {
 
   // Fetch meets on mount
   useEffect(() => {
-    fetchMeetData();
-  }, [context, fetchMeetData]);
+    fetchMeets();
+  }, [context, fetchMeets]);
 
   // reverse-chronological sort
   const renderPastMeets = () =>
     meets
       .filter((m: Meet) => isPast(m.endTime, m.region))
       .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime())
-      .map((meet) => <PastMeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeetData} />);
+      .map((meet) => <PastMeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />);
 
   const renderAdminMeetCreateModal = () =>
     user.data?.isAdmin && (
@@ -47,7 +47,7 @@ const Meets: FC<StateMapping> = ({ user }) => {
         <AdminMeetCreateModal
           buttonText="Create new meet"
           className="rounded px-6 py-2 text-white bg-mb-orange-100 mb-2"
-          refetchMeets={fetchMeetData}
+          onCreate={fetchMeets}
         />
       </div>
     );
@@ -66,7 +66,7 @@ const Meets: FC<StateMapping> = ({ user }) => {
         if (dateA === dateB) return 0;
         return dateA - dateB;
       })
-      .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeetData} />);
+      .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />);
 
     if (upcomingMeets.length) {
       return <div className="space-y-4">{upcomingMeets}</div>;
