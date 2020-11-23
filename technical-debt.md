@@ -9,6 +9,9 @@ Update anytime you find something smelly in the code that can't be addressed in 
 ### [L] Refactor modals
 
 Our modals are messy and complicated to use.
+
+For example, modal closing logic is currently an antipattern, sometimes requiring parent to produce a random number in order to trigger the closing action in the child.
+
 Swap out for simpler: either use a third-party like [react-modal](https://github.com/reactjs/react-modal), or code up something similar with basic state management.
 
 ### [M] Refactor dao error handling logic

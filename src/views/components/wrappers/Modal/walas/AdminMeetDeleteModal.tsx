@@ -25,10 +25,14 @@ export const AdminMeetDeleteModal: FC<Props> = ({ meet, className, buttonText, o
     {
       type: "danger",
       text: "Delete",
-      onClick: (_evt, { closeModal }) => {
-        deleteMeet(meet.id)
-          .then(() => onDelete())
-          .then(() => closeModal());
+      onClick: async (_evt, { closeModal }) => {
+        try {
+          await deleteMeet(meet.id);
+          await onDelete();
+          closeModal();
+        } catch (e) {
+          console.log(e);
+        }
       },
     },
   ];
