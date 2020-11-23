@@ -81,7 +81,6 @@ export class MeetDaoImpl implements MeetDao {
                 lastName
               }
               kanbanCanonId
-              kanbanId
               kanbanCanon {
                 ${KANBAN_CANON_RESPONSE_QUERY}
               }
@@ -122,7 +121,6 @@ export class MeetDaoImpl implements MeetDao {
               createdAt
               region
               kanbanCanonId
-              kanbanId
               kanbanCanon {
                 ${KANBAN_CANON_RESPONSE_QUERY}
               }
@@ -162,7 +160,6 @@ export class MeetDaoImpl implements MeetDao {
               createdAt
               region
               kanbanCanonId
-              kanbanId
               kanbanCanon {
                 ${KANBAN_CANON_RESPONSE_QUERY}
               }

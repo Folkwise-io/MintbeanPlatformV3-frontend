@@ -11,7 +11,6 @@ import { AdminMeetEditModal } from "../../components/wrappers/Modal/walas/AdminM
 import { MarkdownParser } from "../../components/MarkdownParser";
 import { KanbanCanonViewer } from "../../components/Kanban/KanbanCanonViewer";
 import { AdminKanbanCanonCreateModal } from "../../components/wrappers/Modal/walas/AdminKanbanCanonCreateModal";
-import KanbanViewer from "../../components/Kanban/KanbanViewer";
 import LoginModal from "../../components/wrappers/Modal/walas/LoginModal";
 import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
 import { MeetStatus } from "../../components/MeetCards/MeetStatus";
@@ -22,6 +21,7 @@ import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { CreateKanbanButton } from "../../components/Kanban/CreateKanbanButton";
 import { MbContext } from "../../../context/MbContext";
 import { Context } from "../../../context/contextBuilder";
+import KanbanController from "../../components/Kanban/KanbanController";
 
 const meetReg = new MeetRegistration();
 
@@ -130,20 +130,6 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       )
     );
   };
-  const getRegistrantIds = () => {
-    if (meet) {
-      const registrantIds: string[] = meet.registrants.map((registrant) => registrant.id);
-      return registrantIds;
-    } else {
-      return null;
-    }
-  };
-
-  const isRegistered = () => {
-    if (meet && user) {
-      return getRegistrantIds()?.includes(user.id) ? true : false;
-    }
-  };
 
   const renderKanbanViewAdmin = () => {
     return meet && kanbanCanon ? (
@@ -159,31 +145,32 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   };
 
   const renderKanbanViewUser = () => {
+    console.log({ meet });
     // Bail if this meet doesn't have a kanbanCanon
-    if (!meet?.kanbanCanon) return null;
+    if (!meet?.kanbanCanonId) return null;
     // Only show kanban options if meet has started
     if (meetHasStarted) {
       // if kanbanCanon exists on meet and user not logged in
       if (kanbanCanon && !user) {
-        return <p className="font-semibold mt-6">Login or Sign up to view a kanban guide for this challenge!</p>;
+        return <p className="font-semibold mt-6">Login or Sign up to unlock a kanban guide for this challenge!</p>;
       }
       // Meet has a kanbanCanon and user already has a kanban for it
-      if (meet?.kanban) {
+      if (meet.kanban) {
         return (
           <div className="mt-6">
-            <KanbanViewer kanban={meet.kanban} />
+            <KanbanController kanbanId={meet.kanban.id} />
           </div>
         );
       }
       // meet has a kanbanCanon but logged in user doesn't have a kanban for it
-      if (kanbanCanon && meet && user) {
+      if (meet.kanbanCanonId && user) {
         return (
           <div className="mt-6">
             <CreateKanbanButton
               onCreate={fetchMeetData}
               meetId={meet.id}
               userId={user.id}
-              kanbanCanonId={kanbanCanon.id}
+              kanbanCanonId={meet.kanbanCanonId}
             />
           </div>
         );

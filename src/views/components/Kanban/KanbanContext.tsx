@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { KanbanColumn } from "./KanbanColumn";
-import { ColumnData } from "./KanbanViewer";
+import { ColumnData } from "./KanbanController";
 
 interface Props {
   onDragEnd: (e: DropResult) => void;

@@ -16,7 +16,7 @@ export interface ColumnData {
 }
 
 interface Props {
-  kanban: Kanban;
+  kanbanId: string;
 }
 
 type StateMapping = {
@@ -32,40 +32,47 @@ const emptyCardPositions = {
   wip: [],
   done: [],
 };
-const KanbanViewer: FC<StateMapping & Props> = ({ kanban, user }) => {
+const KanbanController: FC<StateMapping & Props> = ({ kanbanId, user }) => {
   const context = useContext<Context>(MbContext);
-  const userId = user?.data?.id;
-  const { cardPositions, kanbanCards } = kanban;
-
-  const [currKanban, setCurrKanban] = useState<Kanban>(kanban);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [kanban, setKanban] = useState<Kanban | null>(null);
   const [cards, setCards] = useState<InflatedKanbanCardPositions>(emptyCardPositions);
+  const isLoggedIn = !!user?.data;
 
   const inflateCards = (cardPositions: KanbanCardPositions, kanbanCanonCards: KanbanCanonCard[]) => {
     const inflated = inflateCardPositions(cardPositions, kanbanCanonCards);
     setCards(inflated);
   };
 
-  // set initial card positions on mount
-  useEffect(() => {
-    inflateCards(cardPositions, kanbanCards);
-  }, [cardPositions, kanbanCards]);
-
   const fetchKanban = useCallback(async () => {
-    if (user.data) {
+    if (isLoggedIn) {
       const theKanban = await context.kanbanService.fetchKanban({
-        userId: user.data.id,
-        kanbanCanonId: kanban.kanbanCanonId,
-        meetId: kanban.meetId || null,
+        kanbanId,
       });
       if (theKanban) {
-        setCurrKanban(theKanban);
-        // updateCardsState(theKanban.kanbanCards);
+        setKanban(theKanban);
       }
     }
-  }, [context, kanban, user.data]);
+  }, [context, kanbanCanonId, meetId, user.data]);
+
+  // fetch kanban and set initial card positions on mount
+  useEffect(async () => {
+    setLoading(true);
+    await fetchKanban();
+    setLoading(true);
+  }, [fetchKanban]);
+
+  // update local card state everytime kanban changes
+  useEffect(() => {
+    if (!kanban) return;
+    const { cardPositions, kanbanCards } = kanban;
+    inflateCards(cardPositions, kanbanCards);
+  }, [kanban]);
 
   const updateDbCardPositions = async (input: UpdateCardPositionInput) => {
-    context.kanbanService.updateCardPositions(currKanban.id, input);
+    if (kanban) {
+      context.kanbanService.updateCardPositions(kanban.id, input);
+    }
   };
 
   useEffect(() => {
@@ -155,24 +162,18 @@ const KanbanViewer: FC<StateMapping & Props> = ({ kanban, user }) => {
     return result;
   };
 
-  const renderKanban = () => {
-    return (
-      <div>
-        <h2>{currKanban.title}</h2>
-        <p>{currKanban.description}</p>
-        <div className="bg-gray-400 p-10 rounded-lg min-h-20">
-          <KanbanContext columns={columns} onDragEnd={onDragEnd} />
-        </div>
-      </div>
-    );
-  };
+  if (loading) return <p>Loading...</p>;
 
-  return !userId ? (
-    <p>
-      <strong>Log in or Sign up to access a kanban guide</strong>
-    </p>
-  ) : (
-    renderKanban()
+  if (!kanban) return <p>No kanban found.</p>;
+
+  return (
+    <div>
+      <h2>{kanban.title}</h2>
+      <p>{kanban.description}</p>
+      <div className="bg-gray-400 p-10 rounded-lg min-h-20">
+        <KanbanContext columns={columns} onDragEnd={onDragEnd} />
+      </div>
+    </div>
   );
 };
-export default connect(stp)(KanbanViewer);
+export default connect(stp)(KanbanController);

@@ -47,7 +47,6 @@ interface Meet {
   registrants: RegistrantsForMeet[];
   kanbanCanon: KanbanCanon | null;
   kanbanCanonId: string | null;
-  kanbanId: string | null;
   kanban: Kanban | null;
 }
 
@@ -122,9 +121,10 @@ interface LoginArgs {
 }
 
 interface FetchKanbanArgs {
-  kanbanCanonId: string;
-  userId: string;
-  meetId?: string | null;
+  kanbanId: string;
+  // kanbanCanonId: string;
+  // userId: string;
+  // meetId?: string | null;
 }
 
 // INPUTS --------------------
