@@ -121,10 +121,7 @@ interface LoginArgs {
 }
 
 interface FetchKanbanArgs {
-  kanbanId: string;
-  // kanbanCanonId: string;
-  // userId: string;
-  // meetId?: string | null;
+  id: string;
 }
 
 // INPUTS --------------------

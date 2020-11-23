@@ -47,18 +47,18 @@ const KanbanController: FC<StateMapping & Props> = ({ kanbanId, user }) => {
   const fetchKanban = useCallback(async () => {
     if (isLoggedIn) {
       const theKanban = await context.kanbanService.fetchKanban({
-        kanbanId,
+        id: kanbanId,
       });
       if (theKanban) {
         setKanban(theKanban);
       }
     }
-  }, [context, kanbanCanonId, meetId, user.data]);
+  }, [context, kanbanId, isLoggedIn]);
 
   // fetch kanban and set initial card positions on mount
-  useEffect(async () => {
+  useEffect(() => {
     setLoading(true);
-    await fetchKanban();
+    async () => await fetchKanban();
     setLoading(true);
   }, [fetchKanban]);
 
