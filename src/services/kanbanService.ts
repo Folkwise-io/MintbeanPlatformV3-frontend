@@ -1,28 +1,23 @@
 import { KanbanDao } from "../daos/KanbanDao";
 import { LoggerService } from "./loggerService";
+import { EntityService } from "./entityService";
 
-export class KanbanService {
-  constructor(private kanbanDao: KanbanDao, private logger: LoggerService) {}
+export class KanbanService extends EntityService {
+  constructor(private kanbanDao: KanbanDao, logger: LoggerService) {
+    super(logger);
+  }
 
-  // Kanban
   async fetchKanban(args: FetchKanbanArgs): Promise<Kanban | void> {
-    return this.kanbanDao.fetchKanban(args).catch((e: ServerError) => {
-      this.logger.handleGraphqlErrors(e);
-    });
+    return this.handleService(() => this.kanbanDao.fetchKanban(args));
   }
   async createKanban(input: CreateKanbanInput): Promise<Kanban | void> {
-    try {
+    return this.handleService(async () => {
       const kanban = await this.kanbanDao.createKanban(input);
       this.logger.success(`Congrats! You've unlocked the kanban: **${kanban.title}** .`);
       return kanban;
-    } catch (e) {
-      this.logger.handleGraphqlErrors(e);
-    }
-    return;
+    });
   }
   async updateCardPositions(id: string, input: UpdateCardPositionInput): Promise<KanbanCardPositions | void> {
-    return this.kanbanDao.updateCardPositions(id, input).catch((e) => {
-      this.logger.handleGraphqlErrors(e);
-    });
+    return this.handleService(() => this.kanbanDao.updateCardPositions(id, input));
   }
 }

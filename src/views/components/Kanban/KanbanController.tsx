@@ -101,7 +101,7 @@ const KanbanController: FC<StateMapping & Props> = ({ kanbanId, user }) => {
   };
 
   const setCardsByColumnId = (colId: KanbanCanonCardStatus, cards: KanbanCanonCard[]): void => {
-    console.log(colId.toLowerCase());
+    // column name must be lower case for local state ("todo", etc)
     setCards((prev) => ({ ...prev, [colId.toLowerCase()]: cards }));
   };
 

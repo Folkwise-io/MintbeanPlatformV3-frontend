@@ -1,70 +1,57 @@
 import { KanbanCanonDao } from "../daos/KanbanCanonDao";
 import { LoggerService } from "./loggerService";
+import { EntityService } from "./entityService";
 
-export class KanbanCanonService {
-  constructor(private kanbanCanonDao: KanbanCanonDao, private logger: LoggerService) {}
+export class KanbanCanonService extends EntityService {
+  constructor(private kanbanCanonDao: KanbanCanonDao, logger: LoggerService) {
+    super(logger);
+  }
 
   // KanbanCanon
   async fetchKanbanCanon(id: string): Promise<KanbanCanon | void> {
-    return this.kanbanCanonDao.fetchKanbanCanon(id).catch((e) => {
-      this.logger.handleGraphqlErrors(e);
-    });
+    return this.handleService(() => this.kanbanCanonDao.fetchKanbanCanon(id));
   }
   async createKanbanCanon(input: CreateKanbanCanonInput): Promise<KanbanCanon | void> {
-    try {
+    return this.handleService(async () => {
       const kanbanCanon = await this.kanbanCanonDao.createKanbanCanon(input);
       this.logger.success(`Successfully added the **${kanbanCanon.title}** Kanban.`);
       return kanbanCanon;
-    } catch (e) {
-      this.logger.handleGraphqlErrors(e);
-    }
+    });
   }
   async editKanbanCanon(id: string, input: EditKanbanCanonInput): Promise<KanbanCanon | void> {
-    try {
+    return this.handleService(async () => {
       const kanbanCanon = await this.kanbanCanonDao.editKanbanCanon(id, input);
       this.logger.success(`Updated info for the **${kanbanCanon.title}** Kanban.`);
       return kanbanCanon;
-    } catch (e) {
-      this.logger.handleGraphqlErrors(e);
-    }
+    });
   }
   async updateCardPositions(id: string, input: UpdateCardPositionInput): Promise<KanbanCardPositions | void> {
-    return this.kanbanCanonDao.updateCardPositions(id, input).catch((e) => {
-      this.logger.handleGraphqlErrors(e);
-    });
+    return this.handleService(() => this.kanbanCanonDao.updateCardPositions(id, input));
   }
 
   // KanbanCanonCard
   async fetchKanbanCanonCard(id: string): Promise<KanbanCanonCard | void> {
-    return this.kanbanCanonDao.fetchKanbanCanonCard(id).catch((e) => {
-      this.logger.handleGraphqlErrors(e);
-    });
+    return this.handleService(() => this.kanbanCanonDao.fetchKanbanCanonCard(id));
   }
   async createKanbanCanonCard(input: CreateKanbanCanonCardInput): Promise<KanbanCanonCard | void> {
-    try {
+    return this.handleService(async () => {
       const kanbanCanonCard = await this.kanbanCanonDao.createKanbanCanonCard(input);
       this.logger.success(`Successfully added the card **${kanbanCanonCard.title}**.`);
       return kanbanCanonCard;
-    } catch (e) {
-      this.logger.handleGraphqlErrors(e);
-    }
+    });
   }
   async editKanbanCanonCard(id: string, input: EditKanbanCanonCardInput): Promise<KanbanCanonCard | void> {
-    try {
+    return this.handleService(async () => {
       const kanbanCanonCard = await this.kanbanCanonDao.editKanbanCanonCard(id, input);
       this.logger.success(`Updated info for the card **${kanbanCanonCard.title}**.`);
       return kanbanCanonCard;
-    } catch (e) {
-      this.logger.handleGraphqlErrors(e);
-    }
+    });
   }
   async deleteKanbanCanonCard(id: string): Promise<boolean | void> {
-    try {
+    return this.handleService(async () => {
       const success = await this.kanbanCanonDao.deleteKanbanCanonCard(id);
       this.logger.success("Successfully deleted the Kanban Card.");
       return success;
-    } catch (e) {
-      this.logger.handleGraphqlErrors(e);
-    }
+    });
   }
 }
