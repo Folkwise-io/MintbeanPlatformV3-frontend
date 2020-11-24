@@ -20,9 +20,9 @@ interface Props {
   kanbanId: string;
 }
 
-type StateMapping = {
+interface StateMapping {
   user: UserState;
-};
+}
 
 const stp = (state: StoreState) => ({
   user: state.user,
