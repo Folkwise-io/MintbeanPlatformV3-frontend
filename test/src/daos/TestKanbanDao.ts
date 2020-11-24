@@ -17,7 +17,7 @@ export class TestKanbanDao implements KanbanDao {
   // TODO: write test dao code
   // Kanban -----------------------------------------
   async fetchKanban(args: FetchKanbanArgs): Promise<Kanban> {
-    if (!args.kanbanCanonId || !args.userId)
+    if (!args.id)
       throw {
         message: "You forget to inlclude 'userId' or 'kanbanCanonId' as a param in test script",
         extensions: { code: "TEST_CODE_ERROR" },
@@ -27,9 +27,7 @@ export class TestKanbanDao implements KanbanDao {
       // Mock failed
       throw errorReturns;
     } else if (this.kanbans) {
-      const result = this.kanbans.find(
-        (r: Kanban) => r.userId === args.userId && r.kanbanCanonId === args.kanbanCanonId,
-      );
+      const result = this.kanbans.find((r: Kanban) => r.id === args.id);
       if (result) {
         return result;
       } else {

@@ -25,20 +25,16 @@ describe("KanbanService", () => {
 
     it("returns an existing Kanban by Id", async () => {
       await testManager.execute((context) => {
-        return context.kanbanService
-          .fetchKanban({ kanbanCanonId: KANBAN.kanbanCanonId, userId: USERID })
-          .then((result) => {
-            expect(result).toMatchObject(KANBAN);
-          });
+        return context.kanbanService.fetchKanban({ id: KANBAN.id }).then((result) => {
+          expect(result).toMatchObject(KANBAN);
+        });
       });
     });
     it("logs an error and throws toast if no kanban found", async () => {
       await testManager.execute((context) => {
-        return context.kanbanService
-          .fetchKanban({ kanbanCanonId: KANBAN.kanbanCanonId, userId: "this0id0wont0exist" })
-          .then((result) => {
-            expect(result).toBe(undefined);
-          });
+        return context.kanbanService.fetchKanban({ id: "thisisafakeid" }).then((result) => {
+          expect(result).toBe(undefined);
+        });
       });
       const finalState = testManager.store.getState();
       expect(finalState.toasts[0].type).toBe("DANGER");
