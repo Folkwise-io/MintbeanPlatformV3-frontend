@@ -9,11 +9,10 @@ import { Context } from "../../../context/contextBuilder";
 
 // use type to allow union in key
 export type ColumnData = {
-  [key in KanbanCardStatusesLowerCase]: {
-    droppableId: KanbanCardStatusesLowerCase;
+  [key in KanbanCanonCardStatus]: {
+    droppableId: KanbanCanonCardStatus;
     title: string;
     cards: KanbanCanonCard[];
-    setCards: (c: KanbanCanonCard[]) => void;
   };
 };
 
@@ -84,31 +83,29 @@ const KanbanController: FC<StateMapping & Props> = ({ kanbanId, user }) => {
   // This object associates column droppableIds with column titles and respective card states.
   // Note: column [key] name must match droppableId which also matches status column name in cardPositions object
   const columns: ColumnData = {
-    todo: {
-      droppableId: "todo",
+    TODO: {
+      droppableId: "TODO",
       title: "Todo",
       cards: cards.todo,
-      setCards: (c: KanbanCanonCard[]) => setCards((prev) => ({ ...prev, todo: c })),
     },
-    wip: {
-      droppableId: "wip",
+    WIP: {
+      droppableId: "WIP",
       title: "In Progress",
       cards: cards.wip,
-      setCards: (c: KanbanCanonCard[]) => setCards((prev) => ({ ...prev, wip: c })),
     },
-    done: {
-      droppableId: "done",
+    DONE: {
+      droppableId: "DONE",
       title: "Done",
       cards: cards.done,
-      setCards: (c: KanbanCanonCard[]) => setCards((prev) => ({ ...prev, done: c })),
     },
   };
 
-  const setCardsByColumnId = (colId: KanbanCardStatusesLowerCase, cards: KanbanCanonCard[]): void => {
-    setCards((prev) => ({ ...prev, [colId]: cards }));
+  const setCardsByColumnId = (colId: KanbanCanonCardStatus, cards: KanbanCanonCard[]): void => {
+    console.log(colId.toLowerCase());
+    setCards((prev) => ({ ...prev, [colId.toLowerCase()]: cards }));
   };
 
-  const getCards = (droppableId: KanbanCardStatusesLowerCase): KanbanCanonCard[] => columns[droppableId].cards;
+  const getCards = (droppableId: KanbanCanonCardStatus): KanbanCanonCard[] => columns[droppableId].cards;
 
   // Column/index update logic inspired by https://codesandbox.io/s/ql08j35j3q?file=/index.js:2094-3043
   const onDragEnd = (result: DropResult) => {
@@ -118,17 +115,25 @@ const KanbanController: FC<StateMapping & Props> = ({ kanbanId, user }) => {
     if (!destination) {
       return;
     }
-    const sourceColumn = source.droppableId as KanbanCardStatusesLowerCase;
-    const destColumn = destination.droppableId as KanbanCardStatusesLowerCase;
+    const cardId = result.draggableId;
+    const sourceColumn = source.droppableId as KanbanCanonCardStatus;
+    const destColumn = destination.droppableId as KanbanCanonCardStatus;
     // Case: column has not changed
     if (sourceColumn === destColumn) {
       const reindexed = reindex(getCards(sourceColumn), source.index, destination.index);
       setCardsByColumnId(sourceColumn, reindexed);
-    } // Case: column has changed
+      // update card data in db asynchronously
+      updateDbCardPositions({
+        cardId,
+        status: sourceColumn as KanbanCanonCardStatus,
+        index: destination.index,
+      });
+    }
+    // Case: column has changed
     else {
       // update card data in db asynchronously
       updateDbCardPositions({
-        cardId: result.draggableId,
+        cardId,
         status: destColumn as KanbanCanonCardStatus,
         index: destination.index,
       });
