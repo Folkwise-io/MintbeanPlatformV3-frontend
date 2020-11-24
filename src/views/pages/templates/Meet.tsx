@@ -99,16 +99,6 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       <MarkdownParser source={meet?.instructions} />
     </>
   );
-
-  const renderInstructions = () =>
-    isAdmin ? (
-      adminInstructionsView
-    ) : !meetHasStarted ? (
-      <p>Instructions will be released once the meet starts!</p>
-    ) : (
-      userInstructionsView
-    );
-
   const adminInstructionsView = (
     <>
       {" "}
@@ -116,6 +106,16 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       {userInstructionsView}
     </>
   );
+
+  const renderInstructions = () => {
+    if (isAdmin) {
+      return adminInstructionsView;
+    }
+    if (!meetHasStarted) {
+      return <p>Instructions will be released once the meet starts!</p>;
+    }
+    return userInstructionsView;
+  };
 
   const renderAdminMeetControls = () => {
     return (
@@ -130,16 +130,22 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   };
 
   const renderKanbanViewAdmin = () => {
-    return meet && meet.kanbanCanonId ? (
-      <div className="mt-10">
-        <KanbanCanonController kanbanCanonId={meet.kanbanCanonId} />
-      </div>
-    ) : meet?.id ? (
+    if (!meet) return null;
+    // case: meet exists and has kanban canon
+    if (meet && meet.kanbanCanonId) {
+      return (
+        <div className="mt-10">
+          <KanbanCanonController kanbanCanonId={meet.kanbanCanonId} />
+        </div>
+      );
+    }
+    // case: meet exists but does not have kanban canon
+    return (
       <div className="mt-10">
         {" "}
         <AdminKanbanCanonCreateModal buttonText="Add a kanban to this meet" onCreate={fetchMeetData} meetId={meet.id} />
       </div>
-    ) : null;
+    );
   };
 
   const renderKanbanViewUser = () => {
