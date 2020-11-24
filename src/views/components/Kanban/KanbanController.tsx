@@ -1,3 +1,4 @@
+/* Outermost wrapper of Kanban that takes a kanbanId and manages state and API calls */
 import React, { FC, useCallback, useContext, useEffect, useState } from "react";
 import { DropResult } from "react-beautiful-dnd";
 import { connect } from "react-redux";

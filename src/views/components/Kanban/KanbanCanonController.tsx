@@ -1,3 +1,5 @@
+/* Outermost wrapper of KanbanCanon that takes a kanbanCanonId and manages state and API calls */
+
 import React, { FC, useCallback, useContext, useEffect, useState } from "react";
 import { AdminKanbanCanonEditModal } from "../wrappers/Modal/walas/AdminKanbanCanonEditModal";
 import { inflateCardPositions } from "../../../utils/inflateCardPositions";
