@@ -24,7 +24,7 @@ const Meets: FC<StateMapping> = ({ user }) => {
   const fetchMeets = useCallback(async () => {
     setLoading(true);
     const fetchedMeets = await context.meetService.fetchMeets();
-    setMeets(fetchedMeets);
+    setMeets(fetchedMeets || []);
     setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
