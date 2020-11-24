@@ -7,14 +7,15 @@ import { inflateCardPositions } from "../../../utils/inflateCardPositions";
 import { MbContext } from "../../../context/MbContext";
 import { Context } from "../../../context/contextBuilder";
 
-export interface ColumnData {
-  [key: string]: {
-    droppableId: "TODO" | "WIP" | "DONE";
+// use type to allow union in key
+export type ColumnData = {
+  [key in KanbanCardStatusesLowerCase]: {
+    droppableId: KanbanCardStatusesLowerCase;
     title: string;
     cards: KanbanCanonCard[];
     setCards: (c: KanbanCanonCard[]) => void;
   };
-}
+};
 
 interface Props {
   kanbanId: string;
@@ -83,27 +84,31 @@ const KanbanController: FC<StateMapping & Props> = ({ kanbanId, user }) => {
   // This object associates column droppableIds with column titles and respective card states.
   // Note: column [key] name must match droppableId which also matches status column name in cardPositions object
   const columns: ColumnData = {
-    TODO: {
-      droppableId: "TODO",
+    todo: {
+      droppableId: "todo",
       title: "Todo",
       cards: cards.todo,
       setCards: (c: KanbanCanonCard[]) => setCards((prev) => ({ ...prev, todo: c })),
     },
-    WIP: {
-      droppableId: "WIP",
+    wip: {
+      droppableId: "wip",
       title: "In Progress",
       cards: cards.wip,
       setCards: (c: KanbanCanonCard[]) => setCards((prev) => ({ ...prev, wip: c })),
     },
-    DONE: {
-      droppableId: "DONE",
+    done: {
+      droppableId: "done",
       title: "Done",
       cards: cards.done,
       setCards: (c: KanbanCanonCard[]) => setCards((prev) => ({ ...prev, done: c })),
     },
   };
 
-  const getCards = (droppableId: string): KanbanCanonCard[] => columns[droppableId].cards;
+  const setCardsByColumnId = (colId: KanbanCardStatusesLowerCase, cards: KanbanCanonCard[]): void => {
+    setCards((prev) => ({ ...prev, [colId]: cards }));
+  };
+
+  const getCards = (droppableId: KanbanCardStatusesLowerCase): KanbanCanonCard[] => columns[droppableId].cards;
 
   // Column/index update logic inspired by https://codesandbox.io/s/ql08j35j3q?file=/index.js:2094-3043
   const onDragEnd = (result: DropResult) => {
@@ -113,22 +118,27 @@ const KanbanController: FC<StateMapping & Props> = ({ kanbanId, user }) => {
     if (!destination) {
       return;
     }
+    const sourceColumn = source.droppableId as KanbanCardStatusesLowerCase;
+    const destColumn = destination.droppableId as KanbanCardStatusesLowerCase;
     // Case: column has not changed
-    if (source.droppableId === destination.droppableId) {
-      const reindexed = reindex(getCards(source.droppableId), source.index, destination.index);
-      columns[source.droppableId].setCards(reindexed);
+    if (sourceColumn === destColumn) {
+      const reindexed = reindex(getCards(sourceColumn), source.index, destination.index);
+      setCardsByColumnId(sourceColumn, reindexed);
     } // Case: column has changed
     else {
       // update card data in db asynchronously
       updateDbCardPositions({
         cardId: result.draggableId,
-        status: destination.droppableId as KanbanCanonCardStatus,
+        status: destColumn as KanbanCanonCardStatus,
         index: destination.index,
       });
-      const inflatedResult = move(getCards(source.droppableId), getCards(destination.droppableId), source, destination);
+      const inflatedResult = move(getCards(sourceColumn), getCards(destColumn), source, destination);
       if (inflatedResult) {
-        for (const [droppableId, cards] of Object.entries(inflatedResult)) {
-          columns[droppableId].setCards(cards);
+        // unavoidable any to allow use for strings for typed object keys. Is still type safe.
+        // eslint-disable-next-line
+        for (const [droppableId, cards] of Object.entries(inflatedResult) as any) {
+          // eslint-disable-next-line
+          setCardsByColumnId(droppableId, cards);
         }
       }
     }
@@ -148,11 +158,12 @@ const KanbanController: FC<StateMapping & Props> = ({ kanbanId, user }) => {
     // add item at destination index
     destClone.splice(droppableDestination.index, 0, removed);
 
+    // Must cast the key string in return statement to appease
     const result: { [key: string]: KanbanCanonCard[] } = {};
     result[droppableSource.droppableId] = sourceClone;
     result[droppableDestination.droppableId] = destClone;
 
-    return result;
+    return (result as unknown) as InflatedKanbanCardPositions;
   };
 
   const reindex = (list: KanbanCanonCard[], startIndex: number, endIndex: number) => {

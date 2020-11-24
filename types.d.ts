@@ -74,20 +74,17 @@ interface CloudinaryPublicIdMediaAsset {
   cloudinaryPublicId: string;
 }
 
-// Re: status - unable to use enum in d.ts file. Using union instead
+// Re: status - unable to use enum in d.ts file. Using union instead. These much match KanbanCanonCardStatusEnum strings in backend
 type KanbanCanonCardStatus = "TODO" | "WIP" | "DONE";
 // TODO: how to map card status enum to lower case keys? hard-coding below for now
-interface KanbanCardPositions {
-  todo: string[];
-  wip: string[];
-  done: string[];
-}
+type KanbanCardStatusesLowerCase = "todo" | "wip" | "done";
 
-interface InflatedKanbanCardPositions {
-  todo: KanbanCanonCard[];
-  wip: KanbanCanonCard[];
-  done: KanbanCanonCard[];
-}
+type KanbanCardPositions = {
+  [key in KanbanCardStatusesLowerCase]: string[];
+};
+type InflatedKanbanCardPositions = {
+  [key in KanbanCardStatusesLowerCase]: KanbanCanonCard[];
+};
 
 interface KanbanBase {
   id: string;

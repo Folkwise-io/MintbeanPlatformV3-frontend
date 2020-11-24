@@ -9,7 +9,7 @@ export const inflateCardPositions = (
   Object.entries(cardPositions).forEach(([status, idArr]) => {
     inflatedCardPositions[status] = idArr
       .map((id: string) => cards.find((card) => card.id === id))
-      .filter((card: KanbanCanonCard) => card !== undefined); // edge case: weed out bad id data
+      .filter((card: KanbanCanonCard | undefined) => card !== undefined); // edge case: weed out bad id data
   });
 
   return inflatedCardPositions as InflatedKanbanCardPositions; // cast back
