@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useCallback, useContext, useEffect, useState } from "react";
 import { AdminKanbanCanonEditModal } from "../wrappers/Modal/walas/AdminKanbanCanonEditModal";
 import { inflateCardPositions } from "../../../utils/inflateCardPositions";
 import { KanbanCanonContext } from "./KanbanCanonContext";
@@ -6,7 +6,7 @@ import { Context } from "../../../context/contextBuilder";
 import { MbContext } from "../../../context/MbContext";
 
 interface Props {
-  kanbanCanon: KanbanCanon;
+  kanbanCanonId: string;
 }
 const emptyCardPositions = {
   todo: [],
@@ -14,10 +14,10 @@ const emptyCardPositions = {
   done: [],
 };
 
-export const KanbanCanonViewer: FC<Props> = ({ kanbanCanon }) => {
+export const KanbanCanonController: FC<Props> = ({ kanbanCanonId }) => {
   const context = useContext<Context>(MbContext);
-  const { cardPositions, kanbanCanonCards } = kanbanCanon;
-  const [currKanbanCanon, setCurrKanbanCanon] = useState<KanbanCanon>(kanbanCanon);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [kanbanCanon, setKanbanCanon] = useState<KanbanCanon | null>(null);
   const [cards, setCards] = useState<InflatedKanbanCardPositions>(emptyCardPositions);
 
   const inflateCards = (cardPositions: KanbanCardPositions, kanbanCanonCards: KanbanCanonCard[]) => {
@@ -25,22 +25,27 @@ export const KanbanCanonViewer: FC<Props> = ({ kanbanCanon }) => {
     setCards(inflated);
   };
 
-  // set initial card positions on mount
-  useEffect(() => {
-    inflateCards(cardPositions, kanbanCanonCards);
-  }, [cardPositions, kanbanCanonCards]);
-
-  const fetchKanbanCanon = async () => {
-    const kc = await context.kanbanCanonService.fetchKanbanCanon(kanbanCanon.id);
+  const fetchKanbanCanon = useCallback(async () => {
+    const kc = await context.kanbanCanonService.fetchKanbanCanon(kanbanCanonId);
     if (kc) {
-      updateKanbanLocalState(kc);
+      setKanbanCanon(kc);
     }
-  };
+  }, [context, kanbanCanonId]);
 
-  const updateKanbanLocalState = (kanbanCanon: KanbanCanon) => {
-    setCurrKanbanCanon(kanbanCanon);
-    inflateCards(kanbanCanon.cardPositions, kanbanCanon.kanbanCanonCards);
-  };
+  // fetch kanbanCanon on mount
+  useEffect(() => {
+    setLoading(true);
+    fetchKanbanCanon();
+    setLoading(false);
+  }, [fetchKanbanCanon]);
+
+  // update UI card positions when kanbanCanon updated
+  useEffect(() => {
+    if (kanbanCanon) {
+      const { cardPositions, kanbanCanonCards } = kanbanCanon;
+      inflateCards(cardPositions, kanbanCanonCards);
+    }
+  }, [kanbanCanon]);
 
   const updateCardPositions = async (args: UpdateCardPositionInput, sourceIndex: number) => {
     if (!context) return;
@@ -48,7 +53,7 @@ export const KanbanCanonViewer: FC<Props> = ({ kanbanCanon }) => {
     const reindexedTodos = reindex(cards.todo, sourceIndex, args.index);
     setCards((prev) => ({ ...prev, todo: reindexedTodos }));
     // update db
-    await context.kanbanCanonService.updateCardPositions(kanbanCanon.id, args);
+    await context.kanbanCanonService.updateCardPositions(kanbanCanonId, args);
   };
 
   const reindex = (list: KanbanCanonCard[], startIndex: number, endIndex: number) => {
@@ -60,24 +65,27 @@ export const KanbanCanonViewer: FC<Props> = ({ kanbanCanon }) => {
     return result;
   };
 
+  if (loading) return <p>Loading...</p>;
+  if (!kanbanCanon) return <p>Kanban canon not found.</p>;
+
   return (
     <div>
       <p className="italic mb-2">Edit the kanban canon cards below to provide coders with project requirements.</p>
       <div>
-        <h2>{currKanbanCanon.title}</h2>
-        <p>{currKanbanCanon.description}</p>
+        <h2>{kanbanCanon.title}</h2>
+        <p>{kanbanCanon.description}</p>
       </div>
       <div className="py-2 flex flex-col xs:flex-row">
         <AdminKanbanCanonEditModal
           buttonText="Edit kanban"
-          kanbanCanon={currKanbanCanon}
+          kanbanCanon={kanbanCanon}
           onEdit={fetchKanbanCanon}
           className="mb-2 xs:mb-0 xs:mr-2"
         />
       </div>
       <div className="bg-gray-400 p-2 md:p-10 rounded-lg min-h-20 max-w-screen-md mx-auto">
         <KanbanCanonContext
-          kanbanCanonId={currKanbanCanon.id}
+          kanbanCanonId={kanbanCanon.id}
           todoCards={cards.todo}
           fetchKanbanCanon={fetchKanbanCanon}
           updateCardPositions={updateCardPositions}

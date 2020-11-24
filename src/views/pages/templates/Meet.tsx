@@ -9,7 +9,7 @@ import { BgBlock } from "../../components/BgBlock";
 import { ProjectCreateModal } from "../../components/wrappers/Modal/walas/ProjectCreateModal";
 import { AdminMeetEditModal } from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
 import { MarkdownParser } from "../../components/MarkdownParser";
-import { KanbanCanonViewer } from "../../components/Kanban/KanbanCanonViewer";
+import { KanbanCanonController } from "../../components/Kanban/KanbanCanonController";
 import { AdminKanbanCanonCreateModal } from "../../components/wrappers/Modal/walas/AdminKanbanCanonCreateModal";
 import LoginModal from "../../components/wrappers/Modal/walas/LoginModal";
 import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
@@ -134,7 +134,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const renderKanbanViewAdmin = () => {
     return meet && kanbanCanon ? (
       <div className="mt-10">
-        <KanbanCanonViewer kanbanCanon={kanbanCanon} />
+        <KanbanCanonController kanbanCanonId={kanbanCanon.id} />
       </div>
     ) : meet?.id ? (
       <div className="mt-10">

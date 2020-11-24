@@ -55,7 +55,7 @@ const KanbanController: FC<StateMapping & Props> = ({ kanbanId, user }) => {
     }
   }, [context, kanbanId, isLoggedIn]);
 
-  // fetch kanban and set initial card positions on mount
+  // fetch kanban on mount
   useEffect(() => {
     setLoading(true);
     async () => await fetchKanban();
