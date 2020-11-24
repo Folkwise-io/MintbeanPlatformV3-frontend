@@ -43,7 +43,6 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     params: { id },
   } = match;
   const [meet, setMeet] = useState<Meet | null>(null);
-  const [kanbanCanon, setKanbanCanon] = useState<KanbanCanon | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const user = userState.data;
   const isLoggedIn = !!user;
@@ -55,7 +54,6 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     const fetchedMeet = await context.meetService.fetchMeet(id);
     if (fetchedMeet) {
       setMeet(fetchedMeet);
-      setKanbanCanon(fetchedMeet?.kanbanCanon || null);
     }
     setLoading(false);
   }, [context, id]);
@@ -132,9 +130,9 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   };
 
   const renderKanbanViewAdmin = () => {
-    return meet && kanbanCanon ? (
+    return meet && meet.kanbanCanonId ? (
       <div className="mt-10">
-        <KanbanCanonController kanbanCanonId={kanbanCanon.id} />
+        <KanbanCanonController kanbanCanonId={meet.kanbanCanonId} />
       </div>
     ) : meet?.id ? (
       <div className="mt-10">
@@ -150,11 +148,11 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     // Only show kanban options if meet has started
     if (meetHasStarted) {
       // if kanbanCanon exists on meet and user not logged in
-      if (kanbanCanon && !user) {
+      if (meet?.kanbanCanonId && !user) {
         return <p className="font-semibold mt-6">Login or Sign up to unlock a kanban guide for this challenge!</p>;
       }
       // Meet has a kanbanCanon and user already has a kanban for it
-      if (meet.kanban) {
+      if (meet?.kanban) {
         return (
           <div className="mt-6">
             <KanbanController kanbanId={meet.kanban.id} />
@@ -162,7 +160,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
         );
       }
       // meet has a kanbanCanon but logged in user doesn't have a kanban for it
-      if (meet.kanbanCanonId && user) {
+      if (meet?.kanbanCanonId && user) {
         return (
           <div className="mt-6">
             <CreateKanbanButton
