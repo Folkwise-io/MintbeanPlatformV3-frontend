@@ -73,12 +73,9 @@ export const AdminKanbanCanonCardModal: FC<Props> = ({ data, fetchKanbanCanon, d
     : editActionButtons.forEach((ab) => actions.push(ab));
 
   const editKanbanCanonCard = async (input: EditKanbanCanonCardInput) => {
-    await context.kanbanCanonService
-      .editKanbanCanonCard(data.id, input)
-      .then(() => {
-        fetchKanbanCanon();
-      })
-      .finally(() => setMode("view"));
+    await context.kanbanCanonService.editKanbanCanonCard(data.id, input);
+    await fetchKanbanCanon();
+    setMode("view");
   };
   const deleteKanbanCanonCard = async () => {
     await context.kanbanCanonService.deleteKanbanCanonCard(data.id);

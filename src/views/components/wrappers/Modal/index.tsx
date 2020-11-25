@@ -17,7 +17,7 @@ interface Props {
 }
 
 // style for centering modal in middle of screen if isDetached prop = true
-const detachedStyles = {
+const detachedStyles: React.CSSProperties = {
   position: "fixed",
   left: "50%",
   top: "50%",
@@ -26,13 +26,13 @@ const detachedStyles = {
   overflow: "auto",
   maxHeight: "80vh",
   maxWidth: "90vw",
-} as React.CSSProperties;
+};
 
-const relativeStyles = {
+const relativeStyles: React.CSSProperties = {
   zIndex: 89,
   overflow: "auto",
   maxWidth: "90vw",
-} as React.CSSProperties;
+};
 
 export const Modal: FC<Props> = ({
   triggerBuilder,
