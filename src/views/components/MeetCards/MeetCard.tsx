@@ -8,14 +8,40 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock as faFasClock } from "@fortawesome/free-solid-svg-icons";
 import { faClock as faFarClock } from "@fortawesome/free-regular-svg-icons";
 
-type MeetProps = {
+interface MeetProps {
   meet: Meet;
   user?: User;
   onDelete: () => Promise<void>;
-};
+}
 
 export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
-  const { id, title, description, startTime, endTime, coverImageUrl, region } = meet;
+  const { id, title, description, startTime, endTime, coverImageUrl, region, meetType } = meet;
+
+  const getComputedMeetTypeColor = (meetType: MeetType): string => {
+    let meetTypeColor = "";
+    if (meetIsCurrent) {
+      if (meetType === "hackathon") {
+        meetTypeColor = "bg-mb-orange-100";
+      } else if (meetType === "workshop") {
+        meetTypeColor = "bg-mb-blue-200";
+      } else if (meetType === "webinar") {
+        meetTypeColor = "bg-mb-purple-100";
+      } else {
+        meetTypeColor = "bg-mb-green-300";
+      }
+    } else {
+      if (meetType === "hackathon") {
+        meetTypeColor = "bg-mb-orange-000";
+      } else if (meetType === "workshop") {
+        meetTypeColor = "bg-mb-blue-100";
+      } else if (meetType === "webinar") {
+        meetTypeColor = "bg-mb-purple-000";
+      } else {
+        meetTypeColor = "bg-mb-green-000";
+      }
+    }
+    return meetTypeColor;
+  };
 
   const startTimeStr = wcToClientStr(startTime, region);
   const endTimeStr = wcToClientStr(endTime, region);
@@ -27,9 +53,9 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   return (
     <div className="shadow-md bg-white w-11/12 max-w-4xl mx-auto rounded-lg overflow-hidden border-solid border-2 border-white">
       <div
-        className={`flex flex-col md:flex-row md:justify-between md:items-center w-full py-2 px-4  ${
-          meetIsCurrent ? "bg-mb-green-200" : "bg-mb-green-100"
-        }`}
+        className={`flex flex-col md:flex-row md:justify-between md:items-center w-full py-2 px-4 ${getComputedMeetTypeColor(
+          meetType,
+        )}`}
       >
         <h2 className="text-2xl font-medium">{title}</h2>
         <div className="self-end md:self-auto flex">

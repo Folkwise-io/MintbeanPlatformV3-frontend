@@ -4,7 +4,7 @@ import { meetProjectFactory } from "./project.factory";
 
 export const meetFactory = factory<Meet>({
   id: () => faker.random.uuid(),
-  meetType: "hackMeet",
+  meetType: faker.random.arrayElement(["hackathon", "workshop", "webinar", "lecture"]),
   title: () => faker.company.bs(),
   description: () => faker.lorem.sentence(),
   instructions: () => faker.lorem.paragraph(),

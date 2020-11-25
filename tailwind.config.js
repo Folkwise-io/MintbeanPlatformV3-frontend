@@ -59,6 +59,7 @@ module.exports = {
         "mb-gray-400": "#1f2036",
         "mb-red-100": "#FED7D7",
         "mb-red-200": "#E53E3E",
+        "mb-orange-000": "#FED9B2",
         "mb-orange-100": "#F59336",
         "mb-green-000": "#F0FFF4",
         "mb-green-100": "#B2FFE4",
@@ -67,6 +68,7 @@ module.exports = {
         "mb-blue-100": "#EBF8FF",
         "mb-blue-200": "#00A4DA",
         "mb-blue-300": "#00B1FF",
+        "mb-purple-000": "#E8B2F1",
         "mb-purple-100": "#5C1FD6",
       },
       boxShadow: {

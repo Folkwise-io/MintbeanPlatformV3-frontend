@@ -30,6 +30,8 @@ interface MeetForProject {
 
 /** Whether registration is going to open, is open now, or is closed. */
 type RegisterLinkStatus = "WAITING" | "OPEN" | "CLOSED";
+/** The currently supported meetTypes. note, form validators must also be changed when adding new types. */
+type MeetType = "hackathon" | "workshop" | "webinar" | "lecture";
 
 interface Meet {
   id: string;
@@ -38,7 +40,7 @@ interface Meet {
   instructions: string;
   registerLink?: string;
   registerLinkStatus: RegisterLinkStatus;
-  meetType: "hackMeet"; // TODO: change to enum, extend variants once more meet types
+  meetType: MeetType;
   coverImageUrl: string;
   startTime: string;
   endTime: string;
@@ -122,7 +124,7 @@ interface RegisterParams {
 }
 
 interface CreateMeetParams {
-  meetType: "hackMeet";
+  meetType: MeetType;
   title: string;
   description: string;
   instructions: string;
@@ -134,7 +136,7 @@ interface CreateMeetParams {
 }
 // Same as CreateMeetUnput atm
 interface EditMeetParams {
-  meetType: "hackMeet";
+  meetType: MeetType;
   title: string;
   description: string;
   instructions: string;

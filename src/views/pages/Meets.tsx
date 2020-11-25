@@ -17,6 +17,7 @@ const stp = (state: StoreState) => ({
 
 const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   const [meets, setMeets] = useState<Meet[]>([]);
+  const [filteredMeets, setFilteredMeets] = useState<Meet[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchMeetData = useCallback(async () => {
@@ -60,9 +61,10 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
       return <p className="text-white">Loading...</p>;
     }
 
+    const filteredMeets = meets.filter((m: Meet) => !isPast(m.endTime, m.region));
+
     // chronological sort
-    const upcomingMeets = meets
-      .filter((m: Meet) => !isPast(m.endTime, m.region))
+    const upcomingMeets = filteredMeets
       .sort((a, b) => {
         const dateA = new Date(a.startTime).getTime();
         const dateB = new Date(b.startTime).getTime();
@@ -97,6 +99,28 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
             <BgBlock>
               <section className="rounded-xl mb-16 flex flex-col items-center w-full py-8 bg-black max-w-6xl shadow-mb-drop-center">
                 <h2 className="text-4xl text-white mb-4 font-semibold text-center">Upcoming meets</h2>
+                <fieldset className="bg-white w-11/12 flex flex-wrap rounded-mb-xs justify-evenly mb-4">
+                  <label htmlFor="all">
+                    All
+                    <input type="radio" name="all" id="all" checked />
+                  </label>
+                  <label htmlFor="hackathon">
+                    Hackathons
+                    <input type="radio" name="hackathon" id="hackathon" />
+                  </label>
+                  <label htmlFor="workshop">
+                    Workshops
+                    <input type="radio" name="workshop" id="workshop" />
+                  </label>
+                  <label htmlFor="webinar">
+                    Webinars
+                    <input type="radio" name="webinar" id="webinar" />
+                  </label>
+                  <label htmlFor="lecture">
+                    Lectures
+                    <input type="radio" name="lecture" id="lecture" />
+                  </label>
+                </fieldset>
                 {renderUpcomingMeets()}
               </section>
             </BgBlock>

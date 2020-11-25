@@ -9,7 +9,10 @@ import { MarkdownEditor } from "../MarkdownEditor";
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 // this is same as createMeetInputSchema.... consolidate
 const editMeetInputSchema = yup.object().shape({
-  meetType: yup.string().required("Required"),
+  meetType: yup
+    .string()
+    .matches(/(hackathon|workshop|webinar|lecture)/i, "Invalid meetType, please try again.")
+    .required("Required"),
   title: yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
   description: yup.string().min(3, "Too Short!").max(160, "Max characters: 160").required("Required"),
   instructions: yup.string().min(3, "Too Short!").required("Required"),
@@ -103,7 +106,10 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
 
       <label htmlFor="meetType">Meet type</label>
       <select name="meetType" ref={register} className="mb-2">
-        <option value="hackMeet">Hackathon</option>
+        <option value="hackathon">Hackathon</option>
+        <option value="workshop">Workshop</option>
+        <option value="webinar">Webinar</option>
+        <option value="lecture">Lecture</option>{" "}
       </select>
       <p className="text-red-500">{errors.meetType?.message}</p>
 
