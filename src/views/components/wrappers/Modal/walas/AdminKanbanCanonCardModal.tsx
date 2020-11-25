@@ -81,9 +81,8 @@ export const AdminKanbanCanonCardModal: FC<Props> = ({ data, fetchKanbanCanon, d
       .finally(() => setMode("view"));
   };
   const deleteKanbanCanonCard = async () => {
-    await context.kanbanCanonService.deleteKanbanCanonCard(data.id).then(() => {
-      fetchKanbanCanon();
-    });
+    await context.kanbanCanonService.deleteKanbanCanonCard(data.id);
+    fetchKanbanCanon();
   };
 
   /* Using accessible <div> of role button instead of actual <button> for trigger due to a problem with button not complying with drag and drop refs */
