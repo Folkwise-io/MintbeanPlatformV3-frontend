@@ -40,7 +40,11 @@ export const getDurationInHours = (startTime: string, endTime: string): number =
 };
 // Returns a humanized string of a duration using momentjs's humanize() function
 export const getDurationStringFromHours = (numberOfHours: number): string => {
-  return humanizeDuration(numberOfHours * 60 * 60 * 1000, { largest: 2 });
+  return humanizeDuration(numberOfHours * 60 * 60 * 1000, {
+    largest: 2,
+    round: true,
+    units: ["mo", "w", "d", "h", "m"],
+  });
 };
 // Returns relative time string from client region's perspective. Client region is guessed if not provided
 export const fromNow = (wcStr: string, masterRegion: string, clientRegion?: string): string => {
