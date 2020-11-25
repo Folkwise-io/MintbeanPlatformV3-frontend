@@ -40,16 +40,15 @@ export const AdminKanbanCanonCreateModal: FC<Props> = ({ onCreate, meetId, class
     );
 
     if (confirmed) {
-      await context.kanbanCanonService.createKanbanCanon(input).then(async (newKanbanCanon) => {
-        if (newKanbanCanon) {
+      const newKanbanCanon = await context.kanbanCanonService.createKanbanCanon(input);
+      if (newKanbanCanon) {
+        if (meetId) {
           // add new kanbanCanon to meet if meetId supplied
-          if (meetId) {
-            await context.meetService.editMeet(meetId, { kanbanCanonId: newKanbanCanon.id });
-          }
-          onCreate();
-          if (close) close();
+          await context.meetService.editMeet(meetId, { kanbanCanonId: newKanbanCanon.id });
         }
-      });
+        onCreate();
+        if (close) close();
+      }
     }
   };
 
