@@ -68,6 +68,7 @@ interface ProjectForMeet {
   user: UserForProjectForMeet;
   mediaAssets: CloudinaryPublicIdMediaAsset[];
   badges: BadgesForProject[];
+  createdAt: string;
 }
 
 interface RegistrantsForMeet {

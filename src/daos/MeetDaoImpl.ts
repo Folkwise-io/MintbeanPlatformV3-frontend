@@ -59,11 +59,17 @@ export class MeetDaoImpl implements MeetDao {
               endTime
               createdAt
               region
+              registrants {
+                id
+                firstName
+                lastName
+              }
               projects {
                 id
                 title
                 sourceCodeUrl
                 liveUrl
+                createdAt
                 user {
                   firstName
                   lastName
@@ -74,18 +80,12 @@ export class MeetDaoImpl implements MeetDao {
                 badges {
                   id
                   title
-                  alias
                   badgeShape
                   faIcon
                   backgroundHex
                   iconHex
                   weight
                 }
-              }
-              registrants {
-                id
-                firstName
-                lastName
               }
           }
         }
