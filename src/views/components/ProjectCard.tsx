@@ -1,75 +1,19 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from "react";
+import React, { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import { ImageDisplay } from "./ImageDisplay";
 import { ExternalLink } from "./ExternalLink";
 import { Button } from "./Button";
 import BadgeDisplay from "./BadgeDisplay";
-import Select, { OptionTypeBase } from "react-select";
-import { AwardBadgesToProjectParams, Badge } from "../../types/badge";
-import { connectContext, ConnectContextProps } from "../../context/connectContext";
-import { Controller, FieldErrors, SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-
+import AwardBadgesToProjectForm from "./forms/AwardBadgesToProjectForm";
 type ProjectCardProps = {
   project: ProjectForMeet;
   userState: User | undefined;
 };
 
-const ProjectCard: FC<ConnectContextProps & ProjectCardProps> = ({ context, project, userState }) => {
+const ProjectCard: FC<ProjectCardProps> = ({ project, userState }) => {
   const { id, title, sourceCodeUrl, mediaAssets, liveUrl, user, badges } = project;
-  const [badgeOptions, setBadgeOptions] = useState<Badge[]>([]);
-  const [, setLoading] = useState<boolean>(false);
-  const badgeSearchOptions = badgeOptions.map(({ id, alias }) => ({ value: id, label: alias }));
-  const awardedBadgeIds = badges.map(({ id }) => id);
-  const awardedBadges = badges.map(({ id, alias }) => ({ value: id, label: alias }));
-  const formRef = useRef<HTMLFormElement | null>(null);
-
-  const fetchBadgesData = useCallback(async () => {
-    if (!context) {
-      console.error(new Error("No context passed to component, but it was expected"));
-      alert("blame the devs! something has gone catastrophically wrong");
-      return;
-    }
-    setLoading(true);
-    const fetchedBadges = await context.badgeService.fetchBadges();
-    setBadgeOptions(fetchedBadges);
-    setLoading(false);
-  }, [context]);
-
-  useEffect(() => {
-    fetchBadgesData();
-  }, [context, fetchBadgesData]);
-
-  const { handleSubmit, control, getValues, setValue } = useForm({});
-
-  const awardBadgesToProject = async (projectId: string, badgeIds: string[]) => {
-    if (context) {
-      const project = await context.projectService.awardBadgesToProject(projectId, badgeIds);
-      if (project) {
-        window.location.reload();
-      } else {
-        alert("Hmmm, no project was passed as a response.");
-      }
-    } else {
-      alert("Yikes, devs messed up, sorry. Action did not work");
-    }
-  };
 
   const sortedBadges = badges.sort((a, b) => a.weight - b.weight);
-
-  const onSubmit: SubmitHandler<string[]> = () => {
-    awardBadgesToProject(id, getValues("badgeIds"));
-  };
-
-  const onError: SubmitErrorHandler<AwardBadgesToProjectParams> = (errors: FieldErrors<AwardBadgesToProjectParams>) => {
-    alert(errors);
-  };
-
-  const handleChange = (options: OptionTypeBase | undefined | null) => {
-    if (options) {
-      const badgesToAward = options.map(({ value }: OptionTypeBase) => value);
-      setValue("badgeIds", badgesToAward);
-    }
-  };
 
   const creatorName = `${user.firstName} ${user.lastName}`;
   const isAdmin = userState?.isAdmin;
@@ -117,26 +61,9 @@ const ProjectCard: FC<ConnectContextProps & ProjectCardProps> = ({ context, proj
           </section>
         </section>
       </div>
-      {isAdmin && (
-        <form ref={formRef} onSubmit={handleSubmit(onSubmit, onError)}>
-          <Controller
-            defaultValue={awardedBadgeIds}
-            control={control}
-            name="badgeIds"
-            render={() => (
-              <Select
-                isMulti
-                onChange={(options) => handleChange(options)}
-                defaultValue={awardedBadges}
-                options={badgeSearchOptions}
-              ></Select>
-            )}
-          />
-          <Button buttonType="submit">Award badges</Button>
-        </form>
-      )}
+      {isAdmin && <AwardBadgesToProjectForm projectId={id} awardedBadges={badges} />}
     </div>
   );
 };
 
-export default connectContext<ConnectContextProps & ProjectCardProps>(ProjectCard);
+export default ProjectCard;
