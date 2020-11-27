@@ -139,7 +139,6 @@ describe("BadgeService", () => {
     });
 
     afterEach(() => {
-      // Just to be safe!
       testManager.configureContext((context) => {
         context.badgeDao.clearMockReturns();
       });
@@ -181,17 +180,10 @@ describe("BadgeService", () => {
     });
 
     afterEach(() => {
-      // Just to be safe!
       testManager.configureContext((context) => {
         context.badgeDao.clearMockReturns();
       });
     });
-
-    // TODO: implement cookie header mocking for authorization tests
-    // it("only permits admins to create badges", async () => {
-    //   const user = userFactory.one();
-    //    ...
-    // });
     const existingBadge = badgeFactory.one();
     const NEW_TITLE = "New title";
     const updatedBadgeParams = {
@@ -206,18 +198,15 @@ describe("BadgeService", () => {
       weight: existingBadge.weight,
     };
     it("returns the edited meet on success", async () => {
-      await testManager
-        // add existing meet
-        .addBadges([existingBadge])
-        .execute((context) => {
-          return context.badgeService.editBadge(existingBadge.id, updatedBadgeParams).then((result) => {
-            if (result) {
-              expect(result.title).toBe(NEW_TITLE);
-            } else {
-              throw "This shouldn't be reached";
-            }
-          });
+      await testManager.addBadges([existingBadge]).execute((context) => {
+        return context.badgeService.editBadge(existingBadge.id, updatedBadgeParams).then((result) => {
+          if (result) {
+            expect(result.title).toBe(NEW_TITLE);
+          } else {
+            throw "This shouldn't be reached";
+          }
         });
+      });
     });
     it("logs error and throws toast when server error returned", async () => {
       const ERROR_MESSAGE = "test";

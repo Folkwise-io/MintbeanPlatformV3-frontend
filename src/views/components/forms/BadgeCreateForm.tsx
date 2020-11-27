@@ -13,23 +13,10 @@ import { connectContext, ConnectContextProps } from "../../../context/connectCon
 import { yupResolver } from "@hookform/resolvers";
 import { useHistory } from "react-router-dom";
 import { Button } from "../Button";
+import FAIconLookupInput from "./inputs/FAIconLookupInput";
+import { BADGE_VALIDATION } from "./validation/BadgeValidator";
 
-const createBadgeSchema = yup.object().shape({
-  alias: yup.string().max(25, "Alias must be shorter than 25 characters").required("alias is required!"),
-  badgeShape: yup
-    .string()
-    .matches(/(star|square|circle)/, "Invalid shape, please try again")
-    .required("badge shape is required!"),
-  backgroundHex: yup.string().length(6, "Background hex value must be a valid 6 character hex code"),
-  iconHex: yup.string().length(6, "Icon hex value must be a valid 6 character hex code"),
-  title: yup
-    .string()
-    .max(64, "Whoa! we're gonna need a shorter title. (max 64 characters)")
-    .required("title is required!"),
-  description: yup.string().max(150, "Description must be shorter than 150 characters"),
-  weight: yup.number().max(9999, "That number's a bit too high... try one lower than 9999"),
-  faIcon: yup.string().required("icon is required!"),
-});
+const createBadgeSchema = yup.object().shape(BADGE_VALIDATION);
 
 const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
   //State for preview
@@ -37,7 +24,6 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
   const [iconColor, setIconColor] = useState<Color>(paletteOptions[1]);
   const [badgeColor, setBadgeColor] = useState<Color>(paletteOptions[14]);
   // refs for preview/hook-forms
-  const searchIconsInput = useRef<HTMLInputElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
   const history = useHistory();
 
@@ -49,6 +35,11 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
   const iconNamesFiltered = fasIconNames.filter(
     (name) => name.includes(searchInput) && name !== "font-awesome-logo-full",
   );
+
+  const handleIconSearchChange = (e: ChangeEvent): void => {
+    const target = e.target as HTMLInputElement;
+    setSearchInput(target.value);
+  };
   //badge options in shape of react-select
   const badgeShapeOptions = [
     { value: "circle", label: "Circle" },
@@ -168,19 +159,7 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
           <div>
             <div className="lg:grid grid-cols-3">
               <div className="col-span-2">
-                <label htmlFor="searchIcons" className="w-full inline-block">
-                  Look up a FontAwesome icon by name
-                  <input
-                    placeholder="Search..."
-                    ref={searchIconsInput}
-                    onChange={(e: ChangeEvent): void => {
-                      const target = e.target as HTMLInputElement;
-                      setSearchInput(target.value);
-                    }}
-                    type="text"
-                    className="w-full m-0"
-                  />
-                </label>
+                <FAIconLookupInput onChange={handleIconSearchChange} />
                 <Controller
                   name="faIcon"
                   control={control}
