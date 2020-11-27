@@ -79,6 +79,7 @@ export class MeetDaoImpl implements MeetDao {
                 }
                 badges {
                   id
+                  alias
                   title
                   badgeShape
                   faIcon

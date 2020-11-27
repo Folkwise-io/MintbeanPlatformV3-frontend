@@ -108,31 +108,19 @@ export class ProjectDaoImpl implements ProjectDao {
       })
       .catch(handleServerError);
   }
-  awardBadges(projectId: string, badgeIds: string[]): Promise<Project> {
+  awardBadgesToProject(projectId: string, badgeIds: string[]): Promise<Project> {
     return this.api
-      .query<ApiResponseRaw<{ awardBadges: Project }>, { projectId: string; badgeIds: string[] }>(
+      .query<ApiResponseRaw<{ awardBadgesToProject: Project }>, { projectId: string; badgeIds: string[] }>(
         `
-      mutation awardBadges($projectId: UUID!, $badgeIds:[UUID]!) {
-        awardBadges(projectId: $projectId, badgeIds: $badgeIds) {
+      mutation awardBadgesToProject($projectId: UUID!, $badgeIds:[UUID]!) {
+        awardBadgesToProject(projectId: $projectId, badgeIds: $badgeIds) {
           id
           title
           sourceCodeUrl
           liveUrl
-          createdAt
-          meet {
-            id
-            title
-          }
-          user {
-            firstName
-            lastName
-            id
-          }
-          mediaAssets {
-            cloudinaryPublicId
-          }
           badges {
             alias
+            title
           }
         }
       }
@@ -141,10 +129,10 @@ export class ProjectDaoImpl implements ProjectDao {
       )
       .then((result) => {
         if (result.errors) throw result.errors;
-        if (!result.errors && !result.data.awardBadges) {
+        if (!result.errors && !result.data.awardBadgesToProject) {
           throw [{ message: "Something went wrong when awarding badges.", extensions: { code: "UNEXPECTED" } }];
         }
-        return result.data.awardBadges;
+        return result.data.awardBadgesToProject;
       })
       .catch(handleServerError);
   }

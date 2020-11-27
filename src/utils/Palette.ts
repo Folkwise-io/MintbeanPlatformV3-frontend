@@ -1,4 +1,4 @@
-export const paletteOptions: string[] = [
+export const paletteOptions = [
   "#F1FFF6",
   "#24E5A3",
   "#3BC482",

@@ -52,7 +52,7 @@ export class TestProjectDao implements ProjectDao {
     }
   }
 
-  async awardBadges(projectId: string, badgeIds: string[]): Promise<Project> {
+  async awardBadgesToProject(projectId: string, badgeIds: string[]): Promise<Project> {
     const errorReturns = this.getErrors();
     const successReturns = this.getSuccesses();
     if (errorReturns.length) {

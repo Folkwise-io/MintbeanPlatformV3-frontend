@@ -31,9 +31,9 @@ export class ProjectService {
       });
   }
 
-  async awardBadges(projectId: string, badgeIds: string[]): Promise<Project | void> {
+  async awardBadgesToProject(projectId: string, badgeIds: string[]): Promise<Project | void> {
     return this.projectDao
-      .awardBadges(projectId, badgeIds)
+      .awardBadgesToProject(projectId, badgeIds)
       .then((project) => {
         this.logger.success(`Awarded badges to **${project.title}**!`);
         return project;

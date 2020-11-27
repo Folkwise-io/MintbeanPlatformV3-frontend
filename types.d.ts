@@ -33,7 +33,7 @@ interface BadgesForProject {
   title: string;
   id: string;
   alias: string;
-  badgeShape: "star" | "circle" | "square";
+  badgeShape: BadgeShape;
   faIcon: string;
   backgroundHex: string;
   iconHex: string;
@@ -42,7 +42,7 @@ interface BadgesForProject {
 
 /** Whether registration is going to open, is open now, or is closed. */
 type RegisterLinkStatus = "WAITING" | "OPEN" | "CLOSED";
-
+type BadgeShape = "star" | "circle" | "square";
 interface Meet {
   id: string;
   title: string;

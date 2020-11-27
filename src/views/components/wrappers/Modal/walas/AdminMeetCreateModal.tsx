@@ -32,14 +32,11 @@ const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, classN
   const createMeet = async (params: CreateMeetParams) => {
     let meetId: string;
     if (context) {
-      context.meetService
-        .createMeet(params)
-        .then((newMeet) => {
-          if (newMeet) {
-            meetId = newMeet.id;
-          }
-        })
-        .then(() => history.push(`/meets/${meetId}`));
+      const newMeet = await context.meetService.createMeet(params);
+      if (newMeet) {
+        meetId = newMeet.id;
+        history.push(`/meets/${meetId}`);
+      }
     } else {
       alert("Yikes, devs messed up sorry. Action did not work");
     }

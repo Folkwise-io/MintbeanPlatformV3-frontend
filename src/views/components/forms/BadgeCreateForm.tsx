@@ -69,7 +69,7 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
       iconHex: iconColor.toString().slice(1),
       title: "",
       alias: "",
-      badgeShape: selectedShape as "star" | "circle" | "square",
+      badgeShape: selectedShape as BadgeShape,
       faIcon: selectedIcon,
       weight: 0,
       description: "",
@@ -81,14 +81,11 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
   const createBadge = async (params: CreateBadgeParams) => {
     let badgeId: string;
     if (context) {
-      context.badgeService
-        .createBadge(params)
-        .then((newBadge) => {
-          if (newBadge) {
-            badgeId = newBadge.id;
-          }
-        })
-        .then(() => history.push(`/badges/${badgeId}`));
+      const newBadge = await context.badgeService.createBadge(params);
+      if (newBadge) {
+        badgeId = await newBadge.id;
+        history.push(`/badges/${badgeId}`);
+      }
     } else {
       alert("Yikes, devs messed up, sorry. Action did not work");
     }
@@ -97,7 +94,7 @@ const BadgeCreateForm: FC<ConnectContextProps> = ({ context }) => {
   //on selection of a new icon, set to state and reassign icon definition
   const iconHandleChange = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    const target = e.target as HTMLElement;
+    const target = e.target as HTMLButtonElement;
     let icon = target.dataset.icon as IconName;
     if (icon) {
       setSelectedIcon(icon);

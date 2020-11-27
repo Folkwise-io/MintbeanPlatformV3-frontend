@@ -5,7 +5,7 @@ import { ExternalLink } from "./ExternalLink";
 import { Button } from "./Button";
 import BadgeDisplay from "./BadgeDisplay";
 import Select, { OptionTypeBase } from "react-select";
-import { AwardBadgesParams, Badge } from "../../types/badge";
+import { AwardBadgesToProjectParams, Badge } from "../../types/badge";
 import { connectContext, ConnectContextProps } from "../../context/connectContext";
 import { Controller, FieldErrors, SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 
@@ -41,15 +41,14 @@ const ProjectCard: FC<ConnectContextProps & ProjectCardProps> = ({ context, proj
 
   const { handleSubmit, control, getValues, setValue } = useForm({});
 
-  const awardBadges = async (params: string[]) => {
+  const awardBadgesToProject = async (projectId: string, badgeIds: string[]) => {
     if (context) {
-      context.projectService.awardBadges(id, params).then((project) => {
-        // can't get react router history to push reload same page for some reason
-        if (project) {
-          console.log(project);
-          window && window.location.reload();
-        }
-      });
+      const project = await context.projectService.awardBadgesToProject(projectId, badgeIds);
+      if (project) {
+        window.location.reload();
+      } else {
+        alert("Hmmm, no project was passed as a response.");
+      }
     } else {
       alert("Yikes, devs messed up, sorry. Action did not work");
     }
@@ -58,10 +57,10 @@ const ProjectCard: FC<ConnectContextProps & ProjectCardProps> = ({ context, proj
   const sortedBadges = badges.sort((a, b) => a.weight - b.weight);
 
   const onSubmit: SubmitHandler<string[]> = () => {
-    awardBadges(getValues("badgeIds"));
+    awardBadgesToProject(id, getValues("badgeIds"));
   };
 
-  const onError: SubmitErrorHandler<AwardBadgesParams> = (errors: FieldErrors<AwardBadgesParams>) => {
+  const onError: SubmitErrorHandler<AwardBadgesToProjectParams> = (errors: FieldErrors<AwardBadgesToProjectParams>) => {
     alert(errors);
   };
 

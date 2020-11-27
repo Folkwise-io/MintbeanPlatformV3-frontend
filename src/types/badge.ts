@@ -3,7 +3,7 @@ import { IconName } from "@fortawesome/fontawesome-svg-core";
 export interface Badge {
   id: string;
   alias: string;
-  badgeShape: "star" | "circle" | "square";
+  badgeShape: BadgeShape;
   faIcon: IconName;
   backgroundHex?: string;
   iconHex?: string;
@@ -27,7 +27,7 @@ export interface UserForProjectForBadge {
 
 export interface CreateBadgeParams {
   alias: string;
-  badgeShape: "star" | "circle" | "square";
+  badgeShape: BadgeShape;
   faIcon: IconName;
   backgroundHex?: string;
   iconHex?: string;
@@ -38,7 +38,7 @@ export interface CreateBadgeParams {
 
 export interface EditBadgeParams {
   alias?: string;
-  badgeShape?: "star" | "circle" | "square";
+  badgeShape?: BadgeShape;
   faIcon?: IconName;
   backgroundHex?: string;
   iconHex?: string;
@@ -47,7 +47,7 @@ export interface EditBadgeParams {
   weight?: number;
 }
 
-export interface AwardBadgesParams {
+export interface AwardBadgesToProjectParams {
   projectId: string;
   badgeIds: string[];
 }

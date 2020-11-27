@@ -13,7 +13,7 @@ import { yupResolver } from "@hookform/resolvers";
 import BadgeDisplay from "../BadgeDisplay";
 import { Button } from "../Button";
 
-const createBadgeSchema = yup.object().shape({
+const editBadgeSchema = yup.object().shape({
   alias: yup.string().max(25, "Alias must be shorter than 25 characters").required("alias is required!"),
   badgeShape: yup
     .string()
@@ -60,7 +60,7 @@ const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
   //react-hook-form setup
   const { register, handleSubmit, setValue, control } = useForm<CreateBadgeParams>({
     mode: "onBlur",
-    resolver: yupResolver(createBadgeSchema),
+    resolver: yupResolver(editBadgeSchema),
     defaultValues: {
       backgroundHex: badge.backgroundHex,
       iconHex: badge.iconHex,
@@ -75,12 +75,10 @@ const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
 
   const editBadge = async (id: string, params: EditBadgeParams) => {
     if (context) {
-      context.badgeService.editBadge(id, params).then((badge) => {
-        // can't get react router history to push reload same page for some reason
-        if (badge) {
-          window && window.location.reload();
-        }
-      });
+      const badge = await context.badgeService.editBadge(id, params);
+      if (badge) {
+        window && window.location.reload();
+      }
     } else {
       alert("Yikes, devs messed up, sorry. Action did not work");
     }
@@ -90,7 +88,7 @@ const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
   const iconHandleChange = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setLoading(true);
-    const target = e.target as HTMLElement;
+    const target = e.target as HTMLButtonElement;
     let icon = target.dataset.icon as IconName;
     if (icon) {
       setValue("faIcon", icon);

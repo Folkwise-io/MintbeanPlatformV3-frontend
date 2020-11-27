@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { default as Select } from "react-select";
+import { default as Select, OptionTypeBase } from "react-select";
 import { ConnectContextProps, connectContext } from "../../../context/connectContext";
 import { Badge } from "../../../types/badge";
 import BadgeDisplay from "../../components/BadgeDisplay";
@@ -44,12 +44,11 @@ const BadgeLookup: FC<ConnectContextProps> = ({ context }) => {
     fetchBadgesData();
   }, [context, fetchBadgesData]);
 
-  //any is used to avoid importing static enum into backend, as FA is updated quite frequently
-  /* eslint-disable  @typescript-eslint/no-explicit-any */
-  const handleChange = async (option: any) => {
-    fetchBadgeData(option.value);
+  const handleChange = async (option: OptionTypeBase | undefined | null) => {
+    if (option) {
+      fetchBadgeData(option.value);
+    }
   };
-  /* eslint-enable  @typescript-eslint/no-explicit-any */
 
   return (
     <>

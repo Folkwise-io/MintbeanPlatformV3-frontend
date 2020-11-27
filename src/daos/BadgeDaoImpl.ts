@@ -3,9 +3,19 @@ import { BadgeDao } from "./BadgeDao";
 import { handleServerError } from "../utils/handleServerError";
 import { Badge, CreateBadgeParams, EditBadgeParams } from "../types/badge";
 
+const BADGE_INPUT_RETURN_QUERY = `alias
+badgeShape
+faIcon
+backgroundHex
+iconHex
+title
+description
+weight`;
+
 export class BadgeDaoImpl implements BadgeDao {
   constructor(private api: ApiQueryExecutor) {}
   fetchBadges(): Promise<Badge[]> {
+    //shallow badges, just enough to view all badges
     return this.api
       .query<ApiResponseRaw<{ badges: Badge[] }>>(
         `
@@ -18,18 +28,7 @@ export class BadgeDaoImpl implements BadgeDao {
           backgroundHex
           iconHex
           title
-          description
           weight
-          projects {
-            id
-            title
-            user {
-              firstName
-              lastName
-            }
-          }
-          createdAt
-          updatedAt
         }
       }
       `,
@@ -61,12 +60,7 @@ export class BadgeDaoImpl implements BadgeDao {
           projects {
             id
             title
-            user {
-              firstName
-              lastName
-            }
           }
-          createdAt
         }
       }
       `,
@@ -87,14 +81,7 @@ export class BadgeDaoImpl implements BadgeDao {
         `
       mutation createBadge($input: CreateBadgeInput!) {
         createBadge(input: $input) {
-          id
-          badgeShape
-          alias
-          title
-          faIcon
-          weight
-          backgroundHex
-          iconHex
+          ${BADGE_INPUT_RETURN_QUERY}
         }
       }
       `,
@@ -113,7 +100,7 @@ export class BadgeDaoImpl implements BadgeDao {
     return this.api
       .query<ApiResponseRaw<{ deleteBadge: boolean }>, { id: string }>(
         `
-      mutation deleteBadge($id: UUID = "c4465b88-57da-4f70-b8be-3555de8fc81b") {
+      mutation deleteBadge($id: UUID!) {
         deleteBadge(id: $id)
       }
       `,
@@ -134,16 +121,7 @@ export class BadgeDaoImpl implements BadgeDao {
         `
       mutation editBadge($id: UUID!, $input: EditBadgeInput!) {
         editBadge(id: $id, input: $input) {
-          alias
-          badgeShape
-          faIcon
-          backgroundHex
-          iconHex
-          title
-          description
-          weight
-          createdAt
-          updatedAt
+          ${BADGE_INPUT_RETURN_QUERY}
         }
       }
       `,

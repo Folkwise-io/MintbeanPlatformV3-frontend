@@ -142,7 +142,7 @@ describe("ProjectService", () => {
     });
   });
 
-  describe("awardBadges()", () => {
+  describe("awardBadgesToProject()", () => {
     beforeEach(() => {
       testManager = TestManager.build();
     });
@@ -163,7 +163,7 @@ describe("ProjectService", () => {
           context.projectDao.mockReturn({ data: true });
         })
         .execute((context) => {
-          return context.projectService.awardBadges(existingProjectId, [existingBadgeId]);
+          return context.projectService.awardBadgesToProject(existingProjectId, [existingBadgeId]);
         });
     });
 
@@ -176,7 +176,7 @@ describe("ProjectService", () => {
             errors: [{ message: ERROR_MESSAGE, extensions: { code: "TEST" } }],
           });
         })
-        .execute((context) => context.projectService.awardBadges(existingProjectId, [existingBadgeId]));
+        .execute((context) => context.projectService.awardBadgesToProject(existingProjectId, [existingBadgeId]));
 
       const storeState = testManager.store.getState();
       expect(storeState.errors[0].message).toBe(ERROR_MESSAGE);

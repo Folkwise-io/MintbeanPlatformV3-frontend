@@ -84,9 +84,7 @@ const BadgeTemplate: FC<ConnectContextProps & StateMapping & RouteComponentProps
                 <div className="mb-flex-centered text-center flex-col sm:col-span-2 my-4 md:mx-4">
                   <h1 className="capitalize font-semibold">the {badge.title} badge</h1>
                   <h2>{badge.alias}</h2>
-                  {badge.description && <p>{badge.description}</p>}
-                  {!badge.description && <p>No description found.</p>}
-                  <p>Badge weight: {badge.weight}</p>
+                  <p>{badge.description || "No description found."}</p>
                 </div>
               </div>
               {isAdmin && (
