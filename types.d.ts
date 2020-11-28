@@ -57,6 +57,7 @@ interface ProjectForMeet {
   liveUrl: string;
   user: UserForProjectForMeet;
   mediaAssets: CloudinaryPublicIdMediaAsset[];
+  createdAt: string;
 }
 
 interface RegistrantsForMeet {

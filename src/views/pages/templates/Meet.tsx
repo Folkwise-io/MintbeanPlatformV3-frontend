@@ -22,6 +22,7 @@ import { CreateKanbanButton } from "../../components/Kanban/CreateKanbanButton";
 import { MbContext } from "../../../context/MbContext";
 import { Context } from "../../../context/contextBuilder";
 import KanbanController from "../../components/Kanban/KanbanController";
+import { CSVExport } from "../../components/CSVExport";
 
 const meetReg = new MeetRegistration();
 
@@ -121,12 +122,56 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     return (
       isAdmin &&
       meet && (
-        <div className="flex items-center py-2">
-          <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToMeets} className="mr-2" />
-          <AdminMeetEditModal buttonText="Edit" meet={meet} />
+        <div className="flex flex-col sm:flex-row items-center py-2">
+          <div className="my-2">
+            <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToMeets} className="mr-2" />
+            <AdminMeetEditModal buttonText="Edit" meet={meet} />
+          </div>{" "}
+          <div className="sm:ml-2 my-1">{renderProjectExport()}</div>
         </div>
       )
     );
+  };
+
+  // Meet status and register button logic
+  const renderUserMeetControls = () => {
+    if (meet?.registerLink && !meetHasEnded) {
+      const isRegistered = meetReg.isRegistered(meet.registrants, user);
+      if (!isLoggedIn) {
+        return (
+          <div>
+            <div className="flex whitespace-no-wrap mt-4 mb-2">
+              <Button disabled>Register</Button>
+            </div>
+            <div>
+              <span className="inline-block items-center md:text-left">
+                Join us to register!
+                <span className="flex flex-col xs:flex-row my-1">
+                  <LoginModal buttonText="Log in" className="whitespace-no-wrap" />
+                  <span className="flex mx-2 items-center">or</span>
+
+                  <RegisterModal buttonText="Sign up" className="whitespace-no-wrap" />
+                </span>{" "}
+              </span>
+            </div>
+          </div>
+        );
+      }
+      // is logged in and not yet registered
+      if (!isRegistered) {
+        return (
+          <Button onClick={updateRegistrantData} className="mt-2">
+            Register
+          </Button>
+        );
+      }
+      // is logged in and registered
+      return (
+        <div className="mt-4">
+          <MeetStatus user={user} meet={meet} />
+        </div>
+      );
+    }
   };
 
   const renderKanbanViewAdmin = () => {
@@ -183,6 +228,39 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     return null;
   };
 
+  const projectExportData = meet?.projects
+    ? meet.projects.map((p) => ({
+        meetTitle: meet.title,
+        meetStartTime: meet.startTime,
+        meetEndTime: meet.endTime,
+        projectTitle: p.title,
+        projectOwner: p.user.firstName + " " + p.user.lastName,
+        projectDemoUrl: p.liveUrl,
+        projectCodeUrl: p.sourceCodeUrl,
+        projectSubmittedAt: p.createdAt,
+      }))
+    : [];
+
+  const projectExportHeaders = [
+    { label: "Meet title", key: "meetTitle" },
+    { label: "Meet start", key: "meetStartTime" },
+    { label: "Meet end", key: "meetEndTime" },
+    { label: "Project title", key: "projectTitle" },
+    { label: "Project owner", key: "projectOwner" },
+    { label: "Demo url", key: "projectDemoUrl" },
+    { label: "Code url", key: "projectCodeUrl" },
+    { label: "Submitted at", key: "projectSubmittedAt" },
+  ];
+
+  const renderProjectExport = () =>
+    meet?.projects.length ? (
+      <CSVExport
+        filename={`${meet.title}_${meet.endTime}_project_data.csv`}
+        data={projectExportData}
+        headers={projectExportHeaders}
+      />
+    ) : null;
+
   return (
     <BgBlock type="blackStripeEvents">
       <BgBlock type="blackMeet">
@@ -212,34 +290,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
                   {dateInfo}
                 </p>
                 <p className="mt-2">{meet?.description}</p>
-                {meet?.registerLink &&
-                  !meetHasEnded &&
-                  (isLoggedIn && !meetReg.isRegistered(meet.registrants, user) ? (
-                    <Button onClick={updateRegistrantData} className="mt-2">
-                      Register
-                    </Button>
-                  ) : isLoggedIn && meetReg.isRegistered(meet.registrants, user) ? (
-                    <div className="mt-4">
-                      <MeetStatus user={user} meet={meet} />
-                    </div>
-                  ) : (
-                    <div>
-                      <div className="flex whitespace-no-wrap mt-4 mb-2">
-                        <Button disabled>Register</Button>
-                      </div>
-                      <div>
-                        <span className="inline-block items-center md:text-left">
-                          Join us to register!
-                          <span className="flex flex-col xs:flex-row my-1">
-                            <LoginModal buttonText="Log in" className="whitespace-no-wrap" />
-                            <span className="flex mx-2 items-center">or</span>
-
-                            <RegisterModal buttonText="Sign up" className="whitespace-no-wrap" />
-                          </span>{" "}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
+                {renderUserMeetControls()}
                 {renderAdminMeetControls()}
               </div>
             </section>

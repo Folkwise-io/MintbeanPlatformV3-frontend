@@ -74,6 +74,7 @@ export class MeetDaoImpl implements MeetDao {
                 mediaAssets {
                   cloudinaryPublicId
                 }
+                createdAt
               }
               registrants {
                 id
