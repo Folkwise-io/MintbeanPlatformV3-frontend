@@ -22,6 +22,7 @@ describe("MeetService", () => {
 
       await tm.execute((context) => {
         return context.meetService.fetchMeets().then((result) => {
+          if (!result) throw new Error("Expected result");
           expect(result.length).toBe(6);
         });
       });
@@ -31,6 +32,7 @@ describe("MeetService", () => {
 
       await tm.execute((context) => {
         return context.meetService.fetchMeets().then((result) => {
+          if (!result) throw new Error("Expected result");
           expect(result.length).toBe(0);
         });
       });

@@ -1,30 +1,25 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useContext, useRef, useState } from "react";
 import { DraggableProvided } from "react-beautiful-dnd";
-import { Modal } from "../";
-import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
-import { KanbanCardEditForm } from "../../../forms/KanbanCardEditForm";
+import { Modal } from "..";
+import { Context } from "../../../../../context/contextBuilder";
+import { MbContext } from "../../../../../context/MbContext";
+import { KanbanCanonCardEditForm } from "../../../forms/KanbanCanonCardEditForm";
 import { KanbanCardDetails } from "../../../Kanban/KanbanCardDetails";
 import { KanbanCardSummary } from "../../../Kanban/KanbanCardSummary";
 import { ModalActionContext, ModalActionDeclaration } from "../ModalActionButton";
 
 interface Props {
-  data: KanbanCard;
-  fetchKanban: () => Promise<void>;
+  data: KanbanCanonCard;
+  fetchKanbanCanon: () => Promise<void>;
   dndProvided: DraggableProvided;
   className?: string;
 }
 
-// Doubles for viewing and editing kanban cards
-const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
-  data,
-  context,
-  fetchKanban,
-  dndProvided,
-  className,
-}) => {
+// Doubles for viewing and editing kanbanCanon cards
+export const AdminKanbanCanonCardModal: FC<Props> = ({ data, fetchKanbanCanon, dndProvided, className }) => {
+  const context = useContext<Context>(MbContext);
   const formRef = useRef<HTMLFormElement | null>(null);
   const [mode, setMode] = useState<"edit" | "view">("view");
-
   const viewActionButtons: ModalActionDeclaration[] = [
     {
       buttonStyle: "secondary",
@@ -62,10 +57,10 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
       text: "Delete",
       type: "button",
       onClick: (_evt: React.SyntheticEvent, { closeModal }: ModalActionContext) => {
-        const confirmed = confirm("Are you sure you want to delete this kanban card?");
+        const confirmed = confirm("Are you sure you want to delete this kanban canon card?");
         if (confirmed) {
-          deleteKanbanCard()
-            .then(() => fetchKanban())
+          deleteKanbanCanonCard()
+            .then(() => fetchKanbanCanon())
             .then(() => closeModal());
         }
       },
@@ -77,26 +72,14 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
     ? viewActionButtons.forEach((ab) => actions.push(ab))
     : editActionButtons.forEach((ab) => actions.push(ab));
 
-  const editKanbanCard = async (input: EditKanbanCardInput) => {
-    if (context) {
-      await context.kanbanService
-        .editKanbanCard(data.id, input)
-        .then(() => {
-          fetchKanban();
-        })
-        .finally(() => setMode("view"));
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
-    }
+  const editKanbanCanonCard = async (input: EditKanbanCanonCardInput) => {
+    await context.kanbanCanonService.editKanbanCanonCard(data.id, input);
+    await fetchKanbanCanon();
+    setMode("view");
   };
-  const deleteKanbanCard = async () => {
-    if (context) {
-      await context.kanbanService.deleteKanbanCard(data.id).then(() => {
-        fetchKanban();
-      });
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
-    }
+  const deleteKanbanCanonCard = async () => {
+    await context.kanbanCanonService.deleteKanbanCanonCard(data.id);
+    fetchKanbanCanon();
   };
 
   /* Using accessible <div> of role button instead of actual <button> for trigger due to a problem with button not complying with drag and drop refs */
@@ -116,10 +99,9 @@ const AdminKanbanCardModal: FC<ConnectContextProps & Props> = ({
         {mode === "view" ? (
           <KanbanCardDetails data={data} />
         ) : (
-          <KanbanCardEditForm formRef={formRef} editKanbanCard={editKanbanCard} data={data} />
+          <KanbanCanonCardEditForm formRef={formRef} editKanbanCanonCard={editKanbanCanonCard} data={data} />
         )}
       </Modal>
     </>
   );
 };
-export default connectContext<ConnectContextProps & Props>(AdminKanbanCardModal);

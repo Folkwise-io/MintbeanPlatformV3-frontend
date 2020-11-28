@@ -9,22 +9,21 @@ import { H2 } from "../blocks/H2";
 import { Input } from "../blocks/Form/Input";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
-const createKanbanCardInputSchema = yup.object().shape({
-  title: yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
-  body: yup.string().min(3, "Too Short!").required("Required"),
+const editKanbanCanonInputSchema = yup.object().shape({
+  title: yup.string().min(2, "Too Short!").max(64, "Too Long!"),
+  body: yup.string().min(3, "Too Short!"),
 });
 
 interface Props {
-  data: KanbanCard;
-  editKanbanCard: (input: EditKanbanCardInput) => void;
-  formRef: React.RefObject<HTMLFormElement>;
+  data: KanbanCanonCard;
+  editKanbanCanonCard: (input: EditKanbanCanonCardInput) => void;
+  formRef: React.RefObject<HTMLFormElement> | null;
 }
 
-export const KanbanCardEditForm: FC<Props> = ({ data, editKanbanCard, formRef }) => {
+export const KanbanCanonCardEditForm: FC<Props> = ({ data, editKanbanCanonCard, formRef }) => {
   const { errors, register, handleSubmit, watch, setValue } = useForm({
-    resolver: yupResolver(createKanbanCardInputSchema),
+    resolver: yupResolver(editKanbanCanonInputSchema),
     defaultValues: {
-      kanbanId: data.kanbanId,
       title: data.title,
       body: data.body,
     },
@@ -37,16 +36,16 @@ export const KanbanCardEditForm: FC<Props> = ({ data, editKanbanCard, formRef })
   const body = watch("body");
 
   // RHF only calls onSubmit callback when form input passes validation
-  const onSubmit = (input: CreateKanbanCardInput) => {
-    editKanbanCard(input);
+  const onSubmit = (input: CreateKanbanCanonCardInput) => {
+    editKanbanCanonCard(input);
   };
 
   return (
     <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
       <H2>Create a new kanban card</H2>
 
-      {/* Infer kanbanId without prompting */}
-      <input type="hidden" name="kanbanId" ref={register} value={data.kanbanId} />
+      {/* Infer kanbanCanonId without prompting */}
+      <input type="hidden" name="kanbanCanonId" ref={register} value={data.kanbanCanonId} />
 
       <Input label="Title" name="title" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.title?.message} />

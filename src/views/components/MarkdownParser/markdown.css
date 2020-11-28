@@ -1,0 +1,159 @@
+.markdown p {
+  margin: 1em 0;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  font-weight: normal;
+  color: #111;
+  line-height: 1em;
+  margin: 1em 0;
+}
+
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  font-weight: bold;
+}
+
+.markdown h1 {
+  font-size: 1.6em;
+}
+
+.markdown h2 {
+  font-size: 1.4rem;
+}
+
+.markdown h3 {
+  font-size: 1.2rem;
+}
+
+.markdown h4 {
+  font-size: 1.1rem;
+}
+
+.markdown h5 {
+  font-size: 1rem;
+}
+
+.markdown h6 {
+  font-size: 0.9rem;
+}
+
+.markdown blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 2em;
+  border-left: 0.5rem #eee solid;
+}
+
+.markdown hr {
+  display: block;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+.markdown pre,
+.markdown code,
+.markdown kbd,
+.markdown samp {
+  color: #000;
+  font-family: monospace, monospace;
+  _font-family: "courier new", monospace;
+  font-size: 0.98em;
+}
+
+.markdown pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.markdown b,
+.markdown strong {
+  font-weight: bold;
+}
+
+.markdown dfn {
+  font-style: italic;
+}
+
+.markdown ins {
+  text-decoration: none;
+}
+
+.markdown mark {
+  background: #b2ffe4; /* mb-green-100 */
+}
+
+.markdown sub,
+.markdown sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.markdown sup {
+  top: -0.5em;
+}
+
+.markdown sub {
+  bottom: -0.25em;
+}
+
+.markdown ul,
+.markdown ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+.markdown ul li,
+.markdown ol li {
+  padding-left: 0.5em;
+}
+
+.markdown ol {
+  list-style-type: decimal;
+}
+.markdown ul {
+  list-style-type: disc;
+}
+
+.markdown li p:last-child {
+  margin: 0;
+  padding-left: 1em;
+}
+
+.markdown dd {
+  margin: 0 0 0 2em;
+}
+
+.markdown img {
+  max-width: 100%;
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+.markdown table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: solid #000 1px;
+}
+
+.markdown td {
+  vertical-align: top;
+}
+.markdown td,
+.markdown th {
+  border: solid #000 1px;
+  padding: 0.6em;
+}

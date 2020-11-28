@@ -1,7 +1,8 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
-import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
+import { Context } from "../../../../../context/contextBuilder";
+import { MbContext } from "../../../../../context/MbContext";
 import { Button } from "../../../blocks/Button";
 
 interface Props {
@@ -12,14 +13,8 @@ interface Props {
   isAdmin: boolean | undefined;
 }
 
-const ProjectDeleteModal: FC<ConnectContextProps & Props> = ({
-  context,
-  project,
-  className,
-  buttonText,
-  onDelete,
-  isAdmin,
-}) => {
+export const ProjectDeleteModal: FC<Props> = ({ project, className, buttonText, onDelete, isAdmin }) => {
+  const context = useContext<Context>(MbContext);
   const actions: ModalActionDeclaration[] = [
     {
       buttonStyle: "secondary",
@@ -40,12 +35,23 @@ const ProjectDeleteModal: FC<ConnectContextProps & Props> = ({
   ];
 
   const deleteProject = async (id: string) => {
-    if (context) {
-      context.projectService.deleteProject(id);
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
-    }
+    context.projectService.deleteProject(id);
   };
+
+  const renderDeleteConfirmation = () =>
+    isAdmin ? (
+      <p className="text-black">
+        Are you sure you want to delete {project.user.firstName}&apos;s project {'"'}
+        {project.title}
+        {'"'}?
+      </p>
+    ) : (
+      <p className="text-black">
+        Are you sure you want to delete your project {'"'}
+        {project.title}
+        {'"'}?
+      </p>
+    );
 
   return (
     <>
@@ -62,23 +68,8 @@ const ProjectDeleteModal: FC<ConnectContextProps & Props> = ({
           </Button>
         )}
       >
-        {" "}
-        {isAdmin ? (
-          <p className="text-black">
-            Are you sure you want to delete {project.user.firstName}&apos;s project {'"'}
-            {project.title}
-            {'"'}?
-          </p>
-        ) : (
-          <p className="text-black">
-            Are you sure you want to delete your project {'"'}
-            {project.title}
-            {'"'}?
-          </p>
-        )}
+        {renderDeleteConfirmation()}
       </Modal>
     </>
   );
 };
-
-export default connectContext<ConnectContextProps & Props>(ProjectDeleteModal);

@@ -34,8 +34,8 @@ const editMeetInputSchema = yup.object().shape({
 });
 
 interface Props {
-  editMeet: (values: EditMeetParams) => void;
-  formRef: React.RefObject<HTMLFormElement>;
+  editMeet: (values: EditMeetInput) => void;
+  formRef: React.RefObject<HTMLFormElement> | null;
   meet: Meet;
 }
 
@@ -75,7 +75,7 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
   const instructions = watch("instructions");
 
   // RHF only calls onSubmit callback when form input passes validation
-  const onSubmit = (data: CreateMeetParams) => {
+  const onSubmit = (data: CreateMeetInput) => {
     editMeet(data);
   };
 

@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { MeetStatus } from "./MeetStatus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
+
 import { wcToClientStr, isCurrent } from "../../../utils/DateUtility";
 
 type MeetProps = {
@@ -43,7 +45,11 @@ const NextMeetCard: FC<MeetProps> = ({ meet, user }) => {
           <section className="flex flex-col h-full w-full justify-between items-center">
             <div className="w-full py-2 px-4">
               <p className="mb-2">{descriptionStr}</p>
-              <p className="text-sm text-center">Starts {startTimeStr}</p>
+              <p className="font-semibold text-sm text-center text-mb-gray-200">
+                Starts
+                <FontAwesomeIcon icon={faClock} className="mx-1" />
+                <span className="font-normal">{startTimeStr}</span>
+              </p>
             </div>
             <p className="text-center font-medium text-white bg-mb-purple-100 w-full py-1 ">
               Find out more{" "}

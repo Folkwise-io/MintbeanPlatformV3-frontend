@@ -8,24 +8,24 @@ import { H2 } from "../blocks/H2";
 import { Input } from "../blocks/Form/Input";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
-const createKanbanInputSchema = yup.object().shape({
+const createKanbanCanonInputSchema = yup.object().shape({
   title: yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
   description: yup.string().min(3, "Too Short!").max(150, "Too Long!").required("Required"),
 });
 
 interface Props {
-  createKanban: (values: CreateKanbanInput) => void;
-  formRef: React.RefObject<HTMLFormElement>;
+  createKanbanCanon: (values: CreateKanbanCanonInput) => void;
+  formRef: React.RefObject<HTMLFormElement> | null;
 }
 
-export const KanbanCreateForm: FC<Props> = ({ createKanban, formRef }) => {
+export const KanbanCanonCreateForm: FC<Props> = ({ createKanbanCanon, formRef }) => {
   const { errors, register, handleSubmit } = useForm({
-    resolver: yupResolver(createKanbanInputSchema),
+    resolver: yupResolver(createKanbanCanonInputSchema),
   });
 
   // RHF only calls onSubmit callback when form input passes validation
-  const onSubmit = (data: CreateMeetParams) => {
-    createKanban(data);
+  const onSubmit = (data: CreateMeetInput) => {
+    createKanbanCanon(data);
   };
 
   return (

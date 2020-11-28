@@ -14,8 +14,8 @@ const loginSchema = yup.object().shape({
 });
 
 interface Props {
-  login: (values: LoginParams) => void;
-  formRef: React.RefObject<HTMLFormElement>;
+  login: (values: LoginArgs) => void;
+  formRef: React.RefObject<HTMLFormElement> | null;
 }
 
 export const LoginForm: FC<Props> = ({ login, formRef }) => {
@@ -24,7 +24,7 @@ export const LoginForm: FC<Props> = ({ login, formRef }) => {
   });
 
   // RHF only calls onSubmit callback when form input passes validation
-  const onSubmit = (data: RegisterParams) => login(data);
+  const onSubmit = (data: RegisterInput) => login(data);
 
   return (
     <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
