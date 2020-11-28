@@ -1,9 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
-import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
-import { Button } from "../../../Button";
 import { Badge } from "../../../../../types/badge";
+import { MbContext } from "../../../../../context/MbContext";
+import { Button } from "../../../blocks/Button";
+import { Context } from "../../../../../context/contextBuilder";
 
 interface Props {
   className?: string;
@@ -12,38 +13,29 @@ interface Props {
   onDelete: () => Promise<boolean | void>;
 }
 
-const AdminBadgeDeleteModal: FC<ConnectContextProps & Props> = ({
-  context,
-  badge,
-  className,
-  buttonText,
-  onDelete,
-}) => {
+export const AdminBadgeDeleteModal: FC<Props> = ({ badge, className, buttonText, onDelete }) => {
+  const context = useContext<Context>(MbContext);
   const actions: ModalActionDeclaration[] = [
     {
-      type: "secondary",
+      buttonStyle: "secondary",
       text: "Cancel",
       onClick: (_evt, { closeModal }) => {
         closeModal();
       },
     },
     {
-      type: "danger",
+      buttonStyle: "danger",
       text: "Delete",
       onClick: async (_evt, { closeModal }) => {
-        await deleteMeet(badge.id);
+        await deleteBadge(badge.id);
         await onDelete();
         closeModal();
       },
     },
   ];
 
-  const deleteMeet = async (id: string) => {
-    if (context) {
-      context.badgeService.deleteBadge(id);
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
-    }
+  const deleteBadge = async (id: string) => {
+    await context.badgeService.deleteBadge(id);
   };
 
   return (
@@ -51,7 +43,12 @@ const AdminBadgeDeleteModal: FC<ConnectContextProps & Props> = ({
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <Button type="danger" onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className || ""}>
+          <Button
+            buttonStyle="danger"
+            onClick={toggleModal}
+            forwardRef={(el) => setRef(el)}
+            className={className || ""}
+          >
             {buttonText}
           </Button>
         )}
@@ -65,5 +62,3 @@ const AdminBadgeDeleteModal: FC<ConnectContextProps & Props> = ({
     </>
   );
 };
-
-export default connectContext<ConnectContextProps & Props>(AdminBadgeDeleteModal);

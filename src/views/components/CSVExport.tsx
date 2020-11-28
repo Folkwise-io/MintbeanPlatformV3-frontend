@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { CSVLink } from "react-csv";
 import { LabelKeyObject } from "react-csv/components/CommonPropTypes";
-import { Button } from "./Button";
+import { Button } from "./blocks/Button";
 
 type Props = {
   data: { [key: string]: string | number | boolean }[];

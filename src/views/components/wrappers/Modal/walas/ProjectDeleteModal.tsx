@@ -1,8 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
-import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
-import { Button } from "../../../Button";
+import { Context } from "../../../../../context/contextBuilder";
+import { MbContext } from "../../../../../context/MbContext";
+import { Button } from "../../../blocks/Button";
 
 interface Props {
   className?: string;
@@ -12,24 +13,18 @@ interface Props {
   isAdmin: boolean | undefined;
 }
 
-const ProjectDeleteModal: FC<ConnectContextProps & Props> = ({
-  context,
-  project,
-  className,
-  buttonText,
-  onDelete,
-  isAdmin,
-}) => {
+export const ProjectDeleteModal: FC<Props> = ({ project, className, buttonText, onDelete, isAdmin }) => {
+  const context = useContext<Context>(MbContext);
   const actions: ModalActionDeclaration[] = [
     {
-      type: "secondary",
+      buttonStyle: "secondary",
       text: "Cancel",
       onClick: (_evt, { closeModal }) => {
         closeModal();
       },
     },
     {
-      type: "danger",
+      buttonStyle: "danger",
       text: "Delete",
       onClick: (_evt, { closeModal }) => {
         deleteProject(project.id)
@@ -40,40 +35,41 @@ const ProjectDeleteModal: FC<ConnectContextProps & Props> = ({
   ];
 
   const deleteProject = async (id: string) => {
-    if (context) {
-      context.projectService.deleteProject(id);
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
-    }
+    context.projectService.deleteProject(id);
   };
+
+  const renderDeleteConfirmation = () =>
+    isAdmin ? (
+      <p className="text-black">
+        Are you sure you want to delete {project.user.firstName}&apos;s project {'"'}
+        {project.title}
+        {'"'}?
+      </p>
+    ) : (
+      <p className="text-black">
+        Are you sure you want to delete your project {'"'}
+        {project.title}
+        {'"'}?
+      </p>
+    );
 
   return (
     <>
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <Button type="danger" onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className || ""}>
+          <Button
+            buttonStyle="danger"
+            onClick={toggleModal}
+            forwardRef={(el) => setRef(el)}
+            className={className || ""}
+          >
             {buttonText}
           </Button>
         )}
       >
-        {" "}
-        {isAdmin ? (
-          <p className="text-black">
-            Are you sure you want to delete {project.user.firstName}&apos;s project {'"'}
-            {project.title}
-            {'"'}?
-          </p>
-        ) : (
-          <p className="text-black">
-            Are you sure you want to delete your project {'"'}
-            {project.title}
-            {'"'}?
-          </p>
-        )}
+        {renderDeleteConfirmation()}
       </Modal>
     </>
   );
 };
-
-export default connectContext<ConnectContextProps & Props>(ProjectDeleteModal);

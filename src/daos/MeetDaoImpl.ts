@@ -1,7 +1,23 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { MeetDao } from "./MeetDao";
 import { handleServerError } from "../utils/handleServerError";
+import { KANBAN_CANON_RESPONSE_QUERY } from "./KanbanCanonDaoImpl";
+import { KANBAN_RESPONSE_QUERY } from "./KanbanDaoImpl";
 
+const MEET_RESPONSE_QUERY_BASIC = `
+  id
+  meetType
+  title
+  description
+  instructions
+  registerLink
+  registerLinkStatus
+  coverImageUrl
+  startTime
+  endTime
+  createdAt
+  region
+`;
 export class MeetDaoImpl implements MeetDao {
   constructor(private api: ApiQueryExecutor) {}
 
@@ -11,23 +27,13 @@ export class MeetDaoImpl implements MeetDao {
         `
           query meets {
             meets {
-              id
-              meetType
-              title
-              description
-              instructions
-              registerLink
-              registerLinkStatus
-              coverImageUrl
-              startTime
-              endTime
-              createdAt
-              region
+              ${MEET_RESPONSE_QUERY_BASIC}
+              kanbanCanonId
               registrants {
                 id
               }
+            }
           }
-        }
         `,
       )
       .then((result) => {
@@ -47,18 +53,7 @@ export class MeetDaoImpl implements MeetDao {
         `
           query meet($id: UUID!) {
             meet(id: $id) {
-              id
-              meetType
-              title
-              description
-              instructions
-              registerLink
-              registerLinkStatus
-              coverImageUrl
-              startTime
-              endTime
-              createdAt
-              region
+              ${MEET_RESPONSE_QUERY_BASIC}
               registrants {
                 id
                 firstName
@@ -88,6 +83,13 @@ export class MeetDaoImpl implements MeetDao {
                   weight
                 }
               }
+              kanbanCanonId
+              kanbanCanon {
+                ${KANBAN_CANON_RESPONSE_QUERY}
+              }
+              kanban {
+                ${KANBAN_RESPONSE_QUERY}
+              }
           }
         }
         `,
@@ -103,24 +105,20 @@ export class MeetDaoImpl implements MeetDao {
       .catch(handleServerError);
   }
 
-  createMeet(params: CreateMeetParams): Promise<Meet> {
+  createMeet(params: CreateMeetInput): Promise<Meet> {
     return this.api
-      .query<ApiResponseRaw<{ createMeet: Meet }>, { input: CreateMeetParams }>(
+      .query<ApiResponseRaw<{ createMeet: Meet }>, { input: CreateMeetInput }>(
         `
           mutation createMeet($input: CreateMeetInput!) {
             createMeet(input: $input) {
-              id
-              meetType
-              title
-              description
-              instructions
-              registerLink
-              registerLinkStatus
-              coverImageUrl
-              startTime
-              endTime
-              createdAt
-              region
+              ${MEET_RESPONSE_QUERY_BASIC}
+              kanbanCanonId
+              kanbanCanon {
+                ${KANBAN_CANON_RESPONSE_QUERY}
+              }
+              kanban {
+                ${KANBAN_RESPONSE_QUERY}
+              }
             }
           }
         `,
@@ -135,24 +133,20 @@ export class MeetDaoImpl implements MeetDao {
       })
       .catch(handleServerError);
   }
-  editMeet(id: string, params: EditMeetParams): Promise<Meet> {
+  editMeet(id: string, params: EditMeetInput): Promise<Meet> {
     return this.api
-      .query<ApiResponseRaw<{ editMeet: Meet }>, { id: string; input: EditMeetParams }>(
+      .query<ApiResponseRaw<{ editMeet: Meet }>, { id: string; input: EditMeetInput }>(
         `
           mutation editMeet($id: UUID!, $input: EditMeetInput!) {
             editMeet(id: $id, input: $input) {
-              id
-              meetType
-              title
-              description
-              instructions
-              registerLink
-              registerLinkStatus
-              coverImageUrl
-              startTime
-              endTime
-              createdAt
-              region
+              ${MEET_RESPONSE_QUERY_BASIC}
+              kanbanCanonId
+              kanbanCanon {
+                ${KANBAN_CANON_RESPONSE_QUERY}
+              }
+              kanban {
+                ${KANBAN_RESPONSE_QUERY}
+              }
             }
           }
         `,

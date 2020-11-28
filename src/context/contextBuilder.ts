@@ -4,7 +4,6 @@ import { UserService } from "../services/userService";
 
 import { AuthDao } from "../daos/AuthDao";
 import { AuthDaoImpl } from "../daos/AuthDaoImpl";
-import { AuthService } from "../services/authService";
 
 import { MeetDao } from "../daos/MeetDao";
 import { MeetDaoImpl } from "../daos/MeetDaoImpl";
@@ -18,8 +17,12 @@ import { ProjectDao } from "../daos/ProjectDao";
 import { ProjectDaoImpl } from "../daos/ProjectDaoImpl";
 import { ProjectService } from "../services/projectService";
 
+import { KanbanCanonDao } from "../daos/KanbanCanonDao";
+import { KanbanCanonDaoImpl } from "../daos/KanbanCanonDaoImpl";
+import { KanbanCanonService } from "../services/kanbanCanonService";
+
 import { KanbanDao } from "../daos/KanbanDao";
-import { KanbanDaoImplFake } from "../daos/KanbanDaoImplFake";
+import { KanbanDaoImpl } from "../daos/KanbanDaoImpl";
 import { KanbanService } from "../services/kanbanService";
 
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
@@ -32,12 +35,13 @@ export interface Context {
   meetDao: MeetDao;
   badgeDao: BadgeDao;
   projectDao: ProjectDao;
+  kanbanCanonDao: KanbanCanonDao;
   kanbanDao: KanbanDao;
   userService: UserService;
-  authService: AuthService;
   meetService: MeetService;
   badgeService: BadgeService;
   projectService: ProjectService;
+  kanbanCanonService: KanbanCanonService;
   kanbanService: KanbanService;
   loggerService: LoggerService;
 }
@@ -49,15 +53,14 @@ export const contextBuilder = (): Context => {
   const meetDao = new MeetDaoImpl(apiQueryExecutor);
   const badgeDao = new BadgeDaoImpl(apiQueryExecutor);
   const projectDao = new ProjectDaoImpl(apiQueryExecutor);
-  // TODO: reinstate real KanbanDaoImpl once hooked to backend. Remove KanbanDaoImplFake reference
-  // const kanbanDao = new KanbanDaoImpl(apiQueryExecutor);
-  const kanbanDao = new KanbanDaoImplFake();
+  const kanbanCanonDao = new KanbanCanonDaoImpl(apiQueryExecutor);
+  const kanbanDao = new KanbanDaoImpl(apiQueryExecutor);
   const userService = new UserService(userDao);
   const authDao = new AuthDaoImpl(apiQueryExecutor);
-  const authService = new AuthService(authDao);
   const meetService = new MeetService(meetDao, loggerService);
   const badgeService = new BadgeService(badgeDao, loggerService);
   const projectService = new ProjectService(projectDao, loggerService);
+  const kanbanCanonService = new KanbanCanonService(kanbanCanonDao, loggerService);
   const kanbanService = new KanbanService(kanbanDao, loggerService);
 
   return {
@@ -67,12 +70,13 @@ export const contextBuilder = (): Context => {
     meetDao,
     badgeDao,
     projectDao,
+    kanbanCanonDao,
     kanbanDao,
     userService,
-    authService,
     meetService,
     badgeService,
     projectService,
+    kanbanCanonService,
     kanbanService,
     loggerService,
   };

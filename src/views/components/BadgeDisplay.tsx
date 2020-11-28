@@ -9,7 +9,7 @@ interface Props {
   size?: "xs" | "sm" | "md" | "lg";
 }
 
-const BadgeDisplay: FC<Props> = ({ badge, size = "sm" }) => {
+export const BadgeDisplay: FC<Props> = ({ badge, size = "sm" }) => {
   const { badgeShape, faIcon, backgroundHex, iconHex, title } = badge;
   const iconLookup: IconLookup = { prefix: "fas", iconName: faIcon as IconName };
   const iconDefinition: IconDefinition = findIconDefinition(iconLookup);
@@ -54,5 +54,3 @@ const BadgeDisplay: FC<Props> = ({ badge, size = "sm" }) => {
     </>
   );
 };
-
-export default BadgeDisplay;

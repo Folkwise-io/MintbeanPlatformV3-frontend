@@ -4,7 +4,6 @@ import {
   Community,
   TermsOfService,
   PrivacyPolicy,
-  /* Hackathons,*/
   NotFound,
   Meets,
   Meet,
@@ -23,11 +22,6 @@ interface RouteConfig {
 }
 
 export const routes: RouteConfig[] = [
-  // Removing Hackathons page for now. Decide whether to delete component later.
-  // {
-  //   component: Hackathons,
-  //   path: "/hackathons",
-  // },
   {
     component: Meet,
     path: "/meets/:id",

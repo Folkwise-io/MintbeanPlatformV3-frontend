@@ -4,7 +4,7 @@ interface LookupInputProps {
   onChange: (e: ChangeEvent) => void;
 }
 
-const FAIconLookupInput: FC<LookupInputProps> = ({ onChange }) => {
+export const FAIconLookupInput: FC<LookupInputProps> = ({ onChange }) => {
   const searchIconsInput = useRef<HTMLInputElement | null>(null);
   return (
     <label htmlFor="searchIcons" className="w-full inline-block">
@@ -13,5 +13,3 @@ const FAIconLookupInput: FC<LookupInputProps> = ({ onChange }) => {
     </label>
   );
 };
-
-export default FAIconLookupInput;

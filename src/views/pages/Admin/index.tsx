@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { connect } from "react-redux";
-import { connectContext, ConnectContextProps } from "../../../context/connectContext";
 import AdminLayout from "./AdminLayout";
 
 interface StateMapping {
@@ -18,4 +17,4 @@ const Admin: FC<StateMapping> = ({ user }) => {
   );
 };
 
-export default connectContext<ConnectContextProps>(connect(stp)(Admin));
+export default connect(stp)(Admin);

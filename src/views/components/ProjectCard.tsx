@@ -2,15 +2,16 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { ImageDisplay } from "./ImageDisplay";
 import { ExternalLink } from "./ExternalLink";
-import { Button } from "./Button";
-import BadgeDisplay from "./BadgeDisplay";
-import AwardBadgesToProjectForm from "./forms/AwardBadgesToProjectForm";
+import { BadgeDisplay } from "./BadgeDisplay";
+import { AwardBadgesToProjectForm } from "./forms/AwardBadgesToProjectForm";
+import { Button } from "./blocks/Button";
+
 type ProjectCardProps = {
   project: ProjectForMeet;
   userState: User | undefined;
 };
 
-const ProjectCard: FC<ProjectCardProps> = ({ project, userState }) => {
+export const ProjectCard: FC<ProjectCardProps> = ({ project, userState }) => {
   const { id, title, sourceCodeUrl, mediaAssets, liveUrl, user, badges } = project;
 
   const sortedBadges = badges.sort((a, b) => a.weight - b.weight);
@@ -49,12 +50,12 @@ const ProjectCard: FC<ProjectCardProps> = ({ project, userState }) => {
 
           <section className="flex flex-wrap flex-grow justify-center items-center pt-4 px-4 w-full">
             <ExternalLink href={sourceCodeUrl}>
-              <Button type="secondary" className="m-2">
+              <Button buttonStyle="secondary" className="m-2">
                 Code
               </Button>
             </ExternalLink>
             <ExternalLink href={liveUrl}>
-              <Button type="primary" className="m-2">
+              <Button buttonStyle="primary" className="m-2">
                 Demo
               </Button>
             </ExternalLink>
@@ -65,5 +66,3 @@ const ProjectCard: FC<ProjectCardProps> = ({ project, userState }) => {
     </div>
   );
 };
-
-export default ProjectCard;

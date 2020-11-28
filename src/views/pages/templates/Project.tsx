@@ -1,14 +1,16 @@
-import React, { FC, useState, useEffect } from "react";
-import { ConnectContextProps, connectContext } from "../../../context/connectContext";
+import React, { FC, useState, useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/blocks/Button";
 import { ExternalLink } from "../../components/ExternalLink";
 import { ImageDisplay } from "../../components/ImageDisplay";
 import { ImageDisplayTray } from "../../components/ImageDisplayTray";
 import { BgBlock } from "../../components/BgBlock";
-import ProjectDeleteModal from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
-import BadgeDisplay from "../../components/BadgeDisplay";
+import { BadgeDisplay } from "../../components/BadgeDisplay";
+import { H1 } from "../../components/blocks/H1";
+import { ProjectDeleteModal } from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
+import { MbContext } from "../../../context/MbContext";
+import { Context } from "../../../context/contextBuilder";
 
 interface StateMapping {
   user: UserState;
@@ -27,11 +29,8 @@ const isOwner = (user: UserState, project: Project) => {
   return user.data.id === project.user.id;
 };
 
-const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({
-  context,
-  user,
-  match,
-}) => {
+const Project: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user, match }) => {
+  const context = useContext<Context>(MbContext);
   const {
     params: { id },
   } = match;
@@ -42,11 +41,6 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
 
   useEffect(() => {
     const fetchProjectData = async () => {
-      if (!context) {
-        console.error(new Error("No context passed to component, but was expected"));
-        alert("Blame the devs! Something terrible happened.");
-        return;
-      }
       setLoading(true);
       const fetchedProject = await context.projectService.fetchProject(id);
       if (fetchedProject) {
@@ -97,7 +91,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
             <section className="text-center">
               {/* Project info section */}
               <section>
-                <h1 className="font-semibold">{project.title}</h1>
+                <H1 className="font-semibold">{project.title}</H1>
                 <p className="break-words">
                   by {project.user.firstName} {project.user.lastName}
                 </p>
@@ -120,12 +114,12 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
                 )}
                 <section className="flex flex-wrap justify-center p-2 w-full">
                   <ExternalLink href={project.sourceCodeUrl}>
-                    <Button type="secondary" className="m-2">
+                    <Button buttonStyle="secondary" className="m-2">
                       Code
                     </Button>
                   </ExternalLink>
                   <ExternalLink href={project.liveUrl}>
-                    <Button type="primary" className="m-2">
+                    <Button buttonStyle="primary" className="m-2">
                       Demo
                     </Button>
                   </ExternalLink>
@@ -156,6 +150,4 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
   );
 };
 
-export default connectContext<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>>(
-  connect(stp)(Project),
-);
+export default connect(stp)(Project);

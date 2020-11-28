@@ -34,7 +34,7 @@ export class TestProjectDao implements ProjectDao {
     }
   }
 
-  async createProject(params: CreateProjectParams): Promise<Project> {
+  async createProject(params: CreateProjectInput): Promise<Project> {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (params && this.getSuccesses().length) {
       return (this.getSuccesses()[0].data as unknown) as Project;
