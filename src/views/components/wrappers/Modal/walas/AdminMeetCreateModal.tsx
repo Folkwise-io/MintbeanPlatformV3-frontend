@@ -19,9 +19,9 @@ export const AdminMeetCreateModal: FC<Props> = ({ className, buttonText, onCreat
 
   const actions: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Create Meet",
-      buttonType: "submit",
+      type: "submit",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild

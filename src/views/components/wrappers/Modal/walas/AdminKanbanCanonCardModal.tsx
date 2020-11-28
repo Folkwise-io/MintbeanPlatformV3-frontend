@@ -22,17 +22,17 @@ export const AdminKanbanCanonCardModal: FC<Props> = ({ data, fetchKanbanCanon, d
   const [mode, setMode] = useState<"edit" | "view">("view");
   const viewActionButtons: ModalActionDeclaration[] = [
     {
-      type: "secondary",
+      buttonStyle: "secondary",
       text: "Close",
-      buttonType: "button",
+      type: "button",
       onClick: (_evt: React.SyntheticEvent, { closeModal }: ModalActionContext) => {
         closeModal();
       },
     },
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Edit",
-      buttonType: "button",
+      type: "button",
       onClick: () => {
         setMode("edit");
       },
@@ -40,9 +40,9 @@ export const AdminKanbanCanonCardModal: FC<Props> = ({ data, fetchKanbanCanon, d
   ];
   const editActionButtons: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Save",
-      buttonType: "button",
+      type: "button",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
@@ -53,9 +53,9 @@ export const AdminKanbanCanonCardModal: FC<Props> = ({ data, fetchKanbanCanon, d
   ];
   const actions: ModalActionDeclaration[] = [
     {
-      type: "danger",
+      buttonStyle: "danger",
       text: "Delete",
-      buttonType: "button",
+      type: "button",
       onClick: (_evt: React.SyntheticEvent, { closeModal }: ModalActionContext) => {
         const confirmed = confirm("Are you sure you want to delete this kanban canon card?");
         if (confirmed) {

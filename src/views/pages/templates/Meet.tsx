@@ -2,7 +2,6 @@ import React, { FC, useState, useEffect, useCallback, useContext } from "react";
 import { isPast, wcToClientStr, getDurationInHours, getDurationStringFromHours } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
-import { Button } from "../../components/Button";
 import { AdminMeetDeleteModal } from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
 import { ProjectCard } from "../../components/ProjectCard";
 import { BgBlock } from "../../components/BgBlock";
@@ -18,11 +17,13 @@ import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { ExternalLink } from "../../components/ExternalLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { H1 } from "../../components/blocks/H1";
 import { CreateKanbanButton } from "../../components/Kanban/CreateKanbanButton";
 import { MbContext } from "../../../context/MbContext";
 import { Context } from "../../../context/contextBuilder";
 import KanbanController from "../../components/Kanban/KanbanController";
 import { CSVExport } from "../../components/CSVExport";
+import { Button } from "../../components/blocks/Button";
 
 const meetReg = new MeetRegistration();
 
@@ -277,13 +278,13 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
 
       <main className="w-5/6 min-w-12rem mx-auto py-16 rounded-mb-md overflow-hidden">
         <Link className="ml-12 mb-2 inline-block" to="/meets">
-          {"< "} Back to all meets
+          {"< "}Back to all meets
         </Link>
         <div className="overflow-hidden rounded-mb-md">
           <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-mb-gray-300 px-6 md:px-12 py-8">
             <section className="text-white row-span-9 md:row-span-1 md:col-span-2 md:place-self-start">
               <div className="block">
-                <h1 className="font-semibold">{meet?.title}</h1>
+                <H1 className="font-semibold">{meet?.title}</H1>
                 <p className="text-mb-gray-100 text-sm flex flex-wrap items-center">
                   Starts
                   <FontAwesomeIcon icon={faCalendarAlt} className="mx-2 text-xs" />

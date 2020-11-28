@@ -1,7 +1,7 @@
 import React, { FC, useContext } from "react";
 import { Context } from "../../../context/contextBuilder";
 import { MbContext } from "../../../context/MbContext";
-import { Button } from "../Button";
+import { Button } from "../blocks/Button";
 
 type Props = {
   userId: string;

@@ -5,6 +5,13 @@ import { useForm } from "react-hook-form";
 import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/CloudinaryUploadWidget";
 import moment from "moment";
 import { MarkdownEditor } from "../MarkdownEditor";
+import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
+import { Form } from "../blocks/Form";
+import { H2 } from "../blocks/H2";
+import { Select } from "../blocks/Form/Select";
+import { Input } from "../blocks/Form/Input";
+import { TextArea } from "../blocks/Form/TextArea";
+import { meetTypeOptions, regionOptions } from "./constants";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 // this is same as createMeetInputSchema.... consolidate
@@ -98,55 +105,45 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
     </div>
   );
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="text-black font-normal">
-      <h3 className="font-semibold">Edit this meet</h3>
+    <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+      <H2>Edit this meet</H2>
 
-      <label htmlFor="meetType">Meet type</label>
-      <select name="meetType" ref={register} className="mb-2">
-        <option value="hackMeet">Hackathon</option>
-      </select>
-      <p className="text-red-500">{errors.meetType?.message}</p>
+      <Select label="Meet type" name="meetType" ref={register} options={meetTypeOptions} />
+      <FormValidationErrorMsg errorMessage={errors.meetType?.message} />
 
-      <label htmlFor="title">Title</label>
-      <input type="text" name="title" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.title?.message}</p>
+      <Input label="Title" name="title" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.title?.message} />
 
-      <label htmlFor="description">Description</label>
-      <textarea name="description" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.description?.message}</p>
+      <TextArea label="Description" name="description" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.description?.message} />
 
+      {/* TODO: Is it wise to refactor these three lines to separate compoment? Has react-hook-form dependencies so thought I'd leave it where it's easy to see what's going on*/}
       <label htmlFor="instructions">Instructions</label>
       <MarkdownEditor value={instructions} onBeforeChange={(value) => setValue("instructions", value)} />
-      <p className="text-red-500">{errors.instructions?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.instructions?.message} />
 
-      <label htmlFor="registerLink">Zoom link</label>
-      <input type="url" name="registerLink" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.registerLink?.message}</p>
+      <Input type="url" label="Zoom link" name="registerLink" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.registerLink?.message} />
 
       {/* Hidden field for coverImageUrl, value populated by widget */}
       <label htmlFor="coverImageUrl">Cover image</label>
       <input type="hidden" name="coverImageUrl" ref={register} className="mb-2" value={imageUrl} />
-      <p className="text-red-500">{errors.coverImageUrl?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.coverImageUrl?.message} />
       {/* Thumbnail preview */}
       {imageUrl && thumbnailPreview}
       <CloudinaryUploadWidget exposeImageData={grabImageData} />
 
-      <label htmlFor="startTime">Start time</label>
-      <input type="datetime-local" name="startTime" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.startTime?.message}</p>
+      <Input label="Start time" type="datetime-local" name="startTime" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.startTime?.message} />
 
-      <label htmlFor="endTime">End time</label>
-      <input type="datetime-local" name="endTime" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.endTime?.message}</p>
+      <Input label="End time" type="datetime-local" name="endTime" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.endTime?.message} />
 
-      <label htmlFor="region">Meet region</label>
-      <select name="region" ref={register}>
-        <option value="America/Toronto">Toronto</option>
-      </select>
-      <p className="text-red-500">{errors.region?.message}</p>
+      <Select label="Meet region" name="region" ref={register} options={regionOptions} />
+      <FormValidationErrorMsg errorMessage={errors.region?.message} />
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />
-    </form>
+    </Form>
   );
 };

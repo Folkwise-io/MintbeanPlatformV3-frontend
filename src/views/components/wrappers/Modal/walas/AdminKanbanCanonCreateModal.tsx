@@ -1,10 +1,10 @@
 import React, { FC, useContext, useRef, useState } from "react";
-import { Modal } from "..";
+import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { KanbanCanonCreateForm } from "../../../forms/KanbanCanonCreateForm";
-import { Button } from "../../../Button";
 import { MbContext } from "../../../../../context/MbContext";
 import { Context } from "../../../../../context/contextBuilder";
+import { Button } from "../../../blocks/Button";
 
 interface Props {
   className?: string;
@@ -20,9 +20,9 @@ export const AdminKanbanCanonCreateModal: FC<Props> = ({ onCreate, meetId, class
 
   const actions: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Create Kanban Canon",
-      buttonType: "submit",
+      type: "submit",
       onClick: (_evt, { closeModal }) => {
         if (formRef.current) {
           // hacky way of exposing closeModal functionality externally
@@ -58,7 +58,12 @@ export const AdminKanbanCanonCreateModal: FC<Props> = ({ onCreate, meetId, class
         actions={actions}
         isDetached
         triggerBuilder={(toggleModal, setRef) => (
-          <Button onClick={toggleModal} type="primaryAdmin" forwardRef={(el) => setRef(el)} className={className || ""}>
+          <Button
+            onClick={toggleModal}
+            buttonStyle="primaryAdmin"
+            forwardRef={(el) => setRef(el)}
+            className={className || ""}
+          >
             {buttonText}
           </Button>
         )}

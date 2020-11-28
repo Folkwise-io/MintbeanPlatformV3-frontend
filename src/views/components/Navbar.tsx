@@ -1,9 +1,8 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logos/logo-black.svg";
-import ToastsContainer from "./ToastsContainer";
+import ToastsContainer from "./Toasts/ToastsContainer";
 import { debounce } from "../../utils/debounce";
-import TinyFabNav from "./TinyFabNav/index";
 
 const Navbar: FC = () => {
   const navRef = useRef<HTMLDivElement>(null);
@@ -52,7 +51,6 @@ const Navbar: FC = () => {
         </div>
       </nav>
       <ToastsContainer stickyOffset={currentNavHeight} />
-      <TinyFabNav />
     </>
   );
 };

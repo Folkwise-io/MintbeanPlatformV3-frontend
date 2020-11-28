@@ -1,9 +1,9 @@
 import React, { FC, useContext } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
-import { Button } from "../../../Button";
 import { MbContext } from "../../../../../context/MbContext";
 import { Context } from "../../../../../context/contextBuilder";
+import { Button } from "../../../blocks/Button";
 
 interface Props {
   className?: string;
@@ -16,14 +16,14 @@ export const AdminMeetDeleteModal: FC<Props> = ({ meet, className, buttonText, o
   const context = useContext<Context>(MbContext);
   const actions: ModalActionDeclaration[] = [
     {
-      type: "secondary",
+      buttonStyle: "secondary",
       text: "Cancel",
       onClick: (_evt, { closeModal }) => {
         closeModal();
       },
     },
     {
-      type: "danger",
+      buttonStyle: "danger",
       text: "Delete",
       onClick: async (_evt, { closeModal }) => {
         try {
@@ -46,7 +46,12 @@ export const AdminMeetDeleteModal: FC<Props> = ({ meet, className, buttonText, o
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <Button type="danger" onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className || ""}>
+          <Button
+            buttonStyle="danger"
+            onClick={toggleModal}
+            forwardRef={(el) => setRef(el)}
+            className={className || ""}
+          >
             {buttonText}
           </Button>
         )}

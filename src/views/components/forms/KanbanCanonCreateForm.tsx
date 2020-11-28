@@ -2,6 +2,10 @@ import React, { FC } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
+import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
+import { Form } from "../blocks/Form";
+import { H2 } from "../blocks/H2";
+import { Input } from "../blocks/Form/Input";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createKanbanCanonInputSchema = yup.object().shape({
@@ -25,19 +29,17 @@ export const KanbanCanonCreateForm: FC<Props> = ({ createKanbanCanon, formRef })
   };
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Create a new kanban canon</h1>
+    <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+      <H2>Create a new kanban</H2>
 
-      <label htmlFor="title">Title</label>
-      <input type="text" name="title" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.title?.message}</p>
+      <Input label="Title" name="title" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.title?.message} />
 
-      <label htmlFor="description">Description</label>
-      <textarea name="description" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.description?.message}</p>
+      <Input label="Description" name="description" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.description?.message} />
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />
-    </form>
+    </Form>
   );
 };

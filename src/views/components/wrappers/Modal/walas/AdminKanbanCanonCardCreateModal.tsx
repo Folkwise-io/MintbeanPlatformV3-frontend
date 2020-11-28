@@ -17,9 +17,9 @@ export const AdminKanbanCanonCardCreateModal: FC<Props> = ({ kanbanCanonId, fetc
   const formRef = useRef<HTMLFormElement>(null);
   const actions: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Add",
-      buttonType: "button",
+      type: "button",
       onClick: () => {
         if (formRef.current) {
           // Programatically submit form in grandchild

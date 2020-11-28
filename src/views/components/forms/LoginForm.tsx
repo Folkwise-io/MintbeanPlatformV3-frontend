@@ -2,6 +2,10 @@ import React, { FC } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
+import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
+import { Form } from "../blocks/Form";
+import { H2 } from "../blocks/H2";
+import { Input } from "../blocks/Form/Input";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const loginSchema = yup.object().shape({
@@ -23,19 +27,17 @@ export const LoginForm: FC<Props> = ({ login, formRef }) => {
   const onSubmit = (data: RegisterInput) => login(data);
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Login</h1>
+    <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+      <H2>Login</H2>
 
-      <label htmlFor="email">Email</label>
-      <input type="email" name="email" ref={register} />
-      <p className="text-red-500">{errors.email?.message}</p>
+      <Input type="email" label="Email" name="email" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.email?.message} />
 
-      <label htmlFor="password">Password</label>
-      <input type="password" name="password" ref={register} />
-      <p className="text-red-500">{errors.password?.message}</p>
+      <Input type="password" label="Password" name="password" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.password?.message} />
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />
-    </form>
+    </Form>
   );
 };

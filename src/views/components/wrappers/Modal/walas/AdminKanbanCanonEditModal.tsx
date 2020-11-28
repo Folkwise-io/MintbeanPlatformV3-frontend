@@ -1,10 +1,10 @@
 import React, { FC, useContext, useRef, useState } from "react";
 import { Modal } from "..";
 import { ModalActionDeclaration } from "../ModalActionButton";
-import { Button } from "../../../Button";
 import { KanbanCanonEditForm } from "../../../forms/KanbanCanonEditForm";
 import { MbContext } from "../../../../../context/MbContext";
 import { Context } from "../../../../../context/contextBuilder";
+import { Button } from "../../../blocks/Button";
 
 interface Props {
   className?: string;
@@ -20,9 +20,9 @@ export const AdminKanbanCanonEditModal: FC<Props> = ({ className, buttonText, ka
 
   const actions: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Save",
-      buttonType: "submit",
+      type: "submit",
       onClick: () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
@@ -50,7 +50,12 @@ export const AdminKanbanCanonEditModal: FC<Props> = ({ className, buttonText, ka
         isDetached
         triggerCloseFromParent={close}
         triggerBuilder={(toggleModal, setRef) => (
-          <Button type="secondary" onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className || ""}>
+          <Button
+            buttonStyle="secondary"
+            onClick={toggleModal}
+            forwardRef={(el) => setRef(el)}
+            className={className || ""}
+          >
             {buttonText}
           </Button>
         )}

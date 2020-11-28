@@ -7,13 +7,13 @@ import { ThunkDispatch } from "redux-thunk";
 import { Context } from "../../../../../context/contextBuilder";
 import { MbAction } from "../../../../state/actions/MbAction";
 import { connect } from "react-redux";
-import { Button } from "../../../Button";
+import { Button } from "../../../blocks/Button";
 import { Placement } from "@popperjs/core";
 
 interface Props {
   className?: string;
   buttonText: string | JSX.Element;
-  type?: "secondary" | "override";
+  buttonStyle?: "secondary" | "override";
   placement?: Placement;
   hasRelativeParent?: boolean;
 }
@@ -30,7 +30,7 @@ const LoginModal: FC<Props & DispatchMapping> = ({
   login,
   className,
   buttonText,
-  type = "secondary",
+  buttonStyle = "secondary",
   placement = "bottom",
   hasRelativeParent = false,
 }) => {
@@ -38,9 +38,9 @@ const LoginModal: FC<Props & DispatchMapping> = ({
 
   const actions: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Login",
-      buttonType: "submit",
+      type: "submit",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
@@ -55,7 +55,7 @@ const LoginModal: FC<Props & DispatchMapping> = ({
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <Button onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className} type={type}>
+          <Button onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className} buttonStyle={buttonStyle}>
             {buttonText}
           </Button>
         )}

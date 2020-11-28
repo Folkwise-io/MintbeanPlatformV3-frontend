@@ -2,7 +2,7 @@ import React, { FC, useContext, useRef } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
 import { ProjectCreateForm } from "../../../forms/ProjectCreateForm";
-import { Button } from "../../../Button";
+import { Button } from "../../../blocks/Button";
 import { useHistory } from "react-router-dom";
 import { MbContext } from "../../../../../context/MbContext";
 import { Context } from "../../../../../context/contextBuilder";
@@ -20,9 +20,9 @@ export const ProjectCreateModal: FC<Props> = ({ buttonText, meetId, user }) => {
 
   const actions: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Submit project",
-      buttonType: "submit",
+      type: "submit",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
@@ -32,16 +32,11 @@ export const ProjectCreateModal: FC<Props> = ({ buttonText, meetId, user }) => {
     },
   ];
 
-  const createProject = async (params: CreateProjectInput) => {
-    let projectId: string;
-    await context.projectService
-      .createProject(params)
-      .then((proj) => {
-        if (proj) {
-          projectId = proj.id;
-        }
-      })
-      .then(() => history.push(`/projects/${projectId}`));
+  const createProject = async (input: CreateProjectInput) => {
+    const project = await context.projectService.createProject(input);
+    if (project) {
+      history.push(`/projects/${project.id}`);
+    }
   };
 
   return (
