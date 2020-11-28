@@ -2,24 +2,48 @@ import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { KanbanDao } from "./KanbanDao";
 import { handleServerError } from "../utils/handleServerError";
 
+// note: currently same query as in KanbanCanonDao's card query, but purposefully decoupled for future-proofing
+const KANBAN_CARD_RESPONSE_QUERY = `
+  id
+  kanbanCanonId
+  title 
+  body
+`;
+
+export const KANBAN_RESPONSE_QUERY = `
+    id
+    title
+    description
+    kanbanCanonId
+    userId
+    meetId
+    kanbanCards {
+      ${KANBAN_CARD_RESPONSE_QUERY}
+    }
+    cardPositions {
+      todo
+      wip
+      done
+    }
+  `;
+
 export class KanbanDaoImpl implements KanbanDao {
   constructor(private api: ApiQueryExecutor) {}
 
   // Kanban ----------------------------------
-  // Not connected to backend yet
-  fetchKanban(id: string): Promise<Kanban> {
+  // Currently only supports lookup by ID in frontend since we get resolved kanbanId from meet.
+  // Backend also allows a composite lookup of kanbanCanonId + userId + (meetId?)
+  fetchKanban(args: FetchKanbanArgs): Promise<Kanban> {
     return this.api
-      .query<ApiResponseRaw<{ kanban: Kanban }>, { id: string }>(
+      .query<ApiResponseRaw<{ kanban: Kanban }>, FetchKanbanArgs>(
         `
-            query fetchKanban($id: String!) {
+            query fetchKanban($id: UUID!) {
               kanban(id: $id) {
-                id
-                title 
-                description
+                ${KANBAN_RESPONSE_QUERY}
               }
             }
           `,
-        { id },
+        { ...args },
       )
       .then((result) => {
         if (result.errors) throw result.errors;
@@ -30,16 +54,14 @@ export class KanbanDaoImpl implements KanbanDao {
       })
       .catch(handleServerError);
   }
-  // Not connected to backend yet
+
   createKanban(input: CreateKanbanInput): Promise<Kanban> {
     return this.api
       .query<ApiResponseRaw<{ createKanban: Kanban }>, { input: CreateKanbanInput }>(
         `
             mutation createKanban($input: CreateKanbanInput!) {
               createKanban(input: $input) {
-                id
-                title 
-                description
+                ${KANBAN_RESPONSE_QUERY}
               }
             }
           `,
@@ -54,152 +76,36 @@ export class KanbanDaoImpl implements KanbanDao {
       })
       .catch(handleServerError);
   }
-  // Not connected to backend yet
-  editKanban(id: string, input: EditKanbanInput): Promise<Kanban> {
+
+  updateCardPositions(id: string, input: UpdateCardPositionInput): Promise<KanbanCardPositions> {
     return this.api
-      .query<ApiResponseRaw<{ editKanban: Kanban }>, { id: string; input: EditKanbanInput }>(
+      .query<
+        ApiResponseRaw<{ updateKanbanCardPositions: KanbanCardPositions }>,
+        { id: string; input: UpdateCardPositionInput }
+      >(
         `
-            mutation editKanban($input: EditKanbanCardInput!) {
-              editKanban(input: $input) {
-                id
-                title 
-                description
-              }
+          mutation updateKanbanCardPositions($id: UUID!, $input: UpdateCardPositionInput!) {
+            updateKanbanCardPositions(id: $id, input: $input) {
+              todo
+              wip
+              done
             }
+          }
           `,
         { id, input },
       )
       .then((result) => {
         if (result.errors) throw result.errors;
-        if (!result.errors && !result.data.editKanban) {
-          throw [{ message: "Failed to update Kanban", extensions: { code: "UNEXPECTED" } }];
-        }
-        return result.data.editKanban;
-      })
-      .catch(handleServerError);
-  }
-  // Not connected to backend yet
-  deleteKanban(id: string): Promise<boolean> {
-    return this.api
-      .query<ApiResponseRaw<{ deleteKanban: boolean }>, { id: string }>(
-        `
-            mutation deleteKanban($id: UUID!) {
-              deleteKanban(id: $id)
-            }
-          `,
-        { id },
-      )
-      .then((result) => {
-        if (result.errors) throw result.errors;
-        if (!result.errors && !result.data.deleteKanban) {
+        if (!result.errors && !result.data.updateKanbanCardPositions) {
           throw [
             {
-              message: "Something went wrong when deleting the Kanban.",
+              message:
+                "Something went wrong when updating card positions for this Kanban. Your changes may not persist after refreshing the page",
               extensions: { code: "UNEXPECTED" },
             },
           ];
         }
-        return result.data.deleteKanban;
-      })
-      .catch(handleServerError);
-  }
-  // KanbanCard ----------------------------------
-  // Not connected to backend yet
-  fetchKanbanCard(id: string): Promise<KanbanCard> {
-    return this.api
-      .query<ApiResponseRaw<{ kanbanCard: KanbanCard }>, { id: string }>(
-        `
-            query fetchKanbanCard($id: String!) {
-              kanbanCard(id: $id) {
-                id
-                title 
-                body
-              }
-            }
-          `,
-        { id },
-      )
-      .then((result) => {
-        if (result.errors) throw result.errors;
-        if (!result.errors && !result.data.kanbanCard) {
-          throw [{ message: "Failed to fetch Kanban Card", extensions: { code: "UNEXPECTED" } }];
-        }
-        return result.data.kanbanCard;
-      })
-      .catch(handleServerError);
-  }
-  // Not connected to backend yet
-  createKanbanCard(input: CreateKanbanCardInput): Promise<KanbanCard> {
-    return this.api
-      .query<ApiResponseRaw<{ createKanbanCard: KanbanCard }>, { input: CreateKanbanCardInput }>(
-        `
-            mutation createKanbanCard($input: CreateKanbanCardInput!) {
-              createKanbanCard(input: $input) {
-                id
-                title 
-                body
-                index
-              }
-            }
-          `,
-        { input },
-      )
-      .then((result) => {
-        if (result.errors) throw result.errors;
-        if (!result.errors && !result.data.createKanbanCard) {
-          throw [{ message: "Failed to fetch Kanban Card", extensions: { code: "UNEXPECTED" } }];
-        }
-        return result.data.createKanbanCard;
-      })
-      .catch(handleServerError);
-  }
-  // Not connected to backend yet
-  editKanbanCard(id: string, input: EditKanbanCardInput): Promise<KanbanCard> {
-    return this.api
-      .query<ApiResponseRaw<{ editKanbanCard: KanbanCard }>, { id: string; input: EditKanbanCardInput }>(
-        `
-            mutation editKanbanCard($input: EditKanbanCardInput!) {
-              editKanbanCard(input: $input) {
-                id
-                title 
-                body
-                index
-              }
-            }
-          `,
-        { id, input },
-      )
-      .then((result) => {
-        if (result.errors) throw result.errors;
-        if (!result.errors && !result.data.editKanbanCard) {
-          throw [{ message: "Failed to fetch Kanban Card", extensions: { code: "UNEXPECTED" } }];
-        }
-        return result.data.editKanbanCard;
-      })
-      .catch(handleServerError);
-  }
-  // Not connected to backend yet
-  deleteKanbanCard(id: string): Promise<boolean> {
-    return this.api
-      .query<ApiResponseRaw<{ deleteKanbanCard: boolean }>, { id: string }>(
-        `
-            mutation deleteKanbanCard($id: UUID!) {
-              deleteKanbanCard(id: $id)
-            }
-          `,
-        { id },
-      )
-      .then((result) => {
-        if (result.errors) throw result.errors;
-        if (!result.errors && !result.data.deleteKanbanCard) {
-          throw [
-            {
-              message: "Something went wrong when deleting the Kanban Card.",
-              extensions: { code: "UNEXPECTED" },
-            },
-          ];
-        }
-        return result.data.deleteKanbanCard;
+        return result.data.updateKanbanCardPositions;
       })
       .catch(handleServerError);
   }

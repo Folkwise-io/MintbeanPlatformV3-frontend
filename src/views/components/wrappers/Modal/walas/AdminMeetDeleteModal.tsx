@@ -1,8 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
-import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { Button } from "../../../Button";
+import { MbContext } from "../../../../../context/MbContext";
+import { Context } from "../../../../../context/contextBuilder";
 
 interface Props {
   className?: string;
@@ -11,7 +12,8 @@ interface Props {
   onDelete: () => Promise<boolean | void>;
 }
 
-const AdminMeetDeleteModal: FC<ConnectContextProps & Props> = ({ context, meet, className, buttonText, onDelete }) => {
+export const AdminMeetDeleteModal: FC<Props> = ({ meet, className, buttonText, onDelete }) => {
+  const context = useContext<Context>(MbContext);
   const actions: ModalActionDeclaration[] = [
     {
       type: "secondary",
@@ -23,20 +25,20 @@ const AdminMeetDeleteModal: FC<ConnectContextProps & Props> = ({ context, meet, 
     {
       type: "danger",
       text: "Delete",
-      onClick: (_evt, { closeModal }) => {
-        deleteMeet(meet.id)
-          .then(() => onDelete())
-          .then(() => closeModal());
+      onClick: async (_evt, { closeModal }) => {
+        try {
+          await deleteMeet(meet.id);
+          await onDelete();
+          closeModal();
+        } catch (e) {
+          console.log(e);
+        }
       },
     },
   ];
 
   const deleteMeet = async (id: string) => {
-    if (context) {
-      context.meetService.deleteMeet(id);
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
-    }
+    context.meetService.deleteMeet(id);
   };
 
   return (
@@ -58,5 +60,3 @@ const AdminMeetDeleteModal: FC<ConnectContextProps & Props> = ({ context, meet, 
     </>
   );
 };
-
-export default connectContext<ConnectContextProps & Props>(AdminMeetDeleteModal);

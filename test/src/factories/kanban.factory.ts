@@ -1,25 +1,24 @@
 import faker from "faker";
 import { factory } from "./factory";
 
+export const kanbanCanonFactory = factory<KanbanCanon>({
+  id: () => faker.random.uuid(),
+  title: () => faker.company.bs(),
+  description: () => faker.lorem.sentence(),
+  kanbanCanonCards: () => kanbanCanonCardFactory.bulk(3),
+});
+
+export const kanbanCanonCardFactory = factory<KanbanCanonCard>({
+  id: () => faker.random.uuid(),
+  title: () => faker.company.bs(),
+  body: () => faker.lorem.sentence(),
+  kanbanCanonId: () => faker.random.uuid(),
+});
+
 export const kanbanFactory = factory<Kanban>({
   id: () => faker.random.uuid(),
   title: () => faker.company.bs(),
   description: () => faker.lorem.sentence(),
-  kanbanCards: () => kanbanCardFactory.bulk(3),
-});
-
-export const kanbanCardFactory = factory<KanbanCard>({
-  id: () => faker.random.uuid(),
-  title: () => faker.company.bs(),
-  body: () => faker.lorem.sentence(),
-  kanbanId: () => faker.random.uuid(),
-});
-
-export const kanbanSessionFactory = factory<KanbanSession>({
-  id: () => faker.random.uuid(),
-  title: () => faker.company.bs(),
-  description: () => faker.lorem.sentence(),
-  todoCards: () => kanbanCardFactory.bulk(3),
-  wipCards: [],
-  doneCards: [],
+  kanbanCards: [],
+  cardPositions: { todo: [], wip: [], done: [] },
 });

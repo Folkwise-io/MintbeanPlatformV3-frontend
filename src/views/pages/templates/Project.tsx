@@ -1,14 +1,14 @@
-import React, { FC, useState, useEffect } from "react";
-import { ConnectContextProps, connectContext } from "../../../context/connectContext";
+import React, { FC, useState, useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { ExternalLink } from "../../components/ExternalLink";
-// import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
 import { ImageDisplay } from "../../components/ImageDisplay";
 import { ImageDisplayTray } from "../../components/ImageDisplayTray";
 import { BgBlock } from "../../components/BgBlock";
-import ProjectDeleteModal from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
+import { ProjectDeleteModal } from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
+import { MbContext } from "../../../context/MbContext";
+import { Context } from "../../../context/contextBuilder";
 
 interface StateMapping {
   user: UserState;
@@ -27,11 +27,8 @@ const isOwner = (user: UserState, project: Project) => {
   return user.data.id === project.user.id;
 };
 
-const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({
-  context,
-  user,
-  match,
-}) => {
+const Project: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user, match }) => {
+  const context = useContext<Context>(MbContext);
   const {
     params: { id },
   } = match;
@@ -42,11 +39,6 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
 
   useEffect(() => {
     const fetchProjectData = async () => {
-      if (!context) {
-        console.error(new Error("No context passed to component, but was expected"));
-        alert("Blame the devs! Something terrible happened.");
-        return;
-      }
       setLoading(true);
       const fetchedProject = await context.projectService.fetchProject(id);
       if (fetchedProject) {
@@ -142,6 +134,4 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
   );
 };
 
-export default connectContext<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>>(
-  connect(stp)(Project),
-);
+export default connect(stp)(Project);

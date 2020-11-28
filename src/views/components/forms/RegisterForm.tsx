@@ -16,7 +16,7 @@ const registerSchema = yup.object().shape({
 });
 
 type Props = {
-  registerUser: (values: RegisterParams) => void;
+  registerUser: (values: RegisterInput) => void;
   formRef: React.RefObject<HTMLFormElement> | null;
 };
 
@@ -26,7 +26,7 @@ export const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
   });
 
   // RHF only calls onSubmit callback when form input passes validation
-  const onSubmit = (data: RegisterParams) => registerUser(data);
+  const onSubmit = (data: RegisterInput) => registerUser(data);
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>

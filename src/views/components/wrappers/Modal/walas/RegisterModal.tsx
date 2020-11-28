@@ -19,11 +19,11 @@ interface Props {
 }
 
 type DispatchMapping = {
-  register: (values: RegisterParams) => void;
+  register: (values: RegisterInput) => void;
 };
 
 const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
-  register: (values: RegisterParams) => dispatch(register(values)),
+  register: (values: RegisterInput) => dispatch(register(values)),
 });
 
 const RegisterModal: FC<Props & DispatchMapping> = ({
@@ -61,7 +61,7 @@ const RegisterModal: FC<Props & DispatchMapping> = ({
         placement={placement}
         hasRelativeParent={hasRelativeParent}
       >
-        <RegisterForm formRef={formRef} registerUser={(values: RegisterParams) => register(values)} />
+        <RegisterForm formRef={formRef} registerUser={(values: RegisterInput) => register(values)} />
       </Modal>
     </>
   );

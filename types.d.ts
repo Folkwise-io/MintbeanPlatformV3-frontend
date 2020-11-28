@@ -45,7 +45,9 @@ interface Meet {
   region: string;
   projects: ProjectForMeet[];
   registrants: RegistrantsForMeet[];
-  kanbanId?: string;
+  kanbanCanon: KanbanCanon | null;
+  kanbanCanonId: string | null;
+  kanban: Kanban | null;
 }
 
 interface ProjectForMeet {
@@ -73,48 +75,57 @@ interface CloudinaryPublicIdMediaAsset {
   cloudinaryPublicId: string;
 }
 
-interface Kanban {
+// Re: status - unable to use enum in d.ts file. Using union instead. These much match KanbanCanonCardStatusEnum strings in backend
+type KanbanCanonCardStatus = "TODO" | "WIP" | "DONE";
+// TODO: how to map card status enum to lower case keys? hard-coding below for now
+type KanbanCardStatusesLowerCase = "todo" | "wip" | "done";
+
+type KanbanCardPositions = {
+  [key in KanbanCardStatusesLowerCase]: string[];
+};
+type InflatedKanbanCardPositions = {
+  [key in KanbanCardStatusesLowerCase]: KanbanCanonCard[];
+};
+
+interface KanbanBase {
   id: string;
   title: string;
   description: string;
-  kanbanCards: KanbanCard[];
+  meetId?: string;
+  cardPositions: KanbanCardPositions;
 }
-
-interface KanbanCardBase {
+interface KanbanCanonCard {
   id: string;
+  kanbanCanonId: string;
   title: string;
   body: string;
-  index: number;
-}
-interface KanbanCard extends KanbanCardBase {
-  // Note: index here refers to master index, which determines initial order in "Todo" column
-  kanbanId: string;
+  index?: number; // frontend-only: for drag + drop indexing
 }
 
-interface KanbanSession {
-  id: string;
-  kanbanId: string;
+interface KanbanCanon extends KanbanBase {
+  kanbanCanonCards: KanbanCanonCard[];
+}
+
+interface Kanban extends KanbanBase {
+  kanbanCanonId: string;
   userId: string;
-  meetId?: string;
-  title: string;
-  description: string;
-  todoCards: KanbanSessionCard[];
-  wipCards: KanbanSessionCard[];
-  doneCards: KanbanSessionCard[];
+  kanbanCards: KanbanCanonCard[];
 }
 
-interface KanbanSessionCard extends KanbanCardBase {
-  column: "col1" | "col2" | "col3"; // == Todo, In Progress, Done
-  kanbanSessionId: string;
-}
-
-// INPUTS --------------------
-interface LoginParams {
+// ARGS ----------------------
+interface LoginArgs {
   email: string;
   password: string;
 }
 
-interface RegisterParams {
+// Currently only supports lookup by ID in frontend.
+// Backend also allows a composite lookup of kanbanCanonId + userId + (meetId?)
+interface FetchKanbanArgs {
+  id: string;
+}
+
+// INPUTS --------------------
+interface RegisterInput {
   firstName: string;
   lastName: string;
   email: string;
@@ -122,19 +133,7 @@ interface RegisterParams {
   passwordConfirmation: string;
 }
 
-interface CreateMeetParams {
-  meetType: "hackMeet";
-  title: string;
-  description: string;
-  instructions: string;
-  registerLink?: string;
-  coverImageUrl: string;
-  startTime: string;
-  endTime: string;
-  region: string;
-}
-// Same as CreateMeetUnput atm
-interface EditMeetParams {
+interface CreateMeetInput {
   meetType: "hackMeet";
   title: string;
   description: string;
@@ -146,7 +145,20 @@ interface EditMeetParams {
   region: string;
 }
 
-interface CreateProjectParams {
+interface EditMeetInput {
+  meetType?: "hackMeet";
+  title?: string;
+  description?: string;
+  instructions?: string;
+  registerLink?: string;
+  coverImageUrl?: string;
+  startTime?: string;
+  endTime?: string;
+  region?: string;
+  kanbanCanonId?: string;
+}
+
+interface CreateProjectInput {
   userId: string;
   meetId: string;
   title: string;
@@ -155,28 +167,38 @@ interface CreateProjectParams {
   cloudinaryPublicIds: string[];
 }
 
-interface CreateKanbanInput {
-  title: string;
-  description: string;
-}
-// Same as CreateKanbanInput atm
-interface EditKanbanInput {
+interface CreateKanbanCanonInput {
+  meetId?: string;
   title: string;
   description: string;
 }
 
-interface CreateKanbanCardInput {
-  title: string;
-  body: string;
-  index?: number;
-  kanbanId: string;
+interface EditKanbanCanonInput {
+  title?: string;
+  description?: string;
 }
-// Same as CreateKanbanCardInput atm
-interface EditKanbanCardInput {
+
+interface CreateKanbanInput {
+  meetId?: string;
+  userId: string;
+  kanbanCanonId: string;
+}
+
+interface CreateKanbanCanonCardInput {
   title: string;
   body: string;
-  index?: number;
-  kanbanId: string;
+  kanbanCanonId: string;
+}
+
+interface EditKanbanCanonCardInput {
+  title?: string;
+  body?: string;
+}
+
+interface UpdateCardPositionInput {
+  cardId: string;
+  status: KanbanCanonCardStatus;
+  index: number;
 }
 
 // API -----------------------

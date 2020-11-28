@@ -59,7 +59,7 @@ describe("ProjectService", () => {
       });
     });
 
-    const newProjectParams: CreateProjectParams = {
+    const newProjectParams: CreateProjectInput = {
       title: fakeProject.title,
       userId: fakeProject.user.id,
       meetId: fakeProject.meet.id,
