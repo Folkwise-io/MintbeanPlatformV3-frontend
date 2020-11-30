@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import { Button } from "../../components";
 import { DiscordIcon } from "../../components/Footer/DiscordIcon";
 import { ExternalLink } from "../../components/ExternalLink";
+import { Button } from "../../components/blocks/Button";
 
 type Discord = {
   message: string;
@@ -18,7 +18,7 @@ export const DiscordCard: FC<Props> = ({ discord }) => {
       <DiscordIcon type="large" />
       <h2 className=" text-xl font-semibold pt-8 pb-10">{message}</h2>
       <ExternalLink href="https://discord.com/invite/j7CjBAz">
-        <Button type="primary">Join Now</Button>
+        <Button buttonStyle="primary">Join Now</Button>
       </ExternalLink>
     </article>
   );

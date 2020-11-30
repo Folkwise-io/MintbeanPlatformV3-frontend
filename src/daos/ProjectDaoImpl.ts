@@ -28,6 +28,16 @@ export class ProjectDaoImpl implements ProjectDao {
               mediaAssets {
                 cloudinaryPublicId
               }
+              badges {
+                id
+                title
+                alias
+                badgeShape
+                faIcon
+                backgroundHex
+                iconHex
+                weight
+              }
             }
           }
         `,
@@ -43,9 +53,9 @@ export class ProjectDaoImpl implements ProjectDao {
       .catch(handleServerError);
   }
 
-  createProject(params: CreateProjectParams): Promise<Project> {
+  createProject(params: CreateProjectInput): Promise<Project> {
     return this.api
-      .query<ApiResponseRaw<{ createProject: Project }>, { input: CreateProjectParams }>(
+      .query<ApiResponseRaw<{ createProject: Project }>, { input: CreateProjectInput }>(
         `
           mutation createProject($input: CreateProjectInput!) {
             createProject(input: $input) {
@@ -95,6 +105,34 @@ export class ProjectDaoImpl implements ProjectDao {
           throw [{ message: "Something went wrong when deleting project.", extensions: { code: "UNEXPECTED" } }];
         }
         return result.data.deleteProject;
+      })
+      .catch(handleServerError);
+  }
+  awardBadgesToProject(projectId: string, badgeIds: string[]): Promise<Project> {
+    return this.api
+      .query<ApiResponseRaw<{ awardBadgesToProject: Project }>, { projectId: string; badgeIds: string[] }>(
+        `
+      mutation awardBadgesToProject($projectId: UUID!, $badgeIds:[UUID]!) {
+        awardBadgesToProject(projectId: $projectId, badgeIds: $badgeIds) {
+          id
+          title
+          sourceCodeUrl
+          liveUrl
+          badges {
+            alias
+            title
+          }
+        }
+      }
+      `,
+        { projectId, badgeIds },
+      )
+      .then((result) => {
+        if (result.errors) throw result.errors;
+        if (!result.errors && !result.data.awardBadgesToProject) {
+          throw [{ message: "Something went wrong when awarding badges.", extensions: { code: "UNEXPECTED" } }];
+        }
+        return result.data.awardBadgesToProject;
       })
       .catch(handleServerError);
   }

@@ -1,14 +1,11 @@
 import React, { useContext, ReactElement, ComponentType } from "react";
-import { Context } from "./contextBuilder";
 import { MbContext } from "./MbContext";
 
-export interface ConnectContextProps {
-  context?: Context;
-}
-
-export function connectContext<P extends ConnectContextProps>(TheComponent: ComponentType<P>) {
+/* Note, we now prefer the useContext<Context>(MbContext) hook inside components over this HOC*/
+/* Leaving this here because it was difficult to type, in case we decide to use it again */
+export function connectContext<P>(TheComponent: ComponentType<P>) {
   return function ContextWrapper(props: P): ReactElement<P> {
-    const context = useContext(MbContext);
-    return <TheComponent context={context} {...props} />;
+    const ctx = useContext(MbContext);
+    return <TheComponent {...props} context={ctx} />;
   };
 }

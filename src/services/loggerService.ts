@@ -26,7 +26,7 @@ export class LoggerService {
     this.dispatch(logError(theMessage, theCode));
     if (!silent) this.dispatch(addDangerToast(theMessage));
   }
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
   handleGraphqlErrors(error: any, silent = false): void {
     if (Array.isArray(error)) {
       error.forEach((e): void => {

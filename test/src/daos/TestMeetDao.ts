@@ -39,7 +39,7 @@ export class TestMeetDao implements MeetDao {
       } as ServerError;
     }
   }
-  async createMeet(params: CreateMeetParams): Promise<Meet> {
+  async createMeet(params: CreateMeetInput): Promise<Meet> {
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (params && this.getSuccesses().length) {
       return (this.getSuccesses()[0].data as unknown) as Meet;
@@ -47,7 +47,7 @@ export class TestMeetDao implements MeetDao {
       throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
     }
   }
-  async editMeet(id: string, params: EditMeetParams): Promise<Meet> {
+  async editMeet(id: string, params: EditMeetInput): Promise<Meet> {
     if (!id || !params) throw "You messed up in writing your test. Make sure id and input params are passed as args";
     if (this.getErrors().length) throw this.getErrors().map((er) => er.errors)[0];
     if (id && params && this.getSuccesses().length) {

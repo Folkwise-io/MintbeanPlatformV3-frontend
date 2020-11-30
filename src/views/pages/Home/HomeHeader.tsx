@@ -1,6 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
 import { HomeHeaderList } from "./HomeHeaderList";
 
 type Header = {

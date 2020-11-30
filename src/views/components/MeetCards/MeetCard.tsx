@@ -1,12 +1,12 @@
 import React, { FC } from "react";
-import { Button } from "../Button";
+import { Button } from "../blocks/Button";
 import { Link } from "react-router-dom";
-import AdminMeetDeleteModal from "../wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
 import { wcToClientStr, isCurrent } from "../../../utils/DateUtility";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock as faFasClock } from "@fortawesome/free-solid-svg-icons";
 import { faClock as faFarClock } from "@fortawesome/free-regular-svg-icons";
+import { AdminMeetDeleteModal } from "../wrappers/Modal/walas/AdminMeetDeleteModal";
 
 type MeetProps = {
   meet: Meet;

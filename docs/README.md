@@ -6,6 +6,16 @@
 
 Make sure the backend server and postgres is also working in separate tabs (see backend repo for instructions).
 
+### @types devDependencies
+
+Please try to add @types/... packages as devDependencies since they are only used during build phase.
+To change to dev dependency, remove and re-add package using --dev flag:
+
+```
+yarn remove @types/react-select
+yarn add --dev @types/react-select
+```
+
 ### Environment variables
 
 Create a `.env` file in the project root. Add environment variable keys and values. Copy keys `.env.sample` and populate with actual values.
