@@ -177,7 +177,7 @@ describe("Auth actions", () => {
       });
     });
 
-    const newUserParams: RegisterParams = {
+    const newUserParams: RegisterInput = {
       firstName: "Amy",
       lastName: "Web",
       email: TEST_EMAIL,

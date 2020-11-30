@@ -1,38 +1,41 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import React, { ChangeEvent, FC, useRef, useState } from "react";
+import React, { ChangeEvent, FC, useContext, useRef, useState } from "react";
 import Select, { OptionTypeBase, ValueType } from "react-select";
 import { SketchPicker } from "react-color";
 import FaPicker from "../../pages/Admin/FaPicker";
 import { paletteOptions } from "../../../utils/Palette";
 import { Badge, CreateBadgeParams, EditBadgeParams } from "../../../types/badge";
-import { Controller, FieldErrors, SubmitErrorHandler, SubmitHandler, useForm, useWatch } from "react-hook-form";
-import * as yup from "yup";
-import { connectContext, ConnectContextProps } from "../../../context/connectContext";
+import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers";
-import BadgeDisplay from "../BadgeDisplay";
-import { Button } from "../Button";
-import FAIconLookupInput from "./inputs/FAIconLookupInput";
-import { BADGE_VALIDATION } from "./validation/BadgeValidator";
-
-const editBadgeSchema = yup.object().shape(BADGE_VALIDATION);
+import { BadgeDisplay } from "../BadgeDisplay";
+import { FAIconLookupInput } from "./inputs/FAIconLookupInput";
+import { editBadgeInputSchema } from "./validation/badge";
+import { MbContext } from "../../../context/MbContext";
+import { Button } from "../blocks/Button";
+import { Context } from "../../../context/contextBuilder";
+import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
+import { TextArea } from "../blocks/Form/TextArea";
+import { Input } from "../blocks/Form/Input";
+import { badgeShapeOptions } from "./constants";
 
 interface Props {
   badge: Badge;
 }
 
-const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
+export const BadgeEditForm: FC<Props> = ({ badge }) => {
+  const context = useContext<Context>(MbContext);
   const [loading, setLoading] = useState<boolean>(false);
-  //State for icon search
+  // State for icon search
   const [searchInput, setSearchInput] = useState<string>("");
   // refs for icon search/hook-forms
   const formRef = useRef<HTMLFormElement | null>(null);
 
-  //imports fas object from fontawesome and saves values
+  // imports fas object from fontawesome and saves values
   const fasObjectValues = Object.values(fas);
-  //formats into typed icon names
+  // formats into typed icon names
   const fasIconNames: IconName[] = fasObjectValues.map(({ iconName }) => iconName);
-  //filter icons via search, done in this file so the value is available for form
+  // filter icons via search, done in this file so the value is available for form
   const iconNamesFiltered = fasIconNames.filter(
     (name) => name.includes(searchInput) && name !== "font-awesome-logo-full",
   );
@@ -41,17 +44,11 @@ const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
     const target = e.target as HTMLInputElement;
     setSearchInput(target.value);
   };
-  //badge options in shape of react-select
-  const badgeShapeOptions = [
-    { value: "circle", label: "Circle" },
-    { value: "square", label: "Square" },
-    { value: "star", label: "Star" },
-  ];
 
-  //react-hook-form setup
-  const { register, handleSubmit, setValue, control } = useForm<CreateBadgeParams>({
+  // react-hook-form setup
+  const { register, handleSubmit, setValue, control, errors } = useForm<CreateBadgeParams>({
     mode: "onBlur",
-    resolver: yupResolver(editBadgeSchema),
+    resolver: yupResolver(editBadgeInputSchema),
     defaultValues: {
       backgroundHex: badge.backgroundHex,
       iconHex: badge.iconHex,
@@ -65,17 +62,13 @@ const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
   });
 
   const editBadge = async (id: string, params: EditBadgeParams) => {
-    if (context) {
-      const badge = await context.badgeService.editBadge(id, params);
-      if (badge) {
-        window && window.location.reload();
-      }
-    } else {
-      alert("Yikes, devs messed up, sorry. Action did not work");
+    const badge = await context.badgeService.editBadge(id, params);
+    if (badge) {
+      window && window.location.reload();
     }
   };
 
-  //on selection of a new icon, set to state and reassign icon definition
+  // on selection of a new icon, set to state and reassign icon definition
   const iconHandleChange = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setLoading(true);
@@ -92,18 +85,6 @@ const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
 
   const onSubmit: SubmitHandler<CreateBadgeParams> = (data: EditBadgeParams) => {
     editBadge(badge.id, data);
-  };
-
-  const onError: SubmitErrorHandler<CreateBadgeParams> = (errors: FieldErrors<EditBadgeParams>) => {
-    let errorMessage = "";
-    if (errors) {
-      Object.values(errors).map((error) => {
-        if (error) {
-          errorMessage += `${error.message} `;
-        }
-      });
-      alert(errorMessage);
-    }
   };
 
   const shapeHandleChange = (
@@ -143,13 +124,7 @@ const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
   };
 
   return (
-    <form
-      ref={formRef}
-      className="mt-2 mb-4"
-      name="editBadgeForm"
-      autoComplete="off"
-      onSubmit={handleSubmit(onSubmit, onError)}
-    >
+    <form ref={formRef} className="mt-2 mb-4" name="editBadgeForm" autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
       <label htmlFor="editBadgeForm" className="text-lg">
         Edit this badge
       </label>
@@ -168,6 +143,8 @@ const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
                   control={control}
                   render={() => <FaPicker icons={iconNamesFiltered} onSelect={iconHandleChange} />}
                 />
+                <FormValidationErrorMsg errorMessage={errors.faIcon?.message} />
+
                 <Controller
                   control={control}
                   name="badgeShape"
@@ -179,55 +156,53 @@ const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
                     ></Select>
                   )}
                 />
+                <FormValidationErrorMsg errorMessage={errors.badgeShape?.message} />
 
-                <label htmlFor="alias" className="w-full inline-block">
-                  {/*TODO: add the : with js*/}
-                  Choose an alias, must be :surrounded-by-colons:
-                  <input
-                    name="alias"
-                    ref={register}
-                    type="text"
-                    className="w-full m-0"
-                    placeholder="choose your :alias:"
-                  />
-                </label>
+                {/*TODO: add the ":"" with js*/}
+                <Input
+                  label="Choose an alias, must be :surrounded-by-colons:"
+                  name="alias"
+                  ref={register}
+                  type="text"
+                  className="w-full m-0"
+                  placeholder="choose your :alias:"
+                />
+                <FormValidationErrorMsg errorMessage={errors.alias?.message} />
 
-                <label htmlFor="title" className="w-full inline-block">
-                  Choose a badge title
-                  <input
-                    ref={register}
-                    name="title"
-                    type="text"
-                    className="w-full m-0"
-                    placeholder="choose your badge title"
-                  />
-                </label>
+                <Input
+                  label="Choose a badge title"
+                  ref={register}
+                  name="title"
+                  type="text"
+                  className="w-full m-0"
+                  placeholder="choose your badge title"
+                />
+                <FormValidationErrorMsg errorMessage={errors.title?.message} />
 
-                <label>
-                  Weight:
-                  <input
-                    className="w-full m-0"
-                    ref={register}
-                    placeholder="Default: 0"
-                    type="number"
-                    name="weight"
-                    id="weight"
-                  />
-                </label>
+                <Input
+                  label="Weight"
+                  className="w-full m-0"
+                  ref={register}
+                  placeholder="Default: 0"
+                  type="number"
+                  name="weight"
+                  id="weight"
+                />
+                <FormValidationErrorMsg errorMessage={errors.weight?.message} />
 
-                <label>
-                  Description:
-                  <textarea
-                    className="w-full m-0"
-                    placeholder="optional"
-                    ref={register}
-                    name="description"
-                    id="description"
-                    cols={25}
-                    rows={10}
-                  ></textarea>
-                </label>
-                {/*TODO: Description, weight*/}
+                <TextArea
+                  label="Description"
+                  className="w-full m-0"
+                  placeholder="optional"
+                  ref={register}
+                  name="description"
+                  id="description"
+                  cols={25}
+                  rows={10}
+                />
+                <FormValidationErrorMsg errorMessage={errors.description?.message} />
+                <FormValidationErrorMsg errorMessage={errors.iconHex?.message} />
+                <FormValidationErrorMsg errorMessage={errors.backgroundHex?.message} />
               </div>
               <div className="flex justify-center flex-col sm:flex-row lg:justify-start lg:flex-col">
                 {/* for icon color: use MB palette for presets */}
@@ -274,7 +249,7 @@ const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
                 />
               </div>
             </div>
-            <Button className="mt-2" buttonType="submit">
+            <Button className="mt-2" type="submit">
               Edit {badge.alias}
             </Button>
           </div>
@@ -283,5 +258,3 @@ const BadgeEditForm: FC<Props & ConnectContextProps> = ({ context, badge }) => {
     </form>
   );
 };
-
-export default connectContext<Props & ConnectContextProps>(BadgeEditForm);

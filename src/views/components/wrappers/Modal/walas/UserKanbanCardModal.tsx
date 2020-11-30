@@ -6,7 +6,7 @@ import { KanbanCardSummary } from "../../../Kanban/KanbanCardSummary";
 import { ModalActionContext, ModalActionDeclaration } from "../ModalActionButton";
 
 interface Props {
-  data: KanbanSessionCard;
+  data: KanbanCanonCard;
   dndProvided: DraggableProvided;
   className?: string;
 }
@@ -15,9 +15,9 @@ interface Props {
 export const UserKanbanCardModal: FC<Props> = ({ data, dndProvided, className }) => {
   const actions: ModalActionDeclaration[] = [
     {
-      type: "secondary",
+      buttonStyle: "secondary",
       text: "Close",
-      buttonType: "button",
+      type: "button",
       onClick: (_evt: React.SyntheticEvent, { closeModal }: ModalActionContext) => {
         closeModal();
       },

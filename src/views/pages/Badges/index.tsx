@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { BgBlock } from "../../components/BgBlock";
-import BadgeLookup from "../Admin/BadgeLookup";
+import { BadgeLookup } from "../../components/BadgeLookup";
 
 const BadgeSearch: FC = () => {
   return (

@@ -3,14 +3,16 @@ import { BadgeDao } from "./BadgeDao";
 import { handleServerError } from "../utils/handleServerError";
 import { Badge, CreateBadgeParams, EditBadgeParams } from "../types/badge";
 
-const BADGE_INPUT_RETURN_QUERY = `alias
-badgeShape
-faIcon
-backgroundHex
-iconHex
-title
-description
-weight`;
+const BADGE_INPUT_RETURN_QUERY = `
+  alias
+  badgeShape
+  faIcon
+  backgroundHex
+  iconHex
+  title
+  description
+  weight
+`;
 
 export class BadgeDaoImpl implements BadgeDao {
   constructor(private api: ApiQueryExecutor) {}

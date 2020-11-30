@@ -3,7 +3,7 @@ import { Context } from "./contextBuilder";
 import { MbContext } from "./MbContext";
 
 type ConsumerProps = {
-  children: (context: Context | undefined) => React.ReactNode;
+  children: (context: Context) => React.ReactNode;
 };
 
 export const MbContextConsumer: FC<ConsumerProps> = ({ children }): React.ReactElement => {

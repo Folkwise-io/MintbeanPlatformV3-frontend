@@ -15,13 +15,13 @@ export class TestAuthDao implements AuthDao, TestDao {
     this.mockReturns = [];
   }
 
-  async login(loginInput: LoginParams): Promise<User> {
+  async login(LoginArgs: LoginArgs): Promise<User> {
     const errorReturns = this.getErrors();
     const successReturns = this.getSuccesses();
     if (errorReturns.length) {
       // Mock failed login
       throw errorReturns;
-    } else if (loginInput && successReturns.length) {
+    } else if (LoginArgs && successReturns.length) {
       // Mock successful login
       // *Login creds must be first mockedReturn
       return (successReturns[0].data as unknown) as User;
@@ -49,7 +49,7 @@ export class TestAuthDao implements AuthDao, TestDao {
     }
   }
 
-  async register(params: RegisterParams): Promise<User> {
+  async register(params: RegisterInput): Promise<User> {
     const errorReturns = this.getErrors();
     const successReturns = this.getSuccesses();
     if (errorReturns.length) {

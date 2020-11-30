@@ -1,14 +1,14 @@
+import React, { FC, useCallback, useContext, useEffect, useState } from "react";
 import { faAngleDoubleLeft, faSadCry } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { FC, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, RouteComponentProps, useHistory } from "react-router-dom";
-import { connectContext, ConnectContextProps } from "../../../context/connectContext";
 import { Badge } from "../../../types/badge";
-import BadgeDisplay from "../../components/BadgeDisplay";
+import { BadgeDisplay } from "../../components/BadgeDisplay";
 import { BgBlock } from "../../components/BgBlock";
-import BadgeEditForm from "../../components/forms/BadgeEditForm";
-import AdminBadgeDeleteModal from "../../components/wrappers/Modal/walas/AdminBadgeDeleteModal";
+import { BadgeEditForm } from "../../components/forms/BadgeEditForm";
+import { AdminBadgeDeleteModal } from "../../components/wrappers/Modal/walas/AdminBadgeDeleteModal";
+import { MbContext } from "../../../context/MbContext";
 
 interface StateMapping {
   user: UserState;
@@ -21,11 +21,8 @@ interface MatchParams {
   id: string;
 }
 
-const BadgeTemplate: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({
-  context,
-  user,
-  match,
-}) => {
+const BadgeTemplate: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user, match }) => {
+  const context = useContext(MbContext);
   const {
     params: { id },
   } = match;
@@ -34,22 +31,18 @@ const BadgeTemplate: FC<ConnectContextProps & StateMapping & RouteComponentProps
   const isAdmin = user.data?.isAdmin;
   const history = useHistory();
 
-  useEffect(() => {
-    const fetchBadgeData = async () => {
-      if (!context) {
-        console.error(new Error("No context passed to component, but it was expected"));
-        alert("blame the devs! something has gone catastrophically wrong");
-        return;
-      }
-      setLoading(true);
-      const fetchedBadge = await context.badgeService.fetchBadge(id);
-      if (fetchedBadge) {
-        setBadge(fetchedBadge);
-      }
-      setLoading(false);
-    };
-    fetchBadgeData();
+  const fetchBadgeData = useCallback(async () => {
+    setLoading(true);
+    const fetchedBadge = await context.badgeService.fetchBadge(id);
+    if (fetchedBadge) {
+      setBadge(fetchedBadge);
+    }
+    setLoading(false);
   }, [context, id]);
+
+  useEffect(() => {
+    fetchBadgeData();
+  }, [fetchBadgeData]);
 
   const redirectToBadges = async () => {
     history.push("/badges");
@@ -124,6 +117,4 @@ const BadgeTemplate: FC<ConnectContextProps & StateMapping & RouteComponentProps
   );
 };
 
-export default connectContext<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>>(
-  connect(stp)(BadgeTemplate),
-);
+export default connect(stp)(BadgeTemplate);

@@ -1,9 +1,9 @@
-import React, { FC, ReactElement, useState, useEffect, useRef } from "react";
+import React, { ReactElement, useState, useEffect, useRef, FC } from "react";
 import { usePopper } from "react-popper";
 import { Placement } from "@popperjs/core/lib/enums";
 import { ModalActionButton, ModalActionDeclaration } from "./ModalActionButton";
 
-interface ModalProps {
+interface Props {
   triggerBuilder: (
     toggleModal: () => void,
     ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
@@ -11,18 +11,35 @@ interface ModalProps {
   placement?: Placement;
   actions?: ModalActionDeclaration[];
   title?: string;
-  closeFromParent?: number;
   isDetached?: boolean;
   hasRelativeParent?: boolean;
+  triggerCloseFromParent?: number; // a random number passed to trigger modal close from parent
 }
-const detachedStyles = { left: "50%", top: "50%", transform: "translate(-50%, -50%)" };
 
-export const Modal: FC<ModalProps> = ({
+// style for centering modal in middle of screen if isDetached prop = true
+const detachedStyles: React.CSSProperties = {
+  position: "fixed",
+  left: "50%",
+  top: "50%",
+  transform: "translate(-50%, -50%)",
+  zIndex: 999,
+  overflow: "auto",
+  maxHeight: "80vh",
+  maxWidth: "90vw",
+};
+
+const relativeStyles: React.CSSProperties = {
+  zIndex: 89,
+  overflow: "auto",
+  maxWidth: "90vw",
+};
+
+export const Modal: FC<Props> = ({
   triggerBuilder,
   actions,
   title,
   children,
-  closeFromParent,
+  triggerCloseFromParent,
   placement = "bottom",
   isDetached = false,
   hasRelativeParent = false,
@@ -55,11 +72,10 @@ export const Modal: FC<ModalProps> = ({
   }, []);
 
   useEffect(() => {
-    if (closeFromParent) {
+    if (triggerCloseFromParent) {
       closeModal();
     }
-    // eslint-disable-next-line
-  }, [closeFromParent]);
+  }, [triggerCloseFromParent]);
 
   const closeModal = () => {
     if (!isUnmounted.current) toggleShow(false);
@@ -78,7 +94,6 @@ export const Modal: FC<ModalProps> = ({
       })
     : [];
 
-  // style for centering modal in middle of screen if isDetached prop = true
   return (
     <>
       <>
@@ -105,11 +120,10 @@ export const Modal: FC<ModalProps> = ({
             ></div>
             <div
               ref={(el) => setPopperElement(el)}
-              style={isDetached ? detachedStyles : { ...styles.popper, zIndex: 89 }}
+              style={isDetached ? detachedStyles : { ...styles.popper, ...relativeStyles }}
               {...attributes.popper}
               data-popper-placement="right"
-              className={` bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-xs text-black max-h-70vh overflow-y-auto ${
-                isDetached ? "fixed" : ""
+              className={`resize bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-sm md:max-w-screen-md text-black max-h-70vh"
               }`}
             >
               {/* modal header with the "X" button for closing the modal */}

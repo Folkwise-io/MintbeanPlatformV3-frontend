@@ -1,20 +1,18 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from "react";
+import React, { FC, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Controller, FieldErrors, SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import Select, { OptionTypeBase } from "react-select";
-import { connectContext, ConnectContextProps } from "../../../context/connectContext";
+import { Context } from "../../../context/contextBuilder";
+import { MbContext } from "../../../context/MbContext";
 import { AwardBadgesToProjectParams, Badge } from "../../../types/badge";
-import { Button } from "../Button";
+import { Button } from "../blocks/Button";
 
 interface FormProps {
   projectId: string;
   awardedBadges: BadgesForProject[];
 }
 
-const AwardBadgesToProjectForm: FC<FormProps & ConnectContextProps> = ({
-  projectId,
-  awardedBadges: awardedBadges,
-  context,
-}) => {
+export const AwardBadgesToProjectForm: FC<FormProps> = ({ projectId, awardedBadges: awardedBadges }) => {
+  const context = useContext<Context>(MbContext);
   const [badgeOptions, setBadgeOptions] = useState<Badge[]>([]);
   const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -23,11 +21,6 @@ const AwardBadgesToProjectForm: FC<FormProps & ConnectContextProps> = ({
   const awardedBadgesAsOptions = awardedBadges.map(({ id, alias }) => ({ value: id, label: alias }));
 
   const fetchBadgesData = useCallback(async () => {
-    if (!context) {
-      console.error(new Error("No context passed to component, but it was expected"));
-      alert("blame the devs! something has gone catastrophically wrong");
-      return;
-    }
     const fetchedBadges = await context.badgeService.fetchBadges();
     setBadgeOptions(fetchedBadges);
   }, [context]);
@@ -39,15 +32,11 @@ const AwardBadgesToProjectForm: FC<FormProps & ConnectContextProps> = ({
   const { handleSubmit, control, getValues, setValue } = useForm({});
 
   const awardBadgesToProject = async (projectId: string, badgeIds: string[]) => {
-    if (context) {
-      const project = await context.projectService.awardBadgesToProject(projectId, badgeIds);
-      if (project) {
-        window.location.reload();
-      } else {
-        alert("Hmmm, no project was passed as a response.");
-      }
+    const project = await context.projectService.awardBadgesToProject(projectId, badgeIds);
+    if (project) {
+      window.location.reload();
     } else {
-      alert("Yikes, devs messed up, sorry. Action did not work");
+      alert("Hmmm, something went wrong. No project was returned.");
     }
   };
 
@@ -78,12 +67,10 @@ const AwardBadgesToProjectForm: FC<FormProps & ConnectContextProps> = ({
             onChange={(options) => handleChange(options)}
             defaultValue={awardedBadgesAsOptions}
             options={badgeSearchOptions}
-          ></Select>
+          />
         )}
       />
-      <Button buttonType="submit">Award badges</Button>
+      <Button type="submit">Award badges</Button>
     </form>
   );
 };
-
-export default connectContext<FormProps & ConnectContextProps>(AwardBadgesToProjectForm);

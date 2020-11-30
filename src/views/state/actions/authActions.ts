@@ -11,10 +11,10 @@ const loginAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<User> 
   loadStatus,
 });
 
-export function login(params: LoginParams): ThunkAction<void, StoreState, Context, MbAction<void>> {
+export function login(params: LoginArgs): ThunkAction<void, StoreState, Context, MbAction<void>> {
   return (dispatch: Dispatch, _getState, context) => {
     dispatch(loginAction("LOADING"));
-    return context.authService
+    return context.authDao
       .login(params)
       .then((user: User) => {
         if (!user) {
@@ -43,7 +43,7 @@ const logoutAction = (payload: boolean, loadStatus: ApiDataStatus) => ({
 
 export function logout(): ThunkAction<void, StoreState, Context, MbAction<void>> {
   return (dispatch: Dispatch, _getState, context) => {
-    return context.authService
+    return context.authDao
       .logout()
       .then((res: boolean) => {
         if (!res) {
@@ -69,7 +69,7 @@ export function me(): ThunkAction<void, StoreState, Context, MbAction<void>> {
   return (dispatch: Dispatch, _getState, context) => {
     dispatch(meAction("LOADING"));
     return (
-      context.authService
+      context.authDao
         .me()
         .then((user: User) => {
           if (!user) {
@@ -98,14 +98,14 @@ const registerAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<Use
   loadStatus,
 });
 
-export function register(params: RegisterParams): ThunkAction<void, StoreState, Context, MbAction<void>> {
+export function register(params: RegisterInput): ThunkAction<void, StoreState, Context, MbAction<void>> {
   return (dispatch: Dispatch, getState, context) => {
     const userAlreadyLoggedin = getState().user.data;
     if (userAlreadyLoggedin) {
       return context.loggerService.danger("Sorry, you can't create an account because you're already logged in!");
     }
     dispatch(registerAction("LOADING"));
-    return context.authService
+    return context.authDao
       .register(params)
       .then((user: User) => {
         if (!user) {
