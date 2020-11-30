@@ -68,16 +68,10 @@ export const BadgeCreateForm: FC = () => {
 
   // fontawesome icon lookup and icon definition with selected icon state
 
-  const createBadge = async (params: CreateBadgeParams) => {
-    let badgeId: string;
-    if (context) {
-      const newBadge = await context.badgeService.createBadge(params);
-      if (newBadge) {
-        badgeId = await newBadge.id;
-        history.push(`/badges/${badgeId}`);
-      }
-    } else {
-      alert("Yikes, devs messed up, sorry. Action did not work");
+  const createBadge = async (input: CreateBadgeParams) => {
+    const newBadge = await context.badgeService.createBadge(input);
+    if (newBadge) {
+      history.push(`/badges/${newBadge.id}`);
     }
   };
 

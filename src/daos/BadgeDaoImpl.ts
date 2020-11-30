@@ -4,6 +4,7 @@ import { handleServerError } from "../utils/handleServerError";
 import { Badge, CreateBadgeParams, EditBadgeParams } from "../types/badge";
 
 const BADGE_INPUT_RETURN_QUERY = `
+  id
   alias
   badgeShape
   faIcon
