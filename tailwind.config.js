@@ -33,8 +33,9 @@ module.exports = {
       minHeight: {
         72: "18rem",
         84: "21rem",
-        "50vh": "50vh",
+        "20vh": "20vh",
         "30vh": "30vh",
+        "50vh": "50vh",
       },
       borderRadius: {
         xl: "3rem",
@@ -135,6 +136,9 @@ module.exports = {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+        },
+        ".mb-badge-star": {
+          clipPath: "polygon(50% 0%, 69% 26%, 98% 35%, 79% 59%, 83% 93%, 50% 82%, 18% 92%, 22% 58%, 0 35%, 32% 24%)",
         },
       };
 

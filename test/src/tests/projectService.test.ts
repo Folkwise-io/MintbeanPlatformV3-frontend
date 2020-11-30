@@ -1,6 +1,6 @@
 import { TestManager } from "../TestManager";
 import { projectFactory } from "../factories/project.factory";
-// import { userFactory } from "../factories/user.factory";
+import { badgeForProjectFactory } from "../factories/badge.factory";
 
 // TODO: fix meet factory to allow recursive assocaition nesting
 const fakeProject = projectFactory.one();
@@ -139,6 +139,49 @@ describe("ProjectService", () => {
       expect(storeState.errors[0].message).toBe(SERVER_ERR_MSG);
       const lastToast = storeState.toasts.length - 1;
       expect(storeState.toasts[lastToast].type).toBe("DANGER");
+    });
+  });
+
+  describe("awardBadgesToProject()", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.projectDao.clearMockReturns();
+      });
+    });
+    const existingProject = projectFactory.one();
+    const existingBadge = badgeForProjectFactory.one();
+    const existingBadgeId = existingBadge.id;
+    const existingProjectId = existingProject.id;
+    it("returns a project with badges on success", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.projectDao.mockReturn({ data: true });
+        })
+        .execute((context) => {
+          return context.projectService.awardBadgesToProject(existingProjectId, [existingBadgeId]);
+        });
+    });
+
+    it("logs error and throws toast when server error returned", async () => {
+      const ERROR_MESSAGE = "test";
+      await testManager
+        .configureContext((context) => {
+          context.projectDao.mockReturn({
+            data: null,
+            errors: [{ message: ERROR_MESSAGE, extensions: { code: "TEST" } }],
+          });
+        })
+        .execute((context) => context.projectService.awardBadgesToProject(existingProjectId, [existingBadgeId]));
+
+      const storeState = testManager.store.getState();
+      expect(storeState.errors[0].message).toBe(ERROR_MESSAGE);
+      expect(storeState.toasts[0].message).toBe(ERROR_MESSAGE);
+      expect(storeState.toasts[0].type).toBe("DANGER");
     });
   });
 });

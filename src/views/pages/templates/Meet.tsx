@@ -323,8 +323,8 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
               <>
                 <h2 className="font-medium">Submissions</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-                  {meet.projects.map((p) => (
-                    <ProjectCard project={p} key={p.id} />
+                  {meet.projects.map((p: ProjectForMeet) => (
+                    <ProjectCard userState={user} project={p} key={p.id} />
                   ))}
                 </div>
               </>

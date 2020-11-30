@@ -6,3 +6,7 @@ export { default as Meets } from "./Meets";
 export { default as Meet } from "./templates/Meet";
 export { default as Project } from "./templates/Project";
 export { default as NotFound } from "./NotFound";
+export { default as Admin } from "./Admin";
+export { default as Badges } from "./Badges";
+export { default as CreateBadge } from "./Admin/CreateBadge";
+export { default as BadgeTemplate } from "./templates/Badge";

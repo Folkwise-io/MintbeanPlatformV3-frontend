@@ -17,6 +17,7 @@ interface Project {
   meet: MeetForProject;
   user: UserForProject;
   mediaAssets: CloudinaryPublicIdMediaAsset[];
+  badges: BadgesForProject[];
 }
 interface UserForProject {
   id: string;
@@ -28,9 +29,20 @@ interface MeetForProject {
   title: string;
 }
 
+interface BadgesForProject {
+  title: string;
+  id: string;
+  alias: string;
+  badgeShape: BadgeShape;
+  faIcon: string;
+  backgroundHex: string;
+  iconHex: string;
+  weight: number;
+}
+
 /** Whether registration is going to open, is open now, or is closed. */
 type RegisterLinkStatus = "WAITING" | "OPEN" | "CLOSED";
-
+type BadgeShape = "star" | "circle" | "square";
 interface Meet {
   id: string;
   title: string;
@@ -57,6 +69,7 @@ interface ProjectForMeet {
   liveUrl: string;
   user: UserForProjectForMeet;
   mediaAssets: CloudinaryPublicIdMediaAsset[];
+  badges: BadgesForProject[];
   createdAt: string;
 }
 

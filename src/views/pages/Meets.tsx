@@ -47,7 +47,6 @@ const Meets: FC<StateMapping> = ({ user }) => {
         <AdminMeetCreateModal
           buttonText="Create new meet"
           className="rounded px-6 py-2 text-white bg-mb-orange-100 mb-2"
-          onCreate={fetchMeets}
         />
       </div>
     );

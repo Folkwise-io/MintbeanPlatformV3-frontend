@@ -26,4 +26,12 @@ export class ProjectService extends EntityService {
       return project;
     });
   }
+
+  async awardBadgesToProject(projectId: string, badgeIds: string[]): Promise<Project | void> {
+    return this.handleService(async () => {
+      const project = await this.projectDao.awardBadgesToProject(projectId, badgeIds);
+      this.logger.success(`Awarded badges to **${project.title}**!`);
+      return project;
+    });
+  }
 }

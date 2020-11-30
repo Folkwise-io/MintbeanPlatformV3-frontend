@@ -6,6 +6,7 @@ import { ExternalLink } from "../../components/ExternalLink";
 import { ImageDisplay } from "../../components/ImageDisplay";
 import { ImageDisplayTray } from "../../components/ImageDisplayTray";
 import { BgBlock } from "../../components/BgBlock";
+import { BadgeDisplay } from "../../components/BadgeDisplay";
 import { H1 } from "../../components/blocks/H1";
 import { ProjectDeleteModal } from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
 import { MbContext } from "../../../context/MbContext";
@@ -96,6 +97,20 @@ const Project: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user, ma
                 </p>
                 {project.meet?.id && (
                   <Link to={`/meets/${project.meet.id}`}>Submitted for &quot;{project.meet.title}&quot;</Link>
+                )}
+                {project.badges.length > 1 && (
+                  <div className="w-full">
+                    <p className="pt-4 pb-2">
+                      Wow, this project&apos;s a winner! Check out the badges they&apos;ve earned:
+                    </p>
+                    <div className="flex justify-center gap-2 py-2">
+                      {project.badges.map((badge: BadgesForProject) => (
+                        <Link to={`/badges/${badge.id}`} key={badge.id}>
+                          <BadgeDisplay size="xs" badge={badge} />
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 )}
                 <section className="flex flex-wrap justify-center p-2 w-full">
                   <ExternalLink href={project.sourceCodeUrl}>

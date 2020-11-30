@@ -1,4 +1,5 @@
 import faker from "faker";
+import { badgeForProjectFactory } from "./badge.factory";
 import { factory } from "./factory";
 import { meetForProjectFactory } from "./meet.factory";
 import { userForMeetForProjectFactory, userForProjectFactory } from "./user.factory";
@@ -12,6 +13,7 @@ export const projectFactory = factory<Project>({
   user: () => userForProjectFactory.one(),
   meet: () => meetForProjectFactory.one(),
   mediaAssets: [{ cloudinaryPublicId: () => faker.random.uuid() }, { cloudinaryPublicId: () => faker.random.uuid() }],
+  badges: () => badgeForProjectFactory.one(),
 });
 
 export const meetProjectFactory = factory<ProjectForMeet>({

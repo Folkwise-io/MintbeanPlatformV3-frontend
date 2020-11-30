@@ -4,6 +4,20 @@ import { handleServerError } from "../utils/handleServerError";
 import { KANBAN_CANON_RESPONSE_QUERY } from "./KanbanCanonDaoImpl";
 import { KANBAN_RESPONSE_QUERY } from "./KanbanDaoImpl";
 
+const MEET_RESPONSE_QUERY_BASIC = `
+  id
+  meetType
+  title
+  description
+  instructions
+  registerLink
+  registerLinkStatus
+  coverImageUrl
+  startTime
+  endTime
+  createdAt
+  region
+`;
 export class MeetDaoImpl implements MeetDao {
   constructor(private api: ApiQueryExecutor) {}
 
@@ -13,18 +27,7 @@ export class MeetDaoImpl implements MeetDao {
         `
           query meets {
             meets {
-              id
-              meetType
-              title
-              description
-              instructions
-              registerLink
-              registerLinkStatus
-              coverImageUrl
-              startTime
-              endTime
-              createdAt
-              region
+              ${MEET_RESPONSE_QUERY_BASIC}
               kanbanCanonId
               registrants {
                 id
@@ -50,23 +53,18 @@ export class MeetDaoImpl implements MeetDao {
         `
           query meet($id: UUID!) {
             meet(id: $id) {
-              id
-              meetType
-              title
-              description
-              instructions
-              registerLink
-              registerLinkStatus
-              coverImageUrl
-              startTime
-              endTime
-              createdAt
-              region
+              ${MEET_RESPONSE_QUERY_BASIC}
+              registrants {
+                id
+                firstName
+                lastName
+              }
               projects {
                 id
                 title
                 sourceCodeUrl
                 liveUrl
+                createdAt
                 user {
                   firstName
                   lastName
@@ -74,12 +72,16 @@ export class MeetDaoImpl implements MeetDao {
                 mediaAssets {
                   cloudinaryPublicId
                 }
-                createdAt
-              }
-              registrants {
-                id
-                firstName
-                lastName
+                badges {
+                  id
+                  alias
+                  title
+                  badgeShape
+                  faIcon
+                  backgroundHex
+                  iconHex
+                  weight
+                }
               }
               kanbanCanonId
               kanbanCanon {
@@ -109,18 +111,7 @@ export class MeetDaoImpl implements MeetDao {
         `
           mutation createMeet($input: CreateMeetInput!) {
             createMeet(input: $input) {
-              id
-              meetType
-              title
-              description
-              instructions
-              registerLink
-              registerLinkStatus
-              coverImageUrl
-              startTime
-              endTime
-              createdAt
-              region
+              ${MEET_RESPONSE_QUERY_BASIC}
               kanbanCanonId
               kanbanCanon {
                 ${KANBAN_CANON_RESPONSE_QUERY}
@@ -148,18 +139,7 @@ export class MeetDaoImpl implements MeetDao {
         `
           mutation editMeet($id: UUID!, $input: EditMeetInput!) {
             editMeet(id: $id, input: $input) {
-              id
-              meetType
-              title
-              description
-              instructions
-              registerLink
-              registerLinkStatus
-              coverImageUrl
-              startTime
-              endTime
-              createdAt
-              region
+              ${MEET_RESPONSE_QUERY_BASIC}
               kanbanCanonId
               kanbanCanon {
                 ${KANBAN_CANON_RESPONSE_QUERY}

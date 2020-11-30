@@ -1,6 +1,7 @@
 import { Store } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { Context } from "../../src/context/contextBuilder";
+import { Badge } from "../../src/types/badge";
 import { MbAction } from "../../src/views/state/actions/MbAction";
 import { configureStoreAndLogger } from "../../src/views/state/configureStoreAndLogger";
 import { testContextBuilder } from "../testContextBuilder";
@@ -76,6 +77,11 @@ export class TestManager {
 
   addKanbanCards(data: KanbanCanonCard[]): TestManager {
     this.context.kanbanDao.kanbanCards = data;
+    return this;
+  }
+
+  addBadges(data: Badge[]): TestManager {
+    this.context.badgeDao.data = data;
     return this;
   }
 

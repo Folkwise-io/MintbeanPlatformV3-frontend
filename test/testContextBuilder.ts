@@ -10,6 +10,8 @@ import { KanbanCanonService } from "../src/services/kanbanCanonService";
 import { TestKanbanCanonDao } from "./src/daos/TestKanbanCanonDao";
 import { Context } from "../src/context/contextBuilder";
 import { LoggerService } from "../src/services/loggerService";
+import { BadgeService } from "../src/services/badgeService";
+import { TestBadgeDao } from "./src/daos/TestBadgeDao";
 import { KanbanService } from "../src/services/kanbanService";
 import { TestKanbanDao } from "./src/daos/TestKanbanDao";
 
@@ -26,6 +28,8 @@ export interface TestContext extends Context {
   kanbanCanonService: KanbanCanonService;
   kanbanDao: TestKanbanDao;
   kanbanService: KanbanService;
+  badgeDao: TestBadgeDao;
+  badgeService: BadgeService;
 }
 
 export const testContextBuilder = (): TestContext => {
@@ -41,6 +45,8 @@ export const testContextBuilder = (): TestContext => {
   const kanbanCanonService = new KanbanCanonService(kanbanCanonDao, loggerService);
   const kanbanDao = new TestKanbanDao();
   const kanbanService = new KanbanService(kanbanDao, loggerService);
+  const badgeDao = new TestBadgeDao();
+  const badgeService = new BadgeService(badgeDao, loggerService);
 
   return {
     loggerService,
@@ -56,5 +62,7 @@ export const testContextBuilder = (): TestContext => {
     kanbanCanonService,
     kanbanDao,
     kanbanService,
+    badgeDao,
+    badgeService,
   };
 };
