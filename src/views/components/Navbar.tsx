@@ -68,7 +68,6 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
 
   return (
     <nav className="py-2 px-12 my-4 md:my-0 bg-white sticky top-0" style={{ minHeight: "80px", zIndex: 99 }}>
-      <div className="md:hidden"></div>
       <div className="flex flex-col md:flex-row md:items-center justify-between md:py-2">
         <section className="h-full sm:w-56 mx-auto md:mx-0">
           <Link
@@ -78,7 +77,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
             <img src={logo} alt="Mintbean" style={{ maxHeight: "50px" }} />
           </Link>
         </section>
-        <section className="hidden md:block">
+        <section>
           <div className="flex flex-col md:flex-row items-center">
             <div>
               <Link
