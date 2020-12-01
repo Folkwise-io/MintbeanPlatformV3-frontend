@@ -23,8 +23,7 @@ export const AdminKanbanCanonCardCreateModal: FC<Props> = ({ kanbanCanonId, fetc
       onClick: () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
-          const res = formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
-          console.log({ res });
+          formRef.current.dispatchEvent(new Event("submit", { cancelable: true }));
         }
       },
     },
