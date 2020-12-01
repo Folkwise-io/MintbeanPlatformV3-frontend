@@ -74,8 +74,6 @@ export const AdminKanbanCanonCardModal: FC<Props> = ({ data, fetchKanbanCanon, d
 
   const editKanbanCanonCard = async (input: EditKanbanCanonCardInput) => {
     await context.kanbanCanonService.editKanbanCanonCard(data.id, input);
-    // eslint-disable-next-line
-    debugger;
     await fetchKanbanCanon();
     setMode("view");
   };
