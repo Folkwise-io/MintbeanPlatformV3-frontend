@@ -1,15 +1,21 @@
 import React, { FC, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Controller, FieldErrors, SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-import Select, { OptionTypeBase } from "react-select";
+import Select, { components, OptionTypeBase } from "react-select";
 import { Context } from "../../../context/contextBuilder";
 import { MbContext } from "../../../context/MbContext";
 import { AwardBadgesToProjectParams, Badge } from "../../../types/badge";
 import { Button } from "../blocks/Button";
+import * as yup from "yup";
+import { Props } from "react-select/src/Select";
 
 interface FormProps {
   projectId: string;
   awardedBadges: BadgesForProject[];
 }
+
+yup.object().shape({
+  awardedBadges: yup.array(),
+});
 
 export const AwardBadgesToProjectForm: FC<FormProps> = ({ projectId, awardedBadges: awardedBadges }) => {
   const context = useContext<Context>(MbContext);
@@ -54,6 +60,14 @@ export const AwardBadgesToProjectForm: FC<FormProps> = ({ projectId, awardedBadg
       setValue("badgeIds", badgesToAward);
     }
   };
+
+  const MultiValueRemove = (props: Props<OptionTypeBase>) => {
+    if (!awardedBadgeIds.includes(props.data.value)) {
+      return <components.MultiValueRemove {...props} />;
+    }
+    return <></>;
+  };
+
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit, onError)}>
       <Controller
@@ -62,6 +76,7 @@ export const AwardBadgesToProjectForm: FC<FormProps> = ({ projectId, awardedBadg
         name="badgeIds"
         render={() => (
           <Select
+            components={{ MultiValueRemove }}
             isClearable={false}
             isMulti
             onChange={(options) => handleChange(options)}
