@@ -44,9 +44,6 @@ export const KanbanCanonCardEditForm: FC<Props> = ({ data, editKanbanCanonCard, 
     <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
       <H2>Create a new kanban card</H2>
 
-      {/* Infer kanbanCanonId without prompting */}
-      <input type="hidden" name="kanbanCanonId" ref={register} value={data.kanbanCanonId} />
-
       <Input label="Title" name="title" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.title?.message} />
 
