@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useCallback, useContext } from "react";
+import React, { FC, useState, useEffect, useCallback, useContext, ChangeEvent } from "react";
 import { MeetCard } from "../components/MeetCards/MeetCard";
 import { AdminMeetCreateModal } from "../components/wrappers/Modal/walas/AdminMeetCreateModal";
 import { connect } from "react-redux";
@@ -8,6 +8,7 @@ import { isPast } from "../../utils/DateUtility";
 import { PastMeetCard } from "../components/MeetCards/PastMeetCard";
 import { MbContext } from "../../context/MbContext";
 import { Context } from "../../context/contextBuilder";
+import { Input } from "../components/blocks/Form/Input";
 
 interface StateMapping {
   user: UserState;
@@ -19,7 +20,7 @@ const stp = (state: StoreState) => ({
 const Meets: FC<StateMapping> = ({ user }) => {
   const context = useContext<Context>(MbContext);
   const [meets, setMeets] = useState<Meet[]>([]);
-  const [filteredMeets, setFilteredMeets] = useState<Meet[]>([]);
+  const [filterCondition, setFilterCondition] = useState<MeetType | "all">("all");
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchMeets = useCallback(async () => {
@@ -57,24 +58,36 @@ const Meets: FC<StateMapping> = ({ user }) => {
       return <p className="text-white">Loading...</p>;
     }
 
-    const filteredMeets = meets.filter((m: Meet) => !isPast(m.endTime, m.region));
+    let filteredMeets = meets.filter((m: Meet) => !isPast(m.endTime, m.region));
+
+    if (filterCondition !== "all") {
+      filteredMeets = filteredMeets.filter((m: Meet) => m.meetType === filterCondition);
+    }
 
     // chronological sort
-    const upcomingMeets = filteredMeets
-      .sort((a, b) => {
-        const dateA = new Date(a.startTime).getTime();
-        const dateB = new Date(b.startTime).getTime();
-        if (dateA === dateB) return 0;
-        return dateA - dateB;
-      })
-      .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />);
+    const upcomingMeets = filteredMeets.sort((a, b) => {
+      const dateA = new Date(a.startTime).getTime();
+      const dateB = new Date(b.startTime).getTime();
+      if (dateA === dateB) return 0;
+      return dateA - dateB;
+    });
+
+    const mappedMeets = upcomingMeets.map((meet) => (
+      <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />
+    ));
 
     if (upcomingMeets.length) {
-      return <div className="space-y-4">{upcomingMeets}</div>;
+      return <div className="space-y-4">{mappedMeets}</div>;
     }
 
     return <p className="text-white text-lg">No upcoming meets at the moment... Stay tuned!</p>;
   };
+
+  const handleMeetTypeChange = (e: ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setFilterCondition(target.value as MeetType);
+  };
+
   return (
     <div className="mb-8">
       <BgBlock type="gradStripeEvents">
@@ -96,26 +109,57 @@ const Meets: FC<StateMapping> = ({ user }) => {
               <section className="rounded-xl mb-16 flex flex-col items-center w-full py-8 bg-black max-w-6xl shadow-mb-drop-center">
                 <h2 className="text-4xl text-white mb-4 font-semibold text-center">Upcoming meets</h2>
                 <fieldset className="bg-white w-11/12 flex flex-wrap rounded-mb-xs justify-evenly mb-4">
-                  <label htmlFor="all">
-                    All
-                    <input type="radio" name="all" id="all" checked />
-                  </label>
-                  <label htmlFor="hackathon">
-                    Hackathons
-                    <input type="radio" name="hackathon" id="hackathon" />
-                  </label>
-                  <label htmlFor="workshop">
-                    Workshops
-                    <input type="radio" name="workshop" id="workshop" />
-                  </label>
-                  <label htmlFor="webinar">
-                    Webinars
-                    <input type="radio" name="webinar" id="webinar" />
-                  </label>
-                  <label htmlFor="lecture">
-                    Lectures
-                    <input type="radio" name="lecture" id="lecture" />
-                  </label>
+                  <div>
+                    <Input
+                      className="ml-2"
+                      type="radio"
+                      value="all"
+                      label="All"
+                      name="meetType"
+                      defaultChecked
+                      onChange={handleMeetTypeChange}
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      className="ml-2"
+                      type="radio"
+                      value="hackathon"
+                      label="Hackathons"
+                      name="meetType"
+                      onChange={handleMeetTypeChange}
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      className="ml-2"
+                      type="radio"
+                      value="workshop"
+                      label="Workshops"
+                      name="meetType"
+                      onChange={handleMeetTypeChange}
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      className="ml-2"
+                      type="radio"
+                      value="webinar"
+                      label="Webinars"
+                      name="meetType"
+                      onChange={handleMeetTypeChange}
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      className="ml-2"
+                      type="radio"
+                      value="lecture"
+                      label="Lectures"
+                      name="meetType"
+                      onChange={handleMeetTypeChange}
+                    />
+                  </div>
                 </fieldset>
                 {renderUpcomingMeets()}
               </section>
