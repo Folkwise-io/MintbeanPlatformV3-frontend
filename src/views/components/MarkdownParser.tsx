@@ -9,6 +9,7 @@ type Props = {
 
 /* Returns markdown as html in a div with bas class name "markdown". Styled in index.css */
 export const MarkdownParser: FC<Props> = ({ source, className }) => {
+  if (!source) return null;
   const link = (props: React.HTMLProps<HTMLAnchorElement>): React.ReactElement<typeof ExternalLink> => {
     return <ExternalLink href={props.href || "#"} {...props} />;
   };
