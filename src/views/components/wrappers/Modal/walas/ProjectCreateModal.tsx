@@ -1,10 +1,11 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useContext, useRef } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
-import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { ProjectCreateForm } from "../../../forms/ProjectCreateForm";
-import { Button } from "../../../Button";
+import { Button } from "../../../blocks/Button";
 import { useHistory } from "react-router-dom";
+import { MbContext } from "../../../../../context/MbContext";
+import { Context } from "../../../../../context/contextBuilder";
 
 interface Props {
   buttonText: string;
@@ -12,15 +13,16 @@ interface Props {
   meetId: string;
 }
 
-const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonText, meetId, user }) => {
+export const ProjectCreateModal: FC<Props> = ({ buttonText, meetId, user }) => {
+  const context = useContext<Context>(MbContext);
   const formRef = useRef<HTMLFormElement>(null);
   const history = useHistory();
 
   const actions: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Submit project",
-      buttonType: "submit",
+      type: "submit",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
@@ -30,19 +32,10 @@ const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonTe
     },
   ];
 
-  const createProject = async (params: CreateProjectParams) => {
-    let projectId: string;
-    if (context) {
-      await context.projectService
-        .createProject(params)
-        .then((proj) => {
-          if (proj) {
-            projectId = proj.id;
-          }
-        })
-        .then(() => history.push(`/projects/${projectId}`));
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
+  const createProject = async (input: CreateProjectInput) => {
+    const project = await context.projectService.createProject(input);
+    if (project) {
+      history.push(`/projects/${project.id}`);
     }
   };
 
@@ -67,5 +60,3 @@ const ProjectCreateModal: FC<ConnectContextProps & Props> = ({ context, buttonTe
     </>
   );
 };
-
-export default connectContext<ConnectContextProps & Props>(ProjectCreateModal);

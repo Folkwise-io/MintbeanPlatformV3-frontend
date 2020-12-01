@@ -9,6 +9,9 @@ Update anytime you find something smelly in the code that can't be addressed in 
 ### [L] Refactor modals
 
 Our modals are messy and complicated to use.
+
+For example, modal closing logic is currently an antipattern, sometimes requiring parent to produce a random number in order to trigger the closing action in the child.
+
 Swap out for simpler: either use a third-party like [react-modal](https://github.com/reactjs/react-modal), or code up something similar with basic state management.
 
 ### [M] Refactor dao error handling logic
@@ -36,6 +39,8 @@ registerForMeet(meetId: string): Promise<boolean> {
       .catch(handleServerError);
   }
 ```
+
+One there is stricter error handling in dao, we can be more explicit with error typing in the application, such as in the `loggerService.ts` file.
 
 ### [S] Refactor re-used tags to block components
 

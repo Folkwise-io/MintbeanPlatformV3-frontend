@@ -4,10 +4,14 @@ import {
   Community,
   TermsOfService,
   PrivacyPolicy,
-  /* Hackathons,*/ NotFound,
+  NotFound,
   Meets,
   Meet,
   Project,
+  Admin,
+  CreateBadge,
+  Badges,
+  BadgeTemplate,
 } from "./views/pages";
 
 interface RouteConfig {
@@ -18,11 +22,6 @@ interface RouteConfig {
 }
 
 export const routes: RouteConfig[] = [
-  // Removing Hackathons page for now. Decide whether to delete component later.
-  // {
-  //   component: Hackathons,
-  //   path: "/hackathons",
-  // },
   {
     component: Meet,
     path: "/meets/:id",
@@ -52,6 +51,25 @@ export const routes: RouteConfig[] = [
     component: Community,
     exact: true,
     path: "/community",
+  },
+  {
+    component: Admin,
+    exact: true,
+    path: "/admin",
+  },
+  {
+    component: CreateBadge,
+    exact: true,
+    path: "/admin/create-badge",
+  },
+  {
+    component: Badges,
+    exact: true,
+    path: "/badges",
+  },
+  {
+    component: BadgeTemplate,
+    path: "/badges/:id",
   },
   {
     component: NotFound,

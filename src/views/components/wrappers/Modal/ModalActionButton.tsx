@@ -1,9 +1,9 @@
 import React, { FC, ReactElement } from "react";
-import { Button } from "../../Button";
+import { Button } from "../../blocks/Button";
 
 export interface ModalActionDeclaration {
-  type: "primary" | "secondary" | "danger";
-  buttonType?: "button" | "submit" | "reset";
+  buttonStyle?: "primary" | "secondary" | "danger";
+  type?: "button" | "submit" | "reset";
   text: string;
   onClick: (evt: React.SyntheticEvent, context: ModalActionContext) => void;
 }
@@ -15,9 +15,9 @@ export interface ModalActionContext {
 interface ModalActionProps extends ModalActionContext, ModalActionDeclaration {}
 
 export const ModalActionButton: FC<ModalActionProps> = ({
-  type = "primary",
+  buttonStyle = "primary",
   text,
-  buttonType = "button",
+  type = "button",
   onClick,
   closeModal,
 }): ReactElement => {
@@ -25,7 +25,7 @@ export const ModalActionButton: FC<ModalActionProps> = ({
     <Button
       onClick={(evt: React.SyntheticEvent) => onClick(evt, { closeModal })}
       type={type}
-      buttonType={buttonType}
+      buttonStyle={buttonStyle}
       className="mx-1"
     >
       {text}

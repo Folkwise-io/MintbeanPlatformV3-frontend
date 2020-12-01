@@ -1,7 +1,9 @@
+import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { wcToClientStr } from "../../../utils/DateUtility";
-import AdminMeetDeleteModal from "../wrappers/Modal/walas/AdminMeetDeleteModal";
+import { AdminMeetDeleteModal } from "../wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
 
 type MeetProps = {
@@ -29,7 +31,11 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
         </div>
         <section className="flex flex-col items-center h-full py-2 px-4 lg:px-6 w-full">
           <div className="flex flex-col xs:flex-row xs:justify-between w-full items-center xs:mb-4">
-            <p className="text-xs truncate text-center">{pastEndTimeStr}</p>
+            <p className="font-semibold text-xs truncate text-center text-mb-gray-200">
+              Ended
+              <FontAwesomeIcon icon={faClock} className="mx-1" />
+              <span className="font-normal">{pastEndTimeStr}</span>
+            </p>
             <div className="flex">
               <MeetStatus user={user} meet={meet} />
             </div>

@@ -1,12 +1,13 @@
-import React, { FC, useState, useEffect, useCallback } from "react";
+import React, { FC, useState, useEffect, useCallback, useContext } from "react";
 import { MeetCard } from "../components/MeetCards/MeetCard";
-import { ConnectContextProps, connectContext } from "../../context/connectContext";
-import AdminMeetCreateModal from "../components/wrappers/Modal/walas/AdminMeetCreateModal";
+import { AdminMeetCreateModal } from "../components/wrappers/Modal/walas/AdminMeetCreateModal";
 import { connect } from "react-redux";
 import { BgBlock } from "../components/BgBlock";
 import { FocusCard } from "../components/FocusCard";
 import { isPast } from "../../utils/DateUtility";
 import { PastMeetCard } from "../components/MeetCards/PastMeetCard";
+import { MbContext } from "../../context/MbContext";
+import { Context } from "../../context/contextBuilder";
 
 interface StateMapping {
   user: UserState;
@@ -15,35 +16,31 @@ const stp = (state: StoreState) => ({
   user: state.user,
 });
 
-const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
+const Meets: FC<StateMapping> = ({ user }) => {
+  const context = useContext<Context>(MbContext);
   const [meets, setMeets] = useState<Meet[]>([]);
   const [filteredMeets, setFilteredMeets] = useState<Meet[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchMeetData = useCallback(async () => {
-    if (!context) {
-      console.error(new Error("No context passed to component, but was expected"));
-      alert("Blame the devs! Something terrible happened.");
-      return;
-    }
+  const fetchMeets = useCallback(async () => {
     setLoading(true);
     const fetchedMeets = await context.meetService.fetchMeets();
-    setMeets(fetchedMeets);
+    setMeets(fetchedMeets || []);
     setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Fetch meets on mount
   useEffect(() => {
-    fetchMeetData();
-  }, [context, fetchMeetData]);
+    fetchMeets();
+  }, [context, fetchMeets]);
 
   // reverse-chronological sort
   const renderPastMeets = () =>
     meets
       .filter((m: Meet) => isPast(m.endTime, m.region))
       .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime())
-      .map((meet) => <PastMeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeetData} />);
+      .map((meet) => <PastMeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />);
 
   const renderAdminMeetCreateModal = () =>
     user.data?.isAdmin && (
@@ -51,7 +48,6 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
         <AdminMeetCreateModal
           buttonText="Create new meet"
           className="rounded px-6 py-2 text-white bg-mb-orange-100 mb-2"
-          refetchMeets={fetchMeetData}
         />
       </div>
     );
@@ -71,7 +67,7 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
         if (dateA === dateB) return 0;
         return dateA - dateB;
       })
-      .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeetData} />);
+      .map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />);
 
     if (upcomingMeets.length) {
       return <div className="space-y-4">{upcomingMeets}</div>;
@@ -137,4 +133,4 @@ const Meets: FC<ConnectContextProps & StateMapping> = ({ context, user }) => {
   );
 };
 
-export default connectContext<ConnectContextProps>(connect(stp)(Meets));
+export default connect(stp)(Meets);

@@ -23,7 +23,7 @@ export const ExternalLink: FC<Props> = (props) => {
   const target = blank ? "_blank" : "_self";
   const rel = `${noRefferer ? "noreferrer" : ""} ${noOpener ? "noopener" : ""} ${noFollow ? "nofollow" : ""}`;
   return (
-    <a {...rest} href={href} className={`${className}`} rel={rel} target={target}>
+    <a {...rest} href={href} className={className ? className : ""} rel={rel} target={target}>
       {children}
     </a>
   );
