@@ -1,7 +1,7 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import React, { ChangeEvent, FC, useContext, useRef, useState } from "react";
-import Select, { OptionTypeBase, ValueType } from "react-select";
+import Select, { OptionTypeBase } from "react-select";
 import { Color, SketchPicker } from "react-color";
 import FaPicker from "../../pages/Admin/FaPicker";
 import { paletteOptions } from "../../../utils/Palette";
@@ -91,15 +91,9 @@ export const BadgeCreateForm: FC = () => {
   };
 
   // if valid option, get computed classname for that option
-  const shapeHandleChange = (
-    option: ValueType<{
-      value: string;
-      label: string;
-    }>,
-  ) => {
+  const shapeHandleChange = (option: OptionTypeBase | undefined | null) => {
     if (option) {
-      const shapeOption = option as OptionTypeBase;
-      const value = shapeOption.value;
+      const value = option.value;
       setValue("badgeShape", value);
       setSelectedShape(value);
     }

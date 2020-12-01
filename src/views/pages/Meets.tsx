@@ -8,6 +8,8 @@ import { isPast } from "../../utils/DateUtility";
 import { PastMeetCard } from "../components/MeetCards/PastMeetCard";
 import { MbContext } from "../../context/MbContext";
 import { Context } from "../../context/contextBuilder";
+import { Select } from "../components/blocks/Form/Select";
+import { meetFilterOptions } from "../components/forms/constants";
 import { Input } from "../components/blocks/Form/Input";
 
 interface StateMapping {
@@ -20,7 +22,8 @@ const stp = (state: StoreState) => ({
 const Meets: FC<StateMapping> = ({ user }) => {
   const context = useContext<Context>(MbContext);
   const [meets, setMeets] = useState<Meet[]>([]);
-  const [filterCondition, setFilterCondition] = useState<MeetType | "all">("all");
+  const [meetType, setMeetType] = useState<MeetType | "all">("all");
+  const [searchInput, setSearchInput] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchMeets = useCallback(async () => {
@@ -58,10 +61,18 @@ const Meets: FC<StateMapping> = ({ user }) => {
       return <p className="text-white">Loading...</p>;
     }
 
-    let filteredMeets = meets.filter((m: Meet) => !isPast(m.endTime, m.region));
+    let filteredMeets = meets;
 
-    if (filterCondition !== "all") {
-      filteredMeets = filteredMeets.filter((m: Meet) => m.meetType === filterCondition);
+    // let filteredMeets = meets.filter((m: Meet) => !isPast(m.endTime, m.region));
+
+    if (meetType !== "all") {
+      filteredMeets = filteredMeets.filter((m: Meet) => m.meetType === meetType);
+    }
+
+    if (searchInput) {
+      filteredMeets = filteredMeets.filter((m: Meet) =>
+        `${m.description} ${m.title}`.toLowerCase().includes(searchInput.toLowerCase()),
+      );
     }
 
     // chronological sort
@@ -73,7 +84,7 @@ const Meets: FC<StateMapping> = ({ user }) => {
     });
 
     const mappedMeets = upcomingMeets.map((meet) => (
-      <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />
+      <PastMeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />
     ));
 
     if (upcomingMeets.length) {
@@ -85,7 +96,12 @@ const Meets: FC<StateMapping> = ({ user }) => {
 
   const handleMeetTypeChange = (e: ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setFilterCondition(target.value as MeetType);
+    setMeetType(target.value as MeetType);
+  };
+
+  const handleSearchInputChange = (e: ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setSearchInput(target.value);
   };
 
   return (
@@ -111,57 +127,26 @@ const Meets: FC<StateMapping> = ({ user }) => {
                 <fieldset className="bg-white w-11/12 flex flex-wrap rounded-mb-xs justify-evenly mb-4">
                   <div>
                     <Input
+                      type="text"
+                      label="Search:"
+                      name="searchMeets"
                       className="ml-2"
-                      type="radio"
-                      value="all"
-                      label="All"
-                      name="meetType"
-                      defaultChecked
-                      onChange={handleMeetTypeChange}
+                      onChange={handleSearchInputChange}
                     />
                   </div>
                   <div>
-                    <Input
-                      className="ml-2"
-                      type="radio"
-                      value="hackathon"
-                      label="Hackathons"
-                      name="meetType"
+                    <Select
+                      name="Filter by meet type:"
+                      label="meetTypeFilter"
+                      options={meetFilterOptions}
                       onChange={handleMeetTypeChange}
-                    />
-                  </div>
-                  <div>
-                    <Input
                       className="ml-2"
-                      type="radio"
-                      value="workshop"
-                      label="Workshops"
-                      name="meetType"
-                      onChange={handleMeetTypeChange}
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      className="ml-2"
-                      type="radio"
-                      value="webinar"
-                      label="Webinars"
-                      name="meetType"
-                      onChange={handleMeetTypeChange}
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      className="ml-2"
-                      type="radio"
-                      value="lecture"
-                      label="Lectures"
-                      name="meetType"
-                      onChange={handleMeetTypeChange}
                     />
                   </div>
                 </fieldset>
-                {renderUpcomingMeets()}
+                <div className="grid grid-cols-1 px-0 sm:px-12 md:px-0 md:grid-cols-2 row-auto gap-6">
+                  {renderUpcomingMeets()}
+                </div>
               </section>
             </BgBlock>
             <section className="max-w-6xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-20 px-6 md:px-24">
