@@ -8,12 +8,14 @@ import "./markdown.css";
 
 type Props = {
   source?: string;
-  className?: string; // additional classes to "markdown" (optional)
+  className?: string; // (optional) additional classes to baseClass
 };
 
-/* Returns markdown as html in a div with base class name "markdown". Styled in index.css */
+const baseClass = "markdown";
+
+/* Returns markdown as html in a div with baseClass name */
 export const MarkdownParser: FC<Props> = ({ source, className }) => {
-  const baseClass = "markdown";
+  if (!source) return null;
 
   // render all anchor tags from markdown as external links
   const link = (props: React.HTMLProps<HTMLAnchorElement>): React.ReactElement<typeof ExternalLink> => {
