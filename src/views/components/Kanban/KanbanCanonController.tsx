@@ -6,6 +6,7 @@ import { inflateCardPositions } from "../../../utils/inflateCardPositions";
 import { KanbanCanonContext } from "./KanbanCanonContext";
 import { Context } from "../../../context/contextBuilder";
 import { MbContext } from "../../../context/MbContext";
+import { H2 } from "../blocks/H2";
 
 interface Props {
   kanbanCanonId: string;
@@ -74,8 +75,8 @@ export const KanbanCanonController: FC<Props> = ({ kanbanCanonId }) => {
     <div>
       <p className="italic mb-2">Edit the kanban canon cards below to provide coders with project requirements.</p>
       <div>
-        <h2>{kanbanCanon.title}</h2>
-        <p>{kanbanCanon.description}</p>
+        <H2>{kanbanCanon.title}</H2>
+        <p className="mb-2">{kanbanCanon.description}</p>
       </div>
       <div className="py-2 flex flex-col xs:flex-row">
         <AdminKanbanCanonEditModal

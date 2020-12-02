@@ -197,8 +197,8 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const renderKanbanViewUser = () => {
     // Bail if this meet doesn't have a kanbanCanon
     if (!meet?.kanbanCanonId) return null;
-    // Only show kanban options if meet has started
-    if (meetHasStarted) {
+    // Only show kanban options if meet has started or logged in as admin
+    if (meetHasStarted || isAdmin) {
       // if kanbanCanon exists on meet and user not logged in
       if (meet?.kanbanCanonId && !user) {
         return <p className="font-semibold mt-6">Login or Sign up to unlock a kanban guide for this challenge!</p>;
