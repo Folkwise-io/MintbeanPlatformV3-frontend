@@ -36,7 +36,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project, userState }) => {
         </div>
 
         <section className="text-center p-2 pt-12 h-full w-full place-self-center">
-          <div className="w-full gap-1">
+          <div className="w-11/12 mx-auto gap-1">
             <div className="py-2 flex justify-end items-center">
               {sortedBadges.map((badge) => (
                 <Link to={`/badges/${badge.id}`} key={badge.id}>
