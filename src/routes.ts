@@ -1,20 +1,27 @@
 import React from "react";
-import { Home, Community, Hackathons, NotFound, Meets, Meet, Project } from "./views/pages";
+import {
+  Home,
+  Community,
+  TermsOfService,
+  PrivacyPolicy,
+  NotFound,
+  Meets,
+  Meet,
+  Project,
+  Admin,
+  CreateBadge,
+  Badges,
+  BadgeTemplate,
+} from "./views/pages";
 
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 interface RouteConfig {
+  /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
   component: React.FC<any>;
   exact?: boolean;
   path?: string;
 }
-/* eslint-enable  @typescript-eslint/no-explicit-any */
 
 export const routes: RouteConfig[] = [
-  // Removing Hackathons page for now. Decide whether to delete component later.
-  // {
-  //   component: Hackathons,
-  //   path: "/hackathons",
-  // },
   {
     component: Meet,
     path: "/meets/:id",
@@ -33,9 +40,36 @@ export const routes: RouteConfig[] = [
     path: "/",
   },
   {
+    component: TermsOfService,
+    path: "/terms-of-service",
+  },
+  {
+    component: PrivacyPolicy,
+    path: "/privacy-policy",
+  },
+  {
     component: Community,
     exact: true,
     path: "/community",
+  },
+  {
+    component: Admin,
+    exact: true,
+    path: "/admin",
+  },
+  {
+    component: CreateBadge,
+    exact: true,
+    path: "/admin/create-badge",
+  },
+  {
+    component: Badges,
+    exact: true,
+    path: "/badges",
+  },
+  {
+    component: BadgeTemplate,
+    path: "/badges/:id",
   },
   {
     component: NotFound,

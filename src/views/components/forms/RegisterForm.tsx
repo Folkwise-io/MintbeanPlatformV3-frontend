@@ -2,10 +2,13 @@ import React, { FC } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
+import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
+import { Form } from "../blocks/Form";
+import { H2 } from "../blocks/H2";
+import { Input } from "../blocks/Form/Input";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const registerSchema = yup.object().shape({
-  username: yup.string().min(3, "Too short!").max(20, "Maximum 20 characters!").required("Required"),
   firstName: yup.string().min(1, "At least one character!").max(36, "Maximum 36 characters!").required("Required"),
   lastName: yup.string().min(1, "At least one character!").max(36, "Maximum 36 characters!").required("Required"),
   email: yup.string().email("Invalid email").required("Required"),
@@ -17,7 +20,7 @@ const registerSchema = yup.object().shape({
 });
 
 type Props = {
-  registerUser: (values: RegisterParams) => void;
+  registerUser: (values: RegisterInput) => void;
   formRef: React.RefObject<HTMLFormElement> | null;
 };
 
@@ -27,38 +30,29 @@ export const RegisterForm: FC<Props> = ({ registerUser, formRef }) => {
   });
 
   // RHF only calls onSubmit callback when form input passes validation
-  const onSubmit = (data: RegisterParams) => registerUser(data);
+  const onSubmit = (data: RegisterInput) => registerUser(data);
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="font-semibold">Hack with us!</h1>
+    <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+      <H2>Code with us!</H2>
 
-      <label htmlFor="firstName">First name</label>
-      <input type="text" name="firstName" ref={register} />
-      <p className="text-red-500">{errors.firstName?.message}</p>
+      <Input label="First name" name="firstName" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.firstName?.message} />
 
-      <label htmlFor="lastName">Last name</label>
-      <input type="text" name="lastName" ref={register} />
-      <p className="text-red-500">{errors.lastName?.message}</p>
+      <Input label="Last name" name="lastName" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.lastName?.message} />
 
-      <label htmlFor="username">Username</label>
-      <input type="text" name="username" ref={register} />
-      <p className="text-red-500">{errors.username?.message}</p>
+      <Input type="email" label="Email" name="email" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.email?.message} />
 
-      <label htmlFor="email">Email</label>
-      <input type="email" name="email" ref={register} />
-      <p className="text-red-500">{errors.email?.message}</p>
+      <Input type="password" label="Password" name="password" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.password?.message} />
 
-      <label htmlFor="password">Password</label>
-      <input type="password" name="password" ref={register} />
-      <p className="text-red-500">{errors.password?.message}</p>
-
-      <label htmlFor="passwordConfirmation">Confirm password</label>
-      <input type="password" name="passwordConfirmation" ref={register} />
-      <p className="text-red-500">{errors.passwordConfirmation?.message}</p>
+      <Input type="password" label="Confirm password" name="passwordConfirmation" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.passwordConfirmation?.message} />
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />
-    </form>
+    </Form>
   );
 };

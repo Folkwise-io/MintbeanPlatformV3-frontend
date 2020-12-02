@@ -2,7 +2,6 @@
 interface User {
   id: string;
   email: string;
-  username: string;
   firstName: string;
   lastName: string;
   createdAt: string;
@@ -18,31 +17,51 @@ interface Project {
   meet: MeetForProject;
   user: UserForProject;
   mediaAssets: CloudinaryPublicIdMediaAsset[];
+  badges: BadgesForProject[];
 }
 interface UserForProject {
   id: string;
   firstName: string;
   lastName: string;
-  username: string;
 }
 interface MeetForProject {
   id: string;
   title: string;
 }
 
+interface BadgesForProject {
+  title: string;
+  id: string;
+  alias: string;
+  badgeShape: BadgeShape;
+  faIcon: string;
+  backgroundHex: string;
+  iconHex: string;
+  weight: number;
+}
+
+/** Whether registration is going to open, is open now, or is closed. */
+type RegisterLinkStatus = "WAITING" | "OPEN" | "CLOSED";
+type BadgeShape = "star" | "circle" | "square";
 interface Meet {
   id: string;
   title: string;
   description: string;
   instructions: string;
   registerLink?: string;
+  registerLinkStatus: RegisterLinkStatus;
   meetType: "hackMeet"; // TODO: change to enum, extend variants once more meet types
   coverImageUrl: string;
   startTime: string;
   endTime: string;
   region: string;
   projects: ProjectForMeet[];
+  registrants: RegistrantsForMeet[];
+  kanbanCanon: KanbanCanon | null;
+  kanbanCanonId: string | null;
+  kanban: Kanban | null;
 }
+
 interface ProjectForMeet {
   id: string;
   title: string;
@@ -50,45 +69,84 @@ interface ProjectForMeet {
   liveUrl: string;
   user: UserForProjectForMeet;
   mediaAssets: CloudinaryPublicIdMediaAsset[];
+  badges: BadgesForProject[];
+  createdAt: string;
 }
+
+interface RegistrantsForMeet {
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
 interface UserForProjectForMeet {
   firstName: string;
   lastName: string;
-  username: string;
 }
 
 interface CloudinaryPublicIdMediaAsset {
   cloudinaryPublicId: string;
 }
 
-// INPUTS --------------------
-interface LoginParams {
+// Re: status - unable to use enum in d.ts file. Using union instead. These much match KanbanCanonCardStatusEnum strings in backend
+type KanbanCanonCardStatus = "TODO" | "WIP" | "DONE";
+// TODO: how to map card status enum to lower case keys? hard-coding below for now
+type KanbanCardStatusesLowerCase = "todo" | "wip" | "done";
+
+type KanbanCardPositions = {
+  [key in KanbanCardStatusesLowerCase]: string[];
+};
+type InflatedKanbanCardPositions = {
+  [key in KanbanCardStatusesLowerCase]: KanbanCanonCard[];
+};
+
+interface KanbanBase {
+  id: string;
+  title: string;
+  description: string;
+  meetId?: string;
+  cardPositions: KanbanCardPositions;
+}
+interface KanbanCanonCard {
+  id: string;
+  kanbanCanonId: string;
+  title: string;
+  body: string;
+  index?: number; // frontend-only: for drag + drop indexing
+}
+
+interface KanbanCanon extends KanbanBase {
+  kanbanCanonCards: KanbanCanonCard[];
+}
+
+interface Kanban extends KanbanBase {
+  kanbanCanonId: string;
+  userId: string;
+  kanbanCards: KanbanCanonCard[];
+}
+
+// ARGS ----------------------
+interface LoginArgs {
   email: string;
   password: string;
 }
 
-interface RegisterParams {
+// Currently only supports lookup by ID in frontend.
+// Backend also allows a composite lookup of kanbanCanonId + userId + (meetId?)
+interface FetchKanbanArgs {
+  id: string;
+}
+
+// INPUTS --------------------
+interface RegisterInput {
   firstName: string;
   lastName: string;
-  username: string;
   email: string;
   password: string;
   passwordConfirmation: string;
 }
 
-interface CreateMeetParams {
-  meetType: "hackMeet";
-  title: string;
-  description: string;
-  instructions: string;
-  registerLink?: string;
-  coverImageUrl: string;
-  startTime: string;
-  endTime: string;
-  region: string;
-}
-// Same as CreateMeetUnput atm
-interface EditMeetParams {
+interface CreateMeetInput {
   meetType: "hackMeet";
   title: string;
   description: string;
@@ -100,13 +158,60 @@ interface EditMeetParams {
   region: string;
 }
 
-interface CreateProjectParams {
+interface EditMeetInput {
+  meetType?: "hackMeet";
+  title?: string;
+  description?: string;
+  instructions?: string;
+  registerLink?: string;
+  coverImageUrl?: string;
+  startTime?: string;
+  endTime?: string;
+  region?: string;
+  kanbanCanonId?: string;
+}
+
+interface CreateProjectInput {
   userId: string;
   meetId: string;
   title: string;
   sourceCodeUrl: string;
   liveUrl: string;
   cloudinaryPublicIds: string[];
+}
+
+interface CreateKanbanCanonInput {
+  meetId?: string;
+  title: string;
+  description: string;
+}
+
+interface EditKanbanCanonInput {
+  title?: string;
+  description?: string;
+}
+
+interface CreateKanbanInput {
+  meetId?: string;
+  userId: string;
+  kanbanCanonId: string;
+}
+
+interface CreateKanbanCanonCardInput {
+  title: string;
+  body: string;
+  kanbanCanonId: string;
+}
+
+interface EditKanbanCanonCardInput {
+  title?: string;
+  body?: string;
+}
+
+interface UpdateCardPositionInput {
+  cardId: string;
+  status: KanbanCanonCardStatus;
+  index: number;
 }
 
 // API -----------------------
@@ -154,4 +259,11 @@ interface StoreState {
   users: UsersState;
   errors: LoggedError[];
   toasts: ToastState;
+}
+
+// OTHER -------------------------
+// to allow imports of md files in components
+declare module "*.md" {
+  const value: string;
+  export default value;
 }

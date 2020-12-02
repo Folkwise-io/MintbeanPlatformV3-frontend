@@ -1,9 +1,9 @@
-import React, { FC, ReactElement, useState, useEffect } from "react";
+import React, { ReactElement, useState, useEffect, useRef, FC } from "react";
 import { usePopper } from "react-popper";
 import { Placement } from "@popperjs/core/lib/enums";
 import { ModalActionButton, ModalActionDeclaration } from "./ModalActionButton";
 
-interface ModalProps {
+interface Props {
   triggerBuilder: (
     toggleModal: () => void,
     ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
@@ -11,17 +11,40 @@ interface ModalProps {
   placement?: Placement;
   actions?: ModalActionDeclaration[];
   title?: string;
-  closeFromParent?: number;
+  isDetached?: boolean;
+  hasRelativeParent?: boolean;
+  triggerCloseFromParent?: number; // a random number passed to trigger modal close from parent
 }
 
-export const Modal: FC<ModalProps> = ({
+// style for centering modal in middle of screen if isDetached prop = true
+const detachedStyles: React.CSSProperties = {
+  position: "fixed",
+  left: "50%",
+  top: "50%",
+  transform: "translate(-50%, -50%)",
+  zIndex: 999,
+  overflow: "auto",
+  maxHeight: "80vh",
+  maxWidth: "90vw",
+};
+
+const relativeStyles: React.CSSProperties = {
+  zIndex: 89,
+  overflow: "auto",
+  maxWidth: "90vw",
+};
+
+export const Modal: FC<Props> = ({
   triggerBuilder,
   actions,
   title,
   children,
-  closeFromParent,
+  triggerCloseFromParent,
   placement = "bottom",
+  isDetached = false,
+  hasRelativeParent = false,
 }): ReactElement => {
+  const isUnmounted = useRef<boolean>(false);
   const [triggerRef, setTriggerRef] = useState<HTMLElement | null>(null);
   const [show, toggleShow] = useState(false);
   const [popperElement, setPopperElement] = useState<HTMLElement | null>(null);
@@ -42,13 +65,20 @@ export const Modal: FC<ModalProps> = ({
   });
 
   useEffect(() => {
-    if (closeFromParent) {
+    // cleanup on unmount. This is important to prevent memory leak of orphaned state updaters if modal is deleted
+    return () => {
+      isUnmounted.current = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (triggerCloseFromParent) {
       closeModal();
     }
-  }, [closeFromParent]);
+  }, [triggerCloseFromParent]);
 
   const closeModal = () => {
-    toggleShow(false);
+    if (!isUnmounted.current) toggleShow(false);
   };
 
   // Wrap the triggerable element with the modal
@@ -66,40 +96,57 @@ export const Modal: FC<ModalProps> = ({
 
   return (
     <>
+      <>
+        {
+          // render the trigger element so it can be clicked
+          triggers
+        }
+      </>
+
       {
-        // render the trigger element so it can be clicked
-        triggers
-      }
-      {
+        //transform translate y: 37%
+        //transform translate x: 5%
+        // classname of overlay takes hasRelativeParent into account by adjusting transform value to above. the reason this is necessary is because of the transform translates on the Action components, which resets the center for 'fixed', see more here:
+        // https://developer.mozilla.org/en-US/docs/Web/CSS/position
+
         // This is the modal itself. It only shows if the trigger was clicked.
         show && (
-          <div
-            ref={(el) => setPopperElement(el)}
-            style={{ ...styles.popper, zIndex: 89 }}
-            {...attributes.popper}
-            data-popper-placement="right"
-            className="bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-sm"
-          >
-            {/* modal header with the "X" button for closing the modal */}
-            <section className="py-1 px-2 flex justify-end text-gray-400">
-              <button className="active:bg-mb-green-200 px-2 rounded-full" onClick={closeModal}>
-                Close
-              </button>
-            </section>
-            {/* modal body that displays the children */}
-            <section className="flex p-4 justify-center items-center flex-col">
-              {title && <div className="font-semibold text-lg text-gray-700 mb-2">{title}</div>}
-              <div className="my-2">
-                {
-                  // Render the children, i.e. the body of the modal
-                  children
-                }
-              </div>
-            </section>
-            {/* modal actions */}
-            <section className="flex py-1 px-2 justify-center">{actionButtons}</section>
-            <div ref={(el) => setArrowElement(el)} style={styles.arrow} />
-          </div>
+          <>
+            <div
+              className={`h-screen w-screen fixed right-50 bottom-50 z-0 transform ${
+                hasRelativeParent ? "translate-x-5% translate-y-37%" : "translate-x-1/2 translate-y-1/2"
+              }`}
+              onClick={closeModal}
+            ></div>
+            <div
+              ref={(el) => setPopperElement(el)}
+              style={isDetached ? detachedStyles : { ...styles.popper, ...relativeStyles }}
+              {...attributes.popper}
+              data-popper-placement="right"
+              className={`resize bg-gray-100 p-3 shadow-xl rounded-md border-2 border-mb-green-200 max-w-screen-sm md:max-w-screen-md text-black max-h-70vh"
+              }`}
+            >
+              {/* modal header with the "X" button for closing the modal */}
+              <section className="py-1 px-2 flex justify-end text-gray-600">
+                <button className="active:bg-mb-green-200 px-2 rounded-full" onClick={closeModal}>
+                  Close
+                </button>
+              </section>
+              {/* modal body that displays the children */}
+              <section className="flex p-4 justify-center items-center flex-col">
+                {title && <div className="font-semibold text-lg text-gray-700 mb-2">{title}</div>}
+                <div className="my-2 max-w-full">
+                  {
+                    // Render the children, i.e. the body of the modal
+                    children
+                  }
+                </div>
+              </section>
+              {/* modal actions */}
+              <section className="flex py-1 px-2 justify-center">{actionButtons}</section>
+              <div ref={(el) => setArrowElement(el)} style={styles.arrow} />
+            </div>
+          </>
         )
       }
     </>

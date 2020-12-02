@@ -1,12 +1,12 @@
 import { AuthDao } from "../../../src/daos/AuthDao";
 import { TestDao } from "../../testTypes";
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 
 // any potential responses from this test dao, besides null (error case)
 type SuccessDataTypes = User | boolean;
 
 /*TODO refactor mockReturn handling in TestDao methods once pattern is understood */
 export class TestAuthDao implements AuthDao, TestDao {
+  /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
   data: any;
   private mockReturns: ApiResponseRaw<SuccessDataTypes | null>[];
 
@@ -15,13 +15,13 @@ export class TestAuthDao implements AuthDao, TestDao {
     this.mockReturns = [];
   }
 
-  async login(loginInput: LoginParams): Promise<User> {
+  async login(LoginArgs: LoginArgs): Promise<User> {
     const errorReturns = this.getErrors();
     const successReturns = this.getSuccesses();
     if (errorReturns.length) {
       // Mock failed login
       throw errorReturns;
-    } else if (loginInput && successReturns.length) {
+    } else if (LoginArgs && successReturns.length) {
       // Mock successful login
       // *Login creds must be first mockedReturn
       return (successReturns[0].data as unknown) as User;
@@ -49,7 +49,7 @@ export class TestAuthDao implements AuthDao, TestDao {
     }
   }
 
-  async register(params: RegisterParams): Promise<User> {
+  async register(params: RegisterInput): Promise<User> {
     const errorReturns = this.getErrors();
     const successReturns = this.getSuccesses();
     if (errorReturns.length) {
@@ -83,4 +83,3 @@ export class TestAuthDao implements AuthDao, TestDao {
     this.mockReturns = [];
   }
 }
-/* eslint-enable  @typescript-eslint/no-explicit-any */

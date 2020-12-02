@@ -19,7 +19,7 @@ export const Pillars: FC<Props> = ({ pillars }) => {
         <li key={index} className="grid grid-rows-2 md:px-32 lg:px-0">
           <div className="row-span-1 grid place-items-center place-content-end">
             <img
-              className="block max-h-75"
+              className="block max-h-75 object-contain"
               src={image[index]}
               alt="an abstract geometric doodle with triangles, squares and circles"
             />

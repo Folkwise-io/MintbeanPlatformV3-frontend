@@ -7,26 +7,38 @@ import { ThunkDispatch } from "redux-thunk";
 import { Context } from "../../../../../context/contextBuilder";
 import { MbAction } from "../../../../state/actions/MbAction";
 import { connect } from "react-redux";
+import { Button } from "../../../blocks/Button";
+import { Placement } from "@popperjs/core";
 
 interface Props {
   className?: string;
-  buttonText: string;
+  buttonText: string | JSX.Element;
+  buttonStyle?: "primary" | "override";
+  placement?: Placement;
+  hasRelativeParent?: boolean;
 }
 
 type DispatchMapping = {
-  register: (values: RegisterParams) => void;
+  register: (values: RegisterInput) => void;
 };
 
 const dtp = (dispatch: ThunkDispatch<StoreState, Context, MbAction>) => ({
-  register: (values: RegisterParams) => dispatch(register(values)),
+  register: (values: RegisterInput) => dispatch(register(values)),
 });
 
-const RegisterModal: FC<Props & DispatchMapping> = ({ register, className, buttonText }) => {
+const RegisterModal: FC<Props & DispatchMapping> = ({
+  register,
+  className,
+  buttonText,
+  buttonStyle = "primary",
+  placement = "bottom",
+  hasRelativeParent = false,
+}) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const actions: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Sign Up",
       onClick: async () => {
         if (formRef.current) {
@@ -42,12 +54,19 @@ const RegisterModal: FC<Props & DispatchMapping> = ({ register, className, butto
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <button onClick={toggleModal} ref={(el) => setRef(el)} className={className || ""}>
+          <Button
+            buttonStyle={buttonStyle}
+            onClick={toggleModal}
+            forwardRef={(el) => setRef(el)}
+            className={className || ""}
+          >
             {buttonText}
-          </button>
+          </Button>
         )}
+        placement={placement}
+        hasRelativeParent={hasRelativeParent}
       >
-        <RegisterForm formRef={formRef} registerUser={(values: RegisterParams) => register(values)} />
+        <RegisterForm formRef={formRef} registerUser={(values: RegisterInput) => register(values)} />
       </Modal>
     </>
   );

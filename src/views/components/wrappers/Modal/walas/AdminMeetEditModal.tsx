@@ -1,9 +1,10 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useContext, useRef } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
-import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
-// import { useHistory } from "react-router-dom";
 import { MeetEditForm } from "../../../forms/MeetEditForm";
+import { MbContext } from "../../../../../context/MbContext";
+import { Context } from "../../../../../context/contextBuilder";
+import { Button } from "../../../blocks/Button";
 
 interface Props {
   className?: string;
@@ -11,15 +12,15 @@ interface Props {
   meet: Meet;
 }
 
-const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, className, buttonText, meet }) => {
+export const AdminMeetEditModal: FC<Props> = ({ className, buttonText, meet }) => {
+  const context = useContext<Context>(MbContext);
   const formRef = useRef<HTMLFormElement>(null);
-  // const history = useHistory();
 
   const actions: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Update meet",
-      buttonType: "submit",
+      type: "submit",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
@@ -29,16 +30,11 @@ const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, classNam
     },
   ];
 
-  const editMeet = async (params: CreateMeetParams) => {
-    if (context) {
-      await context.meetService.editMeet(meet.id, params).then(() => {
-        console.log({ history });
-        // can't get react router history to push reload same page for some reason
-        window && window.location.reload();
-      });
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
-    }
+  const editMeet = async (params: EditMeetInput) => {
+    await context.meetService.editMeet(meet.id, params).then(() => {
+      // force page reload
+      window && window.location.reload();
+    });
   };
 
   return (
@@ -46,9 +42,14 @@ const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, classNam
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <button onClick={toggleModal} ref={(el) => setRef(el)} className={className || ""}>
+          <Button
+            buttonStyle="secondary"
+            onClick={toggleModal}
+            forwardRef={(el) => setRef(el)}
+            className={className || ""}
+          >
             {buttonText}
-          </button>
+          </Button>
         )}
       >
         <MeetEditForm formRef={formRef} editMeet={editMeet} meet={meet} />
@@ -56,5 +57,3 @@ const AdminMeetEditModal: FC<ConnectContextProps & Props> = ({ context, classNam
     </>
   );
 };
-
-export default connectContext<ConnectContextProps & Props>(AdminMeetEditModal);

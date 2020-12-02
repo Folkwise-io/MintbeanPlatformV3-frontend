@@ -1,22 +1,26 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState } from "react";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/CloudinaryUploadWidget";
 import { ImageDisplay } from "../ImageDisplay";
+import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
+import { Form } from "../blocks/Form";
+import { H2 } from "../blocks/H2";
+import { Input } from "../blocks/Form/Input";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createProjectInputSchema = yup.object().shape({
   userId: yup.string().uuid("userId must be a valid UUID"),
   meetId: yup.string().uuid("userId must be a valid UUID"),
   title: yup.string().max(64, "Title can be a maximum of 64 characters").required("Project title required!"),
-  sourceCodeUrl: yup.string().url("Source code URL must be a valid URL").required("Source code URL required!"),
-  liveUrl: yup.string().url("Deployment URL must be a valid URL").required("Deployment URL required!"),
+  sourceCodeUrl: yup.string().url("Must be a valid URL (https://...)").required("Source code URL required!"),
+  liveUrl: yup.string().url("Must be a valid URL (https://...)").required("Deployment URL required!"),
   // cloudinaryPublicIds: yup.array().of(yup.string()).min(1).required("Must submit at least one asset!"),
 });
 
 interface Props {
-  createProject: (values: CreateProjectParams) => void;
+  createProject: (values: CreateProjectInput) => void;
   formRef: React.RefObject<HTMLFormElement> | null;
   user: User;
   meetId: string;
@@ -31,7 +35,7 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
   });
 
   // RHF only calls onSubmit callback when form input passes validation
-  const onSubmit = (data: CreateProjectParams) => {
+  const onSubmit = (data: CreateProjectInput) => {
     const dataWithCloudinaryIds = { ...data, cloudinaryPublicIds: cloudinaryIds };
     createProject(dataWithCloudinaryIds);
   };
@@ -40,7 +44,6 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
     setCloudinaryIds((prevState) => [...prevState, data.public_id]);
   };
   const removeCloudinaryIdAt = (i: number): void => {
-    console.log({ i });
     setCloudinaryIds((prevState) => {
       const copy = [...prevState];
       copy.splice(i, 1);
@@ -80,42 +83,39 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
     </div>
   );
 
+  /* Admin view: allow submission on behalf of another user */
+  /* TODO: implement user search instead of relying on userId string input */
+  const renderAdminInputs = () => (
+    <>
+      <Input label="Submitting on behalf of (user ID):" name="userId" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.userId?.message} />
+    </>
+  );
+
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className={className ? className : ""}>
-      <h3 className="font-semibold">Submit a project</h3>
+    <Form ref={formRef} onSubmit={handleSubmit(onSubmit)} className={className ? className : ""}>
+      <H2>Submit a project</H2>
 
       {user.isAdmin ? (
-        <>
-          {/* Admin view: allow submission on behalf of another user */}
-          {/* TODO: implement user search instead of relying on userId string input */}
-          <label htmlFor="userId">Submitting on behalf of (user ID):</label>
-          <input type="text" name="userId" ref={register} />
-          <p className="text-red-500">{errors.userId?.message}</p>
-        </>
+        renderAdminInputs()
       ) : (
         <>
           {/* Regular user view: infer userID without prompting */}
           <input type="hidden" name="userId" ref={register} value={user.id} />
-          <p className="text-red-500">{errors.userId?.message}</p>
         </>
       )}
 
       {/* Infer meetId without prompting */}
       <input type="hidden" name="meetId" ref={register} value={meetId} />
-      {/* TODO: remove error msg in UI - for dev purpose only */}
-      <p className="text-red-500">{errors.meetId?.message}</p>
 
-      <label htmlFor="title">Title</label>
-      <input type="text" name="title" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.title?.message}</p>
+      <Input label="Title" name="title" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.title?.message} />
 
-      <label htmlFor="sourceCodeUrl">Source code url</label>
-      <input type="url" name="sourceCodeUrl" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.sourceCodeUrl?.message}</p>
+      <Input label="Cource code url" name="sourceCodeUrl" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.sourceCodeUrl?.message} />
 
-      <label htmlFor="liveUrl">Deployment url</label>
-      <input type="url" name="liveUrl" ref={register} className="mb-2" />
-      <p className="text-red-500">{errors.liveUrl?.message}</p>
+      <Input label="Deployment url" name="liveUrl" ref={register} />
+      <FormValidationErrorMsg errorMessage={errors.liveUrl?.message} />
 
       {/* Hidden field for cloudinaryPublicIds, value populated by widget and local state */}
       <label htmlFor="cloudinaryPublicIds">Images and/or GIFs</label>
@@ -123,7 +123,7 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
         <em className="font-normal">(First one will be cover image)</em>
       </p>
       <input type="hidden" name="cloudinaryPublicIds" ref={register} className="mb-2" value={cloudinaryIds} />
-      <p className="text-red-500">{errors.coverImageUrl?.message}</p>
+      <FormValidationErrorMsg errorMessage={errors.coverImageUrl?.message} />
       <div className="flex flex-col align-items">
         {/* Thumbnail preview */}
         {cloudinaryIds.length ? thumbnailPreview : null}
@@ -132,6 +132,6 @@ export const ProjectCreateForm: FC<Props> = ({ createProject, formRef, user, mee
 
       {/* workaround for allowing form submit on Enter */}
       <input type="submit" className="hidden" />
-    </form>
+    </Form>
   );
 };

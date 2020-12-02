@@ -1,11 +1,7 @@
 import { TestManager } from "../TestManager";
 import { meetFactory } from "../factories/meet.factory";
-import { userFactory } from "../factories/user.factory";
-import { login } from "../../../src/views/state/actions/authActions";
-// import { userFactory } from "../factories/user.factory";
 
-// TODO: fix meet factory to allow recursive assocaition nesting
-const fakeMeets = meetFactory.bulk();
+const fakeMeets = meetFactory.bulk(6);
 
 describe("MeetService", () => {
   let testManager: TestManager;
@@ -26,7 +22,8 @@ describe("MeetService", () => {
 
       await tm.execute((context) => {
         return context.meetService.fetchMeets().then((result) => {
-          expect(result.length).toBe(1);
+          if (!result) throw new Error("Expected result");
+          expect(result.length).toBe(6);
         });
       });
     });
@@ -35,6 +32,7 @@ describe("MeetService", () => {
 
       await tm.execute((context) => {
         return context.meetService.fetchMeets().then((result) => {
+          if (!result) throw new Error("Expected result");
           expect(result.length).toBe(0);
         });
       });
@@ -49,8 +47,6 @@ describe("MeetService", () => {
         .execute((context) => context.meetService.fetchMeets());
       const storeState = testManager.store.getState();
       expect(storeState.errors[0].message).toBe(ERR_MSG);
-      // const errors = context.meetDao.getErrors();
-      // expect(errors[0]).toMatchObject(FAKE_ERROR);
     });
   });
   describe("createMeet()", () => {
@@ -260,6 +256,49 @@ describe("MeetService", () => {
         })
         .execute((context) => {
           return context.meetService.deleteMeet("someuuid");
+        });
+
+      const storeState = testManager.store.getState();
+      expect(storeState.errors[0].message).toBe(SERVER_ERR_MSG);
+      const lastToast = storeState.toasts.length - 1;
+      expect(storeState.toasts[lastToast].type).toBe("DANGER");
+    });
+  });
+  describe("registerForMeet()", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.meetDao.clearMockReturns();
+      });
+    });
+
+    it("allows user to register for meet", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.meetDao.mockReturn({ data: true });
+        })
+        .execute((context) => {
+          return context.meetService.registerForMeet("someuuid");
+        });
+      const storeState = testManager.store.getState();
+      expect(storeState.errors.length).toBe(0);
+      expect(storeState.toasts[0].type).toBe("SUCCESS");
+    });
+    it("logs error and throws server message toast on error", async () => {
+      const SERVER_ERR_MSG = "test";
+      await testManager
+        .configureContext((context) => {
+          context.meetDao.mockReturn({
+            data: null,
+            errors: [{ message: SERVER_ERR_MSG, extensions: { code: "TEST_UNAUTHORIZED" } }],
+          });
+        })
+        .execute((context) => {
+          return context.meetService.registerForMeet("someuuid");
         });
 
       const storeState = testManager.store.getState();

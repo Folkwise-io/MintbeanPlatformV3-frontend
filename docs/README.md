@@ -6,11 +6,37 @@
 
 Make sure the backend server and postgres is also working in separate tabs (see backend repo for instructions).
 
+### @types devDependencies
+
+Please try to add @types/... packages as devDependencies since they are only used during build phase.
+To change to dev dependency, remove and re-add package using --dev flag:
+
+```
+yarn remove @types/react-select
+yarn add --dev @types/react-select
+```
+
 ### Environment variables
 
 Create a `.env` file in the project root. Add environment variable keys and values. Copy keys `.env.sample` and populate with actual values.
 
 Note: you can access environment variables in frontend with `process.env.VAR_NAME`
+
+#### Feature Flags
+
+Experimental features not ready for production can be conditionally rendered using .env variable feature flags.
+
+For example, the Kanban feature is large and it makes sense to incrementaly merge it in pieces to the platform without presenting it to the end user, so a feature flag is used to enable other devs to see it without the feature being rendered in production.
+
+1. Create a new prefixed feature flag variable `# FF_<FEATURE>=true` in .env.example so other devs know it is available. **Be sure to comment it out so that devs have the choice of whether or not to render it.**
+
+2. Conditionally render the experimental feature in the code by getting the flag status something like so: `!!process.env.FF_<FEATURE>`
+
+3. Use the variable (uncommented) in your personal local .env file to view features that rely on the flag.
+
+> Do not set feature flags on in production. In staging it is ok for QA purpose when ready.
+
+> Setting `FF_<FEATURE>=false` will not disable the feature, as env variables are strings and this renders truthy. To disable a feature, comment out the feature flag like this: `# FF_<FEATURE>=true`
 
 ### Logging in as test users
 
@@ -162,13 +188,27 @@ See `meetService.test.ts` for example of calling api service that doesn't touch 
 
 ### Markdown
 
-We are using `react-markdown` (built on `markdown-it`) to parse markdown text into html.
+#### Rendering with `<MarkdownParser />`
 
-[See here](https://www.npmjs.com/package/react-markdown-it#usage) for usage example.
+This component wraps `[react-markdown](https://www.npmjs.com/package/react-markdown-it)` (built on `markdown-it`) to parse markdown text into html. By default all markdown blocks have the class `.markdown` , but additional classes can be supplied by passing the `className` prop.
 
-### Editor
+The `source` prop takes the markdown string to be rendered into HTML.
 
-We will use [Ace](https://github.com/securingsincity/react-ace) for inputs with syntax highlighting on steroids.
+Example usage:
+
+```
+<MarkdownParser source={meet?.instructions} />
+```
+
+#### Editing with `<MarkdownParser />`
+
+This component wraps `[react-codemirror2](https://www.npmjs.com/package/react-codemirror2)` to produce a markdown editor with live syntax highlighting. See component for styling options.
+
+It takes a string `value` prop for an initial value, and an `onBeforeChange` callback prop for how to handle input changes.
+
+```
+<MarkdownEditor value={instructions} onBeforeChange={(value) => setValue("instructions", value)} />
+```
 
 ### Debugging in VSCode
 

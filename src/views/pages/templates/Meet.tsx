@@ -1,18 +1,31 @@
-import React, { FC, useState, useEffect } from "react";
-import { ConnectContextProps, connectContext } from "../../../context/connectContext";
-import { DateUtility } from "../../../utils/DateUtility";
+import React, { FC, useState, useEffect, useCallback, useContext } from "react";
+import { isPast, wcToClientStr, getDurationInHours, getDurationStringFromHours } from "../../../utils/DateUtility";
 import { connect } from "react-redux";
-import Markdown from "react-markdown";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
-import { Button } from "../../components/Button";
-import { ExternalLink } from "../../components/ExternalLink";
-import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
+import { AdminMeetDeleteModal } from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
 import { ProjectCard } from "../../components/ProjectCard";
 import { BgBlock } from "../../components/BgBlock";
-import ProjectCreateModal from "../../components/wrappers/Modal/walas/ProjectCreateModal";
-import AdminMeetEditModal from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
+import { ProjectCreateModal } from "../../components/wrappers/Modal/walas/ProjectCreateModal";
+import { AdminMeetEditModal } from "../../components/wrappers/Modal/walas/AdminMeetEditModal";
+import { MarkdownParser } from "../../components/MarkdownParser";
+import { KanbanCanonController } from "../../components/Kanban/KanbanCanonController";
+import { AdminKanbanCanonCreateModal } from "../../components/wrappers/Modal/walas/AdminKanbanCanonCreateModal";
+import LoginModal from "../../components/wrappers/Modal/walas/LoginModal";
+import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
+import { MeetStatus } from "../../components/MeetCards/MeetStatus";
+import { MeetRegistration } from "../../../utils/MeetRegistration";
+import { ExternalLink } from "../../components/ExternalLink";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { H1 } from "../../components/blocks/H1";
+import { CreateKanbanButton } from "../../components/Kanban/CreateKanbanButton";
+import { MbContext } from "../../../context/MbContext";
+import { Context } from "../../../context/contextBuilder";
+import KanbanController from "../../components/Kanban/KanbanController";
+import { CSVExport } from "../../components/CSVExport";
+import { Button } from "../../components/blocks/Button";
 
-const d = new DateUtility();
+const meetReg = new MeetRegistration();
 
 interface StateMapping {
   user: UserState;
@@ -26,58 +39,228 @@ interface MatchParams {
   id: string;
 }
 
-const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({ context, user, match }) => {
+const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userState, match }) => {
+  const context = useContext<Context>(MbContext);
   const {
     params: { id },
   } = match;
   const [meet, setMeet] = useState<Meet | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const isAdmin = user.data?.isAdmin;
+  const user = userState.data;
+  const isLoggedIn = !!user;
+  const isAdmin = user?.isAdmin;
   const history = useHistory();
 
-  useEffect(() => {
-    const fetchMeetData = async () => {
-      if (!context) {
-        console.error(new Error("No context passed to component, but was expected"));
-        alert("Blame the devs! Something terrible happened.");
-        return;
-      }
-      setLoading(true);
-      const fetchedMeet = await context.meetService.fetchMeet(id);
-      if (fetchedMeet) {
-        setMeet(fetchedMeet);
-      }
-      setLoading(false);
-    };
-    fetchMeetData();
+  const fetchMeetData = useCallback(async () => {
+    setLoading(true);
+    const fetchedMeet = await context.meetService.fetchMeet(id);
+    if (fetchedMeet) {
+      setMeet(fetchedMeet);
+    }
+    setLoading(false);
   }, [context, id]);
+
+  useEffect(() => {
+    fetchMeetData();
+  }, [fetchMeetData]);
+
+  const canRegister = meet?.registerLinkStatus !== "CLOSED";
+
+  const updateRegistrantData = async () => {
+    if (!canRegister) {
+      alert("This meet is closed for registrations.");
+      return;
+    }
+
+    if (meet) {
+      setLoading(true);
+      await context.meetService
+        .registerForMeet(meet.id)
+        .then(() => context.meetService.fetchMeet(meet.id))
+        .then((fetchedMeet) => fetchedMeet && setMeet(fetchedMeet));
+      setLoading(false);
+    }
+  };
 
   const redirectToMeets = async () => {
     history.push("/meets");
   };
 
-  const meetHasNotStarted = !d.isPast(meet?.startTime || "", meet?.region || "America/Toronto");
-  const meetHasNotEnded = !d.isPast(meet?.endTime || "", meet?.region || "America/Toronto");
+  const meetHasStarted = isPast(meet?.startTime || "", meet?.region || "America/Toronto");
+  const meetHasEnded = isPast(meet?.endTime || "", meet?.region || "America/Toronto");
 
   const dateInfo = meet
-    ? `${d.wcToClientStr(meet.startTime, meet.region)} (${d.getDurationStringFromHours(
-        d.getDurationInHours(meet.startTime, meet.endTime),
+    ? `${wcToClientStr(meet.startTime, meet.region)} (Duration: ${getDurationStringFromHours(
+        getDurationInHours(meet.startTime, meet.endTime),
       )})`
     : "Loading..";
 
   const userInstructionsView = (
     <>
       <h2 className="font-medium">Instructions</h2>
-      <Markdown source={meet?.instructions} />
+      <MarkdownParser source={meet?.instructions} />
     </>
   );
   const adminInstructionsView = (
     <>
       {" "}
-      {meetHasNotStarted && <em>(Users cannot see these instructions until meet starts)</em>}
+      {!meetHasStarted && <em>(Users cannot see these instructions until meet starts)</em>}
       {userInstructionsView}
     </>
   );
+
+  const renderInstructions = () => {
+    if (isAdmin) {
+      return adminInstructionsView;
+    }
+    if (!meetHasStarted) {
+      return <p>Instructions will be released once the meet starts!</p>;
+    }
+    return userInstructionsView;
+  };
+
+  const renderAdminMeetControls = () => {
+    return (
+      isAdmin &&
+      meet && (
+        <div className="flex flex-col sm:flex-row items-center py-2">
+          <div className="my-2">
+            <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToMeets} className="mr-2" />
+            <AdminMeetEditModal buttonText="Edit" meet={meet} />
+          </div>{" "}
+          <div className="sm:ml-2 my-1">{renderProjectExport()}</div>
+        </div>
+      )
+    );
+  };
+
+  // Meet status and register button logic
+  const renderUserMeetControls = () => {
+    if (meet?.registerLink && !meetHasEnded) {
+      const isRegistered = meetReg.isRegistered(meet.registrants, user);
+      if (!isLoggedIn) {
+        return (
+          <div>
+            <div className="flex whitespace-no-wrap mt-4 mb-2">
+              <Button disabled>Register</Button>
+            </div>
+            <div>
+              <span className="inline-block items-center md:text-left">
+                Join us to register!
+                <span className="flex flex-col xs:flex-row my-1">
+                  <LoginModal buttonText="Log in" className="whitespace-no-wrap" />
+                  <span className="flex mx-2 items-center">or</span>
+
+                  <RegisterModal buttonText="Sign up" className="whitespace-no-wrap" />
+                </span>{" "}
+              </span>
+            </div>
+          </div>
+        );
+      }
+      // is logged in and not yet registered
+      if (!isRegistered) {
+        return (
+          <Button onClick={updateRegistrantData} className="mt-2">
+            Register
+          </Button>
+        );
+      }
+      // is logged in and registered
+      return (
+        <div className="mt-4">
+          <MeetStatus user={user} meet={meet} />
+        </div>
+      );
+    }
+  };
+
+  const renderKanbanViewAdmin = () => {
+    if (!meet) return null;
+    // case: meet exists and has kanban canon
+    if (meet && meet.kanbanCanonId) {
+      return (
+        <div className="mt-10">
+          <KanbanCanonController kanbanCanonId={meet.kanbanCanonId} />
+        </div>
+      );
+    }
+    // case: meet exists but does not have kanban canon
+    return (
+      <div className="mt-10">
+        {" "}
+        <AdminKanbanCanonCreateModal buttonText="Add a kanban to this meet" onCreate={fetchMeetData} meetId={meet.id} />
+      </div>
+    );
+  };
+
+  const renderKanbanViewUser = () => {
+    // Bail if this meet doesn't have a kanbanCanon
+    if (!meet?.kanbanCanonId) return null;
+    // Only show kanban options if meet has started or logged in as admin
+    if (meetHasStarted || isAdmin) {
+      // if kanbanCanon exists on meet and user not logged in
+      if (meet?.kanbanCanonId && !user) {
+        return <p className="font-semibold mt-6">Login or Sign up to unlock a kanban guide for this challenge!</p>;
+      }
+      // Meet has a kanbanCanon and user already has a kanban for it
+      if (meet?.kanban) {
+        return (
+          <div className="mt-6">
+            <KanbanController kanbanId={meet.kanban.id} />
+          </div>
+        );
+      }
+      // meet has a kanbanCanon but logged in user doesn't have a kanban for it
+      if (meet?.kanbanCanonId && user) {
+        return (
+          <div className="mt-6">
+            <CreateKanbanButton
+              onCreate={fetchMeetData}
+              meetId={meet.id}
+              userId={user.id}
+              kanbanCanonId={meet.kanbanCanonId}
+            />
+          </div>
+        );
+      }
+    }
+    // Otherwise
+    return null;
+  };
+
+  const projectExportData = meet?.projects
+    ? meet.projects.map((p) => ({
+        meetTitle: meet.title,
+        meetStartTime: meet.startTime,
+        meetEndTime: meet.endTime,
+        projectTitle: p.title,
+        projectOwner: p.user.firstName + " " + p.user.lastName,
+        projectDemoUrl: p.liveUrl,
+        projectCodeUrl: p.sourceCodeUrl,
+        projectSubmittedAt: p.createdAt,
+      }))
+    : [];
+
+  const projectExportHeaders = [
+    { label: "Meet title", key: "meetTitle" },
+    { label: "Meet start", key: "meetStartTime" },
+    { label: "Meet end", key: "meetEndTime" },
+    { label: "Project title", key: "projectTitle" },
+    { label: "Project owner", key: "projectOwner" },
+    { label: "Demo url", key: "projectDemoUrl" },
+    { label: "Code url", key: "projectCodeUrl" },
+    { label: "Submitted at", key: "projectSubmittedAt" },
+  ];
+
+  const renderProjectExport = () =>
+    meet?.projects.length ? (
+      <CSVExport
+        filename={`${meet.title}_${meet.endTime}_project_data.csv`}
+        data={projectExportData}
+        headers={projectExportHeaders}
+      />
+    ) : null;
 
   return (
     <BgBlock type="blackStripeEvents">
@@ -85,9 +268,9 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
         <header className="flex flex-col items-center">
           <div className="flex w-screen min-h-84 max-h-60vh bg-gray-800">
             {loading ? (
-              <div className="text-white h-screen-lg p-24 w-full flex justify-center items-center">Loading...</div>
+              <div className="text-white h-screen-lg p-24 w-full mb-flex-centered">Loading...</div>
             ) : (
-              <img className="object-cover w-full" src={meet?.coverImageUrl} alt={meet?.title} />
+              <img className="object-contain bg-black w-full" src={meet?.coverImageUrl} alt={meet?.title} />
             )}
           </div>
         </header>
@@ -95,68 +278,61 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
 
       <main className="w-5/6 min-w-12rem mx-auto py-16 rounded-mb-md overflow-hidden">
         <Link className="ml-12 mb-2 inline-block" to="/meets">
-          {"< "} Back to all meets
+          {"< "}Back to all meets
         </Link>
         <div className="overflow-hidden rounded-mb-md">
-          <div className="grid grid-rows-2 md:grid-cols-3 md:grid-rows-1 place-items-center md:place-items-end bg-gray-800 px-12 py-8">
-            <section className="text-white md:col-span-2 md:place-self-start">
-              <div className="grid place-items-center md:block">
-                <h1 className="font-semibold">{meet?.title}</h1>
-                <p>{dateInfo}</p>
+          <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-mb-gray-300 px-6 md:px-12 py-8">
+            <section className="text-white row-span-9 md:row-span-1 md:col-span-2 md:place-self-start">
+              <div className="block">
+                <H1 className="font-semibold">{meet?.title}</H1>
+                <p className="text-mb-gray-100 text-sm flex flex-wrap items-center">
+                  Starts
+                  <FontAwesomeIcon icon={faCalendarAlt} className="mx-2 text-xs" />
+                  {dateInfo}
+                </p>
                 <p className="mt-2">{meet?.description}</p>
-                <a href=""></a>
-                {meet?.registerLink && meetHasNotEnded && (
-                  <ExternalLink href={meet.registerLink}>
-                    <Button className="mt-2">Register</Button>
-                  </ExternalLink>
-                )}
-                {isAdmin && meet && (
-                  <>
-                    <AdminMeetDeleteModal
-                      buttonText="Delete"
-                      meet={meet}
-                      onDelete={redirectToMeets}
-                      className="mt-2 md:mt-0 md:ml-2"
-                    />
-                    {/* Todo use common button class */}
-                    <AdminMeetEditModal
-                      className="font-semibold shadow-md border-solid border-2 rounded-md py-2 px-6 m-2 text-black bg-white border-mb-green-200"
-                      buttonText="Edit"
-                      meet={meet}
-                    />
-                  </>
-                )}
+                {renderUserMeetControls()}
+                {renderAdminMeetControls()}
               </div>
             </section>
-            <section className="text-white">
+            <section className="text-white h-full flex justify-between flex-col">
+              {meet && (
+                <p className="md:text-right">
+                  {meet.registrants.length} coder
+                  {meet.registrants.length !== 1 && "s"} registered
+                </p>
+              )}
+            </section>
+            <section className="flex flex-col items-center md:col-span-3 md:items-end">
               {/*TODO: Add project submission form*/}
-              {meet && user.data && (
-                <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user.data} />
+              {meet && user && meetReg.isRegistered(meet.registrants, user) && meetHasStarted && !meetHasEnded && (
+                <>
+                  {meet.registerLink && (
+                    <ExternalLink href={meet.registerLink}>
+                      <Button className="mb-2">Meeting link</Button>
+                    </ExternalLink>
+                  )}
+                  <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user} />
+                </>
               )}
             </section>
           </div>
-          <section className="shadow-lg bg-white p-12">
-            {user?.data?.isAdmin ? (
-              adminInstructionsView
-            ) : meetHasNotStarted ? (
-              <p>Instructions will be released once the meet starts!</p>
-            ) : (
-              userInstructionsView
-            )}
-          </section>
+          <section className="shadow-lg bg-white p-12">{renderInstructions()}</section>
           <section className="shadow-lg bg-white p-12">
             {meet?.projects.length ? (
               <>
                 <h2 className="font-medium">Submissions</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-                  {meet.projects.map((p) => (
-                    <ProjectCard project={p} key={p.id} />
+                  {meet.projects.map((p: ProjectForMeet) => (
+                    <ProjectCard userState={user} project={p} key={p.id} />
                   ))}
                 </div>
               </>
             ) : (
               <p>No submissions yet.</p>
             )}
+            {isAdmin && renderKanbanViewAdmin()}
+            {renderKanbanViewUser()}
           </section>
         </div>
       </main>
@@ -164,6 +340,4 @@ const Meet: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchPar
   );
 };
 
-export default connectContext<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>>(
-  connect(stp)(Meet),
-);
+export default connect(stp)(Meet);

@@ -1,25 +1,26 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useContext, useRef } from "react";
 import { Modal } from "../";
 import { ModalActionDeclaration } from "../ModalActionButton";
-import { connectContext, ConnectContextProps } from "../../../../../context/connectContext";
 import { MeetCreateForm } from "../../../forms/MeetCreateForm";
+import { MbContext } from "../../../../../context/MbContext";
+import { Context } from "../../../../../context/contextBuilder";
 import { useHistory } from "react-router-dom";
 
 interface Props {
   className?: string;
   buttonText: string;
-  refetchMeets: () => Promise<boolean | void>;
 }
 
-const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, className, buttonText, refetchMeets }) => {
+export const AdminMeetCreateModal: FC<Props> = ({ className, buttonText }) => {
+  const context = useContext<Context>(MbContext);
   const formRef = useRef<HTMLFormElement>(null);
   const history = useHistory();
 
   const actions: ModalActionDeclaration[] = [
     {
-      type: "primary",
+      buttonStyle: "primary",
       text: "Create Meet",
-      buttonType: "submit",
+      type: "submit",
       onClick: async () => {
         if (formRef.current) {
           // Programatically submit form in grandchild
@@ -29,19 +30,10 @@ const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, classN
     },
   ];
 
-  const createMeet = async (params: CreateMeetParams) => {
-    let meetId: string;
-    if (context) {
-      context.meetService
-        .createMeet(params)
-        .then((newMeet) => {
-          if (newMeet) {
-            meetId = newMeet.id;
-          }
-        })
-        .then(() => history.push(`/meets/${meetId}`));
-    } else {
-      alert("Yikes, devs messed up sorry. Action did not work");
+  const createMeet = async (input: CreateMeetInput) => {
+    const newMeet = await context.meetService.createMeet(input);
+    if (newMeet) {
+      history.push(`/meets/${newMeet.id}`);
     }
   };
 
@@ -60,5 +52,3 @@ const AdminMeetCreateModal: FC<ConnectContextProps & Props> = ({ context, classN
     </>
   );
 };
-
-export default connectContext<ConnectContextProps & Props>(AdminMeetCreateModal);

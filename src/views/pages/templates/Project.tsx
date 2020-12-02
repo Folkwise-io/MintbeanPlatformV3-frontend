@@ -1,17 +1,16 @@
-import React, { FC, useState, useEffect } from "react";
-import { ConnectContextProps, connectContext } from "../../../context/connectContext";
-import { DateUtility } from "../../../utils/DateUtility";
+import React, { FC, useState, useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, useHistory, Link } from "react-router-dom";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/blocks/Button";
 import { ExternalLink } from "../../components/ExternalLink";
-// import AdminMeetDeleteModal from "../../components/wrappers/Modal/walas/AdminMeetDeleteModal";
 import { ImageDisplay } from "../../components/ImageDisplay";
 import { ImageDisplayTray } from "../../components/ImageDisplayTray";
 import { BgBlock } from "../../components/BgBlock";
-import ProjectDeleteModal from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
-
-const d = new DateUtility();
+import { BadgeDisplay } from "../../components/BadgeDisplay";
+import { H1 } from "../../components/blocks/H1";
+import { ProjectDeleteModal } from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
+import { MbContext } from "../../../context/MbContext";
+import { Context } from "../../../context/contextBuilder";
 
 interface StateMapping {
   user: UserState;
@@ -25,11 +24,13 @@ interface MatchParams {
   id: string;
 }
 
-const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>> = ({
-  context,
-  user,
-  match,
-}) => {
+const isOwner = (user: UserState, project: Project) => {
+  if (!user?.data?.id || !project?.user?.id) return false;
+  return user.data.id === project.user.id;
+};
+
+const Project: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user, match }) => {
+  const context = useContext<Context>(MbContext);
   const {
     params: { id },
   } = match;
@@ -40,11 +41,6 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
 
   useEffect(() => {
     const fetchProjectData = async () => {
-      if (!context) {
-        console.error(new Error("No context passed to component, but was expected"));
-        alert("Blame the devs! Something terrible happened.");
-        return;
-      }
       setLoading(true);
       const fetchedProject = await context.projectService.fetchProject(id);
       if (fetchedProject) {
@@ -63,12 +59,6 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
       history.push(`/meets`);
     }
   };
-  // const dateInfo = project
-  //   ? `${d.wcToClientStr(project.startTime, project.region)} (${d.getDuration(
-  //       project.startTime,
-  //       project.endTime,
-  //     )} hours)`
-  //   : "Loading..";
 
   return (
     <BgBlock type="blackStripeEvents">
@@ -88,7 +78,7 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
               // TODO: define deafult image
               <ImageDisplay
                 className="w-full flex justify-center align-center"
-                cloudinaryPublicId="imgNotFoundPlaceholder"
+                cloudinaryPublicId="imgNotFoundPlaceholder2"
               />
             )}
           </header>
@@ -101,34 +91,51 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
             <section className="text-center">
               {/* Project info section */}
               <section>
-                <h1 className="font-semibold">{project.title}</h1>
+                <H1 className="font-semibold">{project.title}</H1>
                 <p className="break-words">
-                  by {project.user.firstName} {project.user.lastName} (@{project.user.username})
+                  by {project.user.firstName} {project.user.lastName}
                 </p>
                 {project.meet?.id && (
                   <Link to={`/meets/${project.meet.id}`}>Submitted for &quot;{project.meet.title}&quot;</Link>
                 )}
+                {project.badges.length > 0 && (
+                  <div className="w-full">
+                    <p className="pt-4 pb-2">
+                      Wow, this project&apos;s a winner! Check out the badges they&apos;ve earned:
+                    </p>
+                    <div className="flex justify-center gap-2 py-2">
+                      {project.badges.map((badge: BadgesForProject) => (
+                        <Link to={`/badges/${badge.id}`} key={badge.id}>
+                          <BadgeDisplay size="xs" badge={badge} />
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <section className="flex flex-wrap justify-center p-2 w-full">
                   <ExternalLink href={project.sourceCodeUrl}>
-                    <Button type="secondary" className="m-2">
+                    <Button buttonStyle="secondary" className="m-2">
                       Code
                     </Button>
                   </ExternalLink>
                   <ExternalLink href={project.liveUrl}>
-                    <Button type="primary" className="m-2">
+                    <Button buttonStyle="primary" className="m-2">
                       Demo
                     </Button>
                   </ExternalLink>
-                  <ProjectDeleteModal
-                    buttonText="Delete"
-                    project={project}
-                    onDelete={redirectToMeetOrMeets}
-                    isAdmin={isAdmin}
-                  />
+                  {(isAdmin || isOwner(user, project)) && (
+                    <ProjectDeleteModal
+                      buttonText="Delete"
+                      project={project}
+                      onDelete={redirectToMeetOrMeets}
+                      isAdmin={isAdmin}
+                      className="m-2"
+                    />
+                  )}
                 </section>
               </section>
               {/* Other media assets */}
-              {project.mediaAssets.length && (
+              {project.mediaAssets.length !== 0 && (
                 <section className="grid grid-cols-3">
                   <ImageDisplayTray cloudinaryPublicIds={project.mediaAssets.map((ma) => ma.cloudinaryPublicId)} />
                 </section>
@@ -143,6 +150,4 @@ const Project: FC<ConnectContextProps & StateMapping & RouteComponentProps<Match
   );
 };
 
-export default connectContext<ConnectContextProps & StateMapping & RouteComponentProps<MatchParams>>(
-  connect(stp)(Project),
-);
+export default connect(stp)(Project);

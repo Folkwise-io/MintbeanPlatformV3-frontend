@@ -1,39 +1,34 @@
 import React, { FC, ReactElement } from "react";
+import { Button } from "../../blocks/Button";
 
 export interface ModalActionDeclaration {
-  type: "primary" | "secondary" | "danger";
-  buttonType?: "button" | "submit" | "reset";
+  buttonStyle?: "primary" | "secondary" | "danger";
+  type?: "button" | "submit" | "reset";
   text: string;
   onClick: (evt: React.SyntheticEvent, context: ModalActionContext) => void;
 }
 
-interface ModalActionContext {
+export interface ModalActionContext {
   closeModal: () => void;
 }
 
 interface ModalActionProps extends ModalActionContext, ModalActionDeclaration {}
 
 export const ModalActionButton: FC<ModalActionProps> = ({
-  type,
+  buttonStyle = "primary",
   text,
-  buttonType = "button",
+  type = "button",
   onClick,
   closeModal,
 }): ReactElement => {
-  const commonClasses = "font-semibold shadow-md border-solid border-2 rounded-md py-2 px-6 m-2";
-  const classes = {
-    primary: "text-white bg-mb-green-200 border-mb-green-200 ",
-    secondary: "text-black bg-white border-mb-green-200",
-    danger: "text-white bg-red-500 border-red-500",
-  };
-
   return (
-    <button
-      onClick={(evt) => onClick(evt, { closeModal })}
-      className={`${commonClasses} ${classes[type]}`}
-      type={buttonType}
+    <Button
+      onClick={(evt: React.SyntheticEvent) => onClick(evt, { closeModal })}
+      type={type}
+      buttonStyle={buttonStyle}
+      className="mx-1"
     >
       {text}
-    </button>
+    </Button>
   );
 };

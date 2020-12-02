@@ -1,0 +1,5 @@
+/* for dynamically generated anchor tags in toast markdown */
+.markdown-toast a {
+  color: #000000;
+  text-decoration: underline;
+}
