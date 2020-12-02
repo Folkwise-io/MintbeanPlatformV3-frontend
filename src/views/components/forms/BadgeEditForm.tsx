@@ -250,7 +250,7 @@ export const BadgeEditForm: FC<Props> = ({ badge }) => {
               </div>
             </div>
             <Button className="mt-2" type="submit">
-              Edit {badge.alias}
+              Update
             </Button>
           </div>
         </div>

@@ -98,7 +98,7 @@ const Project: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user, ma
                 {project.meet?.id && (
                   <Link to={`/meets/${project.meet.id}`}>Submitted for &quot;{project.meet.title}&quot;</Link>
                 )}
-                {project.badges.length > 1 && (
+                {project.badges.length > 0 && (
                   <div className="w-full">
                     <p className="pt-4 pb-2">
                       Wow, this project&apos;s a winner! Check out the badges they&apos;ve earned:

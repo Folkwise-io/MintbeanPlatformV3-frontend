@@ -52,6 +52,8 @@ export const AwardBadgesToProjectForm: FC<FormProps> = ({ projectId, awardedBadg
     if (options) {
       const badgesToAward = options.map(({ value }: OptionTypeBase) => value);
       setValue("badgeIds", badgesToAward);
+    } else if (options === null) {
+      setValue("badgeIds", []);
     }
   };
   return (
