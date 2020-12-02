@@ -23,9 +23,9 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project, userState }) => {
   return (
     <div>
       <div className="border-mb-green-200 border-2 bg-mb-gray-400 text-white rounded-mb-md overflow-hidden m-4 shadow-mb-drop-center-sm grid grid-rows-2 col-auto row-auto max-h-120">
-        <div className="relative">
+        <div className="relative max-h-72 h-72">
           <Link
-            className="rounded-b-mb-md min-w-full max-h-full overflow-hidden inline-grid place-items-center"
+            className="rounded-b-mb-md min-w-full max-h-full h-full overflow-hidden inline-grid place-items-center"
             to={`/projects/${id}`}
           >
             <ImageDisplay
