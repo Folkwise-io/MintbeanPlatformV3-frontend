@@ -23,7 +23,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project, userState }) => {
   return (
     <div>
       <div className="border-mb-green-200 border-2 bg-mb-gray-400 text-white rounded-mb-md overflow-hidden m-4 shadow-mb-drop-center-sm grid grid-rows-2 col-auto row-auto max-h-120">
-        <div className="relative max-h-72 h-72">
+        <div className="max-h-72 h-72">
           <Link
             className="rounded-b-mb-md min-w-full max-h-full h-full overflow-hidden inline-grid place-items-center"
             to={`/projects/${id}`}
@@ -33,16 +33,18 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project, userState }) => {
               className="mb-flex-centered mb-transition transform scale-125 hover:scale-150"
             />
           </Link>
-          <div className="w-full flex justify-end items-center gap-1 absolute top-mb-1 right-mb-3">
-            {sortedBadges.map((badge) => (
-              <Link to={`/badges/${badge.id}`} key={badge.id}>
-                <BadgeDisplay size="xs" badge={badge} />
-              </Link>
-            ))}
-          </div>
         </div>
 
-        <section className="text-center p-2 w-full place-self-center">
+        <section className="text-center p-2 pt-12 h-full w-full place-self-center">
+          <div className="w-full gap-1">
+            <div className="py-2 flex justify-end items-center">
+              {sortedBadges.map((badge) => (
+                <Link to={`/badges/${badge.id}`} key={badge.id}>
+                  <BadgeDisplay size="xs" badge={badge} />
+                </Link>
+              ))}
+            </div>
+          </div>
           <h3 className="text-xl text-mb-blue-300 font-medium">{title}</h3>
           <p>
             by <span>{creatorName}</span>
