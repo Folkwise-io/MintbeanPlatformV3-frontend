@@ -35,7 +35,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project, userState }) => {
           </Link>
         </div>
 
-        <section className="text-center p-2 pt-12 h-full w-full place-self-center">
+        <section className="text-center p-2 pt-12 h-full w-full place-self-center flex flex-col justify-end">
           <div className="w-11/12 mx-auto gap-1">
             <div className="py-2 flex justify-end items-center">
               {sortedBadges.map((badge) => (
@@ -50,7 +50,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project, userState }) => {
             by <span>{creatorName}</span>
           </p>
 
-          <section className="flex flex-wrap flex-grow justify-center items-center pt-4 px-4 w-full">
+          <section className="flex-wrap mb-flex-centered pt-4 px-4 w-full">
             <ExternalLink href={sourceCodeUrl}>
               <Button buttonStyle="secondary" className="m-2">
                 Code
