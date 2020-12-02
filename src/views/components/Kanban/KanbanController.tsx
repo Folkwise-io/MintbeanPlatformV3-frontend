@@ -6,6 +6,7 @@ import { KanbanContext } from "./KanbanContext";
 import { inflateCardPositions } from "../../../utils/inflateCardPositions";
 import { MbContext } from "../../../context/MbContext";
 import { Context } from "../../../context/contextBuilder";
+import { H2 } from "../blocks/H2";
 
 // use type to allow union in key
 export type ColumnData = {
@@ -185,8 +186,8 @@ const KanbanController: FC<StateMapping & Props> = ({ kanbanId, user }) => {
 
   return (
     <div>
-      <h2>{kanban.title}</h2>
-      <p>{kanban.description}</p>
+      <H2>{kanban.title}</H2>
+      <p className="mb-2">{kanban.description}</p>
       <div className="bg-gray-400 p-10 rounded-lg min-h-20">
         <KanbanContext columns={columns} onDragEnd={onDragEnd} />
       </div>
