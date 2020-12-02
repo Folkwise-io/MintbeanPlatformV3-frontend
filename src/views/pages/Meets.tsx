@@ -1,5 +1,4 @@
 import React, { FC, useState, useEffect, useCallback, useContext, ChangeEvent } from "react";
-import { MeetCard } from "../components/MeetCards/MeetCard";
 import { AdminMeetCreateModal } from "../components/wrappers/Modal/walas/AdminMeetCreateModal";
 import { connect } from "react-redux";
 import { BgBlock } from "../components/BgBlock";
@@ -9,7 +8,7 @@ import { PastMeetCard } from "../components/MeetCards/PastMeetCard";
 import { MbContext } from "../../context/MbContext";
 import { Context } from "../../context/contextBuilder";
 import { Select } from "../components/blocks/Form/Select";
-import { meetFilterOptions } from "../components/forms/constants";
+import { dateFilterOptions, meetTypeFilterOptions } from "../components/forms/constants";
 import { Input } from "../components/blocks/Form/Input";
 
 interface StateMapping {
@@ -63,7 +62,7 @@ const Meets: FC<StateMapping> = ({ user }) => {
 
     let filteredMeets = meets;
 
-    // let filteredMeets = meets.filter((m: Meet) => !isPast(m.endTime, m.region));
+    filteredMeets = meets.filter((m: Meet) => !isPast(m.endTime, m.region));
 
     if (meetType !== "all") {
       filteredMeets = filteredMeets.filter((m: Meet) => m.meetType === meetType);
@@ -75,12 +74,12 @@ const Meets: FC<StateMapping> = ({ user }) => {
       );
     }
 
-    // chronological sort
+    // reverse-chronological sort
     const upcomingMeets = filteredMeets.sort((a, b) => {
       const dateA = new Date(a.startTime).getTime();
       const dateB = new Date(b.startTime).getTime();
       if (dateA === dateB) return 0;
-      return dateA - dateB;
+      return dateB - dateA;
     });
 
     const mappedMeets = upcomingMeets.map((meet) => (
@@ -88,7 +87,7 @@ const Meets: FC<StateMapping> = ({ user }) => {
     ));
 
     if (upcomingMeets.length) {
-      return <div className="space-y-4">{mappedMeets}</div>;
+      return mappedMeets;
     }
 
     return <p className="text-white text-lg">No upcoming meets at the moment... Stay tuned!</p>;
@@ -106,58 +105,50 @@ const Meets: FC<StateMapping> = ({ user }) => {
 
   return (
     <div className="mb-8">
-      <BgBlock type="gradStripeEvents">
-        <BgBlock type="blackStripeEvents">
-          <header className="md:pt-8 md:pb-6 flex flex-col items-center">
-            <FocusCard
-              type="eventsTitle"
-              card={{
-                title: "Meets",
-                description: "Come hack with us!",
-              }}
-            />
-            {renderAdminMeetCreateModal()}
-          </header>
-        </BgBlock>
-        <main>
-          <BgBlock type="black">
-            <BgBlock>
-              <section className="rounded-xl mb-16 flex flex-col items-center w-full py-8 bg-black max-w-6xl shadow-mb-drop-center">
-                <h2 className="text-4xl text-white mb-4 font-semibold text-center">Upcoming meets</h2>
-                <fieldset className="bg-white w-11/12 flex flex-wrap rounded-mb-xs justify-evenly mb-4">
-                  <div>
-                    <Input
-                      type="text"
-                      label="Search:"
-                      name="searchMeets"
-                      className="ml-2"
-                      onChange={handleSearchInputChange}
-                    />
-                  </div>
-                  <div>
-                    <Select
-                      name="Filter by meet type:"
-                      label="meetTypeFilter"
-                      options={meetFilterOptions}
-                      onChange={handleMeetTypeChange}
-                      className="ml-2"
-                    />
-                  </div>
-                </fieldset>
-                <div className="grid grid-cols-1 px-0 sm:px-12 md:px-0 md:grid-cols-2 row-auto gap-6">
-                  {renderUpcomingMeets()}
-                </div>
-              </section>
-            </BgBlock>
-            <section className="max-w-6xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-20 px-6 md:px-24">
-              <h2 className="text-white text-4xl mb-4 text-center">Past meets</h2>
-              <div className="grid grid-cols-1 px-0 sm:px-12 md:px-0 md:grid-cols-2 row-auto gap-6">
-                {renderPastMeets()}
-              </div>
-            </section>
+      <main>
+        <BgBlock type="black">
+          <BgBlock type="blackStripeEvents">
+            <header className="md:pt-8 md:pb-6 flex flex-col items-center">
+              <FocusCard
+                type="eventsTitle"
+                card={{
+                  title: "Meets",
+                  description: "Come hack with us!",
+                }}
+              />
+              {renderAdminMeetCreateModal()}
+            </header>
           </BgBlock>
-        </main>
-      </BgBlock>
+          <section className="max-w-6xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-20 px-6 md:px-24">
+            <fieldset className="bg-white w-11/12 flex flex-wrap rounded-mb-xs justify-evenly mb-4">
+              <div>
+                <Input
+                  type="text"
+                  label="Search:"
+                  name="searchMeets"
+                  className="ml-2"
+                  onChange={handleSearchInputChange}
+                />
+              </div>
+              <div>
+                <Select
+                  name="meetTypeFilter"
+                  label="Filter by meet type:"
+                  options={meetTypeFilterOptions}
+                  onChange={handleMeetTypeChange}
+                  className="ml-2"
+                />
+              </div>
+              <div>
+                <Select name="dateFilter" label="filter by date:" options={dateFilterOptions} className="ml-2" />
+              </div>
+            </fieldset>
+            <div className="grid grid-cols-1 px-0 sm:px-12 md:px-0 md:grid-cols-2 row-auto gap-6">
+              {renderUpcomingMeets()}
+            </div>
+          </section>
+        </BgBlock>
+      </main>
     </div>
   );
 };

@@ -22,26 +22,14 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
 
   const getComputedMeetTypeColor = (meetType: MeetType): string => {
     let meetTypeColor = "";
-    if (!isPast(meet.endTime, meet.region)) {
-      if (meetType === "hackathon") {
-        meetTypeColor = "bg-mb-orange-100";
-      } else if (meetType === "workshop") {
-        meetTypeColor = "bg-mb-blue-200";
-      } else if (meetType === "webinar") {
-        meetTypeColor = "bg-mb-purple-100";
-      } else {
-        meetTypeColor = "bg-mb-green-300";
-      }
+    if (meetType === "hackathon") {
+      meetTypeColor = "bg-mb-orange-000";
+    } else if (meetType === "workshop") {
+      meetTypeColor = "bg-mb-blue-100";
+    } else if (meetType === "webinar") {
+      meetTypeColor = "bg-mb-purple-000";
     } else {
-      if (meetType === "hackathon") {
-        meetTypeColor = "bg-mb-orange-000";
-      } else if (meetType === "workshop") {
-        meetTypeColor = "bg-mb-blue-100";
-      } else if (meetType === "webinar") {
-        meetTypeColor = "bg-mb-purple-000";
-      } else {
-        meetTypeColor = "bg-mb-green-000";
-      }
+      meetTypeColor = "bg-mb-green-000";
     }
     return meetTypeColor;
   };
