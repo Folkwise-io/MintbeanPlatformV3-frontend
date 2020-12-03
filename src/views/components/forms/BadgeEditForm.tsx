@@ -1,7 +1,7 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import React, { ChangeEvent, FC, useContext, useRef, useState } from "react";
-import Select, { OptionTypeBase, ValueType } from "react-select";
+import Select, { OptionTypeBase } from "react-select";
 import { SketchPicker } from "react-color";
 import FaPicker from "../../pages/Admin/FaPicker";
 import { paletteOptions } from "../../../utils/Palette";

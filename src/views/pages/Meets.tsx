@@ -49,7 +49,7 @@ const Meets: FC<StateMapping> = ({ user }) => {
       </div>
     );
 
-  const renderUpcomingMeets = () => {
+  const renderMeets = () => {
     if (loading) {
       return <p className="text-white">Loading...</p>;
     }
@@ -155,7 +155,7 @@ const Meets: FC<StateMapping> = ({ user }) => {
               </div>
             </fieldset>
             <div className="grid grid-cols-1 px-0 sm:px-12 md:px-0 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 row-auto gap-6">
-              {renderUpcomingMeets()}
+              {renderMeets()}
             </div>
           </section>
         </BgBlock>
