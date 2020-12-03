@@ -18,6 +18,7 @@ import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { TextArea } from "../blocks/Form/TextArea";
 import { Input } from "../blocks/Form/Input";
 import { badgeShapeOptions } from "./constants";
+import { BadgeShapeEnum } from "../../../types/enum";
 
 interface Props {
   badge: Badge;
@@ -102,7 +103,7 @@ export const BadgeEditForm: FC<Props> = ({ badge }) => {
     badgeShape: useWatch({
       control,
       name: "badgeShape",
-    }) as "circle" | "square" | "star",
+    }) as BadgeShapeEnum,
     faIcon: useWatch({
       control,
       name: "faIcon",

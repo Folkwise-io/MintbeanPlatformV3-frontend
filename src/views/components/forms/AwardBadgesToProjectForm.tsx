@@ -3,7 +3,7 @@ import { Controller, FieldErrors, SubmitErrorHandler, SubmitHandler, useForm } f
 import Select, { OptionTypeBase } from "react-select";
 import { Context } from "../../../context/contextBuilder";
 import { MbContext } from "../../../context/MbContext";
-import { AwardBadgesToProjectParams, Badge } from "../../../types/badge";
+import { AwardBadgesToProjectParams, Badge, BadgesForProject } from "../../../types/badge";
 import { Button } from "../blocks/Button";
 
 interface FormProps {

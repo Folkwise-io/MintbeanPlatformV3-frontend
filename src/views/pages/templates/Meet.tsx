@@ -25,6 +25,8 @@ import { Context } from "../../../context/contextBuilder";
 import KanbanController from "../../components/Kanban/KanbanController";
 import { CSVExport } from "../../components/CSVExport";
 import { Button } from "../../components/blocks/Button";
+import { Meet } from "../../../types/meet";
+import { ProjectForMeet } from "../../../types/project";
 
 const meetReg = new MeetRegistration();
 

@@ -6,6 +6,7 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 import { wcToClientStr, isCurrent } from "../../../utils/DateUtility";
+import { Meet } from "../../../types/meet";
 
 type MeetProps = {
   meet: Meet;

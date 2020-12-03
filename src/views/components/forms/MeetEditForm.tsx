@@ -11,6 +11,7 @@ import { Input } from "../blocks/Form/Input";
 import { TextArea } from "../blocks/Form/TextArea";
 import { meetTypeOptions, regionOptions } from "./constants";
 import { editMeetInputSchema } from "./validation/meet";
+import { CreateMeetInput, EditMeetInput, Meet } from "../../../types/meet";
 
 interface Props {
   editMeet: (values: EditMeetInput) => void;

@@ -11,6 +11,8 @@ import { H1 } from "../../components/blocks/H1";
 import { ProjectDeleteModal } from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
 import { MbContext } from "../../../context/MbContext";
 import { Context } from "../../../context/contextBuilder";
+import { BadgesForProject } from "../../../types/badge";
+import { Project } from "../../../types/project";
 
 interface StateMapping {
   user: UserState;
