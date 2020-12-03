@@ -132,8 +132,8 @@ const Meets: FC<StateMapping> = ({ user }) => {
   return (
     <div className="mb-8">
       <main>
-        <BgBlock type="black">
-          <BgBlock type="blackStripeEvents">
+        <BgBlock type="blackStripeEvents">
+          <BgBlock type="black">
             <header className="md:pt-8 md:pb-6 flex flex-col items-center">
               <FocusCard
                 type="eventsTitle"

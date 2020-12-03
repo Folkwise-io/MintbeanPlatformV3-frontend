@@ -1,3 +1,4 @@
+import { BadgeShapesEnum, MeetTypesEnum } from "../../../types/enum";
 import { Option } from "../blocks/Form/formTypes";
 
 export const meetTypeOptions: Option[] = [
@@ -28,3 +29,7 @@ export const dateFilterOptions: Option[] = [
   { value: "past", label: "Past" },
   { value: "all", label: "All" },
 ];
+
+export const meetTypeRegex = new RegExp(`^(${Object.values(MeetTypesEnum).join("|")})$`, "i");
+
+export const badgeShapeRegex = new RegExp(`^(${Object.values(BadgeShapesEnum).join("|")})$`, "i");

@@ -42,11 +42,11 @@ interface BadgesForProject {
 
 /** Whether registration is going to open, is open now, or is closed. */
 type RegisterLinkStatus = "WAITING" | "OPEN" | "CLOSED";
-/** The currently supported meetTypes. note, form validators must also be changed when adding new types. */
+/** The currently supported meetTypes. note, form validators and enum type must also be changed when adding new types. */
 type MeetType = "hackathon" | "workshop" | "webinar" | "lecture";
-
+/** The currently supported date filters. note, form validators and enum type must also be changed when adding new types. */
 type MeetDate = "upcoming" | "past" | "all";
-
+/** The currently supported badge shapes. note, form validators and enum type must also be changed when adding new types. */
 type BadgeShape = "star" | "circle" | "square";
 interface Meet {
   id: string;
