@@ -25,7 +25,7 @@ import { Context } from "../../../context/contextBuilder";
 import KanbanController from "../../components/Kanban/KanbanController";
 import { CSVExport } from "../../components/CSVExport";
 import { Button } from "../../components/blocks/Button";
-import { Meet } from "../../../types/meet";
+import { Meet as MeetTypeDef } from "../../../types/meet";
 import { ProjectForMeet } from "../../../types/project";
 
 const meetReg = new MeetRegistration();
@@ -47,7 +47,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const {
     params: { id },
   } = match;
-  const [meet, setMeet] = useState<Meet | null>(null);
+  const [meet, setMeet] = useState<MeetTypeDef | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const user = userState.data;
   const isLoggedIn = !!user;
