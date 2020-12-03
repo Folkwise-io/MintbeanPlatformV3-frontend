@@ -45,6 +45,8 @@ type RegisterLinkStatus = "WAITING" | "OPEN" | "CLOSED";
 /** The currently supported meetTypes. note, form validators must also be changed when adding new types. */
 type MeetType = "hackathon" | "workshop" | "webinar" | "lecture";
 
+type MeetDate = "upcoming" | "past" | "all";
+
 type BadgeShape = "star" | "circle" | "square";
 interface Meet {
   id: string;

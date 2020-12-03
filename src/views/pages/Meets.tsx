@@ -23,6 +23,7 @@ const Meets: FC<StateMapping> = ({ user }) => {
   const [meets, setMeets] = useState<Meet[]>([]);
   const [meetType, setMeetType] = useState<MeetType | "all">("all");
   const [searchInput, setSearchInput] = useState<string>("");
+  const [dateFilter, setDateFilter] = useState<MeetDate>("upcoming");
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchMeets = useCallback(async () => {
@@ -37,13 +38,6 @@ const Meets: FC<StateMapping> = ({ user }) => {
   useEffect(() => {
     fetchMeets();
   }, [context, fetchMeets]);
-
-  // reverse-chronological sort
-  const renderPastMeets = () =>
-    meets
-      .filter((m: Meet) => isPast(m.endTime, m.region))
-      .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime())
-      .map((meet) => <PastMeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />);
 
   const renderAdminMeetCreateModal = () =>
     user.data?.isAdmin && (
@@ -62,7 +56,13 @@ const Meets: FC<StateMapping> = ({ user }) => {
 
     let filteredMeets = meets;
 
-    filteredMeets = meets.filter((m: Meet) => !isPast(m.endTime, m.region));
+    if (dateFilter && dateFilter !== "all") {
+      if (dateFilter === "past") {
+        filteredMeets = meets.filter((m: Meet) => isPast(m.endTime, m.region));
+      } else if (dateFilter === "upcoming") {
+        filteredMeets = meets.filter((m: Meet) => !isPast(m.endTime, m.region));
+      }
+    }
 
     if (meetType !== "all") {
       filteredMeets = filteredMeets.filter((m: Meet) => m.meetType === meetType);
@@ -103,6 +103,11 @@ const Meets: FC<StateMapping> = ({ user }) => {
     setSearchInput(target.value);
   };
 
+  const handleDateFilterChange = (e: ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setDateFilter(target.value as MeetDate);
+  };
+
   return (
     <div className="mb-8">
       <main>
@@ -119,14 +124,14 @@ const Meets: FC<StateMapping> = ({ user }) => {
               {renderAdminMeetCreateModal()}
             </header>
           </BgBlock>
-          <section className="max-w-6xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-20 px-6 md:px-24">
-            <fieldset className="bg-white w-11/12 flex flex-wrap rounded-mb-xs justify-evenly mb-4">
+          <section className="max-w-7xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-20 px-6 md:px-24">
+            <fieldset className="bg-white w-11/12 flex items-center flex-wrap rounded-mb-xs justify-evenly mb-4">
               <div>
                 <Input
                   type="text"
                   label="Search:"
                   name="searchMeets"
-                  className="ml-2"
+                  className="m-2"
                   onChange={handleSearchInputChange}
                 />
               </div>
@@ -136,14 +141,20 @@ const Meets: FC<StateMapping> = ({ user }) => {
                   label="Filter by meet type:"
                   options={meetTypeFilterOptions}
                   onChange={handleMeetTypeChange}
-                  className="ml-2"
+                  className="m-2"
                 />
               </div>
               <div>
-                <Select name="dateFilter" label="filter by date:" options={dateFilterOptions} className="ml-2" />
+                <Select
+                  name="dateFilter"
+                  label="filter by date:"
+                  options={dateFilterOptions}
+                  onChange={handleDateFilterChange}
+                  className="m-2"
+                />
               </div>
             </fieldset>
-            <div className="grid grid-cols-1 px-0 sm:px-12 md:px-0 md:grid-cols-2 row-auto gap-6">
+            <div className="grid grid-cols-1 px-0 sm:px-12 md:px-0 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 row-auto gap-6">
               {renderUpcomingMeets()}
             </div>
           </section>

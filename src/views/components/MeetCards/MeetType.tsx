@@ -14,7 +14,7 @@ interface MeetTypeInterface {
 type MeetTypeDefinitonBuilder = (isBordered: boolean) => MeetTypeInterface;
 
 const makeDefinition = (_classes: string, borderClass: string): MeetTypeDefinitonBuilder => (isBordered: boolean) => {
-  let classes = "w-32 mb-flex-centered rounded-mb-md" + " " + _classes;
+  let classes = "text-xs uppercase px-2 py-1 rounded-lg inline-flex text-white whitespace-no-wrap my-1 " + _classes;
   if (isBordered) {
     classes += " border-2 border-solid";
   }
@@ -34,7 +34,7 @@ export const MeetType: FC<Props> = ({ meetType, className = "", isBordered = fal
 
   return (
     <span className={definition.classes + " " + definition.borderClass + " " + className}>
-      <p className="uppercase text-white text-sm">{meetType}</p>
+      <p className="uppercase text-white text-xs">{meetType}</p>
     </span>
   );
 };
