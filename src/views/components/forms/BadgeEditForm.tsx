@@ -87,12 +87,7 @@ export const BadgeEditForm: FC<Props> = ({ badge }) => {
     editBadge(badge.id, data);
   };
 
-  const shapeHandleChange = (
-    option: ValueType<{
-      value: string;
-      label: string;
-    }>,
-  ) => {
+  const shapeHandleChange = (option: OptionTypeBase | undefined | null) => {
     setLoading(true);
     if (option) {
       const shapeOption = option as OptionTypeBase;
@@ -152,7 +147,7 @@ export const BadgeEditForm: FC<Props> = ({ badge }) => {
                     <Select
                       options={badgeShapeOptions}
                       value={badgeShapeOptions.filter((obj) => obj.value === badge.badgeShape)}
-                      onChange={(option) => shapeHandleChange(option)}
+                      onChange={shapeHandleChange}
                     ></Select>
                   )}
                 />
