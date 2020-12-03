@@ -54,47 +54,64 @@ const Meets: FC<StateMapping> = ({ user }) => {
       return <p className="text-white">Loading...</p>;
     }
 
+    //filteredMeets default to all
     let filteredMeets = meets;
 
+    //if not all but has datefilter
     if (dateFilter && dateFilter !== "all") {
+      //&& is past
       if (dateFilter === "past") {
         filteredMeets = meets.filter((m: Meet) => isPast(m.endTime, m.region));
       } else if (dateFilter === "upcoming") {
+        //or upcoming
         filteredMeets = meets.filter((m: Meet) => !isPast(m.endTime, m.region));
       }
     }
 
+    //if there's a selected meetType, filter meets by type
     if (meetType !== "all") {
       filteredMeets = filteredMeets.filter((m: Meet) => m.meetType === meetType);
     }
 
+    //if there's a search input, search the description and title for that string
     if (searchInput) {
       filteredMeets = filteredMeets.filter((m: Meet) =>
         `${m.description} ${m.title}`.toLowerCase().includes(searchInput.toLowerCase()),
       );
     }
 
-    // reverse-chronological sort
-    const upcomingMeets = filteredMeets.sort((a, b) => {
+    //sort by date
+    filteredMeets = filteredMeets.sort((a, b) => {
       const dateA = new Date(a.startTime).getTime();
       const dateB = new Date(b.startTime).getTime();
       if (dateA === dateB) return 0;
       if (dateFilter === "upcoming") {
+        //if upcoming, ascending date
         return dateA - dateB;
       } else {
+        //else, descending date
         return dateB - dateA;
       }
     });
-
-    const mappedMeets = upcomingMeets.map((meet) => (
+    //save mapped meets
+    const mappedMeets = filteredMeets.map((meet) => (
       <PastMeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />
     ));
-
-    if (upcomingMeets.length) {
+    //if there are meets in the filtered array, map and render
+    if (filteredMeets.length) {
       return mappedMeets;
+    } else if (meets) {
+      //if there are no meets in the filtered array but meets exist, return error message
+      let errorMessage = `No results matched your filters, please try again.`;
+      if (searchInput) {
+        errorMessage = `No ${dateFilter} ${
+          meetType !== "all" ? meetType : "meet"
+        }s found matching the term "${searchInput}"`;
+      }
+      return <p className="text-white text-lg">{errorMessage}</p>;
     }
-
-    return <p className="text-white text-lg">No upcoming meets at the moment... Stay tuned!</p>;
+    //if there are no meets at all, return error message - this should not be reached.
+    return <p className="text-white text-lg">No meets at the moment... Stay tuned!</p>;
   };
 
   const handleMeetTypeChange = (e: ChangeEvent) => {

@@ -39,7 +39,6 @@ export const PastMeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
           <div className="pt-2 pb-1 px-4 lg:px-6 flex flex-col items-center h-full w-full">
             <div className="mb-flex-centered w-full">
               <p className="font-semibold text-xs truncate text-center text-mb-gray-200">
-                Ended
                 <FontAwesomeIcon icon={faClock} className="mx-1" />
                 <span className="font-normal">{pastEndTimeStr}</span>
               </p>
