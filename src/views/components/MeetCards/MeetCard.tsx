@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock as faFasClock } from "@fortawesome/free-solid-svg-icons";
 import { faClock as faFarClock } from "@fortawesome/free-regular-svg-icons";
 import { AdminMeetDeleteModal } from "../wrappers/Modal/walas/AdminMeetDeleteModal";
+import { MeetTypeEnum } from "../../../types/enum";
+import { Meet } from "../../../types/meet";
 
 interface MeetProps {
   meet: Meet;
@@ -17,24 +19,24 @@ interface MeetProps {
 export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   const { id, title, description, startTime, endTime, coverImageUrl, region, meetType } = meet;
 
-  const getComputedMeetTypeColor = (meetType: MeetType): string => {
+  const getComputedMeetTypeColor = (meetType: MeetTypeEnum): string => {
     let meetTypeColor = "";
     if (meetIsCurrent) {
-      if (meetType === "hackathon") {
+      if (meetType === MeetTypeEnum.Hackathon) {
         meetTypeColor = "bg-mb-orange-100";
-      } else if (meetType === "workshop") {
+      } else if (meetType === MeetTypeEnum.Workshop) {
         meetTypeColor = "bg-mb-blue-200";
-      } else if (meetType === "webinar") {
+      } else if (meetType === MeetTypeEnum.Webinar) {
         meetTypeColor = "bg-mb-purple-100";
       } else {
         meetTypeColor = "bg-mb-green-300";
       }
     } else {
-      if (meetType === "hackathon") {
+      if (meetType === MeetTypeEnum.Hackathon) {
         meetTypeColor = "bg-mb-orange-000";
-      } else if (meetType === "workshop") {
+      } else if (meetType === MeetTypeEnum.Workshop) {
         meetTypeColor = "bg-mb-blue-100";
-      } else if (meetType === "webinar") {
+      } else if (meetType === MeetTypeEnum.Webinar) {
         meetTypeColor = "bg-mb-purple-000";
       } else {
         meetTypeColor = "bg-mb-green-000";

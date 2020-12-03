@@ -20,6 +20,7 @@ import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { Input } from "../blocks/Form/Input";
 import { TextArea } from "../blocks/Form/TextArea";
 import { badgeShapeOptions } from "./constants";
+import { BadgeShapeEnum } from "../../../types/enum";
 
 export const BadgeCreateForm: FC = () => {
   const context = useContext<Context>(MbContext);
@@ -59,7 +60,7 @@ export const BadgeCreateForm: FC = () => {
       iconHex: iconColor.toString().slice(1),
       title: "",
       alias: "",
-      badgeShape: selectedShape as BadgeShape,
+      badgeShape: selectedShape as BadgeShapeEnum,
       faIcon: selectedIcon,
       weight: 0,
       description: "",
@@ -105,7 +106,7 @@ export const BadgeCreateForm: FC = () => {
     badgeShape: useWatch({
       control,
       name: "badgeShape",
-    }) as "circle" | "square" | "star",
+    }) as BadgeShapeEnum,
     faIcon: useWatch({
       control,
       name: "faIcon",

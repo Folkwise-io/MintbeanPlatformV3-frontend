@@ -2,6 +2,7 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
+import { Meet } from "../../../types/meet";
 import { wcToClientStr } from "../../../utils/DateUtility";
 import { AdminMeetDeleteModal } from "../wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";

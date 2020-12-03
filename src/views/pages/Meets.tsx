@@ -10,6 +10,8 @@ import { Context } from "../../context/contextBuilder";
 import { Select } from "../components/blocks/Form/Select";
 import { dateFilterOptions, meetTypeFilterOptions } from "../components/forms/constants";
 import { Input } from "../components/blocks/Form/Input";
+import { Meet } from "../../types/meet";
+import { MeetTypeEnum } from "../../types/enum";
 
 interface StateMapping {
   user: UserState;
@@ -21,7 +23,7 @@ const stp = (state: StoreState) => ({
 const Meets: FC<StateMapping> = ({ user }) => {
   const context = useContext<Context>(MbContext);
   const [meets, setMeets] = useState<Meet[]>([]);
-  const [meetType, setMeetType] = useState<MeetType | "all">("all");
+  const [meetType, setMeetType] = useState<MeetTypeEnum | "all">("all");
   const [searchInput, setSearchInput] = useState<string>("");
   const [dateFilter, setDateFilter] = useState<MeetDate>("upcoming");
   const [loading, setLoading] = useState<boolean>(false);
@@ -116,7 +118,7 @@ const Meets: FC<StateMapping> = ({ user }) => {
 
   const handleMeetTypeChange = (e: ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    setMeetType(target.value as MeetType);
+    setMeetType(target.value as MeetTypeEnum);
   };
 
   const handleSearchInputChange = (e: ChangeEvent) => {

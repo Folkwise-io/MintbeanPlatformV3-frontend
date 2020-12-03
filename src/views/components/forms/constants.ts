@@ -1,27 +1,27 @@
-import { BadgeShapesEnum, MeetTypesEnum } from "../../../types/enum";
+import { BadgeShapeEnum, MeetTypeEnum } from "../../../types/enum";
 import { Option } from "../blocks/Form/formTypes";
 
 export const meetTypeOptions: Option[] = [
-  { value: "hackathon", label: "Hackathon" },
-  { value: "workshop", label: "Workshop" },
-  { value: "webinar", label: "Webinar" },
-  { value: "lecture", label: "Lecture" },
+  { value: MeetTypeEnum.Hackathon, label: "Hackathon" },
+  { value: MeetTypeEnum.Workshop, label: "Workshop" },
+  { value: MeetTypeEnum.Webinar, label: "Webinar" },
+  { value: MeetTypeEnum.Lecture, label: "Lecture" },
 ];
 
 export const regionOptions: Option[] = [{ value: "America/Toronto", label: "Toronto" }];
 
 export const badgeShapeOptions: Option[] = [
-  { value: "circle", label: "Circle" },
-  { value: "square", label: "Square" },
-  { value: "star", label: "Star" },
+  { value: BadgeShapeEnum.Circle, label: "Circle" },
+  { value: BadgeShapeEnum.Square, label: "Square" },
+  { value: BadgeShapeEnum.Star, label: "Star" },
 ];
 
 export const meetTypeFilterOptions: Option[] = [
   { value: "all", label: "All" },
-  { value: "hackathon", label: "Hackathon" },
-  { value: "workshop", label: "Workshop" },
-  { value: "webinar", label: "Webinar" },
-  { value: "lecture", label: "Lecture" },
+  { value: MeetTypeEnum.Hackathon, label: "Hackathon" },
+  { value: MeetTypeEnum.Workshop, label: "Workshop" },
+  { value: MeetTypeEnum.Webinar, label: "Webinar" },
+  { value: MeetTypeEnum.Lecture, label: "Lecture" },
 ];
 
 export const dateFilterOptions: Option[] = [
@@ -30,6 +30,6 @@ export const dateFilterOptions: Option[] = [
   { value: "all", label: "All" },
 ];
 
-export const meetTypeRegex = new RegExp(`^(${Object.values(MeetTypesEnum).join("|")})$`, "i");
+export const meetTypeRegex = new RegExp(`^(${Object.values(MeetTypeEnum).join("|")})$`, "i");
 
-export const badgeShapeRegex = new RegExp(`^(${Object.values(BadgeShapesEnum).join("|")})$`, "i");
+export const badgeShapeRegex = new RegExp(`^(${Object.values(BadgeShapeEnum).join("|")})$`, "i");

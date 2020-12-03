@@ -1,7 +1,8 @@
 import React, { FC } from "react";
+import { MeetTypeEnum } from "../../../types/enum";
 
 interface Props {
-  meetType: MeetType;
+  meetType: MeetTypeEnum;
   className?: string;
   isBordered?: boolean;
 }
@@ -22,10 +23,10 @@ const makeDefinition = (_classes: string, borderClass: string): MeetTypeDefinito
 };
 
 const DEFINITIONS = {
-  hackathon: makeDefinition("bg-mb-orange-100", "border-white"),
-  workshop: makeDefinition("bg-mb-blue-200", "border-mb-blue-100"),
-  webinar: makeDefinition("bg-mb-purple-100", "border-white"),
-  lecture: makeDefinition("bg-mb-green-300", "border-mb-green-000"),
+  HACKATHON: makeDefinition("bg-mb-orange-100", "border-white"),
+  WORKSHOP: makeDefinition("bg-mb-blue-200", "border-mb-blue-100"),
+  WEBINAR: makeDefinition("bg-mb-purple-100", "border-white"),
+  LECTURE: makeDefinition("bg-mb-green-300", "border-mb-green-000"),
 };
 
 export const MeetType: FC<Props> = ({ meetType, className = "", isBordered = false }) => {

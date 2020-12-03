@@ -1,12 +1,12 @@
-export enum MeetTypesEnum {
-  hackathon = "hackathon",
-  workshop = "workshop",
-  webinar = "webinar",
-  lecture = "lecture",
+export enum MeetTypeEnum {
+  Hackathon = "HACKATHON",
+  Workshop = "WORKSHOP",
+  Webinar = "WEBINAR",
+  Lecture = "LECTURE",
 }
 
-export enum BadgeShapesEnum {
-  star = "star",
-  square = "square",
-  circle = "circle",
+export enum BadgeShapeEnum {
+  Star = "STAR",
+  Circle = "CIRCLE",
+  Square = "SQUARE",
 }
