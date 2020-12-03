@@ -79,7 +79,11 @@ const Meets: FC<StateMapping> = ({ user }) => {
       const dateA = new Date(a.startTime).getTime();
       const dateB = new Date(b.startTime).getTime();
       if (dateA === dateB) return 0;
-      return dateB - dateA;
+      if (dateFilter === "upcoming") {
+        return dateA - dateB;
+      } else {
+        return dateB - dateA;
+      }
     });
 
     const mappedMeets = upcomingMeets.map((meet) => (
