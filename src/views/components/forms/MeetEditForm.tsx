@@ -46,7 +46,7 @@ const chopOffSecMs = (timestr: string): string => {
 export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
   const [imageUrl, setImageUrl] = useState<string>("");
 
-  const { errors, register, handleSubmit, watch, setValue, getValues } = useForm({
+  const { errors, register, handleSubmit, watch, setValue } = useForm({
     resolver: yupResolver(editMeetInputSchema),
     // pre-populate form
     defaultValues: {

@@ -1,18 +1,8 @@
-import React, { ChangeEvent, FC, useState } from "react";
-import { Controlled as CodeMirror } from "react-codemirror2";
+import React, { FC, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import SimpleMDEEditor from "react-simplemde-editor";
-import "codemirror/lib/codemirror.css";
-import "codemirror/theme/shadowfox.css";
-import "codemirror/mode/markdown/markdown";
-import "codemirror/mode/javascript/javascript";
-import "codemirror/mode/jsx/jsx";
-import "codemirror/mode/htmlmixed/htmlmixed";
-import "codemirror/mode/css/css";
-import "codemirror/mode/sass/sass";
 import "easymde/dist/easymde.min.css";
 
-import "./codemirror.css"; // custom styles
 import { MarkdownParser } from "../MarkdownParser";
 
 type Props = {
