@@ -95,7 +95,7 @@ export const MeetCreateForm: FC<Props> = ({ createMeet, formRef }) => {
 
       {/* TODO: Is it wise to refactor these three lines to separate compoment? Has react-hook-form dependencies so thought I'd leave it where it's easy to see what's going on*/}
       <label htmlFor="instructions">Instructions</label>
-      <MarkdownEditor value={instructions} onBeforeChange={(value) => setValue("instructions", value)} />
+      <MarkdownEditor prevValue={instructions} onChange={(value) => setValue("instructions", value)} />
       <FormValidationErrorMsg errorMessage={errors.instructions?.message} />
 
       <Input type="url" label="Zoom link" name="registerLink" ref={register} />

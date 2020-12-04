@@ -46,7 +46,7 @@ const chopOffSecMs = (timestr: string): string => {
 export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
   const [imageUrl, setImageUrl] = useState<string>("");
 
-  const { errors, register, handleSubmit, watch, setValue } = useForm({
+  const { errors, register, handleSubmit, watch, setValue, getValues } = useForm({
     resolver: yupResolver(editMeetInputSchema),
     // pre-populate form
     defaultValues: {
@@ -73,6 +73,7 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
   }, [register]);
 
   const instructions = watch("instructions");
+  console.log({ instructions });
 
   // RHF only calls onSubmit callback when form input passes validation
   const onSubmit = (data: CreateMeetInput) => {
@@ -119,7 +120,12 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
 
       {/* TODO: Is it wise to refactor these three lines to separate compoment? Has react-hook-form dependencies so thought I'd leave it where it's easy to see what's going on*/}
       <label htmlFor="instructions">Instructions</label>
-      <MarkdownEditor value={instructions} onBeforeChange={(value) => setValue("instructions", value)} />
+      <MarkdownEditor
+        prevValue={instructions}
+        onChange={(value) => {
+          setValue("instructions", value);
+        }}
+      />
       <FormValidationErrorMsg errorMessage={errors.instructions?.message} />
 
       <Input type="url" label="Zoom link" name="registerLink" ref={register} />

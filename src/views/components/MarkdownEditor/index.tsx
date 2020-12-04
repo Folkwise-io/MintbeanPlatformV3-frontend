@@ -1,5 +1,7 @@
-import React, { FC } from "react";
+import React, { ChangeEvent, FC, useState } from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
+import ReactDOMServer from "react-dom/server";
+import SimpleMDEEditor from "react-simplemde-editor";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/shadowfox.css";
 import "codemirror/mode/markdown/markdown";
@@ -8,21 +10,51 @@ import "codemirror/mode/jsx/jsx";
 import "codemirror/mode/htmlmixed/htmlmixed";
 import "codemirror/mode/css/css";
 import "codemirror/mode/sass/sass";
+import "easymde/dist/easymde.min.css";
 
 import "./codemirror.css"; // custom styles
+import { MarkdownParser } from "../MarkdownParser";
 
 type Props = {
-  value: string;
-  onBeforeChange: (newValue: string) => void;
+  prevValue: string;
+  onChange: (newValue: string) => void;
 };
 
-export const MarkdownEditor: FC<Props> = ({ value, onBeforeChange }) => {
+export const MarkdownEditor: FC<Props> = ({ prevValue, onChange: onChange }) => {
+  const [value, setValue] = useState<string>(prevValue);
+
+  const handleChange = (newValue: string) => {
+    setValue(newValue);
+    onChange(newValue);
+  };
+
   return (
-    <CodeMirror
+    <SimpleMDEEditor
+      onChange={handleChange}
       value={value}
-      options={{ scrollbarStyle: "null", lineWrapping: true, theme: "shadowfox", mode: "markdown" }}
-      onBeforeChange={(_editor, _data, value) => {
-        onBeforeChange(value);
+      options={{
+        toolbar: [
+          "bold",
+          "italic",
+          "strikethrough",
+          "heading-bigger",
+          "heading-smaller",
+          "code",
+          "quote",
+          "unordered-list",
+          "link",
+          "image",
+          "preview",
+          "side-by-side",
+          "guide",
+        ],
+        sideBySideFullscreen: false,
+
+        previewRender(text) {
+          return ReactDOMServer.renderToString(<MarkdownParser source={text} />);
+        },
+        initialValue: prevValue,
+        lineWrapping: true,
       }}
     />
   );
