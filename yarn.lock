@@ -2666,7 +2666,7 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react-select@true3.0.26":
+"@types/react-select@3.0.26":
   version "3.0.26"
   resolved "https://registry.yarnpkg.com/@types/react-select/-/react-select-3.0.26.tgz#f1b1a1e2b624ed9843eb56dda837e7a0f4a76a8f"
   integrity sha512-rAaiD0SFkBi3PUwp1DrJV04CobPl2LuZXF+kv6MKw8kaeGo82xTOZzjM8DDi4lrdkqGbInZiE2QO9nIJm3bqgw==

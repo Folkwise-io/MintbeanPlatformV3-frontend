@@ -1,9 +1,10 @@
 import React, { FC, useState } from "react";
 import ReactDOMServer from "react-dom/server";
-import SimpleMDEEditor from "react-simplemde-editor";
+
 import "easymde/dist/easymde.min.css";
 
 import { MarkdownParser } from "../MarkdownParser";
+import SimpleMDEEditor from "react-simplemde-editor";
 
 type Props = {
   prevValue: string;

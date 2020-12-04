@@ -73,7 +73,6 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
   }, [register]);
 
   const instructions = watch("instructions");
-  console.log({ instructions });
 
   // RHF only calls onSubmit callback when form input passes validation
   const onSubmit = (data: CreateMeetInput) => {
