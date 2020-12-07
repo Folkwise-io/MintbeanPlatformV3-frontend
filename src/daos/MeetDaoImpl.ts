@@ -54,6 +54,7 @@ export class MeetDaoImpl implements MeetDao {
           query meet($id: UUID!) {
             meet(id: $id) {
               ${MEET_RESPONSE_QUERY_BASIC}
+              detailedDescription
               registrants {
                 id
                 firstName
@@ -112,6 +113,7 @@ export class MeetDaoImpl implements MeetDao {
           mutation createMeet($input: CreateMeetInput!) {
             createMeet(input: $input) {
               ${MEET_RESPONSE_QUERY_BASIC}
+              detailedDescription
               kanbanCanonId
               kanbanCanon {
                 ${KANBAN_CANON_RESPONSE_QUERY}
@@ -140,6 +142,7 @@ export class MeetDaoImpl implements MeetDao {
           mutation editMeet($id: UUID!, $input: EditMeetInput!) {
             editMeet(id: $id, input: $input) {
               ${MEET_RESPONSE_QUERY_BASIC}
+              detailedDescription
               kanbanCanonId
               kanbanCanon {
                 ${KANBAN_CANON_RESPONSE_QUERY}

@@ -18,6 +18,7 @@ import { meetTypeOptions, regionOptions } from "./constants";
 const editMeetInputSchema = yup.object().shape({
   meetType: yup.string().required("Required"),
   title: yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
+  detailedDescription: yup.string().min(3, "Too short!"),
   description: yup.string().min(3, "Too Short!").max(160, "Max characters: 160").required("Required"),
   instructions: yup.string().min(3, "Too Short!").required("Required"),
   registerLink: yup.string().url("Must be a valid URL (https://...)").required("Required"),
@@ -53,6 +54,7 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
       meetType: meet.meetType,
       title: meet.title,
       description: meet.description,
+      detailedDescription: meet.detailedDescription,
       instructions: meet.instructions,
       registerLink: meet.registerLink,
       coverImageUrl: meet.coverImageUrl,
@@ -70,9 +72,11 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
 
   useEffect(() => {
     register({ name: "instructions" });
+    register({ name: "detailedDescription" });
   }, [register]);
 
   const instructions = watch("instructions");
+  const detailedDescription = watch("detailedDescription");
 
   // RHF only calls onSubmit callback when form input passes validation
   const onSubmit = (data: CreateMeetInput) => {
@@ -116,6 +120,10 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
 
       <TextArea label="Description" name="description" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.description?.message} />
+
+      <label>
+        <MarkdownEditor value={detailedDescription} onChange={(value) => setValue("detailedDescription", value)} />
+      </label>
 
       {/* TODO: Is it wise to refactor these three lines to separate compoment? Has react-hook-form dependencies so thought I'd leave it where it's easy to see what's going on*/}
       <label htmlFor="instructions">Instructions</label>

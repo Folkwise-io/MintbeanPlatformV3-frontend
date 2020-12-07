@@ -47,6 +47,7 @@ interface Meet {
   id: string;
   title: string;
   description: string;
+  detailedDescription?: string;
   instructions: string;
   registerLink?: string;
   registerLinkStatus: RegisterLinkStatus;
@@ -150,6 +151,7 @@ interface CreateMeetInput {
   meetType: "hackMeet";
   title: string;
   description: string;
+  detailedDescription?: string;
   instructions: string;
   registerLink?: string;
   coverImageUrl: string;
@@ -162,6 +164,7 @@ interface EditMeetInput {
   meetType?: "hackMeet";
   title?: string;
   description?: string;
+  detailedDescription?: string;
   instructions?: string;
   registerLink?: string;
   coverImageUrl?: string;
