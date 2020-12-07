@@ -12,17 +12,14 @@ type Props = {
 };
 
 export const MarkdownEditor: FC<Props> = ({ value, onChange }) => {
-  const [simpleMdeValue, setSimpleMdeValue] = useState<string>(value);
-
   const handleChange = (newValue: string) => {
-    setSimpleMdeValue(newValue);
     onChange(newValue);
   };
 
   return (
     <SimpleMDEEditor
       onChange={handleChange}
-      value={simpleMdeValue}
+      value={value}
       options={{
         toolbar: [
           "bold",
