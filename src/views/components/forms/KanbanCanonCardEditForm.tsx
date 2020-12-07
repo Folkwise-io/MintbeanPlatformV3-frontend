@@ -48,7 +48,7 @@ export const KanbanCanonCardEditForm: FC<Props> = ({ data, editKanbanCanonCard, 
       <FormValidationErrorMsg errorMessage={errors.title?.message} />
 
       <label htmlFor="body">Body</label>
-      <MarkdownEditor prevValue={body} onChange={(value) => setValue("body", value)} />
+      <MarkdownEditor value={body} onChange={(value) => setValue("body", value)} />
       <FormValidationErrorMsg errorMessage={errors.body?.message} />
 
       {/* workaround for allowing form submit on Enter */}

@@ -7,22 +7,22 @@ import { MarkdownParser } from "../MarkdownParser";
 import SimpleMDEEditor from "react-simplemde-editor";
 
 type Props = {
-  prevValue: string;
+  value: string;
   onChange: (newValue: string) => void;
 };
 
-export const MarkdownEditor: FC<Props> = ({ prevValue, onChange: onChange }) => {
-  const [value, setValue] = useState<string>(prevValue);
+export const MarkdownEditor: FC<Props> = ({ value, onChange }) => {
+  const [simpleMdeValue, setSimpleMdeValue] = useState<string>(value);
 
   const handleChange = (newValue: string) => {
-    setValue(newValue);
+    setSimpleMdeValue(newValue);
     onChange(newValue);
   };
 
   return (
     <SimpleMDEEditor
       onChange={handleChange}
-      value={value}
+      value={simpleMdeValue}
       options={{
         toolbar: [
           "bold",
@@ -44,7 +44,7 @@ export const MarkdownEditor: FC<Props> = ({ prevValue, onChange: onChange }) => 
         previewRender(text) {
           return ReactDOMServer.renderToString(<MarkdownParser source={text} />);
         },
-        initialValue: prevValue,
+        initialValue: value,
         lineWrapping: true,
       }}
     />
