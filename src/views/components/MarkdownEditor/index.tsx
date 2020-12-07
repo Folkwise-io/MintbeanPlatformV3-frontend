@@ -11,7 +11,7 @@ type Props = {
   onChange: (newValue: string) => void;
 };
 
-export const MarkdownEditor: FC<Props> = ({ prevValue, onChange: onChange }) => {
+export const MarkdownEditor: FC<Props> = ({ prevValue, onChange }) => {
   const [value, setValue] = useState<string>(prevValue);
 
   const handleChange = (newValue: string) => {
