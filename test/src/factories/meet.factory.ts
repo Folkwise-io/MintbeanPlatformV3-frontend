@@ -7,6 +7,7 @@ export const meetFactory = factory<Meet>({
   meetType: "hackMeet",
   title: () => faker.company.bs(),
   description: () => faker.lorem.sentence(),
+  detailedDescription: () => faker.lorem.paragraphs(4),
   instructions: () => faker.lorem.paragraph(),
   registerLink: () => faker.internet.url(),
   coverImageUrl: () => faker.image.imageUrl(),
