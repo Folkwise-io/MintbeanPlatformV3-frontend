@@ -122,7 +122,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       } else
         return (
           <>
-            <MarkdownParser className="w-11/12 mx-auto" source={meet.detailedDescription.slice(0, 826) + "..."} />
+            <MarkdownParser className="w-11/12 mx-auto" source={meet.detailedDescription.slice(0, 826) + " ..."} />
             <Button onClick={() => setIsExpanded(true)}>Read more</Button>
           </>
         );
