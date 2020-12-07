@@ -122,7 +122,9 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
       <FormValidationErrorMsg errorMessage={errors.description?.message} />
 
       <label>
+        Detailed description
         <MarkdownEditor value={detailedDescription} onChange={(value) => setValue("detailedDescription", value)} />
+        <FormValidationErrorMsg errorMessage={errors.detailedDescription?.message} />
       </label>
 
       {/* TODO: Is it wise to refactor these three lines to separate compoment? Has react-hook-form dependencies so thought I'd leave it where it's easy to see what's going on*/}
