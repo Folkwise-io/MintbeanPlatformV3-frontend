@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import ReactDOMServer from "react-dom/server";
 
 import "easymde/dist/easymde.min.css";
