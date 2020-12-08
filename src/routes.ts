@@ -72,10 +72,10 @@ export const routes: RouteConfig[] = [
     component: BadgeTemplate,
     path: "/badges/:id",
   },
-  // {
-  //   component: UserProfile,
-  //   path: "/profile",
-  // },
+  {
+    component: UserProfile,
+    path: "/profile",
+  },
   {
     component: NotFound,
     path: "*",
