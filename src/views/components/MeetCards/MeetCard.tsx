@@ -22,31 +22,28 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   const MEET_COLORS = {
     [MeetTypeEnum.Hackathon]: {
       current: "bg-mb-orange-100",
-      past: "bg-mb-orange-000"
+      past: "bg-mb-orange-000",
     },
     [MeetTypeEnum.Workshop]: {
       current: "bg-mb-orange-100",
-      past: "bg-mb-orange-000"
+      past: "bg-mb-orange-000",
     },
     [MeetTypeEnum.Webinar]: {
       current: "bg-mb-orange-100",
-      past: "bg-mb-orange-000"
+      past: "bg-mb-orange-000",
     },
     [MeetTypeEnum.Lecture]: {
       current: "bg-mb-orange-100",
-      past: "bg-mb-orange-000"
+      past: "bg-mb-orange-000",
     },
     // ..
-  }
-
+  };
 
   const getComputedMeetTypeColor = (meetType: MeetTypeEnum): string => {
     const colorDefinition = MEET_COLORS[meetType];
-    
-    let meetTypeColor = meetIsCurrent
-      ? colorDefinition.current
-      : colorDefinition.past;
-    
+
+    const meetTypeColor = meetIsCurrent ? colorDefinition.current : colorDefinition.past;
+
     return meetTypeColor;
   };
 
