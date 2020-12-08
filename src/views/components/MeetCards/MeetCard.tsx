@@ -19,29 +19,34 @@ interface MeetProps {
 export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   const { id, title, description, startTime, endTime, coverImageUrl, region, meetType } = meet;
 
+  const MEET_COLORS = {
+    [MeetTypeEnum.Hackathon]: {
+      current: "bg-mb-orange-100",
+      past: "bg-mb-orange-000"
+    },
+    [MeetTypeEnum.Workshop]: {
+      current: "bg-mb-orange-100",
+      past: "bg-mb-orange-000"
+    },
+    [MeetTypeEnum.Webinar]: {
+      current: "bg-mb-orange-100",
+      past: "bg-mb-orange-000"
+    },
+    [MeetTypeEnum.Lecture]: {
+      current: "bg-mb-orange-100",
+      past: "bg-mb-orange-000"
+    },
+    // ..
+  }
+
+
   const getComputedMeetTypeColor = (meetType: MeetTypeEnum): string => {
-    let meetTypeColor = "";
-    if (meetIsCurrent) {
-      if (meetType === MeetTypeEnum.Hackathon) {
-        meetTypeColor = "bg-mb-orange-100";
-      } else if (meetType === MeetTypeEnum.Workshop) {
-        meetTypeColor = "bg-mb-blue-200";
-      } else if (meetType === MeetTypeEnum.Webinar) {
-        meetTypeColor = "bg-mb-purple-100";
-      } else {
-        meetTypeColor = "bg-mb-green-300";
-      }
-    } else {
-      if (meetType === MeetTypeEnum.Hackathon) {
-        meetTypeColor = "bg-mb-orange-000";
-      } else if (meetType === MeetTypeEnum.Workshop) {
-        meetTypeColor = "bg-mb-blue-100";
-      } else if (meetType === MeetTypeEnum.Webinar) {
-        meetTypeColor = "bg-mb-purple-000";
-      } else {
-        meetTypeColor = "bg-mb-green-000";
-      }
-    }
+    const colorDefinition = MEET_COLORS[meetType];
+    
+    let meetTypeColor = meetIsCurrent
+      ? colorDefinition.current
+      : colorDefinition.past;
+    
     return meetTypeColor;
   };
 
