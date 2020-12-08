@@ -3,6 +3,7 @@ import { MeetDao } from "./MeetDao";
 import { handleServerError } from "../utils/handleServerError";
 import { KANBAN_CANON_RESPONSE_QUERY } from "./KanbanCanonDaoImpl";
 import { KANBAN_RESPONSE_QUERY } from "./KanbanDaoImpl";
+import { Meet, CreateMeetInput, EditMeetInput } from "../types/meet";
 
 const MEET_RESPONSE_QUERY_BASIC = `
   id

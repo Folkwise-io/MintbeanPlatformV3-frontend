@@ -1,10 +1,17 @@
 import faker from "faker";
+import { MeetTypeEnum } from "../../../src/types/enum";
+import { Meet } from "../../../src/types/meet";
 import { factory } from "./factory";
 import { meetProjectFactory } from "./project.factory";
 
 export const meetFactory = factory<Meet>({
   id: () => faker.random.uuid(),
-  meetType: "hackMeet",
+  meetType: faker.random.arrayElement([
+    MeetTypeEnum.Hackathon,
+    MeetTypeEnum.Workshop,
+    MeetTypeEnum.Webinar,
+    MeetTypeEnum.Lecture,
+  ]),
   title: () => faker.company.bs(),
   description: () => faker.lorem.sentence(),
   detailedDescription: () => faker.lorem.paragraphs(4),

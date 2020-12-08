@@ -1,4 +1,5 @@
 import { ProjectDao } from "../../../src/daos/ProjectDao";
+import { Project } from "../../../src/types/project";
 
 type SuccessDataTypes = Project | boolean;
 

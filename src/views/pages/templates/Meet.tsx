@@ -17,6 +17,7 @@ import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { ExternalLink } from "../../components/ExternalLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { MeetType } from "../../components/MeetCards/MeetType";
 import { H1 } from "../../components/blocks/H1";
 import { CreateKanbanButton } from "../../components/Kanban/CreateKanbanButton";
 import { MbContext } from "../../../context/MbContext";
@@ -24,6 +25,8 @@ import { Context } from "../../../context/contextBuilder";
 import KanbanController from "../../components/Kanban/KanbanController";
 import { CSVExport } from "../../components/CSVExport";
 import { Button } from "../../components/blocks/Button";
+import { Meet as MeetTypeDef } from "../../../types/meet";
+import { ProjectForMeet } from "../../../types/project";
 
 const meetReg = new MeetRegistration();
 
@@ -44,7 +47,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const {
     params: { id },
   } = match;
-  const [meet, setMeet] = useState<Meet | null>(null);
+  const [meet, setMeet] = useState<MeetTypeDef | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const user = userState.data;
@@ -299,7 +302,12 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
             {loading ? (
               <div className="text-white h-screen-lg p-24 w-full mb-flex-centered">Loading...</div>
             ) : (
-              <img className="object-contain bg-black w-full" src={meet?.coverImageUrl} alt={meet?.title} />
+              <>
+                <img className="object-contain bg-black w-full" src={meet?.coverImageUrl} alt={meet?.title} />
+                <div className="w-11/12 h-8 absolute top-mb-1 inset-x-0 flex justify-end">
+                  {meet && <MeetType meetType={meet.meetType} isBordered />}
+                </div>
+              </>
             )}
           </div>
         </header>

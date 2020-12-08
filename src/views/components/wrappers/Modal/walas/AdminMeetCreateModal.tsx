@@ -5,6 +5,7 @@ import { MeetCreateForm } from "../../../forms/MeetCreateForm";
 import { MbContext } from "../../../../../context/MbContext";
 import { Context } from "../../../../../context/contextBuilder";
 import { useHistory } from "react-router-dom";
+import { CreateMeetInput } from "../../../../../types/meet";
 
 interface Props {
   className?: string;
