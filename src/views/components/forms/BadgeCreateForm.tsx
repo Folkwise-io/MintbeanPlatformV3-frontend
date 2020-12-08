@@ -1,7 +1,7 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import React, { ChangeEvent, FC, useContext, useRef, useState } from "react";
-import Select, { OptionTypeBase, ValueType } from "react-select";
+import Select, { OptionTypeBase } from "react-select";
 import { Color, SketchPicker } from "react-color";
 import FaPicker from "../../pages/Admin/FaPicker";
 import { paletteOptions } from "../../../utils/Palette";
@@ -20,6 +20,7 @@ import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { Input } from "../blocks/Form/Input";
 import { TextArea } from "../blocks/Form/TextArea";
 import { badgeShapeOptions } from "./constants";
+import { BadgeShapeEnum } from "../../../types/enum";
 
 export const BadgeCreateForm: FC = () => {
   const context = useContext<Context>(MbContext);
@@ -59,7 +60,7 @@ export const BadgeCreateForm: FC = () => {
       iconHex: iconColor.toString().slice(1),
       title: "",
       alias: "",
-      badgeShape: selectedShape as BadgeShape,
+      badgeShape: selectedShape as BadgeShapeEnum,
       faIcon: selectedIcon,
       weight: 0,
       description: "",
@@ -91,15 +92,9 @@ export const BadgeCreateForm: FC = () => {
   };
 
   // if valid option, get computed classname for that option
-  const shapeHandleChange = (
-    option: ValueType<{
-      value: string;
-      label: string;
-    }>,
-  ) => {
+  const shapeHandleChange = (option: OptionTypeBase | undefined | null) => {
     if (option) {
-      const shapeOption = option as OptionTypeBase;
-      const value = shapeOption.value;
+      const value = option.value;
       setValue("badgeShape", value);
       setSelectedShape(value);
     }
@@ -111,7 +106,7 @@ export const BadgeCreateForm: FC = () => {
     badgeShape: useWatch({
       control,
       name: "badgeShape",
-    }) as "circle" | "square" | "star",
+    }) as BadgeShapeEnum,
     faIcon: useWatch({
       control,
       name: "faIcon",

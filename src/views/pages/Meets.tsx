@@ -8,6 +8,7 @@ import { isPast } from "../../utils/DateUtility";
 import { PastMeetCard } from "../components/MeetCards/PastMeetCard";
 import { MbContext } from "../../context/MbContext";
 import { Context } from "../../context/contextBuilder";
+import { Meet } from "../../types/meet";
 
 interface StateMapping {
   user: UserState;

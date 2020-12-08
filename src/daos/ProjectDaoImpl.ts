@@ -1,6 +1,7 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { ProjectDao } from "./ProjectDao";
 import { handleServerError } from "../utils/handleServerError";
+import { Project } from "../types/project";
 
 export class ProjectDaoImpl implements ProjectDao {
   constructor(private api: ApiQueryExecutor) {}

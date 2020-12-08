@@ -2,6 +2,8 @@ import { Store } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { Context } from "../../src/context/contextBuilder";
 import { Badge } from "../../src/types/badge";
+import { Meet } from "../../src/types/meet";
+import { Project } from "../../src/types/project";
 import { MbAction } from "../../src/views/state/actions/MbAction";
 import { configureStoreAndLogger } from "../../src/views/state/configureStoreAndLogger";
 import { testContextBuilder } from "../testContextBuilder";

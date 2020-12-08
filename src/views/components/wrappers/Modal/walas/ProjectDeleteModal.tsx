@@ -4,6 +4,7 @@ import { ModalActionDeclaration } from "../ModalActionButton";
 import { Context } from "../../../../../context/contextBuilder";
 import { MbContext } from "../../../../../context/MbContext";
 import { Button } from "../../../blocks/Button";
+import { Project } from "../../../../../types/project";
 
 interface Props {
   className?: string;

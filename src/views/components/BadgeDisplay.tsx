@@ -1,7 +1,8 @@
 import { IconLookup, IconDefinition, findIconDefinition, IconName } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC } from "react";
-import { Badge, CreateBadgeParams } from "../../types/badge";
+import { Badge, BadgesForProject, CreateBadgeParams } from "../../types/badge";
+import { BadgeShapeEnum } from "../../types/enum";
 
 interface Props {
   badge: Badge | CreateBadgeParams | BadgesForProject;
@@ -13,7 +14,7 @@ export const BadgeDisplay: FC<Props> = ({ badge, size = "sm" }) => {
   const { badgeShape, faIcon, backgroundHex, iconHex, title } = badge;
   const iconLookup: IconLookup = { prefix: "fas", iconName: faIcon as IconName };
   const iconDefinition: IconDefinition = findIconDefinition(iconLookup);
-  const getComputedClassName = (option: "circle" | "square" | "star") => {
+  const getComputedClassName = (option: BadgeShapeEnum) => {
     let baseStyles = "mb-flex-centered";
     if (size === "xs") baseStyles += " h-8 w-8 p-1";
     if (size === "sm") baseStyles += " h-16 w-16 p-2";
@@ -21,9 +22,9 @@ export const BadgeDisplay: FC<Props> = ({ badge, size = "sm" }) => {
     if (size === "lg") baseStyles += " h-48 w-48 p-4";
 
     let className = "";
-    if (option === "circle") className = baseStyles + " rounded-full";
-    if (option === "square") className = baseStyles + " rounded";
-    if (option === "star") {
+    if (option === BadgeShapeEnum.Circle) className = baseStyles + " rounded-full";
+    if (option === BadgeShapeEnum.Square) className = baseStyles + " rounded";
+    if (option === BadgeShapeEnum.Star) {
       const starStyles = baseStyles + " mb-badge-star";
       if (size === "xs") {
         className = starStyles + " h-9 w-9 p-2";

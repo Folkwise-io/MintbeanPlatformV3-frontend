@@ -5,6 +5,7 @@ import { ExternalLink } from "./ExternalLink";
 import { BadgeDisplay } from "./BadgeDisplay";
 import { AwardBadgesToProjectForm } from "./forms/AwardBadgesToProjectForm";
 import { Button } from "./blocks/Button";
+import { ProjectForMeet } from "../../types/project";
 
 type ProjectCardProps = {
   project: ProjectForMeet;
