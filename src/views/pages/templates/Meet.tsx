@@ -129,7 +129,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       // I'm apprehensive about this slice will affect MD rendering.
       // It might not work as expected in all cases.
       label = "Read More";
-      meet.detailedDescription.slice(0, 826) + " ...";
+      source = meet.detailedDescription.slice(0, 826) + " ...";
       onClickSetValue = true;
     }
 
