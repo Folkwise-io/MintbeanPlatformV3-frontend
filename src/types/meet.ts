@@ -5,6 +5,7 @@ export interface Meet {
   id: string;
   title: string;
   description: string;
+  detailedDescription?: string;
   instructions: string;
   registerLink?: string;
   registerLinkStatus: RegisterLinkStatus;
@@ -24,6 +25,7 @@ export interface CreateMeetInput {
   meetType: MeetTypeEnum;
   title: string;
   description: string;
+  detailedDescription?: string;
   instructions: string;
   registerLink?: string;
   coverImageUrl: string;
@@ -36,6 +38,7 @@ export interface EditMeetInput {
   meetType?: MeetTypeEnum;
   title?: string;
   description?: string;
+  detailedDescription?: string;
   instructions?: string;
   registerLink?: string;
   coverImageUrl?: string;
