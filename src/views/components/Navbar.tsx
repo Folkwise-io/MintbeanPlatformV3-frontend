@@ -100,6 +100,14 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
                 >
                   Badges
                 </Link>
+                {isLoggedIn && (
+                  <Link
+                    to="/profile"
+                    className="mb-transition mx-2 text-black hover:text-mb-blue-200 focus:text-mb-blue-200"
+                  >
+                    Profile
+                  </Link>
+                )}
                 {isAdmin && (
                   <Link
                     to="/admin"
