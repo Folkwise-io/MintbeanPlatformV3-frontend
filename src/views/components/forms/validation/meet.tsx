@@ -6,7 +6,7 @@ import { meetTypeRegex } from "../constants";
 export const createMeetInputSchema = yup.object().shape({
   meetType: yup.string().matches(meetTypeRegex, "Invalid meetType, please try again.").required("Required"),
   title: yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
-  description: yup.string().min(3, "Too Short!").required("Required"),
+  description: yup.string().min(3, "Too Short!").max(400, "Max characters: 160").required("Required"),
   instructions: yup.string().min(3, "Too Short!").required("Required"),
   registerLink: yup.string().url("Must be a valid URL (https://...)").required("Required"),
   coverImageUrl: yup.string().url("Must be a valid URL (https://...)").required("Required"),
@@ -25,7 +25,7 @@ export const createMeetInputSchema = yup.object().shape({
 export const editMeetInputSchema = yup.object().shape({
   meetType: yup.string().matches(meetTypeRegex, "Invalid meetType, please try again.").required("Required"),
   title: yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
-  description: yup.string().min(3, "Too Short!").max(160, "Max characters: 160").required("Required"),
+  description: yup.string().min(3, "Too Short!").max(400, "Max characters: 160").required("Required"),
   instructions: yup.string().min(3, "Too Short!").required("Required"),
   registerLink: yup.string().url("Must be a valid URL (https://...)").required("Required"),
   coverImageUrl: yup.string().url("Must be a valid URL (https://...)").required("Required"),
