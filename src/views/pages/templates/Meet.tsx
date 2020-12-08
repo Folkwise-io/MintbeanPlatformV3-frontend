@@ -110,35 +110,33 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     </>
   );
 
-
   const renderDetailedDescription = () => {
     if (!meet || !meet.detailedDescription) {
       return;
     }
 
     let source;
-    let onClickSetValue;
+    let onClickSetValue: boolean;
     let label;
     if (isExpanded) {
       label = "Read Less";
       source = meet.detailedDescription;
       onClickSetValue = false;
     } else {
-       // I'm apprehensive about this slice will affect MD rendering. 
-       // It might not work as expected in all cases.
+      // I'm apprehensive about this slice will affect MD rendering.
+      // It might not work as expected in all cases.
       label = "Read More";
       meet.detailedDescription.slice(0, 826) + " ...";
       onClickSetValue = true;
     }
 
-      return (
-        <>
-          <MarkdownParser className="w-11/12 mx-auto" source={source} />
-          <Button onClick={() => setIsExpanded(onClickSetValue)}>{label}</Button>
-        </>
-      );
+    return (
+      <>
+        <MarkdownParser className="w-11/12 mx-auto" source={source} />
+        <Button onClick={() => setIsExpanded(onClickSetValue)}>{label}</Button>
+      </>
+    );
   };
-
 
   const renderInstructions = () => {
     if (isAdmin) {
