@@ -1,28 +1,48 @@
 import React, { FC } from "react";
-import { Controlled as CodeMirror } from "react-codemirror2";
-import "codemirror/lib/codemirror.css";
-import "codemirror/theme/shadowfox.css";
-import "codemirror/mode/markdown/markdown";
-import "codemirror/mode/javascript/javascript";
-import "codemirror/mode/jsx/jsx";
-import "codemirror/mode/htmlmixed/htmlmixed";
-import "codemirror/mode/css/css";
-import "codemirror/mode/sass/sass";
+import ReactDOMServer from "react-dom/server";
 
-import "./codemirror.css"; // custom styles
+import "easymde/dist/easymde.min.css";
+
+import { MarkdownParser } from "../MarkdownParser";
+import SimpleMDEEditor from "react-simplemde-editor";
 
 type Props = {
   value: string;
-  onBeforeChange: (newValue: string) => void;
+  onChange: (newValue: string) => void;
 };
 
-export const MarkdownEditor: FC<Props> = ({ value, onBeforeChange }) => {
+export const MarkdownEditor: FC<Props> = ({ value, onChange }) => {
+  const handleChange = (newValue: string) => {
+    onChange(newValue);
+  };
+
   return (
-    <CodeMirror
+    <SimpleMDEEditor
+      onChange={handleChange}
       value={value}
-      options={{ scrollbarStyle: "null", lineWrapping: true, theme: "shadowfox", mode: "markdown" }}
-      onBeforeChange={(_editor, _data, value) => {
-        onBeforeChange(value);
+      options={{
+        toolbar: [
+          "bold",
+          "italic",
+          "strikethrough",
+          "heading-bigger",
+          "heading-smaller",
+          "code",
+          "quote",
+          "unordered-list",
+          "link",
+          "image",
+          "preview",
+          "side-by-side",
+          "guide",
+        ],
+        sideBySideFullscreen: false,
+
+        previewRender(text) {
+          return ReactDOMServer.renderToString(<MarkdownParser source={text} />);
+        },
+        initialValue: value,
+        lineWrapping: true,
       }}
     />
   );

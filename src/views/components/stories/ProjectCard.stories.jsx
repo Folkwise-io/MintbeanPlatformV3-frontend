@@ -18,7 +18,6 @@ const Template = (args) => {
       project[key] = args[key];
     }
   }
-  console.log(project);
   return (
     <Router>
       <div className="w-full mb-flex-centered">
