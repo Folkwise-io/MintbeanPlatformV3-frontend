@@ -1,7 +1,7 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import React, { ChangeEvent, FC, useContext, useRef, useState } from "react";
-import Select, { OptionTypeBase, ValueType } from "react-select";
+import Select, { OptionTypeBase } from "react-select";
 import { SketchPicker } from "react-color";
 import FaPicker from "../../pages/Admin/FaPicker";
 import { paletteOptions } from "../../../utils/Palette";
@@ -18,6 +18,7 @@ import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { TextArea } from "../blocks/Form/TextArea";
 import { Input } from "../blocks/Form/Input";
 import { badgeShapeOptions } from "./constants";
+import { BadgeShapeEnum } from "../../../types/enum";
 
 interface Props {
   badge: Badge;
@@ -87,12 +88,7 @@ export const BadgeEditForm: FC<Props> = ({ badge }) => {
     editBadge(badge.id, data);
   };
 
-  const shapeHandleChange = (
-    option: ValueType<{
-      value: string;
-      label: string;
-    }>,
-  ) => {
+  const shapeHandleChange = (option: OptionTypeBase | undefined | null) => {
     setLoading(true);
     if (option) {
       const shapeOption = option as OptionTypeBase;
@@ -107,7 +103,7 @@ export const BadgeEditForm: FC<Props> = ({ badge }) => {
     badgeShape: useWatch({
       control,
       name: "badgeShape",
-    }) as "circle" | "square" | "star",
+    }) as BadgeShapeEnum,
     faIcon: useWatch({
       control,
       name: "faIcon",
@@ -152,7 +148,7 @@ export const BadgeEditForm: FC<Props> = ({ badge }) => {
                     <Select
                       options={badgeShapeOptions}
                       value={badgeShapeOptions.filter((obj) => obj.value === badge.badgeShape)}
-                      onChange={(option) => shapeHandleChange(option)}
+                      onChange={shapeHandleChange}
                     ></Select>
                   )}
                 />

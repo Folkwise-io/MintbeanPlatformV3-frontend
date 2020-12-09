@@ -7,6 +7,7 @@ import { H2 } from "../blocks/H2";
 import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { Input } from "../blocks/Form/Input";
 import { TextArea } from "../blocks/Form/TextArea";
+import { CreateMeetInput } from "../../../types/meet";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const editKanbanInputSchema = yup.object().shape({

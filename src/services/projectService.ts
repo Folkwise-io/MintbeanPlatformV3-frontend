@@ -1,4 +1,5 @@
 import { ProjectDao } from "../daos/ProjectDao";
+import { Project } from "../types/project";
 import { EntityService } from "./entityService";
 import { LoggerService } from "./loggerService";
 

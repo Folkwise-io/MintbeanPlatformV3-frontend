@@ -1,4 +1,5 @@
 import { MeetDao } from "../../../src/daos/MeetDao";
+import { Meet, CreateMeetInput, EditMeetInput } from "../../../src/types/meet";
 import { meetFactory } from "../factories/meet.factory";
 
 type SuccessDataTypes = Meet[] | Meet | boolean;

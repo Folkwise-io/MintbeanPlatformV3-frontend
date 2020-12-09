@@ -6,6 +6,7 @@ import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { Form } from "../blocks/Form";
 import { H2 } from "../blocks/H2";
 import { Input } from "../blocks/Form/Input";
+import { CreateMeetInput } from "../../../types/meet";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const createKanbanCanonInputSchema = yup.object().shape({

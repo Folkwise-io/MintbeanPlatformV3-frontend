@@ -5,6 +5,7 @@ import { MeetEditForm } from "../../../forms/MeetEditForm";
 import { MbContext } from "../../../../../context/MbContext";
 import { Context } from "../../../../../context/contextBuilder";
 import { Button } from "../../../blocks/Button";
+import { Meet, EditMeetInput } from "../../../../../types/meet";
 
 interface Props {
   className?: string;

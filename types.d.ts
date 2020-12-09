@@ -9,17 +9,6 @@ interface User {
   registeredMeets: Meet[];
 }
 
-interface Project {
-  id: string;
-  title: string;
-  sourceCodeUrl: string;
-  liveUrl: string;
-  createdAt: string;
-  meet: MeetForProject;
-  user: UserForProject;
-  mediaAssets: CloudinaryPublicIdMediaAsset[];
-  badges: BadgesForProject[];
-}
 interface UserForProject {
   id: string;
   firstName: string;
@@ -31,49 +20,10 @@ interface MeetForProject {
   registerLinkStatus: RegisterLinkStatus;
 }
 
-interface BadgesForProject {
-  title: string;
-  id: string;
-  alias: string;
-  badgeShape: BadgeShape;
-  faIcon: string;
-  backgroundHex: string;
-  iconHex: string;
-  weight: number;
-}
-
 /** Whether registration is going to open, is open now, or is closed. */
 type RegisterLinkStatus = "WAITING" | "OPEN" | "CLOSED";
-type BadgeShape = "star" | "circle" | "square";
-interface Meet {
-  id: string;
-  title: string;
-  description: string;
-  instructions: string;
-  registerLink?: string;
-  registerLinkStatus: RegisterLinkStatus;
-  meetType: "hackMeet"; // TODO: change to enum, extend variants once more meet types
-  coverImageUrl: string;
-  startTime: string;
-  endTime: string;
-  region: string;
-  projects: ProjectForMeet[];
-  registrants: RegistrantsForMeet[];
-  kanbanCanon: KanbanCanon | null;
-  kanbanCanonId: string | null;
-  kanban: Kanban | null;
-}
-
-interface ProjectForMeet {
-  id: string;
-  title: string;
-  sourceCodeUrl: string;
-  liveUrl: string;
-  user: UserForProjectForMeet;
-  mediaAssets: CloudinaryPublicIdMediaAsset[];
-  badges: BadgesForProject[];
-  createdAt: string;
-}
+/** The currently supported meet date filters. note, form validators must also be changed when adding new types. */
+type MeetDate = "upcoming" | "past" | "all";
 
 interface RegistrantsForMeet {
   id: string;
@@ -146,31 +96,6 @@ interface RegisterInput {
   email: string;
   password: string;
   passwordConfirmation: string;
-}
-
-interface CreateMeetInput {
-  meetType: "hackMeet";
-  title: string;
-  description: string;
-  instructions: string;
-  registerLink?: string;
-  coverImageUrl: string;
-  startTime: string;
-  endTime: string;
-  region: string;
-}
-
-interface EditMeetInput {
-  meetType?: "hackMeet";
-  title?: string;
-  description?: string;
-  instructions?: string;
-  registerLink?: string;
-  coverImageUrl?: string;
-  startTime?: string;
-  endTime?: string;
-  region?: string;
-  kanbanCanonId?: string;
 }
 
 interface CreateProjectInput {

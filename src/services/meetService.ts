@@ -1,6 +1,7 @@
 import { MeetDao } from "../daos/MeetDao";
 import { LoggerService } from "./loggerService";
 import { EntityService } from "./entityService";
+import { Meet, CreateMeetInput, EditMeetInput } from "../types/meet";
 
 export class MeetService extends EntityService {
   constructor(private meetDao: MeetDao, logger: LoggerService) {
