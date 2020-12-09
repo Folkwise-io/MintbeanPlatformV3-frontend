@@ -6,6 +6,7 @@ interface User {
   lastName: string;
   createdAt: string;
   isAdmin: boolean;
+  registeredMeets: Meet[];
 }
 
 interface Project {
@@ -27,6 +28,7 @@ interface UserForProject {
 interface MeetForProject {
   id: string;
   title: string;
+  registerLinkStatus: RegisterLinkStatus;
 }
 
 interface BadgesForProject {

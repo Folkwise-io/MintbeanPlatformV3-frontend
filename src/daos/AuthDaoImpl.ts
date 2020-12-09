@@ -65,6 +65,11 @@ export class AuthDaoImpl implements AuthDao {
                 lastName
                 createdAt
                 isAdmin
+                registeredMeets {
+                  id
+                  title
+                  registerLinkStatus
+                }
               }
             }
           `,

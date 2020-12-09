@@ -13,7 +13,7 @@ import {
   Badges,
   BadgeTemplate,
 } from "./views/pages";
-import UserProfile from "./views/pages/UserProfile";
+import UserProfile from "./views/pages/UserProfile/";
 
 interface RouteConfig {
   /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
