@@ -6,7 +6,6 @@ interface User {
   lastName: string;
   createdAt: string;
   isAdmin: boolean;
-  registeredMeets: Meet[];
 }
 
 interface UserForProject {

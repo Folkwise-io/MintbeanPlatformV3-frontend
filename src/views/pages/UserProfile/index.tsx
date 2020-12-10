@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from "react";
 import { Context } from "../../../context/contextBuilder";
 import { MbContext } from "../../../context/MbContext";
+import { UserForProfile } from "../../../types/user";
 import { BgBlock } from "../../components/BgBlock";
 import { H1 } from "../../components/blocks/H1";
 import { ProfileLinkList } from "./ProfileLinkList";
@@ -8,7 +9,7 @@ import { ProfileStat } from "./ProfileStat";
 
 const UserProfile: FC = () => {
   const context = useContext<Context>(MbContext);
-  const [fetchedUser, setFetchedUser] = useState<User | undefined>(undefined);
+  const [fetchedUser, setFetchedUser] = useState<UserForProfile | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchUserData = useCallback(async () => {
@@ -16,7 +17,6 @@ const UserProfile: FC = () => {
     const deepUserFetch = await context.authDao.me();
     if (deepUserFetch) {
       setFetchedUser(deepUserFetch);
-      console.log(deepUserFetch);
     }
     setIsLoading(false);
   }, [context]);

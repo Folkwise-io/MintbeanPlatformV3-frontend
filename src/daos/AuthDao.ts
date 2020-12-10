@@ -1,6 +1,8 @@
+import { UserForProfile } from "../types/user";
+
 export interface AuthDao {
   login(args: LoginArgs): Promise<User>;
   logout(): Promise<boolean>;
-  me(): Promise<User>;
+  me(): Promise<UserForProfile>;
   register(input: RegisterInput): Promise<User>;
 }

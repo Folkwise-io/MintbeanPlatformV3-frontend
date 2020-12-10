@@ -2,6 +2,7 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { AuthDao } from "./AuthDao";
 import { handleServerError } from "../utils/handleServerError";
+import { UserForProfile } from "../types/user";
 
 /* TODO: consider refactoring User attributes query into a resuable function */
 export class AuthDaoImpl implements AuthDao {
@@ -53,9 +54,9 @@ export class AuthDaoImpl implements AuthDao {
       .catch(handleServerError);
   }
 
-  me(): Promise<User> {
+  me(): Promise<UserForProfile> {
     return this.api
-      .query<ApiResponseRaw<{ me: User }>>(
+      .query<ApiResponseRaw<{ me: UserForProfile }>>(
         `
             query me {
               me {

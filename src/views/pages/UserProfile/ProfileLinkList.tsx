@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
+import { Meet } from "../../../types/meet";
 import { H2 } from "../../components/blocks/H2";
 
 interface Props {
