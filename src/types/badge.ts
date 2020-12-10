@@ -1,9 +1,10 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
+import { BadgeShapeEnum } from "./enum";
 
 export interface Badge {
   id: string;
   alias: string;
-  badgeShape: BadgeShape;
+  badgeShape: BadgeShapeEnum;
   faIcon: IconName;
   backgroundHex?: string;
   iconHex?: string;
@@ -27,7 +28,7 @@ export interface UserForProjectForBadge {
 
 export interface CreateBadgeParams {
   alias: string;
-  badgeShape: BadgeShape;
+  badgeShape: BadgeShapeEnum;
   faIcon: IconName;
   backgroundHex?: string;
   iconHex?: string;
@@ -38,13 +39,24 @@ export interface CreateBadgeParams {
 
 export interface EditBadgeParams {
   alias?: string;
-  badgeShape?: BadgeShape;
+  badgeShape?: BadgeShapeEnum;
   faIcon?: IconName;
   backgroundHex?: string;
   iconHex?: string;
   title?: string;
   description?: string;
   weight?: number;
+}
+
+export interface BadgesForProject {
+  title: string;
+  id: string;
+  alias: string;
+  badgeShape: BadgeShapeEnum;
+  faIcon: string;
+  backgroundHex: string;
+  iconHex: string;
+  weight: number;
 }
 
 export interface AwardBadgesToProjectParams {

@@ -17,6 +17,7 @@ import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { ExternalLink } from "../../components/ExternalLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { MeetType } from "../../components/MeetCards/MeetType";
 import { H1 } from "../../components/blocks/H1";
 import { CreateKanbanButton } from "../../components/Kanban/CreateKanbanButton";
 import { MbContext } from "../../../context/MbContext";
@@ -24,6 +25,8 @@ import { Context } from "../../../context/contextBuilder";
 import KanbanController from "../../components/Kanban/KanbanController";
 import { CSVExport } from "../../components/CSVExport";
 import { Button } from "../../components/blocks/Button";
+import { Meet as MeetTypeDef } from "../../../types/meet";
+import { ProjectForMeet } from "../../../types/project";
 
 const meetReg = new MeetRegistration();
 
@@ -44,8 +47,9 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const {
     params: { id },
   } = match;
-  const [meet, setMeet] = useState<Meet | null>(null);
+  const [meet, setMeet] = useState<MeetTypeDef | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const user = userState.data;
   const isLoggedIn = !!user;
   const isAdmin = user?.isAdmin;
@@ -108,6 +112,34 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       {userInstructionsView}
     </>
   );
+
+  const renderDetailedDescription = () => {
+    if (!meet || !meet.detailedDescription) {
+      return;
+    }
+
+    let source;
+    let onClickSetValue: boolean;
+    let label;
+    if (isExpanded) {
+      label = "Read Less";
+      source = meet.detailedDescription;
+      onClickSetValue = false;
+    } else {
+      // I'm apprehensive about this slice will affect MD rendering.
+      // It might not work as expected in all cases.
+      label = "Read More";
+      source = meet.detailedDescription.slice(0, 826) + " ...";
+      onClickSetValue = true;
+    }
+
+    return (
+      <>
+        <MarkdownParser className="w-11/12 mx-auto" source={source} />
+        <Button onClick={() => setIsExpanded(onClickSetValue)}>{label}</Button>
+      </>
+    );
+  };
 
   const renderInstructions = () => {
     if (isAdmin) {
@@ -270,7 +302,12 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
             {loading ? (
               <div className="text-white h-screen-lg p-24 w-full mb-flex-centered">Loading...</div>
             ) : (
-              <img className="object-contain bg-black w-full" src={meet?.coverImageUrl} alt={meet?.title} />
+              <>
+                <img className="object-contain bg-black w-full" src={meet?.coverImageUrl} alt={meet?.title} />
+                <div className="w-11/12 h-8 absolute top-mb-1 inset-x-0 flex justify-end">
+                  {meet && <MeetType meetType={meet.meetType} isBordered />}
+                </div>
+              </>
             )}
           </div>
         </header>
@@ -317,6 +354,13 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
               )}
             </section>
           </div>
+          {meet && meet.detailedDescription && (
+            <section className="bg-mb-gray-200 py-4">
+              <div className="bg-white w-11/12 mx-auto pt-2 pb-4 rounded-mb-sm mb-flex-centered flex-col">
+                {renderDetailedDescription()}
+              </div>
+            </section>
+          )}
           <section className="shadow-lg bg-white p-12">{renderInstructions()}</section>
           <section className="shadow-lg bg-white p-12">
             {meet?.projects.length ? (

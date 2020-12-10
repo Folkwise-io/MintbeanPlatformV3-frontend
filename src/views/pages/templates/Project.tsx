@@ -11,6 +11,8 @@ import { H1 } from "../../components/blocks/H1";
 import { ProjectDeleteModal } from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
 import { MbContext } from "../../../context/MbContext";
 import { Context } from "../../../context/contextBuilder";
+import { BadgesForProject } from "../../../types/badge";
+import { Project as ProjectType } from "../../../types/project";
 
 interface StateMapping {
   user: UserState;
@@ -24,7 +26,7 @@ interface MatchParams {
   id: string;
 }
 
-const isOwner = (user: UserState, project: Project) => {
+const isOwner = (user: UserState, project: ProjectType) => {
   if (!user?.data?.id || !project?.user?.id) return false;
   return user.data.id === project.user.id;
 };
@@ -34,7 +36,7 @@ const Project: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user, ma
   const {
     params: { id },
   } = match;
-  const [project, setProject] = useState<Project | null>(null);
+  const [project, setProject] = useState<ProjectType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const isAdmin = user.data?.isAdmin;
   const history = useHistory();

@@ -60,7 +60,7 @@ describe("BadgeService", () => {
     });
     const badge = badgeFactory.one();
     const id = badge.id;
-    it("returns a meet by id", async () => {
+    it("returns a badge by id", async () => {
       await testManager.configureContext((context) => {
         return context.badgeService.fetchBadge(id).then((result) => {
           expect(result).toMatchObject(badge);
@@ -144,7 +144,7 @@ describe("BadgeService", () => {
       });
     });
 
-    it("allows admin to delete meet by id", async () => {
+    it("allows admin to delete badge by id", async () => {
       await testManager
         .configureContext((context) => {
           context.badgeDao.mockReturn({ data: true });
@@ -174,7 +174,7 @@ describe("BadgeService", () => {
       expect(storeState.toasts[lastToast].type).toBe("DANGER");
     });
   });
-  describe("editMeet()", () => {
+  describe("editBadge()", () => {
     beforeEach(() => {
       testManager = TestManager.build();
     });
@@ -197,7 +197,7 @@ describe("BadgeService", () => {
       description: existingBadge.description,
       weight: existingBadge.weight,
     };
-    it("returns the edited meet on success", async () => {
+    it("returns the edited badge on success", async () => {
       await testManager.addBadges([existingBadge]).execute((context) => {
         return context.badgeService.editBadge(existingBadge.id, updatedBadgeParams).then((result) => {
           if (result) {

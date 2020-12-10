@@ -1,4 +1,5 @@
 import faker from "faker";
+import { Project, ProjectForMeet } from "../../../src/types/project";
 import { badgeForProjectFactory } from "./badge.factory";
 import { factory } from "./factory";
 import { meetForProjectFactory } from "./meet.factory";

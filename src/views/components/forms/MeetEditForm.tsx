@@ -1,9 +1,7 @@
 import React, { FC, useState, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers";
-import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { CloudinaryUploadWidget, CloudinaryAssetInfo } from "../widgets/CloudinaryUploadWidget";
-import moment from "moment";
 import { MarkdownEditor } from "../MarkdownEditor";
 import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { Form } from "../blocks/Form";
@@ -12,26 +10,8 @@ import { Select } from "../blocks/Form/Select";
 import { Input } from "../blocks/Form/Input";
 import { TextArea } from "../blocks/Form/TextArea";
 import { meetTypeOptions, regionOptions } from "./constants";
-
-/* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
-// this is same as createMeetInputSchema.... consolidate
-const editMeetInputSchema = yup.object().shape({
-  meetType: yup.string().required("Required"),
-  title: yup.string().min(2, "Too Short!").max(64, "Too Long!").required("Required"),
-  description: yup.string().min(3, "Too Short!").max(160, "Max characters: 160").required("Required"),
-  instructions: yup.string().min(3, "Too Short!").required("Required"),
-  registerLink: yup.string().url("Must be a valid URL (https://...)").required("Required"),
-  coverImageUrl: yup.string().url("Must be a valid URL (https://...)").required("Required"),
-  startTime: yup
-    .string()
-    .test("is-chronological", "Start time and end time must be chronological", function (startTime) {
-      const isChronological = moment(startTime).isBefore(this.parent.endTime);
-      return isChronological;
-    })
-    .required("Required"),
-  endTime: yup.string().required("Required"),
-  region: yup.string().required("Required"),
-});
+import { editMeetInputSchema } from "./validation/meet";
+import { CreateMeetInput, EditMeetInput, Meet } from "../../../types/meet";
 
 interface Props {
   editMeet: (values: EditMeetInput) => void;
@@ -53,6 +33,7 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
       meetType: meet.meetType,
       title: meet.title,
       description: meet.description,
+      detailedDescription: meet.detailedDescription,
       instructions: meet.instructions,
       registerLink: meet.registerLink,
       coverImageUrl: meet.coverImageUrl,
@@ -70,9 +51,11 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
 
   useEffect(() => {
     register({ name: "instructions" });
+    register({ name: "detailedDescription" });
   }, [register]);
 
   const instructions = watch("instructions");
+  const detailedDescription = watch("detailedDescription");
 
   // RHF only calls onSubmit callback when form input passes validation
   const onSubmit = (data: CreateMeetInput) => {
@@ -117,9 +100,15 @@ export const MeetEditForm: FC<Props> = ({ editMeet, formRef, meet }) => {
       <TextArea label="Description" name="description" ref={register} />
       <FormValidationErrorMsg errorMessage={errors.description?.message} />
 
+      <label>
+        Detailed description
+        <MarkdownEditor value={detailedDescription} onChange={(value) => setValue("detailedDescription", value)} />
+        <FormValidationErrorMsg errorMessage={errors.detailedDescription?.message} />
+      </label>
+
       {/* TODO: Is it wise to refactor these three lines to separate compoment? Has react-hook-form dependencies so thought I'd leave it where it's easy to see what's going on*/}
       <label htmlFor="instructions">Instructions</label>
-      <MarkdownEditor value={instructions} onBeforeChange={(value) => setValue("instructions", value)} />
+      <MarkdownEditor value={instructions} onChange={(value) => setValue("instructions", value)} />
       <FormValidationErrorMsg errorMessage={errors.instructions?.message} />
 
       <Input type="url" label="Zoom link" name="registerLink" ref={register} />

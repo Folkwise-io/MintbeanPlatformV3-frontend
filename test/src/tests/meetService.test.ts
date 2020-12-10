@@ -129,6 +129,7 @@ describe("MeetService", () => {
       meetType: existingMeet.meetType,
       title: NEW_TITLE,
       description: existingMeet.description,
+      detailedDescription: existingMeet.detailedDescription,
       instructions: existingMeet.instructions,
       registerLink: existingMeet.registerLink,
       coverImageUrl: existingMeet.coverImageUrl,

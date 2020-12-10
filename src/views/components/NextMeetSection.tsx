@@ -4,6 +4,7 @@ import { isPast } from "../../utils/DateUtility";
 import NextMeetCard from "./MeetCards/NextMeetCard";
 import { MbContext } from "../../context/MbContext";
 import { Context } from "../../context/contextBuilder";
+import { Meet } from "../../types/meet";
 
 interface StateMapping {
   user: UserState;

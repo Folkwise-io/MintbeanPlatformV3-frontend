@@ -3,6 +3,7 @@ import { MeetDao } from "./MeetDao";
 import { handleServerError } from "../utils/handleServerError";
 import { KANBAN_CANON_RESPONSE_QUERY } from "./KanbanCanonDaoImpl";
 import { KANBAN_RESPONSE_QUERY } from "./KanbanDaoImpl";
+import { Meet, CreateMeetInput, EditMeetInput } from "../types/meet";
 
 const MEET_RESPONSE_QUERY_BASIC = `
   id
@@ -54,6 +55,7 @@ export class MeetDaoImpl implements MeetDao {
           query meet($id: UUID!) {
             meet(id: $id) {
               ${MEET_RESPONSE_QUERY_BASIC}
+              detailedDescription
               registrants {
                 id
                 firstName
@@ -112,6 +114,7 @@ export class MeetDaoImpl implements MeetDao {
           mutation createMeet($input: CreateMeetInput!) {
             createMeet(input: $input) {
               ${MEET_RESPONSE_QUERY_BASIC}
+              detailedDescription
               kanbanCanonId
               kanbanCanon {
                 ${KANBAN_CANON_RESPONSE_QUERY}
@@ -140,6 +143,7 @@ export class MeetDaoImpl implements MeetDao {
           mutation editMeet($id: UUID!, $input: EditMeetInput!) {
             editMeet(id: $id, input: $input) {
               ${MEET_RESPONSE_QUERY_BASIC}
+              detailedDescription
               kanbanCanonId
               kanbanCanon {
                 ${KANBAN_CANON_RESPONSE_QUERY}

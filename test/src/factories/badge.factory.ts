@@ -1,5 +1,5 @@
 import faker from "faker";
-import { Badge } from "../../../src/types/badge";
+import { Badge, BadgesForProject } from "../../../src/types/badge";
 import { factory } from "./factory";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { paletteOptions } from "../../../src/utils/Palette";
