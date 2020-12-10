@@ -4,6 +4,7 @@ import { MbContext } from "../../context/MbContext";
 import { UserForProfile } from "../../types/user";
 import { BgBlock } from "../components/BgBlock";
 import { H1 } from "../components/blocks/H1";
+import EditUserForm from "../components/forms/EditUserForm";
 
 const EditUserProfile: FC = () => {
   const context = useContext<Context>(MbContext);
@@ -32,10 +33,7 @@ const EditUserProfile: FC = () => {
           <div className="bg-white">
             <section className="w-11/12 mx-auto py-6">
               <H1 className="text-center">{user?.firstName} - Edit User Details</H1>
-              <div className="grid grid-cols-3 place-items-center">
-                <p>{user.firstName}</p>
-                <p>{user.lastName}</p>
-              </div>
+              <EditUserForm user={user} />
             </section>
           </div>
         </div>
