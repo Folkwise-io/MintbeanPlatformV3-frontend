@@ -12,8 +12,9 @@ import {
   CreateBadge,
   Badges,
   BadgeTemplate,
+  UserProfile,
+  EditUserProfile,
 } from "./views/pages";
-import UserProfile from "./views/pages/UserProfile/";
 
 interface RouteConfig {
   /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
@@ -75,6 +76,11 @@ export const routes: RouteConfig[] = [
   {
     component: UserProfile,
     path: "/profile",
+    exact: true,
+  },
+  {
+    component: EditUserProfile,
+    path: "/profile/edit",
   },
   {
     component: NotFound,

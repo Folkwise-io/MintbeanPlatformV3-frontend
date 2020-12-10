@@ -111,4 +111,27 @@ export class AuthDaoImpl implements AuthDao {
       })
       .catch(handleServerError);
   }
+
+  editUser(id: string, input: EditUserInput): Promise<User> {
+    return this.api
+      .query<ApiResponseRaw<{ editUser: User }>, { id: string; input: EditUserInput }>(
+        `
+      mutation editUser($id: UUID!, $input: EditUserInput!) {
+        editUser(id: $id, input: $input) {
+          firstName
+          lastName
+          email
+        }
+      }
+      `,
+        { id, input },
+      )
+      .then(({ data, errors }) => {
+        if (errors) throw errors;
+        if (!errors && !data.editUser) {
+          throw [{ message: "Failed to edit user.", extensions: { code: "UNEXPECTED" } }];
+        }
+        return data.editUser;
+      });
+  }
 }

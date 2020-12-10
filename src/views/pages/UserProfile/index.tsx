@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Context } from "../../../context/contextBuilder";
 import { MbContext } from "../../../context/MbContext";
 import { UserForProfile } from "../../../types/user";
@@ -35,6 +36,9 @@ const UserProfile: FC = () => {
           <div className="bg-white">
             <section className="w-11/12 mx-auto py-6">
               <H1 className="text-center">Welcome, {fetchedUser.firstName} - User Information</H1>
+              <div className="w-full mb-flex-centered">
+                <Link to={"/profile/edit"}>Edit user details</Link>
+              </div>
               <div className="grid grid-cols-3 place-items-center">
                 <ProfileStat property={fetchedUser.firstName} label="First name:" />
                 <ProfileStat property={fetchedUser.lastName} label="Last name:" />

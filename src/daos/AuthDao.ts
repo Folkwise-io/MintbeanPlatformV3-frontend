@@ -5,4 +5,5 @@ export interface AuthDao {
   logout(): Promise<boolean>;
   me(): Promise<UserForProfile>;
   register(input: RegisterInput): Promise<User>;
+  editUser(id: string, input: EditUserInput): Promise<User>;
 }

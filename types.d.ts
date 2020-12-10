@@ -140,6 +140,11 @@ interface UpdateCardPositionInput {
   index: number;
 }
 
+interface EditUserInput {
+  firstName?: string;
+  lastName?: string;
+}
+
 // API -----------------------
 interface ApiResponseRaw<T> {
   data: T;
