@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Context } from "../../context/contextBuilder";
 import { MbContext } from "../../context/MbContext";
 import { UserForProfile } from "../../types/user";
@@ -31,8 +32,9 @@ const EditUserProfile: FC = () => {
       <BgBlock type="blackStripe">
         <div className="min-h-50vh py-8 w-11/12 mx-auto">
           <div className="bg-white">
-            <section className="w-11/12 mx-auto py-6">
+            <section className="w-3/5 mx-auto py-6">
               <H1 className="text-center">{user?.firstName} - Edit User Details</H1>
+              <Link to="/profile">&lsaquo;&lsaquo;Back to profile</Link>
               <EditUserForm user={user} />
             </section>
           </div>
