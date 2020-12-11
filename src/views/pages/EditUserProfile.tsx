@@ -31,16 +31,18 @@ const EditUserProfile: FC = () => {
     if (isLoading) {
       return <p className="text-center">Loading...</p>;
     } else if (user) {
-      <>
-        <H1 className="text-center">{user?.firstName} - Edit User Details</H1>
-        <Link
-          className="mb-transition text-mb-green-300 focus:text-mb-orange-100 hover:text-mb-orange-100"
-          to="/profile"
-        >
-          &lsaquo;&lsaquo;Back to profile
-        </Link>
-        <EditUserForm user={user} />
-      </>;
+      return (
+        <>
+          <H1 className="text-center">{user?.firstName} - Edit User Details</H1>
+          <Link
+            className="mb-transition text-mb-green-300 focus:text-mb-orange-100 hover:text-mb-orange-100"
+            to="/profile"
+          >
+            &lsaquo;&lsaquo;Back to profile
+          </Link>
+          <EditUserForm user={user} />
+        </>
+      );
     }
     return <p className="text-center">Please login to edit your profile!</p>;
   };
