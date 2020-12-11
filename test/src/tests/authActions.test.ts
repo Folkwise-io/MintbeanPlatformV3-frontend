@@ -1,4 +1,4 @@
-import { login, logout, me, register } from "../../../src/views/state/actions/authActions";
+import { editUser, login, logout, me, register } from "../../../src/views/state/actions/authActions";
 import { TestManager } from "../TestManager";
 import { TEST_EMAIL, TEST_PASSWORD } from "../constants";
 import { userFactory } from "../factories/user.factory";
@@ -241,4 +241,111 @@ describe("Auth actions", () => {
         });
     });
   });
+
+  describe("EDIT_USER", () => {
+    beforeEach(() => {
+      testManager = TestManager.build();
+    });
+
+    afterEach(() => {
+      // Just to be safe!
+      testManager.configureContext((context) => {
+        context.authDao.clearMockReturns();
+      });
+    });
+    const existingUser = userFactory.one();
+    const NEW_FIRSTNAME = "Bob";
+    const NEW_LASTNAME = "Barker";
+    const updatedUserParams = {
+      firstName: NEW_FIRSTNAME,
+      lastName: NEW_LASTNAME,
+    };
+
+    it("returns the edited user on success", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.authDao.mockReturn({ data: { ...existingUser, ...updatedUserParams } });
+        })
+        .execute((context) => {
+          return context.authDao.editUser(existingUser.id, updatedUserParams).then((result) => {
+            if (result) {
+              expect(result.firstName).toBe(NEW_FIRSTNAME);
+              expect(result.lastName).toBe(NEW_LASTNAME);
+            }
+          });
+        });
+    });
+    it("updates state.user to new user on successful signup", async () => {
+      await testManager
+        .configureContext((context) => {
+          context.authDao.mockReturn({ data: { ...existingUser, ...updatedUserParams } });
+        })
+        .dispatchThunk<User>(editUser(existingUser.id, updatedUserParams))
+        .then((tm: TestManager) => {
+          const results = tm.getResults();
+
+          expect(results[0].user.loadStatus).toBe("LOADING");
+          expect(results[0].user.data).toBe(undefined);
+
+          // returns user on success
+          const finalState = results.length - 1;
+          expect(results[finalState].user.loadStatus).toBe("SUCCESS");
+          expect(results[finalState].user.data).toMatchObject(
+            JSON.parse(JSON.stringify({ ...existingUser, ...updatedUserParams })),
+          );
+        });
+    });
+    it("registers error loadStatus for state.user, logs error and throws toast on failed user edit", async () => {
+      const ERROR_CODE = "AMBIGUOUS_ERROR";
+      await testManager
+        .configureContext((context) => {
+          context.authDao.mockReturn({
+            data: null,
+            errors: [{ message: "Test error", extensions: { code: ERROR_CODE } }],
+          });
+        })
+        .dispatchThunk<User>(editUser(existingUser.id, updatedUserParams))
+        .then((tm: TestManager) => {
+          const results = tm.getResults();
+          expect(results[0].user.loadStatus).toBe("LOADING");
+          expect(results[0].user.data).toBe(undefined);
+
+          const finalState = results.length - 1;
+          expect(results[finalState].user.loadStatus).toBe("ERROR");
+          expect(results[finalState].user.data).toBe(undefined);
+          expect(results[finalState].errors[0].code).toBe(ERROR_CODE);
+          expect(results[finalState].errors[0].message).toBe("Editing user details failed.");
+          expect(results[finalState].toasts[0].type).toBe("DANGER");
+          expect(results[finalState].toasts[0].message).toBe("Editing user details failed.");
+        });
+    });
+  });
 });
+
+// it("registers error loadStatus for state.user, logs error and throws Toast on failed login, ", async () => {
+//   const ERROR_CODE = "AMBIGUOUS_ERROR";
+//   await testManager
+//     // fake a bad login by forcing errors in dao return
+//     .configureContext((context) => {
+//       context.authDao.mockReturn({
+//         data: null,
+//         errors: [{ message: "test err", extensions: { code: ERROR_CODE } }],
+//       });
+//     })
+//     .dispatchThunk<User>(login({ email: TEST_EMAIL, password: TEST_PASSWORD }))
+//     .then((tm: TestManager) => {
+//       const results = tm.getResults();
+
+//       expect(results[0].user.loadStatus).toBe("LOADING");
+//       expect(results[0].user.data).toBe(undefined);
+
+//       const finalState = results.length - 1;
+//       expect(results[finalState].user.loadStatus).toBe("ERROR");
+//       expect(results[finalState].user.data).toBe(undefined);
+//       expect(results[finalState].errors[0].code).toBe(ERROR_CODE);
+//       expect(results[finalState].errors[0].message).toBe("Login failed.");
+//       expect(results[finalState].toasts[0].type).toBe("DANGER");
+//       expect(results[finalState].toasts[0].message).toBe("Login failed.");
+//     });
+// });
+// });

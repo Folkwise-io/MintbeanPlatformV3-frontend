@@ -132,6 +132,7 @@ export class AuthDaoImpl implements AuthDao {
           throw [{ message: "Failed to edit user.", extensions: { code: "UNEXPECTED" } }];
         }
         return data.editUser;
-      });
+      })
+      .catch(handleServerError);
   }
 }

@@ -162,7 +162,7 @@ describe("MeetService", () => {
         })
         .execute((context) => context.meetService.editMeet(existingMeet.id, updatedMeetParams));
 
-      const storeState = testManager.store.getState();
+      const storeState = await testManager.store.getState();
       expect(storeState.errors[0].message).toBe(ERROR_MESSAGE);
       expect(storeState.toasts[0].message).toBe(ERROR_MESSAGE);
       expect(storeState.toasts[0].type).toBe("DANGER");

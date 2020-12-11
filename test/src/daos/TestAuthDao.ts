@@ -1,4 +1,5 @@
 import { AuthDao } from "../../../src/daos/AuthDao";
+import { UserForProfile } from "../../../src/types/user";
 import { TestDao } from "../../testTypes";
 
 // any potential responses from this test dao, besides null (error case)
@@ -35,7 +36,7 @@ export class TestAuthDao implements AuthDao, TestDao {
     return true;
   }
 
-  async me(): Promise<User> {
+  async me(): Promise<UserForProfile> {
     const errorReturns = this.getErrors();
     const successReturns = this.getSuccesses();
     if (errorReturns.length) {
@@ -43,7 +44,7 @@ export class TestAuthDao implements AuthDao, TestDao {
       throw errorReturns;
     } else if (successReturns.length) {
       // Mock successful login
-      return (successReturns[0].data as unknown) as User;
+      return (successReturns[0].data as unknown) as UserForProfile;
     } else {
       throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
     }
@@ -60,6 +61,21 @@ export class TestAuthDao implements AuthDao, TestDao {
       return (successReturns[0].data as unknown) as User;
     } else {
       throw { message: "This shouldn't happen", extensions: { code: "UNEXPECTED" } } as ServerError;
+    }
+  }
+
+  async editUser(id: string, input: EditUserInput): Promise<User> {
+    const errorReturns = this.getErrors();
+    const successReturns = this.getSuccesses();
+    if (!id || !input) throw "You messed up in writing your test. Make sure id and input params are passed as args";
+    if (errorReturns.length) throw errorReturns;
+
+    if (id && input && successReturns.length) {
+      return (successReturns[0].data as unknown) as User;
+    } else {
+      const index: number = this.data.findIndex((user: User) => user.id === id);
+      const prevUser: User = this.data[index];
+      return (this.data[index] = { ...prevUser, ...input });
     }
   }
 
