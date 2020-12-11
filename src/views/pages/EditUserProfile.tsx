@@ -34,7 +34,12 @@ const EditUserProfile: FC = () => {
           <div className="bg-white">
             <section className="w-3/5 mx-auto py-6">
               <H1 className="text-center">{user?.firstName} - Edit User Details</H1>
-              <Link to="/profile">&lsaquo;&lsaquo;Back to profile</Link>
+              <Link
+                className="mb-transition text-mb-green-300 focus:text-mb-orange-100 hover:text-mb-orange-100"
+                to="/profile"
+              >
+                &lsaquo;&lsaquo;Back to profile
+              </Link>
               <EditUserForm user={user} />
             </section>
           </div>

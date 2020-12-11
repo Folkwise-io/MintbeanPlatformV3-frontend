@@ -34,19 +34,24 @@ const UserProfile: FC = () => {
       <BgBlock type="blackStripe">
         <div className="min-h-50vh py-8 w-11/12 mx-auto">
           <div className="bg-white">
-            <section className="w-11/12 mx-auto py-6">
+            <section className="w-4/5 mx-auto py-6">
               <H1 className="text-center">Welcome, {fetchedUser.firstName} - User Information</H1>
               <div className="w-full mb-flex-centered">
-                <Link to={"/profile/edit"}>Edit user details</Link>
+                <Link
+                  className="mb-transition text-mb-green-300 focus:text-mb-orange-100 hover:text-mb-orange-100"
+                  to={"/profile/edit"}
+                >
+                  Edit user details
+                </Link>
               </div>
-              <div className="grid grid-cols-3 place-items-center">
+              <div className="grid grid-cols-3 place-items-center pt-4 pb-12">
                 <ProfileStat property={fetchedUser.firstName} label="First name:" />
                 <ProfileStat property={fetchedUser.lastName} label="Last name:" />
                 <ProfileStat property={fetchedUser.email} label="Email:" />
               </div>
-              <div className="grid grid-cols-2 place-items-center">
-                <ProfileLinkList meets={futureMeets} label="Upcoming registered meets:" />
-                <ProfileLinkList meets={pastMeets} label="Attended meets: " />
+              <div className="grid grid-cols-2 lg:w-4/5 mx-auto">
+                <ProfileLinkList meets={futureMeets} label="Upcoming registered meets:" meetsStatus="FUTURE" />
+                <ProfileLinkList meets={pastMeets} label="Attended meets: " meetsStatus="PAST" />
               </div>
             </section>
           </div>
