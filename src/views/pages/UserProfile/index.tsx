@@ -15,51 +15,59 @@ const UserProfile: FC = () => {
 
   const fetchUserData = useCallback(async () => {
     setIsLoading(true);
-    const deepUserFetch = await context.authDao.me();
-    if (deepUserFetch) {
+    try {
+      const deepUserFetch = await context.authDao.me();
       setFetchedUser(deepUserFetch);
+      setIsLoading(false);
+    } catch {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, [context]);
 
   useEffect(() => {
     fetchUserData();
   }, [fetchUserData]);
-  if (isLoading) {
-    return <p>Loading...</p>;
-  } else if (fetchedUser) {
-    const futureMeets = fetchedUser.registeredMeets.filter((meet) => meet.registerLinkStatus !== "CLOSED");
-    const pastMeets = fetchedUser.registeredMeets.filter((meet) => meet.registerLinkStatus === "CLOSED");
-    return (
-      <BgBlock type="blackStripe">
-        <div className="min-h-50vh py-8 w-11/12 mx-auto">
-          <div className="bg-white">
-            <section className="w-4/5 mx-auto py-6">
-              <H1 className="text-center">Welcome, {fetchedUser.firstName} - User Information</H1>
-              <div className="w-full mb-flex-centered">
-                <Link
-                  className="mb-transition text-mb-green-300 focus:text-mb-orange-100 hover:text-mb-orange-100"
-                  to={"/profile/edit"}
-                >
-                  Edit user details
-                </Link>
-              </div>
-              <div className="grid grid-cols-3 place-items-center pt-4 pb-12">
-                <ProfileStat property={fetchedUser.firstName} label="First name:" />
-                <ProfileStat property={fetchedUser.lastName} label="Last name:" />
-                <ProfileStat property={fetchedUser.email} label="Email:" />
-              </div>
-              <div className="grid grid-cols-2 lg:w-4/5 mx-auto">
-                <ProfileLinkList meets={futureMeets} label="Upcoming registered meets:" meetsStatus="FUTURE" />
-                <ProfileLinkList meets={pastMeets} label="Attended meets: " meetsStatus="PAST" />
-              </div>
-            </section>
+
+  const renderProfile = () => {
+    if (isLoading) {
+      return <p className="text-center">Loading...</p>;
+    } else if (fetchedUser) {
+      const futureMeets = fetchedUser.registeredMeets.filter((meet) => meet.registerLinkStatus !== "CLOSED");
+      const pastMeets = fetchedUser.registeredMeets.filter((meet) => meet.registerLinkStatus === "CLOSED");
+      return (
+        <>
+          <H1 className="text-center">Welcome, {fetchedUser.firstName} - User Information</H1>
+          <div className="w-full mb-flex-centered">
+            <Link
+              className="mb-transition text-mb-green-300 focus:text-mb-orange-100 hover:text-mb-orange-100"
+              to={"/profile/edit"}
+            >
+              Edit user details
+            </Link>
           </div>
+          <div className="grid grid-cols-3 place-items-center pt-4 pb-12">
+            <ProfileStat property={fetchedUser.firstName} label="First name:" />
+            <ProfileStat property={fetchedUser.lastName} label="Last name:" />
+            <ProfileStat property={fetchedUser.email} label="Email:" />
+          </div>
+          <div className="grid grid-cols-2 lg:w-4/5 mx-auto">
+            <ProfileLinkList meets={futureMeets} label="Upcoming registered meets:" meetsStatus="FUTURE" />
+            <ProfileLinkList meets={pastMeets} label="Attended meets: " meetsStatus="PAST" />
+          </div>
+        </>
+      );
+    }
+    return <p className="text-center">Please login to see your profile!</p>;
+  };
+  return (
+    <BgBlock type="blackStripe">
+      <div className="min-h-50vh py-8 w-11/12 mx-auto">
+        <div className="bg-white">
+          <section className="w-4/5 mx-auto py-6">{renderProfile()}</section>
         </div>
-      </BgBlock>
-    );
-  }
-  return <p>Please login to see your profile!</p>;
+      </div>
+    </BgBlock>
+  );
 };
 
 export default UserProfile;

@@ -14,40 +14,46 @@ const EditUserProfile: FC = () => {
 
   const fetchUserData = useCallback(async () => {
     setIsLoading(true);
-    const deepUserFetch = await context.authDao.me();
-    if (deepUserFetch) {
+    try {
+      const deepUserFetch = await context.authDao.me();
       setUser(deepUserFetch);
+      setIsLoading(false);
+    } catch {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, [context]);
 
   useEffect(() => {
     fetchUserData();
   }, [fetchUserData]);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  } else if (user) {
-    return (
-      <BgBlock type="blackStripe">
-        <div className="min-h-50vh py-8 w-11/12 mx-auto">
-          <div className="bg-white">
-            <section className="w-3/5 mx-auto py-6">
-              <H1 className="text-center">{user?.firstName} - Edit User Details</H1>
-              <Link
-                className="mb-transition text-mb-green-300 focus:text-mb-orange-100 hover:text-mb-orange-100"
-                to="/profile"
-              >
-                &lsaquo;&lsaquo;Back to profile
-              </Link>
-              <EditUserForm user={user} />
-            </section>
-          </div>
+  const renderEditUserProfile = () => {
+    if (isLoading) {
+      return <p className="text-center">Loading...</p>;
+    } else if (user) {
+      <>
+        <H1 className="text-center">{user?.firstName} - Edit User Details</H1>
+        <Link
+          className="mb-transition text-mb-green-300 focus:text-mb-orange-100 hover:text-mb-orange-100"
+          to="/profile"
+        >
+          &lsaquo;&lsaquo;Back to profile
+        </Link>
+        <EditUserForm user={user} />
+      </>;
+    }
+    return <p className="text-center">Please login to edit your profile!</p>;
+  };
+
+  return (
+    <BgBlock type="blackStripe">
+      <div className="min-h-50vh py-8 w-11/12 mx-auto">
+        <div className="bg-white">
+          <section className="w-3/5 mx-auto py-6">{renderEditUserProfile()}</section>
         </div>
-      </BgBlock>
-    );
-  }
-  return <p>Please login to edit your profile!</p>;
+      </div>
+    </BgBlock>
+  );
 };
 
 export default EditUserProfile;
