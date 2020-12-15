@@ -9,6 +9,7 @@ import { PastMeetCard } from "../components/MeetCards/PastMeetCard";
 import { MbContext } from "../../context/MbContext";
 import { Context } from "../../context/contextBuilder";
 import { Meet } from "../../types/meet";
+import { Seo } from "../components/Seo";
 
 interface StateMapping {
   user: UserState;
@@ -75,38 +76,41 @@ const Meets: FC<StateMapping> = ({ user }) => {
     return <p className="text-white text-lg">No upcoming meets at the moment... Stay tuned!</p>;
   };
   return (
-    <div className="mb-8">
-      <BgBlock type="gradStripeEvents">
-        <BgBlock type="blackStripeEvents">
-          <header className="md:pt-8 md:pb-6 flex flex-col items-center">
-            <FocusCard
-              type="eventsTitle"
-              card={{
-                title: "Meets",
-                description: "Come hack with us!",
-              }}
-            />
-            {renderAdminMeetCreateModal()}
-          </header>
-        </BgBlock>
-        <main>
-          <BgBlock type="black">
-            <BgBlock>
-              <section className="rounded-xl mb-16 flex flex-col items-center w-full py-8 bg-black max-w-6xl shadow-mb-drop-center">
-                <h2 className="text-4xl text-white mb-4 font-semibold text-center">Upcoming meets</h2>
-                {renderUpcomingMeets()}
+    <>
+      <Seo title="Meets" />
+      <div className="mb-8">
+        <BgBlock type="gradStripeEvents">
+          <BgBlock type="blackStripeEvents">
+            <header className="md:pt-8 md:pb-6 flex flex-col items-center">
+              <FocusCard
+                type="eventsTitle"
+                card={{
+                  title: "Meets",
+                  description: "Come hack with us!",
+                }}
+              />
+              {renderAdminMeetCreateModal()}
+            </header>
+          </BgBlock>
+          <main>
+            <BgBlock type="black">
+              <BgBlock>
+                <section className="rounded-xl mb-16 flex flex-col items-center w-full py-8 bg-black max-w-6xl shadow-mb-drop-center">
+                  <h2 className="text-4xl text-white mb-4 font-semibold text-center">Upcoming meets</h2>
+                  {renderUpcomingMeets()}
+                </section>
+              </BgBlock>
+              <section className="max-w-6xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-20 px-6 md:px-24">
+                <h2 className="text-white text-4xl mb-4 text-center">Past meets</h2>
+                <div className="grid grid-cols-1 px-0 sm:px-12 md:px-0 md:grid-cols-2 row-auto gap-6">
+                  {renderPastMeets()}
+                </div>
               </section>
             </BgBlock>
-            <section className="max-w-6xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-20 px-6 md:px-24">
-              <h2 className="text-white text-4xl mb-4 text-center">Past meets</h2>
-              <div className="grid grid-cols-1 px-0 sm:px-12 md:px-0 md:grid-cols-2 row-auto gap-6">
-                {renderPastMeets()}
-              </div>
-            </section>
-          </BgBlock>
-        </main>
-      </BgBlock>
-    </div>
+          </main>
+        </BgBlock>
+      </div>
+    </>
   );
 };
 

@@ -13,4 +13,4 @@ library.add(fas);
 const context = contextBuilder();
 const store = configureStoreAndLogger(context);
 
-ReactDOM.render(<App store={store} context={context} />, document.getElementById("root"));
+ReactDOM.hydrate(<App store={store} context={context} />, document.getElementById("root"));
