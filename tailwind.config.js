@@ -70,6 +70,7 @@ module.exports = {
         "mb-blue-200": "#00A4DA",
         "mb-blue-250": "#01C1CF",
         "mb-blue-300": "#00B1FF",
+        "mb-blue-500": "#1fa4da",
         "mb-purple-000": "#E8B2F1",
         "mb-purple-100": "#5C1FD6",
         "mb-black-500": "#09090b",
@@ -108,6 +109,7 @@ module.exports = {
       },
       backgroundImage: () => ({
         callToAction: "url(../assets/images/banners/robots-lg.png)",
+        "minty-bg-sm": "url(../assets/images/backgrounds/minty-bg-sm.svg)",
       }),
       height: {
         50: "50%",
