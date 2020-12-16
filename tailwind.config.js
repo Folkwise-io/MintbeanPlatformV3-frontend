@@ -68,11 +68,13 @@ module.exports = {
         "mb-green-300": "#3BC482",
         "mb-blue-100": "#EBF8FF",
         "mb-blue-200": "#00A4DA",
+        "mb-blue-250": "#01C1CF",
         "mb-blue-300": "#00B1FF",
         "mb-purple-000": "#E8B2F1",
         "mb-purple-100": "#5C1FD6",
         "mb-black-500": "#09090b",
       },
+
       boxShadow: {
         "mb-outline": "0 0 0 3px #ffffff;",
         "mb-outline-lg": "0 0 0 6px #ffffff;",
