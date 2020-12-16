@@ -95,6 +95,12 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
                   Meets
                 </Link>
                 <Link
+                  to="/sponsors"
+                  className="mb-transition mx-2 text-black hover:text-mb-blue-200 focus:text-mb-blue-200"
+                >
+                  Become a Sponsor
+                </Link>
+                <Link
                   to="/badges"
                   className="mb-transition mx-2 text-black hover:text-mb-blue-200 focus:text-mb-blue-200"
                 >
