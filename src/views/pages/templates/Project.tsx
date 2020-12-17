@@ -72,7 +72,7 @@ const Project: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user, ma
                 <div className="text-white min-w-full inline-flex justify-center items-center">Loading...</div>
               ) : project && project.mediaAssets[0] ? (
                 // If media asset found, display
-                <ImageDisplay cloudinaryPublicId={project.mediaAssets[0].cloudinaryPublicId} height="500" />
+                <ImageDisplay cloudinaryPublicId={project.mediaAssets[0].cloudinaryPublicId} height="300" />
               ) : (
                 // If no media assets, show default image
                 // TODO: define deafult image
