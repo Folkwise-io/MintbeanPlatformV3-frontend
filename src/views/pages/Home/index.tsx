@@ -29,7 +29,7 @@ const Home: FC<StateMapping> = () => {
     ],
   };
   return (
-    <BlockWrapper className="grid place-content-center">
+    <BlockWrapper className="grid place-content-center pb-12">
       <NextMeetSection />
       <Link
         to={`/meets/`}
