@@ -2,7 +2,6 @@ import React, { FC, useState, useEffect, useCallback, useContext } from "react";
 import { MeetCard } from "../components/MeetCards/MeetCard";
 import { AdminMeetCreateModal } from "../components/wrappers/Modal/walas/AdminMeetCreateModal";
 import { connect } from "react-redux";
-import { BgBlock } from "../components/BgBlock";
 import { FocusCard } from "../components/FocusCard";
 import { isPast } from "../../utils/DateUtility";
 import { PastMeetCard } from "../components/MeetCards/PastMeetCard";
@@ -75,37 +74,41 @@ const Meets: FC<StateMapping> = ({ user }) => {
     return <p className="text-white text-lg">No upcoming meets at the moment... Stay tuned!</p>;
   };
   return (
-    <div className="mb-8">
-      <BgBlock type="gradStripeEvents">
-        <BgBlock type="blackStripeEvents">
-          <header className="md:pt-8 md:pb-6 flex flex-col items-center">
-            <FocusCard
-              type="eventsTitle"
-              card={{
-                title: "Meets",
-                description: "Come hack with us!",
-              }}
-            />
-            {renderAdminMeetCreateModal()}
-          </header>
-        </BgBlock>
-        <main>
-          <BgBlock type="black">
-            <BgBlock>
-              <section className="rounded-xl mb-16 flex flex-col items-center w-full py-8 bg-black max-w-6xl shadow-mb-drop-center">
-                <h2 className="text-4xl text-white mb-4 font-semibold text-center">Upcoming meets</h2>
-                {renderUpcomingMeets()}
-              </section>
-            </BgBlock>
+    <div className="mb-8 rounded-b-mb-lg shadow-mb-outline-darkgreen bg-white top-mb-1 relative pb-8">
+      <div className="rounded-b-mb-lg bg-gradient-to-b from-mb-blue-300 to-mb-green-200 flex flex-col justify-center gap-16 top-mb-1n relative">
+        <div className="shadow-mb-outline-darkgreen bg-mb-green-100 top-mb-1 relative pb-8 rounded-b-mb-lg">
+          <div className="bg-black top-mb-1n relative rounded-b-mb-lg">
+            <header className="md:pt-8 md:pb-6 flex flex-col items-center">
+              <FocusCard
+                type="eventsTitle"
+                card={{
+                  title: "Meets",
+                  description: "Come hack with us!",
+                }}
+              />
+              {renderAdminMeetCreateModal()}
+            </header>
+          </div>
+        </div>
+        <main className="rounded-b-mb-lg bg-mb-green-100 top-mb-1 relative pb-8">
+          <div className="bg-black top-mb-1n relative rounded-b-mb-lg">
+            <div className="rounded-b-mb-lg shadow-mb-outline-green bg-white top-mb-1 relative pb-8">
+              <div className="rounded-b-mb-lg bg-gradient-to-b from-mb-blue-300 to-mb-green-200 flex flex-col justify-center md:items-center md:flex-row px-auto xs:px-6 md:px-12 lg:px-24 gap-16 top-mb-1n relative">
+                <section className="rounded-xl mb-16 flex flex-col items-center w-full py-8 bg-black max-w-6xl shadow-mb-drop-center">
+                  <h2 className="text-4xl text-white mb-4 font-semibold text-center">Upcoming meets</h2>
+                  {renderUpcomingMeets()}
+                </section>
+              </div>
+            </div>
             <section className="max-w-6xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-20 px-6 md:px-24">
               <h2 className="text-white text-4xl mb-4 text-center">Past meets</h2>
               <div className="grid grid-cols-1 px-0 sm:px-12 md:px-0 md:grid-cols-2 row-auto gap-6">
                 {renderPastMeets()}
               </div>
             </section>
-          </BgBlock>
+          </div>
         </main>
-      </BgBlock>
+      </div>
     </div>
   );
 };
