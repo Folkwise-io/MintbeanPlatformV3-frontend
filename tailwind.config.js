@@ -109,7 +109,8 @@ module.exports = {
       },
       backgroundImage: () => ({
         callToAction: "url(../assets/images/banners/robots-lg.png)",
-        "minty-bg-sm": "url(../assets/images/backgrounds/minty-bg-sm.svg)",
+        "white-curved-y": "url(../assets/images/backgrounds/white-curved-y.svg)",
+        "minty-bacon": "url(../assets/images/backgrounds/minty-bacon.svg)",
       }),
       height: {
         50: "50%",
