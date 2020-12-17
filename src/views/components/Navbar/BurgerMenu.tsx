@@ -75,12 +75,12 @@ const BurgerMenu: FC<Props & StateMapping & DispatchMapping> = ({ links, adminLi
         ))}
       {user.loadStatus !== "LOADING" &&
         (isLoggedIn ? (
-          <Button buttonStyle="secondary" className="menu-item" onClick={() => logoutAndRedirect()}>
+          <Button buttonStyle="secondary" className="menu-item mt-2" onClick={() => logoutAndRedirect()}>
             Logout
           </Button>
         ) : (
           <>
-            <LoginModal buttonText="Login" className="mb-2 whitespace-no-wrap menu-item" />
+            <LoginModal buttonText="Login" className="mb-3 whitespace-no-wrap menu-item mt-2" />
             <RegisterModal
               buttonText="Sign up"
               className="shadow-md py-2 px-6 rounded-lg border-2 border-solid font-semibold transition duration-500 ease-in-out text-black bg-mb-green-100 border-mb-green-200 hover:shadow-sm hover:opacity-75 hover:text-mb-purple-100 focus:shadow-sm focus:opacity-75 whitespace-no-wrap menu-item"
