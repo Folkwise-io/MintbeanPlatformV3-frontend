@@ -66,6 +66,8 @@ module.exports = {
         "mb-green-100": "#B2FFE4",
         "mb-green-200": "#02E0A8",
         "mb-green-300": "#3BC482",
+        "mb-green-400": "#2AB2B2",
+        "mb-green-500": "#5EF4D6",
         "mb-blue-100": "#EBF8FF",
         "mb-blue-200": "#00A4DA",
         "mb-blue-300": "#00B1FF",
