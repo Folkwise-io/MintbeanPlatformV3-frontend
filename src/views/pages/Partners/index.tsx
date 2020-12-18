@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { H1 } from "../../components/blocks/H1";
 import svgMintyBacon from "../../../assets/images/backgrounds/minty-bacon.svg";
 import { H2 } from "../../components/blocks/H2";
+import { PartnerContactFormEmailComponent } from "../../components/PartnerContactFormEmailComponent";
 
 interface StatProps {
   stat: string;
@@ -18,8 +19,6 @@ const Stat: FC<StatProps> = ({ stat, label, centered, accented }) => {
     </div>
   );
 };
-
-// TODO: refactor parts out into components
 
 const Partners: FC = () => {
   return (
@@ -87,6 +86,11 @@ const Partners: FC = () => {
           tortor, lectus at senectus nunc, lectus dolor. Nunc, aliquam eget hac sit non a nunc quam tellus. Suspendisse
           elit volutpat auctor dui proin malesuada pellentesque.
         </p>
+
+        {/* Contact form start*/}
+        <div className="my-24">
+          <PartnerContactFormEmailComponent />
+        </div>
       </div>
     </div>
   );
