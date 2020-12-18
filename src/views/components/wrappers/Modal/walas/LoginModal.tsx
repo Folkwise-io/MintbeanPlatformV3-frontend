@@ -62,6 +62,7 @@ const LoginModal: FC<Props & DispatchMapping> = ({
   return (
     <>
       <Modal
+        isDetached
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
           <Button onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className} buttonStyle={buttonStyle}>

@@ -17,16 +17,13 @@ export const Button: FC<Props> = (props) => {
     children,
     ...rest
   } = props;
-  const common = "shadow-md py-2 px-6 rounded-lg border-2 border-solid font-semibold";
+  const common = "mb-transition shadow-sm py-1 px-5 rounded-lg border-2 border-solid hover:shadow-md focus:shadow-md";
   const classes = {
-    primary:
-      "mb-transition text-black bg-mb-green-100 border-mb-green-200 hover:shadow-sm hover:opacity-75 hover:text-mb-purple-100 focus:shadow-sm focus:opacity-75",
+    primary: "text-black bg-mb-green-500 border-mb-green-500 hover:opacity-75 focus:opacity-75 font-semibold",
     primaryAdmin: "text-white bg-yellow-500 border-yellow-500",
-    secondary:
-      "mb-transition text-gray-700 bg-white border-mb-green-200 hover:shadow-sm hover:opacity-75 focus:shadow-sm focus:opacity-75",
-    danger:
-      "mb-transition text-white bg-red-500 border-red-500 hover:shadow-sm hover:opacity-75 focus:shadow-sm focus:opacity-75",
-    override: "mb-transition",
+    secondary: "text-black bg-white border-mb-green-500 hover:opacity-75 focus:opacity-75",
+    danger: "text-white bg-red-500 border-red-500 hover:opacity-75 focus:opacity-75",
+    override: "",
   };
   const disabledStyles = "text-white bg-gray-500 border-gray-700 cursor-not-allowed";
 

@@ -104,10 +104,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
               <>
                 <div className="flex items-center justify-center menu-item">
                   <LoginModal buttonText="Login" className="m-2 md:my-0 whitespace-no-wrap" />
-                  <RegisterModal
-                    buttonText="Sign up"
-                    className="shadow-md py-2 px-6 rounded-lg border-2 border-solid font-semibold transition duration-500 ease-in-out text-black bg-mb-green-100 border-mb-green-200 hover:shadow-sm hover:opacity-75 hover:text-mb-purple-100 focus:shadow-sm focus:opacity-75 whitespace-no-wrap"
-                  />
+                  <RegisterModal buttonText="Sign up" className="whitespace-no-wrap" />
                 </div>
               </>
             ))}
