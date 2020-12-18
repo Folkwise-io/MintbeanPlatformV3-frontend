@@ -19,13 +19,13 @@ const Footer: FC = () => {
   ];
 
   return (
-    <footer className="w-5/6 mx-auto font-body text-sm place-content-center place-items-start grid grid-cols-5 py-6 h-34 -mt-34">
-      <article className="col-span-3 flex items-center gap-3">
+    <footer className="w-5/6 mx-auto font-body text-sm flex flex-col items-center lg:grid lg:grid-cols-5 lg:place-content-center lg:place-items-start py-6 h-34 -mt-34">
+      <article className="lg:col-span-3 flex items-center flex-col md:flex-row gap-3">
         <DiscordButton button={buttonArgs} />
         <SocialLinks />
       </article>
-      <article className="flex flex-col justify-end col-span-2 w-full mt-auto">
-        <ul className={`flex gap-3 justify-end`}>
+      <article className="flex flex-col justify-end mt-2 lg:col-span-2 lg:w-full lg:mt-auto">
+        <ul className={`flex gap-3 flex-col xs:flex-row justify-evenly lg:justify-end`}>
           {footerLinks.map(({ label, route }, index) => (
             <li key={index}>
               <Link
@@ -37,7 +37,9 @@ const Footer: FC = () => {
             </li>
           ))}
         </ul>
-        <p className="text-center mt-6 md:text-right md:mx-0">© Made by Mintbean 2020, All Rights Reserved.</p>
+        <p className="text-center mb-6 lg:mb-0 mt-2 lg:mt-6 lg:text-right">
+          © Made by Mintbean 2020, All Rights Reserved.
+        </p>
       </article>
     </footer>
   );
