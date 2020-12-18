@@ -1,9 +1,10 @@
-import React, { FC, Fragment } from "react";
+import React, { FC } from "react";
 import { HomeHeader } from "./HomeHeader";
 import { FocusCard } from "../../components/FocusCard";
 import { MainList } from "./HomeMainList";
 import NextMeetSection from "../../components/NextMeetSection";
 import { Link } from "react-router-dom";
+import BlockWrapper from "../../components/wrappers/BlockWrapper";
 
 interface StateMapping {
   user: UserState;
@@ -28,26 +29,22 @@ const Home: FC<StateMapping> = () => {
     ],
   };
   return (
-    <Fragment>
-      <div className="bg-mb-blue-300 pt-2 pb-8 rounded-mb-md border-t-8 border-b-8 border-mb-green-200">
-        <div className="bg-black w-full pt-12 pb-24 px-2 rounded-mb-md grid place-content-center">
-          <NextMeetSection />
-          <Link
-            to={`/meets/`}
-            className="bg-mb-purple-100 text-center px-8 py-4 mx-12 md:mx-auto max-w-2xl rounded-mb-sm border-mb-green-100 border-solid border-8 inline-block mb-8"
-          >
-            {" "}
-            <p className="text-3xl text-white break-words">For all upcoming meets</p>
-            <div className="text-semibold mb-transition text-4xl hover:text-mb-orange-100 focus:text-mb-orange-100">
-              Click here.
-            </div>
-          </Link>
-          <HomeHeader header={headerArgs} />
-          <FocusCard card={cardArgs} />
-          <MainList list={listArgs} />
+    <BlockWrapper className="grid place-content-center pb-12">
+      <NextMeetSection />
+      <Link
+        to={`/meets/`}
+        className="bg-mb-purple-100 text-center px-8 py-4 mx-12 md:mx-auto max-w-2xl rounded-mb-sm border-mb-green-100 border-solid border-8 inline-block mb-8"
+      >
+        {" "}
+        <p className="text-3xl text-white break-words">For all upcoming meets</p>
+        <div className="text-semibold mb-transition text-4xl hover:text-mb-orange-100 focus:text-mb-orange-100">
+          Click here.
         </div>
-      </div>
-    </Fragment>
+      </Link>
+      <HomeHeader header={headerArgs} />
+      <FocusCard card={cardArgs} />
+      <MainList list={listArgs} />
+    </BlockWrapper>
   );
 };
 
