@@ -45,7 +45,6 @@ const BurgerMenu: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
   };
 
   const close = (): void => {
-    console.log("closing");
     setIsOpen(false);
   };
 
