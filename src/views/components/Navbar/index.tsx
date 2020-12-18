@@ -113,7 +113,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
             ))}
         </section>
       </nav>
-      <ToastsContainer stickyOffset={currentNavHeight} />
+      <ToastsContainer />
     </>
   );
 };
