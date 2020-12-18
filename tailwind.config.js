@@ -46,6 +46,7 @@ module.exports = {
       },
       borderWidth: {
         10: "10px",
+        3: "3px",
       },
       maxWidth: {
         "7xl": "96rem",
@@ -76,7 +77,7 @@ module.exports = {
         "mb-black-500": "#09090b",
       },
       boxShadow: {
-        "mb-outline": "0 0 0 3px #ffffff;",
+        "mb-outline": "0 0 0 2px #ffffff;",
         "mb-outline-lg": "0 0 0 6px #ffffff;",
         "mb-outline-green": "0 0 0 1rem #B2FFE4;",
         "mb-outline-darkgreen": "0 0 0 1rem #02E0A8;",

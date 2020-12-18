@@ -6,18 +6,13 @@ import { useIntercom } from "react-use-intercom";
 import { Context } from "../../context/contextBuilder";
 import Navbar from "../components/Navbar";
 
-import { Footer } from "../components/Footer/Footer";
+import { Footer } from "../components/Footer";
 import { me } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
 
 type StateMapping = {
   toasts: ToastState;
   user: UserState;
-};
-
-const footerArgs = {
-  footerNav: ["Home", "Meets", "Terms of Service", "Privacy Policy"],
-  links: ["/", "/meets", "/terms-of-service", "/privacy-policy"],
 };
 
 const stp = (state: StoreState) => ({
@@ -88,7 +83,7 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ user, me, children }
         <div>{children}</div>
         <div className="h-96 md:h-72 lg:h-56"></div>
       </div>
-      <Footer footer={footerArgs} />
+      <Footer />
     </div>
   );
 };
