@@ -73,12 +73,12 @@ const BurgerMenu: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
           <>
             <LoginModal
               buttonText="Login"
-              className="mb-3 whitespace-no-wrap menu-item mt-2"
+              className="mb-3 whitespace-no-wrap menu-item mt-2 block"
               onResponse={() => close()}
             />
             <RegisterModal
               buttonText="Sign up"
-              className="shadow-md py-2 px-6 rounded-lg border-2 border-solid font-semibold transition duration-500 ease-in-out text-black bg-mb-green-100 border-mb-green-200 hover:shadow-sm hover:opacity-75 hover:text-mb-purple-100 focus:shadow-sm focus:opacity-75 whitespace-no-wrap menu-item"
+              className="whitespace-no-wrap menu-item block"
               onResponse={() => close()}
             />
           </>
