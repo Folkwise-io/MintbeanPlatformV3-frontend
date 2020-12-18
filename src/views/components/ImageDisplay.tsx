@@ -18,10 +18,10 @@ type Props = {
 export const ImageDisplay: FC<Props> = ({
   cloudinaryPublicId,
   gravity = "center",
-  width = "100%",
-  height = "100%",
+  width = "iw",
+  height = "ih",
   radius = "0",
-  className,
+  className = "",
 }) => {
   // supplies defaul image if cloudinaryPublicId not provided
   if (!cloudinaryPublicId) cloudinaryPublicId = "imgNotFoundPlaceholder2";
@@ -29,7 +29,8 @@ export const ImageDisplay: FC<Props> = ({
     <div className={"overflow-hidden " + className || ""}>
       <CloudinaryContext cloudName={process.env.CLOUDINARY_CLOUD_NAME}>
         <Image publicId={cloudinaryPublicId}>
-          <Transformation width={width} height={height} gravity={gravity} radius={radius} />
+          <Transformation width={width} height={height} radius={radius} />
+          <Transformation width={width} height={height} crop="limit" gravity={gravity} />
         </Image>
       </CloudinaryContext>
     </div>

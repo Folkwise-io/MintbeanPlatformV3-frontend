@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import { Link, RouteComponentProps, useHistory } from "react-router-dom";
 import { Badge } from "../../../types/badge";
 import { BadgeDisplay } from "../../components/BadgeDisplay";
-import { BgBlock } from "../../components/BgBlock";
 import { BadgeEditForm } from "../../components/forms/BadgeEditForm";
 import { AdminBadgeDeleteModal } from "../../components/wrappers/Modal/walas/AdminBadgeDeleteModal";
 import { MbContext } from "../../../context/MbContext";
+import BlockWrapper from "../../components/wrappers/BlockWrapper";
 
 interface StateMapping {
   user: UserState;
@@ -51,7 +51,7 @@ const BadgeTemplate: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ us
   const awardedProjects = badge ? badge.projects.length : 0;
 
   return (
-    <BgBlock>
+    <BlockWrapper>
       <div className="min-h-50vh w-11/12 mx-auto sm:mx-0 sm:w-full pt-8 pb-12 flex flex-col">
         <div className="bg-white flex-grow rounded-mb-sm overflow-hidden">
           {loading && (
@@ -113,7 +113,7 @@ const BadgeTemplate: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ us
           )}
         </div>
       </div>
-    </BgBlock>
+    </BlockWrapper>
   );
 };
 

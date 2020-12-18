@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import { useIntercom } from "react-use-intercom";
 
 import { Context } from "../../context/contextBuilder";
-import Navbar from "../components/Navbar";
 
 import { Footer } from "../components/Footer/Footer";
 import { me } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
+import Navbar from "../components/Navbar";
 import BurgerMenu from "../components/Navbar/BurgerMenu";
 
 type StateMapping = {
@@ -83,7 +83,7 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ user, me, children }
   }, [user]);
 
   return (
-    <>
+    <div>
       <section className="md:hidden">
         <BurgerMenu />
       </section>
@@ -93,7 +93,7 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ user, me, children }
         <div className="h-96 md:h-72 lg:h-56"></div>
       </div>
       <Footer footer={footerArgs} />
-    </>
+    </div>
   );
 };
 

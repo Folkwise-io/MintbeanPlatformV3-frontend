@@ -5,7 +5,6 @@ import { Button } from "../../components/blocks/Button";
 import { ExternalLink } from "../../components/ExternalLink";
 import { ImageDisplay } from "../../components/ImageDisplay";
 import { ImageDisplayTray } from "../../components/ImageDisplayTray";
-import { BgBlock } from "../../components/BgBlock";
 import { BadgeDisplay } from "../../components/BadgeDisplay";
 import { H1 } from "../../components/blocks/H1";
 import { ProjectDeleteModal } from "../../components/wrappers/Modal/walas/ProjectDeleteModal";
@@ -13,6 +12,7 @@ import { MbContext } from "../../../context/MbContext";
 import { Context } from "../../../context/contextBuilder";
 import { BadgesForProject } from "../../../types/badge";
 import { Project as ProjectType } from "../../../types/project";
+import BlockWrapper from "../../components/wrappers/BlockWrapper";
 
 interface StateMapping {
   user: UserState;
@@ -63,28 +63,24 @@ const Project: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user, ma
   };
 
   return (
-    <BgBlock type="blackStripeEvents">
+    <BlockWrapper className="pt-0">
       <div className="md:max-h-30vh flex flex-col">
-        <BgBlock type="blackMeet">
-          <header className="flex justify-center bg-gray-800 max-h-30vh min-h-30vh">
-            {loading ? (
-              <div className="text-white min-w-full inline-flex justify-center items-center">Loading...</div>
-            ) : project && project.mediaAssets[0] ? (
-              // If media asset found, display
-              <ImageDisplay
-                className="w-full flex justify-center"
-                cloudinaryPublicId={project.mediaAssets[0].cloudinaryPublicId}
-              />
-            ) : (
-              // If no media assets, show default image
-              // TODO: define deafult image
-              <ImageDisplay
-                className="w-full flex justify-center align-center"
-                cloudinaryPublicId="imgNotFoundPlaceholder2"
-              />
-            )}
-          </header>
-        </BgBlock>
+        <div className="bg-mb-green-100 top-mb-1 w-11/12 mx-auto relative pb-8 rounded-mb-md">
+          <div className="bg-black top-mb-1n relative overflow-hidden rounded-t-mb-md">
+            <header className="flex justify-center bg-gray-800 max-h-30vh">
+              {loading ? (
+                <div className="text-white min-w-full inline-flex justify-center items-center">Loading...</div>
+              ) : project && project.mediaAssets[0] ? (
+                // If media asset found, display
+                <ImageDisplay cloudinaryPublicId={project.mediaAssets[0].cloudinaryPublicId} height="300" />
+              ) : (
+                // If no media assets, show default image
+                // TODO: define deafult image
+                <ImageDisplay height="300" cloudinaryPublicId="imgNotFoundPlaceholder2" />
+              )}
+            </header>
+          </div>
+        </div>
       </div>
 
       <main className="pt-16 pb-12 max-w-6xl mx-auto">
@@ -148,7 +144,7 @@ const Project: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user, ma
           )}
         </section>
       </main>
-    </BgBlock>
+    </BlockWrapper>
   );
 };
 
