@@ -5,13 +5,13 @@ interface Props {
 }
 
 const BlockWrapper: FC<Props> = ({ children, className }) => {
-  let computedClassName = "bg-black w-full pt-12 rounded-t-mb-md";
+  let computedClassName = "bg-black w-full pt-12 rounded-t-mb-md h-full flex-grow";
   if (className) {
     computedClassName += " " + className;
   }
 
   return (
-    <div className="bg-mb-blue-300 pt-2 rounded-t-mb-md border-t-8 border-mb-green-200">
+    <div className="bg-mb-blue-300 pt-2 rounded-t-mb-md border-t-8 border-mb-green-200 flex-grow flex flex-col">
       <div className={computedClassName}>{children}</div>
     </div>
   );

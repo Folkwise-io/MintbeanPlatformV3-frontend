@@ -111,14 +111,13 @@ module.exports = {
         callToAction: "url(../assets/images/banners/robots-lg.png)",
       }),
       height: {
-        50: "50%",
-        65: "65%",
-        35: "35%",
-        customProject: "calc(100vh - 30rem)",
+        34: "8.5rem",
         "50px": "50px",
       },
       width: {
         "50px": "50px",
+        68: "17rem",
+        72: "18rem",
       },
     },
     fontFamily: {

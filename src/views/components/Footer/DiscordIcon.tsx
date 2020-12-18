@@ -5,7 +5,7 @@ type Props = {
   type?: "small" | "large";
 };
 
-export const DiscordIcon: FC<Props> = (props) => {
+const DiscordIcon: FC<Props> = (props) => {
   const { type = "small" } = props;
   const common = "rounded-full border-mb-green-200";
   const classes = {
@@ -22,3 +22,5 @@ export const DiscordIcon: FC<Props> = (props) => {
     </div>
   );
 };
+
+export default DiscordIcon;

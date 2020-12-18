@@ -295,97 +295,101 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
 
   return (
     // body wrapper
-    <div className="shadow-mb-outline-darkgreen bg-mb-green-100 top-mb-1 relative pb-8 rounded-b-mb-lg">
-      <div className="bg-black top-mb-1n relative rounded-b-mb-lg">
-        {/* image wrapper */}
-        <div className="bg-mb-green-100 top-mb-1 relative pb-8 rounded-b-mb-lg">
-          <div className="bg-black top-mb-1n relative overflow-hidden rounded-b-mb-lg">
-            <header className="flex flex-col items-center">
-              <div className="flex w-screen min-h-84 max-h-60vh bg-gray-800">
-                {loading ? (
-                  <div className="text-white h-screen-lg p-24 w-full mb-flex-centered">Loading...</div>
-                ) : (
+    <>
+      <div className="shadow-mb-outline-darkgreen mb-4 bg-mb-green-100 top-mb-1 relative pb-8 rounded-b-mb-lg">
+        <div className="bg-black top-mb-1n relative rounded-b-mb-lg">
+          {/* image wrapper */}
+          <div className="bg-mb-green-100 top-mb-1 relative pb-8 rounded-b-mb-lg">
+            <div className="bg-black top-mb-1n relative overflow-hidden rounded-b-mb-lg">
+              <header className="flex flex-col items-center">
+                <div className="flex w-screen min-h-84 max-h-60vh bg-gray-800">
+                  {loading ? (
+                    <div className="text-white h-screen-lg p-24 w-full mb-flex-centered">Loading...</div>
+                  ) : (
+                    <>
+                      <img className="object-contain bg-black w-full" src={meet?.coverImageUrl} alt={meet?.title} />
+                      <div className="w-11/12 h-8 absolute top-mb-1 inset-x-0 flex justify-end">
+                        {meet && <MeetType meetType={meet.meetType} isBordered />}
+                      </div>
+                    </>
+                  )}
+                </div>
+              </header>
+            </div>
+          </div>
+
+          <main className="w-5/6 min-w-12rem mx-auto py-16 rounded-mb-md overflow-hidden">
+            <Link className="ml-12 mb-2 inline-block" to="/meets">
+              {"< "}Back to all meets
+            </Link>
+            <div className="overflow-hidden rounded-mb-md">
+              <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-mb-gray-300 px-6 md:px-12 py-8">
+                <section className="text-white row-span-9 md:row-span-1 md:col-span-2 md:place-self-start">
+                  <div className="block">
+                    <H1 className="font-semibold">{meet?.title}</H1>
+                    <p className="text-mb-gray-100 text-sm flex flex-wrap items-center">
+                      Starts
+                      <FontAwesomeIcon icon={faCalendarAlt} className="mx-2 text-xs" />
+                      {dateInfo}
+                    </p>
+                    <p className="mt-2">{meet?.description}</p>
+                    {renderUserMeetControls()}
+                    {renderAdminMeetControls()}
+                  </div>
+                </section>
+                <section className="text-white h-full flex justify-between flex-col">
+                  {meet && (
+                    <p className="md:text-right">
+                      {meet.registrants.length} coder
+                      {meet.registrants.length !== 1 && "s"} registered
+                    </p>
+                  )}
+                </section>
+                <section className="flex flex-col items-center md:col-span-3 md:items-end">
+                  {/*TODO: Add project submission form*/}
+                  {meet && user && meetReg.isRegistered(meet.registrants, user) && meetHasStarted && !meetHasEnded && (
+                    <>
+                      {meet.registerLink && (
+                        <ExternalLink href={meet.registerLink}>
+                          <Button className="mb-2">Meeting link</Button>
+                        </ExternalLink>
+                      )}
+                      <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user} />
+                    </>
+                  )}
+                </section>
+              </div>
+              {meet && meet.detailedDescription && (
+                <section className="bg-mb-gray-200 py-4">
+                  <div className="bg-white w-11/12 mx-auto pt-2 pb-4 rounded-mb-sm mb-flex-centered flex-col">
+                    {renderDetailedDescription()}
+                  </div>
+                </section>
+              )}
+              <section className="shadow-lg bg-white p-12">{renderInstructions()}</section>
+              <section className="shadow-lg bg-white p-12">
+                {meet?.projects.length ? (
                   <>
-                    <img className="object-contain bg-black w-full" src={meet?.coverImageUrl} alt={meet?.title} />
-                    <div className="w-11/12 h-8 absolute top-mb-1 inset-x-0 flex justify-end">
-                      {meet && <MeetType meetType={meet.meetType} isBordered />}
+                    <h2 className="font-medium">Submissions</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+                      {meet.projects.map((p: ProjectForMeet) => (
+                        <ProjectCard userState={user} project={p} key={p.id} />
+                      ))}
                     </div>
                   </>
+                ) : (
+                  <p>No submissions yet.</p>
                 )}
-              </div>
-            </header>
-          </div>
-        </div>
-
-        <main className="w-5/6 min-w-12rem mx-auto py-16 rounded-mb-md overflow-hidden">
-          <Link className="ml-12 mb-2 inline-block" to="/meets">
-            {"< "}Back to all meets
-          </Link>
-          <div className="overflow-hidden rounded-mb-md">
-            <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-mb-gray-300 px-6 md:px-12 py-8">
-              <section className="text-white row-span-9 md:row-span-1 md:col-span-2 md:place-self-start">
-                <div className="block">
-                  <H1 className="font-semibold">{meet?.title}</H1>
-                  <p className="text-mb-gray-100 text-sm flex flex-wrap items-center">
-                    Starts
-                    <FontAwesomeIcon icon={faCalendarAlt} className="mx-2 text-xs" />
-                    {dateInfo}
-                  </p>
-                  <p className="mt-2">{meet?.description}</p>
-                  {renderUserMeetControls()}
-                  {renderAdminMeetControls()}
-                </div>
-              </section>
-              <section className="text-white h-full flex justify-between flex-col">
-                {meet && (
-                  <p className="md:text-right">
-                    {meet.registrants.length} coder
-                    {meet.registrants.length !== 1 && "s"} registered
-                  </p>
-                )}
-              </section>
-              <section className="flex flex-col items-center md:col-span-3 md:items-end">
-                {/*TODO: Add project submission form*/}
-                {meet && user && meetReg.isRegistered(meet.registrants, user) && meetHasStarted && !meetHasEnded && (
-                  <>
-                    {meet.registerLink && (
-                      <ExternalLink href={meet.registerLink}>
-                        <Button className="mb-2">Meeting link</Button>
-                      </ExternalLink>
-                    )}
-                    <ProjectCreateModal buttonText="Submit a project" meetId={meet.id} user={user} />
-                  </>
-                )}
+                {isAdmin && renderKanbanViewAdmin()}
+                {renderKanbanViewUser()}
               </section>
             </div>
-            {meet && meet.detailedDescription && (
-              <section className="bg-mb-gray-200 py-4">
-                <div className="bg-white w-11/12 mx-auto pt-2 pb-4 rounded-mb-sm mb-flex-centered flex-col">
-                  {renderDetailedDescription()}
-                </div>
-              </section>
-            )}
-            <section className="shadow-lg bg-white p-12">{renderInstructions()}</section>
-            <section className="shadow-lg bg-white p-12">
-              {meet?.projects.length ? (
-                <>
-                  <h2 className="font-medium">Submissions</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-                    {meet.projects.map((p: ProjectForMeet) => (
-                      <ProjectCard userState={user} project={p} key={p.id} />
-                    ))}
-                  </div>
-                </>
-              ) : (
-                <p>No submissions yet.</p>
-              )}
-              {isAdmin && renderKanbanViewAdmin()}
-              {renderKanbanViewUser()}
-            </section>
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
-    </div>
+      {/* workaround for collapsing margin */}
+      <div className="h-4"></div>
+    </>
   );
 };
 

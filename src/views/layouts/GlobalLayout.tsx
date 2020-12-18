@@ -5,7 +5,7 @@ import { useIntercom } from "react-use-intercom";
 
 import { Context } from "../../context/contextBuilder";
 
-import { Footer } from "../components/Footer";
+import Footer from "../components/Footer";
 import { me } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
 import Navbar from "../components/Navbar";
@@ -78,14 +78,12 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ user, me, children }
   }, [user]);
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <section className="md:hidden">
         <BurgerMenu />
       </section>
       <Navbar />
-      <div className="min-h-screen max-w-screen overflow-x-hidden ">
-        <div>{children}</div>
-      </div>
+      <div className="max-w-screen flex-grow flex flex-col">{children}</div>
       <Footer />
     </div>
   );
