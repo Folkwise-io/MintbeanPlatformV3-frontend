@@ -22,8 +22,8 @@ export const PartnerContactFormEmailComponent: FC = () => {
     </>
   );
   const SuccessView = (
-    <div className="flex flex-col items-center justify-center">
-      <H2 className="text-center">Message Sent!</H2>
+    <div className="flex flex-col items-center justify-center text-center">
+      <H2>Message Sent!</H2>
       <p>
         Hey, thanks for reaching out to us. We&apos;re looking forward to connecting. Keep an eye out for an email from
         us.
