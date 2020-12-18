@@ -31,6 +31,8 @@ export const PartnerContactFormEmailComponent: FC = () => {
     </div>
   );
   return (
-    <div className="bg-mb-blue-600 rounded-md md:px-24 sm:px-6 px-4 py-10">{success ? SuccessView : FormView}</div>
+    <div className="bg-mb-blue-600 rounded-md md:px-24 sm:px-6 px-4 py-10 shadow-lg">
+      {success ? SuccessView : FormView}
+    </div>
   );
 };

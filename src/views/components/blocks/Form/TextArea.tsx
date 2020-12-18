@@ -5,9 +5,9 @@ import { TextAreaProps } from "./formTypes";
 
 interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
+  isRequired?: boolean;
   label: string;
   name: string;
-  isRequired: boolean;
 }
 
 // must name function in forwardRef argument (non-arrow function) in order to avoid missing diplayName error

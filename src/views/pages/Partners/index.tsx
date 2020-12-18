@@ -22,7 +22,7 @@ const Stat: FC<StatProps> = ({ stat, label, centered, accented }) => {
 
 const Partners: FC = () => {
   return (
-    <div className="bg-mb-blue-250 min-h-screen py-24">
+    <div className="bg-mb-blue-250 min-h-screen pb-24">
       {/* Header start */}
       <div className="bg-mb-blue-500">
         <div className="container max-w-screen-md mx-auto">
