@@ -8,7 +8,7 @@ interface Props {
 export const FormValidationErrorMsg: FC<Props> = ({ errorMessage, withBackground }) => {
   if (!errorMessage) return null;
 
-  const baseClasses = "text-red-500";
+  const baseClasses = "text-red-500 mb-1";
   const optionalClasses = withBackground ? "bg-white opacity-75 rounded" : "";
   const classes = appendOptionalClasses(baseClasses, optionalClasses);
 

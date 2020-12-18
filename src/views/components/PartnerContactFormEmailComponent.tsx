@@ -17,18 +17,20 @@ export const PartnerContactFormEmailComponent: FC = () => {
 
   const FormView = (
     <>
-      <H2>Tell us why your organization is a good fit for Mintbean</H2>
+      <H2 className="text-center">Tell us why your organization is a good fit for Mintbean</H2>
       <PartnerContactForm handleData={handleData} disabled={isSending} />
     </>
   );
   const SuccessView = (
-    <div className="flex items-center justify-center ">
-      <H2>Message Sent!</H2>
+    <div className="flex flex-col items-center justify-center">
+      <H2 className="text-center">Message Sent!</H2>
       <p>
         Hey, thanks for reaching out to us. We&apos;re looking forward to connecting. Keep an eye out for an email from
         us.
       </p>
     </div>
   );
-  return <div className="bg-mb-blue-600 rounded-md md:px-24  px-2 py-10">{success ? SuccessView : FormView}</div>;
+  return (
+    <div className="bg-mb-blue-600 rounded-md md:px-24 sm:px-6 px-4 py-10">{success ? SuccessView : FormView}</div>
+  );
 };

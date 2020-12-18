@@ -22,7 +22,7 @@ const Stat: FC<StatProps> = ({ stat, label, centered, accented }) => {
 
 const Partners: FC = () => {
   return (
-    <div className="bg-mb-blue-250 min-h-screen">
+    <div className="bg-mb-blue-250 min-h-screen py-24">
       {/* Header start */}
       <div className="bg-mb-blue-500">
         <div className="container max-w-screen-md mx-auto">
@@ -78,14 +78,16 @@ const Partners: FC = () => {
         </div>
       </div>
       {/*  Start text section "Partner with Mintbean" */}
-      <div className="container max-w-screen-md mx-auto text-center">
-        <H2>Partner with Mintbean</H2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et nec feugiat at mauris leo nulla sapien. Egestas id
-          duis molestie orci, lorem viverra. Sit elit aliquam nullam mauris et ultricies tempus faucibus. Facilisis
-          tortor, lectus at senectus nunc, lectus dolor. Nunc, aliquam eget hac sit non a nunc quam tellus. Suspendisse
-          elit volutpat auctor dui proin malesuada pellentesque.
-        </p>
+      <div className="container max-w-screen-md mx-auto ">
+        <div className="my-24 p-2 text-center">
+          <H2>Partner with Mintbean</H2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et nec feugiat at mauris leo nulla sapien. Egestas
+            id duis molestie orci, lorem viverra. Sit elit aliquam nullam mauris et ultricies tempus faucibus. Facilisis
+            tortor, lectus at senectus nunc, lectus dolor. Nunc, aliquam eget hac sit non a nunc quam tellus.
+            Suspendisse elit volutpat auctor dui proin malesuada pellentesque.
+          </p>
+        </div>
 
         {/* Contact form start*/}
         <div className="my-24">

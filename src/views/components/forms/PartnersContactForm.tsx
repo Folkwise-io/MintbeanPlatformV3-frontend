@@ -10,9 +10,9 @@ import { Button } from "../blocks/Button";
 
 /* TODO: CENTRALIZE & SYNC YUP SCHEMAS IN BACKEND*/
 const partnerContactEmailInputSchema = yup.object().shape({
-  fullName: yup.string().min(1, "At least one character!").max(64, "Maximum 36 characters!").required("Required"),
-  email: yup.string().email("Invalid email").required("Required"),
-  partnershipGoals: yup.array().min(1, "Must indicate at least one!").required(), // requires at least one checkbox checked
+  fullName: yup.string().min(1, "Please let us know your name").max(64, "Maximum 36 characters!").required("Required"),
+  email: yup.string().email("Invalid email").required("Email required"),
+  partnershipGoals: yup.array().min(1, "Please indicate at least one goal").required(), // requires at least one checkbox checked
   message: yup.string().min(1, "Please enter a message").required("Required"),
 });
 
@@ -37,7 +37,7 @@ export const PartnerContactForm: FC<Props> = ({ handleData, disabled }) => {
   ];
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex ">
+      <div className="flex sm:flex-row flex-col">
         <div className="mx-2 flex flex-grow flex-col items-start">
           <Input label="Full name" name="fullName" ref={register} isRequired className="w-full" />
           <FormValidationErrorMsg errorMessage={errors.fullName?.message} withBackground />
@@ -50,18 +50,19 @@ export const PartnerContactForm: FC<Props> = ({ handleData, disabled }) => {
       </div>
 
       {/* Attempted to refactor fieldset to a separate component but was unable to TS resolve nested ref={register} */}
-      <fieldset className="flex">
+      <fieldset className="flex text-left mx-2">
         <legend>
           <strong>Partnership goals*</strong>
           <em> (select all that apply)</em>
         </legend>
-
-        {options.map(({ value, label }, i) => (
-          <label key={i} className="flex flex-col items-center">
-            <input type="checkbox" value={value} name="partnershipGoals" ref={register} />
-            {label}
-          </label>
-        ))}
+        <div className="flex sm:justify-start my-2 flex-wrap">
+          {options.map(({ value, label }, i) => (
+            <label key={i} className="flex flex-col items-center mx-2 text-center my-2" style={{ maxWidth: "100px" }}>
+              <input type="checkbox" value={value} name="partnershipGoals" ref={register} />
+              {label}
+            </label>
+          ))}
+        </div>
       </fieldset>
       <FormValidationErrorMsg errorMessage={errors.partnershipGoals?.message} withBackground />
 
@@ -69,10 +70,11 @@ export const PartnerContactForm: FC<Props> = ({ handleData, disabled }) => {
         <TextArea label="Message" name="message" ref={register} isRequired className="w-full" />
         <FormValidationErrorMsg errorMessage={errors.message?.message} withBackground />
       </div>
-
-      <Button type="submit" disabled={disabled}>
-        {buttonText}
-      </Button>
+      <div className="flex justify-center">
+        <Button type="submit" disabled={disabled} className="max-w-sm mt-6">
+          {buttonText}
+        </Button>
+      </div>
     </Form>
   );
 };
