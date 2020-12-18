@@ -1,7 +1,6 @@
 import React, { FC, useState, useEffect, useCallback, useContext, ChangeEvent } from "react";
 import { AdminMeetCreateModal } from "../components/wrappers/Modal/walas/AdminMeetCreateModal";
 import { connect } from "react-redux";
-import { BgBlock } from "../components/BgBlock";
 import { FocusCard } from "../components/FocusCard";
 import { isPast } from "../../utils/DateUtility";
 import { MbContext } from "../../context/MbContext";
@@ -132,10 +131,10 @@ const Meets: FC<StateMapping> = ({ user }) => {
   };
 
   return (
-    <div className="mb-8">
-      <main>
-        <BgBlock type="blackStripeEvents">
-          <BgBlock type="black">
+    <main className="rounded-b-mb-md shadow-mb-outline-darkgreen bg-mb-green-100 top-mb-1 relative pb-8 mb-8">
+      <div className="rounded-b-mb-md bg-black top-mb-1n relative">
+        <div className="bg-mb-green-100 top-mb-1 relative pb-8 rounded-b-mb-md">
+          <div className="rounded-b-mb-md bg-black top-mb-1n relative">
             <header className="md:pt-8 md:pb-6 flex flex-col items-center">
               <FocusCard
                 type="eventsTitle"
@@ -146,44 +145,44 @@ const Meets: FC<StateMapping> = ({ user }) => {
               />
               {renderAdminMeetCreateModal()}
             </header>
-          </BgBlock>
-          <section className="max-w-7xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-20 px-6 md:px-24">
-            <fieldset className="bg-white w-11/12 flex items-center flex-wrap rounded-mb-xs justify-evenly mb-4">
-              <div>
-                <Input
-                  type="text"
-                  label="Search:"
-                  name="searchMeets"
-                  className="m-2"
-                  onChange={handleSearchInputChange}
-                />
-              </div>
-              <div>
-                <Select
-                  name="meetTypeFilter"
-                  label="Filter by meet type:"
-                  options={meetTypeFilterOptions}
-                  onChange={handleMeetTypeChange}
-                  className="m-2"
-                />
-              </div>
-              <div>
-                <Select
-                  name="dateFilter"
-                  label="filter by date:"
-                  options={dateFilterOptions}
-                  onChange={handleDateFilterChange}
-                  className="m-2"
-                />
-              </div>
-            </fieldset>
-            <div className="grid grid-cols-1 px-0 sm:px-12 md:px-0 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 row-auto gap-6">
-              {renderMeets()}
+          </div>
+        </div>
+        <section className="max-w-7xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-20 px-6 md:px-24">
+          <fieldset className="bg-white w-11/12 flex items-center flex-wrap rounded-mb-xs justify-evenly mb-4">
+            <div>
+              <Input
+                type="text"
+                label="Search:"
+                name="searchMeets"
+                className="m-2"
+                onChange={handleSearchInputChange}
+              />
             </div>
-          </section>
-        </BgBlock>
-      </main>
-    </div>
+            <div>
+              <Select
+                name="meetTypeFilter"
+                label="Filter by meet type:"
+                options={meetTypeFilterOptions}
+                onChange={handleMeetTypeChange}
+                className="m-2"
+              />
+            </div>
+            <div>
+              <Select
+                name="dateFilter"
+                label="filter by date:"
+                options={dateFilterOptions}
+                onChange={handleDateFilterChange}
+                className="m-2"
+              />
+            </div>
+          </fieldset>
+          <div className="grid grid-cols-1 px-0 sm:px-12 md:px-0 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 row-auto gap-6">
+            {renderMeets()}
+          </div>
+        </section>
+      </div>
+    </main>
   );
 };
 
