@@ -68,6 +68,16 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
     return () => window.removeEventListener("resize", handler);
   }, [handleResize]);
 
+  const links = isAdmin ? [...NAV_LINKS, ...NAV_ADMIN_LINKS] : NAV_LINKS;
+
+  const renderLinks = () => {
+    return links.map(({ label, route }, index) => (
+      <NavLink exact activeClassName="text-mb-green-400" key={index} className={NAV_STYLES} to={route}>
+        {label}
+      </NavLink>
+    ));
+  };
+
   return (
     <>
       <nav
@@ -84,21 +94,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
           </NavLink>
         </section>
         <section className="hidden md:flex flex-row items-center">
-          <div className="pr-2">
-            {/* map over links */}
-            {NAV_LINKS.map(({ label, route }, index) => (
-              <NavLink exact activeClassName="text-mb-green-400" key={index} className={NAV_STYLES} to={route}>
-                {label}
-              </NavLink>
-            ))}
-            {/* if is admin, map over admin links */}
-            {isAdmin &&
-              NAV_ADMIN_LINKS.map(({ label, route }, index) => (
-                <NavLink exact activeClassName="text-mb-green-400" key={index} className={NAV_STYLES} to={route}>
-                  {label}
-                </NavLink>
-              ))}
-          </div>
+          <div className="pr-2">{renderLinks()}</div>
           {user.loadStatus !== "LOADING" &&
             (isLoggedIn ? (
               <Button buttonStyle="secondary" className="menu-item" onClick={() => logoutAndRedirect()}>

@@ -11,8 +11,6 @@ import { me } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
 import BurgerMenu from "../components/Navbar/BurgerMenu";
 
-import { NAV_ADMIN_LINKS, NAV_LINKS, NAV_STYLES } from "../components/Navbar/NavConstants";
-
 type StateMapping = {
   toasts: ToastState;
   user: UserState;
@@ -87,7 +85,7 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ user, me, children }
   return (
     <>
       <section className="md:hidden">
-        <BurgerMenu links={NAV_LINKS} adminLinks={NAV_ADMIN_LINKS} linkStyles={NAV_STYLES} />
+        <BurgerMenu />
       </section>
       <Navbar />
       <div className="min-h-screen max-w-screen overflow-x-hidden ">
