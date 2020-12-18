@@ -16,6 +16,7 @@ interface Props {
   buttonStyle?: "primary" | "override";
   placement?: Placement;
   hasRelativeParent?: boolean;
+  onResponse?: () => void;
 }
 
 type DispatchMapping = {
@@ -33,6 +34,7 @@ const RegisterModal: FC<Props & DispatchMapping> = ({
   buttonStyle = "primary",
   placement = "bottom",
   hasRelativeParent = false,
+  onResponse,
 }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -48,10 +50,16 @@ const RegisterModal: FC<Props & DispatchMapping> = ({
       },
     },
   ];
-
+  const attemptRegister = (values: RegisterInput): void => {
+    register(values);
+    if (onResponse) {
+      onResponse();
+    }
+  };
   return (
     <>
       <Modal
+        isDetached
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
           <Button
@@ -66,7 +74,7 @@ const RegisterModal: FC<Props & DispatchMapping> = ({
         placement={placement}
         hasRelativeParent={hasRelativeParent}
       >
-        <RegisterForm formRef={formRef} registerUser={(values: RegisterInput) => register(values)} />
+        <RegisterForm formRef={formRef} registerUser={(values: RegisterInput) => attemptRegister(values)} />
       </Modal>
     </>
   );

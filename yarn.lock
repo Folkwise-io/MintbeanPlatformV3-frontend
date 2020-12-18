@@ -2610,7 +2610,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-burger-menu@true2.6.2":
+"@types/react-burger-menu@2.6.2":
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/@types/react-burger-menu/-/react-burger-menu-2.6.2.tgz#9de0f248cc192f04b021dcae377064ac9e006153"
   integrity sha512-P9ekrqS7VYzAuesfPFE86OnCfcJGvLtSGzVJHg5O+MxQo/v08X1i1my2OIuMERV1taZV/+uAFM0jI+xla1cV+g==
@@ -11024,7 +11024,7 @@ react-beautiful-dnd@13.0.0:
     redux "^4.0.4"
     use-memo-one "^1.1.1"
 
-react-burger-menu@true3.0.2:
+react-burger-menu@3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/react-burger-menu/-/react-burger-menu-3.0.2.tgz#3c9a393cc3d2f0b4a7a69786ebe5ff68e48fdd35"
   integrity sha512-7wMXhePWrUnqwvHV4XO4LF1+iQrlfac/Cz/99Zp21OF8ctI3ccNdg/hdMrVEliEifxZ2jXLjUZy4l79P23qjzg==
