@@ -18,17 +18,20 @@ export const Footer: FC = () => {
     { label: "Privacy Policy", route: "/privacy-policy" },
   ];
 
-  const footerHeight = "";
+  const footerHeightNumber = 24;
+
+  const footerHeight = "h-" + footerHeightNumber;
+  const footerMargin = "-mt-" + footerHeightNumber;
+
+  const footerClassCommon = "w-5/6 mx-auto font-body text-sm grid grid-cols-3 gap-4 py-8";
+  const computedFooterClass = `${footerClassCommon} ${footerHeight} ${footerMargin}`;
 
   return (
     <>
+      {/* required to keep page at a min height of screen height */}
       <div className={footerHeight}></div>
-      <footer
-        className={
-          "w-5/6 mx-auto font-body text-sm grid grid-cols-3 gap-4 py-12 -mt-96 md:-mt-72 lg:-mt-56 " + footerHeight
-        }
-      >
-        <article className="mb-10 md:mb-0 grid grid-cols-2 col-span-2">
+      <footer className={computedFooterClass}>
+        <article className="grid grid-cols-2 col-span-2 place-items-start">
           <DiscordButton button={buttonArgs} />
           <SocialLinks />
         </article>
