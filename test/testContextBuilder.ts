@@ -14,6 +14,9 @@ import { BadgeService } from "../src/services/badgeService";
 import { TestBadgeDao } from "./src/daos/TestBadgeDao";
 import { KanbanService } from "../src/services/kanbanService";
 import { TestKanbanDao } from "./src/daos/TestKanbanDao";
+import { EmailDao } from "../src/daos/EmailDao";
+import { EmailService } from "../src/services/emailService";
+import { TestEmailDao } from "./src/daos/TestEmailDao";
 
 export interface TestContext extends Context {
   apiQueryExecutor?: ApiQueryExecutor;
@@ -30,6 +33,8 @@ export interface TestContext extends Context {
   kanbanService: KanbanService;
   badgeDao: TestBadgeDao;
   badgeService: BadgeService;
+  emailDao: EmailDao;
+  emailService: EmailService;
 }
 
 export const testContextBuilder = (): TestContext => {
@@ -47,6 +52,8 @@ export const testContextBuilder = (): TestContext => {
   const kanbanService = new KanbanService(kanbanDao, loggerService);
   const badgeDao = new TestBadgeDao();
   const badgeService = new BadgeService(badgeDao, loggerService);
+  const emailDao = new TestEmailDao();
+  const emailService = new EmailService(emailDao, loggerService);
 
   return {
     loggerService,
@@ -64,5 +71,7 @@ export const testContextBuilder = (): TestContext => {
     kanbanService,
     badgeDao,
     badgeService,
+    emailDao,
+    emailService,
   };
 };
