@@ -1,7 +1,5 @@
 // The three Email types below are synced with the backend
-export interface Email {
-  to: string;
-  from: string;
+export interface ContactFormEmailInput {
   subject: string;
   html: string;
 }
@@ -28,5 +26,5 @@ export interface EmailResponse {
   }[];
 }
 export interface EmailDao {
-  send(email: Email): Promise<EmailResponse>;
+  sendContactFormEmail(email: ContactFormEmailInput): Promise<EmailResponse>;
 }

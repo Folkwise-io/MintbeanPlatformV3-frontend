@@ -1,18 +1,27 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
+import { Context } from "../../context/contextBuilder";
+import { MbContext } from "../../context/MbContext";
+import { EmailResponseStatus } from "../../daos/EmailDao";
 import { H2 } from "./blocks/H2";
 import { PartnerContactForm } from "./forms/PartnersContactForm";
 
 export const PartnerContactFormEmailComponent: FC = () => {
+  const context = useContext<Context>(MbContext);
   const [isSending, setIsSending] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
 
   const handleData = async (data: PartnerContactFormInput) => {
     setIsSending(true);
-    console.log(data);
-    await new Promise((res) => setTimeout(() => res("Done"), 3000));
+    try {
+      const response = await context.emailService.sendPartnerContactFormEmail(data);
+      setIsSending(false);
+      if (response && response.status === EmailResponseStatus.SUCCESS) {
+        setSuccess(true);
+      }
+    } catch (e) {
+      // do nothing if error caught because service will log it
+    }
     setIsSending(false);
-    setSuccess(true);
-    // TODO: set success to true on succesfuly api call
   };
 
   const FormView = (

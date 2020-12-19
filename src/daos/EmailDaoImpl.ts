@@ -1,17 +1,16 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { handleServerError } from "../utils/handleServerError";
-import { Email, EmailDao, EmailResponse } from "./EmailDao";
+import { ContactFormEmailInput, EmailDao, EmailResponse } from "./EmailDao";
 
 export class EmailDaoImpl implements EmailDao {
   constructor(private api: ApiQueryExecutor) {}
 
-  // KanbanCanon ----------------------------------
-  send(email: Email): Promise<EmailResponse> {
+  sendContactFormEmail(email: ContactFormEmailInput): Promise<EmailResponse> {
     return this.api
-      .query<ApiResponseRaw<{ sendEmail: EmailResponse }>, { input: Email }>(
+      .query<ApiResponseRaw<{ sendContactFormEmail: EmailResponse }>, { input: ContactFormEmailInput }>(
         `
-            mutation sendEmail($input: SendEmailInput!) {
-              sendEmail(id: $id) {
+            mutation sendContactFormEmail($input: SendContactFormEmailInput!) {
+              sendContactFormEmail(input: $input) {
                 recipient
                 sender
                 statusCode
@@ -28,10 +27,10 @@ export class EmailDaoImpl implements EmailDao {
       )
       .then((result) => {
         if (result.errors) throw result.errors;
-        if (!result.errors && !result.data.sendEmail) {
-          throw [{ message: "Failed to send message.", extensions: { code: "UNEXPECTED" } }];
+        if (!result.errors && !result.data.sendContactFormEmail) {
+          throw [{ message: "Failed to send contact form message.", extensions: { code: "UNEXPECTED" } }];
         }
-        return result.data.sendEmail;
+        return result.data.sendContactFormEmail;
       })
       .catch(handleServerError);
   }
