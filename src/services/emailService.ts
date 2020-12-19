@@ -54,6 +54,7 @@ const buildPartnerContactEmail = (input: PartnerContactFormInput): ContactFormEm
           border: 1px solid #dddddd;
           text-align: left;
           padding: 1rem;
+          white-space: pre-wrap;
         }
         .key {
           width: 150px;

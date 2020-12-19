@@ -16,7 +16,7 @@ export const TextArea = React.forwardRef<TextAreaProps, Props>(function textarea
   passedRef,
 ) {
   const { itemSpacing, inputStyles } = formConstants;
-  const baseClasses = [itemSpacing, inputStyles].join(" ");
+  const baseClasses = [itemSpacing, inputStyles, "whitespace-pre-wrap"].join(" ");
   const classes = appendOptionalClasses(baseClasses, className);
 
   const theLabel = label + (isRequired ? "*" : "");
