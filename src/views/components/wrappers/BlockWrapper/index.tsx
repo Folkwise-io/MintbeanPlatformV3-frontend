@@ -5,7 +5,7 @@ interface Props {
 }
 
 const BlockWrapper: FC<Props> = ({ children, className }) => {
-  let computedClassName = "bg-black w-full pt-12 rounded-t-mb-md h-full flex-grow";
+  let computedClassName = "bg-gradient-to-b from-black to-mb-gray-300 w-full pt-12 rounded-t-mb-md h-full flex-grow";
   if (className) {
     computedClassName += " " + className;
   }

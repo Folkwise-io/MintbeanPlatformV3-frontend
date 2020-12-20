@@ -1,7 +1,6 @@
 import React, { FC, useState, useEffect, useCallback, useContext, ChangeEvent } from "react";
 import { AdminMeetCreateModal } from "../components/wrappers/Modal/walas/AdminMeetCreateModal";
 import { connect } from "react-redux";
-import { FocusCard } from "../components/FocusCard";
 import { isPast } from "../../utils/DateUtility";
 import { MbContext } from "../../context/MbContext";
 import { Context } from "../../context/contextBuilder";
@@ -11,6 +10,9 @@ import { Input } from "../components/blocks/Form/Input";
 import { Meet } from "../../types/meet";
 import { MeetTypeEnum } from "../../types/enum";
 import { MeetCard } from "../components/MeetCards/MeetCardUpdated";
+import BlockWrapper from "../components/wrappers/BlockWrapper";
+import { H1 } from "../components/blocks/H1";
+import RegisterModal from "../components/wrappers/Modal/walas/RegisterModal";
 
 interface StateMapping {
   user: UserState;
@@ -131,24 +133,26 @@ const Meets: FC<StateMapping> = ({ user }) => {
   };
 
   return (
-    <main className="rounded-b-mb-md shadow-mb-outline-darkgreen bg-mb-green-100 top-mb-1 relative pb-8 mb-8">
-      <div className="rounded-b-mb-md bg-black top-mb-1n relative">
-        <div className="bg-mb-green-100 top-mb-1 relative pb-8 rounded-b-mb-md">
-          <div className="rounded-b-mb-md bg-black top-mb-1n relative">
-            <header className="md:pt-8 md:pb-6 flex flex-col items-center">
-              <FocusCard
-                type="eventsTitle"
-                card={{
-                  title: "Meets",
-                  description: "Come hack with us!",
-                }}
-              />
-              {renderAdminMeetCreateModal()}
-            </header>
+    <BlockWrapper>
+      <div className="w-4/5 mx-auto">
+        <header className="grid grid-cols-7 gap-8">
+          <div className=" h-64 col-span-5 grid place-items-center object-contain bg-mb-black-500 bg-callToAction bg-repeat-x bg-contain border-solid border-mb-gray-400 border-2 rounded-lg"></div>
+          <div className="col-span-2 flex flex-col gap-2 items-start pt-6">
+            <H1 className="text-white flex flex-col">
+              <span>Events for</span>
+              <span>Developers,</span>
+              <span>by Developers</span>
+            </H1>
+            <RegisterModal
+              buttonText="Join for Free"
+              className="whitespace-no-wrap text-sm px-0 py-2 bg-mb-green-200 border-mb-green-200"
+              onResponse={() => close()}
+            />
           </div>
-        </div>
-        <section className="max-w-7xl mx-auto flex flex-col items-center pt-12 pb-24 md:pb-20 px-6 md:px-24">
-          <fieldset className="bg-white w-11/12 flex items-center flex-wrap rounded-mb-xs justify-evenly mb-4">
+          {renderAdminMeetCreateModal()}
+        </header>
+        <section className="max-w-7xl mx-auto flex flex-col items-center pt-8 pb-24">
+          <fieldset className="w-full bg-black text-white flex items-center flex-wrap rounded-lg justify-evenly mb-4">
             <div>
               <Input
                 type="text"
@@ -182,7 +186,7 @@ const Meets: FC<StateMapping> = ({ user }) => {
           </div>
         </section>
       </div>
-    </main>
+    </BlockWrapper>
   );
 };
 
