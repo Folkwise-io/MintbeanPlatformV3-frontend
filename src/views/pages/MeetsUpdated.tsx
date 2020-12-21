@@ -13,6 +13,8 @@ import { MeetCard } from "../components/MeetCards/MeetCardUpdated";
 import BlockWrapper from "../components/wrappers/BlockWrapper";
 import { H1 } from "../components/blocks/H1";
 import RegisterModal from "../components/wrappers/Modal/walas/RegisterModal";
+import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
+import { faCaretDown, faSearch, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
 interface StateMapping {
   user: UserState;
@@ -44,7 +46,7 @@ const Meets: FC<StateMapping> = ({ user }) => {
 
   const renderAdminMeetCreateModal = () =>
     user.data?.isAdmin && (
-      <div className="flex justify-center">
+      <div className="flex justify-center col-span-7">
         <AdminMeetCreateModal
           buttonText="Create new meet"
           className="rounded px-6 py-2 text-white bg-mb-orange-100 mb-2"
@@ -132,13 +134,37 @@ const Meets: FC<StateMapping> = ({ user }) => {
     setDateFilter(target.value as MeetDate);
   };
 
+  const commonInputStyles = "bg-black border-solid border-1 rounded-lg py-1 my-2 leading-tight px-2";
+  const textInputStyles =
+    commonInputStyles + " text-sm w-full border-mb-green-200 opacity-100 placeholder-opacity-100 placeholder-white";
+  const selectInputStyles =
+    commonInputStyles + " text-xs w-3/4 font-semibold text-mb-blue-200 border-mb-blue-200 appearance-none";
+  const selectWrapperStyles = " col-span-2 flex justify-end relative";
+
+  const renderInputIcon = (icon: IconDefinition, className?: string, isTransparent?: boolean) => {
+    let classes = "absolute bg-black inset-y-1/4 right-mb-1 h-4 text-sm";
+    if (className) {
+      classes += " " + className;
+    }
+    let opacity = "";
+    if (isTransparent) {
+      opacity = "opacity-75";
+    }
+    return (
+      <div className={classes}>
+        <FontAwesomeIcon className={opacity} icon={icon} />
+      </div>
+    );
+  };
+
   return (
     <BlockWrapper>
       <div className="w-4/5 mx-auto">
         <header className="grid grid-cols-7 gap-8">
-          <div className=" h-64 col-span-5 grid place-items-center object-contain bg-mb-black-500 bg-callToAction bg-repeat-x bg-contain border-solid border-mb-gray-400 border-2 rounded-lg"></div>
-          <div className="col-span-2 flex flex-col gap-2 items-start pt-6">
-            <H1 className="text-white flex flex-col">
+          {/* header image */}
+          <div className=" h-68 col-span-5 grid place-items-center object-contain bg-mb-black-500 bg-callToAction bg-repeat-x bg-contain border-solid border-mb-gray-400 border-2 rounded-lg"></div>
+          <div className="col-span-2 flex flex-col gap-4 items-start pt-6">
+            <H1 className="text-white flex flex-col leading-tight">
               <span>Events for</span>
               <span>Developers,</span>
               <span>by Developers</span>
@@ -152,33 +178,42 @@ const Meets: FC<StateMapping> = ({ user }) => {
           {renderAdminMeetCreateModal()}
         </header>
         <section className="max-w-7xl mx-auto flex flex-col items-center pt-8 pb-24">
-          <fieldset className="w-full bg-black text-white flex items-center flex-wrap rounded-lg justify-evenly mb-4">
-            <div>
-              <Input
-                type="text"
-                label="Search:"
-                name="searchMeets"
-                className="m-2"
-                onChange={handleSearchInputChange}
-              />
-            </div>
-            <div>
-              <Select
-                name="meetTypeFilter"
-                label="Filter by meet type:"
-                options={meetTypeFilterOptions}
-                onChange={handleMeetTypeChange}
-                className="m-2"
-              />
-            </div>
-            <div>
-              <Select
-                name="dateFilter"
-                label="filter by date:"
-                options={dateFilterOptions}
-                onChange={handleDateFilterChange}
-                className="m-2"
-              />
+          <fieldset className="w-full bg-black text-white rounded-lg mb-4 py-4">
+            <div className="w-11/12 mx-auto grid grid-cols-9">
+              <div className="col-span-5 relative">
+                <Input
+                  type="text"
+                  label="Search meets"
+                  name="searchMeets"
+                  className={textInputStyles}
+                  onChange={handleSearchInputChange}
+                  srOnly
+                  placeholder="Search meets"
+                />
+                {renderInputIcon(faSearch, "text-mb-green-200", true)}
+              </div>
+              <div className={selectWrapperStyles}>
+                <Select
+                  name="meetTypeFilter"
+                  label="Filter by meet type"
+                  options={meetTypeFilterOptions}
+                  onChange={handleMeetTypeChange}
+                  className={selectInputStyles}
+                  srOnly
+                />
+                {renderInputIcon(faCaretDown, "text-mb-blue-200")}
+              </div>
+              <div className={selectWrapperStyles}>
+                <Select
+                  name="dateFilter"
+                  label="filter by date"
+                  options={dateFilterOptions}
+                  onChange={handleDateFilterChange}
+                  className={selectInputStyles}
+                  srOnly
+                />
+                {renderInputIcon(faCaretDown, "text-mb-blue-200")}
+              </div>
             </div>
           </fieldset>
           <div className="grid grid-cols-1 px-0 sm:px-12 md:px-0 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 row-auto gap-6">

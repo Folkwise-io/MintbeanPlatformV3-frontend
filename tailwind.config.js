@@ -45,6 +45,7 @@ module.exports = {
         "mb-lg": "8rem",
       },
       borderWidth: {
+        1: "1px",
         10: "10px",
         3: "3px",
       },
@@ -91,6 +92,7 @@ module.exports = {
         "mb-1n": "-1rem",
         "mb-3": "3rem",
         "50": "50%",
+        "1/4": "25%",
       },
       translate: {
         "37%": "37%",
@@ -111,6 +113,7 @@ module.exports = {
         callToAction: "url(../assets/images/banners/robots-lg.png)",
       }),
       height: {
+        68: "17rem",
         34: "8.5rem",
         "50px": "50px",
       },
