@@ -1,4 +1,4 @@
-import { ContactFormEmailInput, EmailDao, EmailResponse } from "../daos/EmailDao";
+import { ContactFormEmailInput, EmailDao, EmailResponse, EmailResponseStatus } from "../daos/EmailDao";
 import { LoggerService } from "./loggerService";
 import { EntityService } from "./entityService";
 
@@ -18,6 +18,11 @@ export class EmailService extends EntityService {
     return this.handleService(async () => {
       const contactEmail = buildPartnerContactEmail(input);
       const response = await this.emailDao.sendContactFormEmail(contactEmail);
+      // Responses for failed emails return as normalized (not error) data responses. Filter by status for error logging.
+      if (response.status !== EmailResponseStatus.SUCCESS) {
+        const errors = response.errors ? response.errors.map((e) => e.message).join("; ") : "An unknown error ocurred";
+        this.logger.danger(`Something went wrong when attempting to send your message: ${errors}`);
+      }
       return response;
     });
   }

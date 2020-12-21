@@ -14,7 +14,6 @@ import { BadgeService } from "../src/services/badgeService";
 import { TestBadgeDao } from "./src/daos/TestBadgeDao";
 import { KanbanService } from "../src/services/kanbanService";
 import { TestKanbanDao } from "./src/daos/TestKanbanDao";
-import { EmailDao } from "../src/daos/EmailDao";
 import { EmailService } from "../src/services/emailService";
 import { TestEmailDao } from "./src/daos/TestEmailDao";
 
@@ -33,7 +32,7 @@ export interface TestContext extends Context {
   kanbanService: KanbanService;
   badgeDao: TestBadgeDao;
   badgeService: BadgeService;
-  emailDao: EmailDao;
+  emailDao: TestEmailDao;
   emailService: EmailService;
 }
 
