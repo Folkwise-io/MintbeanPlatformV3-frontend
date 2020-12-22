@@ -81,7 +81,7 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
   return (
     <>
       <nav
-        className="w-11/12 mx-auto bg-white sticky top-0 flex items-center justify-between"
+        className="px-12 bg-white sticky top-0 flex items-center justify-between"
         style={{ minHeight: "48px", zIndex: 99 }}
       >
         <section>

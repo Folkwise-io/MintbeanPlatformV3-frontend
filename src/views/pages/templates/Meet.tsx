@@ -309,7 +309,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
                     <>
                       <img className="object-contain bg-black w-full" src={meet?.coverImageUrl} alt={meet?.title} />
                       <div className="w-11/12 h-8 absolute top-mb-1 inset-x-0 flex justify-end">
-                        {meet && <MeetType meetType={meet.meetType} isBordered />}
+                        {meet && <MeetType meetType={meet.meetType} />}
                       </div>
                     </>
                   )}

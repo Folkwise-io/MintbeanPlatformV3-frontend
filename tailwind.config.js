@@ -55,11 +55,12 @@ module.exports = {
         "20vw": "20vw",
       },
       colors: {
-        black: "#0C0A0B",
+        black: "#0B0505",
         "mb-gray-100": "#E2E8F0",
         "mb-gray-200": "#737494",
         "mb-gray-300": "#2d2e48",
         "mb-gray-400": "#1f2036",
+        "mb-gray-500": "#131421",
         "mb-red-100": "#FED7D7",
         "mb-red-200": "#E53E3E",
         "mb-orange-000": "#FED9B2",
@@ -72,7 +73,7 @@ module.exports = {
         "mb-green-500": "#5EF4D6",
         "mb-blue-100": "#EBF8FF",
         "mb-blue-200": "#00A4DA",
-        "mb-blue-300": "#00B1FF",
+        "mb-blue-300": "#03B1FE",
         "mb-purple-000": "#E8B2F1",
         "mb-purple-100": "#5C1FD6",
         "mb-black-500": "#09090b",
@@ -89,6 +90,7 @@ module.exports = {
       },
       inset: {
         "mb-1": "1rem",
+        "mb-.25": ".25rem",
         "mb-1n": "-1rem",
         "mb-3": "3rem",
         "50": "50%",
@@ -125,6 +127,9 @@ module.exports = {
     },
     fontFamily: {
       body: ["Montserrat", "sans-serif"],
+    },
+    gridTemplateRows: {
+      meetCard: "2rem 8rem 3.25rem 2.75rem",
     },
   },
   variants: {
