@@ -21,13 +21,15 @@ const Stat: FC<StatProps> = ({ stat, label, centered, statColor = "current", cla
     mint: "mb-green-200",
     current: "current",
   };
-  const divClasses = `${centered ? "text-center" : ""} ${className}`;
-  const statClasses = `text-4xl font-semibold text-${colorMap[statColor]}`;
+  const divClasses = `flex justify-center ${centered ? "text-center" : ""} ${className}`;
+  const statClasses = `text-4xl leading-8 font-semibold text-${colorMap[statColor]}`;
   const labelClasses = `${centered ? "text-center" : ""} `;
   return (
     <div className={divClasses}>
-      <p className={statClasses}>{stat}</p>
-      <p className={labelClasses}>{label}</p>
+      <div style={{ maxWidth: "200px" }}>
+        <p className={statClasses}>{stat}</p>
+        <p className={labelClasses}>{label}</p>
+      </div>
     </div>
   );
 };
@@ -47,7 +49,15 @@ const topStats = [
   },
 ];
 
-const communityStats = [{ stat: "90%+", label: "of members say JavaScript is their main language." }];
+const communityStats = [
+  { stat: "90%+", label: "of members say JavaScript is their main language." },
+  { stat: "80%+", label: "of members reside in the USA and Canada." },
+  { stat: "50%+", label: "of members are from diverse & non-traditional backgrounds." },
+  { stat: "4+", label: "hackathons per month" },
+  { stat: "20+", label: "online events per month" },
+  { stat: "30%", label: "repeat attendance rate per event" },
+];
+
 const Partners: FC = () => {
   return (
     <div className="bg-mb-blue-250 min-h-screen pb-24">
@@ -91,23 +101,21 @@ const Partners: FC = () => {
       {/* Curvy white div start*/}
       <div className="bg-mb-blue-250 my-12 py-8">
         <div>
-          <img src={svgWhiteCurvedYTop} alt="" className="w-full" />
-          <div className="bg-white text-center mx-auto py-10">
+          <div className="w-full relative">
+            <img src={svgWhiteCurvedYTop} alt="" className="w-full relative" style={{ top: 2 }} />
+          </div>
+          <div className="bg-white text-center mx-auto py-16">
             <H2>A snapshot of our community</H2>
 
-            <div
-              className="mt-10 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 max-w-screen-md mx-auto"
-              style={{ height: "250px" }}
-            >
-              <Stat statColor="mint" stat="18-25" label="Primary Age Range" centered />
-              <Stat statColor="mint" stat="90%" label="Interesting Stat" centered />
-              <Stat statColor="mint" stat="40%" label="Interesting Stat" centered />
-              <Stat statColor="mint" stat="90%" label="Interesting Stat" centered />
-              <Stat statColor="mint" stat="70%" label="Interesting Stat" centered />
-              <Stat statColor="mint" stat="60%" label="Interesting Stat" centered />
+            <div className="mt-10 grid gap-2 gap-y-8 grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 px-2 max-w-screen-md mx-auto">
+              {communityStats.map((item, i) => (
+                <Stat key={i} statColor="mint" stat={item.stat} label={item.label} className="px-4" centered />
+              ))}
             </div>
           </div>
-          <img src={svgWhiteCurvedYBottom} alt="" className="w-full" />
+          <div className="w-full relative">
+            <img src={svgWhiteCurvedYBottom} alt="" className="w-full relative" style={{ top: -2 }} />
+          </div>
         </div>
       </div>
       {/*  Start text section "Partner with Mintbean" */}
