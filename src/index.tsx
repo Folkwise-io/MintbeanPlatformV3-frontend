@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import { dom, library } from "@fortawesome/fontawesome-svg-core";
+import { library } from "@fortawesome/fontawesome-svg-core";
 
 import { configureStoreAndLogger } from "./views/state/configureStoreAndLogger";
 import { contextBuilder } from "./context/contextBuilder";
