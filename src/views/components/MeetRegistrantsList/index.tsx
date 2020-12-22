@@ -1,5 +1,4 @@
 import React, { FC, useState } from "react";
-import "./meetRegistrantsList.css";
 import { MeetListUser } from "./MeetListUser";
 
 interface Props {
@@ -22,14 +21,14 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
   if (visible) {
     containerView = (
       <div className="bg-mb-green-200 min-w-lg min-h-screen flex justify-center items-center">
-        <div className="bg-black min-w-lg rounded-md max-h-32 p-4">
+        <div className="bg-black min-w-lg rounded-lg max-h-32 p-4">
           <div className="flex justify-between">
             <p className="text-white">{meetRegistrants.length} Attendees</p>
             <p onClick={switchVisibility} className="text-mb-green-200 cursor-pointer hover:underline">
               Hide All
             </p>
           </div>
-          <div className="overflow-y-scroll scrollbar-color">
+          <div className="overflow-y-scroll scrollbar h-96">
             {meetRegistrants.map((r: RegistrantsForMeet) => {
               return <MeetListUser meetRegistrant={r} />;
             })}
