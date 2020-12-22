@@ -60,6 +60,7 @@ export class MeetDaoImpl implements MeetDao {
                 id
                 firstName
                 lastName
+                createdAt
               }
               projects {
                 id
