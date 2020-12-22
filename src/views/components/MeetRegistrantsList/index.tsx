@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
-import greyProfilePic from "../../../assets/images/logos/grey-profile-pic.svg";
-import "./meetRegistrantsList.css"
+import "./meetRegistrantsList.css";
+import { MeetListUser } from "./MeetListUser";
 
 interface Props {
   meetRegistrants: RegistrantsForMeet[];
@@ -29,22 +29,10 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
               Hide All
             </p>
           </div>
-          <div className="overflow-y-scroll">
-          {meetRegistrants.map((r: RegistrantsForMeet) => {
-            // This will be its own component
-            return (
-              <div className="flex align-center mt-6" key={r.id}>
-                <img src={greyProfilePic} />
-                <div className="ml-3">
-                  <p className="text-mb-blue-300 font-bold">
-                    {r.firstName} {r.lastName}
-                  </p>
-                  <p className="text-white font-light">Member since 2020</p>
-                </div>
-              </div>
-            );
-            //return statement end above to commment is MeetListUser component
-          })}
+          <div className="overflow-y-scroll scrollbar-color">
+            {meetRegistrants.map((r: RegistrantsForMeet) => {
+              return <MeetListUser meetRegistrant={r} />;
+            })}
           </div>
         </div>
       </div>
@@ -61,7 +49,6 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
           </div>
         </div>
       </div>
-      
     );
   }
 
