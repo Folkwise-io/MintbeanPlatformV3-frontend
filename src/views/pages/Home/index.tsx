@@ -15,6 +15,7 @@ import { H1 } from "../../components/blocks/H1";
 import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faSearch, IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "../../components/blocks/Button";
 
 interface StateMapping {
   user: UserState;
@@ -30,6 +31,7 @@ const Home: FC<StateMapping> = ({ user }) => {
   const [searchInput, setSearchInput] = useState<string>("");
   const [dateFilter, setDateFilter] = useState<MeetDate>("upcoming");
   const [loading, setLoading] = useState<boolean>(false);
+  const [meetPages, setMeetPages] = useState<Meet[][]>([[]]);
   const [pages, setPages] = useState<number>(1);
 
   const fetchMeets = useCallback(async () => {
@@ -100,16 +102,15 @@ const Home: FC<StateMapping> = ({ user }) => {
       }
     });
 
-    // const pagination = (arr: Meet[], size: number) => {
-    //   const chunked = [];
-    //   for (let i = 0; i < arr.length; i += size) {
-    //     chunked.push(arr.slice(i, i + size));
-    //   }
-    //   return chunked;
-    // };
+    const pagination = (arr: Meet[], size: number) => {
+      const chunked = [];
+      for (let i = 0; i < arr.length; i += size) {
+        chunked.push(arr.slice(i, i + size));
+      }
+      return chunked;
+    };
 
-    // const chunkedMeets = pagination(filteredMeets, 12);
-    // const meetsToRender = chunkedMeets[pages - 1];
+    const chunkedMeets = pagination(filteredMeets, 12);
 
     //save mapped meets
     const mappedMeets = filteredMeets.map((meet) => (
@@ -130,6 +131,11 @@ const Home: FC<StateMapping> = ({ user }) => {
     }
     //if there are no meets at all, return error message - this should not be reached.
     return <p className="text-white text-lg">No meets at the moment... Stay tuned!</p>;
+  };
+
+  const increasePage = () => {
+    // console.log(chunkedMeets.length);
+    setPages(pages + 1);
   };
 
   const handleMeetTypeChange = (e: ChangeEvent) => {
@@ -230,6 +236,7 @@ const Home: FC<StateMapping> = ({ user }) => {
             </div>
           </fieldset>
           <div className="grid grid-cols-2 md:grid-cols-4 row-auto gap-8">{renderMeets()}</div>
+          <Button onClick={increasePage}>Load more</Button>
         </section>
       </div>
     </BlockWrapper>
