@@ -19,6 +19,7 @@ import { TextArea } from "../blocks/Form/TextArea";
 import { Input } from "../blocks/Form/Input";
 import { badgeShapeOptions } from "./constants";
 import { BadgeShapeEnum } from "../../../types/enum";
+import { faBean, faBeanhead } from "../faCustomIcons";
 
 interface Props {
   badge: Badge;
@@ -34,10 +35,16 @@ export const BadgeEditForm: FC<Props> = ({ badge }) => {
 
   // imports fas object from fontawesome and saves values
   const fasObjectValues = Object.values(fas);
+  const customIconArr = [faBean, faBeanhead];
+
   // formats into typed icon names
   const fasIconNames: IconName[] = fasObjectValues.map(({ iconName }) => iconName);
+  const customIconNames: IconName[] = customIconArr.map(({ iconName }) => iconName);
+
+  const availableIcons = [...fasIconNames, ...customIconNames];
+
   // filter icons via search, done in this file so the value is available for form
-  const iconNamesFiltered = fasIconNames.filter(
+  const iconNamesFiltered = availableIcons.filter(
     (name) => name.includes(searchInput) && name !== "font-awesome-logo-full",
   );
 

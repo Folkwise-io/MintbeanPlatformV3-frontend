@@ -21,6 +21,7 @@ import { Input } from "../blocks/Form/Input";
 import { TextArea } from "../blocks/Form/TextArea";
 import { badgeShapeOptions } from "./constants";
 import { BadgeShapeEnum } from "../../../types/enum";
+import { faBean, faBeanhead } from "../faCustomIcons";
 
 export const BadgeCreateForm: FC = () => {
   const context = useContext<Context>(MbContext);
@@ -34,10 +35,15 @@ export const BadgeCreateForm: FC = () => {
 
   // imports fas object from fontawesome and saves values
   const fasObjectValues = Object.values(fas);
+  const customIconArr = [faBean, faBeanhead];
   // formats into typed icon names
   const fasIconNames: IconName[] = fasObjectValues.map(({ iconName }) => iconName);
+  const customIconNames: IconName[] = customIconArr.map(({ iconName }) => iconName);
+
+  const availableIcons = [...fasIconNames, ...customIconNames];
+
   // filter icons via search, done in this file so the value is available for form
-  const iconNamesFiltered = fasIconNames.filter(
+  const iconNamesFiltered = availableIcons.filter(
     (name) => name.includes(searchInput) && name !== "font-awesome-logo-full",
   );
 
@@ -47,7 +53,7 @@ export const BadgeCreateForm: FC = () => {
   };
 
   // selected FA icon state
-  const [selectedIcon, setSelectedIcon] = useState(fasIconNames[0]);
+  const [selectedIcon, setSelectedIcon] = useState(availableIcons[0]);
   // selected badge shape state
   const [selectedShape, setSelectedShape] = useState(badgeShapeOptions[0].value);
 
