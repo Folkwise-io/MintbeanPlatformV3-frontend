@@ -15,8 +15,3 @@ export const userForProjectFactory = factory<User>({
   firstName: () => faker.name.firstName(),
   lastName: () => faker.name.lastName(),
 });
-
-export const userForMeetForProjectFactory = factory<User>({
-  firstName: () => faker.name.firstName(),
-  lastName: () => faker.name.lastName(),
-});
