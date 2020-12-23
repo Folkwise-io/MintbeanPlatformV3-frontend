@@ -41,10 +41,8 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete, semiOpaqueLabels
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
 
   const getMeetCardWrapperClasses = () => {
-    let classes = "shadow-xl bg-black overflow-hidden rounded-lg flex flex-col";
-    if (semiOpaqueLabels) {
-      classes += " relative";
-    }
+    const classes = "shadow-xl bg-black overflow-hidden rounded-lg flex flex-col";
+
     if (meetType !== MeetTypeEnum.Hackathon) {
       return classes;
     }
@@ -53,16 +51,34 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete, semiOpaqueLabels
 
   const getLinkClasses = () => {
     const classes = "grid h-64 text-black flex-grow";
-    if (semiOpaqueLabels) {
+
+    if (!semiOpaqueLabels) {
       return classes + " grid-rows-meetCard";
     }
-    return classes;
+    return classes + " relative";
+  };
+
+  const transparentStyles = "absolute inset-x-0 bg-black bg-opacity-75 ";
+
+  const getContentsWrapperClasses = () => {
+    if (!semiOpaqueLabels) {
+      return "contents";
+    }
+    return transparentStyles + "bottom-0 pb-2 pt-1";
+  };
+
+  const getDateClasses = () => {
+    const classes = "font-light text-xs truncate text-white";
+    if (!semiOpaqueLabels) {
+      return classes + " mt-auto mb-1 mx-2";
+    }
+    return classes + " " + transparentStyles + "top-0 py-2";
   };
 
   return (
     <div className={getMeetCardWrapperClasses()}>
       <Link to={`/meets/${id}`} className={getLinkClasses()}>
-        <p className="font-light text-xs truncate mt-auto mb-1 mx-2 text-white">
+        <p className={getDateClasses()} style={{ zIndex: 10 }}>
           <FontAwesomeIcon icon={faClock} className="mr-2" />
           {renderDate()}
         </p>
@@ -72,12 +88,16 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete, semiOpaqueLabels
             src={coverImageUrl}
             alt={`${title} event banner`}
           />
-          <div className="absolute top-0 right-mb-.25">
-            <MeetStatus user={user} meet={meet} />
-          </div>
+          {!semiOpaqueLabels && (
+            <div className="absolute top-0 right-mb-.25">
+              <MeetStatus user={user} meet={meet} />
+            </div>
+          )}
         </div>
-        <h2 className="text-md font-medium mt-2 mx-2 text-mb-green-200 leading-tight">{title}</h2>
-        <p className="text-white text-xs mx-2">{capitalizedString(meetType)}</p>
+        <div className={getContentsWrapperClasses()}>
+          <h2 className="text-md font-medium mt-2 mx-2 text-mb-green-200 leading-tight">{title}</h2>
+          <p className="text-white text-xs mx-2">{capitalizedString(meetType)}</p>
+        </div>
       </Link>
       {user?.isAdmin && (
         <div className="flex justify-center my-2">
