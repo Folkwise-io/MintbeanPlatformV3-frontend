@@ -30,13 +30,13 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
                 {meetRegistrants.slice(0, 3).map((registrant: RegistrantsForMeet, i: number) => {
                   if (i === 0) {
                     return (
-                      <div className="w-6 overflow-visible">
+                      <div key={registrant.createdAt} className="w-6 overflow-visible">
                         <img src={greyProfilePic} className="w-8 absolute" />
                       </div>
                     );
                   } else {
                     return (
-                      <div className="w-6 overflow-visible">
+                      <div key={registrant.createdAt} className="w-6 overflow-visible">
                         <img src={test} className="w-8 absolute" />
                       </div>
                     );
