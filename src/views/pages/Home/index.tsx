@@ -16,6 +16,7 @@ import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faSearch, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "../../components/blocks/Button";
+import { meetFactory } from "../../../../test/src/factories/meet.factory";
 
 interface StateMapping {
   user: UserState;
@@ -27,17 +28,28 @@ const stp = (state: StoreState) => ({
 const Home: FC<StateMapping> = ({ user }) => {
   const context = useContext<Context>(MbContext);
   const [meets, setMeets] = useState<Meet[]>([]);
+  const [maxPages, setMaxPages] = useState<number>(1);
   const [meetType, setMeetType] = useState<MeetTypeEnum | "all">("all");
   const [searchInput, setSearchInput] = useState<string>("");
   const [dateFilter, setDateFilter] = useState<MeetDate>("upcoming");
   const [loading, setLoading] = useState<boolean>(false);
-  const [meetPages, setMeetPages] = useState<Meet[][]>([[]]);
   const [pages, setPages] = useState<number>(1);
+
+  const pagination = (arr: Meet[], size: number) => {
+    const chunked = [];
+    for (let i = 0; i < arr.length; i += size) {
+      chunked.push(arr.slice(i, i + size));
+    }
+    return chunked;
+  };
 
   const fetchMeets = useCallback(async () => {
     setLoading(true);
     const fetchedMeets = await context.meetService.fetchMeets();
     setMeets(fetchedMeets || []);
+    if (fetchedMeets) {
+      setMaxPages(pagination(fetchedMeets, 12).length);
+    }
     setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -57,11 +69,11 @@ const Home: FC<StateMapping> = ({ user }) => {
       </div>
     );
 
-  const renderMeets = () => {
-    if (loading) {
-      return <p className="text-white">Loading...</p>;
-    }
+  const increasePage = () => {
+    setPages(pages + 1);
+  };
 
+  const filterMeets = (): Meet[] => {
     //filteredMeets default to all
     let filteredMeets = meets;
 
@@ -102,23 +114,27 @@ const Home: FC<StateMapping> = ({ user }) => {
       }
     });
 
-    const pagination = (arr: Meet[], size: number) => {
-      const chunked = [];
-      for (let i = 0; i < arr.length; i += size) {
-        chunked.push(arr.slice(i, i + size));
-      }
-      return chunked;
-    };
-
     const chunkedMeets = pagination(filteredMeets, 12);
+    const pagesToRender = chunkedMeets.slice(0, pages);
+    return pagesToRender.reduce((a, b) => a.concat(b), []);
+  };
+
+  const renderMeets = () => {
+    if (loading) {
+      return <p className="text-white">Loading...</p>;
+    }
+
+    const filteredMeetArr = filterMeets();
 
     //save mapped meets
-    const mappedMeets = filteredMeets.map((meet) => (
-      <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />
-    ));
+
+    const mapMeets = (meets: Meet[]) =>
+      meets.map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />);
+
     //if there are meets in the filtered array, map and render
-    if (filteredMeets.length) {
-      return mappedMeets;
+    console.log(pages, maxPages);
+    if (pages) {
+      return mapMeets(filteredMeetArr);
     } else if (meets) {
       //if there are no meets in the filtered array but meets exist, return error message
       let errorMessage = `No results matched your filters, please try again.`;
@@ -131,11 +147,6 @@ const Home: FC<StateMapping> = ({ user }) => {
     }
     //if there are no meets at all, return error message - this should not be reached.
     return <p className="text-white text-lg">No meets at the moment... Stay tuned!</p>;
-  };
-
-  const increasePage = () => {
-    // console.log(chunkedMeets.length);
-    setPages(pages + 1);
   };
 
   const handleMeetTypeChange = (e: ChangeEvent) => {
@@ -235,8 +246,8 @@ const Home: FC<StateMapping> = ({ user }) => {
               </div>
             </div>
           </fieldset>
-          <div className="grid grid-cols-2 md:grid-cols-4 row-auto gap-8">{renderMeets()}</div>
-          <Button onClick={increasePage}>Load more</Button>
+          <div className="grid grid-cols-2 md:grid-cols-4 row-auto gap-8 mb-8">{renderMeets()}</div>
+          {pages < maxPages && <Button onClick={increasePage}>Load more</Button>}
         </section>
       </div>
     </BlockWrapper>
