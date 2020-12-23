@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { Context } from "../../context/contextBuilder";
 import { MbContext } from "../../context/MbContext";
 import { UserForProfile } from "../../types/user";
-import { BgBlock } from "../components/BgBlock";
 import { H1 } from "../components/blocks/H1";
 import EditUserForm from "../components/forms/EditUserForm";
+import BlockWrapper from "../components/wrappers/BlockWrapper";
 
 const EditUserProfile: FC = () => {
   const context = useContext<Context>(MbContext);
@@ -48,13 +48,13 @@ const EditUserProfile: FC = () => {
   };
 
   return (
-    <BgBlock type="blackStripe">
+    <BlockWrapper>
       <div className="min-h-50vh py-8 w-11/12 mx-auto">
         <div className="bg-white">
           <section className="w-3/5 mx-auto py-6">{renderEditUserProfile()}</section>
         </div>
       </div>
-    </BgBlock>
+    </BlockWrapper>
   );
 };
 

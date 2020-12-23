@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { Context } from "../../../context/contextBuilder";
 import { MbContext } from "../../../context/MbContext";
 import { UserForProfile } from "../../../types/user";
-import { BgBlock } from "../../components/BgBlock";
 import { H1 } from "../../components/blocks/H1";
+import BlockWrapper from "../../components/wrappers/BlockWrapper";
 import { ProfileLinkList } from "./ProfileLinkList";
 import { ProfileStat } from "./ProfileStat";
 
@@ -60,13 +60,13 @@ const UserProfile: FC = () => {
     return <p className="text-center">Please login to see your profile!</p>;
   };
   return (
-    <BgBlock type="blackStripe">
+    <BlockWrapper>
       <div className="min-h-50vh py-8 w-11/12 mx-auto">
         <div className="bg-white">
           <section className="w-4/5 mx-auto py-6">{renderProfile()}</section>
         </div>
       </div>
-    </BgBlock>
+    </BlockWrapper>
   );
 };
 
