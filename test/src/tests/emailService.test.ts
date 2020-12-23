@@ -71,7 +71,6 @@ describe("EmailService", () => {
           });
         });
       const finalState: StoreState = testManager.store.getState();
-      console.log({ finalState });
       expect(finalState.errors).toHaveLength(1);
       expect(finalState.toasts[0].type).toBe("DANGER");
       expect(finalState.toasts[0].message).toMatch(new RegExp(PARTNER_CONTACT_EMAIL_ERR_MSG));
