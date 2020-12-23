@@ -72,14 +72,6 @@ const Home: FC<StateMapping> = ({ user }) => {
       </div>
     );
 
-  const increasePage = () => {
-    setPages(pages + 1);
-  };
-
-  const resetPages = () => {
-    console.log(maxPages);
-  };
-
   const filterMeets = (meetsToFilter: Meet[]): Meet[] => {
     //filteredMeets default to all
     let filteredMeets = [...meetsToFilter];
@@ -130,6 +122,14 @@ const Home: FC<StateMapping> = ({ user }) => {
     return pagesToRender.reduce((a, b) => a.concat(b), []);
   };
 
+  const increasePage = () => {
+    setPages(pages + 1);
+  };
+
+  const resetPages = () => {
+    setPages(1);
+  };
+
   const renderMeets = () => {
     if (loading) {
       return <p className="text-white">Loading...</p>;
@@ -143,7 +143,6 @@ const Home: FC<StateMapping> = ({ user }) => {
       meets.map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />);
 
     //if there are meets in the filtered array, map and render
-    console.log(pages, maxPages);
     if (pages) {
       return mapMeets(filteredMeetArr);
     } else if (meets) {
@@ -174,7 +173,9 @@ const Home: FC<StateMapping> = ({ user }) => {
 
   const handleDateFilterChange = (e: ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    resetPages();
+    if (pages !== 1) {
+      resetPages();
+    }
     setDateFilter(target.value as MeetDate);
   };
 
