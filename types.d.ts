@@ -16,6 +16,7 @@ interface UserForProject {
 interface MeetForProject {
   id: string;
   title: string;
+  registerLinkStatus: RegisterLinkStatus;
 }
 
 /** Whether registration is going to open, is open now, or is closed. */
@@ -137,6 +138,11 @@ interface UpdateCardPositionInput {
   cardId: string;
   status: KanbanCanonCardStatus;
   index: number;
+}
+
+interface EditUserInput {
+  firstName?: string;
+  lastName?: string;
 }
 
 // API -----------------------

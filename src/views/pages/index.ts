@@ -10,3 +10,5 @@ export { default as Admin } from "./Admin";
 export { default as Badges } from "./Badges";
 export { default as CreateBadge } from "./Admin/CreateBadge";
 export { default as BadgeTemplate } from "./templates/Badge";
+export { default as EditUserProfile } from "./EditUserProfile";
+export { default as UserProfile } from "./UserProfile/";

@@ -2,6 +2,7 @@
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { AuthDao } from "./AuthDao";
 import { handleServerError } from "../utils/handleServerError";
+import { UserForProfile } from "../types/user";
 
 /* TODO: consider refactoring User attributes query into a resuable function */
 export class AuthDaoImpl implements AuthDao {
@@ -53,9 +54,9 @@ export class AuthDaoImpl implements AuthDao {
       .catch(handleServerError);
   }
 
-  me(): Promise<User> {
+  me(): Promise<UserForProfile> {
     return this.api
-      .query<ApiResponseRaw<{ me: User }>>(
+      .query<ApiResponseRaw<{ me: UserForProfile }>>(
         `
             query me {
               me {
@@ -65,6 +66,11 @@ export class AuthDaoImpl implements AuthDao {
                 lastName
                 createdAt
                 isAdmin
+                registeredMeets {
+                  id
+                  title
+                  registerLinkStatus
+                }
               }
             }
           `,
@@ -102,6 +108,30 @@ export class AuthDaoImpl implements AuthDao {
           throw [{ message: "Failed to register new user.", extensions: { code: "UNEXPECTED" } }];
         }
         return result.data.register;
+      })
+      .catch(handleServerError);
+  }
+
+  editUser(id: string, input: EditUserInput): Promise<User> {
+    return this.api
+      .query<ApiResponseRaw<{ editUser: User }>, { id: string; input: EditUserInput }>(
+        `
+      mutation editUser($id: UUID!, $input: EditUserInput!) {
+        editUser(id: $id, input: $input) {
+          firstName
+          lastName
+          email
+        }
+      }
+      `,
+        { id, input },
+      )
+      .then(({ data, errors }) => {
+        if (errors) throw errors;
+        if (!errors && !data.editUser) {
+          throw [{ message: "Failed to edit user.", extensions: { code: "UNEXPECTED" } }];
+        }
+        return data.editUser;
       })
       .catch(handleServerError);
   }

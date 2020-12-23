@@ -124,3 +124,29 @@ export function register(params: RegisterInput): ThunkAction<void, StoreState, C
       });
   };
 }
+
+const editUserAction = (loadStatus: ApiDataStatus, payload?: User): MbAction<User> => ({
+  type: AuthActionType.EDIT_USER,
+  payload,
+  loadStatus,
+});
+
+export function editUser(id: string, input: EditUserInput): ThunkAction<void, StoreState, Context, MbAction<void>> {
+  return (dispatch: Dispatch, _getState, context) => {
+    dispatch(editUserAction("LOADING"));
+    return context.authDao
+      .editUser(id, input)
+      .then((user: User) => {
+        if (user) {
+          return dispatch(editUserAction("SUCCESS", user));
+        }
+      })
+      .catch((e) => {
+        if (hasErrorWithCode(e, "UNAUTHENTICATED")) {
+          return dispatch(editUserAction("SUCCESS"));
+        }
+        context.loggerService.handleGraphqlErrors([{ message: "Editing user details failed." }]);
+        return dispatch(editUserAction("ERROR"));
+      });
+  };
+}

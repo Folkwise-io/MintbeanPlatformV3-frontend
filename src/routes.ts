@@ -12,6 +12,8 @@ import {
   CreateBadge,
   Badges,
   BadgeTemplate,
+  UserProfile,
+  EditUserProfile,
 } from "./views/pages";
 
 interface RouteConfig {
@@ -70,6 +72,15 @@ export const routes: RouteConfig[] = [
   {
     component: BadgeTemplate,
     path: "/badges/:id",
+  },
+  {
+    component: UserProfile,
+    path: "/profile",
+    exact: true,
+  },
+  {
+    component: EditUserProfile,
+    path: "/profile/edit",
   },
   {
     component: NotFound,
