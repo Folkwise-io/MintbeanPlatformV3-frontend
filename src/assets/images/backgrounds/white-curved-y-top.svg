@@ -7,13 +7,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1437.0864"
-   height="114.64613"
-   viewBox="0 0 1437.0864 114.64613"
+   width="1411.3673"
+   height="75.343216"
+   viewBox="0 0 1411.3673 75.343216"
    fill="none"
    version="1.1"
    id="svg4"
-   sodipodi:docname="white-curved-y-top.svg"
+   sodipodi:docname="white-curved-y.svg"
    inkscape:version="1.0.1 (1.0.1+r73)">
   <metadata
      id="metadata10">
@@ -31,25 +31,14 @@
      id="defs8">
     <clipPath
        clipPathUnits="userSpaceOnUse"
-       id="clipPath38">
+       id="clipPath27">
       <rect
-         style="opacity:0.71;fill:#008080;stroke-width:0.994319"
-         id="rect40"
-         width="1437.0864"
-         height="152.0197"
-         x="0.76288277"
-         y="-37.373569" />
-    </clipPath>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath38-3">
-      <rect
-         style="opacity:0.71;fill:#008080;stroke-width:0.994319"
-         id="rect40-6"
-         width="1437.0864"
-         height="152.0197"
-         x="0.76288277"
-         y="-37.373569" />
+         style="opacity:0.61;fill:#ff00ff;stroke-width:0.527548"
+         id="rect29"
+         width="1411.3673"
+         height="83.343224"
+         x="-3.9653883"
+         y="-8.0000076" />
     </clipPath>
   </defs>
   <sodipodi:namedview
@@ -61,26 +50,30 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1864"
-     inkscape:window-height="1043"
+     inkscape:window-width="992"
+     inkscape:window-height="662"
      id="namedview6"
      showgrid="false"
-     inkscape:zoom="0.60447809"
-     inkscape:cx="671.62873"
-     inkscape:cy="376.86257"
-     inkscape:window-x="1976"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
+     inkscape:zoom="0.21371528"
+     inkscape:cx="620.26697"
+     inkscape:cy="-149.45449"
+     inkscape:window-x="2180"
+     inkscape:window-y="75"
+     inkscape:window-maximized="0"
      inkscape:current-layer="svg4"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0" />
-  <path
-     d="M -6.29544,0 C 241.246,107.908 533.911,155.456 1439.61,33.6121 1439.61,33.6121 1580,800 1508,754 1436,708 1424,652.774 1058,676 609.363,704.47 -76.816,736.189 -6.29544,625.655 Z"
-     fill="white"
-     id="path2"
-     style="fill:#ffffff"
-     clip-path="url(#clipPath38-3)"
-     transform="translate(-0.76288277)" />
+  <g
+     style="opacity:1;fill:#ffffff"
+     id="g23"
+     transform="translate(3.9653883)"
+     clip-path="url(#clipPath27)">
+    <path
+       d="M -5.96538,0 C 396,148 1300,-72 1492,76 c 0,0 107.32,662.248 35.32,617.081 -72,-45.167 -103,-114.123 -468.99,-91.317 C 609.691,629.719 -76.4857,660.864 -5.96538,552.33 Z"
+       fill="#ffffff"
+       id="path12"
+       style="fill:#ffffff" />
+  </g>
 </svg>
