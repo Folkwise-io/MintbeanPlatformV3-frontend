@@ -7,10 +7,9 @@ import { Container } from "../../components/blocks/Container";
 import { Stat } from "./Stat";
 
 // images
-import svgMintyBaconLgGradient from "../../../assets/images/backgrounds/minty-bacon-lg-gradient.svg";
+import svgMintyBaconLgGradient from "../../../assets/images/backgrounds/minty-bacon-lg-gradient.png";
 import svgWhiteCurvedYTop from "../../../assets/images/backgrounds/white-curved-y-top.svg";
 import svgWhiteCurvedYBottom from "../../../assets/images/backgrounds/white-curved-y-bottom.svg";
-import svgPartnerPillars from "../../../assets/images/figures/partner-pillars.svg";
 // TODO: remove once assets arrive
 import svgTEMPLogo from "../../../assets/images/tmp/LOGO.svg";
 
@@ -42,21 +41,27 @@ const pillars = [
   {
     name: "Awareness",
     text:
-      "Tap into a social media reach of more than 200,000+ developers, educators, employers. Create awareness in influential audiences.",
+      "Tap into our extended network of more than 200,000+ developers, educators. recruiters, hiring managers and employers across North America.",
   },
   {
     name: "Branding",
     text:
-      "Associate your brand with the energetic excitement of a week-long hackathon. Get recognized for sponsoring the BRIGHT fund.",
+      "Associate your brand with the energetic excitement of a week-long hackathon, amazing workshops and outstanding speakers.",
   },
   {
     name: "Repetition",
-    text: "Cement brand recall with up to 5 events per week that feature 30%+ repeat attendance rate.",
+    text:
+      "Build recall and familiarity by reaching your audience again and again. Expose your brand at up to 5 events per week that feature a 30%+ repeat attendance rate.",
   },
   {
     name: "Immersion",
     text:
-      "Nurture a hands-on relationship with developers through workshops and projects. Get involved in a thriving Discord community.",
+      "Put your product and your brand in developers' hands so they can get to know you better. Deliver hands-on experiences at a workshop or a hackathon.",
+  },
+  {
+    name: "Engagement",
+    text:
+      "Be relevant and involved in your audience's lives. Have meaningful conversations with a thriving community of thousands of developers.",
   },
 ];
 
@@ -71,6 +76,34 @@ const partnerLogos = [
   { logo: svgTEMPLogo, name: "Foo" },
   { logo: svgTEMPLogo, name: "Foo" },
 ];
+
+interface Pillar {
+  name: string;
+  text: string;
+}
+interface PartnerLogo {
+  name: string;
+  logo: string;
+}
+
+const pillarCard = (p: Pillar, index: number) => (
+  <div key={index} className="bg-black text-center shadow-lg py-2 px-4 m-2 rounded-md w-full sm:w-56">
+    <h2 className="text-3xl mb-2">{p.name}</h2>
+    <p className="font-regular">{p.text}</p>
+  </div>
+);
+
+const renderPillarCards = (pillars: Pillar[]) => (
+  <div className="text-white flex justify-center">
+    <div className="text-white flex flex-wrap justify-center">{pillars.map(pillarCard)}</div>
+  </div>
+);
+
+const partnerLogo = (l: PartnerLogo, index: number) => (
+  <div key={index} className="flex justify-center">
+    <img src={l.logo} alt={`${l.name} logo`} />
+  </div>
+);
 
 const Partners: FC = () => {
   return (
@@ -148,24 +181,10 @@ const Partners: FC = () => {
       <Container className="mx-auto ">
         <section className="my-12 ">
           <div className="text-center mb-8">
-            <H2>How we can help you</H2>
+            <H2 className="">How we can help you</H2>
             <p>Here is how we can help you evangelize your company’s message.</p>
           </div>
-          <div className="grid gap-2 gap-y-8 grid-cols-1 xs:grid-cols-2">
-            {pillars.map((pillar) => (
-              <div key={pillar.name} className="flex justify-center px-2 ">
-                <p className="mb-0 max-w-xs">
-                  <strong>{pillar.name}</strong> – {pillar.text}
-                </p>
-              </div>
-            ))}
-          </div>
-          <img
-            src={svgPartnerPillars}
-            className="mx-auto flex-grow mt-10"
-            style={{ maxHeight: "450px" }}
-            alt="Our four pillars supporting loyalty to your brand: Awareness, Branding, Repitition, Immersion "
-          />
+          {renderPillarCards(pillars)}
         </section>
 
         {/* Partner Contact Form start*/}
@@ -178,12 +197,8 @@ const Partners: FC = () => {
         <section>
           <div className="py-8">
             <p>Previous Sponsors & Partners</p>
-            <div className="max-w-screen-md mx-auto my-8 grid gap-2 gap-y-8 grid-cols-2  sm:grid-cols-3 md:grid-cols-4">
-              {partnerLogos.map(({ logo, name }, i) => (
-                <div key={i} className="flex justify-center">
-                  <img src={logo} alt={`${name} logo`} />
-                </div>
-              ))}
+            <div className="max-w-screen-md mx-auto my-8 grid gap-2 gap-y-8 grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
+              {partnerLogos.map(partnerLogo)}
             </div>
           </div>
         </section>
