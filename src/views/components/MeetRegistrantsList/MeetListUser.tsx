@@ -8,7 +8,7 @@ interface Props {
 export const MeetListUser: FC<Props> = ({ meetRegistrant }) => {
   const { firstName, lastName, createdAt } = meetRegistrant;
 
-  const fullName =`${firstName} ${lastName}`;
+  const fullName = `${firstName} ${lastName}`;
   const memberSince = new Date(createdAt).getFullYear();
 
   return (
