@@ -5,8 +5,3 @@ A summary of the change. If a fix, include the before/after behavior.
 ## Screenshots
 
 Visual representation of the change.
-
-## Checklist
-
-- [ ] **added documentation (if not, explain why)**
-- [ ] **added tests (if not, WHY NOT?!?)**
