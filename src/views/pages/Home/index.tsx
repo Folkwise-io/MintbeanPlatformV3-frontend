@@ -16,7 +16,6 @@ import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faSearch, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "../../components/blocks/Button";
-import { meetFactory } from "../../../../test/src/factories/meet.factory";
 
 interface StateMapping {
   user: UserState;
@@ -43,12 +42,16 @@ const Home: FC<StateMapping> = ({ user }) => {
     return chunked;
   };
 
+  const getMaxPages = (meets: Meet[]) => {
+    setMaxPages(Math.ceil(meets.length / 12));
+  };
+
   const fetchMeets = useCallback(async () => {
     setLoading(true);
     const fetchedMeets = await context.meetService.fetchMeets();
     setMeets(fetchedMeets || []);
-    if (fetchedMeets) {
-      setMaxPages(pagination(fetchedMeets, 12).length);
+    if (fetchedMeets && fetchedMeets.length > 12) {
+      getMaxPages(fetchedMeets);
     }
     setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -73,18 +76,22 @@ const Home: FC<StateMapping> = ({ user }) => {
     setPages(pages + 1);
   };
 
-  const filterMeets = (): Meet[] => {
+  const resetPages = () => {
+    console.log(maxPages);
+  };
+
+  const filterMeets = (meetsToFilter: Meet[]): Meet[] => {
     //filteredMeets default to all
-    let filteredMeets = meets;
+    let filteredMeets = [...meetsToFilter];
 
     //if not all but has datefilter
     if (dateFilter && dateFilter !== "all") {
       //&& is past
       if (dateFilter === "past") {
-        filteredMeets = meets.filter((m: Meet) => isPast(m.endTime, m.region));
+        filteredMeets = meetsToFilter.filter((m: Meet) => isPast(m.endTime, m.region));
       } else if (dateFilter === "upcoming") {
         //or upcoming
-        filteredMeets = meets.filter((m: Meet) => !isPast(m.endTime, m.region));
+        filteredMeets = meetsToFilter.filter((m: Meet) => !isPast(m.endTime, m.region));
       }
     }
 
@@ -114,7 +121,11 @@ const Home: FC<StateMapping> = ({ user }) => {
       }
     });
 
-    const chunkedMeets = pagination(filteredMeets, 12);
+    return getPages(filteredMeets);
+  };
+
+  const getPages = (meets: Meet[]): Meet[] => {
+    const chunkedMeets = pagination(meets, 12);
     const pagesToRender = chunkedMeets.slice(0, pages);
     return pagesToRender.reduce((a, b) => a.concat(b), []);
   };
@@ -124,7 +135,7 @@ const Home: FC<StateMapping> = ({ user }) => {
       return <p className="text-white">Loading...</p>;
     }
 
-    const filteredMeetArr = filterMeets();
+    const filteredMeetArr = filterMeets(meets);
 
     //save mapped meets
 
@@ -151,16 +162,19 @@ const Home: FC<StateMapping> = ({ user }) => {
 
   const handleMeetTypeChange = (e: ChangeEvent) => {
     const target = e.target as HTMLInputElement;
+    resetPages();
     setMeetType(target.value as MeetTypeEnum);
   };
 
   const handleSearchInputChange = (e: ChangeEvent) => {
     const target = e.target as HTMLInputElement;
+    resetPages();
     setSearchInput(target.value);
   };
 
   const handleDateFilterChange = (e: ChangeEvent) => {
     const target = e.target as HTMLInputElement;
+    resetPages();
     setDateFilter(target.value as MeetDate);
   };
 
