@@ -1,38 +1,16 @@
 import React, { FC } from "react";
 
 import { H1 } from "../../components/blocks/H1";
-import svgBaconLgGradient from "../../../assets/images/backgrounds/minty-bacon-lg-gradient.svg";
-import svgWhiteCurvedYTop from "../../../assets/images/backgrounds/white-curved-y-top.svg";
-import svgWhiteCurvedYBottom from "../../../assets/images/backgrounds/white-curved-y-bottom.svg";
 import { H2 } from "../../components/blocks/H2";
 import { PartnerContactFormEmailComponent } from "../../components/PartnerContactFormEmailComponent";
 import { Container } from "../../components/blocks/Container";
+import { Stat } from "./Stat";
 
-interface StatProps {
-  stat: string;
-  label: string;
-  centered?: boolean;
-  statColor?: "white" | "mint" | "current";
-  className?: string;
-}
-const Stat: FC<StatProps> = ({ stat, label, centered, statColor = "current", className = "" }) => {
-  const colorMap = {
-    white: "white",
-    mint: "mb-green-200",
-    current: "current",
-  };
-  const divClasses = `flex justify-center ${centered ? "text-center" : ""} ${className}`;
-  const statClasses = `text-4xl leading-8 font-semibold text-${colorMap[statColor]}`;
-  const labelClasses = `${centered ? "text-center" : ""} `;
-  return (
-    <div className={divClasses}>
-      <div style={{ maxWidth: "200px" }}>
-        <p className={statClasses}>{stat}</p>
-        <p className={labelClasses}>{label}</p>
-      </div>
-    </div>
-  );
-};
+// images
+import svgMintyBaconLgGradient from "../../../assets/images/backgrounds/minty-bacon-lg-gradient.svg";
+import svgWhiteCurvedYTop from "../../../assets/images/backgrounds/white-curved-y-top.svg";
+import svgWhiteCurvedYBottom from "../../../assets/images/backgrounds/white-curved-y-bottom.svg";
+import svgPartnerPillars from "../../../assets/images/figures/partner-pillars.svg";
 
 const topStats = [
   {
@@ -58,26 +36,48 @@ const communityStats = [
   { stat: "30%", label: "repeat attendance rate per event" },
 ];
 
+const pillars = [
+  {
+    name: "Awareness",
+    text:
+      "Tap into a social media reach of more than 200,000+ developers, educators, employers. Create awareness in influential audiences.",
+  },
+  {
+    name: "Branding",
+    text:
+      "Associate your brand with the energetic excitement of a week-long hackathon. Get recognized for sponsoring the BRIGHT fund.",
+  },
+  {
+    name: "Repetition",
+    text: "Cement brand recall with up to 5 events per week that feature 30%+ repeat attendance rate.",
+  },
+  {
+    name: "Immersion",
+    text:
+      "Nurture a hands-on relationship with developers through workshops and projects. Get involved in a thriving Discord community.",
+  },
+];
+
 const Partners: FC = () => {
   return (
     <div className="bg-mb-blue-250 min-h-screen pb-24">
       {/* Header start */}
       <div className="bg-mb-blue-500">
-        <div className="container max-w-screen-lg mx-auto">
+        <Container>
           <div className="pt-24 pb-10">
-            <H1 className="text-center mb-10">Not your typical hackathon.</H1>
-            <div className="flex flex-wrap w-full justify-center">
+            <H1 className="text-center mb-8">Not your typical hackathon.</H1>
+            <div className="flex flex-col items-start sm:flex-row flex-wrap w-full md:justify-center">
               {topStats.map(({ stat, label }, i) => (
-                <Stat key={i} statColor="white" stat={stat} label={label} className="mx-8" />
+                <Stat key={i} statColor="white" stat={stat} label={label} className="mx-8 my-2" />
               ))}
             </div>
           </div>
-        </div>
+        </Container>
       </div>
 
       {/* Stats 1 start */}
       <div className="w-full relative">
-        <img src={svgBaconLgGradient} alt="" className="w-full" />
+        <img src={svgMintyBaconLgGradient} alt="" className="w-full" />
       </div>
 
       {/* Text section start */}
@@ -86,9 +86,12 @@ const Partners: FC = () => {
         <p>
           Our vibrant and rapidly-growing hackathons and events attract developers from diverse backgrounds who are
           interested in cutting-edge JavaScript technologies like React, Typescript, GraphQL, ExpressJS, MongoDB and
-          more. Engineers come to our hackathons, workshops and events to connect with each other & learn new
-          technology. Our community is known to expose its members to the newest ground-breaking frameworks, libraries,
-          APIs and SDKs – often before they achieve breakout popularity.
+          more.
+        </p>
+        <p>
+          Engineers come to our hackathons, workshops and events to connect with each other & learn new technology. Our
+          community is known to expose its members to the newest ground-breaking frameworks, libraries, APIs and SDKs –
+          often before they achieve breakout popularity.
         </p>
 
         {/*Testimonials*/}
@@ -120,18 +123,30 @@ const Partners: FC = () => {
       </div>
       {/*  Start text section "Partner with Mintbean" */}
       <Container className="mx-auto ">
-        <div className="my-24 p-2 text-center">
-          <H2>Partner with Mintbean</H2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et nec feugiat at mauris leo nulla sapien. Egestas
-            id duis molestie orci, lorem viverra. Sit elit aliquam nullam mauris et ultricies tempus faucibus. Facilisis
-            tortor, lectus at senectus nunc, lectus dolor. Nunc, aliquam eget hac sit non a nunc quam tellus.
-            Suspendisse elit volutpat auctor dui proin malesuada pellentesque.
-          </p>
+        <div className="my-12 ">
+          <div className="text-center">
+            <H2>How we can help you</H2>
+            <p>Here is how we can help you evangelize your company’s message.</p>
+          </div>
+          <img
+            src={svgPartnerPillars}
+            className="mx-auto flex-grow"
+            style={{ maxHeight: "400px" }}
+            alt="Our four pillars supporting loyalty to your brand: Awareness, Branding, Repitition, Immersion "
+          />
+          <div className="grid gap-2 gap-y-8 grid-cols-1 xs:grid-cols-2">
+            {pillars.map((pillar) => (
+              <div key={pillar.name} className="flex justify-center px-2 ">
+                <p className="mb-0 max-w-xs">
+                  <strong>{pillar.name}</strong> – {pillar.text}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Contact form start*/}
-        <div className="my-24">
+        <div className="max-w-screen-md my-12 mx-auto">
           <PartnerContactFormEmailComponent />
         </div>
       </Container>
@@ -153,3 +168,26 @@ export default Partners;
 //      </div>
 //    </div>
 //  </div>;
+
+// <div className="flex justify-center">
+//   <div className="flex flex-col max-w-xs">
+//     <p>
+//       <strong>Awareness</strong> – Tap into a social media reach of more than 200,000+ developers, educators, employers.
+//       Create awareness in influential audiences.
+//     </p>
+//     <p>
+//       <strong>Branding</strong> – Associate your brand with the energetic excitement of a week-long hackathon. Get
+//       recognized for sponsoring the BRIGHT fund.
+//     </p>
+//   </div>
+
+//   <div className="flex flex-col max-w-xs">
+//     <p>
+//       <strong>Immersion</strong> – Nurture a hands-on relationship with developers through workshops and projects. Get
+//       involved in a thriving Discord community.
+//     </p>
+//     <p>
+//       <strong>Re</strong> – Cement brand recall with up to 5 events per week that feature 30%+ repeat attendance rate.
+//     </p>
+//   </div>
+// </div>;

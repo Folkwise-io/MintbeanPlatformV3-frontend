@@ -17,6 +17,9 @@
   body {
     @apply text-mb-black-500;
   }
+  p {
+    @apply mb-4;
+  }
 }
 
 html,

@@ -57,7 +57,7 @@ export const PartnerContactForm: FC<Props> = ({ handleData, disabled }) => {
         </legend>
         <div className="flex sm:justify-start my-2 flex-wrap">
           {options.map(({ value, label }, i) => (
-            <label key={i} className="flex flex-col items-center mx-2 text-center my-2" style={{ maxWidth: "100px" }}>
+            <label key={i} className="flex flex-col items-center text-center p-2 text-sm" style={{ maxWidth: "100px" }}>
               <input type="checkbox" value={value} name="partnershipGoals" ref={register} />
               {label}
             </label>
