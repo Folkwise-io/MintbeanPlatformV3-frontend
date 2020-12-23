@@ -1,5 +1,4 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
 import React, { ChangeEvent, FC, useContext, useRef, useState } from "react";
 import Select, { OptionTypeBase } from "react-select";
 import { Color, SketchPicker } from "react-color";
@@ -19,7 +18,7 @@ import { Form } from "../blocks/Form";
 import { FormValidationErrorMsg } from "../blocks/Form/FormValidationErrorMsg";
 import { Input } from "../blocks/Form/Input";
 import { TextArea } from "../blocks/Form/TextArea";
-import { badgeShapeOptions } from "./constants";
+import { availableIcons, badgeShapeOptions } from "./constants";
 import { BadgeShapeEnum } from "../../../types/enum";
 
 export const BadgeCreateForm: FC = () => {
@@ -32,14 +31,10 @@ export const BadgeCreateForm: FC = () => {
   const formRef = useRef<HTMLFormElement | null>(null);
   const history = useHistory();
 
-  // imports fas object from fontawesome and saves values
-  const fasObjectValues = Object.values(fas);
-  // formats into typed icon names
-  const fasIconNames: IconName[] = fasObjectValues.map(({ iconName }) => iconName);
+  const iconNames = availableIcons();
+
   // filter icons via search, done in this file so the value is available for form
-  const iconNamesFiltered = fasIconNames.filter(
-    (name) => name.includes(searchInput) && name !== "font-awesome-logo-full",
-  );
+  const iconNamesFiltered = iconNames.filter((name) => name.includes(searchInput) && name !== "font-awesome-logo-full");
 
   const handleIconSearchChange = (e: ChangeEvent): void => {
     const target = e.target as HTMLInputElement;
@@ -47,7 +42,7 @@ export const BadgeCreateForm: FC = () => {
   };
 
   // selected FA icon state
-  const [selectedIcon, setSelectedIcon] = useState(fasIconNames[0]);
+  const [selectedIcon, setSelectedIcon] = useState(iconNames[0]);
   // selected badge shape state
   const [selectedShape, setSelectedShape] = useState(badgeShapeOptions[0].value);
 

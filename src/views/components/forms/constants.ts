@@ -1,5 +1,7 @@
+import { fas, IconName } from "@fortawesome/free-solid-svg-icons";
 import { BadgeShapeEnum, MeetTypeEnum } from "../../../types/enum";
 import { Option } from "../blocks/Form/formTypes";
+import { faBean, faBeanhead } from "../faCustomIcons";
 
 export const meetTypeOptions: Option[] = [
   { value: MeetTypeEnum.Hackathon, label: "Hackathon" },
@@ -33,3 +35,15 @@ export const dateFilterOptions: Option[] = [
 export const meetTypeRegex = new RegExp(`^(${Object.values(MeetTypeEnum).join("|")})$`, "i");
 
 export const badgeShapeRegex = new RegExp(`^(${Object.values(BadgeShapeEnum).join("|")})$`, "i");
+
+export const availableIcons = (): IconName[] => {
+  // imports fas object from fontawesome and saves values
+  const fasObjectValues = Object.values(fas);
+  const customIconArr = [faBean, faBeanhead];
+
+  // formats into typed icon names
+  const fasIconNames: IconName[] = fasObjectValues.map(({ iconName }) => iconName);
+  const customIconNames: IconName[] = customIconArr.map(({ iconName }) => iconName);
+
+  return [...fasIconNames, ...customIconNames];
+};
