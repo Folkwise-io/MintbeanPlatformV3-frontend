@@ -293,6 +293,20 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       />
     ) : null;
 
+  const renderMeet = () => {
+    if (loading) {
+      return <div className="text-white h-screen-lg p-24 w-full mb-flex-centered">Loading...</div>;
+    }
+    return (
+      <>
+        <img className="object-contain bg-black w-full" src={meet?.coverImageUrl} alt={meet?.title} />
+        <div className="w-11/12 h-8 absolute top-mb-1 inset-x-0 flex justify-end">
+          {meet && <MeetType meetType={meet.meetType} isBordered />}
+        </div>
+      </>
+    );
+  };
+
   return (
     // body wrapper
     <>
@@ -302,18 +316,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
           <div className="bg-mb-green-100 top-mb-1 relative pb-8 rounded-b-mb-lg">
             <div className="bg-black top-mb-1n relative overflow-hidden rounded-b-mb-lg">
               <header className="flex flex-col items-center">
-                <div className="flex w-screen min-h-84 max-h-60vh bg-gray-800">
-                  {loading ? (
-                    <div className="text-white h-screen-lg p-24 w-full mb-flex-centered">Loading...</div>
-                  ) : (
-                    <>
-                      <img className="object-contain bg-black w-full" src={meet?.coverImageUrl} alt={meet?.title} />
-                      <div className="w-11/12 h-8 absolute top-mb-1 inset-x-0 flex justify-end">
-                        {meet && <MeetType meetType={meet.meetType} isBordered />}
-                      </div>
-                    </>
-                  )}
-                </div>
+                <div className="flex w-screen min-h-84 max-h-60vh bg-gray-800">{renderMeet()}</div>
               </header>
             </div>
           </div>

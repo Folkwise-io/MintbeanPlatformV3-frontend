@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Button } from "../blocks/Button";
 import { ExternalLink } from "../ExternalLink";
-import DiscordIcon from "./DiscordIcon";
+import { DiscordIcon } from "./DiscordIcon";
 
 type DiscordButton = {
   text: string;
@@ -11,7 +11,7 @@ type Props = {
   button: DiscordButton;
 };
 
-const DiscordButton: FC<Props> = ({ button }) => {
+export const DiscordButton: FC<Props> = ({ button }) => {
   const { text } = button;
   return (
     <div className="bg-black text-white row-span-2 px-2 py-3 rounded-lg shadow-mb-drop-center-sm w-68 flex items-center justify-center">
@@ -27,5 +27,3 @@ const DiscordButton: FC<Props> = ({ button }) => {
     </div>
   );
 };
-
-export default DiscordButton;
