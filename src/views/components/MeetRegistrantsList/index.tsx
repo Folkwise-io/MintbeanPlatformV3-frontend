@@ -51,7 +51,7 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
           </div>
           <div className="overflow-y-scroll scrollbar h-96">
             {meetRegistrants.map((r: RegistrantsForMeet) => {
-              return <MeetListUser meetRegistrant={r} />;
+              return <MeetListUser key={r.id} meetRegistrant={r} />;
             })}
           </div>
         </div>
