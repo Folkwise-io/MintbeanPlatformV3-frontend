@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react";
 import greyProfilePic from "../../../assets/images/logos/grey-profile-pic.svg";
-import test from "../../../assets/images/logos/Test-Pic.svg";
 import { MeetListUser } from "./MeetListUser";
 
 interface Props {
@@ -27,20 +26,13 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
           <div className="flex justify-between items-center w-2/5 h-auto">
             <div className="flex h-8">
               {meetRegistrants.slice(0, 3).map((registrant: RegistrantsForMeet, i: number) => {
-                if (i === 0) {
-                  return (
-                    <div key={registrant.createdAt} className="w-6 overflow-visible">
-                      <img src={greyProfilePic} className="w-8 absolute" />
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div key={registrant.createdAt} className="w-6 overflow-visible">
-                      <img src={test} className="w-8 absolute" />
-                    </div>
-                  );
-                }
+                return (
+                  <div key={`${registrant.id} avatar`} className="w-6 overflow-visible">
+                    <img src={greyProfilePic} className="w-8 absolute" />
+                  </div>
+                );
               })}
+              )
             </div>
             <p className="text-white font-bold">{meetRegistrants.length} Attendees</p>
           </div>
@@ -62,22 +54,15 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
           <div className="flex justify-between items-center w-2/5 h-auto">
             <div className="flex h-8">
               {meetRegistrants.slice(0, 3).map((registrant: RegistrantsForMeet, i: number) => {
-                if (i === 0) {
-                  return (
-                    <div className="w-6 overflow-visible">
-                      <img src={greyProfilePic} className="w-8 absolute" />
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div className="w-6 overflow-visible">
-                      <img src={test} className="w-8 absolute" />
-                    </div>
-                  );
-                }
+                return (
+                  <div key={`${registrant.id} avatar`} className="w-6 overflow-visible">
+                    <img src={greyProfilePic} className="w-8 absolute" />
+                  </div>
+                );
               })}
+              )
             </div>
-            <p className="text-white">{meetRegistrants.length} Attendees</p>
+            <p className="text-white font-bold">{meetRegistrants.length} Attendees</p>
           </div>
           <p onClick={switchExpansion} className="text-mb-green-200 cursor-pointer hover:underline">
             Show All
