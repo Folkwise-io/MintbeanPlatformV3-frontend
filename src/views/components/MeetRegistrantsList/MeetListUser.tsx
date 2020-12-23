@@ -13,8 +13,8 @@ export const MeetListUser: FC<Props> = ({ meetRegistrant }) => {
         <p className="text-mb-blue-300 font-bold">
           {meetRegistrant.firstName} {meetRegistrant.lastName}
         </p>
-        <p className="text-white font-light">Member since 2020</p>
+        <p className="text-white font-light">Member since {meetRegistrant.createdAt.split("-")[0]}</p>
       </div>
     </div>
   );
-} 
+};
