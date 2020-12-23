@@ -110,12 +110,15 @@ const Partners: FC = () => {
         </section>
 
         {/* Testimonials start */}
+        {/* TODO */}
+        {/*  
         <section>
           <div className="bg-white mt-24 mx-auto" style={{ width: "60%", height: "300px" }}>
             {" "}
             TESTIMONIAL TODO
           </div>
         </section>
+        */}
       </Container>
       {/* Community stats start */}
       <section>
@@ -190,39 +193,3 @@ const Partners: FC = () => {
 };
 
 export default Partners;
-
-// first attempt at header with svg bg image
-
-//  <div
-//    className="sm:bg-contain sm:bg-top w-full h-full bg-minty-bg-sm bg-cover bg-center bg-no-repeat"
-//    style={{ minHeight: "1000px" }}
-//  >
-//    <div className="container max-w-screen-md mx-auto">
-//      <div className="py-6">
-//        <H1 className="text-center text-shadow-lg">Become a Mintbean Partner</H1>
-//      </div>
-//    </div>
-//  </div>;
-
-// <div className="flex justify-center">
-//   <div className="flex flex-col max-w-xs">
-//     <p>
-//       <strong>Awareness</strong> – Tap into a social media reach of more than 200,000+ developers, educators, employers.
-//       Create awareness in influential audiences.
-//     </p>
-//     <p>
-//       <strong>Branding</strong> – Associate your brand with the energetic excitement of a week-long hackathon. Get
-//       recognized for sponsoring the BRIGHT fund.
-//     </p>
-//   </div>
-
-//   <div className="flex flex-col max-w-xs">
-//     <p>
-//       <strong>Immersion</strong> – Nurture a hands-on relationship with developers through workshops and projects. Get
-//       involved in a thriving Discord community.
-//     </p>
-//     <p>
-//       <strong>Re</strong> – Cement brand recall with up to 5 events per week that feature 30%+ repeat attendance rate.
-//     </p>
-//   </div>
-// </div>;
