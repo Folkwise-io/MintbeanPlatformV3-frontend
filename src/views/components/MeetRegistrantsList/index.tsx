@@ -8,19 +8,19 @@ interface Props {
 }
 
 export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
-  const [visible, setVisible] = useState<boolean>(true);
+  const [expanded, setExpanded] = useState<boolean>(true);
 
   let containerView;
 
-  const switchVisibility = () => {
-    if (visible) {
-      setVisible(false);
+  const switchExpansion = () => {
+    if (expanded) {
+      setExpanded(false);
     } else {
-      setVisible(true);
+      setExpanded(true);
     }
   };
 
-  if (visible) {
+  if (expanded) {
     containerView = (
       <div className="bg-mb-green-200 min-w-lg min-h-screen flex justify-center items-center">
         <div className="flex flex-col justify-between bg-black min-w-lg rounded-lg max-h-32 p-4">
@@ -45,7 +45,7 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
               </div>
               <p className="text-white font-bold">{meetRegistrants.length} Attendees</p>
             </div>
-            <p onClick={switchVisibility} className="text-mb-green-200 cursor-pointer hover:underline">
+            <p onClick={switchExpansion} className="text-mb-green-200 cursor-pointer hover:underline">
               Hide All
             </p>
           </div>
@@ -82,7 +82,7 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
               </div>
               <p className="text-white">{meetRegistrants.length} Attendees</p>
             </div>
-            <p onClick={switchVisibility} className="text-mb-green-200 cursor-pointer hover:underline">
+            <p onClick={switchExpansion} className="text-mb-green-200 cursor-pointer hover:underline">
               Show All
             </p>
           </div>
