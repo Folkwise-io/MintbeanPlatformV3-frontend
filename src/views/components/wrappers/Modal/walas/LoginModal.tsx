@@ -16,6 +16,7 @@ interface Props {
   buttonStyle?: "secondary" | "override";
   placement?: Placement;
   hasRelativeParent?: boolean;
+  onResponse?: () => void;
 }
 
 type DispatchMapping = {
@@ -33,6 +34,7 @@ const LoginModal: FC<Props & DispatchMapping> = ({
   buttonStyle = "secondary",
   placement = "bottom",
   hasRelativeParent = false,
+  onResponse,
 }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -50,9 +52,17 @@ const LoginModal: FC<Props & DispatchMapping> = ({
     },
   ];
 
+  const attemptLogin = async (values: LoginArgs): Promise<void> => {
+    await login(values);
+    if (onResponse) {
+      onResponse();
+    }
+  };
+
   return (
     <>
       <Modal
+        isDetached
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
           <Button onClick={toggleModal} forwardRef={(el) => setRef(el)} className={className} buttonStyle={buttonStyle}>
@@ -62,7 +72,7 @@ const LoginModal: FC<Props & DispatchMapping> = ({
         placement={placement}
         hasRelativeParent={hasRelativeParent}
       >
-        <LoginForm formRef={formRef} login={(values: LoginArgs) => login(values)} />
+        <LoginForm formRef={formRef} login={(values: LoginArgs) => attemptLogin(values)} />
       </Modal>
     </>
   );

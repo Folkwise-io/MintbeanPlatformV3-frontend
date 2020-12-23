@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { BgBlock } from "../../components/BgBlock";
 import { DiscordCard } from "./CommunityDiscordCard";
 import { InfoSection } from "./CommunityInfoSection";
 import { Pillars } from "./CommunityPillars";
@@ -44,25 +43,31 @@ export const Main: FC<Props> = ({ main }) => {
     ],
   };
   const { title, tagline, body } = main;
+
+  const gradient = "bg-gradient-to-b from-mb-blue-300 to-mb-green-200";
+
   return (
-    <div>
-      <div className="w-full overflow-hidden pb-8">
-        <BgBlock type="blackStripe">
-          <BgBlock type="grad">
-            <BgBlock>
-              <div>
-                <div className="col-span-3 pt-10 md:py-20 text-center md:text-left">
-                  <h1 className="text-4xl md:text-5xl font-bold leading-tight">{title}</h1>
-                  <h3 className="text-lg md:text-xl py-2">{tagline}</h3>
-                  <p className="text-sm tracking-wide leading-loose whitespace-pre-line">{body}</p>
-                </div>
+    <div className="w-full overflow-hidden mb-8 shadow-mb-outline-darkgreen bg-mb-blue-300 pb-8 rounded-b-mb-lg">
+      <div className="bg-black top-mb-1n relative rounded-b-mb-lg">
+        <div className={"rounded-b-mb-lg " + gradient}>
+          <div className="shadow-mb-outline-green bg-white top-mb-1 relative pb-8 rounded-b-mb-lg">
+            <div
+              className={
+                "rounded-b-mb-lg flex flex-col justify-center md:items-center md:flex-row px-auto xs:px-6 md:px-12 lg:px-24 gap-16 top-mb-1n relative " +
+                gradient
+              }
+            >
+              <div className="col-span-3 pt-10 md:py-20 text-center md:text-left">
+                <h1 className="text-4xl md:text-5xl font-bold leading-tight">{title}</h1>
+                <h3 className="text-lg md:text-xl py-2">{tagline}</h3>
+                <p className="text-sm tracking-wide leading-loose whitespace-pre-line">{body}</p>
               </div>
               <DiscordCard discord={discordArgs} />
-            </BgBlock>
-            <InfoSection section={sectionArgs} />
-          </BgBlock>
-          <Pillars pillars={pillarArgs} />
-        </BgBlock>
+            </div>
+          </div>
+          <InfoSection section={sectionArgs} />
+        </div>
+        <Pillars pillars={pillarArgs} />
       </div>
     </div>
   );
