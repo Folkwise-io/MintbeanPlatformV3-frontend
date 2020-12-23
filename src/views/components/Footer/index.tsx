@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import SocialLinks from "../SocialLinks";
-import DiscordButton from "./DiscordButton";
+import { DiscordButton } from "./DiscordButton";
 
 interface LinkInput {
   label: string;

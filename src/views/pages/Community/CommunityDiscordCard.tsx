@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import DiscordIcon from "../../components/Footer/DiscordIcon";
+import { DiscordIcon } from "../../components/Footer/DiscordIcon";
 import { ExternalLink } from "../../components/ExternalLink";
 import { Button } from "../../components/blocks/Button";
 
