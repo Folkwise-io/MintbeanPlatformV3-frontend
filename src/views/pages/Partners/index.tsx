@@ -93,10 +93,10 @@ const Partners: FC = () => {
           <img src={svgMintyBaconLgGradient} alt="" className="w-full" />
         </div>
       </section>
-      {/* "Why JavaScript developers loves us" start */}
+      {/* "Why JavaScript developers love us" start */}
       <Container className="mt-12">
         <section>
-          <H2 className="text-center">Why JavaScript developers loves us.</H2>
+          <H2 className="text-center">Why JavaScript developers love us.</H2>
           <p>
             Our vibrant and rapidly-growing hackathons and events attract developers from diverse backgrounds who are
             interested in cutting-edge JavaScript technologies like React, Typescript, GraphQL, ExpressJS, MongoDB and
@@ -109,7 +109,7 @@ const Partners: FC = () => {
           </p>
         </section>
 
-        {/*Testimonials*/}
+        {/* Testimonials start */}
         <section>
           <div className="bg-white mt-24 mx-auto" style={{ width: "60%", height: "300px" }}>
             {" "}
@@ -117,21 +117,23 @@ const Partners: FC = () => {
           </div>
         </section>
       </Container>
-      {/* Curvy white div start*/}
+      {/* Community stats start */}
       <section>
-        <div className="bg-mb-blue-250 my-12 py-8">
+        <div className="bg-mb-blue-250 my-12">
           <div>
             <div className="w-full relative">
               <img src={svgWhiteCurvedYTop} alt="" className="w-full relative" style={{ top: 2 }} />
             </div>
             <div className="bg-white text-center mx-auto py-16">
-              <H2>A snapshot of our community</H2>
+              <Container>
+                <H2>A snapshot of our community</H2>
 
-              <div className="mt-10 grid gap-2 gap-y-8 grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 px-2 max-w-screen-md mx-auto">
-                {communityStats.map((item, i) => (
-                  <Stat key={i} statColor="mint" stat={item.stat} label={item.label} className="px-4" centered />
-                ))}
-              </div>
+                <div className="mt-10 grid gap-2 gap-y-8 grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 px-2 max-w-screen-md mx-auto">
+                  {communityStats.map((item, i) => (
+                    <Stat key={i} statColor="mint" stat={item.stat} label={item.label} className="px-4" centered />
+                  ))}
+                </div>
+              </Container>
             </div>
             <div className="w-full relative">
               <img src={svgWhiteCurvedYBottom} alt="" className="w-full relative" style={{ top: -2 }} />
@@ -139,19 +141,13 @@ const Partners: FC = () => {
           </div>
         </div>
       </section>
-      {/*  Start text section "Partner with Mintbean" */}
+      {/* "How we can help you" start */}
       <Container className="mx-auto ">
         <section className="my-12 ">
-          <div className="text-center">
+          <div className="text-center mb-8">
             <H2>How we can help you</H2>
             <p>Here is how we can help you evangelize your company’s message.</p>
           </div>
-          <img
-            src={svgPartnerPillars}
-            className="mx-auto flex-grow"
-            style={{ maxHeight: "450px" }}
-            alt="Our four pillars supporting loyalty to your brand: Awareness, Branding, Repitition, Immersion "
-          />
           <div className="grid gap-2 gap-y-8 grid-cols-1 xs:grid-cols-2">
             {pillars.map((pillar) => (
               <div key={pillar.name} className="flex justify-center px-2 ">
@@ -161,15 +157,21 @@ const Partners: FC = () => {
               </div>
             ))}
           </div>
+          <img
+            src={svgPartnerPillars}
+            className="mx-auto flex-grow mt-10"
+            style={{ maxHeight: "450px" }}
+            alt="Our four pillars supporting loyalty to your brand: Awareness, Branding, Repitition, Immersion "
+          />
         </section>
 
-        {/* Contact form start*/}
+        {/* Partner Contact Form start*/}
         <section>
           <div className="max-w-screen-md my-12 mx-auto">
             <PartnerContactFormEmailComponent />
           </div>
         </section>
-        {/* Previews sponors and partners logos */}
+        {/* Partner logos start */}
         <section>
           <div className="py-8">
             <p>Previous Sponsors & Partners</p>
