@@ -22,7 +22,6 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
 
   if (expanded) {
     containerView = (
-      <div className="bg-mb-green-200 min-w-lg min-h-screen flex justify-center items-center">
         <div className="flex flex-col justify-between bg-black min-w-lg rounded-lg max-h-32 p-4">
           <div className="flex justify-between mb-6">
             <div className="flex justify-between items-center w-2/5 h-auto">
@@ -55,11 +54,9 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
             })}
           </div>
         </div>
-      </div>
     );
   } else {
     containerView = (
-      <div className="bg-mb-green-200 min-w-lg min-h-screen flex justify-center items-center">
         <div className="flex flex-col justify-between bg-black min-w-lg rounded-lg max-h-32 p-4">
           <div className="flex justify-between">
             <div className="flex justify-between items-center w-2/5 h-auto">
@@ -87,7 +84,6 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
             </p>
           </div>
         </div>
-      </div>
     );
   }
 
