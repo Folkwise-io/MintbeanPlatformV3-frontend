@@ -5,7 +5,7 @@ import { useIntercom } from "react-use-intercom";
 
 import { Context } from "../../context/contextBuilder";
 
-import { Footer } from "../components/Footer/Footer";
+import Footer from "../components/Footer";
 import { me } from "../state/actions/authActions";
 import { MbAction } from "../state/actions/MbAction";
 import Navbar from "../components/Navbar";
@@ -14,11 +14,6 @@ import BurgerMenu from "../components/Navbar/BurgerMenu";
 type StateMapping = {
   toasts: ToastState;
   user: UserState;
-};
-
-const footerArgs = {
-  footerNav: ["Home", "Meets", "Terms of Service", "Privacy Policy"],
-  links: ["/", "/meets", "/terms-of-service", "/privacy-policy"],
 };
 
 const stp = (state: StoreState) => ({
@@ -83,16 +78,13 @@ const GlobalLayout: FC<StateMapping & DispatchMapping> = ({ user, me, children }
   }, [user]);
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <section className="md:hidden">
         <BurgerMenu />
       </section>
       <Navbar />
-      <div className="min-h-screen max-w-screen overflow-x-hidden ">
-        <div>{children}</div>
-        <div className="h-96 md:h-72 lg:h-56"></div>
-      </div>
-      <Footer footer={footerArgs} />
+      <div className="max-w-screen flex-grow flex flex-col">{children}</div>
+      <Footer />
     </div>
   );
 };
