@@ -13,9 +13,10 @@ type MeetProps = {
   meet: Meet;
   user?: User;
   onDelete: () => Promise<void>;
+  semiOpaqueLabels?: boolean;
 };
 
-export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
+export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete, semiOpaqueLabels = false }) => {
   const { id, title, description, endTime, registerLinkStatus, startTime, coverImageUrl, region, meetType } = meet;
 
   const endTimeStr = wcToClientStr(endTime, region);
@@ -40,16 +41,27 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete }) => {
   description.length > 161 ? (descriptionStr = descriptionStr + "...") : descriptionStr;
 
   const getMeetCardWrapperClasses = () => {
-    const classes = "shadow-xl bg-black overflow-hidden rounded-lg flex flex-col";
+    let classes = "shadow-xl bg-black overflow-hidden rounded-lg flex flex-col";
+    if (semiOpaqueLabels) {
+      classes += " relative";
+    }
     if (meetType !== MeetTypeEnum.Hackathon) {
       return classes;
     }
     return classes + " border-solid border-mb-green-200 border-2";
   };
 
+  const getLinkClasses = () => {
+    const classes = "grid h-64 text-black flex-grow";
+    if (semiOpaqueLabels) {
+      return classes + " grid-rows-meetCard";
+    }
+    return classes;
+  };
+
   return (
     <div className={getMeetCardWrapperClasses()}>
-      <Link to={`/meets/${id}`} className="grid grid-rows-meetCard h-64 text-black flex-grow">
+      <Link to={`/meets/${id}`} className={getLinkClasses()}>
         <p className="font-light text-xs truncate mt-auto mb-1 mx-2 text-white">
           <FontAwesomeIcon icon={faClock} className="mr-2" />
           {renderDate()}
