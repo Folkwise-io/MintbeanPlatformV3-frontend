@@ -183,7 +183,7 @@ const Home: FC<StateMapping> = ({ user }) => {
   const textInputStyles =
     commonInputStyles + " text-sm w-full border-mb-green-400 opacity-100 placeholder-opacity-100 placeholder-white";
   const selectInputStyles =
-    commonInputStyles + " text-xs w-3/4 font-semibold text-mb-blue-300 border-mb-blue-300 appearance-none";
+    commonInputStyles + " mx-1 text-xs w-3/4 font-semibold text-mb-blue-300 border-mb-blue-300 appearance-none";
   const selectWrapperStyles = "col-span-2 flex justify-end relative";
 
   const renderInputIcon = (icon: IconDefinition, className?: string, isTransparent?: boolean) => {
@@ -207,9 +207,9 @@ const Home: FC<StateMapping> = ({ user }) => {
       <div className="w-4/5 mx-auto">
         <header className="grid grid-cols-7 gap-8">
           {/* header image */}
-          <div className=" h-68 col-span-5 grid place-items-center object-contain bg-mb-black-500 bg-callToAction bg-repeat-x bg-contain border-solid border-mb-gray-400 border-2 rounded-lg"></div>
-          <div className="col-span-2 flex flex-col gap-4 items-start pt-6">
-            <H1 className="text-white flex flex-col leading-tight">
+          <div className="hidden h-68 col-span-5 sm:grid place-items-center object-contain bg-mb-black-500 bg-callToAction bg-repeat-x bg-contain border-solid border-mb-gray-400 border-2 rounded-lg"></div>
+          <div className="col-span-7 sm:col-span-2 flex flex-col gap-4 items-center sm:items-start pt-6">
+            <H1 className="text-white flex flex-col text-center sm:text-left leading-tight">
               <span>Events for</span>
               <span>Developers,</span>
               <span>by Developers</span>
@@ -224,8 +224,8 @@ const Home: FC<StateMapping> = ({ user }) => {
         </header>
         <section className="max-w-7xl mx-auto flex flex-col items-center pt-8 pb-24">
           <fieldset className="w-full bg-black text-white rounded-lg mt-2 mb-12 py-4">
-            <div className="w-11/12 mx-auto grid grid-cols-9">
-              <div className="col-span-5 relative">
+            <div className="w-11/12 mx-auto flex flex-wrap md:grid md:grid-cols-9">
+              <div className="col-span-5 relative flex-grow">
                 <Input
                   type="text"
                   label="Search meets"
@@ -244,6 +244,9 @@ const Home: FC<StateMapping> = ({ user }) => {
                   options={meetTypeFilterOptions}
                   onChange={handleMeetTypeChange}
                   className={selectInputStyles}
+                  style={{
+                    minWidth: "7.5rem",
+                  }}
                   srOnly
                 />
                 {renderInputIcon(faCaretDown, "text-mb-blue-300")}
@@ -255,13 +258,18 @@ const Home: FC<StateMapping> = ({ user }) => {
                   options={dateFilterOptions}
                   onChange={handleDateFilterChange}
                   className={selectInputStyles}
+                  style={{
+                    minWidth: "7.5rem",
+                  }}
                   srOnly
                 />
                 {renderInputIcon(faCaretDown, "text-mb-blue-300")}
               </div>
             </div>
           </fieldset>
-          <div className="grid grid-cols-2 md:grid-cols-4 row-auto gap-8 mb-8">{renderMeets()}</div>
+          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 row-auto gap-8 mb-8">
+            {renderMeets()}
+          </div>
           {pages < maxPages && <Button onClick={increasePage}>Load more</Button>}
         </section>
       </div>
