@@ -139,6 +139,13 @@ interface UpdateCardPositionInput {
   index: number;
 }
 
+interface PartnerContactFormInput {
+  fullName: string;
+  email: string;
+  partnershipGoals: string[];
+  message: string;
+}
+
 // API -----------------------
 interface ApiResponseRaw<T> {
   data: T;

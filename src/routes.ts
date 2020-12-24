@@ -11,6 +11,7 @@ import {
   CreateBadge,
   Badges,
   BadgeTemplate,
+  Partners,
 } from "./views/pages";
 
 interface RouteConfig {
@@ -46,6 +47,11 @@ export const routes: RouteConfig[] = [
     component: Community,
     exact: true,
     path: "/community",
+  },
+  {
+    component: Partners,
+    exact: true,
+    path: "/partners",
   },
   {
     component: Admin,

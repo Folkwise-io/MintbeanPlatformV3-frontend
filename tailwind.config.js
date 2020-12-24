@@ -8,6 +8,11 @@ module.exports = {
   },
   purge: [],
   theme: {
+    truncate: {
+      lines: {
+        2: "2",
+      },
+    },
     screens: {
       xs: "400px",
       ...screens,
@@ -73,11 +78,15 @@ module.exports = {
         "mb-green-500": "#5EF4D6",
         "mb-blue-100": "#EBF8FF",
         "mb-blue-200": "#00A4DA",
+        "mb-blue-250": "#01C1CF",
         "mb-blue-300": "#03B1FE",
+        "mb-blue-500": "#1fa4da",
+        "mb-blue-600": "#32a9c7",
         "mb-purple-000": "#E8B2F1",
         "mb-purple-100": "#5C1FD6",
         "mb-black-500": "#09090b",
       },
+
       boxShadow: {
         "mb-outline": "0 0 0 2px #ffffff;",
         "mb-outline-lg": "0 0 0 6px #ffffff;",
@@ -137,6 +146,7 @@ module.exports = {
     textColor: ({ after }) => after(["group-hover", "focus-within"]),
   },
   plugins: [
+    require("tailwindcss-truncate-multiline")(),
     plugin(function ({ addComponents }) {
       const components = {
         ".mb-transition": {

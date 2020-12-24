@@ -95,7 +95,12 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete, semiOpaqueLabels
           )}
         </div>
         <div className={getContentsWrapperClasses()}>
-          <h2 className="text-md font-medium mt-2 mx-2 text-mb-green-200 leading-tight">{title}</h2>
+          <h2
+            className="text-md font-medium mt-2 mx-2 text-mb-green-200 leading-tight truncate-2-lines"
+            style={{ lineHeight: "1.35rem" }}
+          >
+            {title}
+          </h2>
           <p className="text-white text-xs mx-2">{capitalizedString(meetType)}</p>
         </div>
       </Link>

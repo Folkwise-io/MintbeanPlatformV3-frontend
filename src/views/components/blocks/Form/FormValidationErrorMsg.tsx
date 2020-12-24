@@ -1,9 +1,16 @@
 import React, { FC } from "react";
+import { appendOptionalClasses } from "../../../utils/appendOptionalClasses";
 
 interface Props {
   errorMessage?: string;
+  withBackground?: boolean;
 }
-export const FormValidationErrorMsg: FC<Props> = ({ errorMessage }) => {
+export const FormValidationErrorMsg: FC<Props> = ({ errorMessage, withBackground }) => {
   if (!errorMessage) return null;
-  return <p className="text-red-500">{errorMessage}</p>;
+
+  const baseClasses = "text-red-500 mb-1";
+  const optionalClasses = withBackground ? "bg-white opacity-75 rounded" : "";
+  const classes = appendOptionalClasses(baseClasses, optionalClasses);
+
+  return <p className={classes}>{errorMessage}</p>;
 };

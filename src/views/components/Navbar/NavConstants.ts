@@ -12,6 +12,10 @@ export const NAV_LINKS: LinkInput[] = [
     label: "Community",
     route: "/community",
   },
+  {
+    label: "Become a Partner",
+    route: "/partners",
+  },
 ];
 
 export const NAV_ADMIN_LINKS: LinkInput[] = [

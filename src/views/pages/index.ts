@@ -1,5 +1,6 @@
 export { default as Home } from "./Home";
 export { default as Community } from "./Community";
+export { default as Partners } from "./Partners";
 export { default as TermsOfService } from "./Legal/TermsOfService";
 export { default as PrivacyPolicy } from "./Legal/PrivacyPolicy";
 export { default as Meet } from "./templates/Meet";

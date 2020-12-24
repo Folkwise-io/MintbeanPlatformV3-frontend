@@ -5,6 +5,7 @@ import { TextAreaProps } from "./formTypes";
 
 interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
+  isRequired?: boolean;
   label: string;
   name: string;
   srOnly?: boolean;
@@ -15,19 +16,13 @@ export const TextArea = React.forwardRef<TextAreaProps, Props>(function textarea
   { className, name, label, srOnly = false, ...rest },
   passedRef,
 ) {
-  const { itemSpacing, inputStyles } = formConstants;
-  const baseClasses = [itemSpacing, inputStyles].join(" ");
+  const { itemSpacing, inputStyles, labelStyles } = formConstants;
+  const baseClasses = [itemSpacing, inputStyles, labelStyles, "whitespace-pre-wrap"].join(" ");
   const classes = appendOptionalClasses(baseClasses, className);
-
-  let labelClasses = "";
-
-  if (srOnly) {
-    labelClasses = "sr-only";
-  }
 
   return (
     <>
-      <label className={labelClasses} htmlFor={name}>
+      <label className={labelStyles + ` ${srOnly ? "sr-only" : ""}`} htmlFor={name}>
         {label}
       </label>
       <textarea {...rest} name={name} ref={passedRef || null} className={classes} />
