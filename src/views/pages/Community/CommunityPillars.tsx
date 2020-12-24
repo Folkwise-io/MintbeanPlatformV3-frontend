@@ -26,8 +26,8 @@ export const Pillars: FC<Props> = ({ pillars }) => {
           </div>
           <div className="row-span-1 grid grid-rows-7 place-items-center md:mb-10">
             <h2 className="text-3xl font-semibold">{item}.</h2>
-            <p className="text-sm opacity-75 row-span-3">{paragraph1[index]}</p>
-            <p className="text-sm text-mb-green-200 opacity-75 row-span-3">{paragraph2[index]}</p>
+            <p className="text-sm opacity-75 row-span-3 mb-0">{paragraph1[index]}</p>
+            <p className="text-sm text-mb-green-200 opacity-75 row-span-3 mb-0">{paragraph2[index]}</p>
           </div>
         </li>
       ))}
