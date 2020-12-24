@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import svgDefaultAvatar from "../../assets/images/logos/grey-profile-pic.svg";
+import svgDefaultAvatar from "../../assets/images/avatar/beanHeadDark.svg";
 
 type AvatarSizes = "xs" | "sm";
 
