@@ -15,6 +15,8 @@ import { Button } from "../../../components/blocks/Button";
 import { capitalize } from "../../../utils/capitalize";
 import { ImagePlaceholderContainer } from "./ImagePlaceholderContainer";
 import { AdminMeetEditModal } from "../../../components/wrappers/Modal/walas/AdminMeetEditModal";
+import { isPast } from "../../../../utils/DateUtility";
+import { MeetTypeEnum } from "../../../../types/enum";
 
 const meetReg = new MeetRegistration();
 
@@ -30,6 +32,10 @@ interface MatchParams {
   id: string;
 }
 
+const getWorkspacePath = (meetId: string): string => {
+  return `/workspaces/${meetId}`;
+};
+
 const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userState, match }) => {
   const context = useContext<Context>(MbContext);
   const {
@@ -40,6 +46,10 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const user = userState.data;
   const isLoggedIn = !!user;
   const isAdmin = user?.isAdmin || false;
+  const isRegistered = meet ? meetReg.isRegistered(meet.registrants, user) : false;
+
+  const meetHasStarted = meet ? isPast(meet.startTime, meet.region) : false;
+  const meetHasEnded = meet ? isPast(meet?.endTime, meet.region) : false;
 
   const fetchMeetData = useCallback(async () => {
     setLoading(true);
@@ -75,7 +85,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
 
   const renderRegisterButton = () => {
     if (!meet) return null;
-    const isRegistered = meetReg.isRegistered(meet.registrants, user);
+
     return (
       <>
         {!isLoggedIn && <small className="block mb-1">Log in or sign up to join!</small>}
@@ -90,18 +100,35 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       </>
     );
   };
+
   const renderAdminEditMeetButton = () => {
     if (!meet) return null;
-    return <AdminMeetEditModal buttonText="Edit meet" meet={meet} />;
+    return <AdminMeetEditModal buttonText="Edit meet" className="my-1" meet={meet} />;
+  };
+
+  const renderGoToWorkspaceButton = () => {
+    if (meet) {
+      const meetUsesWorkspace = meet.meetType === MeetTypeEnum.Hackathon;
+      if (isAdmin || (isLoggedIn && isRegistered && meetUsesWorkspace)) {
+        return (
+          <Link to={getWorkspacePath(meet.id)} className="w-full my-1">
+            <Button buttonStyle="minty" className="w-full">
+              Go to workspace
+            </Button>
+          </Link>
+        );
+      }
+    }
   };
 
   const renderActionButtons = () => {
     if (!meet) return null;
 
     return (
-      <div className="my-2 w-full md:w-auto md:max-w-xs md:mx-auto">
+      <div className="my-2 w-full md:w-auto md:max-w-xs md:mx-auto grid grid-cols-1 grid-gap-1">
         {isAdmin && renderAdminEditMeetButton()}
         {renderRegisterButton()}
+        {renderGoToWorkspaceButton()}
       </div>
     );
   };

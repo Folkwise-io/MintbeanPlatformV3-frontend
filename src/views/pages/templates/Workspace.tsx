@@ -16,7 +16,6 @@ import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { ExternalLink } from "../../components/ExternalLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import { MeetType } from "../../components/MeetCard/MeetType";
 import { H1 } from "../../components/blocks/H1";
 import { CreateKanbanButton } from "../../components/Kanban/CreateKanbanButton";
 import { MbContext } from "../../../context/MbContext";
@@ -41,14 +40,13 @@ interface MatchParams {
   id: string;
 }
 
-const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userState, match }) => {
+const Workspace: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userState, match }) => {
   const context = useContext<Context>(MbContext);
   const {
     params: { id },
   } = match;
   const [meet, setMeet] = useState<MeetTypeDef | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const user = userState.data;
   const isLoggedIn = !!user;
   const isAdmin = user?.isAdmin;
@@ -85,8 +83,8 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     }
   };
 
-  const redirectToMeets = async () => {
-    history.push("/meets");
+  const redirectToHome = async () => {
+    history.push("/");
   };
 
   const meetHasStarted = isPast(meet?.startTime || "", meet?.region || "America/Toronto");
@@ -112,34 +110,6 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     </>
   );
 
-  const renderDetailedDescription = () => {
-    if (!meet || !meet.detailedDescription) {
-      return;
-    }
-
-    let source;
-    let onClickSetValue: boolean;
-    let label;
-    if (isExpanded) {
-      label = "Read Less";
-      source = meet.detailedDescription;
-      onClickSetValue = false;
-    } else {
-      // I'm apprehensive about this slice will affect MD rendering.
-      // It might not work as expected in all cases.
-      label = "Read More";
-      source = meet.detailedDescription.slice(0, 826) + " ...";
-      onClickSetValue = true;
-    }
-
-    return (
-      <>
-        <MarkdownParser className="w-11/12 mx-auto" source={source} />
-        <Button onClick={() => setIsExpanded(onClickSetValue)}>{label}</Button>
-      </>
-    );
-  };
-
   const renderInstructions = () => {
     if (isAdmin) {
       return adminInstructionsView;
@@ -156,7 +126,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       meet && (
         <div className="flex flex-col sm:flex-row items-center py-2">
           <div className="my-2">
-            <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToMeets} className="mr-2" />
+            <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={redirectToHome} className="mr-2" />
             <AdminMeetEditModal buttonText="Edit" meet={meet} />
           </div>{" "}
           <div className="sm:ml-2 my-1">{renderProjectExport()}</div>
@@ -293,39 +263,31 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       />
     ) : null;
 
+  const renderBackToMeetDetailsLink = () => {
+    if (!meet) return null;
+    return (
+      <Link className="ml-12 mb-2 inline-block" to={"/meets/" + meet.id}>
+        {"< "}Back to meet details page
+      </Link>
+    );
+  };
+
+  const renderPageTitle = (): string => {
+    if (!meet) return "";
+    return meet.title + " Workspace";
+  };
+
   return (
     // body wrapper
     <div className="shadow-mb-outline-darkgreen bg-mb-green-100 top-mb-1 relative pb-8 rounded-b-mb-lg">
       <div className="bg-black top-mb-1n relative rounded-b-mb-lg">
-        {/* image wrapper */}
-        <div className="bg-mb-green-100 top-mb-1 relative pb-8 rounded-b-mb-lg">
-          <div className="bg-black top-mb-1n relative overflow-hidden rounded-b-mb-lg">
-            <header className="flex flex-col items-center">
-              <div className="flex w-screen min-h-84 max-h-60vh bg-gray-800">
-                {loading ? (
-                  <div className="text-white h-screen-lg p-24 w-full mb-flex-centered">Loading...</div>
-                ) : (
-                  <>
-                    <img className="object-contain bg-black w-full" src={meet?.coverImageUrl} alt={meet?.title} />
-                    <div className="w-11/12 h-8 absolute top-mb-1 inset-x-0 flex justify-end">
-                      {meet && <MeetType meetType={meet.meetType} isBordered />}
-                    </div>
-                  </>
-                )}
-              </div>
-            </header>
-          </div>
-        </div>
-
         <main className="w-5/6 min-w-12rem mx-auto py-16 rounded-mb-md overflow-hidden">
-          <Link className="ml-12 mb-2 inline-block" to="/meets">
-            {"< "}Back to all meets
-          </Link>
+          {renderBackToMeetDetailsLink()}
           <div className="overflow-hidden rounded-mb-md">
             <div className="grid grid-rows-10 md:grid-cols-3 md:grid-rows-1 md:place-items-end bg-mb-gray-300 px-6 md:px-12 py-8">
               <section className="text-white row-span-9 md:row-span-1 md:col-span-2 md:place-self-start">
                 <div className="block">
-                  <H1 className="font-semibold">{meet?.title}</H1>
+                  <H1 className="font-semibold">{renderPageTitle()}</H1>
                   <p className="text-mb-gray-100 text-sm flex flex-wrap items-center">
                     Starts
                     <FontAwesomeIcon icon={faCalendarAlt} className="mx-2 text-xs" />
@@ -358,13 +320,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
                 )}
               </section>
             </div>
-            {meet && meet.detailedDescription && (
-              <section className="bg-mb-gray-200 py-4">
-                <div className="bg-white w-11/12 mx-auto pt-2 pb-4 rounded-mb-sm mb-flex-centered flex-col">
-                  {renderDetailedDescription()}
-                </div>
-              </section>
-            )}
+
             <section className="shadow-lg bg-white p-12">{renderInstructions()}</section>
             <section className="shadow-lg bg-white p-12">
               {meet?.projects.length ? (
@@ -389,4 +345,4 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   );
 };
 
-export default connect(stp)(Meet);
+export default connect(stp)(Workspace);
