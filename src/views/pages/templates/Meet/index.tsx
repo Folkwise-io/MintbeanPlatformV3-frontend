@@ -8,7 +8,7 @@ import { MbContext } from "../../../../context/MbContext";
 import { Context } from "../../../../context/contextBuilder";
 import { MarkdownParser } from "../../../components/MarkdownParser/index";
 import { MintGradientLayout } from "../../../layouts/MintGradientLayout";
-import { MeetStatus } from "../../../components/MeetCards/MeetStatus";
+import { MeetStatus } from "../../../components/MeetCard/MeetStatus";
 import { MeetRegistrantsList } from "../../../components/MeetRegistrantsList/index";
 import { UpcomingMeets } from "../../../components/UpcomingMeets";
 

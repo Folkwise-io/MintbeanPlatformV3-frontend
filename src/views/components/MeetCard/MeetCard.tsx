@@ -12,7 +12,7 @@ import { MeetStatus } from "./MeetStatus";
 type MeetProps = {
   meet: Meet;
   user?: User;
-  onDelete: () => Promise<void>;
+  onDelete?: () => Promise<void>;
   semiOpaqueLabels?: boolean;
 };
 
@@ -42,11 +42,10 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete, semiOpaqueLabels
 
   const getMeetCardWrapperClasses = () => {
     const classes = "shadow-xl bg-black overflow-hidden rounded-lg flex flex-col";
-
-    if (meetType !== MeetTypeEnum.Hackathon) {
-      return classes;
+    if (meetType == MeetTypeEnum.Hackathon) {
+      return classes + " border-solid border-mb-green-200 border-2";
     }
-    return classes + " border-solid border-mb-green-200 border-2";
+    return classes;
   };
 
   const getLinkClasses = () => {
@@ -73,6 +72,17 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete, semiOpaqueLabels
       return classes + " mt-auto mb-1";
     }
     return classes + " " + transparentStyles + "top-0 py-2";
+  };
+
+  const renderAdminControls = () => {
+    if (user?.isAdmin && onDelete) {
+      return (
+        <div className="flex justify-center my-2">
+          <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={onDelete} />
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -104,11 +114,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete, semiOpaqueLabels
           <p className="text-white text-xs mx-2">{capitalizedString(meetType)}</p>
         </div>
       </Link>
-      {user?.isAdmin && (
-        <div className="flex justify-center my-2">
-          <AdminMeetDeleteModal buttonText="Delete" meet={meet} onDelete={onDelete} />
-        </div>
-      )}
+      {renderAdminControls()}
     </div>
   );
 };

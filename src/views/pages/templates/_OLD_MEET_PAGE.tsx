@@ -11,12 +11,12 @@ import { KanbanCanonController } from "../../components/Kanban/KanbanCanonContro
 import { AdminKanbanCanonCreateModal } from "../../components/wrappers/Modal/walas/AdminKanbanCanonCreateModal";
 import LoginModal from "../../components/wrappers/Modal/walas/LoginModal";
 import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
-import { MeetStatus } from "../../components/MeetCards/MeetStatus";
+import { MeetStatus } from "../../components/MeetCard/MeetStatus";
 import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { ExternalLink } from "../../components/ExternalLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import { MeetType } from "../../components/MeetCards/MeetType";
+import { MeetType } from "../../components/MeetCard/MeetType";
 import { H1 } from "../../components/blocks/H1";
 import { CreateKanbanButton } from "../../components/Kanban/CreateKanbanButton";
 import { MbContext } from "../../../context/MbContext";

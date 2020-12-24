@@ -4,7 +4,7 @@ import { MbContext } from "../../context/MbContext";
 import { Meet } from "../../types/meet";
 import { Button } from "./blocks/Button";
 import { H2 } from "./blocks/H2";
-import { MeetCard } from "./MeetCards/MeetCard";
+import { MeetCard } from "./MeetCard/MeetCard";
 
 export const UpcomingMeets: FC = () => {
   const ctx = useContext(MbContext);
@@ -26,9 +26,7 @@ export const UpcomingMeets: FC = () => {
   // </div>;
   const mapMeets = () => {
     /* TODO @theFl00f meet card stuff will replace the following */
-    return nextMeets.map((meet, i) => (
-      <MeetCard key={i} meet={meet} semiOpaqueLabels onDelete={() => console.log("foo")} />
-    ));
+    return nextMeets.map((meet, i) => <MeetCard key={i} meet={meet} semiOpaqueLabels />);
   };
 
   const getNextMeets = async () => {
