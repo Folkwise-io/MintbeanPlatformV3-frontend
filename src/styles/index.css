@@ -39,3 +39,17 @@ h5,
 h6 {
   font-family: "Viga", sans-serif;
 }
+
+.scrollbar {
+  scrollbar-color: #02e0a8;
+  scrollbar-width: thin;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #02e0a8;
+  border-radius: 1rem;
+}
