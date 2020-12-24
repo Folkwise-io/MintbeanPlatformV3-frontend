@@ -4,6 +4,7 @@ import { MbContext } from "../../context/MbContext";
 import { Meet } from "../../types/meet";
 import { Button } from "./blocks/Button";
 import { H2 } from "./blocks/H2";
+import { MeetCard } from "./MeetCards/MeetCard";
 
 export const UpcomingMeets: FC = () => {
   const ctx = useContext(MbContext);
@@ -14,18 +15,19 @@ export const UpcomingMeets: FC = () => {
     history.push("");
   };
 
+  // <div
+  //   className="border border-red-600 text-white border-solid items-center justify-center overflow-hidden rounded-lg flex flex-col"
+  //   key={index + meet.title}
+  // >
+  //   <div className="h-64 flex-grow">
+  //     {meet.title}
+  //     <p>this is a dummy card @theFl00f meet card component will replace this</p>
+  //   </div>
+  // </div>;
   const mapMeets = () => {
     /* TODO @theFl00f meet card stuff will replace the following */
-    return nextMeets.map((meet, index) => (
-      <div
-        className="border border-red-600 text-white border-solid items-center justify-center overflow-hidden rounded-lg flex flex-col"
-        key={index + meet.title}
-      >
-        <div className="h-64 flex-grow">
-          {meet.title}
-          <p>this is a dummy card @theFl00f meet card component will replace this</p>
-        </div>
-      </div>
+    return nextMeets.map((meet, i) => (
+      <MeetCard key={i} meet={meet} semiOpaqueLabels onDelete={() => console.log("foo")} />
     ));
   };
 
@@ -43,9 +45,9 @@ export const UpcomingMeets: FC = () => {
   }, []);
 
   return (
-    <section className="w-full flex flex-col p-2 items-center justify-center">
-      <H2 className="text-white pt-2 pb-2 self-start">Upcoming Meets</H2>
-      <div className="grid p-2 grid-cols-1 mb-4 row-auto gap-8">{mapMeets()}</div>
+    <section className="w-full flex flex-col items-center justify-center">
+      <h2 className="font-semi-bold py-2 self-start">Upcoming Meets</h2>
+      <div className="grid grid-cols-1 mb-4 row-auto gap-4">{mapMeets()}</div>
       <Button buttonStyle={"secondary"} onClick={goToMeets}>
         See More
       </Button>

@@ -21,7 +21,7 @@ export const Button: FC<Props> = (props) => {
   const classes = {
     primary: "text-black bg-mb-green-500 border-mb-green-500 hover:opacity-75 focus:opacity-75 font-semibold",
     primaryAdmin: "text-white bg-yellow-500 border-yellow-500",
-    secondary: "text-black bg-white border-mb-green-500 hover:opacity-75 focus:opacity-75",
+    secondary: "text-mb-green-200 border-mb-green-200 hover:opacity-75 focus:opacity-75",
     danger: "text-white bg-red-500 border-red-500 hover:opacity-75 focus:opacity-75",
     override: "",
   };

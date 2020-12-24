@@ -68,9 +68,9 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete, semiOpaqueLabels
   };
 
   const getDateClasses = () => {
-    const classes = "font-light text-xs truncate text-white";
+    const classes = "font-light text-xs truncate text-white px-2";
     if (!semiOpaqueLabels) {
-      return classes + " mt-auto mb-1 mx-2";
+      return classes + " mt-auto mb-1";
     }
     return classes + " " + transparentStyles + "top-0 py-2";
   };

@@ -32,6 +32,17 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
 
   const isSingular = meetRegistrants.length == 1;
 
+  const renderToggleButton = () => {
+    if (meetRegistrants.length > 0) {
+      return (
+        <button onClick={toggleExpanded} className="text-mb-green-200 cursor-pointer hover:underline font-semibold ">
+          {expanded ? "Hide all" : "Show all"}
+        </button>
+      );
+    }
+    return null;
+  };
+
   const renderSummaryHeader = () => (
     <div
       className={`flex justify-between items-center bg-black p-4 text-sm ${expanded ? "rounded-t-lg" : "rounded-lg"}`}
@@ -42,9 +53,7 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
           {meetRegistrants.length} Attendee{isSingular ? "" : "s"}
         </span>
       </div>
-      <button onClick={toggleExpanded} className="text-mb-green-200 cursor-pointer hover:underline font-semibold ">
-        {expanded ? "Hide all" : "Show all"}
-      </button>
+      {renderToggleButton()}
     </div>
   );
 

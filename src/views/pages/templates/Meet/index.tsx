@@ -10,6 +10,7 @@ import { MarkdownParser } from "../../../components/MarkdownParser/index";
 import { MintGradientLayout } from "../../../layouts/MintGradientLayout";
 import { MeetStatus } from "../../../components/MeetCards/MeetStatus";
 import { MeetRegistrantsList } from "../../../components/MeetRegistrantsList/index";
+import { UpcomingMeets } from "../../../components/UpcomingMeets";
 
 const meetReg = new MeetRegistration();
 
@@ -126,6 +127,14 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       </section>
     );
   };
+  const renderUpcomingMeets = () => {
+    if (loading) return null;
+    return (
+      <section>
+        <UpcomingMeets />
+      </section>
+    );
+  };
 
   const SectionYMarign: FC = ({ children }) => <section className="my-6">{children}</section>;
 
@@ -136,8 +145,9 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       <div>{renderMeetImage()}</div>
       <div className="p-4 pt-0">
         <div>{renderMeetDetails()}</div>
-        <div>{renderMeetDescription()}</div>
-        <div>{renderRegistrantsList()}</div>
+        <SectionYMarign>{renderMeetDescription()}</SectionYMarign>
+        <SectionYMarign>{renderRegistrantsList()}</SectionYMarign>
+        <SectionYMarign>{renderUpcomingMeets()}</SectionYMarign>
       </div>
     </div>
   );
@@ -156,6 +166,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       <div className="p-6 pt-0 w-2/5">
         <section>{renderMeetDetails()}</section>
         <SectionYMarign>{renderRegistrantsList()}</SectionYMarign>
+        <SectionYMarign>{renderUpcomingMeets()}</SectionYMarign>
       </div>
     </div>
   );
