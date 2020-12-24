@@ -81,16 +81,16 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
   return (
     <>
       <nav
-        className="py-2 px-12 bg-white sticky top-0 flex items-center justify-between"
-        style={{ minHeight: "80px", zIndex: 99 }}
+        className="px-12 bg-white sticky top-0 flex items-center justify-between"
+        style={{ minHeight: "48px", zIndex: 99 }}
       >
         <section>
           <NavLink
             to="/"
-            className="mb-transition text-black hover:text-mb-blue-200 focus:text-mb-blue-200 grid place-items-center md:place-items-start"
+            className="mb-transition text-black hover:text-mb-blue-200 focus:text-mb-blue-200 grid place-items-center md:place-items-start place-content-start"
           >
             <span className="sr-only">Mintbean - Home</span>
-            <img src={logo} alt="Mintbean" style={{ maxHeight: "50px" }} />
+            <img src={logo} alt="Mintbean" style={{ maxHeight: "30px" }} className="place-self-start" />
           </NavLink>
         </section>
         <section className="hidden md:flex flex-row items-center">

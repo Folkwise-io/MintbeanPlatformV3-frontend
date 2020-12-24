@@ -45,7 +45,7 @@ export const Main: FC<Props> = ({ main }) => {
   const { title, tagline, body } = main;
 
   return (
-    <div className="w-full overflow-hidden mb-8 shadow-mb-outline-darkgreen bg-mb-blue-300 pb-8 rounded-b-mb-lg">
+    <div className="w-full overflow-hidden mb-4 shadow-mb-outline-darkgreen bg-mb-blue-300 pb-8 rounded-b-mb-lg">
       <div className="bg-black top-mb-1n relative rounded-b-mb-lg">
         <div className="rounded-b-mb-lg mb-gradient-to-green-b">
           <div className="shadow-mb-outline-green bg-white top-mb-1 relative pb-8 rounded-b-mb-lg">

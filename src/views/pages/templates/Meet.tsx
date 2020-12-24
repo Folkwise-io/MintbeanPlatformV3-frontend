@@ -66,6 +66,8 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
           </div>
         </div>
       </div>
+      {/* workaround for collapsing margin */}
+      <div className="h-4"></div>
     </div>
   );
 };

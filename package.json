@@ -60,6 +60,7 @@
     "redux-devtools-extension": "2.13.8",
     "redux-thunk": "2.3.0",
     "remark-gfm": "1.0.0",
+    "tailwindcss-truncate-multiline": "1.0.3",
     "uuid": "8.3.0",
     "yup": "0.29.3"
   },

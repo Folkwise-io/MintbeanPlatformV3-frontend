@@ -8,6 +8,11 @@ module.exports = {
   },
   purge: [],
   theme: {
+    truncate: {
+      lines: {
+        2: "2",
+      },
+    },
     screens: {
       xs: "400px",
       ...screens,
@@ -45,7 +50,9 @@ module.exports = {
         "mb-lg": "8rem",
       },
       borderWidth: {
+        1: "1px",
         10: "10px",
+        3: "3px",
       },
       maxWidth: {
         "7xl": "96rem",
@@ -53,31 +60,36 @@ module.exports = {
         "20vw": "20vw",
       },
       colors: {
-        black: "#0C0A0B",
+        black: "#0B0505",
         "mb-gray-100": "#E2E8F0",
         "mb-gray-200": "#737494",
         "mb-gray-300": "#2d2e48",
         "mb-gray-400": "#1f2036",
+        "mb-gray-500": "#131421",
         "mb-red-100": "#FED7D7",
         "mb-red-200": "#E53E3E",
         "mb-orange-000": "#FED9B2",
         "mb-orange-100": "#F59336",
         "mb-green-000": "#F0FFF4",
         "mb-green-100": "#B2FFE4",
-        "mb-green-200": "#02E0A8",
+        "mb-green-200": "#00D4A9",
         "mb-green-300": "#3BC482",
         "mb-green-400": "#2AB2B2",
         "mb-green-500": "#5EF4D6",
         "mb-blue-100": "#EBF8FF",
         "mb-blue-200": "#00A4DA",
-        "mb-blue-300": "#00B1FF",
+        "mb-blue-250": "#01C1CF",
+        "mb-blue-300": "#03B1FE",
+        "mb-blue-500": "#1fa4da",
+        "mb-blue-600": "#32a9c7",
         "mb-purple-000": "#E8B2F1",
         "mb-purple-100": "#5C1FD6",
         "mb-black-100": "#3D3D3D",
         "mb-black-500": "#09090b",
       },
+
       boxShadow: {
-        "mb-outline": "0 0 0 3px #ffffff;",
+        "mb-outline": "0 0 0 2px #ffffff;",
         "mb-outline-lg": "0 0 0 6px #ffffff;",
         "mb-outline-green": "0 0 0 1rem #B2FFE4;",
         "mb-outline-darkgreen": "0 0 0 1rem #02E0A8;",
@@ -88,9 +100,11 @@ module.exports = {
       },
       inset: {
         "mb-1": "1rem",
+        "mb-.25": ".25rem",
         "mb-1n": "-1rem",
         "mb-3": "3rem",
         "50": "50%",
+        "1/4": "25%",
       },
       translate: {
         "37%": "37%",
@@ -111,18 +125,21 @@ module.exports = {
         callToAction: "url(../assets/images/banners/robots-lg.png)",
       }),
       height: {
-        50: "50%",
-        65: "65%",
-        35: "35%",
-        customProject: "calc(100vh - 30rem)",
+        68: "17rem",
+        34: "8.5rem",
         "50px": "50px",
       },
       width: {
         "50px": "50px",
+        68: "17rem",
+        72: "18rem",
       },
     },
     fontFamily: {
       body: ["Montserrat", "sans-serif"],
+    },
+    gridTemplateRows: {
+      meetCard: "2rem 8rem 3.25rem 2.75rem",
     },
   },
   variants: {
@@ -130,6 +147,7 @@ module.exports = {
     textColor: ({ after }) => after(["group-hover", "focus-within"]),
   },
   plugins: [
+    require("tailwindcss-truncate-multiline")(),
     plugin(function ({ addComponents }) {
       const components = {
         ".mb-transition": {

@@ -5,13 +5,13 @@ import {
   TermsOfService,
   PrivacyPolicy,
   NotFound,
-  Meets,
   Meet,
   Project,
   Admin,
   CreateBadge,
   Badges,
   BadgeTemplate,
+  Partners,
 } from "./views/pages";
 
 interface RouteConfig {
@@ -25,10 +25,6 @@ export const routes: RouteConfig[] = [
   {
     component: Meet,
     path: "/meets/:id",
-  },
-  {
-    component: Meets,
-    path: "/meets",
   },
   {
     component: Project,
@@ -51,6 +47,11 @@ export const routes: RouteConfig[] = [
     component: Community,
     exact: true,
     path: "/community",
+  },
+  {
+    component: Partners,
+    exact: true,
+    path: "/partners",
   },
   {
     component: Admin,

@@ -25,8 +25,11 @@ import { KanbanDao } from "../daos/KanbanDao";
 import { KanbanDaoImpl } from "../daos/KanbanDaoImpl";
 import { KanbanService } from "../services/kanbanService";
 
+import { EmailService } from "../services/emailService";
 import { ApiQueryExecutor } from "../api/ApiQueryExecutor";
 import { LoggerService } from "../services/loggerService";
+import { EmailDaoImpl } from "../daos/EmailDaoImpl";
+import { EmailDao } from "../daos/EmailDao";
 
 export interface Context {
   apiQueryExecutor?: ApiQueryExecutor;
@@ -43,6 +46,8 @@ export interface Context {
   projectService: ProjectService;
   kanbanCanonService: KanbanCanonService;
   kanbanService: KanbanService;
+  emailService: EmailService;
+  emailDao: EmailDao;
   loggerService: LoggerService;
 }
 
@@ -52,6 +57,7 @@ export const contextBuilder = (): Context => {
   const userDao = new UserDaoImpl(apiQueryExecutor);
   const meetDao = new MeetDaoImpl(apiQueryExecutor);
   const badgeDao = new BadgeDaoImpl(apiQueryExecutor);
+  const emailDao = new EmailDaoImpl(apiQueryExecutor);
   const projectDao = new ProjectDaoImpl(apiQueryExecutor);
   const kanbanCanonDao = new KanbanCanonDaoImpl(apiQueryExecutor);
   const kanbanDao = new KanbanDaoImpl(apiQueryExecutor);
@@ -62,6 +68,7 @@ export const contextBuilder = (): Context => {
   const projectService = new ProjectService(projectDao, loggerService);
   const kanbanCanonService = new KanbanCanonService(kanbanCanonDao, loggerService);
   const kanbanService = new KanbanService(kanbanDao, loggerService);
+  const emailService = new EmailService(emailDao, loggerService);
 
   return {
     apiQueryExecutor,
@@ -78,6 +85,8 @@ export const contextBuilder = (): Context => {
     projectService,
     kanbanCanonService,
     kanbanService,
+    emailService,
+    emailDao,
     loggerService,
   };
 };
