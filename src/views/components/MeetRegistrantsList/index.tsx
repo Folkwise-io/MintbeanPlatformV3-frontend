@@ -59,7 +59,7 @@ export const MeetRegistrantsList: FC<Props> = ({ meetRegistrants }) => {
   const renderExpandedView = () => (
     <div>
       {renderSummaryHeader()}
-      <div className="flex flex-col justify-between bg-black rounded-b-lg max-h-32 px-4 pt-4">
+      <div className="flex flex-col justify-between bg-black rounded-b-lg max-h-32 px-4">
         <div className="overflow-y-scroll scrollbar h-96 pr-4">{meetRegistrants.map(renderMeetListUsers)}</div>
       </div>
     </div>
