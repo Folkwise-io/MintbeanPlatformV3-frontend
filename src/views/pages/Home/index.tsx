@@ -137,26 +137,29 @@ const Home: FC<StateMapping> = ({ user }) => {
 
     const filteredMeetArr = filterMeets(meets);
 
-    //save mapped meets
+    if (!filteredMeetArr.length) {
+      if (meets) {
+        //if there are no meets in the filtered array but meets exist, return error message
+        let errorMessage = `No results matched your filters, please try again.`;
+        if (searchInput) {
+          errorMessage = `No ${dateFilter} ${
+            meetType !== "all" ? meetType : "meet"
+          }s found matching the term "${searchInput}"`;
+        }
+        return <p className="text-white text-lg">{errorMessage}</p>;
+      }
+      //if there are no meets at all, return error message - this should not be reached.
+      return <p className="text-white text-lg">No meets at the moment... Stay tuned!</p>;
+    }
 
+    //save mapped meets
     const mapMeets = (meets: Meet[]) =>
       meets.map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />);
 
     //if there are meets in the filtered array, map and render
     if (pages) {
       return mapMeets(filteredMeetArr);
-    } else if (meets) {
-      //if there are no meets in the filtered array but meets exist, return error message
-      let errorMessage = `No results matched your filters, please try again.`;
-      if (searchInput) {
-        errorMessage = `No ${dateFilter} ${
-          meetType !== "all" ? meetType : "meet"
-        }s found matching the term "${searchInput}"`;
-      }
-      return <p className="text-white text-lg">{errorMessage}</p>;
     }
-    //if there are no meets at all, return error message - this should not be reached.
-    return <p className="text-white text-lg">No meets at the moment... Stay tuned!</p>;
   };
 
   const handleMeetTypeChange = (e: ChangeEvent) => {
