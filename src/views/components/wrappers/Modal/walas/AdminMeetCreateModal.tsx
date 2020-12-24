@@ -6,6 +6,7 @@ import { MbContext } from "../../../../../context/MbContext";
 import { Context } from "../../../../../context/contextBuilder";
 import { useHistory } from "react-router-dom";
 import { CreateMeetInput } from "../../../../../types/meet";
+import { Button } from "../../../blocks/Button";
 
 interface Props {
   className?: string;
@@ -43,9 +44,14 @@ export const AdminMeetCreateModal: FC<Props> = ({ className, buttonText }) => {
       <Modal
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
-          <button onClick={toggleModal} ref={(el) => setRef(el)} className={className || ""}>
+          <Button
+            buttonStyle="primaryAdmin"
+            onClick={toggleModal}
+            forwardRef={(el) => setRef(el)}
+            className={className || ""}
+          >
             {buttonText}
-          </button>
+          </Button>
         )}
       >
         <MeetCreateForm formRef={formRef} createMeet={createMeet} />
