@@ -78,12 +78,16 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const renderRegisterButton = () => {
     if (!meet) return null;
     const isRegistered = meetReg.isRegistered(meet.registrants, user);
-    if (isRegistered) return null;
     return (
       <>
         {!isLoggedIn && <small className="block mb-1">Log in or sign up to join!</small>}
-        <Button buttonStyle="minty" disabled={!isLoggedIn} className="w-full" onClick={() => updateRegistrantData()}>
-          Register
+        <Button
+          buttonStyle="minty"
+          disabled={!isLoggedIn || isRegistered}
+          className="w-full"
+          onClick={() => updateRegistrantData()}
+        >
+          {isRegistered ? "Attending" : "Register"}
         </Button>
       </>
     );
