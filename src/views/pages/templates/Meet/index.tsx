@@ -1,15 +1,14 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { MeetRegistration } from "../../../utils/MeetRegistration";
-import { H2 } from "../../components/blocks/H2";
-import { Meet as IMeet } from "../../../types/meet";
-import { MbContext } from "../../../context/MbContext";
-import { Context } from "../../../context/contextBuilder";
-import { H1 } from "../../components/blocks/H1";
-import { MarkdownParser } from "../../components/MarkdownParser/index";
-import { MintGradientLayout } from "../../layouts/MintGradientLayout";
-import { MeetStatus } from "../../components/MeetCards/MeetStatus";
+import { MeetRegistration } from "../../../../utils/MeetRegistration";
+import { H2 } from "../../../components/blocks/H2";
+import { Meet as IMeet } from "../../../../types/meet";
+import { MbContext } from "../../../../context/MbContext";
+import { Context } from "../../../../context/contextBuilder";
+import { MarkdownParser } from "../../../components/MarkdownParser/index";
+import { MintGradientLayout } from "../../../layouts/MintGradientLayout";
+import { MeetStatus } from "../../../components/MeetCards/MeetStatus";
 
 const meetReg = new MeetRegistration();
 
@@ -77,7 +76,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     if (!meet && loading) {
       return (
         <ImagePlaceholderContainer>
-          <div className="w-full h-full flex justify-center items-center ">
+          <div className="w-full h-full flex justify-center items-center">
             <H2>Loading...</H2>
           </div>
         </ImagePlaceholderContainer>
@@ -86,13 +85,11 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     if (!meet) {
       return (
         <ImagePlaceholderContainer>
-          <div className="w-full h-full flex flex-col justify-center items-center ">
-            <div className="h-full">
-              <H2>Meet not found!</H2>
-              <Link to="/" className="block">
-                {"<< "}See all Meets
-              </Link>
-            </div>
+          <div className="w-full h-full flex flex-col justify-center items-center">
+            <H2>Meet not found!</H2>
+            <Link to="/" className="block">
+              {"<< "}See all Meets
+            </Link>
           </div>
         </ImagePlaceholderContainer>
       );
@@ -102,46 +99,48 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
         <img
           src={meet.coverImageUrl}
           alt={`Cover image for meet ${meet.title}`}
-          className="relative object-contain max-w-full"
+          className="relative object-contain max-w-full md:rounded-tl-lg"
         />
       );
     }
   };
 
-  const renderSingleColView = () => (
+  const getDescriptionText = (): string => {
+    if (!meet) return "";
+    const detailedDesc = meet.detailedDescription || "";
+    return "## About \n" + meet.description + "\n" + detailedDesc;
+  };
+
+  const renderMeetDescription = () => <MarkdownParser source={getDescriptionText()} />;
+
+  // Start composing layouts
+
+  const renderOneColView = () => (
     <div className="w-full h-full flex flex-col min-h-screen">
       <div>{renderMeetImage()}</div>
       <div className="p-4 pt-0">
         <div>{renderMeetDetails()}</div>
+        <div>{renderMeetDescription()}</div>
       </div>
     </div>
   );
 
   const renderTwoColView = () => (
-    <div className="flex">
+    <div className="flex pb-12">
       {/* Left column */}
       <div className="w-3/5 ">
-        {/* Meet Image */}
         {renderMeetImage()}
-
-        <div className="p-4 md:p-10 " style={{ minHeight: "200px" }}>
-          <MarkdownParser source={meetDetailedDescription} />
-        </div>
+        <div className="md:px-10 py-6">{renderMeetDescription()}</div>
       </div>
 
       {/* Right column*/}
-      <div className="p-4 pt-0 w-2/5">
-        {/* Meet details*/}
-        {renderMeetDetails()}
-      </div>
+      <div className="p-4 pt-0 w-2/5">{renderMeetDetails()}</div>
     </div>
   );
 
-  const meetDetailedDescription = meet?.detailedDescription ? meet.detailedDescription : "";
-
   return (
     <MintGradientLayout>
-      <div className="md:hidden">{renderSingleColView()}</div>
+      <div className="md:hidden">{renderOneColView()}</div>
       <div className="hidden md:block">{renderTwoColView()}</div>
     </MintGradientLayout>
   );
@@ -151,23 +150,23 @@ export default connect(stp)(Meet);
 
 // const dummyContent = () => (
 //   <>
-//     <H2>Lorem</H2>
-//     <p>
-//       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam erat amet, in dui, est dolor, egestas ante. Eget
-//       arcu etiam volutpat faucibus. Condimentum mi, nunc orci semper dictumst sed. Lectus nam leo, malesuada faucibus
-//       proin. Integer lectus diam ultricies quis ut enim diam. Diam, fringilla mauris in amet.
-//     </p>
-//     <H2>Lorem</H2>
-//     <p>
-//       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam erat amet, in dui, est dolor, egestas ante. Eget
-//       arcu etiam volutpat faucibus. Condimentum mi, nunc orci semper dictumst sed. Lectus nam leo, malesuada faucibus
-//       proin. Integer lectus diam ultricies quis ut enim diam. Diam, fringilla mauris in amet.
-//     </p>
-//     <H2>Lorem</H2>
-//     <p>
-//       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam erat amet, in dui, est dolor, egestas ante. Eget
-//       arcu etiam volutpat faucibus. Condimentum mi, nunc orci semper dictumst sed. Lectus nam leo, malesuada faucibus
-//       proin. Integer lectus diam ultricies quis ut enim diam. Diam, fringilla mauris in amet.
-//     </p>
+// <H2>Lorem</H2>
+// <p>
+//   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam erat amet, in dui, est dolor, egestas ante. Eget
+//   arcu etiam volutpat faucibus. Condimentum mi, nunc orci semper dictumst sed. Lectus nam leo, malesuada faucibus
+//   proin. Integer lectus diam ultricies quis ut enim diam. Diam, fringilla mauris in amet.
+// </p>
+// <H2>Lorem</H2>
+// <p>
+//   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam erat amet, in dui, est dolor, egestas ante. Eget
+//   arcu etiam volutpat faucibus. Condimentum mi, nunc orci semper dictumst sed. Lectus nam leo, malesuada faucibus
+//   proin. Integer lectus diam ultricies quis ut enim diam. Diam, fringilla mauris in amet.
+// </p>
+// <H2>Lorem</H2>
+// <p>
+//   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam erat amet, in dui, est dolor, egestas ante. Eget
+//   arcu etiam volutpat faucibus. Condimentum mi, nunc orci semper dictumst sed. Lectus nam leo, malesuada faucibus
+//   proin. Integer lectus diam ultricies quis ut enim diam. Diam, fringilla mauris in amet.
+// </p>
 //   </>
 // );
