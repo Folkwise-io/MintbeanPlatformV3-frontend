@@ -212,4 +212,3 @@ const Partners: FC = () => {
 };
 
 export default Partners;
-//  <div className="bg-mb-blue-500 w-full h-24 border-2 border-red-500 h-1/2" />;
