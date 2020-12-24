@@ -11,11 +11,15 @@
 @layer base {
   /* anchor tag style are here in order to ensure uniform style between both ExternalLink and Link (react-router-component) */
   /* react-router Link wraps a native anchor tag which could not be replaced with a block component */
+  /* Input placeholders have an opacity set that cannot be overridden with inline classes in tailwind */
   a {
     @apply text-mb-green-200;
   }
   body {
     @apply text-mb-black-500;
+  }
+  input[name="searchMeets"]::placeholder {
+    @apply opacity-100;
   }
 }
 

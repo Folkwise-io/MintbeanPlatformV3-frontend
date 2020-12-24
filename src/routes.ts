@@ -5,7 +5,6 @@ import {
   TermsOfService,
   PrivacyPolicy,
   NotFound,
-  Meets,
   Meet,
   Project,
   Admin,
@@ -25,10 +24,6 @@ export const routes: RouteConfig[] = [
   {
     component: Meet,
     path: "/meets/:id",
-  },
-  {
-    component: Meets,
-    path: "/meets",
   },
   {
     component: Project,

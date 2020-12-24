@@ -322,7 +322,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
           </div>
 
           <main className="w-5/6 min-w-12rem mx-auto py-16 rounded-mb-md overflow-hidden">
-            <Link className="ml-12 mb-2 inline-block" to="/meets">
+            <Link className="ml-12 mb-2 inline-block" to="/">
               {"< "}Back to all meets
             </Link>
             <div className="overflow-hidden rounded-mb-md">

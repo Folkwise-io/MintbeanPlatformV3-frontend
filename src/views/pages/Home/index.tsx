@@ -1,51 +1,281 @@
-import React, { FC } from "react";
-import { HomeHeader } from "./HomeHeader";
-import { FocusCard } from "../../components/FocusCard";
-import { MainList } from "./HomeMainList";
-import NextMeetSection from "../../components/NextMeetSection";
-import { Link } from "react-router-dom";
+import React, { FC, useState, useEffect, useCallback, useContext, ChangeEvent } from "react";
+import { AdminMeetCreateModal } from "../../components/wrappers/Modal/walas/AdminMeetCreateModal";
+import { connect } from "react-redux";
+import { isPast } from "../../../utils/DateUtility";
+import { MbContext } from "../../../context/MbContext";
+import { Context } from "../../../context/contextBuilder";
+import { Select } from "../../components/blocks/Form/Select";
+import { dateFilterOptions, meetTypeFilterOptions } from "../../components/forms/constants";
+import { Input } from "../../components/blocks/Form/Input";
+import { Meet } from "../../../types/meet";
+import { MeetTypeEnum } from "../../../types/enum";
+import { MeetCard } from "../../components/MeetCards/MeetCard";
 import BlockWrapper from "../../components/wrappers/BlockWrapper";
+import { H1 } from "../../components/blocks/H1";
+import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown, faSearch, IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "../../components/blocks/Button";
 
 interface StateMapping {
   user: UserState;
 }
+const stp = (state: StoreState) => ({
+  user: state.user,
+});
 
-const Home: FC<StateMapping> = () => {
-  const headerArgs = { title: "Calling all web developers!" };
-  const cardArgs = {
-    title: "Build cool projects and elevate your skills.",
-    description:
-      "We have events, workshops and competitions that build your skills, help you make friends, and let you create a dazzling coding portfolio. Here are a few FREE programs that you can be a part of: ",
+const Home: FC<StateMapping> = ({ user }) => {
+  const context = useContext<Context>(MbContext);
+  const [meets, setMeets] = useState<Meet[]>([]);
+  const [maxPages, setMaxPages] = useState<number>(1);
+  const [meetType, setMeetType] = useState<MeetTypeEnum | "all">("all");
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [dateFilter, setDateFilter] = useState<MeetDate>("upcoming");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [pages, setPages] = useState<number>(1);
+
+  const pagination = (arr: Meet[], size: number) => {
+    const chunked = [];
+    for (let i = 0; i < arr.length; i += size) {
+      chunked.push(arr.slice(i, i + size));
+    }
+    return chunked;
   };
-  const listArgs = {
-    titles: ["Code mentorship", "Workshops", "Live speakers", "Masterclass", "Competitions", "Dev Evangelist Program"],
-    content: [
-      `Help other devs with your knowledge and expertise, and add “volunteer code mentor” to your resume.`,
-      `Learn new skills and technologies with us with the luxury of a live chat.`,
-      `Listen to what the experts have to say about the future of JavaScript, often with a Q&A.`,
-      `Learn frameworks and modules from the creators themselves.`,
-      `Flex your competitive side and join our hackathons, twice weekly. We have challenges for devs of all levels!`,
-      `Love talking to people? Come learn how to communicate effectively in public about technology you know and love.`,
-    ],
+
+  const getMaxPages = (meets: Meet[]) => {
+    setMaxPages(Math.ceil(meets.length / 12));
   };
+
+  const fetchMeets = useCallback(async () => {
+    setLoading(true);
+    const fetchedMeets = await context.meetService.fetchMeets();
+    setMeets(fetchedMeets || []);
+    if (fetchedMeets && fetchedMeets.length > 12) {
+      getMaxPages(fetchedMeets);
+    }
+    setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Fetch meets on mount
+  useEffect(() => {
+    fetchMeets();
+  }, [context, fetchMeets]);
+
+  const renderAdminMeetCreateModal = () =>
+    user.data?.isAdmin && (
+      <div className="flex justify-center col-span-7">
+        <AdminMeetCreateModal
+          buttonText="Create new meet"
+          className="rounded px-6 py-2 text-white bg-mb-orange-100 mb-2"
+        />
+      </div>
+    );
+
+  const filterMeets = (meetsToFilter: Meet[]): Meet[] => {
+    //filteredMeets default to all
+    let filteredMeets = [...meetsToFilter];
+
+    //if not all but has datefilter
+    if (dateFilter && dateFilter !== "all") {
+      //&& is past
+      if (dateFilter === "past") {
+        filteredMeets = meetsToFilter.filter((m: Meet) => isPast(m.endTime, m.region));
+      } else if (dateFilter === "upcoming") {
+        //or upcoming
+        filteredMeets = meetsToFilter.filter((m: Meet) => !isPast(m.endTime, m.region));
+      }
+    }
+
+    //if there's a selected meetType, filter meets by type
+    if (meetType !== "all") {
+      filteredMeets = filteredMeets.filter((m: Meet) => m.meetType === meetType);
+    }
+
+    //if there's a search input, search the description and title for that string
+    if (searchInput) {
+      filteredMeets = filteredMeets.filter((m: Meet) =>
+        `${m.description} ${m.title}`.toLowerCase().includes(searchInput.toLowerCase()),
+      );
+    }
+
+    //sort by date
+    filteredMeets = filteredMeets.sort((a, b) => {
+      const dateA = new Date(a.startTime).getTime();
+      const dateB = new Date(b.startTime).getTime();
+      if (dateA === dateB) return 0;
+      if (dateFilter === "upcoming") {
+        //if upcoming, ascending date
+        return dateA - dateB;
+      } else {
+        //else, descending date
+        return dateB - dateA;
+      }
+    });
+
+    return getPages(filteredMeets);
+  };
+
+  const getPages = (meets: Meet[]): Meet[] => {
+    const chunkedMeets = pagination(meets, 12);
+    const pagesToRender = chunkedMeets.slice(0, pages);
+    return pagesToRender.reduce((a, b) => a.concat(b), []);
+  };
+
+  const increasePage = () => {
+    setPages(pages + 1);
+  };
+
+  const resetPages = () => {
+    setPages(1);
+  };
+
+  const renderMeets = () => {
+    if (loading) {
+      return <p className="text-white">Loading...</p>;
+    }
+
+    const filteredMeetArr = filterMeets(meets);
+
+    if (!filteredMeetArr.length) {
+      if (meets) {
+        //if there are no meets in the filtered array but meets exist, return error message
+        let errorMessage = `No results matched your filters, please try again.`;
+        if (searchInput) {
+          errorMessage = `No ${dateFilter} ${
+            meetType !== "all" ? meetType : "meet"
+          }s found matching the term "${searchInput}"`;
+        }
+        return <p className="text-white text-lg">{errorMessage}</p>;
+      }
+      //if there are no meets at all, return error message - this should not be reached.
+      return <p className="text-white text-lg">No meets at the moment... Stay tuned!</p>;
+    }
+
+    //save mapped meets
+    const mapMeets = (meets: Meet[]) =>
+      meets.map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />);
+
+    //if there are meets in the filtered array, map and render
+    return mapMeets(filteredMeetArr);
+  };
+
+  const handleMeetTypeChange = (e: ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    resetPages();
+    setMeetType(target.value as MeetTypeEnum);
+  };
+
+  const handleSearchInputChange = (e: ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    resetPages();
+    setSearchInput(target.value);
+  };
+
+  const handleDateFilterChange = (e: ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    if (pages !== 1) {
+      resetPages();
+    }
+    setDateFilter(target.value as MeetDate);
+  };
+
+  const commonInputStyles = "bg-black border-solid border-1 rounded-lg py-1 my-2 leading-tight px-2";
+  const textInputStyles =
+    commonInputStyles + " text-sm w-full border-mb-green-400 opacity-100 placeholder-opacity-100 placeholder-white";
+  const selectInputStyles =
+    commonInputStyles + " mx-1 text-xs w-3/4 font-semibold text-mb-blue-300 border-mb-blue-300 appearance-none";
+  const selectWrapperStyles = "col-span-2 flex justify-end relative";
+
+  const renderInputIcon = (icon: IconDefinition, className?: string, isTransparent?: boolean) => {
+    let classes = "absolute bg-black inset-y-1/4 right-mb-1 h-4 text-sm";
+    if (className) {
+      classes += " " + className;
+    }
+    let opacity = "";
+    if (isTransparent) {
+      opacity = "opacity-75";
+    }
+    return (
+      <div className={classes}>
+        <FontAwesomeIcon className={opacity} icon={icon} />
+      </div>
+    );
+  };
+
   return (
-    <BlockWrapper className="grid place-content-center pb-12">
-      <NextMeetSection />
-      <Link
-        to={`/meets/`}
-        className="bg-mb-purple-100 text-center px-8 py-4 mx-12 md:mx-auto max-w-2xl rounded-mb-sm border-mb-green-100 border-solid border-8 inline-block mb-8"
-      >
-        {" "}
-        <p className="text-3xl text-white break-words">For all upcoming meets</p>
-        <div className="text-semibold mb-transition text-4xl hover:text-mb-orange-100 focus:text-mb-orange-100">
-          Click here.
-        </div>
-      </Link>
-      <HomeHeader header={headerArgs} />
-      <FocusCard card={cardArgs} />
-      <MainList list={listArgs} />
+    <BlockWrapper>
+      <div className="w-4/5 mx-auto">
+        <header className="grid grid-cols-7 gap-8">
+          {/* header image */}
+          <div className="hidden h-68 col-span-5 sm:grid place-items-center object-contain bg-mb-black-500 bg-callToAction bg-repeat-x bg-contain border-solid border-mb-gray-400 border-2 rounded-lg"></div>
+          <div className="col-span-7 sm:col-span-2 flex flex-col gap-4 items-center sm:items-start pt-6">
+            <H1 className="text-white flex flex-col text-center sm:text-left leading-tight">
+              <span>Events for</span>
+              <span>Developers,</span>
+              <span>by Developers</span>
+            </H1>
+            <RegisterModal
+              buttonText="Join for Free"
+              className="whitespace-no-wrap text-sm px-0 py-2 bg-mb-green-200 border-mb-green-200"
+              onResponse={() => close()}
+            />
+          </div>
+          {renderAdminMeetCreateModal()}
+        </header>
+        <section className="max-w-7xl mx-auto flex flex-col items-center pt-8 pb-24">
+          <fieldset className="w-full bg-black text-white rounded-lg mt-2 mb-12 py-4">
+            <div className="w-11/12 mx-auto flex flex-wrap md:grid md:grid-cols-9">
+              <div className="col-span-5 relative flex-grow">
+                <Input
+                  type="text"
+                  label="Search meets"
+                  name="searchMeets"
+                  className={textInputStyles}
+                  onChange={handleSearchInputChange}
+                  srOnly
+                  placeholder="Search meets"
+                />
+                {renderInputIcon(faSearch, "text-mb-green-400", true)}
+              </div>
+              <div className={selectWrapperStyles}>
+                <Select
+                  name="meetTypeFilter"
+                  label="Filter by meet type"
+                  options={meetTypeFilterOptions}
+                  onChange={handleMeetTypeChange}
+                  className={selectInputStyles}
+                  style={{
+                    minWidth: "7.5rem",
+                  }}
+                  srOnly
+                />
+                {renderInputIcon(faCaretDown, "text-mb-blue-300")}
+              </div>
+              <div className={selectWrapperStyles}>
+                <Select
+                  name="dateFilter"
+                  label="filter by date"
+                  options={dateFilterOptions}
+                  onChange={handleDateFilterChange}
+                  className={selectInputStyles}
+                  style={{
+                    minWidth: "7.5rem",
+                  }}
+                  srOnly
+                />
+                {renderInputIcon(faCaretDown, "text-mb-blue-300")}
+              </div>
+            </div>
+          </fieldset>
+          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 row-auto gap-8 mb-8">
+            {renderMeets()}
+          </div>
+          {pages < maxPages && <Button onClick={increasePage}>Load more</Button>}
+        </section>
+      </div>
     </BlockWrapper>
   );
 };
 
-export default Home;
+export default connect(stp)(Home);
