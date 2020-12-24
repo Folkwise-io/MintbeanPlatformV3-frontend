@@ -12,6 +12,7 @@ import { MeetStatus } from "../../../components/MeetCard/MeetStatus";
 import { MeetRegistrantsList } from "../../../components/MeetRegistrantsList/index";
 import { UpcomingMeets } from "../../../components/UpcomingMeets";
 import { Button } from "../../../components/blocks/Button";
+import { capitalize } from "../../../utils/capitalize";
 
 const meetReg = new MeetRegistration();
 
@@ -26,11 +27,6 @@ const stp = (state: StoreState) => ({
 interface MatchParams {
   id: string;
 }
-
-const capitalize = (str: string) => {
-  if (str.length === 0) return "";
-  return str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase();
-};
 
 const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userState, match }) => {
   const context = useContext<Context>(MbContext);
@@ -62,11 +58,9 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       alert("This meet is closed for registrations.");
       return;
     }
-
     if (meet) {
       setLoading(true);
       // errors are handled in service layer
-
       await context.meetService.registerForMeet(meet.id);
       const fetchedMeet = await context.meetService.fetchMeet(meet.id);
       if (fetchedMeet) {
@@ -75,6 +69,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       setLoading(false);
     }
   };
+
   const renderRegisterButton = () => {
     if (!meet) return null;
     const isRegistered = meetReg.isRegistered(meet.registrants, user);
@@ -96,7 +91,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const renderActionButtons = () => {
     if (!meet) return null;
 
-    return <div className="my-2">{renderRegisterButton()}</div>;
+    return <div className="my-2 w-full md:w-auto md:max-w-xs md:mx-auto">{renderRegisterButton()}</div>;
   };
 
   const renderMeetDetails = () => {
@@ -110,7 +105,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
           <h1 className="text-2xl leading-8">{meet.title}</h1>
           <span className="inline-block text-mb-green-200">{capitalize(meet.meetType)}</span>
         </div>
-        <div>{renderActionButtons()}</div>
+        <div className="max-w-xs md:max-w-none">{renderActionButtons()}</div>
       </div>
     );
   };

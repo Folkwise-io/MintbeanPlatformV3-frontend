@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { MeetTypeEnum } from "../../../types/enum";
 import { Meet } from "../../../types/meet";
 import { wcToClientStr } from "../../../utils/DateUtility";
-import { capitalizedString } from "../../utils/capitalizeString";
+import { capitalize } from "../../utils/capitalize";
 import { AdminMeetDeleteModal } from "../wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
 
@@ -111,7 +111,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete, semiOpaqueLabels
           >
             {title}
           </h2>
-          <p className="text-white text-xs mx-2">{capitalizedString(meetType)}</p>
+          <p className="text-white text-xs mx-2">{capitalize(meetType)}</p>
         </div>
       </Link>
       {renderAdminControls()}
