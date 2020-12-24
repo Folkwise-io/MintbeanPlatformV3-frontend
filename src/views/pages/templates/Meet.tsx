@@ -83,28 +83,79 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     );
   };
 
+  const ImagePlaceholderContainer: FC = ({ children }) => {
+    return (
+      <div className="w-full bg-gray-300 md:rounded-tl-lg text-black relative" style={{ minHeight: "300px" }}>
+        {children}
+      </div>
+    );
+  };
+
+  const renderMeetImage = () => {
+    if (!meet && loading) {
+      return (
+        <ImagePlaceholderContainer>
+          <div className="w-full h-full flex justify-center items-center relative">
+            <H2>Loading...</H2>
+          </div>
+        </ImagePlaceholderContainer>
+      );
+    }
+    if (!meet) {
+      return (
+        <ImagePlaceholderContainer>
+          <div className="w-full h-full flex justify-center items-center relative">
+            <H2>Meet not found!</H2>
+          </div>
+        </ImagePlaceholderContainer>
+      );
+    }
+    if (meet) {
+      return (
+        <img
+          src={meet.coverImageUrl}
+          alt={`Cover image for meet ${meet.title}`}
+          className="relative object-contain max-w-full"
+        />
+      );
+    }
+  };
+
+  const renderSingleColView = () => (
+    <div className="w-full h-full flex flex-col min-h-screen">
+      <div>{renderMeetImage()}</div>
+      <div className="p-4">
+        <div>{renderMeetDetails()}</div>
+      </div>
+    </div>
+  );
+
+  const renderTwoColView = () => (
+    <div className="flex">
+      {/* Left column */}
+      <div className="w-3/5 ">
+        {/* Meet Image */}
+        {renderMeetImage()}
+
+        <div className="p-4 md:p-10 " style={{ minHeight: "200px" }}>
+          <MarkdownParser source={meetDetailedDescription} />
+        </div>
+      </div>
+
+      {/* Right column*/}
+      <div className="p-4 w-2/5">
+        {/* Meet details*/}
+        {renderMeetDetails()}
+      </div>
+    </div>
+  );
+
   const meetDetailedDescription = meet?.detailedDescription ? meet.detailedDescription : "";
 
   return (
     <MintGradientLayout>
-      <div className="flex">
-        {/* Left column */}
-        <div className="w-auto flex-grow">
-          <div className="w-full h-full bg-gray-300 md:rounded-tl-lg text-black" style={{ height: "200px" }}>
-            <div className="w-full h-full flex justify-center items-center">{loading ? "Loading..." : ""}</div>
-          </div>
-
-          <div className="p-4 md:p-10 ">
-            <MarkdownParser source={meetDetailedDescription} />
-          </div>
-        </div>
-
-        {/* Right column*/}
-        <div className="p-4 w-3/5">
-          {/* Meet details*/}
-          {renderMeetDetails()}
-        </div>
-      </div>
+      <div className="md:hidden">{renderSingleColView()}</div>
+      <div className="hidden md:block">{renderTwoColView()}</div>
     </MintGradientLayout>
   );
 };
