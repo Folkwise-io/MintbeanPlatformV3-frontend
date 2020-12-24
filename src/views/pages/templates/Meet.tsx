@@ -1,9 +1,14 @@
-import React, { FC, useState } from "react";
+import React, { FC, useCallback, useContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { H2 } from "../../components/blocks/H2";
 import { Meet as IMeet } from "../../../types/meet";
+import { MbContext } from "../../../context/MbContext";
+import { Context } from "../../../context/contextBuilder";
+import { H1 } from "../../components/blocks/H1";
+import { MarkdownParser } from "../../components/MarkdownParser/index";
+import { MintGradientLayout } from "../../layouts/MintGradientLayout";
 
 const meetReg = new MeetRegistration();
 
@@ -47,28 +52,60 @@ interface MatchParams {
 }
 
 const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userState, match }) => {
+  const context = useContext<Context>(MbContext);
+  const {
+    params: { id },
+  } = match;
   const [meet, setMeet] = useState<IMeet | null>(null);
-  return (
-    <div className="mb-gradient-to-green-b min-h-screen md:px-12">
-      <div className="max-w-screen-lg mx-auto p-0 md:py-12">
-        <div className="mb-gradient-black-fade-b text-white font-light w-full rounded-lg">
-          <div className="flex">
-            {/* Left column */}
-            <div className="w-auto">
-              <div className="w-full h-full bg-gray-300 md:rounded-tl-lg" style={{ height: "200px" }}>
-                IMAGE
-              </div>
+  const [loading, setLoading] = useState<boolean>(false);
 
-              <div className="p-4 md:p-10 ">{dummyContent()}</div>
-            </div>
-            {/* Right column*/}
-            <div></div>
+  const fetchMeetData = useCallback(async () => {
+    setLoading(true);
+    const fetchedMeet = await context.meetService.fetchMeet(id);
+    if (fetchedMeet) {
+      setMeet(fetchedMeet);
+    }
+    setLoading(false);
+  }, [context, id]);
+
+  useEffect(() => {
+    fetchMeetData();
+  }, [fetchMeetData]);
+
+  console.log(meet);
+
+  const renderMeetDetails = () => {
+    if (!meet) return null;
+    return (
+      <div className="w-full">
+        <h1 className="text-2xl leading-8">{meet.title}</h1>
+      </div>
+    );
+  };
+
+  const meetDetailedDescription = meet?.detailedDescription ? meet.detailedDescription : "";
+
+  return (
+    <MintGradientLayout>
+      <div className="flex">
+        {/* Left column */}
+        <div className="w-auto flex-grow">
+          <div className="w-full h-full bg-gray-300 md:rounded-tl-lg text-black" style={{ height: "200px" }}>
+            <div className="w-full h-full flex justify-center items-center">{loading ? "Loading..." : ""}</div>
+          </div>
+
+          <div className="p-4 md:p-10 ">
+            <MarkdownParser source={meetDetailedDescription} />
           </div>
         </div>
+
+        {/* Right column*/}
+        <div className="p-4 w-3/5">
+          {/* Meet details*/}
+          {renderMeetDetails()}
+        </div>
       </div>
-      {/* workaround for collapsing margin */}
-      <div className="h-4"></div>
-    </div>
+    </MintGradientLayout>
   );
 };
 
