@@ -152,7 +152,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       </div>
 
       {/* Right column*/}
-      <div className="p-4 pt-0 w-2/5">
+      <div className="p-6 pt-0 w-2/5">
         <section>{renderMeetDetails()}</section>
         <SectionYMarign>{renderRegistrantsList()}</SectionYMarign>
       </div>
@@ -168,26 +168,3 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
 };
 
 export default connect(stp)(Meet);
-
-// const dummyContent = () => (
-//   <>
-// <H2>Lorem</H2>
-// <p>
-//   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam erat amet, in dui, est dolor, egestas ante. Eget
-//   arcu etiam volutpat faucibus. Condimentum mi, nunc orci semper dictumst sed. Lectus nam leo, malesuada faucibus
-//   proin. Integer lectus diam ultricies quis ut enim diam. Diam, fringilla mauris in amet.
-// </p>
-// <H2>Lorem</H2>
-// <p>
-//   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam erat amet, in dui, est dolor, egestas ante. Eget
-//   arcu etiam volutpat faucibus. Condimentum mi, nunc orci semper dictumst sed. Lectus nam leo, malesuada faucibus
-//   proin. Integer lectus diam ultricies quis ut enim diam. Diam, fringilla mauris in amet.
-// </p>
-// <H2>Lorem</H2>
-// <p>
-//   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam erat amet, in dui, est dolor, egestas ante. Eget
-//   arcu etiam volutpat faucibus. Condimentum mi, nunc orci semper dictumst sed. Lectus nam leo, malesuada faucibus
-//   proin. Integer lectus diam ultricies quis ut enim diam. Diam, fringilla mauris in amet.
-// </p>
-//   </>
-// );
