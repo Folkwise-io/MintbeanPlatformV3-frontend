@@ -14,7 +14,7 @@ type Props = {
 };
 
 const makeDefinition = (spanText: string, _classes: string, icons: IconDefinition) => {
-  const classes = "text-xs px-1 rounded-b-md inline-flex text-white whitespace-no-wrap my-1 " + _classes;
+  const classes = "text-xs px-1 rounded-b-md inline-flex text-white whitespace-no-wrap " + _classes;
 
   return {
     spanText,
