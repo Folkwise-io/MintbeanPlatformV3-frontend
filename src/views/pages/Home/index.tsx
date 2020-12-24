@@ -157,9 +157,7 @@ const Home: FC<StateMapping> = ({ user }) => {
       meets.map((meet) => <MeetCard meet={meet} key={meet.id} user={user.data} onDelete={fetchMeets} />);
 
     //if there are meets in the filtered array, map and render
-    if (pages) {
-      return mapMeets(filteredMeetArr);
-    }
+    return mapMeets(filteredMeetArr);
   };
 
   const handleMeetTypeChange = (e: ChangeEvent) => {
