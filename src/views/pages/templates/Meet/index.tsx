@@ -11,6 +11,7 @@ import { MintGradientLayout } from "../../../layouts/MintGradientLayout";
 import { MeetStatus } from "../../../components/MeetCard/MeetStatus";
 import { MeetRegistrantsList } from "../../../components/MeetRegistrantsList/index";
 import { UpcomingMeets } from "../../../components/UpcomingMeets";
+import { Button } from "../../../components/blocks/Button";
 
 const meetReg = new MeetRegistration();
 
@@ -39,6 +40,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const [meet, setMeet] = useState<IMeet | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const user = userState.data;
+  const isLoggedIn = !!user;
 
   const fetchMeetData = useCallback(async () => {
     setLoading(true);
@@ -53,7 +55,45 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     fetchMeetData();
   }, [fetchMeetData]);
 
-  console.log(meet);
+  const canRegister = meet?.registerLinkStatus !== "CLOSED";
+
+  const updateRegistrantData = async () => {
+    if (!canRegister) {
+      alert("This meet is closed for registrations.");
+      return;
+    }
+
+    if (meet) {
+      setLoading(true);
+      // errors are handled in service layer
+
+      await context.meetService.registerForMeet(meet.id);
+      const fetchedMeet = await context.meetService.fetchMeet(meet.id);
+      if (fetchedMeet) {
+        setMeet(fetchedMeet);
+      }
+      setLoading(false);
+    }
+  };
+  const renderRegisterButton = () => {
+    if (!meet) return null;
+    const isRegistered = meetReg.isRegistered(meet.registrants, user);
+    if (isRegistered) return null;
+    return (
+      <>
+        {!isLoggedIn && <small className="block mb-1">Log in or sign up to join!</small>}
+        <Button buttonStyle="minty" disabled={!isLoggedIn} className="w-full" onClick={() => updateRegistrantData()}>
+          Register
+        </Button>
+      </>
+    );
+  };
+
+  const renderActionButtons = () => {
+    if (!meet) return null;
+
+    return <div className="my-2">{renderRegisterButton()}</div>;
+  };
 
   const renderMeetDetails = () => {
     if (!meet) return null;
@@ -66,6 +106,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
           <h1 className="text-2xl leading-8">{meet.title}</h1>
           <span className="inline-block text-mb-green-200">{capitalize(meet.meetType)}</span>
         </div>
+        <div>{renderActionButtons()}</div>
       </div>
     );
   };
@@ -127,6 +168,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       </section>
     );
   };
+
   const renderUpcomingMeets = () => {
     if (loading) return null;
     return (
