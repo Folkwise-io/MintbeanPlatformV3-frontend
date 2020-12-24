@@ -118,6 +118,17 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
 
   const renderMeetDescription = () => <MarkdownParser source={getDescriptionText()} />;
 
+  const renderRegistrantsList = () => {
+    if (!meet?.registrants) return null;
+    return (
+      <section>
+        <MeetRegistrantsList meetRegistrants={meet.registrants} />
+      </section>
+    );
+  };
+
+  const SectionYMarign: FC = ({ children }) => <section className="my-6">{children}</section>;
+
   // Start composing layouts
 
   const renderOneColView = () => (
@@ -126,20 +137,10 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       <div className="p-4 pt-0">
         <div>{renderMeetDetails()}</div>
         <div>{renderMeetDescription()}</div>
+        <div>{renderRegistrantsList()}</div>
       </div>
     </div>
   );
-
-  const renderRegistrantsList = () => {
-    if (!meet?.registrants) return null;
-    return (
-      <div>
-        <MeetRegistrantsList meetRegistrants={meet.registrants} />
-      </div>
-    );
-  };
-
-  const SectionYMarign: FC = ({ children }) => <section className="my-6">{children}</section>;
 
   const renderTwoColView = () => (
     <div className="flex pb-12">
