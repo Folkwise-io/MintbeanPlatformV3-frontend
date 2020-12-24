@@ -58,7 +58,7 @@ export const Main: FC<Props> = ({ main }) => {
               }
             >
               <div className="col-span-3 pt-10 md:py-20 text-center md:text-left">
-                <h1 className="text-4xl md:text-5xl font-bold leading-tight">{title}</h1>
+                <h1 className="text-4xl md:text-5xl leading-tight">{title}</h1>
                 <h3 className="text-lg md:text-xl py-2">{tagline}</h3>
                 <p className="text-sm tracking-wide leading-loose whitespace-pre-line">{body}</p>
               </div>
