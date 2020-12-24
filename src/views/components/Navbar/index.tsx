@@ -110,7 +110,9 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
             ))}
         </section>
       </nav>
-      <ToastsContainer />
+      <div>
+        <ToastsContainer />
+      </div>
     </>
   );
 };
