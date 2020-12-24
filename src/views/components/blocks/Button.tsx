@@ -21,7 +21,7 @@ export const Button: FC<Props> = (props) => {
     "mb-transition shadow-sm py-1 px-5 rounded-lg border-2 border-solid hover:shadow-md focus:shadow-md hover:opacity-75 focus:opacity-75";
   const classes = {
     primary: "text-black bg-mb-green-500 border-mb-green-500 font-semibold",
-    primaryAdmin: "text-white bg-yellow-500 border-yellow-500",
+    primaryAdmin: "text-white bg-mb-orange-100 border-mb-orange-100",
     secondary: "text-mb-green-200 border-mb-green-200 ",
     danger: "text-white bg-red-500 border-red-500",
     minty: "text-black mb-gradient-to-blue-b border-transparent",

@@ -44,7 +44,7 @@ export const AdminMeetEditModal: FC<Props> = ({ className, buttonText, meet }) =
         actions={actions}
         triggerBuilder={(toggleModal, setRef) => (
           <Button
-            buttonStyle="secondary"
+            buttonStyle="primaryAdmin"
             onClick={toggleModal}
             forwardRef={(el) => setRef(el)}
             className={className || ""}

@@ -13,6 +13,8 @@ import { MeetRegistrantsList } from "../../../components/MeetRegistrantsList/ind
 import { UpcomingMeets } from "../../../components/UpcomingMeets";
 import { Button } from "../../../components/blocks/Button";
 import { capitalize } from "../../../utils/capitalize";
+import { ImagePlaceholderContainer } from "./ImagePlaceholderContainer";
+import { AdminMeetEditModal } from "../../../components/wrappers/Modal/walas/AdminMeetEditModal";
 
 const meetReg = new MeetRegistration();
 
@@ -37,6 +39,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const [loading, setLoading] = useState<boolean>(false);
   const user = userState.data;
   const isLoggedIn = !!user;
+  const isAdmin = user?.isAdmin || false;
 
   const fetchMeetData = useCallback(async () => {
     setLoading(true);
@@ -87,11 +90,20 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       </>
     );
   };
+  const renderAdminEditMeetButton = () => {
+    if (!meet) return null;
+    return <AdminMeetEditModal buttonText="Edit meet" meet={meet} />;
+  };
 
   const renderActionButtons = () => {
     if (!meet) return null;
 
-    return <div className="my-2 w-full md:w-auto md:max-w-xs md:mx-auto">{renderRegisterButton()}</div>;
+    return (
+      <div className="my-2 w-full md:w-auto md:max-w-xs md:mx-auto">
+        {isAdmin && renderAdminEditMeetButton()}
+        {renderRegisterButton()}
+      </div>
+    );
   };
 
   const renderMeetDetails = () => {
@@ -106,14 +118,6 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
           <span className="inline-block text-mb-green-200">{capitalize(meet.meetType)}</span>
         </div>
         <div className="max-w-xs md:max-w-none">{renderActionButtons()}</div>
-      </div>
-    );
-  };
-
-  const ImagePlaceholderContainer: FC = ({ children }) => {
-    return (
-      <div className="w-full bg-gray-300 md:rounded-tl-lg text-black py-32">
-        <div className="w-full h-full flex justify-center items-center">{children}</div>
       </div>
     );
   };
