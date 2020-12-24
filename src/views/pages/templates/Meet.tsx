@@ -18,7 +18,20 @@ interface MatchParams {
 }
 
 const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userState, match }) => {
-  return <div className="mb-gradient-to-green-b h-screen">Meet</div>;
+  return (
+    <div className="mb-gradient-to-green-b min-h-screen p-1 md:px-12">
+      <div className="max-w-screen-lg mx-auto p-0 md:py-12">
+        <div className="mb-gradient-black-fade-b w-full h-64">
+          {/* Head */}
+          <div className="">
+            <div>
+              <div className="w-full h-full bg-gray-300">IMAGE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default connect(stp)(Meet);

@@ -20,6 +20,9 @@
   .mb-gradient-to-green-b {
     @apply bg-gradient-to-b from-mb-blue-300 to-mb-green-200;
   }
+  .mb-gradient-black-fade-b {
+    @apply bg-gradient-to-b from-mb-black-500 to-mb-black-100;
+  }
 }
 
 html,
