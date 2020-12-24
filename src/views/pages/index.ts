@@ -4,6 +4,7 @@ export { default as Partners } from "./Partners";
 export { default as TermsOfService } from "./Legal/TermsOfService";
 export { default as PrivacyPolicy } from "./Legal/PrivacyPolicy";
 export { default as Meet } from "./templates/Meet";
+export { default as Workspace } from "./templates/Workspace";
 export { default as Project } from "./templates/Project";
 export { default as NotFound } from "./NotFound";
 export { default as Admin } from "./Admin";
