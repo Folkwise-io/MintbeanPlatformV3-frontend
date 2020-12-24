@@ -3,7 +3,7 @@ import { Project, ProjectForMeet } from "../../../src/types/project";
 import { badgeForProjectFactory } from "./badge.factory";
 import { factory } from "./factory";
 import { meetForProjectFactory } from "./meet.factory";
-import { userForMeetForProjectFactory, userForProjectFactory } from "./user.factory";
+import { userForProjectFactory } from "./user.factory";
 
 export const projectFactory = factory<Project>({
   id: () => faker.random.uuid(),
@@ -22,6 +22,6 @@ export const meetProjectFactory = factory<ProjectForMeet>({
   title: () => faker.company.bs(),
   sourceCodeUrl: () => faker.internet.url(),
   liveUrl: () => faker.internet.url(),
-  user: () => userForMeetForProjectFactory.one(),
+  user: () => userForProjectFactory.one(),
   mediaAssets: [{ cloudinaryPublicId: () => faker.random.uuid() }],
 });
