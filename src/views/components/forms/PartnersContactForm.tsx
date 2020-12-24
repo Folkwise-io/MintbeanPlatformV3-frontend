@@ -39,12 +39,12 @@ export const PartnerContactForm: FC<Props> = ({ handleData, disabled }) => {
     <Form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex sm:flex-row flex-col">
         <div className="mx-2 flex flex-grow flex-col items-start">
-          <Input label="Full name" name="fullName" ref={register} isRequired className="w-full" />
+          <Input label="Full name" name="fullName" ref={register} isRequired className="w-full border-none" />
           <FormValidationErrorMsg errorMessage={errors.fullName?.message} withBackground />
         </div>
 
         <div className="mx-2 flex flex-grow flex-col items-start">
-          <Input type="email" label="Email" name="email" ref={register} isRequired className="w-full" />
+          <Input type="email" label="Email" name="email" ref={register} isRequired className="w-full border-none" />
           <FormValidationErrorMsg errorMessage={errors.email?.message} withBackground />
         </div>
       </div>
@@ -67,7 +67,7 @@ export const PartnerContactForm: FC<Props> = ({ handleData, disabled }) => {
       <FormValidationErrorMsg errorMessage={errors.partnershipGoals?.message} withBackground />
 
       <div className="mx-2 flex flex-col items-start">
-        <TextArea label="Message" name="message" ref={register} isRequired className="w-full" />
+        <TextArea label="Message" name="message" ref={register} isRequired className="w-full border-none" />
         <FormValidationErrorMsg errorMessage={errors.message?.message} withBackground />
       </div>
       <div className="flex justify-center">
