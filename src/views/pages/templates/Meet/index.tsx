@@ -9,6 +9,7 @@ import { Context } from "../../../../context/contextBuilder";
 import { MarkdownParser } from "../../../components/MarkdownParser/index";
 import { MintGradientLayout } from "../../../layouts/MintGradientLayout";
 import { MeetStatus } from "../../../components/MeetCards/MeetStatus";
+import { MeetRegistrantsList } from "../../../components/MeetRegistrantsList/index";
 
 const meetReg = new MeetRegistration();
 
@@ -69,7 +70,11 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   };
 
   const ImagePlaceholderContainer: FC = ({ children }) => {
-    return <div className="w-full bg-gray-300 md:rounded-tl-lg text-black py-32">{children}</div>;
+    return (
+      <div className="w-full bg-gray-300 md:rounded-tl-lg text-black py-32">
+        <div className="w-full h-full flex justify-center items-center">{children}</div>
+      </div>
+    );
   };
 
   const renderMeetImage = () => {
@@ -85,7 +90,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     if (!meet) {
       return (
         <ImagePlaceholderContainer>
-          <div className="w-full h-full flex flex-col justify-center items-center">
+          <div>
             <H2>Meet not found!</H2>
             <Link to="/" className="block">
               {"<< "}See all Meets
@@ -125,16 +130,32 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     </div>
   );
 
+  const renderRegistrantsList = () => {
+    if (!meet?.registrants) return null;
+    return (
+      <div>
+        <MeetRegistrantsList meetRegistrants={meet.registrants} />
+      </div>
+    );
+  };
+
+  const SectionYMarign: FC = ({ children }) => <section className="my-6">{children}</section>;
+
   const renderTwoColView = () => (
     <div className="flex pb-12">
       {/* Left column */}
       <div className="w-3/5 ">
         {renderMeetImage()}
-        <div className="md:px-10 py-6">{renderMeetDescription()}</div>
+        <div className="md:px-10 py-6">
+          <section>{renderMeetDescription()}</section>
+        </div>
       </div>
 
       {/* Right column*/}
-      <div className="p-4 pt-0 w-2/5">{renderMeetDetails()}</div>
+      <div className="p-4 pt-0 w-2/5">
+        <section>{renderMeetDetails()}</section>
+        <SectionYMarign>{renderRegistrantsList()}</SectionYMarign>
+      </div>
     </div>
   );
 
