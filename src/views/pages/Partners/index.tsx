@@ -7,7 +7,7 @@ import { Container } from "../../components/blocks/Container";
 import { Stat } from "./Stat";
 
 // images
-import svgMintyBaconLgGradient from "../../../assets/images/backgrounds/minty-bacon-lg-gradient.png";
+import svgMintyBacon from "../../../assets/images/backgrounds/minty-bacon.svg";
 import svgWhiteCurvedYTop from "../../../assets/images/backgrounds/white-curved-y-top.svg";
 import svgWhiteCurvedYBottom from "../../../assets/images/backgrounds/white-curved-y-bottom.svg";
 // TODO: remove once assets arrive
@@ -110,9 +110,9 @@ const Partners: FC = () => {
     <div className="bg-mb-blue-250 min-h-screen pb-24">
       {/* Header start */}
       <section>
-        <div className="bg-mb-blue-500 w-full">
+        <div className="bg-mb-blue-500 w-full relative">
           <Container>
-            <div className="pt-24 pb-10">
+            <div className="pt-32 pb-6">
               <H1 className="text-center mb-8">Not your typical hackathon.</H1>
               <div className="flex flex-col items-start sm:flex-row flex-wrap w-full md:justify-center">
                 {topStats.map(({ stat, label }, i) => (
@@ -122,12 +122,16 @@ const Partners: FC = () => {
             </div>
           </Container>
         </div>
-        <div className="w-full relative">
-          <img src={svgMintyBaconLgGradient} alt="" className="w-full" />
-        </div>
       </section>
+      {/* Minty bacon*/}
+      <div className="w-full relative w-full ">
+        <div className="bg-mb-blue-500 w-full h-24 relative" style={{ paddingBottom: "13%" }} />
+        <div className="bg-mb-blue-250 w-full h-24 relative" style={{ paddingBottom: "10%" }}>
+          <img src={svgMintyBacon} alt="" className="w-full absolute" style={{ top: "-124%", minWidth: "800px" }} />
+        </div>
+      </div>
       {/* "Why JavaScript developers love us" start */}
-      <Container className="mt-12">
+      <Container className="mt-6">
         <section>
           <H2 className="text-center">Why JavaScript developers love us.</H2>
           <p>
@@ -160,7 +164,7 @@ const Partners: FC = () => {
             <div className="w-full relative">
               <img src={svgWhiteCurvedYTop} alt="" className="w-full relative" style={{ top: 2 }} />
             </div>
-            <div className="bg-white text-center mx-auto py-16">
+            <div className="bg-white text-center mx-auto py-8">
               <Container>
                 <H2>A snapshot of our community</H2>
 
@@ -208,3 +212,4 @@ const Partners: FC = () => {
 };
 
 export default Partners;
+//  <div className="bg-mb-blue-500 w-full h-24 border-2 border-red-500 h-1/2" />;
