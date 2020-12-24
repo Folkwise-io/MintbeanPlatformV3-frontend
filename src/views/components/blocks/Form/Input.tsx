@@ -8,14 +8,15 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   isRequired?: boolean;
   label: string;
   name: string;
+  srOnly?: boolean;
 }
 
 // must name function in forwardRef argument (non-arrow function) in order to avoid missing diplayName error
 export const Input = React.forwardRef<InputProps, Props>(function input(
-  { className, name, label, isRequired, ...rest },
+  { className, name, label, isRequired, srOnly = false, ...rest },
   passedRef,
 ) {
-  const { itemSpacing, inputStyles } = formConstants;
+  const { itemSpacing, inputStyles, labelStyles } = formConstants;
   const baseClasses = [itemSpacing, inputStyles].join(" ");
   const inputClasses = appendOptionalClasses(baseClasses, className);
 
@@ -23,7 +24,7 @@ export const Input = React.forwardRef<InputProps, Props>(function input(
 
   return (
     <>
-      <label htmlFor={name} className="font-semibold">
+      <label htmlFor={name} className={labelStyles + ` ${srOnly ? "sr-only" : ""}`}>
         {theLabel}
       </label>
       <input {...rest} name={name} ref={passedRef || null} className={inputClasses} />

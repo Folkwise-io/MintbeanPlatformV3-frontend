@@ -8,23 +8,22 @@ interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   isRequired?: boolean;
   label: string;
   name: string;
+  srOnly?: boolean;
 }
 
 // must name function in forwardRef argument (non-arrow function) in order to avoid missing diplayName error
 export const TextArea = React.forwardRef<TextAreaProps, Props>(function textarea(
-  { className, name, label, isRequired, ...rest },
+  { className, name, label, srOnly = false, ...rest },
   passedRef,
 ) {
-  const { itemSpacing, inputStyles } = formConstants;
-  const baseClasses = [itemSpacing, inputStyles, "whitespace-pre-wrap"].join(" ");
+  const { itemSpacing, inputStyles, labelStyles } = formConstants;
+  const baseClasses = [itemSpacing, inputStyles, labelStyles, "whitespace-pre-wrap"].join(" ");
   const classes = appendOptionalClasses(baseClasses, className);
-
-  const theLabel = label + (isRequired ? "*" : "");
 
   return (
     <>
-      <label htmlFor={name} className="font-semibold">
-        {theLabel}
+      <label className={labelStyles + ` ${srOnly ? "sr-only" : ""}`} htmlFor={name}>
+        {label}
       </label>
       <textarea {...rest} name={name} ref={passedRef || null} className={classes} />
     </>

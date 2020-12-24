@@ -6,9 +6,10 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 
 import { configureStoreAndLogger } from "./views/state/configureStoreAndLogger";
 import { contextBuilder } from "./context/contextBuilder";
+import { faBean, faBeanhead } from "./views/components/faCustomIcons";
 
 // Register icons to fontawesome core so we can get their names later
-library.add(fas);
+library.add(fas, faBean, faBeanhead);
 
 const context = contextBuilder();
 const store = configureStoreAndLogger(context);

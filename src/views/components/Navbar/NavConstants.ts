@@ -16,10 +16,6 @@ export const NAV_LINKS: LinkInput[] = [
     label: "Become a Partner",
     route: "/partners",
   },
-  {
-    label: "Badges",
-    route: "/badges",
-  },
 ];
 
 export const NAV_ADMIN_LINKS: LinkInput[] = [
