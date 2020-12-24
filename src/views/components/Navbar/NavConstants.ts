@@ -12,10 +12,6 @@ export const NAV_LINKS: LinkInput[] = [
     label: "Community",
     route: "/community",
   },
-  {
-    label: "Badges",
-    route: "/badges",
-  },
 ];
 
 export const NAV_ADMIN_LINKS: LinkInput[] = [
