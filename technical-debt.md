@@ -41,3 +41,7 @@ registerForMeet(meetId: string): Promise<boolean> {
 ```
 
 One there is stricter error handling in dao, we can be more explicit with error typing in the application, such as in the `loggerService.ts` file.
+
+### [S] Refactor "Workspace" component
+
+Once design is decided, the Workspace page needs serious refactor. Extract conditional logical from return statement and break into easily readable chunks
