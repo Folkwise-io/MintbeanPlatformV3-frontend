@@ -185,6 +185,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const getDescriptionText = (): string => {
     if (!meet) return "";
     const detailedDesc = meet.detailedDescription || "";
+    // Append short description in an "About" section at the top
     return "## About \n" + meet.description + "\n" + detailedDesc;
   };
 
@@ -199,14 +200,11 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     );
   };
 
-  const renderUpcomingMeets = () => {
-    if (loading) return null;
-    return (
-      <section>
-        <UpcomingMeets />
-      </section>
-    );
-  };
+  const renderUpcomingMeets = () => (
+    <section>
+      <UpcomingMeets />
+    </section>
+  );
 
   const SectionYMarign: FC = ({ children }) => <section className="my-6">{children}</section>;
 
