@@ -279,7 +279,7 @@ const Workspace: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: 
 
   return (
     // body wrapper
-    <div className="shadow-mb-outline-darkgreen bg-mb-green-100 top-mb-1 relative pb-8 rounded-b-mb-lg">
+    <div className="shadow-mb-outline-darkgreen bg-mb-green-100 top-mb-1 relative pb-8 rounded-b-mb-lg mb-12">
       <div className="bg-black top-mb-1n relative rounded-b-mb-lg">
         <main className="w-5/6 min-w-12rem mx-auto py-16 rounded-mb-md overflow-hidden">
           {renderBackToMeetDetailsLink()}
