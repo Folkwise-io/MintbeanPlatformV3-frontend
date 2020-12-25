@@ -15,8 +15,10 @@ import { Button } from "../../../components/blocks/Button";
 import { capitalize } from "../../../utils/capitalize";
 import { ImagePlaceholderContainer } from "./ImagePlaceholderContainer";
 import { AdminMeetEditModal } from "../../../components/wrappers/Modal/walas/AdminMeetEditModal";
-import { isPast } from "../../../../utils/DateUtility";
+import { getDurationInHours, getDurationStringFromHours, isPast, wcToClientStr } from "../../../../utils/DateUtility";
 import { MeetTypeEnum } from "../../../../types/enum";
+import { faClock, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const meetReg = new MeetRegistration();
 
@@ -47,6 +49,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const isLoggedIn = !!user;
   const isAdmin = user?.isAdmin || false;
   const isRegistered = meet ? meetReg.isRegistered(meet.registrants, user) : false;
+  const meetIsHackathon = meet ? meet.meetType === MeetTypeEnum.Hackathon : false;
 
   const meetHasStarted = meet ? isPast(meet.startTime, meet.region) : false;
   const meetHasEnded = meet ? isPast(meet?.endTime, meet.region) : false;
@@ -108,7 +111,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
 
   const renderGoToWorkspaceButton = () => {
     if (meet) {
-      const meetUsesWorkspace = meet.meetType === MeetTypeEnum.Hackathon;
+      const meetUsesWorkspace = meetIsHackathon;
       if (isAdmin || (isLoggedIn && isRegistered && meetUsesWorkspace)) {
         return (
           <Link to={getWorkspacePath(meet.id)} className="w-full my-1">
@@ -133,6 +136,42 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     );
   };
 
+  const renderDetailsTable = () => {
+    if (meet && !loading) {
+      const formattedStartDate = wcToClientStr(meet.startTime, meet.region);
+      const formattedEndDate = wcToClientStr(meet.endTime, meet.region);
+      const duration = getDurationStringFromHours(getDurationInHours(meet.startTime, meet.endTime));
+      const hasSubmissionDeadline = meetIsHackathon;
+      return (
+        <div className="my-6">
+          <div className="flex my-1">
+            <div className="flex items-start pt-1">
+              <FontAwesomeIcon style={{ fontSize: "13px" }} icon={faClock} />
+            </div>
+            <div className="flex-grow">
+              <div className="flex flex-col mx-2 text-sm">
+                <span className="font-semibold">Starts {formattedStartDate}</span>
+                <span>Duration: {duration} </span>
+                {hasSubmissionDeadline && <span className="text-xs">Submissions close {formattedEndDate}</span>}
+              </div>
+            </div>
+          </div>
+          <div className="flex my-1">
+            <div className="flex items-start pt-1">
+              <FontAwesomeIcon style={{ fontSize: "15px" }} icon={faMapMarkerAlt} />
+            </div>
+            <div className="flex-grow">
+              <div className="flex flex-col mx-2 text-sm ">
+                <span className="font-semibold">Zoom</span>
+                <span> Link emailed 10 minutes before meet</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  };
+
   const renderMeetDetails = () => {
     if (!meet) return null;
     return (
@@ -144,6 +183,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
           <h1 className="text-2xl leading-8">{meet.title}</h1>
           <span className="inline-block text-mb-green-200">{capitalize(meet.meetType)}</span>
         </div>
+        <div>{renderDetailsTable()}</div>
         <div className="max-w-xs md:max-w-none">{renderActionButtons()}</div>
       </div>
     );
@@ -250,3 +290,25 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
 };
 
 export default connect(stp)(Meet);
+
+//  <table className="table-auto">
+//    <tbody>
+//      <tr>
+//        <td className="flex items-start justify-end pt-1">
+//          <FontAwesomeIcon style={{ fontSize: "13px" }} icon={faClock} />
+//        </td>
+//        <td className="px-2">
+//          <div className="px-2">
+//  <span>dsakjf lakjfkd fjlkdsf </span>
+//  <span>dsakjf lakjfkd fjlkdsf </span>
+//          </div>
+//        </td>
+//      </tr>
+//      <tr>
+//        <td className="flex items-start justify-end pt-1">
+//          <FontAwesomeIcon style={{ fontSize: "15px" }} icon={faMapMarkerAlt} />
+//        </td>
+//        <td className="px-2">Adam dkjfsha la ldfhjh</td>
+//      </tr>
+//    </tbody>
+//  </table>;

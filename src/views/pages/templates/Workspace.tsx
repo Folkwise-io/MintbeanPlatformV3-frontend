@@ -90,12 +90,6 @@ const Workspace: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: 
   const meetHasStarted = isPast(meet?.startTime || "", meet?.region || "America/Toronto");
   const meetHasEnded = isPast(meet?.endTime || "", meet?.region || "America/Toronto");
 
-  const dateInfo = meet
-    ? `${wcToClientStr(meet.startTime, meet.region)} (Duration: ${getDurationStringFromHours(
-        getDurationInHours(meet.startTime, meet.endTime),
-      )})`
-    : "Loading..";
-
   const userInstructionsView = (
     <>
       <h2 className="font-medium">Instructions</h2>
@@ -274,7 +268,26 @@ const Workspace: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: 
 
   const renderPageTitle = (): string => {
     if (!meet) return "";
+    if (loading) {
+      return "Loading...";
+    }
     return meet.title + " Workspace";
+  };
+
+  const renderDateInfo = () => {
+    if (meet && !loading) {
+      const formattedDate = wcToClientStr(meet.startTime, meet.region);
+      const duration = getDurationStringFromHours(getDurationInHours(meet.startTime, meet.endTime));
+      const dateInfo = `${formattedDate} (Duration: ${duration})`;
+
+      return (
+        <p className="text-mb-gray-100 text-sm flex flex-wrap items-center">
+          Starts
+          <FontAwesomeIcon icon={faCalendarAlt} className="mx-2 text-xs" />
+          {dateInfo}
+        </p>
+      );
+    }
   };
 
   return (
@@ -288,11 +301,7 @@ const Workspace: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: 
               <section className="text-white row-span-9 md:row-span-1 md:col-span-2 md:place-self-start">
                 <div className="block">
                   <H1 className="font-semibold">{renderPageTitle()}</H1>
-                  <p className="text-mb-gray-100 text-sm flex flex-wrap items-center">
-                    Starts
-                    <FontAwesomeIcon icon={faCalendarAlt} className="mx-2 text-xs" />
-                    {dateInfo}
-                  </p>
+                  {renderDateInfo()}
                   <p className="mt-2">{meet?.description}</p>
                   {renderUserMeetControls()}
                   {renderAdminMeetControls()}
