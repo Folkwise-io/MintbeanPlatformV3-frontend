@@ -127,7 +127,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const renderGoToWorkspaceButton = () => {
     const meetUsesWorkspace = meetIsHackathon;
     if (meet && meetUsesWorkspace) {
-      if (isAdmin || (isLoggedIn && isRegistered)) {
+      if (isAdmin || (isLoggedIn && isRegistered) || meetHasEnded) {
         return (
           <Link to={getWorkspacePath(meet.id)} className="w-full my-1">
             <Button buttonStyle="minty" className="w-full">
