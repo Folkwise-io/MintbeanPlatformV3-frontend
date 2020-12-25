@@ -50,7 +50,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const isAdmin = user?.isAdmin || false;
   const isRegistered = meet ? meetReg.isRegistered(meet.registrants, user) : false;
   const meetIsHackathon = meet ? meet.meetType === MeetTypeEnum.Hackathon : false;
-  console.log({ meetIsHackathon });
+
   const meetHasStarted = meet ? isPast(meet.startTime, meet.region) : false;
   const meetHasEnded = meet ? isPast(meet?.endTime, meet.region) : false;
 
@@ -88,7 +88,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
 
   const renderRegisterButton = () => {
     if (!meet) return null;
-
+    if (meetHasEnded) return null;
     return (
       <>
         {!isLoggedIn && <small className="block mb-1">Log in or sign up to join!</small>}
@@ -145,6 +145,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
       const hasSubmissionDeadline = meetIsHackathon;
       return (
         <div className="my-6">
+          {/* Time info */}
           <div className="flex my-1">
             <div className="flex items-start pt-1">
               <FontAwesomeIcon style={{ fontSize: "13px" }} icon={faClock} />
@@ -157,6 +158,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
               </div>
             </div>
           </div>
+          {/* Zoom link */}
           <div className="flex my-1">
             <div className="flex items-start pt-1">
               <FontAwesomeIcon style={{ fontSize: "15px" }} icon={faMapMarkerAlt} />
