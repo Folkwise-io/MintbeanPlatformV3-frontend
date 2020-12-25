@@ -50,7 +50,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const isAdmin = user?.isAdmin || false;
   const isRegistered = meet ? meetReg.isRegistered(meet.registrants, user) : false;
   const meetIsHackathon = meet ? meet.meetType === MeetTypeEnum.Hackathon : false;
-
+  console.log({ meetIsHackathon });
   const meetHasStarted = meet ? isPast(meet.startTime, meet.region) : false;
   const meetHasEnded = meet ? isPast(meet?.endTime, meet.region) : false;
 
@@ -110,9 +110,10 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   };
 
   const renderGoToWorkspaceButton = () => {
-    if (meet) {
-      const meetUsesWorkspace = meetIsHackathon;
-      if (isAdmin || (isLoggedIn && isRegistered && meetUsesWorkspace)) {
+    const meetUsesWorkspace = meetIsHackathon;
+    if (!meet || !meetUsesWorkspace) return null;
+    if (meetUsesWorkspace) {
+      if (isAdmin || (isLoggedIn && isRegistered)) {
         return (
           <Link to={getWorkspacePath(meet.id)} className="w-full my-1">
             <Button buttonStyle="minty" className="w-full">
@@ -152,7 +153,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
               <div className="flex flex-col mx-2 text-sm">
                 <span className="font-semibold">Starts {formattedStartDate}</span>
                 <span>Duration: {duration} </span>
-                {hasSubmissionDeadline && <span className="text-xs">Submissions close {formattedEndDate}</span>}
+                {hasSubmissionDeadline && <span>Submissions close {formattedEndDate}</span>}
               </div>
             </div>
           </div>
@@ -213,11 +214,13 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     }
     if (meet) {
       return (
-        <img
-          src={meet.coverImageUrl}
-          alt={`Cover image for meet ${meet.title}`}
-          className="relative object-contain max-w-full md:rounded-tl-lg"
-        />
+        <div className="flex justify-center bg-mb-gray-300 md:rounded-tl-lg">
+          <img
+            src={meet.coverImageUrl}
+            alt={`Cover image for meet ${meet.title}`}
+            className="relative object-contain max-w-full md:rounded-tl-lg"
+          />
+        </div>
       );
     }
   };
@@ -290,25 +293,3 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
 };
 
 export default connect(stp)(Meet);
-
-//  <table className="table-auto">
-//    <tbody>
-//      <tr>
-//        <td className="flex items-start justify-end pt-1">
-//          <FontAwesomeIcon style={{ fontSize: "13px" }} icon={faClock} />
-//        </td>
-//        <td className="px-2">
-//          <div className="px-2">
-//  <span>dsakjf lakjfkd fjlkdsf </span>
-//  <span>dsakjf lakjfkd fjlkdsf </span>
-//          </div>
-//        </td>
-//      </tr>
-//      <tr>
-//        <td className="flex items-start justify-end pt-1">
-//          <FontAwesomeIcon style={{ fontSize: "15px" }} icon={faMapMarkerAlt} />
-//        </td>
-//        <td className="px-2">Adam dkjfsha la ldfhjh</td>
-//      </tr>
-//    </tbody>
-//  </table>;
