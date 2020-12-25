@@ -200,13 +200,6 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     }
   };
 
-  const renderDetailsTable = () => (
-    <div className="my-6">
-      {renderTimeDetails()}
-      {renderZoomLinkDetails()}
-    </div>
-  );
-
   const renderMeetDetails = () => {
     if (!meet) return null;
     return (
@@ -218,8 +211,13 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
           <h1 className="text-2xl leading-8">{meet.title}</h1>
           <span className="inline-block text-mb-green-200">{capitalize(meet.meetType)}</span>
         </div>
-        <div>{renderDetailsTable()}</div>
-        <div className="max-w-xs md:max-w-none">{renderActionButtons()}</div>
+        <div className="block sm:flex sm:justify-between md:block">
+          <div className="my-6">
+            {renderTimeDetails()}
+            {renderZoomLinkDetails()}
+          </div>
+          <div className="max-w-xs md:max-w-none">{renderActionButtons()}</div>
+        </div>
       </div>
     );
   };
@@ -291,7 +289,7 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const renderOneColView = () => (
     <div className="w-full h-full flex flex-col min-h-screen">
       <div>{renderMeetImage()}</div>
-      <div className="p-4 pt-0">
+      <div className="p-4 sm:px-6 pt-0">
         <div>{renderMeetDetails()}</div>
         <SectionYMarign>{renderMeetDescription()}</SectionYMarign>
         <SectionYMarign>{renderRegistrantsList()}</SectionYMarign>
