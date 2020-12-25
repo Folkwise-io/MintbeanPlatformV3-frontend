@@ -27,7 +27,7 @@ export const Button: FC<Props> = (props) => {
     minty: "text-black mb-gradient-to-blue-b border-transparent",
     override: "",
   };
-  const disabledStyles = "text-white bg-gray-500 border-gray-700 cursor-not-allowed";
+  const disabledStyles = "text-black bg-gray-500 border-gray-700 cursor-not-allowed";
 
   let computedStyles = "";
 

@@ -15,7 +15,13 @@ import { Button } from "../../../components/blocks/Button";
 import { capitalize } from "../../../utils/capitalize";
 import { ImagePlaceholderContainer } from "./ImagePlaceholderContainer";
 import { AdminMeetEditModal } from "../../../components/wrappers/Modal/walas/AdminMeetEditModal";
-import { getDurationInHours, getDurationStringFromHours, isPast, wcToClientStr } from "../../../../utils/DateUtility";
+import {
+  getDurationInHours,
+  getDurationStringFromHours,
+  isPast,
+  wcToClientStr,
+  wcToUTC,
+} from "../../../../utils/DateUtility";
 import { MeetTypeEnum } from "../../../../types/enum";
 import { faClock, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -50,9 +56,21 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const isAdmin = user?.isAdmin || false;
   const isRegistered = meet ? meetReg.isRegistered(meet.registrants, user) : false;
   const meetIsHackathon = meet ? meet.meetType === MeetTypeEnum.Hackathon : false;
+  // number of minutes before meet start to open zoom link
+  const MINS_BEFORE_START_TO_OPEN_ZOOM = 10;
 
-  const meetHasStarted = meet ? isPast(meet.startTime, meet.region) : false;
-  const meetHasEnded = meet ? isPast(meet?.endTime, meet.region) : false;
+  // const meetHasStarted = meet ? isPast(meet.startTime, meet.region) : false;
+  const meetHasEnded = meet ? isPast(meet.endTime, meet.region) : false;
+
+  const getShouldShowZoomLink = (): boolean => {
+    if (!meet || meetHasEnded) return false;
+    const meetStartUtcMs = wcToUTC(meet.startTime, meet.region).getTime();
+    const nowMs = new Date().getTime();
+
+    const threshold = MINS_BEFORE_START_TO_OPEN_ZOOM * 60 * 1000;
+
+    return meetStartUtcMs - nowMs < threshold;
+  };
 
   const fetchMeetData = useCallback(async () => {
     setLoading(true);
@@ -89,15 +107,11 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   const renderRegisterButton = () => {
     if (!meet) return null;
     if (meetHasEnded) return null;
+    const cannotRegister = !isLoggedIn || isRegistered;
     return (
       <>
         {!isLoggedIn && <small className="block mb-1">Log in or sign up to join!</small>}
-        <Button
-          buttonStyle="minty"
-          disabled={!isLoggedIn || isRegistered}
-          className="w-full"
-          onClick={() => updateRegistrantData()}
-        >
+        <Button buttonStyle="minty" disabled={cannotRegister} className="w-full" onClick={() => updateRegistrantData()}>
           {isRegistered ? "Attending" : "Register"}
         </Button>
       </>
@@ -105,14 +119,14 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   };
 
   const renderAdminEditMeetButton = () => {
-    if (!meet) return null;
-    return <AdminMeetEditModal buttonText="Edit meet" className="my-1" meet={meet} />;
+    if (meet) {
+      return <AdminMeetEditModal buttonText="Edit meet" className="my-1" meet={meet} />;
+    }
   };
 
   const renderGoToWorkspaceButton = () => {
     const meetUsesWorkspace = meetIsHackathon;
-    if (!meet || !meetUsesWorkspace) return null;
-    if (meetUsesWorkspace) {
+    if (meet && meetUsesWorkspace) {
       if (isAdmin || (isLoggedIn && isRegistered)) {
         return (
           <Link to={getWorkspacePath(meet.id)} className="w-full my-1">
@@ -126,54 +140,72 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
   };
 
   const renderActionButtons = () => {
-    if (!meet) return null;
-
-    return (
-      <div className="my-2 w-full md:w-auto md:max-w-xs md:mx-auto grid grid-cols-1 grid-gap-1">
-        {isAdmin && renderAdminEditMeetButton()}
-        {renderRegisterButton()}
-        {renderGoToWorkspaceButton()}
-      </div>
-    );
+    if (meet) {
+      return (
+        <div className="my-2 w-full md:w-auto md:max-w-xs md:mx-auto grid grid-cols-1 grid-gap-1">
+          {isAdmin && renderAdminEditMeetButton()}
+          {renderRegisterButton()}
+          {renderGoToWorkspaceButton()}
+        </div>
+      );
+    }
   };
+  const DetailItem: FC = ({ children }) => <div className="flex my-1">{children}</div>;
 
-  const renderDetailsTable = () => {
-    if (meet && !loading) {
+  const renderTimeDetails = () => {
+    if (meet) {
       const formattedStartDate = wcToClientStr(meet.startTime, meet.region);
       const formattedEndDate = wcToClientStr(meet.endTime, meet.region);
       const duration = getDurationStringFromHours(getDurationInHours(meet.startTime, meet.endTime));
       const hasSubmissionDeadline = meetIsHackathon;
       return (
-        <div className="my-6">
-          {/* Time info */}
-          <div className="flex my-1">
-            <div className="flex items-start pt-1">
-              <FontAwesomeIcon style={{ fontSize: "13px" }} icon={faClock} />
-            </div>
-            <div className="flex-grow">
-              <div className="flex flex-col mx-2 text-sm">
-                <span className="font-semibold">Starts {formattedStartDate}</span>
-                <span>Duration: {duration} </span>
-                {hasSubmissionDeadline && <span>Submissions close {formattedEndDate}</span>}
-              </div>
+        <DetailItem>
+          <div className="flex items-start pt-1">
+            <FontAwesomeIcon style={{ fontSize: "13px" }} icon={faClock} />
+          </div>
+          <div className="flex-grow">
+            <div className="flex flex-col mx-2 text-sm">
+              <span className="font-semibold">Starts {formattedStartDate}</span>
+              <span>Duration: {duration} </span>
+              {hasSubmissionDeadline && <span>Submissions close {formattedEndDate}</span>}
             </div>
           </div>
-          {/* Zoom link */}
-          <div className="flex my-1">
-            <div className="flex items-start pt-1">
-              <FontAwesomeIcon style={{ fontSize: "15px" }} icon={faMapMarkerAlt} />
-            </div>
-            <div className="flex-grow">
-              <div className="flex flex-col mx-2 text-sm ">
-                <span className="font-semibold">Zoom</span>
-                <span> Link emailed 10 minutes before meet</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        </DetailItem>
       );
     }
   };
+
+  const renderZoomLinkDetails = () => {
+    if (meet) {
+      const link = meet.registerLink;
+      if (meetHasEnded || !link) return null;
+
+      const text = getShouldShowZoomLink()
+        ? link
+        : `Link will be available ${MINS_BEFORE_START_TO_OPEN_ZOOM} minutes before meet`;
+
+      return (
+        <DetailItem>
+          <div className="flex items-start pt-1">
+            <FontAwesomeIcon style={{ fontSize: "15px" }} icon={faMapMarkerAlt} />
+          </div>
+          <div className="flex-grow">
+            <div className="flex flex-col mx-2 text-sm ">
+              <span className="font-semibold">Zoom</span>
+              <span>{text}</span>
+            </div>
+          </div>
+        </DetailItem>
+      );
+    }
+  };
+
+  const renderDetailsTable = () => (
+    <div className="my-6">
+      {renderTimeDetails()}
+      {renderZoomLinkDetails()}
+    </div>
+  );
 
   const renderMeetDetails = () => {
     if (!meet) return null;
@@ -231,7 +263,8 @@ const Meet: FC<StateMapping & RouteComponentProps<MatchParams>> = ({ user: userS
     if (!meet) return "";
     const detailedDesc = meet.detailedDescription || "";
     // Append short description in an "About" section at the top
-    return "## About \n" + meet.description + "\n" + detailedDesc;
+    const aboutSection = "## About \n" + meet.description;
+    return aboutSection + "\n" + detailedDesc;
   };
 
   const renderMeetDescription = () => <MarkdownParser source={getDescriptionText()} />;
