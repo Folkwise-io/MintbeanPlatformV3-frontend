@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { MeetTypeEnum } from "../../../types/enum";
 import { Meet } from "../../../types/meet";
 import { wcToClientStr } from "../../../utils/DateUtility";
-import { capitalizedString } from "../../utils/capitalizeString";
+import { capitalize } from "../../utils/capitalize";
 import { AdminMeetDeleteModal } from "../wrappers/Modal/walas/AdminMeetDeleteModal";
 import { MeetStatus } from "./MeetStatus";
 
@@ -68,9 +68,9 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete, semiOpaqueLabels
   };
 
   const getDateClasses = () => {
-    const classes = "font-light text-xs truncate text-white";
+    const classes = "font-light text-xs truncate text-white px-2";
     if (!semiOpaqueLabels) {
-      return classes + " mt-auto mb-1 mx-2";
+      return classes + " mt-auto mb-1";
     }
     return classes + " " + transparentStyles + "top-0 py-2";
   };
@@ -101,7 +101,7 @@ export const MeetCard: FC<MeetProps> = ({ meet, user, onDelete, semiOpaqueLabels
           >
             {title}
           </h2>
-          <p className="text-white text-xs mx-2">{capitalizedString(meetType)}</p>
+          <p className="text-white text-xs mx-2">{capitalize(meetType)}</p>
         </div>
       </Link>
       {user?.isAdmin && (

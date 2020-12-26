@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  buttonStyle?: "primary" | "primaryAdmin" | "secondary" | "danger" | "override"; // buttonStyle: "override" allows overriding the common class styles for custom ones via className
+  buttonStyle?: "primary" | "primaryAdmin" | "secondary" | "danger" | "minty" | "override"; // buttonStyle: "override" allows overriding the common class styles for custom ones via className
   type?: "button" | "submit" | "reset";
   forwardRef?: React.RefCallback<HTMLButtonElement>;
   disabled?: boolean;
@@ -17,15 +17,17 @@ export const Button: FC<Props> = (props) => {
     children,
     ...rest
   } = props;
-  const common = "mb-transition shadow-sm py-1 px-5 rounded-lg border-2 border-solid hover:shadow-md focus:shadow-md";
+  const common =
+    "mb-transition shadow-sm py-1 px-5 rounded-lg border-2 border-solid hover:shadow-md focus:shadow-md hover:opacity-75 focus:opacity-75";
   const classes = {
-    primary: "text-black bg-mb-green-500 border-mb-green-500 hover:opacity-75 focus:opacity-75 font-semibold",
-    primaryAdmin: "text-white bg-yellow-500 border-yellow-500",
-    secondary: "text-black bg-white border-mb-green-500 hover:opacity-75 focus:opacity-75",
-    danger: "text-white bg-red-500 border-red-500 hover:opacity-75 focus:opacity-75",
+    primary: "text-black bg-mb-green-500 border-mb-green-500 font-semibold",
+    primaryAdmin: "text-white bg-mb-orange-100 border-mb-orange-100",
+    secondary: "text-mb-green-200 border-mb-green-200 ",
+    danger: "text-white bg-red-500 border-red-500",
+    minty: "text-black mb-gradient-to-blue-b border-transparent",
     override: "",
   };
-  const disabledStyles = "text-white bg-gray-500 border-gray-700 cursor-not-allowed";
+  const disabledStyles = "text-black bg-gray-500 border-gray-700 cursor-not-allowed";
 
   let computedStyles = "";
 

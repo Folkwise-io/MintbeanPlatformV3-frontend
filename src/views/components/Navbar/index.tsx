@@ -81,16 +81,16 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
   return (
     <>
       <nav
-        className="px-12 bg-white sticky top-0 flex items-center justify-between"
-        style={{ minHeight: "48px", zIndex: 99 }}
+        className="px-2 sm:px-6 lg:px-12 bg-white sticky top-0 flex items-center justify-between"
+        style={{ minHeight: "50px", zIndex: 99 }}
       >
         <section>
           <NavLink
             to="/"
-            className="mb-transition text-black hover:text-mb-blue-200 focus:text-mb-blue-200 grid place-items-center md:place-items-start place-content-start"
+            className="mb-transition text-black hover:text-mb-blue-200 focus:text-mb-blue-200 flex items-center pb-2 mr-12"
           >
             <span className="sr-only">Mintbean - Home</span>
-            <img src={logo} alt="Mintbean" style={{ maxHeight: "30px" }} className="place-self-start" />
+            <img src={logo} alt="Mintbean" style={{ maxHeight: "35px" }} className="place-self-start" />
           </NavLink>
         </section>
         <section className="hidden md:flex flex-row items-center">
@@ -110,7 +110,9 @@ const Navbar: FC<StateMapping & DispatchMapping> = ({ user, logout }) => {
             ))}
         </section>
       </nav>
-      <ToastsContainer />
+      <div>
+        <ToastsContainer />
+      </div>
     </>
   );
 };

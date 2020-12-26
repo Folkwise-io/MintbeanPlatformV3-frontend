@@ -12,6 +12,7 @@ import {
   Badges,
   BadgeTemplate,
   Partners,
+  Workspace,
 } from "./views/pages";
 
 interface RouteConfig {
@@ -25,6 +26,10 @@ export const routes: RouteConfig[] = [
   {
     component: Meet,
     path: "/meets/:id",
+  },
+  {
+    component: Workspace,
+    path: "/workspaces/:id",
   },
   {
     component: Project,

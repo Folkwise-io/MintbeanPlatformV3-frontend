@@ -9,7 +9,7 @@ import { dateFilterOptions, meetTypeFilterOptions } from "../../components/forms
 import { Input } from "../../components/blocks/Form/Input";
 import { Meet } from "../../../types/meet";
 import { MeetTypeEnum } from "../../../types/enum";
-import { MeetCard } from "../../components/MeetCards/MeetCard";
+import { MeetCard } from "../../components/MeetCard/MeetCard";
 import BlockWrapper from "../../components/wrappers/BlockWrapper";
 import { H1 } from "../../components/blocks/H1";
 import RegisterModal from "../../components/wrappers/Modal/walas/RegisterModal";

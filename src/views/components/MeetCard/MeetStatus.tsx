@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDotCircle, faStar, faCheckSquare, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { MeetRegistration } from "../../../utils/MeetRegistration";
 import { Meet } from "../../../types/meet";
-import { capitalizedString } from "../../utils/capitalizeString";
+import { capitalize } from "../../utils/capitalize";
 import { fromNow } from "../../../utils/DateUtility";
 
 const meetReg = new MeetRegistration();
@@ -65,12 +65,12 @@ export const MeetStatus: FC<Props> = ({ meet, user }) => {
       {definitionType === "REGISTERED" && definition === defStep1.OPEN && (
         <span className={`${registeredDefinition.classes}`}>
           <FontAwesomeIcon icon={registeredDefinition.icons} className="my-auto h-2 pr-1" />
-          {capitalizedString(registeredDefinition.spanText)}
+          {capitalize(registeredDefinition.spanText)}
         </span>
       )}{" "}
       <span className={definition.classes}>
         <FontAwesomeIcon icon={definition.icons} className="my-auto h-2 pr-1" />
-        {capitalizedString(definition.spanText)}
+        {capitalize(definition.spanText)}
       </span>
     </span>
   );

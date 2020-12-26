@@ -1,5 +1,5 @@
 import React from "react";
-import { MeetCard } from "../MeetCards/MeetCard";
+import { MeetCard } from "../MeetCard/MeetCard";
 
 // This default export determines where you story goes in the story list
 export default {

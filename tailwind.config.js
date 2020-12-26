@@ -84,6 +84,7 @@ module.exports = {
         "mb-blue-600": "#32a9c7",
         "mb-purple-000": "#E8B2F1",
         "mb-purple-100": "#5C1FD6",
+        "mb-black-100": "#3D3D3D",
         "mb-black-500": "#09090b",
       },
 
